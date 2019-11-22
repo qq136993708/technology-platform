@@ -29,4 +29,6 @@ public interface PlatformService {
      */
     Integer delete(String id);
 
+    Map selectPaltinfoCount(String id);
+
 }

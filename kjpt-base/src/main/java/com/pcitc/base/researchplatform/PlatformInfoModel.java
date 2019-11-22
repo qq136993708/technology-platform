@@ -24,10 +24,12 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
      * 研究领域
      */
     private String researchField="";
+    private String researchFieldText="";
     /**
      * 依托单位
      */
     private String supportingInstitutions="";
+    private String supportingInstitutionsText="";
     /**
      * 科研经费
      */
@@ -44,6 +46,7 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
      * 平台类型
      */
     private String type="";
+    private String typeText="";
     /**
      * 科研团队介绍
      */
@@ -60,6 +63,12 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
      * 平台等级
      */
     private String level="";
+    private String levelText="";
+
+    /**
+     * 平台图片
+     */
+    private String imgId="";
 
 
     public String getId() {
@@ -158,5 +167,43 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
         this.level = level;
     }
 
+    public String getResearchFieldText() {
+        return researchFieldText;
+    }
 
+    public void setResearchFieldText(String researchFieldText) {
+        this.researchFieldText = researchFieldText;
+    }
+
+    public String getSupportingInstitutionsText() {
+        return supportingInstitutionsText;
+    }
+
+    public void setSupportingInstitutionsText(String supportingInstitutionsText) {
+        this.supportingInstitutionsText = supportingInstitutionsText;
+    }
+
+    public String getTypeText() {
+        return typeText;
+    }
+
+    public void setTypeText(String typeText) {
+        this.typeText = typeText;
+    }
+
+    public String getLevelText() {
+        return levelText;
+    }
+
+    public void setLevelText(String levelText) {
+        this.levelText = levelText;
+    }
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(String imgId) {
+        this.imgId = imgId;
+    }
 }

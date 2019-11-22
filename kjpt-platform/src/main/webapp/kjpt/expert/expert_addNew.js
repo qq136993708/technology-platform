@@ -19,7 +19,8 @@ layui.config({
     /*出生年*/
     laydate.render({
         elem: '#appDate', //指定元素
-        type:"year"
+        type:"year",
+        trigger: 'click'
     });
     /*动态生成元素*/
     function createElement(code,id,element,name) {
@@ -280,11 +281,16 @@ layui.config({
         data.field.zjkProjectJsonList=JSON.stringify(projectName)
         data.field.zjkPatentJsonList=JSON.stringify(patentName)
         data.field.zjkRewardJsonList=JSON.stringify(rewardName)
+        if(variable!=null){
+            data.field.id=variable.id
+        }
+        console.log(data.field)
         httpModule({
             url: '/expert-api/save',
             data: data.field,
             type: "POST",
             success: function(e) {
+                console.log(e)
                 if(e.success){
                     layer.msg('保存成功!', {icon: 1});
                     closeTabsPage();

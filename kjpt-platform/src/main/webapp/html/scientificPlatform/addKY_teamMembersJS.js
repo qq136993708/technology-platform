@@ -4,12 +4,14 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	var table = layui.table;
 	var layer = layui.layer;
 	var laydate = layui.laydate;
+	var variable = getQueryVariable();
+	console.log(variable)
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/researchPlatformMember-api/newInit/' + data.platformId;
+		var httpUrl = '/platformTreatise-api/newInit/' + data.platformId;
 		if (data.id) {
-			httpUrl = '/researchPlatformMember-api/load/' + data.id
+			httpUrl = '/platformTreatise-api/load/' + data.id
 		}
 
 		httpModule({
@@ -17,10 +19,20 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 			success: function(res) {
 				if (res.code === '0') {
 					var formData = res.data;
+					if (!formData) { return false; }
 					if (!formData.platformId) {
 						formData.platformId = data.platformId;
 					}
 					formData.createDate = new Date(formData.createDate).format('yyyy-MM-dd');
+					if (variable) {
+						if (variable.item === 'member') {
+							// 添加成员
+							formData.role = '0';
+						} else if ( variable.item === 'character' ) {
+							// 添加领军人物
+							formData.role = '1';
+						}
+					}
 					form.val('formProject', formData);
 				}
 			}
@@ -39,16 +51,24 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#applicantYear', type: 'year', btns: ['clear', 'confirm']});
-	
-	var variable = getQueryVariable();
+	// 切换领军人物 与成员字段
+	function switchHideItem(type) {
+		$('[item-label]').each(function() {
+			if ($(this).attr('item-label').indexOf(type) === -1) {
+				$(this).remove();
+			}
+		})
+	}
+
 	if (variable.type === 'edit') {
 		submitType = 'input';
 	}
-
-	console.log(variable)
-
+	switchHideItem(variable.item);
 	getItemData(variable);
+
+	if ($('#birth').length) {
+		laydate.render({ elem: '#birth', type: 'month', btns: ['clear', 'confirm']});
+	}
 
 	// 监听录入方式变化
 	form.on('radio(optionType)', function(data) {
@@ -73,7 +93,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		  ,where: { name: searchData }
 		  ,cols: [[ // 表头
 		    {type: 'checkbox' } // 表格多选
-		    ,{field: 'username', title: '成果名称' } // 模版配置列
+		    ,{field: 'username', title: '项目名称' } // 模版配置列
 		    ,{field: 'sex', title: '专业类别', sort: true}
 		    ,{field: 'city', title: '负责单位'} 
 		    ,{field: 'sign', title: '立项年度'}
@@ -110,20 +130,20 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		return false;
 	})
 	
-	// 提交成果
+	// 提交项目
 	$('#projectSubmit').on('click', function(e) {
 		if (submitType === 'input') {
 			$('#InputSubmit').trigger('click');
 		} else if (submitType === 'unInput') {
       var tableCheckedData = table.checkStatus('unInputTable').data;
 			if (!tableCheckedData.length) {
-				layer.msg('您没有选择任何成果', {icon: 2});
+				layer.msg('您没有选择任何项目', {icon: 2});
 				return false;
 			}
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/researchPlatformMember-api/batchSave',
+				url: '/platformTreatise-api/batchSave',
 				data: tableCheckedData,
 				success: function(res) {
 					if (res.code === '0') {

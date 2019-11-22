@@ -15,9 +15,9 @@
     <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">专家名称：</span></label>
+                <label class="layui-form-label"><span class="text">专家姓名：</span></label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" id="name" placeholder="请输入专家名称" autocomplete="off" class="layui-input">
+                    <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
             delItem:function () {
                 /*删除*/
                 if (itemRowData) {
-                    layer.confirm('您确定要删除吗？', {icon: 3, title:'删除提示'}, function(index){
+                    top.layer.confirm('您确定要删除吗？', {icon: 3, title:'删除提示'}, function(index){
                         layer.close(index);
                         // 确认删除
                         httpModule({

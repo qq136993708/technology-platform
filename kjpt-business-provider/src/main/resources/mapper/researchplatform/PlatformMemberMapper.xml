@@ -15,12 +15,15 @@
         <result column="major_studied" jdbcType="VARCHAR" property="majorStudied"/>
         <result column="post_name" jdbcType="VARCHAR" property="postName"/>
         <result column="assume_office" jdbcType="VARCHAR" property="assumeOffice"/>
+        <result column="work_unit" jdbcType="VARCHAR" property="workUnit"/>
         <result column="role" jdbcType="VARCHAR" property="role"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+		
+		<result column="role_text" jdbcType="VARCHAR" property="roleText"/>
     </resultMap>
 
 
@@ -50,7 +53,10 @@
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_member where 1=1 and platform_id = #{platformId}
+        select  * from view_kypt_member where 1=1 and platform_id = #{platformId}
+        <if test="role != null and role != '' " >
+            and role = #{role}
+        </if>
             and deleted != '1'
     </select>
 

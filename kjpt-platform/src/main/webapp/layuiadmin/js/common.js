@@ -62,7 +62,9 @@ function layuiParseData(RelData, callback, number) {
     "code": '0', //解析接口状态
 		"msg": RelData.message, //解析提示文本
 		"count": RelData.data.total, //解析数据长度
-		"data": RelData.data.list //解析数据列表
+		"data": (function(){
+			return switchHttpData(RelData.data.list, '-');
+		})() //解析数据列表
   };
 
   if (callback) {
@@ -107,16 +109,16 @@ function getDialogData(id) {
 }
 
 // 转换HTTP请求数据
-function switchHttpData(dataJson) {
+function switchHttpData(dataJson, value) {
 	if (dataJson != null && typeof(dataJson) === 'object') {
 		var tempData = null;
 		if (dataJson.length) {
 			tempData = [];
 			for (var i = 0; i < dataJson.length; i++) {
 				if (typeof(dataJson[i]) === 'object') {
-					tempData[i] = switchHttpData(dataJson[i]);
-				} else if (dataJson[i] === null) {
-					tempData[i] = '';
+					tempData[i] = switchHttpData(dataJson[i], value);
+				} else if (!dataJson[i] && (dataJson[i] !== 0 && dataJson[i] !== '0')) {
+					tempData[i] = value || '';
 				} else {
 					tempData[i] = dataJson[i];
 				}
@@ -125,9 +127,9 @@ function switchHttpData(dataJson) {
 			tempData = {};
 			for (var key in dataJson) {
 				if (typeof(dataJson[key]) === 'object') {
-					tempData[key] = switchHttpData(dataJson[key]);
-				} else if (dataJson[key] === null) {
-					tempData[key] = '';
+					tempData[key] = switchHttpData(dataJson[key], value);
+				} else if (!dataJson[key] && (dataJson[key] !== 0 && dataJson[key] !== '0')) {
+					tempData[key] = value || '';
 				} else {
 					tempData[key] = dataJson[key];
 				}
@@ -406,9 +408,10 @@ function transFieldDic(dicKindCode, code) {
 }
 
 
-function dateFormatText(d) {
+function dateFieldText(d) {
+	if(d==null) return '';
 	var d = new Date(d);
-	return d.toLocaleDateString();
+	return d.format('yyyy-MM-dd');
 }
 
 function getObjectData(dataJson, value) {

@@ -96,7 +96,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       cols: [[ //表头
         {type: 'radio', field: 'id'}
         ,{field: 'thesisTitle', title: '论文题目' }
-        ,{field: 'thesisLevel', title: '级别', sort: true }
+        ,{field: 'thesisLevel', title: '论文级别', sort: true }
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '年度'}
@@ -116,7 +116,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'graduateSchool', title: '毕业学校'}
         ,{field: 'majorStudied', title: '所学专业'}
         ,{field: 'postName', title: '岗位名称'} 
-      ]]
+      ]],
+      where: {role: '0'}
     });
 
     // 主要成果
@@ -132,6 +133,20 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'applicantYear', title: '申请年度'}
       ]]
     });
+
+    // 主要专利
+    addTableData({
+      id: 'mainPatent',
+      url: '/researchPlatformPatent-api/query',
+      cols: [[ //表头
+        {type: 'radio', field: 'id'}
+        ,{type: 'numbers', title: '序号', width: 80}
+        ,{field: 'patentName', title: '专利名称', sort: true }
+        ,{field: 'patentType', title: '专利类型', sort: true}
+        ,{field: 'applicationDate', title: '申请日期'} 
+        ,{field: 'remark', title: '描述'}
+      ]]
+    });
   }
 
   var tableFilterArr = [
@@ -140,7 +155,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     {tableId: 'leadingFigure', title: '领军人物'},
     {tableId: 'tablePaper', title: '论文'},
     {tableId: 'teamMembers', title: '成员'},
-    {tableId: 'mainAchievements', title: '成果'}
+    {tableId: 'mainAchievements', title: '成果'},
+    {tableId: 'mainPatent', title: '专利'}
+    
   ];
   var activeTab = 0;
   // 监控tab签切换
@@ -212,8 +229,19 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   $('.deleteItem').on('click', function(e) {
     var delItem = table.checkStatus(tableFilterArr[activeTab].tableId).data;
     if (delItem.length) {
+      var deleteUrl = '/platformProject-api/delete/';
+      if (activeTab == 2 || activeTab == 4) {
+        deleteUrl = '/researchPlatformMember-api/delete/';
+      } else if (activeTab == 3) {
+        deleteUrl = '/platformTreatise-api/delete/';
+      } else if (activeTab == 5) {
+        deleteUrl = '/researchPlatformAchievement-api/delete/';
+      } else if (activeTab == 6) {
+        deleteUrl = '/researchPlatformPatent-api/delete/';
+      }
+
       httpModule({
-        url: '/platformProject-api/delete/' + delItem[0].id,
+        url: (deleteUrl + delItem[0].id),
         type: 'DELETE',
         success: function(res) {
           if (res.code === '0') {

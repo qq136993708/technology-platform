@@ -7,9 +7,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/platformTreatise-api/newInit/' + data.platformId;
+		var httpUrl = '/researchPlatformAchievement-api/newInit/' + data.platformId;
 		if (data.id) {
-			httpUrl = '/platformTreatise-api/load/' + data.id
+			httpUrl = '/researchPlatformAchievement-api/load/' + data.id
 		}
 
 		httpModule({
@@ -39,24 +39,11 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	// 切换领军人物 与成员字段
-	function switchHideItem(type) {
-		$('[item-label]').each(function() {
-			if ($(this).attr('item-label').indexOf(type) === -1) {
-				$(this).remove();
-			}
-		})
-	}
-
+	laydate.render({ elem: '#applicantYear', type: 'year', btns: ['clear', 'confirm']});
+	
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {
 		submitType = 'input';
-	}
-
-	switchHideItem(variable.item);
-
-	if ($('#birth').length) {
-		laydate.render({ elem: '#birth', type: 'month', btns: ['clear', 'confirm']});
 	}
 
 	console.log(variable)
@@ -86,7 +73,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		  ,where: { name: searchData }
 		  ,cols: [[ // 表头
 		    {type: 'checkbox' } // 表格多选
-		    ,{field: 'username', title: '项目名称' } // 模版配置列
+		    ,{field: 'username', title: '成果名称' } // 模版配置列
 		    ,{field: 'sex', title: '专业类别', sort: true}
 		    ,{field: 'city', title: '负责单位'} 
 		    ,{field: 'sign', title: '立项年度'}
@@ -105,7 +92,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		// 手工录入提交
 		httpModule({
 			type: 'POST',
-			url: '/researchPlatformMember-api/save',
+			url: '/researchPlatformAchievement-api/save',
 			data: data.field,
 			success: function(res) {
 				if (res.code === '0') {
@@ -123,20 +110,20 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		return false;
 	})
 	
-	// 提交项目
+	// 提交成果
 	$('#projectSubmit').on('click', function(e) {
 		if (submitType === 'input') {
 			$('#InputSubmit').trigger('click');
 		} else if (submitType === 'unInput') {
       var tableCheckedData = table.checkStatus('unInputTable').data;
 			if (!tableCheckedData.length) {
-				layer.msg('您没有选择任何项目', {icon: 2});
+				layer.msg('您没有选择任何成果', {icon: 2});
 				return false;
 			}
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/platformTreatise-api/batchSave',
+				url: '/researchPlatformAchievement-api/batchSave',
 				data: tableCheckedData,
 				success: function(res) {
 					if (res.code === '0') {
