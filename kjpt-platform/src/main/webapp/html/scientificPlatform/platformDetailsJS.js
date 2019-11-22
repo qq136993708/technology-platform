@@ -55,7 +55,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/platform-api/load/' + variable.id,
       success: function(relData) {
         if (relData.code === '0') {
-          setTargetNameValue(relData.data)
+          setTargetNameValue(relData.data);
+          if (relData.data.imgId) {
+            $('#platformImg').attr('src', + '/file/imgFile/' + relData.data.imgId);
+          }
         }
       }
     });
