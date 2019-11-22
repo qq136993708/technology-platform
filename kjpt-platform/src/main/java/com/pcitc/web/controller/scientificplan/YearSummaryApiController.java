@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @Api(value = "yearSummary-api", description = "年度总结接口")
 @RestController
+@RequestMapping(value = "/YearSummary")
 public class YearSummaryApiController extends RestBaseController {
 
 

@@ -22,6 +22,7 @@ import java.util.UUID;
 
 @Api(value = "scienceEvolveDynamic-api", description = "科技进展动态接口")
 @RestController
+@RequestMapping(value = "/ScienceEvolveDynamic")
 public class ScienceEvolveDynamicApiController extends RestBaseController {
 
 

@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @Api(value = "sciencePlan-api", description = "科技规划接口")
 @RestController
+@RequestMapping(value = "/SciencePlan")
 public class SciencePlanApiController extends RestBaseController {
 
     /**
