@@ -171,6 +171,7 @@
   <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/layuiadmin/js/common.js"></script>
+  <script src="/layuiadmin/js/fileUpload.js"></script>
 </body>
 
 </html>
@@ -193,19 +194,20 @@
           if (relData.code === '0') {
             form.val('formPlatform', relData.data);
             form.render();
+
           }
         }
       });
     }
 
     function upLoadFile(billDataID) {
-      var templet = '<div class="file-options">';
-      templet += '<span class="link-text file-options-download" data-fileid="' + d.id + '">下载</a>';
-      templet += '</div>';
+      // var templet = '<div class="file-options">';
+      // templet += '<span class="link-text file-options-download" data-fileid="' + billDataID + '">下载</a>';
+      // templet += '</div>';
       setFileUpload({
         id: 'file-filter-options', // 附件上传作用域ID值 必传
         dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
-        cols: templet,
+        readonly: true,
         callback: function (tableData, type) {
           /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
             * type 触发变更的类型 目前只有 delete | upload
@@ -218,6 +220,7 @@
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
     getItemInitData(variable);
+    
     upLoadFile(variable.id);
 
   });
