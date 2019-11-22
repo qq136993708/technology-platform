@@ -106,6 +106,7 @@
                             patentName.map(function (item, index) {
                                 var html=$("#item").html()
                                 $("#formPlatform").append(html)
+                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("getPatentTimeStr")
                                 getPatentTimeStr();
                                 $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
                                 $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
@@ -115,6 +116,7 @@
                         }else {
                             var html=$("#item").html()
                             $("#formPlatform").append(html)
+                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
                             getPatentTimeStr();
                         }
 
@@ -124,12 +126,14 @@
         }else {
             var html=$("#item").html()
             $("#formPlatform").append(html)
+            $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
             getPatentTimeStr();
         }
         var $ = layui.$, active = {
             add:function(){
                 var html=$("#item").html()
                 $("#formPlatform").append(html)
+                $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
                 getPatentTimeStr();
             },
             save:function () {
