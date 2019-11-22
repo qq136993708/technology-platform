@@ -49,7 +49,7 @@ public class SciencePlanApiController extends RestBaseController {
         return "/kjpt/scienceplan/scienceplan_view";
     }
 
-    @RequestMapping(value = "/add")
+    @RequestMapping(value = "/addadd")
     public String add() {
         return "/kjpt/scienceplan/scienceplan_add";
     }

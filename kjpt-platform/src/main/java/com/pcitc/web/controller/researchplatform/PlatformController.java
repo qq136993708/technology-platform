@@ -1,7 +1,7 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.pcitc.mapper.researchplatform.PlatformProjectMapper">
 
-    <resultMap id="BaseResultMap" type="com.pcitc.base.researchPlatform.PlatformProjectModel">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformProjectModel">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
@@ -44,12 +44,12 @@
     </select>
 
 
-    <insert id="add" parameterType="com.pcitc.base.researchPlatform.PlatformProjectModel">
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
         insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user)
          values(#{id},#{platformId},#{baseId},#{projectName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
     </insert>
 
-    <update id="update" parameterType="com.pcitc.base.researchPlatform.PlatformProjectModel">
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
         update kypt_project
         <trim prefix="SET" suffixOverrides=",">
             <if test="projectName != null and projectName != '' " >
@@ -71,4 +71,12 @@
     <update id="delete" parameterType="java.lang.String">
             update kypt_project set deleted = '1' where id = #{id}
     </update>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user) values
+        <foreach collection="list" item="kp" separator=",">
+            (#{kp.id},#{kp.platformId},#{kp.baseId},#{kp.projectName},#{kp.majorType},#{kp.dutyInstitutions},#{kp.approvalYear},#{kp.deleted},#{kp.creator},#{kp.createDate},#{kp.updateDate},#{kp.updator})
+        </foreach>
+    </insert>
+
 </mapper>

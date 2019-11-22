@@ -86,12 +86,12 @@ public class TrademarkInfo implements Serializable {
     /**
      * 核定使用商品大类翻译
      */
-    private String commodity_category_text;
+    private String commodityCategoryText;
 
     /**
      * 法律状态翻译
      */
-    private String legal_status_text;
+    private String legalStatusText;
 
     private static final long serialVersionUID = 1L;
 
@@ -207,20 +207,20 @@ public class TrademarkInfo implements Serializable {
         this.file = file;
     }
 
-    public String getCommodity_category_text() {
-        return commodity_category_text;
+    public String getCommodityCategoryText() {
+        return commodityCategoryText;
     }
 
-    public void setCommodity_category_text(String commodity_category_text) {
-        this.commodity_category_text = commodity_category_text;
+    public void setCommodityCategoryText(String commodityCategoryText) {
+        this.commodityCategoryText = commodityCategoryText;
     }
 
-    public String getLegal_status_text() {
-        return legal_status_text;
+    public String getLegalStatusText() {
+        return legalStatusText;
     }
 
-    public void setLegal_status_text(String legal_status_text) {
-        this.legal_status_text = legal_status_text;
+    public void setLegalStatusText(String legalStatusText) {
+        this.legalStatusText = legalStatusText;
     }
 
     public String getDeleted() {
