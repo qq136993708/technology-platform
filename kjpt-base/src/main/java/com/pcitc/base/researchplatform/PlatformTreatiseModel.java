@@ -19,31 +19,31 @@ public class PlatformTreatiseModel extends RecordModel implements Serializable {
     /**
      * 对应的平台ID
      */
-    private String platformId;
+    private String platformId="";
     /**
      * 系统中的项目表的主键ID
      */
-    private String baseId;
+    private String baseId="";
     /**
      * 论文题目
      */
-    private String thesisTitle;
+    private String thesisTitle="";
     /**
      * 论文级别
      */
-    private String thesisLevel;
+    private String thesisLevel="";
     /**
      * 期刊名称
      */
-    private String journalTitle;
+    private String journalTitle="";
     /**
      * 作者
      */
-    private String thesisAuthor;
+    private String thesisAuthor="";
     /**
      * 年度
      */
-    private String thesisYear;
+    private String thesisYear="";
 
     public String getId() {
         return id;

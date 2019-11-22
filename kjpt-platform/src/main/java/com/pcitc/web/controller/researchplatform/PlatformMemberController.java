@@ -3,6 +3,7 @@ package com.pcitc.web.controller.researchplatform;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
+import com.pcitc.base.researchplatform.PlatformTreatiseModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -91,6 +92,7 @@ public class PlatformMemberController extends RestBaseController {
     @RequestMapping(value = "/researchPlatformMember-api/save", method = RequestMethod.POST)
     @ResponseBody
     public PlatformMemberModel save(@RequestBody PlatformMemberModel pam) {
+        this.setBaseData(pam);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PlatformMemberModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformMemberModel>(pam, this.httpHeaders), PlatformMemberModel.class);
         return responseEntity.getBody();
@@ -122,6 +124,11 @@ public class PlatformMemberController extends RestBaseController {
     @ResponseBody
     public Integer batchSave(@RequestBody List<PlatformMemberModel> pmList) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        for(PlatformMemberModel p : pmList ){
+            this.setBaseData(p);
+            p.setCreateDate(new Date());
+            p.setCreator(this.getUserProfile().getUserName());
+        }
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }

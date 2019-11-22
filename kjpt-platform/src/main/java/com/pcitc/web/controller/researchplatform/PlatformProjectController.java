@@ -91,6 +91,7 @@ public class PlatformProjectController extends RestBaseController {
     @ResponseBody
     public PlatformProjectModel save(@RequestBody PlatformProjectModel pm) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.setBaseData(pm);
         ResponseEntity<PlatformProjectModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformProjectModel>(pm, this.httpHeaders), PlatformProjectModel.class);
         return responseEntity.getBody();
     }

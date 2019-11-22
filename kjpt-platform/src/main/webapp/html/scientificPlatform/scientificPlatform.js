@@ -5,6 +5,16 @@ layui.use(['form', 'table', 'layer'], function(){
   var table = layui.table;
   var layer = layui.layer;
 
+  var variable = getQueryVariable();
+  console.log(variable);
+  if (variable && variable.level) {
+    form.val('patentFormDemo', {level: variable.level});
+    $('[form-label-item="level"]').remove();
+  } else {
+    $('#opations-btn, [form-label-item="unlevel"]').remove();
+  }
+
+
   //表格渲染
   var itemRowData = null; // 选中行的数据
   var tableRender = false;

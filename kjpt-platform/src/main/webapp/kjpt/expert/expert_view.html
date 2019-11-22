@@ -10,13 +10,16 @@
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/scientificPlatform.css">
+    <style>
+        .item-details-img .img-box{background: none}
+    </style>
 </head>
 <body>
 <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
     <div class="layout-view-content">
         <div class="item-banner-view">
             <div class="item-details-img middle-block">
-                <div class="img-box ib-block"></div>
+                <div class="img-box ib-block" id="img"><img src="/layuiadmin/layui/images/expert-img.png"/> </div>
                 <div class="text-box ib-block">
                     <div class="title" diy-form-value="name"></div>
                     <ul class="text-list">
@@ -116,6 +119,9 @@
                         relData.data.patent=JSON.parse(relData.data.zjkPatentJsonList).length
                         relData.data.project=JSON.parse(relData.data.zjkProjectJsonList).length
                         relData.data.reward=JSON.parse(relData.data.zjkRewardJsonList).length
+                        if(relData.data.headPic!=''){
+                            $("#img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        }
                         setTargetNameValue(relData.data)
                     }
                 }
