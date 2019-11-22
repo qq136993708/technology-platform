@@ -49,8 +49,10 @@ public interface IExpertService {
 	*/
 	public List getZjkBaseList(Map param)throws Exception;
 
-
-	
+	/**
+	     * 获取专家个数
+	*/
+	public Integer getZjkBaseCount()throws Exception;
 	
 	
 	

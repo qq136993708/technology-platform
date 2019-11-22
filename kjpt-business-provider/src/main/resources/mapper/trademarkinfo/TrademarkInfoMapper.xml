@@ -16,6 +16,10 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate" />
     <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="deleted" jdbcType="VARCHAR" property="deleted" />
+
+    <result column="commodity_category_text" jdbcType="VARCHAR" property="commodityCategorytText" />
+    <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +82,7 @@
   <sql id="Base_Column_List">
     id, unit_name, commodity_category, application_number, effective_date, register_notice_date, 
     entry_person, trademark_name, applicant, register_date, law_status, remark, entry_date, 
-    file
+    file,deleted,commodity_category_text,legal_status_text
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultMap="BaseResultMap">
     select
@@ -105,7 +109,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from trademark_info
+    from view_trademark_info
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

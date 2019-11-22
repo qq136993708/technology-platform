@@ -30,18 +30,18 @@
     <result column="use_status" jdbcType="VARCHAR" property="useStatus" />
     
     
-    <result column="use_status_str"      jdbcType="VARCHAR" property="useStatusStr" />
-    <result column="belong_unit_str"     jdbcType="VARCHAR" property="belongUnitStr" />
-    <result column="technical_field_str" jdbcType="VARCHAR" property="technicalFieldStr" />
-    <result column="education_str"       jdbcType="VARCHAR" property="educationStr" />
-    <result column="sex_str"             jdbcType="VARCHAR" property="sexStr" />
-    
+    <result column="use_status_str"       jdbcType="VARCHAR" property="useStatusStr" />
+    <result column="belong_unit_str"      jdbcType="VARCHAR" property="belongUnitStr" />
+    <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName" />
+    <result column="education_str"        jdbcType="VARCHAR" property="educationStr" />
+    <result column="sex_str"              jdbcType="VARCHAR" property="sexStr" />
+    <result column="title_str"            jdbcType="VARCHAR" property="titleStr" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
-    achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id,use_status
+    achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id,use_status,technical_field_name
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -56,7 +56,7 @@
       post, work_experience, contact_way, 
       email, brief, achievement, 
       head_pic, create_time, create_user, 
-      update_time, update_user, out_system_id,use_status
+      update_time, update_user, out_system_id,use_status,technical_field_name
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -67,7 +67,7 @@
       #{email,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{achievement,jdbcType=VARCHAR}, 
       #{headPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
-      , #{useStatus,jdbcType=VARCHAR}
+      , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -152,6 +152,13 @@
       <if test="useStatus != null">
         use_status,
       </if>
+      <if test="technicalFieldName != null">
+        technical_field_name,
+      </if>
+      
+      
+      
+      
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -235,9 +242,9 @@
       <if test="useStatus != null">
         #{useStatus,jdbcType=VARCHAR},
       </if>
-      
-      
-      
+      <if test="technicalFieldName != null">
+        #{technicalFieldName,jdbcType=VARCHAR},
+      </if> 
       
     </trim>
   </insert>
@@ -319,12 +326,9 @@
       <if test="useStatus != null">
         use_status = #{useStatus,jdbcType=VARCHAR},
       </if>
-      
-      
-      
-      
-       
-       
+      <if test="technicalFieldName != null">
+        technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -353,6 +357,7 @@
       create_user = #{createUser,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=VARCHAR},
+      technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
       use_status = #{useStatus,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
@@ -372,6 +377,7 @@
 	     <if test="title != null                 and title !=''  ">           AND t.title = #{title}</if>
 	     <if test="technicalField != null        and technicalField !=''  ">  AND t.technical_field = #{technicalField}</if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
+	     <if test="technicalFieldName != null and technicalFieldName  !='' "> AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
 	 </trim>
 	</sql>
 	
@@ -383,20 +389,22 @@
       ) education_str
       ,
       ( 
-         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_SZDW'
-          AND t2.`code`=t1.`belong_unit`
-      ) belong_unit_str
-      ,
-      ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_QYZT'
           AND t2.`code`=t1.`use_status`
       ) use_status_str,
-      
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XB'
           AND t2.num_value =t1.`sex`
-      ) sex_str
-     FROM zjk_base t1
+      ) sex_str,
+      ( 
+         SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`belong_unit`
+      )  belong_unit_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
+          AND t2.code =t1.`title`
+      )  title_str
+      FROM zjk_base t1
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
@@ -413,11 +421,6 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM zjk_base t <include refid="selectCondition"/>
     </select>
-  
-  
-  
-  
-  
   
    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select   *

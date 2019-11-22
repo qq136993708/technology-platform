@@ -13,6 +13,11 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
     <result column="rewark_level_str" jdbcType="VARCHAR" property="rewarkLevelStr" />
+    <result column="awarding_time_str" jdbcType="VARCHAR" property="awardingTimeStr" />
+    
+    
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List">
@@ -155,8 +160,8 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-  <sql id="view_zjk_reward">
-     SELECT t1.*,
+   <sql id="view_zjk_reward">
+     SELECT t1.*, DATE_FORMAT(t1.`awarding_time`,'%Y-%m-%d') awarding_time_str,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_JLJB'
           AND t2.`code`=t1.`rewark_level`
@@ -164,9 +169,6 @@
      FROM zjk_reward t1
 	</sql>
    
-   
-  
-  
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
@@ -210,7 +212,7 @@
   </delete>
   
    <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
-     select * from zjk_reward t where  expert_id = #{expertId,jdbcType=VARCHAR}
+     select * from (<include refid="view_zjk_reward" />)  t where  expert_id = #{expertId,jdbcType=VARCHAR}
    </select>
    
    
