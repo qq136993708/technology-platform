@@ -106,6 +106,7 @@
                             rewardName.map(function (item, index) {
                                 var html=$("#item").html()
                                 $("#formPlatform").append(html)
+                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("awardingTimeStr")
                                 awardingTimeStr();
                                 $("#formPlatform>div").eq(index).find(".rewarkLevel").val(item.rewarkLevel)
                                 $("#formPlatform>div").eq(index).find(".awardingTimeStr").val(item.awardingTimeStr)
@@ -115,6 +116,7 @@
                         }else {
                             var html=$("#item").html()
                             $("#formPlatform").append(html)
+                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("awardingTimeStr")
                             awardingTimeStr();
                         }
 
@@ -124,12 +126,14 @@
         }else {
             var html=$("#item").html()
             $("#formPlatform").append(html)
+            $("#formPlatform>div:last-child").find(".laydate-input").addClass("awardingTimeStr")
             awardingTimeStr();
         }
         var $ = layui.$, active = {
             add:function(){
                 var html=$("#item").html()
                 $("#formPlatform").append(html)
+                $("#formPlatform>div:last-child").find(".laydate-input").addClass("awardingTimeStr")
                 awardingTimeStr();
             },
             save:function () {

@@ -146,6 +146,7 @@
                             success: function(relData) {
                                 if (relData.success) {
                                     layer.msg('删除成功!', {icon: 1});
+                                    top.layer.closeAll(); // 关闭弹窗
                                     obj.tableList('');
                                 } else {
                                     layer.msg('删除失败', {icon: 2});

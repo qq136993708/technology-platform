@@ -121,15 +121,15 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">上传图片：</span></label>
             <div class="layui-input-block">
-              <input type="hidden" name="imgid" id="imgID" />
-                <div class="img-view-block middle-block" id="imgFileUpload">
-                  <img src="" alt="请选择图片上传" />
-                  <div class="file-img-btn" label="imgUpload">
-                    <span class="btn-icon"></span>
-                    <span class="btn-text">点击此区域上传图片</span>
-                  </div>
-                  <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+              <input type="hidden" name="imgId" id="imgId" />
+              <div class="img-view-block middle-block" id="imgFileUpload">
+                <img src="" alt="请选择图片上传" />
+                <div class="file-img-btn" label="imgUpload">
+                  <span class="btn-icon"></span>
+                  <span class="btn-text">点击此区域上传图片</span>
                 </div>
+                <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+              </div>
             </div>
           </div>
         </div>
@@ -163,7 +163,7 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   // 获取地址栏传递过来的参数
   var variable = getQueryVariable();
   function getItemInitData(item) {
-    var httpUrl = '/platform-api/newInit' + variable.level;
+    var httpUrl = '/platform-api/newInit/' + variable.level;
     if (item && item.id) {
       httpUrl = '/platform-api/load/' + item.id;
     }
@@ -204,7 +204,7 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   setImagesUpload({
     id: '#imgFileUpload', // 图片作用域的ID
     callback: function (data, type) {
-      if (data) { $('#imgID').val(data.id) } else { $('#imgID').val('') }
+      if (data) { $('#imgId').val(data.id) } else { $('#imgId').val('') }
     }
   });
 	

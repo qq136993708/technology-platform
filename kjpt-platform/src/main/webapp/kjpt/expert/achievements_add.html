@@ -106,6 +106,7 @@
                             achieveName.map(function (item, index) {
                                 var html=$("#item").html()
                                 $("#formPlatform").append(html)
+                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("applyYear")
                                 applyYear();
                                 $("#formPlatform>div").eq(index).find(".achieveName").val(item.achieveName)
                                 $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
@@ -115,6 +116,7 @@
                         }else {
                             var html=$("#item").html()
                             $("#formPlatform").append(html)
+                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("applyYear")
                             applyYear();
                         }
 
@@ -124,12 +126,14 @@
         }else {
             var html=$("#item").html()
             $("#formPlatform").append(html)
+            $("#formPlatform>div:last-child").find(".laydate-input").addClass("applyYear")
             applyYear();
         }
         var $ = layui.$, active = {
             add:function(){
                 var html=$("#item").html()
                 $("#formPlatform").append(html)
+                $("#formPlatform>div:last-child").find(".laydate-input").addClass("applyYear")
                 applyYear();
             },
             save:function () {

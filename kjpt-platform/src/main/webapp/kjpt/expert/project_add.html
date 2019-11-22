@@ -40,7 +40,7 @@
                                 <label class="layui-form-label label-required"><span class="text">立项年度:</span></label>
                                 <div class="layui-input-block">
                                     <input type="text" name="setupYeat"
-                                           autocomplete="off" placeholder="请选择立项年度!" class="layui-input laydate-input setupYeat">
+                                           autocomplete="off" placeholder="请选择立项年度!" class="layui-input laydate-input ">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
     layui.use(['form', 'jquery','element','laydate'], function(){
         var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
         function setupYeat() {
-            lay('.setupYeat').each(function(){
+            lay('.setupYeat').each(function(index){
                 laydate.render({
                     elem: this
                     ,trigger: 'click'
@@ -92,7 +92,6 @@
                 });
             });
         }
-        setupYeat();
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         if(variable!=null){
@@ -106,6 +105,7 @@
                             projectName.map(function (item, index) {
                                 var html=$("#item").html()
                                 $("#formPlatform").append(html)
+                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("setupYeat")
                                 setupYeat();
                                 $("#formPlatform>div").eq(index).find(".projectName").val(item.projectName)
                                 $("#formPlatform>div").eq(index).find(".setupYeat").val(item.setupYeat)
@@ -115,6 +115,7 @@
                         }else {
                             var html=$("#item").html()
                             $("#formPlatform").append(html)
+                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("setupYeat")
                             setupYeat();
                         }
 
@@ -124,12 +125,14 @@
         }else {
             var html=$("#item").html()
             $("#formPlatform").append(html)
+            $("#formPlatform>div:last-child").find(".laydate-input").addClass("setupYeat")
             setupYeat();
         }
         var $ = layui.$, active = {
             add:function(){
                 var html=$("#item").html()
                 $("#formPlatform").append(html)
+                $("#formPlatform>div:last-child").find(".laydate-input").addClass("setupYeat")
                 setupYeat();
             },
             save:function () {
