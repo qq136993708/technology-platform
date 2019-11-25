@@ -130,7 +130,7 @@
                 NOTES = #{NOTES},
             </if>
             <if test="accessoryUpload != null and accessoryUpload != ''">
-                update_date = #{update_date},
+                ACCESSORY_UPLOAD  = #{ACCESSORY_UPLOAD},
             </if>
             <if test="updateDate != null and updateDate != ''">
                 update_date = #{updateDate},

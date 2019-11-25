@@ -31,6 +31,8 @@ public class ScienceEvolveDynamicServiceImpl implements ScienceEvolveDynamicServ
     public ScienceEvolveDynamic save(ScienceEvolveDynamic scienceEvolveDynamic) {
         IsEmptyUtil.isEmpty(scienceEvolveDynamic.getId());
         if (load(scienceEvolveDynamic.getId()) == null) {
+            scienceEvolveDynamic.setCreateDate(scienceEvolveDynamic.getUpdateDate());
+            scienceEvolveDynamic.setCreator(scienceEvolveDynamic.getUpdator());
             scienceEvolveDynamicMapper.add(scienceEvolveDynamic);
         } else {
             scienceEvolveDynamicMapper.update(scienceEvolveDynamic);
