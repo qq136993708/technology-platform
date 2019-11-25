@@ -46,7 +46,7 @@ public class SysDictionaryApiController extends BaseController {
 	
 	@ApiOperation(value = "根据字典编号查所有下级内容", notes = "根据字典编号查所有下级内容")
     @ApiImplicitParams({
-       @ApiImplicitParam(name = "id", value = "字典编号", dataType = "string", paramType = "query",required=true)
+       @ApiImplicitParam(name = "code", value = "字典编号", dataType = "string", paramType = "query",required=true)
     })
 	@RequestMapping(value="/sysDictionary-api/getAllList/{code}",method = RequestMethod.GET)
     public String getDicAndSubsList(@PathVariable("code") String code,HttpServletRequest request)
