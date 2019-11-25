@@ -23,7 +23,6 @@
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
-		
 		<result column="role_text" jdbcType="VARCHAR" property="roleText"/>
     </resultMap>
 
