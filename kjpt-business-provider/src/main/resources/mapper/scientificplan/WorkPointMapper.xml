@@ -10,6 +10,11 @@
         <result column="AUTHENTICATE_UTIL" jdbcType="VARCHAR" property="authenticateUtil"/>
         <result column="RESEARCH_FIELD" jdbcType="VARCHAR" property="researchField"/>
         <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="updator" jdbcType="VARCHAR" property="updator"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -17,7 +22,12 @@
     `NAME`,
      AUTHENTICATE_UTIL,
      RESEARCH_FIELD,
-     RELEASE_TIME
+     RELEASE_TIME,
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
   </sql>
 
 
@@ -38,13 +48,23 @@
       `NAME`,
        AUTHENTICATE_UTIL,
        RESEARCH_FIELD,
-       RELEASE_TIME)
+       RELEASE_TIME),
+        DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
     values (
     #{id},
       #{name},
       #{authenticateUtil},
       #{researchField},
-      #{releaseTime})
+      #{releaseTime}),
+       #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
   </insert>
 
 

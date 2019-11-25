@@ -32,9 +32,12 @@
   border: 1px #e7e7e7 solid;
   font-size: 0;
   overflow: hidden;
+  background: #fff url('/images/icon-synopsis2.png') center center no-repeat;
+  background-size: contain;
 }
 .item-details-img .img-box > img {
   width: 100%;
+  max-height: 100%;
   display: inline-block;
   vertical-align: middle;
 }

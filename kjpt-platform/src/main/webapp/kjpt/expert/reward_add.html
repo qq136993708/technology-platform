@@ -8,7 +8,7 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
@@ -21,8 +21,8 @@
 <div class="layout-view-content dialog">
     <div class="layui-tab" lay-filter="tab-demo">
         <ul class="layui-tab-title tab-btn-layout">
-            <li class="layui-this">关联添加</li>
-            <li>手动录入</li>
+            <li class="layui-this">手动录入</li>
+            <li>关联添加</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -32,15 +32,16 @@
                             <div class="layui-form-item item">
                                 <label class="layui-form-label label-required"><span class="text">奖励级别:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="rewarkLevel" lay-verify="required"
-                                           placeholder="" autocomplete="off" class="layui-input rewarkLevel">
+                                    <select class="rewarkLevel" name="rewarkLevel" xm-select="rewarkLevel" xm-select-skin="normal" xm-select-radio></select>
+                                    <!--<input type="text" name="rewarkLevel" lay-verify="required"
+                                           placeholder="" autocomplete="off" class="layui-input rewarkLevel">-->
                                 </div>
                             </div>
                             <div class="layui-form-item item">
                                 <label class="layui-form-label label-required"><span class="text">获奖日期:</span></label>
                                 <div class="layui-input-block">
                                     <input type="text" name="awardingTimeStr"
-                                           autocomplete="off" placeholder="请选择获奖日期!" class="layui-input laydate-input awardingTimeStr">
+                                           autocomplete="off" placeholder="请选择获奖日期!" class="layui-input laydate-input">
                                 </div>
                             </div>
                         </div>
@@ -81,8 +82,23 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['form', 'jquery','element','laydate'], function(){
-        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
+    layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
+        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
+        function rewarkLevel(index) {
+            /*奖励级别*/
+            $("#formPlatform>div").eq(index).find(".rewarkLevel").attr("xm-select","rewarkLevel"+index)
+            httpModule({
+                url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_JLJB",
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        formSelects.data('rewarkLevel'+index, 'local', { arr: relData.data });
+                        formSelects.btns('rewarkLevel'+index, ['remove']);
+                    }
+                }
+            });
+        }
+        /*奖励日期*/
         function awardingTimeStr() {
             lay('.awardingTimeStr').each(function(){
                 laydate.render({
@@ -91,7 +107,12 @@
                 });
             });
         }
-        awardingTimeStr();
+        function itemHtml(index) {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            $("#formPlatform>div").eq(index).find(".laydate-input").addClass("awardingTimeStr")
+            awardingTimeStr();
+        }
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         if(variable!=null){
@@ -104,42 +125,38 @@
                         var rewardName=JSON.parse(relData.data.zjkRewardJsonList)
                         if(rewardName.length>0){
                             rewardName.map(function (item, index) {
-                                var html=$("#item").html()
-                                $("#formPlatform").append(html)
-                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("awardingTimeStr")
-                                awardingTimeStr();
+                                itemHtml(index)
+                                rewarkLevel(index)
                                 $("#formPlatform>div").eq(index).find(".rewarkLevel").val(item.rewarkLevel)
                                 $("#formPlatform>div").eq(index).find(".awardingTimeStr").val(item.awardingTimeStr)
                                 $("#formPlatform>div").eq(index).find(".notes").val(item.notes)
                                 $("#formPlatform>div").eq(index).find(".awardingUnit").val(item.awardingUnit)
                             })
                         }else {
-                            var html=$("#item").html()
-                            $("#formPlatform").append(html)
-                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("awardingTimeStr")
-                            awardingTimeStr();
+                            var index=$("#formPlatform>div").length
+                            itemHtml(index)
+                            rewarkLevel(index)
                         }
 
                     }
                 }
             });
         }else {
-            var html=$("#item").html()
-            $("#formPlatform").append(html)
-            $("#formPlatform>div:last-child").find(".laydate-input").addClass("awardingTimeStr")
-            awardingTimeStr();
+            var index=$("#formPlatform>div").length
+            itemHtml(index)
+            rewarkLevel(index)
         }
         var $ = layui.$, active = {
             add:function(){
-                var html=$("#item").html()
-                $("#formPlatform").append(html)
-                $("#formPlatform>div:last-child").find(".laydate-input").addClass("awardingTimeStr")
-                awardingTimeStr();
+                var index=$("#formPlatform>div").length
+                itemHtml(index)
+                rewarkLevel(index)
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
-                    var rewarkLevel=$("#formPlatform>div").eq(index).find(".rewarkLevel").val()
+                    var rewarkLevel=formSelects.value('rewarkLevel'+index)[0].code
+                    var rewarkLevelName=formSelects.value('rewarkLevel'+index)[0].name
                     var awardingTimeStr=$("#formPlatform>div").eq(index).find(".awardingTimeStr").val()
                     var notes=$("#formPlatform>div").eq(index).find(".notes").val()
                     var awardingUnit=$("#formPlatform>div").eq(index).find(".awardingUnit").val()
@@ -149,6 +166,7 @@
                     }else {
                         var data={
                             rewarkLevel:rewarkLevel,
+                            rewarkLevelName:rewarkLevelName,
                             awardingTimeStr:awardingTimeStr,
                             notes:notes,
                             awardingUnit:awardingUnit,

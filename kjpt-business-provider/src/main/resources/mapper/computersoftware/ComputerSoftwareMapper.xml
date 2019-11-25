@@ -18,6 +18,11 @@
         <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime"/>
         <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
         <result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="updator" jdbcType="VARCHAR" property="updator"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -33,7 +38,13 @@
       ENTRY_PEOPLE,
       ENTRY_TIME,
       NOTES,
-      ACCESSORY_UPLOAD
+      ACCESSORY_UPLOAD,
+      DELETED,
+      create_date,
+      create_user
+      update_date,
+      update_user
+
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -199,105 +210,6 @@
         </if>
         and deleted != '1'
     </select>
-
-
-    <!--<insert id="insertSelective" keyColumn="ID" keyProperty="id"-->
-    <!--parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">-->
-    <!--insert into computer_software-->
-    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
-    <!--<if test="unitName != null">-->
-    <!--UNIT_NAME,-->
-    <!--</if>-->
-    <!--<if test="registerNumber != null">-->
-    <!--REGISTER_NUMBER,-->
-    <!--</if>-->
-    <!--<if test="softwareName != null">-->
-    <!--SOFTWARE_NAME,-->
-    <!--</if>-->
-    <!--<if test="copyrightOwner != null">-->
-    <!--COPYRIGHT_OWNER,-->
-    <!--</if>-->
-    <!--<if test="versionNumber != null">-->
-    <!--VERSION_NUMBER,-->
-    <!--</if>-->
-    <!--<if test="recordDate != null">-->
-    <!--RECORD_DATE,-->
-    <!--</if>-->
-    <!--<if test="developFinishDate != null">-->
-    <!--DEVELOP_FINISH_DATE,-->
-    <!--</if>-->
-    <!--<if test="softwareIntro != null">-->
-    <!--SOFTWARE_INTRO,-->
-    <!--</if>-->
-    <!--<if test="entryPeople != null">-->
-    <!--ENTRY_PEOPLE,-->
-    <!--</if>-->
-    <!--<if test="entryTime != null">-->
-    <!--ENTRY_TIME,-->
-    <!--</if>-->
-    <!--<if test="notes != null">-->
-    <!--NOTES,-->
-    <!--</if>-->
-    <!--<if test="accessoryUpload != null">-->
-    <!--ACCESSORY_UPLOAD,-->
-    <!--</if>-->
-    <!--</trim>-->
-    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
-    <!--<if test="unitName != null">-->
-    <!--#{unitName,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="registerNumber != null">-->
-    <!--#{registerNumber,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="softwareName != null">-->
-    <!--#{softwareName,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="copyrightOwner != null">-->
-    <!--#{copyrightOwner,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="versionNumber != null">-->
-    <!--#{versionNumber,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="recordDate != null">-->
-    <!--#{recordDate,jdbcType=TIMESTAMP},-->
-    <!--</if>-->
-    <!--<if test="developFinishDate != null">-->
-    <!--#{developFinishDate,jdbcType=TIMESTAMP},-->
-    <!--</if>-->
-    <!--<if test="softwareIntro != null">-->
-    <!--#{softwareIntro,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="entryPeople != null">-->
-    <!--#{entryPeople,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="entryTime != null">-->
-    <!--#{entryTime,jdbcType=TIMESTAMP},-->
-    <!--</if>-->
-    <!--<if test="notes != null">-->
-    <!--#{notes,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--<if test="accessoryUpload != null">-->
-    <!--#{accessoryUpload,jdbcType=VARCHAR},-->
-    <!--</if>-->
-    <!--</trim>-->
-    <!--</insert>-->
-
-    <!--<update id="updateByPrimaryKey" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">-->
-    <!--update computer_software-->
-    <!--set UNIT_NAME = #{unitName,jdbcType=VARCHAR},-->
-    <!--REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},-->
-    <!--SOFTWARE_NAME = #{softwareName,jdbcType=VARCHAR},-->
-    <!--COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},-->
-    <!--VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},-->
-    <!--RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},-->
-    <!--DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},-->
-    <!--SOFTWARE_INTRO = #{softwareIntro,jdbcType=VARCHAR},-->
-    <!--ENTRY_PEOPLE = #{entryPeople,jdbcType=VARCHAR},-->
-    <!--ENTRY_TIME = #{entryTime,jdbcType=TIMESTAMP},-->
-    <!--NOTES = #{notes,jdbcType=VARCHAR},-->
-    <!--ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR}-->
-    <!--where ID = #{id,jdbcType=VARCHAR}-->
-    <!--</update>-->
 
 
 </mapper>

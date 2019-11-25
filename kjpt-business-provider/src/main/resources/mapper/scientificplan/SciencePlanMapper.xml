@@ -12,6 +12,11 @@
         <result column="PROFESSIONAL_FIELD" jdbcType="VARCHAR" property="professionalField"/>
         <result column="SPECIALTY_CATEGORY" jdbcType="VARCHAR" property="specialtyCategory"/>
         <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="updator" jdbcType="VARCHAR" property="updator"/>
     </resultMap>
 
 
@@ -22,7 +27,12 @@
      RESEARCH_FIELD,
      PROFESSIONAL_FIELD,
      SPECIALTY_CATEGORY,
-     RELEASE_TIME
+     RELEASE_TIME,
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
   </sql>
 
 
@@ -47,7 +57,12 @@
        RESEARCH_FIELD,
        PROFESSIONAL_FIELD,
        SPECIALTY_CATEGORY,
-       RELEASE_TIME
+       RELEASE_TIME,
+        DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
       )
     values (
         #{id},
@@ -56,7 +71,12 @@
         #{researchField},
         #{professionalField},
         #{specialtyCategory},
-        #{releaseTime}
+        #{releaseTime},
+        #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
       )
   </insert>
 

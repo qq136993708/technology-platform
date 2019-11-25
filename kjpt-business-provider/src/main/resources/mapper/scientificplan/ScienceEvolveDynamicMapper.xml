@@ -10,6 +10,12 @@
         <result column="AUTHENTICATE_UTIL" jdbcType="VARCHAR" property="authenticateUtil"/>
         <result column="RESEARCH_FIELD" jdbcType="VARCHAR" property="researchField"/>
         <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="updator" jdbcType="VARCHAR" property="updator"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -17,7 +23,12 @@
     `NAME`,
      AUTHENTICATE_UTIL,
      RESEARCH_FIELD,
-     RELEASE_TIME
+     RELEASE_TIME,
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -39,13 +50,23 @@
      `NAME`,
       AUTHENTICATE_UTIL,
       RESEARCH_FIELD,
-      RELEASE_TIME)
+      RELEASE_TIME),
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
     values (
       #{id},
       #{name},
       #{authenticateUtil},
       #{researchField},
-      #{releaseTime})
+      #{releaseTime}),
+       #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
   </insert>
 
 
@@ -84,21 +105,20 @@
                 RESEARCH_FIELD = #{RESEARCH_FIELD},
             </if>
             <if test="releaseTime != null and releaseTime != '' ">
-                RELEASE_TIME = #{RELEASE_TIME}
+                RELEASE_TIME = #{RELEASE_TIME},
             </if>
-            <if test="updateDate != null and updateDate != ''" >
+            <if test="updateDate != null and updateDate != ''">
                 update_date = #{updateDate},
             </if>
-            <if test="updator != null and updator != ''" >
+            <if test="updator != null and updator != ''">
                 updator = #{updator,jdbcType=VARCHAR},
             </if>
-            <if test="deleted != null and deleted != ''" >
+            <if test="deleted != null and deleted != ''">
                 deleted = #{deleted,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}
     </update>
-
 
 
 </mapper>

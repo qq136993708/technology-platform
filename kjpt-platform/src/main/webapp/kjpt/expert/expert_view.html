@@ -120,7 +120,8 @@
                         relData.data.project=JSON.parse(relData.data.zjkProjectJsonList).length
                         relData.data.reward=JSON.parse(relData.data.zjkRewardJsonList).length
                         if(relData.data.headPic!=''){
-                            $("#img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                            console.log(relData.data.headPic)
+                            $("#img img").attr("src",'/file/imgFile/'+relData.data.headPic)
                         }
                         setTargetNameValue(relData.data)
                     }
@@ -145,12 +146,12 @@
         tableRender('achievements',achievementsArr,'/expert-achievement-api/list',variable.id)
         var patentArr=[
             {title: '序号',type:'numbers' ,width:55},
-            {field: 'projectName', title: '项目名称'},
-            {field: 'chargeUnit', title: '负责单位'},
-            {field: 'researchTarget', title: '研究目标' },
-            {field: 'setupYeat', title: '立项年度'},
+            {field: 'patentName', title: '专利名称'},
+            {field: 'patentType', title: '专利类型'},
+            {field: 'getPatentTimeStr', title: '申请日期' },
+            {field: 'describe', title: '专利描述'},
         ]
-        tableRender('patent',patentArr,'/expert-reward-api/list',variable.id)
+        tableRender('patent',patentArr,'/expert-patent-api/list',variable.id)
         var rewardArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'rewarkLevel', title: '奖励级别'},
@@ -158,7 +159,7 @@
             {field: 'awardingUnit', title: '授奖单位' },
             {field: 'awardingTimeStr', title: '获奖日期'},
         ]
-        tableRender('reward',rewardArr,'/expert-project-api/list',variable.id)
+        tableRender('reward',rewardArr,'/expert-reward-api/list',variable.id)
         function tableRender(id,cols,url,where) {
             table.render({
                 elem: '#'+id // 表格元素ID
@@ -174,6 +175,9 @@
                 ,request: {
                     page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
                     limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                },
+                done:function (res, curr, count) {
+                    //console.log(res)
                 }
                 , page: true //开启分页
                 , limit: 15
