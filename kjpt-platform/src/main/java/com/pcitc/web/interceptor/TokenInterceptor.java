@@ -207,7 +207,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			sysLog.setUserId(userInfo.getUserId());
 			sysLog.setRequestType(request.getMethod());
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-			this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
+			//this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
 	
 		}
 		
