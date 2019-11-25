@@ -15,27 +15,33 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     private String id;//id
     private String name = "";  //名称
-    private String authenticate_util = "";//研究领域
-    private String research_field = "";//专业领域
-    private String specialty_category = "";//专业类别
-    private Date release_time = new Date();//发布时间
+    private String authenticateUtil = "";//申报单位
+    private String researchField = "";//研究领域
+    private String professionalField;//专业领域 PROFESSIONAL_FIELD
+    private String specialtyCategory = "";//专业类别
+    private Date releaseTime = new Date();//发布时间
 
     public SciencePlan() {
 
     }
 
-    public SciencePlan(String id, String name, String authenticate_util,
-                       String research_field, String specialty_category, Date release_time) {
+    public SciencePlan(String id, String name, String authenticateUtil, String researchField,
+                       String professionalField, String specialtyCategory, Date releaseTime) {
         this.id = id;
         this.name = name;
-        this.authenticate_util = authenticate_util;
-        this.research_field = research_field;
-        this.specialty_category = specialty_category;
-        this.release_time = release_time;
+        this.authenticateUtil = authenticateUtil;
+        this.researchField = researchField;
+        this.professionalField = professionalField;
+        this.specialtyCategory = specialtyCategory;
+        this.releaseTime = releaseTime;
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -46,44 +52,45 @@ public class SciencePlan extends RecordModel implements Serializable {
         this.name = name;
     }
 
-    public String getAuthenticate_util() {
-        return authenticate_util;
+    public String getAuthenticateUtil() {
+        return authenticateUtil;
     }
 
-    public void setAuthenticate_util(String authenticate_util) {
-        this.authenticate_util = authenticate_util;
+    public void setAuthenticateUtil(String authenticateUtil) {
+        this.authenticateUtil = authenticateUtil;
     }
 
-    public String getResearch_field() {
-        return research_field;
+    public String getResearchField() {
+        return researchField;
     }
 
-    public void setResearch_field(String research_field) {
-        this.research_field = research_field;
+    public void setResearchField(String researchField) {
+        this.researchField = researchField;
     }
 
-    public String getSpecialty_category() {
-        return specialty_category;
+    public String getSpecialtyCategory() {
+        return specialtyCategory;
     }
 
-    public void setSpecialty_category(String specialty_category) {
-        this.specialty_category = specialty_category;
+    public void setSpecialtyCategory(String specialtyCategory) {
+        this.specialtyCategory = specialtyCategory;
     }
 
-    public Date getRelease_time() {
-        return release_time;
+    public Date getReleaseTime() {
+        return releaseTime;
     }
 
-    public void setRelease_time(Date release_time) {
-        this.release_time = release_time;
+    public void setReleaseTime(Date releaseTime) {
+        this.releaseTime = releaseTime;
     }
 
-    public void setId(String id) {
+    public String getProfessionalField() {
+        return professionalField;
     }
 
-    public void setName() {
+    public void setProfessionalField(String professionalField) {
+        this.professionalField = professionalField;
     }
-
 }
 
 

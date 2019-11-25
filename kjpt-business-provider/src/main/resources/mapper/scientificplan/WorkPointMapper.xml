@@ -44,36 +44,38 @@
 
     <insert id="add" parameterType="com.pcitc.base.scientificplan.WorkPoint">
     insert into work_point(
-    ID,
+       ID,
       `NAME`,
        AUTHENTICATE_UTIL,
        RESEARCH_FIELD,
-       RELEASE_TIME),
-        DELETED,
-      create_date,
-      create_user,
-      update_date,
-      update_user
+       RELEASE_TIME,
+       DELETED,
+       create_date,
+       create_user,
+       update_date,
+       update_user
+      )
     values (
-    #{id},
+      #{id},
       #{name},
       #{authenticateUtil},
       #{researchField},
-      #{releaseTime}),
-       #{deleted},
-       #{createDate},
-       #{creator},
-       #{updateDate},
-       #{updator}
+      #{releaseTime},
+      #{deleted},
+      #{createDate},
+      #{creator},
+      #{updateDate},
+      #{updator}
+       )
   </insert>
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select * from work_point where 1=1
         <if test="name != null and name != '' ">
-            and `NAME` = #{NAME}
+            and `NAME` = like CONCAT('%',#{NAME},'%')
         </if>
-        <if test="authenticateUtil != null and authenticateUtil ！= '' ">
+        <if test="authenticateUtil != null and authenticateUtil != '' ">
             and AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL}
         </if>
         <if test="researchField != null and researchField != '' ">
@@ -101,7 +103,7 @@
                 RESEARCH_FIELD = #{RESEARCH_FIELD},
             </if>
             <if test="releaseTime != null and releaseTime != '' ">
-                RELEASE_TIME = #{RELEASE_TIME}
+                RELEASE_TIME = #{RELEASE_TIME},
             </if>
             <if test="updateDate != null and updateDate != ''" >
                 update_date = #{updateDate},
