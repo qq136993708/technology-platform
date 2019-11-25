@@ -33,7 +33,13 @@
       ENTRY_PEOPLE,
       ENTRY_TIME,
       NOTES,
-      ACCESSORY_UPLOAD
+      ACCESSORY_UPLOAD,
+      DELETED,
+      create_date,
+      create_user
+      update_date,
+      update_user
+
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">

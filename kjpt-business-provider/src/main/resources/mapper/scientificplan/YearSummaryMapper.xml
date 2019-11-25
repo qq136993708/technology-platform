@@ -17,7 +17,12 @@
     `NAME`,
      AUTHENTICATE_UTIL,
      RESEARCH_FIELD,
-     RELEASE_TIME
+     RELEASE_TIME,
+      DELETED,
+      create_date,
+      create_user
+      update_date,
+      update_user
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -39,13 +44,23 @@
         `NAME`,
          AUTHENTICATE_UTIL,
          RESEARCH_FIELD,
-         RELEASE_TIME)
+         RELEASE_TIME),
+         DELETED,
+         create_date,
+         create_user,
+         update_date,
+         update_user
     values (
-    #{id},
+      #{id},
       #{name},
       #{authenticateUtil},
       #{researchField},
-      #{releaseTime})
+      #{releaseTime}),
+       #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
   </insert>
 
 

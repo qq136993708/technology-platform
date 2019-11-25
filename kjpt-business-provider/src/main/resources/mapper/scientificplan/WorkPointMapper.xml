@@ -17,7 +17,12 @@
     `NAME`,
      AUTHENTICATE_UTIL,
      RESEARCH_FIELD,
-     RELEASE_TIME
+     RELEASE_TIME,
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
   </sql>
 
 
@@ -38,13 +43,23 @@
       `NAME`,
        AUTHENTICATE_UTIL,
        RESEARCH_FIELD,
-       RELEASE_TIME)
+       RELEASE_TIME),
+        DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
     values (
     #{id},
       #{name},
       #{authenticateUtil},
       #{researchField},
-      #{releaseTime})
+      #{releaseTime}),
+       #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
   </insert>
 
 

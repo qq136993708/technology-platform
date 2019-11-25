@@ -22,7 +22,12 @@
      RESEARCH_FIELD,
      PROFESSIONAL_FIELD,
      SPECIALTY_CATEGORY,
-     RELEASE_TIME
+     RELEASE_TIME,
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
   </sql>
 
 
@@ -47,7 +52,12 @@
        RESEARCH_FIELD,
        PROFESSIONAL_FIELD,
        SPECIALTY_CATEGORY,
-       RELEASE_TIME
+       RELEASE_TIME,
+        DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
       )
     values (
         #{id},
@@ -56,7 +66,12 @@
         #{researchField},
         #{professionalField},
         #{specialtyCategory},
-        #{releaseTime}
+        #{releaseTime},
+        #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
       )
   </insert>
 
