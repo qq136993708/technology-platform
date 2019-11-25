@@ -44,7 +44,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#thesisYear', type: 'year', btns: ['clear', 'confirm']});
+	laydate.render({ elem: '#applicationDate',  btns: null});
 	
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {

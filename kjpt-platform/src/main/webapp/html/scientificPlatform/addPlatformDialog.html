@@ -46,7 +46,7 @@
               xm-select-skin="normal"
               xm-select-radio=""
               lay-verify="required"
-              dic-base-data="ROOT_KJPT_YTDW_ZHJT"
+              dic-base-data="ROOT_KJPT_YTDW"
               placeholder="请选择"></select>
            </div>
          </div>
@@ -174,11 +174,13 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
         if (relData.code === '0') {
           // 给form表单赋初始值
           form.val('formPlatform', relData.data);
-          // setImagesUploadState({ id: '#imgFileUpload', imgID: relData.data.imgID });
           // 更新表单数据
           form.render();
           if (relData.data.supportingInstitutions) {
             layui.formSelects.value('supportingInstitutions', [relData.data.supportingInstitutions]);
+          }
+          if (relData.data.imgId) {
+            setImagesUploadState({imgID: relData.data.imgId, id: '#imgFileUpload'});
           }
         }
       }
