@@ -8,7 +8,7 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
@@ -21,8 +21,8 @@
 <div class="layout-view-content dialog">
     <div class="layui-tab" lay-filter="tab-demo">
         <ul class="layui-tab-title tab-btn-layout">
-            <li class="layui-this">手动录入</li>
-            <li>关联添加</li>
+            <li class="layui-this">关联添加</li>
+            <li>手动录入</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -40,7 +40,7 @@
                                 <label class="layui-form-label"><span class="text">申请年度:</span></label>
                                 <div class="layui-input-block">
                                     <input type="text" name="applyYear"
-                                           autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input applyYear">
+                                           autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input">
                                 </div>
                             </div>
                         </div>
@@ -48,8 +48,9 @@
                             <div class="layui-form-item item">
                                 <label class="layui-form-label label-required"><span class="text">申请单位:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="applyUnit"
-                                           placeholder="" autocomplete="off" class="layui-input applyUnit">
+                                    <select class="applyUnit" name="applyUnit" xm-select="applyUnit" xm-select-skin="normal" xm-select-radio></select>
+                                    <!--<input type="text" name="applyUnit"
+                                           placeholder="" autocomplete="off" class="layui-input applyUnit">-->
                                 </div>
                             </div>
                             <div class="layui-form-item item">
@@ -79,8 +80,21 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['form', 'jquery','element','laydate'], function(){
-        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
+    layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
+        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
+        /*申请单位*/
+        function getUnit(index){
+            $("#formPlatform>div").eq(index).find(".applyUnit").attr("xm-select","applyUnit"+index)
+            httpModule({
+                url: "/unit-api/getTreeList",
+                type: 'GET',
+                success: function(relData) {
+                    formSelects.data('applyUnit'+index, 'local', { arr: relData.children });
+                    formSelects.btns('applyUnit'+index, ['remove']);
+                }
+            });
+        }
+        /*申请年度*/
         function applyYear() {
             lay('.applyYear').each(function(){
                 laydate.render({
@@ -90,7 +104,12 @@
                 });
             });
         }
-        applyYear();
+        function itemHtml(index) {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            $("#formPlatform>div").eq(index).find(".laydate-input").addClass("applyYear")
+            applyYear();
+        }
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         if(variable!=null){
@@ -102,46 +121,40 @@
                         // 给form表单赋初始值
                         var achieveName = JSON.parse(relData.data.zjkAchievementJsonList)
                         if(achieveName.length>0){
-                            console.log(111)
                             achieveName.map(function (item, index) {
-                                var html=$("#item").html()
-                                $("#formPlatform").append(html)
-                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("applyYear")
-                                applyYear();
+                                itemHtml(index)
+                                getUnit(index)
                                 $("#formPlatform>div").eq(index).find(".achieveName").val(item.achieveName)
                                 $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
                                 $("#formPlatform>div").eq(index).find(".applyUnit").val(item.applyUnit)
                                 $("#formPlatform>div").eq(index).find(".achieveType").val(item.achieveType)
                             })
                         }else {
-                            var html=$("#item").html()
-                            $("#formPlatform").append(html)
-                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("applyYear")
-                            applyYear();
+                            var index=$("#formPlatform>div").length
+                            itemHtml(index)
+                            getUnit(index)
                         }
 
                     }
                 }
             });
         }else {
-            var html=$("#item").html()
-            $("#formPlatform").append(html)
-            $("#formPlatform>div:last-child").find(".laydate-input").addClass("applyYear")
-            applyYear();
+            var index=$("#formPlatform>div").length
+            itemHtml(index)
+            getUnit(index)
         }
         var $ = layui.$, active = {
             add:function(){
-                var html=$("#item").html()
-                $("#formPlatform").append(html)
-                $("#formPlatform>div:last-child").find(".laydate-input").addClass("applyYear")
-                applyYear();
+                var index=$("#formPlatform>div").length
+                itemHtml(index)
+                getUnit(index)
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
                     var achieveName=$("#formPlatform>div").eq(index).find(".achieveName").val()
                     var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
-                    var applyUnit=$("#formPlatform>div").eq(index).find(".applyUnit").val()
+                    var applyUnit=formSelects.value('applyUnit'+index)[0].value
                     var achieveType=$("#formPlatform>div").eq(index).find(".achieveType").val()
                     if(achieveName=='' || applyUnit=='' || achieveType==''){
                         layer.msg("为填项不能为空！", {icon: 2});

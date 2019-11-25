@@ -27,11 +27,10 @@
             url: '/expert-api/list?page=1&limit=15',
             type: 'post',
             success: function(relData) {
-                console.log(relData)
                 relData.data.map(function (item, index) {
                     var url='/layuiadmin/layui/images/expert-img.png'
                     if(item.headPic!=''){
-                        url='/file/imgFile/'+relData.data.headPic
+                        url='/file/imgFile/'+item.headPic
                     }
                     var html='<div class="list">' +
                         '            <div class="list-item">' +
