@@ -77,6 +77,7 @@ layui.config({
             success: function(relData) {
                 if (relData.success === true) {
                     // 给form表单赋初始值
+                    console.log(relData.data)
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
@@ -115,7 +116,7 @@ layui.config({
                         patentName.splice(num,1)
                     })
                     rewardName.map(function (item, index) {
-                        var html='<li><span>'+item.rewarkLevelName+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
+                        var html='<li><span>'+item.rewarkLevelStr+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
                         $(".zjkRewardJsonList ul li.expert-li-last").before(html)
                     })
                     $(".closeReward").click(function () {
@@ -231,7 +232,7 @@ layui.config({
                     rewardName = getDialogData('dialog-data');
                     if (rewardName) {
                         rewardName.map(function (item,index) {
-                            var html='<li><span>'+item.rewarkLevelName+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
+                            var html='<li><span>'+item.rewarkLevelStr+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
                             $(".zjkRewardJsonList ul li.expert-li-last").before(html)
                         })
                     }
