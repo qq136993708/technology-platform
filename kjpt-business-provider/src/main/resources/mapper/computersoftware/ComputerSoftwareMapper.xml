@@ -167,7 +167,7 @@
             and  NOTES = #{NOTES}
         </if>
         <if test="accessoryUpload != null and accessoryUpload != ''">
-            and ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+           and ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
         </if>
         and deleted != '1'
     </select>
