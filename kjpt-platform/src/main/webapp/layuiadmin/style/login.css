@@ -12,12 +12,14 @@ html,body,#LAY_app{height:100%;}
 body{background: white;}
 #LAY-user-login,
 .layadmin-user-display-show{display: block !important;} 
-.layadmin-user-login{overflow:hideen;background: url("/layuiadmin/layui/images/login-bj.png") no-repeat 0 0 #144d99;background-size:100% 100%;}
+.layadmin-user-login{overflow:hidden;background: url("/layuiadmin/layui/images/login-bj.png") no-repeat 0 0 #144d99;background-size:100% 100%;}
 .user-login{position: absolute; right: 0; top: 100px;  box-sizing: border-box;width: 312px;
   background: #fff;
 }
 .layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box;}
-
+#sub_button{
+  background: #0AA1FF;
+}
 .user-login-box{ width: 75%;position: relative;margin: 0 auto;height: 100%;}
 .login-house{ width: 60%;position: absolute; left: 0px;}
 .layadmin-user-login-box{padding: 20px 20px 0;}
