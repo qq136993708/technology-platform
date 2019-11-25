@@ -70,7 +70,6 @@
                 table.render({
                     elem: '#expertTable' // 表格元素ID
                     ,url: '/expert-api/list' //数据接口
-                    ,height:commonDislodgeTable()
                     ,cols: [[ //表头
                         {type: 'radio' },
                         {title: '序号',type:'numbers',width:55 },
@@ -130,7 +129,7 @@
             editItem:function () {
                 /*编辑*/
                 if(itemRowData.id==undefined){
-                    layer.msg(' 请选择一条数据！', {icon: 2});
+                    layer.msg('请选择需要删除的数据！');
                     return
                 }
                 obj.layerOpen("编辑专家",itemRowData.id);

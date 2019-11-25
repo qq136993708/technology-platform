@@ -19,57 +19,65 @@
 </head>
 <body>
 <div class="layout-view-content dialog">
-    <div class="layui-tab" lay-filter="tab-demo">
-        <ul class="layui-tab-title tab-btn-layout">
-            <li class="layui-this">关联添加</li>
-            <li>手动录入</li>
-        </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <div id="item" class="layui-hide">
-                    <div class="layui-row layui-col-space20">
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">成果名称:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="achieveName" lay-verify="required"
-                                           placeholder="" autocomplete="off" class="layui-input achieveName">
-                                </div>
-                            </div>
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label"><span class="text">申请年度:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="applyYear"
-                                           autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input">
-                                </div>
-                            </div>
+    <div class="layui-form radio-tab-box" lay-filter="formRadio">
+        <input type="radio" name="optionType"  disabled value="unInput" title="关联添加" lay-filter="optionType" />
+        <input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
+    </div>
+    <!-- 关联添加 -->
+    <div class="unInput-layout-box">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required auto"><span class="text">项目名称：</span></label>
+            <div class="layui-input-inline">
+                <input type="text" id="projectName" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-normal" id="getProjectData">查询</button>
+            <button class="layui-btn layui-btn-primary" id="restProjectNameValue">重置</button>
+        </div>
+        <table id="unInputTable" lay-filter="unInputTable"></table>
+    </div>
+    <!-- 手动录入 -->
+    <div class="input-layout-box">
+        <div id="item" class="layui-hide">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">成果名称:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="achieveName" lay-verify="required"
+                                   placeholder="" autocomplete="off" class="layui-input achieveName">
                         </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">申请单位:</span></label>
-                                <div class="layui-input-block">
-                                    <select class="applyUnit" name="applyUnit" xm-select="applyUnit" xm-select-skin="normal" xm-select-radio></select>
-                                    <!--<input type="text" name="applyUnit"
-                                           placeholder="" autocomplete="off" class="layui-input applyUnit">-->
-                                </div>
-                            </div>
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">成果类型:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="achieveType"
-                                           placeholder="" autocomplete="off" class="layui-input achieveType">
-                                </div>
-                            </div>
+                    </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label"><span class="text">申请年度:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="applyYear"
+                                   autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input">
                         </div>
                     </div>
                 </div>
-                <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-
-                </form>
-                <button data-type="add" class="add-item layui-btn">添加</button>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">申请单位:</span></label>
+                        <div class="layui-input-block">
+                            <select class="applyUnit" name="applyUnit" xm-select="applyUnit" xm-select-skin="normal" xm-select-radio></select>
+                            <!--<input type="text" name="applyUnit"
+                                   placeholder="" autocomplete="off" class="layui-input applyUnit">-->
+                        </div>
+                    </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">成果类型:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="achieveType"
+                                   placeholder="" autocomplete="off" class="layui-input achieveType">
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
+        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+
+        </form>
+        <button data-type="add" class="add-item layui-btn">添加</button>
     </div>
     <div class="dialog-footer-btn">
         <a class="layui-btn layui-btn-normal" data-type="save">提交</a>
@@ -82,12 +90,30 @@
 <script>
     layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
         var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
+        var submitType = 'input';
+        function switchItem(type) {
+            submitType = type;
+            if (type === 'unInput') {
+                $('.unInput-layout-box').show();
+                $('.input-layout-box').hide();
+            } else if (type === 'input') {
+                $('.unInput-layout-box').hide();
+                $('.input-layout-box').show();
+            }
+        }
+        // 监听录入方式变化
+        form.on('radio(optionType)', function(data) {
+            switchItem(data.value);
+        })
+        switchItem(submitType);
+        form.val('formRadio', {optionType: submitType});
         /*申请单位*/
         function getUnit(index){
             $("#formPlatform>div").eq(index).find(".applyUnit").attr("xm-select","applyUnit"+index)
             httpModule({
                 url: "/unit-api/getTreeList",
                 type: 'GET',
+                async:false,
                 success: function(relData) {
                     formSelects.data('applyUnit'+index, 'local', { arr: relData.children });
                     formSelects.btns('applyUnit'+index, ['remove']);
@@ -127,6 +153,7 @@
                                 $("#formPlatform>div").eq(index).find(".achieveName").val(item.achieveName)
                                 $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
                                 $("#formPlatform>div").eq(index).find(".applyUnit").val(item.applyUnit)
+                                formSelects.value('applyUnit'+index,[item.applyUnit])
                                 $("#formPlatform>div").eq(index).find(".achieveType").val(item.achieveType)
                             })
                         }else {
