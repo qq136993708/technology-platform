@@ -247,4 +247,21 @@ public class SysDictionaryProviderClient {
 		}
 		return result;
 	}
+	
+	
+	
+	@RequestMapping(value = "/dictionary-provider/getAllList", method = RequestMethod.GET)
+	public JSONArray getAllList(){
+		JSONArray json =new JSONArray();
+		try {
+			List	list = dictionaryService.getAllList();
+			json = JSONArray.parseArray(JSON.toJSONString(list));
+		} catch (Exception e) {
+			logger.error("[getDicAndSubsList 数据失败：]", e);
+		}
+		return json;
+	}
+	
+	
+	
 }

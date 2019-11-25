@@ -9,9 +9,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/platformTreatise-api/newInit/' + data.platformId;
+		var httpUrl = '/researchPlatformMember-api/newInit/' + data.platformId;
 		if (data.id) {
-			httpUrl = '/platformTreatise-api/load/' + data.id
+			httpUrl = '/researchPlatformMember-api/load/' + data.id
 		}
 
 		httpModule({

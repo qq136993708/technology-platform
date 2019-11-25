@@ -58,7 +58,7 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_info where 1=1
             <if test="platformName != null and platformName != '' " >
-                and platform_name = #{platformName}
+                and platform_name like CONCAT('%',#{platformName},'%')
             </if>
             <if test="supportingInstitutions != null and supportingInstitutions != '' " >
                 and supporting_institutions = #{supportingInstitutions}
@@ -76,7 +76,7 @@
                 and platform_scoring &gt;= #{platformScorinLow}
             </if>
             <if test="level != null and level != '' " >
-                and level = #{level}
+                and level = #{level,jdbcType=VARCHAR}
             </if>
             and deleted != '1'
     </select>
@@ -86,7 +86,7 @@
         insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
         overall_situation,platform_scoring,img_id,level,creator,create_date,update_date,updator,deleted)
          values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
-         #{level},#{imgId},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
+         #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -125,8 +125,8 @@
             <if test="level != null and level != ''" >
                 level = #{level},
             </if>
-            <if test="updateDate != null and updateDate != ''" >
-                update_date = #{updateDate},
+            <if test="updateDate != null " >
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
             </if>
             <if test="updator != null and updator != ''" >
                 updator = #{updator,jdbcType=VARCHAR},

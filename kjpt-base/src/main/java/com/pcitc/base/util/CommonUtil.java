@@ -25,7 +25,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysFile;
 
 public class CommonUtil {
 
@@ -263,58 +262,6 @@ public class CommonUtil {
 	}
 
 
-	/**
-	 * 校验当前业务数据，是否存在附件
-	 * @param result
-	 * @param restTemplate
-	 * @param httpHeaders
-	 * @throws Exception
-	 */
-	public static void addAttachmentField(LayuiTableData result,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		try {
-			//附件处理，查看业务ID对应附件表里，是否存在数据。
-		    List<?> list = result.getData();
-		    StringBuffer dataIds = new StringBuffer();
-			for(Object obj:list) 
-			{
-				Map<String,Object> retMap = (Map<String, Object>) obj;
-				String dataId = (String) retMap.get("dataId");
-				dataIds.append(dataId).append(",");
-			}
-			//查询附件表
-			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-	        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-	        form.add("fileIds", dataIds.toString());
-			HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
-		    //获取上传文件
-		    String getFilesLayuiByFormId = "http://kjpt-zuul/system-proxy/sysfile-provider/sysfile/getFilesLayuiByFormId";
-			FileResult fileResult = restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity, FileResult.class).getBody();
-			List<SysFile> listFile = fileResult.getList();
-			//校验附件是否存在
-			for(Object obj:list) 
-			{
-				Map<String,Object> retMap = (Map<String, Object>) obj;
-				String dataId = (String) retMap.get("dataId");
-				boolean flag = false;
-				for(Object obj1:listFile) 
-				{
-					SysFile sysFile = (SysFile) obj1;
-					String dataId1 = sysFile.getDataid();
-					if(dataId.equals(dataId1)) {
-						flag = true;
-						break;
-					}
-				}
-				if(flag) {
-					retMap.put("attachment", 1);
-				}else {
-					retMap.put("attachment", 0);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 
 }

@@ -318,5 +318,12 @@
 	   set code = REPLACE (code, #{oldCode}, #{newCode})
 	   where code like '${oldCode}%'
 	</update>
+	
+	
+	
+	<select id="getAllList" resultMap="BaseResultMap"  >
+     select * FROM sys_dictionary t 
+    </select>
+    
 
 </mapper>

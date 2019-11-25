@@ -14,11 +14,11 @@ public class SciencePlan extends RecordModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;//id
-    private String name="";  //名称
-    private String authenticate_util="";//研究领域
-    private String research_field="";//专业领域
-    private String specialty_category="";//专业类别
-    private Date release_time=new Date();//发布时间
+    private String name = "";  //名称
+    private String authenticate_util = "";//研究领域
+    private String research_field = "";//专业领域
+    private String specialty_category = "";//专业类别
+    private Date release_time = new Date();//发布时间
 
     public SciencePlan() {
 

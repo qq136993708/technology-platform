@@ -5,9 +5,38 @@ import java.util.List;
 
 import com.pcitc.base.common.FormSelectNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 
 public class TreeUtils {
+	
+	
+	
+	
+	
+	
+	
+	//机构LIST转为FormSelectNode形式的列表
+		public static List<FormSelectNode> sysDictionaryToSelectNodeList(List<SysDictionary> alllist)
+		{
+			
+			List<FormSelectNode> reslutList=new ArrayList();
+			for(int i=0;i<alllist.size();i++)
+			{
+				SysDictionary node=alllist.get(i);
+				FormSelectNode formSelectNode=new FormSelectNode();
+				formSelectNode.setpId(node.getParentCode());
+				formSelectNode.setId(node.getCode());
+				formSelectNode.setLevelCode(String.valueOf(node.getLevelCode()));
+				formSelectNode.setValue(node.getNumValue());
+				formSelectNode.setName(node.getName());
+				formSelectNode.setParentId(node.getParentCode());
+				reslutList.add(formSelectNode);
+				
+			}
+			return reslutList;
+		}
+	
 	
 	
 	//机构LIST转为FormSelectNode形式的列表

@@ -210,8 +210,12 @@ public class SysDictionaryServiceImpl implements SysDictionaryService{
 	}
 
 	
-
+	public	List getAllList()throws Exception
+	{
+		return dictionaryDao.getAllList();
+	}
 	
+
 	
 
 }

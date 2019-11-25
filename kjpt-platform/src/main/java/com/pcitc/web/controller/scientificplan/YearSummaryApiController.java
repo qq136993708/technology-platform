@@ -119,6 +119,7 @@ public class YearSummaryApiController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public YearSummary save(@RequestBody YearSummary ys) {
+        this.setBaseData(ys);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<YearSummary> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<YearSummary>(ys, this.httpHeaders), YearSummary.class);
         return responseEntity.getBody();

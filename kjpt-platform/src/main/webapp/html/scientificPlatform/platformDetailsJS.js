@@ -57,7 +57,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         if (relData.code === '0') {
           setTargetNameValue(relData.data);
           if (relData.data.imgId) {
-            $('#platformImg').attr('src', + '/file/imgFile/' + relData.data.imgId);
+            $('#platformImg').css({
+              'background-image':  'url(/file/imgFile/'+ relData.data.imgId +')'
+            });
           }
         }
       }
@@ -71,8 +73,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {type: 'radio', field: 'id'}
         ,{title: '序号', type: 'numbers', width: 90}
         ,{field: 'projectName', title: '项目名称', sort: true }
-        ,{field: 'dutyInstitutions', title: '负责单位', sort: true}
-        ,{field: 'majorType', title: '专业类型'} 
+        ,{field: 'dutyInstitutionsText', title: '负责单位', sort: true}
+        ,{field: 'majorTypeText', title: '专业类型'} 
         ,{field: 'approvalYear', title: '立项年度'}
       ]]
     });
@@ -99,7 +101,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       cols: [[ //表头
         {type: 'radio', field: 'id'}
         ,{field: 'thesisTitle', title: '论文题目' }
-        ,{field: 'thesisLevel', title: '论文级别', sort: true }
+        ,{field: 'thesisLevelText', title: '论文级别', sort: true }
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '年度'}
@@ -114,7 +116,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {type: 'radio', field: 'id'}
         ,{field: 'name', title: '姓名' }
         ,{field: 'birth', title: '年龄', sort: true }
-        ,{field: 'education', title: '学历', sort: true}
+        ,{field: 'educationText', title: '学历', sort: true}
         ,{field: 'technicalTitle', title: '技术职称'} 
         ,{field: 'graduateSchool', title: '毕业学校'}
         ,{field: 'majorStudied', title: '所学专业'}
@@ -131,8 +133,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {type: 'radio', field: 'id'}
         ,{type: 'numbers', title: '序号', width: 80}
         ,{field: 'achievementName', title: '成果名称', sort: true }
-        ,{field: 'applicantUnit', title: '申请单位', sort: true}
-        ,{field: 'achievementType', title: '成果类型'} 
+        ,{field: 'applicantUnitText', title: '申请单位', sort: true}
+        ,{field: 'achievementTypeText', title: '成果类型'} 
         ,{field: 'applicantYear', title: '申请年度'}
       ]]
     });
@@ -145,7 +147,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {type: 'radio', field: 'id'}
         ,{type: 'numbers', title: '序号', width: 80}
         ,{field: 'patentName', title: '专利名称', sort: true }
-        ,{field: 'patentType', title: '专利类型', sort: true}
+        ,{field: 'patentTypeText', title: '专利类型', sort: true}
         ,{field: 'applicationDate', title: '申请日期', templet: function(d) {
           return dateFieldText(d.applicationDate);
         }} 
@@ -234,35 +236,36 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   $('.deleteItem').on('click', function(e) {
     var delItem = table.checkStatus(tableFilterArr[activeTab].tableId).data;
     if (delItem.length) {
-      var deleteUrl = '/platformProject-api/delete/';
-      if (activeTab == 2 || activeTab == 4) {
-        deleteUrl = '/researchPlatformMember-api/delete/';
-      } else if (activeTab == 3) {
-        deleteUrl = '/platformTreatise-api/delete/';
-      } else if (activeTab == 5) {
-        deleteUrl = '/researchPlatformAchievement-api/delete/';
-      } else if (activeTab == 6) {
-        deleteUrl = '/researchPlatformPatent-api/delete/';
-      }
-
-      httpModule({
-        url: (deleteUrl + delItem[0].id),
-        type: 'DELETE',
-        success: function(res) {
-          if (res.code === '0') {
-            table.reload(tableFilterArr[activeTab].tableId);
-            layer.msg('删除'+ tableFilterArr[activeTab].title + '成功。', {icon: 1});
-          }  else {
-            layer.msg('删除'+ tableFilterArr[activeTab].title + '失败!', {icon: 2});
-          }
+      top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
+        top.layer.close(index);
+  
+        var deleteUrl = '/platformProject-api/delete/';
+        if (activeTab == 2 || activeTab == 4) {
+          deleteUrl = '/researchPlatformMember-api/delete/';
+        } else if (activeTab == 3) {
+          deleteUrl = '/platformTreatise-api/delete/';
+        } else if (activeTab == 5) {
+          deleteUrl = '/researchPlatformAchievement-api/delete/';
+        } else if (activeTab == 6) {
+          deleteUrl = '/researchPlatformPatent-api/delete/';
         }
-      });
-    }
-  })
 
-  // 关闭全部弹窗
-  $('.close-dialog').click(function() {
-    layer.closeAll();
+        httpModule({
+          url: (deleteUrl + delItem[0].id),
+          type: 'DELETE',
+          success: function(res) {
+            if (res.code === '0') {
+              table.reload(tableFilterArr[activeTab].tableId);
+              layer.msg('删除'+ tableFilterArr[activeTab].title + '成功。', {icon: 1});
+            }  else {
+              layer.msg('删除'+ tableFilterArr[activeTab].title + '失败!', {icon: 2});
+            }
+          }
+        });
+      });
+    } else {
+      layer.msg('请选择需要删除的数据！');
+    }
   })
   
 });

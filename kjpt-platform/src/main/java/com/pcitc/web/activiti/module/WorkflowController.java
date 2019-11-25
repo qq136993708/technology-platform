@@ -331,7 +331,7 @@ public class WorkflowController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
-		CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
+		
 		JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}

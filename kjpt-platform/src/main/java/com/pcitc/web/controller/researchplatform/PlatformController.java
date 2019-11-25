@@ -14,10 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>服务接口</p>
@@ -140,8 +137,8 @@ public class PlatformController extends RestBaseController {
     @ApiOperation(value="查询平台相关条数")
     @RequestMapping(value = "/platform-api/selectPaltinfoCount/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Map selectPaltinfoCount(@PathVariable String id) {
-        ResponseEntity<Map> responseEntity = this.restTemplate.exchange(selectPaltinfoCount+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), Map.class);
+    public List selectPaltinfoCount(@PathVariable String id) {
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 
