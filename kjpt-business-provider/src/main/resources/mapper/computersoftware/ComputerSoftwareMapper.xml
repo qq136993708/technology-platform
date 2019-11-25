@@ -19,8 +19,8 @@
         <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
         <result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
-        <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
     </resultMap>
