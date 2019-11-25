@@ -29,6 +29,8 @@ public class SciencePlanServiceImpl implements SciencePlanService {
     public SciencePlan save(SciencePlan sciencePlan) {
         IsEmptyUtil.isEmpty(sciencePlan.getId());
         if (load(sciencePlan.getId()) == null) {
+            sciencePlan.setCreateDate(sciencePlan.getUpdateDate());
+            sciencePlan.setCreator(sciencePlan.getUpdator());
             sciencePlanMapper.add(sciencePlan);
         } else {
             sciencePlanMapper.update(sciencePlan);

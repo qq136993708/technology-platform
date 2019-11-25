@@ -58,7 +58,7 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_info where 1=1
             <if test="platformName != null and platformName != '' " >
-                and platform_name = #{platformName}
+                and platform_name like CONCAT('%',#{platformName},'%')
             </if>
             <if test="supportingInstitutions != null and supportingInstitutions != '' " >
                 and supporting_institutions = #{supportingInstitutions}
@@ -76,7 +76,7 @@
                 and platform_scoring &gt;= #{platformScorinLow}
             </if>
             <if test="level != null and level != '' " >
-                and level = #{level}
+                and level = #{level,jdbcType=VARCHAR}
             </if>
             and deleted != '1'
     </select>
@@ -125,8 +125,8 @@
             <if test="level != null and level != ''" >
                 level = #{level},
             </if>
-            <if test="updateDate != null and updateDate != ''" >
-                update_date = #{updateDate},
+            <if test="updateDate != null " >
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
             </if>
             <if test="updator != null and updator != ''" >
                 updator = #{updator,jdbcType=VARCHAR},
