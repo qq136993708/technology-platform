@@ -14,6 +14,8 @@ public class SysUser {
 
 	private String userKind;
 
+	private String userKindText;
+
 	private String userFlag;
 
 	private String userUnit;
@@ -21,6 +23,8 @@ public class SysUser {
 	private String userPost;
 
 	private String userRole;
+
+	private String userRoleText;
 
 	private Integer userOrder;
 
@@ -57,7 +61,13 @@ public class SysUser {
 	private String userConfig3;
 
 	private String userConfig4;
-	
+
+	//用户登录IP
+	private String lastLoginIp;
+
+	//用户登录时间
+	private String lastLoginDate;
+
 	// 用户拥有多少角色
 	private List<String> roles = new ArrayList<String>();
 
@@ -85,9 +95,39 @@ public class SysUser {
 	private String nameBigPin;
 	private String nameSmallPin;
 	private String nameBigFirstPin;
-	
-	
-	
+
+
+	public String getUserKindText() {
+		return userKindText;
+	}
+
+	public void setUserKindText(String userKindText) {
+		this.userKindText = userKindText;
+	}
+
+	public String getUserRoleText() {
+		return userRoleText;
+	}
+
+	public void setUserRoleText(String userRoleText) {
+		this.userRoleText = userRoleText;
+	}
+
+	public String getLastLoginIp() {
+		return lastLoginIp;
+	}
+
+	public void setLastLoginIp(String lastLoginIp) {
+		this.lastLoginIp = lastLoginIp;
+	}
+
+	public String getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(String lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
 
 	public String getNameBigFirstPin() {
 		return nameBigFirstPin;
