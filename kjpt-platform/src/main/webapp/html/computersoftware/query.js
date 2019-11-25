@@ -19,7 +19,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,url: '/ComputerSoftware/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'unitName', title: '单位名称', sort: true }
+          ,{field: 'unitNameText', title: '单位名称', sort: true }
           ,{field: 'registerNumber', title: '登记号', sort: true}
           ,{field: 'softwareName', title: '软件名称', sort: true } 
           ,{field: 'copyrightOwner', title: '著作权人', sort: true}
@@ -60,14 +60,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
   function openDataDilog(type, id) {
 
-    var url = '/html/computer_software/edit.html?type=' + type;
+    var url = '/html/computersoftware/edit.html?type=' + type;
     var dialogTitle = '新增著作权信息'; 
 	  if (type === 'edit') {
       dialogTitle = '编辑著作权信息';  
       url += '&id=' + id;
 	  } else if (type === 'view') {
       dialogTitle = '著作权信息查看'; 
-      url = '/html/computer_software/view.html?id=' + id;
+      url = '/html/computersoftware/view.html?id=' + id;
     } 
 
 	  // 打开弹窗
