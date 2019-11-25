@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="/css/scientificPlatform.css">
     <style>
         .item-details-img .img-box{background: none}
+        .bg-blue-box{margin:0;}
+        .layui-tab-content{padding: 10px 0}
+        .layui-table-view .layui-table,.layui-table-box tr.layui-none{width: 100% !important;}
     </style>
 </head>
 <body>
@@ -42,7 +45,7 @@
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon003"></div>
-                    <div class="item-text  ib-block font16">相关成果<span class="font20" diy-form-value="achievement"></span>个</div>
+                    <div class="item-text  ib-block font16">相关成果<span class="font20" diy-form-value="achievementNum"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon003"></div>
@@ -115,7 +118,7 @@
                 type: 'GET',
                 success: function(relData) {
                     if (relData.success === true) {
-                        relData.data.achievement=JSON.parse(relData.data.zjkAchievementJsonList).length
+                        relData.data.achievementNum=JSON.parse(relData.data.zjkAchievementJsonList).length
                         relData.data.patent=JSON.parse(relData.data.zjkPatentJsonList).length
                         relData.data.project=JSON.parse(relData.data.zjkProjectJsonList).length
                         relData.data.reward=JSON.parse(relData.data.zjkRewardJsonList).length
@@ -128,10 +131,13 @@
                 }
             });
         }
+        $(".label-value").hover(function () {
+            /*console.log($(this).html())*/
+        })
         var projectArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'projectName', title: '项目名称'},
-            {field: 'chargeUnit', title: '负责单位'},
+            {field: 'chargeUnitStr', title: '负责单位'},
             {field: 'researchTarget', title: '研究目标' },
             {field: 'setupYeat', title: '立项年度'},
         ]
@@ -139,7 +145,7 @@
         var achievementsArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'achieveName', title: '成果名称'},
-            {field: 'applyUnit', title: '申请单位'},
+            {field: 'applyUnitStr', title: '申请单位'},
             {field: 'achieveType', title: '成果类别' },
             {field: 'applyYear', title: '申请年度'},
         ]
@@ -164,7 +170,6 @@
             table.render({
                 elem: '#'+id // 表格元素ID
                 ,url:url //数据接口
-                ,height:commonDislodgeTable()
                 ,cols: [cols],
                 method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                 where: {

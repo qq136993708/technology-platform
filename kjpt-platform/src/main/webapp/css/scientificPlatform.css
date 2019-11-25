@@ -55,6 +55,9 @@
   line-height: 16px;
   padding-bottom: 12px;
   color: #46484B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .item-details-img .text-box .text-list li:last-child {
   padding-bottom: 0;

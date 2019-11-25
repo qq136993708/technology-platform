@@ -156,7 +156,7 @@
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
                     var rewarkLevel=formSelects.value('rewarkLevel'+index)[0].code
-                    var rewarkLevelName=formSelects.value('rewarkLevel'+index)[0].name
+                    var rewarkLevelStr=formSelects.value('rewarkLevel'+index)[0].name
                     var awardingTimeStr=$("#formPlatform>div").eq(index).find(".awardingTimeStr").val()
                     var notes=$("#formPlatform>div").eq(index).find(".notes").val()
                     var awardingUnit=$("#formPlatform>div").eq(index).find(".awardingUnit").val()
@@ -166,7 +166,7 @@
                     }else {
                         var data={
                             rewarkLevel:rewarkLevel,
-                            rewarkLevelName:rewarkLevelName,
+                            rewarkLevelStr:rewarkLevelStr,
                             awardingTimeStr:awardingTimeStr,
                             notes:notes,
                             awardingUnit:awardingUnit,
