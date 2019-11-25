@@ -698,7 +698,7 @@
       and application_number = #{applicationNumber}
     </if>
     <if test="patentName != null and patentName != '' " >
-      and patent_name = #{patentName}
+      and patent_name like CONCAT('%',#{patentName},'%')
     </if>
     <if test="applicant != null and applicant != '' " >
       and applicant = #{applicant}
