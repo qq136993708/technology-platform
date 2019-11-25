@@ -35,6 +35,7 @@ public class PlatformMemberModel extends RecordModel {
      * 学历
      */
     private String education="";
+    private String educationText="";
     /**
      * 技术职称
      */
@@ -175,5 +176,13 @@ public class PlatformMemberModel extends RecordModel {
 
     public void setRoleText(String roleText) {
         this.roleText = roleText;
+    }
+
+    public String getEducationText() {
+        return educationText;
+    }
+
+    public void setEducationText(String educationText) {
+        this.educationText = educationText;
     }
 }
