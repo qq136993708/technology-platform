@@ -14,6 +14,11 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
     <result column="achieve_type_str" jdbcType="VARCHAR" property="achieveTypeStr" />
+    <result column="apply_unit_str" jdbcType="VARCHAR" property="applyUnitStr" />
+    
+    
+    
+    
      
   </resultMap>
   <sql id="Base_Column_List">
@@ -151,12 +156,15 @@
   
   
     <sql id="view_zjk_achievement">
-     SELECT t1.*,
+      SELECT t1.*,
       ( 
-         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
-          AND t2.`code`=t1.`patent_type`
-      ) patent_type_str
-     FROM zjk_patent t1
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_CGLB'  AND t2.num_value= t1.`achieve_type`
+      ) achieve_type_str
+      ,
+      ( 
+         SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`apply_unit`
+      ) apply_unit_str
+     FROM zjk_achievement t1
 	</sql>
 	
 	
