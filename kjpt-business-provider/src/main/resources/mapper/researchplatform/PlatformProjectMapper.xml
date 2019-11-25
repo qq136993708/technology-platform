@@ -9,6 +9,7 @@
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
         <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
         <result column="major_type" jdbcType="DECIMAL" property="majorType"/>
+        <result column="major_type_text" jdbcType="DECIMAL" property="majorTypeText"/>
         <result column="duty_institutions" jdbcType="VARCHAR" property="dutyInstitutions"/>
         <result column="duty_institutions_text" jdbcType="VARCHAR" property="dutyInstitutionsText"/>
         <result column="approval_year" jdbcType="VARCHAR" property="approvalYear"/>
@@ -36,7 +37,7 @@
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_project where id = #{id} and deleted != '1'
+        select  * from kypt_project where id = #{id} and deleted != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">

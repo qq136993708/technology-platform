@@ -8,7 +8,8 @@
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
         <result column="patent_name" jdbcType="VARCHAR" property="patentName"/>
-        <result column="patent_type" jdbcType="DECIMAL" property="patentType"/>
+        <result column="patent_type" jdbcType="VARCHAR" property="patentType"/>
+        <result column="patent_type_text" jdbcType="VARCHAR" property="patentTypeText"/>
         <result column="application_date" jdbcType="TIMESTAMP" property="applicationDate"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
@@ -35,11 +36,11 @@
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_patent where id = #{id} and deleted != '1'
+        select  * from kypt_patent where id = #{id} and deleted != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_patent where 1=1 and platform_id = #{platformId}
+        select  * from kypt_patent where 1=1 and platform_id = #{platformId}
             and deleted != '1'
     </select>
 
