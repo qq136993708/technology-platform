@@ -12,17 +12,17 @@
     <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
     <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+    
+    <result column="charge_unit_str" jdbcType="VARCHAR" property="chargeUnitStr" />
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     id,  expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
     del_status, source_type, out_system_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from zjk_project
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_project
     where id = #{id,jdbcType=VARCHAR}
@@ -163,6 +163,18 @@
   
   
   
+   <sql id="view_zjk_project">
+     SELECT t1.*,
+      ( 
+         SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`charge_unit`
+      ) charge_unit_str
+     FROM zjk_project t1
+	</sql>
+   
+   
+   
+  
+  
   
   
    <sql id="selectCondition">
@@ -176,7 +188,7 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from zjk_project t <include refid="selectCondition" />    
+     select * from (<include refid="view_zjk_project" />) t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -210,9 +222,16 @@
   
   
     <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
-     select * from zjk_project t where  expert_id = #{expertId,jdbcType=VARCHAR}
-   </select>
+     select * from (<include refid="view_zjk_project" />) t where  expert_id = #{expertId,jdbcType=VARCHAR}
+    </select>
    
+   
+   
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  * from (<include refid="view_zjk_project" />) t  where t.id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  
   
   
 </mapper>

@@ -2,327 +2,249 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.system.SysLogMapper">
   <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysLog">
-    <id column="log_id" jdbcType="VARCHAR" property="logId" />
-    <result column="log_action_name" jdbcType="VARCHAR" property="logActionName" />
-    <result column="log_action" jdbcType="VARCHAR" property="logAction" />
-    <result column="log_type" jdbcType="VARCHAR" property="logType" />
-    <result column="log_person_id" jdbcType="VARCHAR" property="logPersonId" />
-    <result column="log_person" jdbcType="VARCHAR" property="logPerson" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="log_time" jdbcType="TIMESTAMP" property="logTime" />
-    <result column="log_status" jdbcType="VARCHAR" property="logStatus" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="log_ip" jdbcType="VARCHAR" property="logIp" />
-    <result column="audit_status" jdbcType="VARCHAR" property="auditStatus" />
-    <result column="log_remarks" jdbcType="VARCHAR" property="logRemarks" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="log_type" jdbcType="VARCHAR" property="logType" />
+    <result column="request_type" jdbcType="VARCHAR" property="requestType" />
+    <result column="log_url" jdbcType="VARCHAR" property="logUrl" />
+    <result column="opt_describe" jdbcType="VARCHAR" property="optDescribe" />
+    <result column="opt_result" jdbcType="VARCHAR" property="optResult" />
+    <result column="opt_error" jdbcType="VARCHAR" property="optError" />
+    <result column="user_department" jdbcType="VARCHAR" property="userDepartment" />
+    <result column="user_company" jdbcType="VARCHAR" property="userCompany" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List">
-    log_id, log_action_name, log_action, log_type, log_person_id, log_person, log_time, 
-    log_status, log_ip, audit_status, log_remarks
+    id, log_time, user_id, user_name, log_ip, remarks, log_type, request_type, log_url, 
+    opt_describe, opt_result, opt_error, user_department, user_company, user_type
   </sql>
-  <select id="selectByExample" parameterType="com.pcitc.base.system.SysLogExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from sys_log
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sys_log
-    where log_id = #{logId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sys_log
-    where log_id = #{logId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysLogExample">
-    delete from sys_log
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.pcitc.base.system.SysLog">
-    insert into sys_log (log_id, log_action_name, log_action, 
-      log_type, log_person_id, log_person, 
-      log_time, log_status, log_ip, 
-      audit_status, log_remarks)
-    values (#{logId,jdbcType=VARCHAR}, #{logActionName,jdbcType=VARCHAR}, #{logAction,jdbcType=VARCHAR}, 
-      #{logType,jdbcType=VARCHAR}, #{logPersonId,jdbcType=VARCHAR}, #{logPerson,jdbcType=VARCHAR}, 
-      #{logTime,jdbcType=TIMESTAMP}, #{logStatus,jdbcType=VARCHAR}, #{logIp,jdbcType=VARCHAR}, 
-      #{auditStatus,jdbcType=VARCHAR}, #{logRemarks,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.SysLog" useGeneratedKeys="true">
+    insert into sys_log (id,log_time, user_id, user_name, 
+      log_ip, remarks, log_type, 
+      request_type, log_url, opt_describe, 
+      opt_result, opt_error, user_department, 
+      user_company, user_type)
+    values (
+      #{id,jdbcType=VARCHAR},
+      #{logTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{logIp,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}, 
+      #{requestType,jdbcType=VARCHAR}, #{logUrl,jdbcType=VARCHAR}, #{optDescribe,jdbcType=VARCHAR}, 
+      #{optResult,jdbcType=VARCHAR}, #{optError,jdbcType=VARCHAR}, #{userDepartment,jdbcType=VARCHAR}, 
+      #{userCompany,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysLog">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.SysLog" useGeneratedKeys="true">
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="logId != null">
-        log_id,
-      </if>
-      <if test="logActionName != null">
-        log_action_name,
-      </if>
-      <if test="logAction != null">
-        log_action,
-      </if>
-      <if test="logType != null">
-        log_type,
-      </if>
-      <if test="logPersonId != null">
-        log_person_id,
-      </if>
-      <if test="logPerson != null">
-        log_person,
+    
+      <if test="id != null">
+        id,
       </if>
       <if test="logTime != null">
         log_time,
       </if>
-      <if test="logStatus != null">
-        log_status,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
       </if>
       <if test="logIp != null">
         log_ip,
       </if>
-      <if test="auditStatus != null">
-        audit_status,
+      <if test="remarks != null">
+        remarks,
       </if>
-      <if test="logRemarks != null">
-        log_remarks,
+      <if test="logType != null">
+        log_type,
+      </if>
+      <if test="requestType != null">
+        request_type,
+      </if>
+      <if test="logUrl != null">
+        log_url,
+      </if>
+      <if test="optDescribe != null">
+        opt_describe,
+      </if>
+      <if test="optResult != null">
+        opt_result,
+      </if>
+      <if test="optError != null">
+        opt_error,
+      </if>
+      <if test="userDepartment != null">
+        user_department,
+      </if>
+      <if test="userCompany != null">
+        user_company,
+      </if>
+      <if test="userType != null">
+        user_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="logId != null">
-        #{logId,jdbcType=VARCHAR},
-      </if>
-      <if test="logActionName != null">
-        #{logActionName,jdbcType=VARCHAR},
-      </if>
-      <if test="logAction != null">
-        #{logAction,jdbcType=VARCHAR},
-      </if>
-      <if test="logType != null">
-        #{logType,jdbcType=VARCHAR},
-      </if>
-      <if test="logPersonId != null">
-        #{logPersonId,jdbcType=VARCHAR},
-      </if>
-      <if test="logPerson != null">
-        #{logPerson,jdbcType=VARCHAR},
+    
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="logTime != null">
         #{logTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="logStatus != null">
-        #{logStatus,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
       <if test="logIp != null">
         #{logIp,jdbcType=VARCHAR},
       </if>
-      <if test="auditStatus != null">
-        #{auditStatus,jdbcType=VARCHAR},
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="logRemarks != null">
-        #{logRemarks,jdbcType=VARCHAR},
+      <if test="logType != null">
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="logUrl != null">
+        #{logUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="optDescribe != null">
+        #{optDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="optResult != null">
+        #{optResult,jdbcType=VARCHAR},
+      </if>
+      <if test="optError != null">
+        #{optError,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepartment != null">
+        #{userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="userCompany != null">
+        #{userCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.system.SysLogExample" resultType="java.lang.Long">
-    select count(*) from sys_log
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update sys_log
-    <set>
-      <if test="record.logId != null">
-        log_id = #{record.logId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logActionName != null">
-        log_action_name = #{record.logActionName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logAction != null">
-        log_action = #{record.logAction,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logType != null">
-        log_type = #{record.logType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logPersonId != null">
-        log_person_id = #{record.logPersonId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logPerson != null">
-        log_person = #{record.logPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logTime != null">
-        log_time = #{record.logTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.logStatus != null">
-        log_status = #{record.logStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logIp != null">
-        log_ip = #{record.logIp,jdbcType=VARCHAR},
-      </if>
-      <if test="record.auditStatus != null">
-        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.logRemarks != null">
-        log_remarks = #{record.logRemarks,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update sys_log
-    set log_id = #{record.logId,jdbcType=VARCHAR},
-      log_action_name = #{record.logActionName,jdbcType=VARCHAR},
-      log_action = #{record.logAction,jdbcType=VARCHAR},
-      log_type = #{record.logType,jdbcType=VARCHAR},
-      log_person_id = #{record.logPersonId,jdbcType=VARCHAR},
-      log_person = #{record.logPerson,jdbcType=VARCHAR},
-      log_time = #{record.logTime,jdbcType=TIMESTAMP},
-      log_status = #{record.logStatus,jdbcType=VARCHAR},
-      log_ip = #{record.logIp,jdbcType=VARCHAR},
-      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
-      log_remarks = #{record.logRemarks,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysLog">
     update sys_log
     <set>
-      <if test="logActionName != null">
-        log_action_name = #{logActionName,jdbcType=VARCHAR},
-      </if>
-      <if test="logAction != null">
-        log_action = #{logAction,jdbcType=VARCHAR},
-      </if>
-      <if test="logType != null">
-        log_type = #{logType,jdbcType=VARCHAR},
-      </if>
-      <if test="logPersonId != null">
-        log_person_id = #{logPersonId,jdbcType=VARCHAR},
-      </if>
-      <if test="logPerson != null">
-        log_person = #{logPerson,jdbcType=VARCHAR},
-      </if>
       <if test="logTime != null">
         log_time = #{logTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="logStatus != null">
-        log_status = #{logStatus,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="logIp != null">
         log_ip = #{logIp,jdbcType=VARCHAR},
       </if>
-      <if test="auditStatus != null">
-        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="logRemarks != null">
-        log_remarks = #{logRemarks,jdbcType=VARCHAR},
+      <if test="logType != null">
+        log_type = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        request_type = #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="logUrl != null">
+        log_url = #{logUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="optDescribe != null">
+        opt_describe = #{optDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="optResult != null">
+        opt_result = #{optResult,jdbcType=VARCHAR},
+      </if>
+      <if test="optError != null">
+        opt_error = #{optError,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepartment != null">
+        user_department = #{userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="userCompany != null">
+        user_company = #{userCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
       </if>
     </set>
-    where log_id = #{logId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysLog">
     update sys_log
-    set log_action_name = #{logActionName,jdbcType=VARCHAR},
-      log_action = #{logAction,jdbcType=VARCHAR},
-      log_type = #{logType,jdbcType=VARCHAR},
-      log_person_id = #{logPersonId,jdbcType=VARCHAR},
-      log_person = #{logPerson,jdbcType=VARCHAR},
-      log_time = #{logTime,jdbcType=TIMESTAMP},
-      log_status = #{logStatus,jdbcType=VARCHAR},
+    set log_time = #{logTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
       log_ip = #{logIp,jdbcType=VARCHAR},
-      audit_status = #{auditStatus,jdbcType=VARCHAR},
-      log_remarks = #{logRemarks,jdbcType=VARCHAR}
-    where log_id = #{logId,jdbcType=VARCHAR}
+      remarks = #{remarks,jdbcType=VARCHAR},
+      log_type = #{logType,jdbcType=VARCHAR},
+      request_type = #{requestType,jdbcType=VARCHAR},
+      log_url = #{logUrl,jdbcType=VARCHAR},
+      opt_describe = #{optDescribe,jdbcType=VARCHAR},
+      opt_result = #{optResult,jdbcType=VARCHAR},
+      opt_error = #{optError,jdbcType=VARCHAR},
+      user_department = #{userDepartment,jdbcType=VARCHAR},
+      user_company = #{userCompany,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
-  <!-- useGeneratedKeys="true" keyProperty="id" -->
-  <insert id="insertBatch" parameterType="java.util.ArrayList">
-	INSERT INTO sys_log
-	(log_id, log_action_name, log_action, log_type, log_person_id, log_person, 
-	log_time, log_status, log_ip, audit_status, log_remarks)
-	VALUES
-	<foreach collection="list" item="item" index="index"
-		separator=",">
-		(#{item.logId},#{item.logActionName},#{item.logAction},#{item.logType},#{item.logPersonId},#{item.logPerson},
-		#{item.logTime},#{item.logStatus},#{item.logIp},#{item.auditStatus},#{item.logRemarks})
-	</foreach>
-  </insert>
-  <delete id="deleteSysLogById">
-    delete from sys_log
-    <where> 
-	    log_id in 
-	    <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
-	    	#{item}
-	    </foreach>
-    </where>
-  </delete>
+  
+  
+  
+  
+  
+  
+    
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="userName != null and userName  !='' ">              AND t.user_name like CONCAT('%',#{userName},'%')</if>
+	     <if test="logType != null      and logType !=''  ">           AND t.log_type = #{logType}</if>
+	     <if test="userType != null       and userType !=''  ">         AND t.user_type = #{userType}</if>
+	     <if test="userCompany != null     and userCompany !=''  ">       AND t.user_company = #{userCompany}</if>
+	     <if test="userDepartment != null        and userDepartment !=''  ">          AND t.user_department = #{userDepartment}</if>
+	     <if test="beginTime != null     and beginTime !=''  ">       AND DATE_FORMAT(t.`log_time`,'%Y-%m-%d') &gt;= #{beginTime}</if>
+	     <if test="endTime != null     and endTime !=''  ">           AND DATE_FORMAT(t.`log_time`,'%Y-%m-%d') &lt;= #{endTime}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sys_log  t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sys_log t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
 </mapper>

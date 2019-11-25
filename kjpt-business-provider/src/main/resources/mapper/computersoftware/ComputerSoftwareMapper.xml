@@ -41,7 +41,7 @@
       ACCESSORY_UPLOAD,
       DELETED,
       create_date,
-      create_user
+      create_user,
       update_date,
       update_user
 

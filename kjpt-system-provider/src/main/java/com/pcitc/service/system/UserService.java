@@ -18,6 +18,9 @@ public interface UserService {
 
 	public SysUser selectUserByUserId(String userId);
 
+	//根据用户id查询当前信息-new
+	public SysUser currentUserInfo(String userId);
+
 	public Integer updateUser(SysUser user);
 
 	public int deleteUser(String userId);

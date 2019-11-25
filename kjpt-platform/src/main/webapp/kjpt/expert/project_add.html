@@ -8,7 +8,7 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
@@ -19,59 +19,67 @@
 </head>
 <body class="">
 <div class="layout-view-content dialog">
-    <div class="layui-tab" lay-filter="tab-demo">
-        <ul class="layui-tab-title tab-btn-layout">
-            <li class="layui-this">关联添加</li>
-            <li>手动录入</li>
-        </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <div class="layui-hide" id="item">
-                    <div class="layui-row layui-col-space20">
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">项目名称:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="projectName" lay-verify="required"
-                                           placeholder="" autocomplete="off" class="layui-input projectName">
-                                </div>
-                            </div>
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">立项年度:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="setupYeat"
-                                           autocomplete="off" placeholder="请选择立项年度!" class="layui-input laydate-input ">
-                                </div>
-                            </div>
+    <div class="layui-form radio-tab-box" lay-filter="formRadio">
+        <input type="radio" name="optionType"  disabled value="unInput" title="关联添加" lay-filter="optionType" />
+        <input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
+    </div>
+    <!-- 关联添加 -->
+    <div class="unInput-layout-box">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required auto"><span class="text">项目名称：</span></label>
+            <div class="layui-input-inline">
+                <input type="text" id="projectName" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-normal" id="getProjectData">查询</button>
+            <button class="layui-btn layui-btn-primary" id="restProjectNameValue">重置</button>
+        </div>
+        <table id="unInputTable" lay-filter="unInputTable"></table>
+    </div>
+    <!-- 手动录入 -->
+    <div class="input-layout-box">
+        <div class="layui-hide" id="item">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">项目名称:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="projectName" lay-verify="required"
+                                   placeholder="" autocomplete="off" class="layui-input projectName">
                         </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">负责单位:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="chargeUnit"
-                                           placeholder="" autocomplete="off" class="layui-input chargeUnit">
-                                </div>
-                            </div>
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">研究目标:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="researchTarget"
-                                           placeholder="" autocomplete="off" class="layui-input researchTarget">
-                                </div>
-                            </div>
+                    </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">立项年度:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="setupYeat"
+                                   autocomplete="off" placeholder="请选择立项年度!" class="layui-input laydate-input ">
                         </div>
                     </div>
                 </div>
-                <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-
-                </form>
-                <button data-type="add" class="add-item layui-btn">添加</button>
-            </div>
-            <div class="layui-tab-item">
-
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">负责单位:</span></label>
+                        <div class="layui-input-block">
+                            <select class="chargeUnit" name="chargeUnit" xm-select="chargeUnit" xm-select-skin="normal" xm-select-radio></select>
+                            <!--<input type="text" name="chargeUnit"
+                                   placeholder="" autocomplete="off" class="layui-input chargeUnit">-->
+                        </div>
+                    </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">研究目标:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="researchTarget"
+                                   placeholder="" autocomplete="off" class="layui-input researchTarget">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+
+        </form>
+        <button data-type="add" class="add-item layui-btn">添加</button>
     </div>
+
     <div class="dialog-footer-btn">
         <a class="layui-btn layui-btn-normal" data-type="save">提交</a>
         <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
@@ -81,8 +89,39 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['form', 'jquery','element','laydate'], function(){
-        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
+    layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
+        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
+        var submitType = 'input';
+        function switchItem(type) {
+            submitType = type;
+            if (type === 'unInput') {
+                $('.unInput-layout-box').show();
+                $('.input-layout-box').hide();
+            } else if (type === 'input') {
+                $('.unInput-layout-box').hide();
+                $('.input-layout-box').show();
+            }
+        }
+        // 监听录入方式变化
+        form.on('radio(optionType)', function(data) {
+            switchItem(data.value);
+        })
+        switchItem(submitType);
+        form.val('formRadio', {optionType: submitType});
+        /*获取单位*/
+        function getUnit(index){
+            $("#formPlatform>div").eq(index).find(".chargeUnit").attr("xm-select","chargeUnit"+index)
+            httpModule({
+                url: "/unit-api/getTreeList",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    formSelects.data('chargeUnit'+index, 'local', { arr: relData.children });
+                    formSelects.btns('chargeUnit'+index, ['remove']);
+                }
+            });
+        }
+        /*立项年度*/
         function setupYeat() {
             lay('.setupYeat').each(function(index){
                 laydate.render({
@@ -91,6 +130,12 @@
                     ,type:"year"
                 });
             });
+        }
+        function itemHtml(index) {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            $("#formPlatform>div").eq(index).find(".laydate-input").addClass("setupYeat")
+            setupYeat();
         }
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
@@ -103,44 +148,39 @@
                         var projectName=JSON.parse(relData.data.zjkProjectJsonList)
                         if(projectName.length>0){
                             projectName.map(function (item, index) {
-                                var html=$("#item").html()
-                                $("#formPlatform").append(html)
-                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("setupYeat")
-                                setupYeat();
+                                itemHtml(index)
+                                getUnit(index)
                                 $("#formPlatform>div").eq(index).find(".projectName").val(item.projectName)
                                 $("#formPlatform>div").eq(index).find(".setupYeat").val(item.setupYeat)
-                                $("#formPlatform>div").eq(index).find(".chargeUnit").val(item.chargeUnit)
+                                formSelects.value('chargeUnit'+index, [item.chargeUnit]);
                                 $("#formPlatform>div").eq(index).find(".researchTarget").val(item.researchTarget)
                             })
                         }else {
-                            var html=$("#item").html()
-                            $("#formPlatform").append(html)
-                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("setupYeat")
-                            setupYeat();
+                            var index=$("#formPlatform>div").length
+                            itemHtml(index)
+                            getUnit(index)
                         }
 
                     }
                 }
             });
         }else {
-            var html=$("#item").html()
-            $("#formPlatform").append(html)
-            $("#formPlatform>div:last-child").find(".laydate-input").addClass("setupYeat")
-            setupYeat();
+            var index=$("#formPlatform>div").length
+            itemHtml(index)
+            getUnit(index)
         }
         var $ = layui.$, active = {
             add:function(){
-                var html=$("#item").html()
-                $("#formPlatform").append(html)
-                $("#formPlatform>div:last-child").find(".laydate-input").addClass("setupYeat")
-                setupYeat();
+                var index=$("#formPlatform>div").length
+                itemHtml(index)
+                getUnit(index)
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
                     var projectName=$("#formPlatform>div").eq(index).find(".projectName").val()
                     var setupYeat=$("#formPlatform>div").eq(index).find(".setupYeat").val()
-                    var chargeUnit=$("#formPlatform>div").eq(index).find(".chargeUnit").val()
+                    var chargeUnit=formSelects.value('chargeUnit'+index)[0].value
                     var researchTarget=$("#formPlatform>div").eq(index).find(".researchTarget").val()
                     if(projectName=='' || chargeUnit=='' || researchTarget=='' || setupYeat==''){
                         layer.msg("为填项不能为空！", {icon: 2});

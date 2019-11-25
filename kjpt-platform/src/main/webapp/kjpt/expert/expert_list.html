@@ -56,11 +56,12 @@
         /*公共方法*/
         var obj={
             layerOpen:function (title,id) {
+                var index=parent.$("#LAY_app_body div.layui-show").index()-1;
                 if(id==undefined){
-                    var url="/kjpt/expert/expert_add.html"
+                    var url="/kjpt/expert/expert_add.html?index="+index
                     parent.layui.index.openTabsPage(url, title);
                 }else {
-                    var url="/kjpt/expert/expert_add.html?id="+id
+                    var url="/kjpt/expert/expert_add.html?id="+id+"&index="+index
                     parent.layui.index.openTabsPage(url, title);
                 }
             },
@@ -69,7 +70,6 @@
                 table.render({
                     elem: '#expertTable' // 表格元素ID
                     ,url: '/expert-api/list' //数据接口
-                    ,height:commonDislodgeTable()
                     ,cols: [[ //表头
                         {type: 'radio' },
                         {title: '序号',type:'numbers',width:55 },
@@ -129,7 +129,7 @@
             editItem:function () {
                 /*编辑*/
                 if(itemRowData.id==undefined){
-                    layer.msg(' 请选择一条数据！', {icon: 2});
+                    layer.msg('请选择需要删除的数据！');
                     return
                 }
                 obj.layerOpen("编辑专家",itemRowData.id);
@@ -157,16 +157,6 @@
                 } else {
                     layer.msg('请选择需要删除的数据！');
                 }
-            },
-            downloadData:function () {
-                console.log("downloadData")
-            },
-            importData:function () {
-                console.log("importData")
-
-            },
-            exportData:function () {
-                console.log("exportData")
             }
         }
         $('.layui-btn').on('click', function(){

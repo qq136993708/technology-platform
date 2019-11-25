@@ -1,6 +1,8 @@
 package com.pcitc.web.system;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysLog;
 import com.pcitc.service.system.SysLogService;
 import io.swagger.annotations.Api;
@@ -26,76 +28,65 @@ public class SysLogClient {
 
     @Autowired
     SysLogService sysLogService;
+    
 
-    /**
-     * 新增系统日志
-     *
-     * @param log
-     * @return
-     */
-    @ApiOperation(value = "新增系统日志", notes = "传入json格式的日志实体属性")
-    @RequestMapping(value = "/log-provider/log/add", method = RequestMethod.POST)
-    public Integer insertLog(@RequestBody SysLog log) {
-        try {
-            return sysLogService.insertLog(log);
-        } catch (Exception e) {
-            logger.error("[系统管理-日志管理-新增系统日志失败：]", e);
-        }
-        return 0;
-    }
+	
 
-    /**
-     * 查询系统日志列表
-     *
-     * @param obj
-     * @return
-     */
-    @ApiOperation(value = "查询系统日志列表", notes = "传入json格式的日志实体属性")
-    @RequestMapping(value = "/sysLog-provider/sysLog_list", method = RequestMethod.POST)
-    public String selectSysLogByPage(@RequestBody SysLog obj) {
-        JSONObject tem = null;
-        try {
-            tem = sysLogService.selectSysLogList(obj);
-        } catch (Exception e) {
-            logger.error("[系统管理-日志管理-查询系统日志列表失败：]", e);
-            e.printStackTrace();
-        }
-        return tem.toString();
-    }
 
-    /**
-     * 删除系统日志
-     *
-     * @param id
-     * @return
-     */
-    @ApiOperation(value = "删除系统日志", notes = "传入日志实体id属性")
-    @RequestMapping(value = "/sysLog-provider/deleteSysLog/{id}", method = RequestMethod.POST)
-    public int deleteDictionary(@PathVariable(value = "id", required = true) String id) {
-        int result = 500;
-        try {
-            result = sysLogService.deleteSysLog(id);
-        } catch (Exception e) {
-            logger.error("[系统管理-日志管理-删除系统日志失败：]", e);
-        }
-        return result;
-    }
 
-    /**
-     * 批量导入日志
-     *
-     * @param list
-     * @return
-     */
-    @ApiOperation(value = "批量导入日志", notes = "传入json格式的日志实体属性")
-    @RequestMapping(value = "/sysLog-provider/importSysLog", method = RequestMethod.POST)
-    public int exportSysLog(@RequestBody List<SysLog> list) {
-        int result = 500;
-        try {
-            result = sysLogService.insertBatch(list);
-        } catch (Exception e) {
-            logger.error("[系统管理-日志管理-导入日志失败：]", e);
-        }
-        return result;
-    }
+	@ApiOperation(value = "获取系统日志（分页）", notes = "获取系统日志（分页）")
+	@RequestMapping(value = "/log-provider/page", method = RequestMethod.POST)
+	public LayuiTableData getSysLogList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		
+		logger.info("=== SysLog param============"+param);
+		return sysLogService.getSysLogPage(param) ;
+	}
+	
+	@ApiOperation(value = "增加系统日志信息", notes = "增加系统日志信息")
+	@RequestMapping(value = "/log-provider/add", method = RequestMethod.POST)
+	public String insertSysLog(@RequestBody SysLog SysLog) throws Exception{
+		logger.info("====================add SysLog....========================");
+		Integer count= sysLogService.insertSysLog(SysLog);
+		return SysLog.getId();
+	}
+	
+	
+	@ApiOperation(value = "修改系统日志信息", notes = "修改系统日志信息")
+	@RequestMapping(value = "/log-provider/update", method = RequestMethod.POST)
+	public Integer updateSysLog(@RequestBody SysLog SysLog) throws Exception{
+		logger.info("==================update SysLog===========================");
+		return sysLogService.updateSysLog(SysLog);
+	}
+	
+	@ApiOperation(value = "根据ID物理删除系统日志信息", notes = "根据ID删除系统日志信息")
+	@RequestMapping(value = "/log-provider/delete/{id}", method = RequestMethod.POST)
+	public int deleteSysLog(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================根据ID物理删除系统日志信息 SysLog==="+id+"==============");
+		return sysLogService.deleteSysLog(id) ;
+	}
+	
+	
+	
+	@ApiOperation(value = "根据ID获取系统日志信息详情", notes = "根据ID获取系统日志信息详情")
+	@RequestMapping(value = "/log-provider/get/{id}", method = RequestMethod.GET)
+	public SysLog selectSysLogId(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get SysLog id "+id+"===========");
+		return sysLogService.selectSysLog(id);
+	}
+	
+	
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

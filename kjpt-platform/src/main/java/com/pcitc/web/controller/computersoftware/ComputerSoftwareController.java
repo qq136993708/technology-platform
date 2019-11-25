@@ -181,4 +181,11 @@ public class ComputerSoftwareController extends RestBaseController {
         return p;
     }
 
+
+//        p.setId(UUID.randomUUID().toString().replace("_", ""));
+//        p.setDeleted("0");  //删除标识
+//        p.setCreateDate(new Date());  // 创建时间
+//        p.setCreator(this.getUserProfile().getUserName());
+//        return p;
+
 }

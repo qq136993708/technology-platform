@@ -8,7 +8,7 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
@@ -19,58 +19,65 @@
 </head>
 <body class="">
 <div class="layout-view-content dialog">
-    <div class="layui-tab" lay-filter="tab-demo">
-        <ul class="layui-tab-title tab-btn-layout">
-            <li class="layui-this">手动录入</li>
-            <li>关联添加</li>
-        </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <div class="layui-hide" id="item">
-                    <div class="layui-row layui-col-space20">
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">专利名称:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="patentName" lay-verify="required"
-                                           placeholder="" autocomplete="off" class="layui-input patentName">
-                                </div>
-                            </div>
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">申请日期:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="getPatentTimeStr"
-                                           autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input getPatentTimeStr">
-                                </div>
-                            </div>
+    <div class="layui-form radio-tab-box" lay-filter="formRadio">
+        <input type="radio" name="optionType"  disabled value="unInput" title="关联添加" lay-filter="optionType" />
+        <input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
+    </div>
+    <!-- 关联添加 -->
+    <div class="unInput-layout-box">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required auto"><span class="text">项目名称：</span></label>
+            <div class="layui-input-inline">
+                <input type="text" id="projectName" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-normal" id="getProjectData">查询</button>
+            <button class="layui-btn layui-btn-primary" id="restProjectNameValue">重置</button>
+        </div>
+        <table id="unInputTable" lay-filter="unInputTable"></table>
+    </div>
+    <!-- 手动录入 -->
+    <div class="input-layout-box">
+        <div class="layui-hide" id="item">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">专利名称:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="patentName" lay-verify="required"
+                                   placeholder="" autocomplete="off" class="layui-input patentName">
                         </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">专利类型:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="patentType"
-                                           placeholder="" autocomplete="off" class="layui-input patentType">
-                                </div>
-                            </div>
-                            <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">专利描述:</span></label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="describe"
-                                           placeholder="" autocomplete="off" class="layui-input describe">
-                                </div>
-                            </div>
+                    </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">申请日期:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="getPatentTimeStr"
+                                   autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input">
                         </div>
                     </div>
                 </div>
-                <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-
-                </form>
-                <button data-type="add" class="add-item layui-btn">添加</button>
-            </div>
-            <div class="layui-tab-item">
-
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">专利类型:</span></label>
+                        <div class="layui-input-block">
+                            <select class="patentType" name="patentType" xm-select="patentType" xm-select-skin="normal" xm-select-radio></select>
+                            <!--<input type="text" name="patentType"
+                                   placeholder="" autocomplete="off" class="layui-input patentType">-->
+                        </div>
+                    </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">专利描述:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="describe"
+                                   placeholder="" autocomplete="off" class="layui-input describe">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+
+        </form>
+        <button data-type="add" class="add-item layui-btn">添加</button>
     </div>
     <div class="dialog-footer-btn">
         <a class="layui-btn layui-btn-normal" data-type="save">提交</a>
@@ -81,9 +88,45 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['form', 'jquery','element','laydate'], function(){
-        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
+    layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
+        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
+        var submitType = 'input';
+        function switchItem(type) {
+            submitType = type;
+            if (type === 'unInput') {
+                $('.unInput-layout-box').show();
+                $('.input-layout-box').hide();
+            } else if (type === 'input') {
+                $('.unInput-layout-box').hide();
+                $('.input-layout-box').show();
+            }
+        }
+        // 监听录入方式变化
+        form.on('radio(optionType)', function(data) {
+            switchItem(data.value);
+        })
+        switchItem(submitType);
+        form.val('formRadio', {optionType: submitType});
+        function patentType(index) {
+            /*专利类型*/
+            $("#formPlatform>div").eq(index).find(".patentType").attr("xm-select","patentType"+index)
+            httpModule({
+                url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_ZLZL",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function (item) {
+                            item.value=item.code
+                        })
+                        formSelects.data('patentType'+index, 'local', { arr: relData.data });
+                        formSelects.btns('patentType'+index, ['remove']);
+                    }
+                }
+            });
+        }
         function getPatentTimeStr() {
+            /*申请日期*/
             lay('.getPatentTimeStr').each(function(){
                 laydate.render({
                     elem: this
@@ -91,7 +134,12 @@
                 });
             });
         }
-        getPatentTimeStr();
+        function itemHtml(index) {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            $("#formPlatform>div").eq(index).find(".laydate-input").addClass("getPatentTimeStr")
+            getPatentTimeStr();
+        }
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         if(variable!=null){
@@ -104,44 +152,39 @@
                         var patentName=JSON.parse(relData.data.zjkPatentJsonList)
                         if(patentName.length>0){
                             patentName.map(function (item, index) {
-                                var html=$("#item").html()
-                                $("#formPlatform").append(html)
-                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("getPatentTimeStr")
-                                getPatentTimeStr();
+                                itemHtml(index)
+                                patentType(index)
                                 $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
                                 $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
-                                $("#formPlatform>div").eq(index).find(".patentType").val(item.patentType)
+                                formSelects.value('patentType'+index,[item.patentType])
                                 $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
                             })
                         }else {
-                            var html=$("#item").html()
-                            $("#formPlatform").append(html)
-                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
-                            getPatentTimeStr();
+                            var index=$("#formPlatform>div").length
+                            itemHtml(index)
+                            patentType(index)
                         }
 
                     }
                 }
             });
         }else {
-            var html=$("#item").html()
-            $("#formPlatform").append(html)
-            $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
-            getPatentTimeStr();
+            var index=$("#formPlatform>div").length
+            itemHtml(index)
+            patentType(index)
         }
         var $ = layui.$, active = {
             add:function(){
-                var html=$("#item").html()
-                $("#formPlatform").append(html)
-                $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
-                getPatentTimeStr();
+                var index=$("#formPlatform>div").length
+                itemHtml(index)
+                patentType(index)
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
                     var patentName=$("#formPlatform>div").eq(index).find(".patentName").val()
                     var getPatentTimeStr=$("#formPlatform>div").eq(index).find(".getPatentTimeStr").val()
-                    var patentType=$("#formPlatform>div").eq(index).find(".patentType").val()
+                    var patentType=formSelects.value('patentType'+index)[0].code
                     var describe=$("#formPlatform>div").eq(index).find(".describe").val()
                     if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr==''){
                         layer.msg("为填项不能为空！", {icon: 2});

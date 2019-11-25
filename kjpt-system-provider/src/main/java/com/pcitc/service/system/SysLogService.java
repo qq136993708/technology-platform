@@ -3,8 +3,9 @@ package com.pcitc.service.system;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysLog;
-
 
 /**
  * @author zhf
@@ -15,36 +16,28 @@ import com.pcitc.base.system.SysLog;
 public interface SysLogService {
 
 	/**
-	 * @param log
-	 * @return 插入日志
+             * 根据ID获取日志信息详情
+    */
+	public SysLog selectSysLog(String id) throws Exception;
+	
+	 /**
+	     *修改日志信息
+	*/
+	public Integer updateSysLog(SysLog record)throws Exception;
+	 /**
+	     *根据ID删除日志信息
+	*/
+	public int deleteSysLog(String id)throws Exception;
+	
+	 /**
+	     * 增加日志信息
 	 */
-	public Integer insertLog(SysLog log) throws Exception;
-
-	/**
-	 * 条件查询系统日志列表
-	 * 
-	 * @param obj
-	 * @return
-	 * @throws Exception
-	 */
-
-	JSONObject selectSysLogList(SysLog obj) throws Exception;
-
-	/**
-	 * 根据id删除系统日志
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	int deleteSysLog(String id) throws Exception;
+	public Integer insertSysLog(SysLog record)throws Exception;
 	
 	/**
-	 * 批量新增日志
-	 * 
-	 * @param list
-	 * @return
-	 * @throws Exception
-	 */
-	int insertBatch(List<SysLog> list) throws Exception;
+	     * 获取日志（分页）
+	*/
+	public LayuiTableData getSysLogPage(LayuiTableParam param)throws Exception;
+	
+	
 }

@@ -234,9 +234,12 @@ function httpModule(config) {
 	}
 }
 /*关闭标签页*/
-function closeTabsPage(){
+function closeTabsPage(index){
+	var iframe=parent.$("#LAY_app_body div").eq(index+1).find("iframe")
+	var iframeSrc=$(iframe).attr("src")
+    $(iframe).attr('src',iframeSrc);
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;
-    parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click')
+    parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click');
 }
 
 
