@@ -118,6 +118,7 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public ScienceEvolveDynamic save(@RequestBody ScienceEvolveDynamic sed) {
+        this.setBaseData(sed);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<ScienceEvolveDynamic> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<ScienceEvolveDynamic>(sed, this.httpHeaders), ScienceEvolveDynamic.class);
         return responseEntity.getBody();

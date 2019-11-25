@@ -127,6 +127,7 @@ public class SciencePlanApiController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public SciencePlan save(@RequestBody SciencePlan sp) {
+        this.setBaseData(sp);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<SciencePlan> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<SciencePlan>(sp, this.httpHeaders), SciencePlan.class);
         return responseEntity.getBody();
