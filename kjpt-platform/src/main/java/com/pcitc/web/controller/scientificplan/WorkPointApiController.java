@@ -56,6 +56,16 @@ public class WorkPointApiController extends RestBaseController {
 
 
 
+    @ApiOperation(value = "读取")
+    @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public WorkPoint load(@PathVariable String id) {
+        ResponseEntity<WorkPoint> responseEntity = this.restTemplate.exchange(load + id, HttpMethod.GET, new HttpEntity(this.httpHeaders), WorkPoint.class);
+        return responseEntity.getBody();
+    }
+
+
+
     @ApiOperation(value = "查询科技规划列表", notes = "查询科技规划列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),

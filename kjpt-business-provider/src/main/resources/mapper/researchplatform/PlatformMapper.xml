@@ -132,7 +132,7 @@
                 updator = #{updator,jdbcType=VARCHAR},
             </if>
             <if test="deleted != null and deleted != ''" >
-                deleted = #{deleted,jdbcType=VARCHAR}
+                deleted = #{deleted,jdbcType=VARCHAR},
             </if>
             <if test="imgId != null and imgId != ''" >
                 img_id = #{imgId,jdbcType=VARCHAR}

@@ -50,32 +50,34 @@
      `NAME`,
       AUTHENTICATE_UTIL,
       RESEARCH_FIELD,
-      RELEASE_TIME),
+      RELEASE_TIME,
       DELETED,
       create_date,
       create_user,
       update_date,
       update_user
+      )
     values (
       #{id},
       #{name},
       #{authenticateUtil},
       #{researchField},
-      #{releaseTime}),
+      #{releaseTime},
        #{deleted},
        #{createDate},
        #{creator},
        #{updateDate},
        #{updator}
+       )
   </insert>
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+
         select * from science_evolve_dynamic where 1=1
 
-
         <if test="name != null and name !='' ">
-            and `NAME` = #{NAME}
+            and `NAME` = like CONCAT('%',#{NAME},'%')
         </if>
 
         <if test="authenticateUtil != null  and authenticateUtil !='' ">

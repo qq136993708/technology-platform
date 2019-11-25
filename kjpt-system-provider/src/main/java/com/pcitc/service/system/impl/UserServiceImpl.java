@@ -1,10 +1,9 @@
 package com.pcitc.service.system.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.pcitc.base.system.*;
+import com.pcitc.mapper.system.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -18,29 +17,10 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.system.SysCollect;
-import com.pcitc.base.system.SysCollectExample;
 import com.pcitc.base.system.SysCollectExample.Criteria;
-import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserExample;
-import com.pcitc.base.system.SysUserPost;
-import com.pcitc.base.system.SysUserPostExample;
-import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.system.SysUserRole;
-import com.pcitc.base.system.SysUserRoleExample;
-import com.pcitc.base.system.SysUserUnit;
-import com.pcitc.base.system.SysUserUnitExample;
 import com.pcitc.base.util.DataTableInfo;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.mapper.system.SysCollectMapper;
-import com.pcitc.mapper.system.SysFunctionMapper;
-import com.pcitc.mapper.system.SysUserMapper;
-import com.pcitc.mapper.system.SysUserPostMapper;
-import com.pcitc.mapper.system.SysUserPropertyMapper;
-import com.pcitc.mapper.system.SysUserRoleMapper;
-import com.pcitc.mapper.system.SysUserUnitMapper;
 import com.pcitc.service.system.UserService;
 
 //@CachePut 是先执行方法，然后把返回值保存或更新到缓存中
@@ -72,10 +52,37 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private SysCollectMapper sysCollectMapper;
 
+	@Autowired
+	private SysRoleMapper sysRoleMapper;
+
 	@Override
 	public SysUser selectUserByUserId(String userId) {
 		System.out.println("userid::::" + userId);
 		return userMapper.selectByPrimaryKey(userId);
+	}
+
+	//根据用户id查询当前信息-new
+	@Override
+	public SysUser currentUserInfo(String userId) {
+		System.out.println("userid::::" + userId);
+		SysUser sysUser=userMapper.currentUserInfo(userId);
+		String user_role= sysUser.getUserRole();
+		StringBuilder role_name = new StringBuilder("");
+		int i=1;
+		if(user_role!=null&&!user_role.isEmpty()){
+			List<String> roleList = Arrays.asList(user_role.split(","));
+			for (String roleId:roleList) {
+				SysRole sysRole = sysRoleMapper.selectNameById(roleId);
+				if (roleList.size()!=i){
+					role_name = role_name.append(sysRole.getRoleName()+",");
+				}else{
+					role_name = role_name.append(sysRole.getRoleName());
+				}
+				i++;
+			}
+		}
+		sysUser.setUserRoleText(role_name.toString());
+		return sysUser;
 	}
 
 	@Override
