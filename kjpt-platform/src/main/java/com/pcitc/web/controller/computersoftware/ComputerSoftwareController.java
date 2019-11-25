@@ -88,7 +88,7 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false, value = "developFinishDate") String developFinishDate,
             @RequestParam(required = false, value = "softwareIntro") String softwareIntro,
             @RequestParam(required = false, value = "entryPeople") String entryPeople,
-            @RequestParam(required = false, value = "entryTime") String entryTime,
+            @RequestParam(required = false, value = "entryTime") @DateTimeFormat(pattern="yyyy-MM-dd") Date entryTime,
             @RequestParam(required = false, value = "notes") String notes,
             @RequestParam(required = false, value = "accessoryUpload") String accessoryUpload
 
@@ -134,7 +134,7 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(entryPeople)) {
             this.setParam(condition, "entryPeople", entryPeople);
         }
-        if (!StringUtils.isEmpty(entryTime)) {
+        if (entryTime != null) {
             this.setParam(condition, "entryTime", entryTime);
         }
         if (!StringUtils.isEmpty(notes)) {
@@ -154,6 +154,7 @@ public class ComputerSoftwareController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public ComputerSoftware save(@RequestBody ComputerSoftware cs) {
+        this.setBaseData(cs);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<ComputerSoftware> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<ComputerSoftware>(cs, this.httpHeaders), ComputerSoftware.class);
         return responseEntity.getBody();

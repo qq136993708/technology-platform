@@ -13,10 +13,10 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id; //id
-    private String name; //名称
-    private String authenticate_util;//申报单位
-    private String research_field;//研究领域
-    private Date release_time;//发布时间
+    private String name = ""; //名称
+    private String authenticate_util = "";//申报单位
+    private String research_field = "";//研究领域
+    private Date release_time=new Date();//发布时间
 
     public ScienceEvolveDynamic() {
     }

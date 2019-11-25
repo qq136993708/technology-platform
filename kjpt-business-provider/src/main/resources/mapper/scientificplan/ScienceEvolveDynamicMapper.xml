@@ -3,88 +3,129 @@
 
 <mapper namespace="com.pcitc.mapper.scientificplan.ScienceEvolveDynamicMapper">
 
-  <resultMap id="BaseResultMap" type="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
 
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="AUTHENTICATE_UTIL" jdbcType="VARCHAR" property="authenticateUtil" />
-    <result column="RESEARCH_FIELD" jdbcType="VARCHAR" property="researchField" />
-    <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ID, `NAME`, AUTHENTICATE_UTIL, RESEARCH_FIELD, RELEASE_TIME
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="AUTHENTICATE_UTIL" jdbcType="VARCHAR" property="authenticateUtil"/>
+        <result column="RESEARCH_FIELD" jdbcType="VARCHAR" property="researchField"/>
+        <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+     ID,
+    `NAME`,
+     AUTHENTICATE_UTIL,
+     RESEARCH_FIELD,
+     RELEASE_TIME
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from science_evolve_dynamic
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from science_evolve_dynamic
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic" useGeneratedKeys="true">
-    insert into science_evolve_dynamic (`NAME`, AUTHENTICATE_UTIL, RESEARCH_FIELD, 
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from science_evolve_dynamic
+        where id = #{id} and deleted != '1'
+    </select>
+
+
+    <update id="delete" parameterType="java.lang.String">
+            update science_evolve_dynamic set deleted = '1' where id = #{id}
+    </update>
+
+
+    <insert id="add" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
+    insert into science_evolve_dynamic (
+     `NAME`,
+      AUTHENTICATE_UTIL,
+      RESEARCH_FIELD,
       RELEASE_TIME)
-    values (#{name,jdbcType=VARCHAR}, #{authenticateUtil,jdbcType=VARCHAR}, #{researchField,jdbcType=VARCHAR}, 
-      #{releaseTime,jdbcType=DATE})
+    values (
+      #{name},
+      #{authenticateUtil},
+      #{researchField},
+      #{releaseTime})
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic" useGeneratedKeys="true">
-    insert into science_evolve_dynamic
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        `NAME`,
-      </if>
-      <if test="authenticateUtil != null">
-        AUTHENTICATE_UTIL,
-      </if>
-      <if test="researchField != null">
-        RESEARCH_FIELD,
-      </if>
-      <if test="releaseTime != null">
-        RELEASE_TIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="authenticateUtil != null">
-        #{authenticateUtil,jdbcType=VARCHAR},
-      </if>
-      <if test="researchField != null">
-        #{researchField,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseTime != null">
-        #{releaseTime,jdbcType=DATE},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
-    update science_evolve_dynamic
-    <set>
-      <if test="name != null">
-        `NAME` = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="authenticateUtil != null">
-        AUTHENTICATE_UTIL = #{authenticateUtil,jdbcType=VARCHAR},
-      </if>
-      <if test="researchField != null">
-        RESEARCH_FIELD = #{researchField,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseTime != null">
-        RELEASE_TIME = #{releaseTime,jdbcType=DATE},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
-    update science_evolve_dynamic
-    set `NAME` = #{name,jdbcType=VARCHAR},
-      AUTHENTICATE_UTIL = #{authenticateUtil,jdbcType=VARCHAR},
-      RESEARCH_FIELD = #{researchField,jdbcType=VARCHAR},
-      RELEASE_TIME = #{releaseTime,jdbcType=DATE}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from science_evolve_dynamic where 1=1
+        <if test="name != null and name !='' ">
+            and `NAME` = #{NAME}
+        </if>
+        <if test="authenticateUtil != null  and authenticateUtil !='' ">
+            and AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL}
+        </if>
+        <if test="researchField != null and researchField !='' ">
+            and RESEARCH_FIELD = #{RESEARCH_FIELD}
+        </if>
+        <if test="releaseTime != null and releaseTime !='' ">
+            and RELEASE_TIME = #{RELEASE_TIME}
+        </if>
+        and deleted != '1'
+
+    </select>
+
+
+    <update id="update" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
+        update science_evolve_dynamic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != '' ">
+                `NAME` = #{NAME},
+            </if>
+            <if test="authenticateUtil != null and  authenticateUtil != ''">
+                AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL},
+            </if>
+            <if test="researchField != null and researchField != ''">
+                RESEARCH_FIELD = #{RESEARCH_FIELD},
+            </if>
+            <if test="releaseTime != null and releaseTime != '' ">
+                RELEASE_TIME = #{RELEASE_TIME}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <!--<insert id="insertSelective" keyColumn="ID" keyProperty="id"-->
+    <!--parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic" useGeneratedKeys="true">-->
+    <!--insert into science_evolve_dynamic-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="name != null">-->
+    <!--`NAME`,-->
+    <!--</if>-->
+    <!--<if test="authenticateUtil != null">-->
+    <!--AUTHENTICATE_UTIL,-->
+    <!--</if>-->
+    <!--<if test="researchField != null">-->
+    <!--RESEARCH_FIELD,-->
+    <!--</if>-->
+    <!--<if test="releaseTime != null">-->
+    <!--RELEASE_TIME,-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--<if test="name != null">-->
+    <!--#{name,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="authenticateUtil != null">-->
+    <!--#{authenticateUtil,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="researchField != null">-->
+    <!--#{researchField,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="releaseTime != null">-->
+    <!--#{releaseTime,jdbcType=DATE},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</insert>-->
+
+
+    <!--<update id="updateByPrimaryKey" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic">-->
+    <!--update science_evolve_dynamic-->
+    <!--set `NAME` = #{name,jdbcType=VARCHAR},-->
+    <!--AUTHENTICATE_UTIL = #{authenticateUtil,jdbcType=VARCHAR},-->
+    <!--RESEARCH_FIELD = #{researchField,jdbcType=VARCHAR},-->
+    <!--RELEASE_TIME = #{releaseTime,jdbcType=DATE}-->
+    <!--where ID = #{id,jdbcType=VARCHAR}-->
+    <!--</update>-->
 </mapper>
