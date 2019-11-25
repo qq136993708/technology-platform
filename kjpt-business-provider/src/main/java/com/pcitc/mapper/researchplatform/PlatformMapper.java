@@ -34,6 +34,6 @@ public interface PlatformMapper {
     /**
      * 平台相关项目条数
      */
-    Map selectPaltinfoCount(String id);
+    List<Map> selectPaltinfoCount(String id);
 
 }

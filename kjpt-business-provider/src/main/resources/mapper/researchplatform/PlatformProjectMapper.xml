@@ -10,6 +10,7 @@
         <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
         <result column="major_type" jdbcType="DECIMAL" property="majorType"/>
         <result column="duty_institutions" jdbcType="VARCHAR" property="dutyInstitutions"/>
+        <result column="duty_institutions_text" jdbcType="VARCHAR" property="dutyInstitutionsText"/>
         <result column="approval_year" jdbcType="VARCHAR" property="approvalYear"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
@@ -39,7 +40,7 @@
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_project where 1=1 and platform_id = #{platformId}
+        select  * from view_kypt_project where 1=1 and platform_id = #{platformId}
             and deleted != '1'
     </select>
 

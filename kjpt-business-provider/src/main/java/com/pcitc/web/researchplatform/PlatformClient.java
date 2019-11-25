@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,7 +61,7 @@ public class PlatformClient {
 
     @ApiOperation(value = "科研平台项目条数", notes = "科研平台项目条数")
     @RequestMapping(value = "/selectPaltinfoCount/{id}", method = RequestMethod.GET)
-    public Map selectPaltinfoCount(@PathVariable String id){
+    public List<Map> selectPaltinfoCount(@PathVariable String id){
         return ps.selectPaltinfoCount(id);
     }
 }
