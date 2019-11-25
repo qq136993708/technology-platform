@@ -51,6 +51,7 @@
 
     <insert id="add" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
     insert into computer_software (
+      ID,
       UNIT_NAME,
       REGISTER_NUMBER,
       SOFTWARE_NAME,
@@ -62,9 +63,15 @@
       ENTRY_PEOPLE,
       ENTRY_TIME,
       NOTES,
-      ACCESSORY_UPLOAD
+      ACCESSORY_UPLOAD,
+      DELETED,
+      create_date,
+      create_user,
+      update_date,
+      update_user
       )
     values (
+       #{id},
        #{unitName},
        #{registerNumber},
        #{softwareName},
@@ -76,10 +83,14 @@
        #{entryPeople},
        #{entryTime},
        #{notes},
-       #{accessoryUpload}
+       #{accessoryUpload},
+       #{deleted},
+       #{createDate},
+       #{creator},
+       #{updateDate},
+       #{updator}
       )
   </insert>
-
 
 
     <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
@@ -119,12 +130,20 @@
                 NOTES = #{NOTES},
             </if>
             <if test="accessoryUpload != null and accessoryUpload != ''">
-                ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+                update_date = #{update_date},
+            </if>
+            <if test="updateDate != null and updateDate != ''">
+                update_date = #{updateDate},
+            </if>
+            <if test="updator != null and updator != ''">
+                updator = #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null and deleted != ''">
+                deleted = #{deleted,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}
     </update>
-
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -137,7 +156,7 @@
             and REGISTER_NUMBER = #{REGISTER_NUMBER}
         </if>
         <if test="softwareName != null and softwareName != ''">
-            and  SOFTWARE_NAME = #{SOFTWARE_NAME}
+            and SOFTWARE_NAME = #{SOFTWARE_NAME}
         </if>
         <if test="copyrightOwner != null and copyrightOwner != ''">
             and COPYRIGHT_OWNER = #{COPYRIGHT_OWNER}
@@ -164,10 +183,19 @@
             and ENTRY_TIME = #{ENTRY_TIME}
         </if>
         <if test="notes != null and notes != ''">
-            and  NOTES = #{NOTES}
+            and NOTES = #{NOTES}
         </if>
         <if test="accessoryUpload != null and accessoryUpload != ''">
-           and ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+            and ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+        </if>
+        <if test="updateDate != null and updateDate != ''">
+            update_date = #{updateDate},
+        </if>
+        <if test="updator != null and updator != ''">
+            updator = #{updator,jdbcType=VARCHAR},
+        </if>
+        <if test="deleted != null and deleted != ''">
+            deleted = #{deleted,jdbcType=VARCHAR}
         </if>
         and deleted != '1'
     </select>

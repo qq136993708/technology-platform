@@ -154,6 +154,7 @@ public class ComputerSoftwareController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public ComputerSoftware save(@RequestBody ComputerSoftware cs) {
+        this.setBaseData(cs);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<ComputerSoftware> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<ComputerSoftware>(cs, this.httpHeaders), ComputerSoftware.class);
         return responseEntity.getBody();
