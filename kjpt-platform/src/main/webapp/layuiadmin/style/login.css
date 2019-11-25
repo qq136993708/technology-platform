@@ -17,10 +17,12 @@ body{background: white;}
   background: #fff;
 }
 .layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box;}
-.user-login-box{ width: 1000px;position: relative;margin: 0 auto;height: 100%;}
+
+.user-login-box{ width: 75%;position: relative;margin: 0 auto;height: 100%;}
+.login-house{ width: 560px;position: absolute; left: 0px; top: 30px !important;}
 .layadmin-user-login-box{padding: 20px 20px 0;}
 .layadmin-user-login-header{width: 95%;padding:6px 0;height: 70px;
-  background: url("/layuiadmin/layui/images/header-logo.png") 0 0 no-repeat; background-size:auto 100%;}
+  background: url("/layuiadmin/layui/images/header-logo.png") 0 0 no-repeat; background-size:auto 100%; margin:30px auto 0;}
 .engineering-header{background: url("/layuiadmin/layui/images/engineering-login-logo.png") left 16px no-repeat;}
 .layadmin-user-login-header h2{margin-bottom: 10px; font-weight: 300; font-size: 30px; color: #000;}
 .layadmin-user-login-header p{font-weight: 300; color: #999;}
