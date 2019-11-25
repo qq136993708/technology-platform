@@ -109,7 +109,7 @@
     entry_date, application_cost, remark, summary, application_of_patent_transformation,
     major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor,
     assign_profit, file, creator, create_date, update_date, updator, deleted,country,application_of_patent_transformation_text,
-    patent_type_text,country_text,application_type_text,legal_status_text
+    patent_type_text,country_text,application_type_text,legal_status_text, unit_name_text
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
