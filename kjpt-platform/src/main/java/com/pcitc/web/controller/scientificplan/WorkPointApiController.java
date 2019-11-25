@@ -110,6 +110,7 @@ public class WorkPointApiController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public WorkPoint save(@RequestBody WorkPoint wp) {
+        this.setBaseData(wp);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<WorkPoint> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<WorkPoint>(wp, this.httpHeaders), WorkPoint.class);
         return responseEntity.getBody();

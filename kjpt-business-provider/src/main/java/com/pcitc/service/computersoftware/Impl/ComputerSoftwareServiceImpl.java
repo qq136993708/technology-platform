@@ -30,6 +30,8 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
         IsEmptyUtil.isEmpty(computerSoftware.getId());
 
         if (load(computerSoftware.getId()) == null) {
+            computerSoftware.setCreateDate(computerSoftware.getUpdateDate());
+            computerSoftware.setCreator(computerSoftware.getUpdator());
             computerSoftwareMapper.add(computerSoftware);
         } else {
             computerSoftwareMapper.update(computerSoftware);

@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -37,6 +39,33 @@ import io.swagger.annotations.ApiOperation;
 public class SysDictionaryApiController extends BaseController {
 	
 	private static final String UNIT_LIST_ZTREE_DATA = "http://kjpt-zuul/system-proxy/unit-provider/unit/getAllList";
+	
+	private static final String GET_SUBS_DICTIONARY_LIST = "http://kjpt-zuul/system-proxy/dictionary-provider/getAllList";
+	
+	
+	
+	@ApiOperation(value = "根据字典编号查所有下级内容", notes = "根据字典编号查所有下级内容")
+    @ApiImplicitParams({
+       @ApiImplicitParam(name = "code", value = "字典编号", dataType = "string", paramType = "query",required=true)
+    })
+	@RequestMapping(value="/sysDictionary-api/getAllList/{code}",method = RequestMethod.GET)
+    public String getDicAndSubsList(@PathVariable("code") String code,HttpServletRequest request)
+	{
+		Result resultsDate = new Result();
+		HttpEntity  entity = new HttpEntity(this.httpHeaders);
+		JSONArray array =restTemplate.exchange(GET_SUBS_DICTIONARY_LIST , HttpMethod.GET, new HttpEntity(httpHeaders), JSONArray.class).getBody();
+		if(array!=null)
+		{
+			List<SysDictionary> list = JSONObject.parseArray(array.toJSONString(), SysDictionary.class);
+			List<FormSelectNode> alllist =TreeUtils.sysDictionaryToSelectNodeList(list);
+			JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(TreeUtils.recursiveTree(code,alllist)));
+			resultsDate.setData(trreeJson);
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+    }
+	
+	
 	/**
 	  *根据字典编号查下级内容
 	 */
