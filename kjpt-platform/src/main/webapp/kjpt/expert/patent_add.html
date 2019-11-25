@@ -8,7 +8,7 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
@@ -40,7 +40,7 @@
                                 <label class="layui-form-label label-required"><span class="text">申请日期:</span></label>
                                 <div class="layui-input-block">
                                     <input type="text" name="getPatentTimeStr"
-                                           autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input getPatentTimeStr">
+                                           autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input">
                                 </div>
                             </div>
                         </div>
@@ -48,8 +48,9 @@
                             <div class="layui-form-item item">
                                 <label class="layui-form-label label-required"><span class="text">专利类型:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="patentType"
-                                           placeholder="" autocomplete="off" class="layui-input patentType">
+                                    <select class="patentType" name="patentType" xm-select="patentType" xm-select-skin="normal" xm-select-radio></select>
+                                    <!--<input type="text" name="patentType"
+                                           placeholder="" autocomplete="off" class="layui-input patentType">-->
                                 </div>
                             </div>
                             <div class="layui-form-item item">
@@ -81,9 +82,25 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['form', 'jquery','element','laydate'], function(){
-        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
+    layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
+        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
+        function patentType(index) {
+            /*专利类型*/
+            $("#formPlatform>div").eq(index).find(".patentType").attr("xm-select","patentType"+index)
+            httpModule({
+                url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_ZLZL",
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        console.log(relData.data)
+                        formSelects.data('patentType'+index, 'local', { arr: relData.data });
+                        formSelects.btns('patentType'+index, ['remove']);
+                    }
+                }
+            });
+        }
         function getPatentTimeStr() {
+            /*申请日期*/
             lay('.getPatentTimeStr').each(function(){
                 laydate.render({
                     elem: this
@@ -91,7 +108,12 @@
                 });
             });
         }
-        getPatentTimeStr();
+        function itemHtml(index) {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            $("#formPlatform>div").eq(index).find(".laydate-input").addClass("getPatentTimeStr")
+            getPatentTimeStr();
+        }
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         if(variable!=null){
@@ -104,44 +126,39 @@
                         var patentName=JSON.parse(relData.data.zjkPatentJsonList)
                         if(patentName.length>0){
                             patentName.map(function (item, index) {
-                                var html=$("#item").html()
-                                $("#formPlatform").append(html)
-                                $("#formPlatform>div").eq(index).find(".laydate-input").addClass("getPatentTimeStr")
-                                getPatentTimeStr();
+                                itemHtml(index)
+                                patentType(index)
                                 $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
                                 $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
                                 $("#formPlatform>div").eq(index).find(".patentType").val(item.patentType)
                                 $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
                             })
                         }else {
-                            var html=$("#item").html()
-                            $("#formPlatform").append(html)
-                            $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
-                            getPatentTimeStr();
+                            var index=$("#formPlatform>div").length
+                            itemHtml(index)
+                            patentType(index)
                         }
 
                     }
                 }
             });
         }else {
-            var html=$("#item").html()
-            $("#formPlatform").append(html)
-            $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
-            getPatentTimeStr();
+            var index=$("#formPlatform>div").length
+            itemHtml(index)
+            patentType(index)
         }
         var $ = layui.$, active = {
             add:function(){
-                var html=$("#item").html()
-                $("#formPlatform").append(html)
-                $("#formPlatform>div:last-child").find(".laydate-input").addClass("getPatentTimeStr")
-                getPatentTimeStr();
+                var index=$("#formPlatform>div").length
+                itemHtml(index)
+                patentType(index)
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
                     var patentName=$("#formPlatform>div").eq(index).find(".patentName").val()
                     var getPatentTimeStr=$("#formPlatform>div").eq(index).find(".getPatentTimeStr").val()
-                    var patentType=$("#formPlatform>div").eq(index).find(".patentType").val()
+                    var patentType=formSelects.value('patentType'+index)[0].code
                     var describe=$("#formPlatform>div").eq(index).find(".describe").val()
                     if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr==''){
                         layer.msg("为填项不能为空！", {icon: 2});
@@ -157,10 +174,10 @@
                         arr.push(data)
                     }
                 })
-                if(arr.length==$("#formPlatform>div").length){
+                /*if(arr.length==$("#formPlatform>div").length){
                     setDialogData(arr); // 通知上层页面状态 - 弹窗中使用
                     top.layer.closeAll(); // 关闭弹窗
-                }
+                }*/
 
             },
             close:function () {

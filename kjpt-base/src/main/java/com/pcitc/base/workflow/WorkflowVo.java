@@ -3,10 +3,8 @@ package com.pcitc.base.workflow;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.system.SysFile;
 
 public class WorkflowVo implements Serializable {
 
@@ -74,7 +72,6 @@ public class WorkflowVo implements Serializable {
 	
 	private String messageUserIds;			//通知发起人
 	
-	private List<SysFile> fileList;
 	
 	
 	public String getAuthenticatedUserName() {
@@ -111,13 +108,6 @@ public class WorkflowVo implements Serializable {
 		this.state = state;
 	}
 
-	public List<SysFile> getFileList() {
-		return fileList;
-	}
-
-	public void setFileList(List<SysFile> fileList) {
-		this.fileList = fileList;
-	}
 
 	public String getDataType() {
 		return dataType;
