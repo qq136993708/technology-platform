@@ -58,14 +58,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysFile;
-import com.pcitc.base.system.SysFileExample;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
 import com.pcitc.base.workflow.SysFunctionProdef;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.system.SysUserMapper;
-import com.pcitc.service.system.SysFileService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
 import com.pcitc.utils.StringUtils;
 
@@ -88,8 +85,6 @@ public class WorkflowProviderClient {
 	@Autowired
 	private WorkflowInstanceService workflowInstanceService;
 
-	@Autowired
-	SysFileService sysFileService;
 	
 	@Autowired
 	private SysUserMapper sysUserMapper;
@@ -466,66 +461,55 @@ public class WorkflowProviderClient {
 	 * @param fileIds
 	 * @return 导入工作流文件
 	 */
-	@ApiOperation(value = "导入工作流模型", notes = "导入文件类型为bpmn，支持多文件导入")
-	@RequestMapping(value = "/workflow-provider/model/import/{fileIds}", method = RequestMethod.POST)
-	public Integer importWorkflowFiles(@PathVariable(value = "fileIds", required = true) String fileIds) {
-
-		System.out.println("======导入工作流文件=======" + fileIds);
-
-		List<SysFile> fileList = new ArrayList<>();
-		if (!StrUtil.isEmpty(fileIds)) {
-			String[] fileIdArr = fileIds.split(",");
-			SysFileExample sysFileExample = new SysFileExample();
-			sysFileExample.getOredCriteria().add(sysFileExample.createCriteria().andIdIn(Arrays.asList(fileIdArr)));
-			fileList = sysFileService.selectByExample(sysFileExample);
-		}
-
-		for (SysFile file : fileList) {
-			try {
-				String fileName = file.getFileName();
-				if (fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")) {
-					File temFile = new File(fileName);
-					XMLInputFactory xif = XmlUtil.createSafeXmlInputFactory();
-					FileInputStream ins = new FileInputStream(temFile);
-					InputStreamReader in = new InputStreamReader(ins, "UTF-8");
-					// InputStreamReader in = new InputStreamReader(new
-					// ByteArrayInputStream(temFile.le ), "UTF-8");
-					XMLStreamReader xtr = xif.createXMLStreamReader(in);
-					BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
-
-					if (bpmnModel.getMainProcess() != null && bpmnModel.getMainProcess().getId() != null) {
-
-						if (!bpmnModel.getLocationMap().isEmpty()) {
-
-							String processName = bpmnModel.getMainProcess().getName();
-							if (StringUtils.isEmpty(processName)) {
-								processName = bpmnModel.getMainProcess().getId();
-							}
-
-							Model model = repositoryService.newModel();
-							ObjectNode metaInfo = new ObjectMapper().createObjectNode();
-							metaInfo.put("name", processName);
-							metaInfo.put("revision", 1);
-
-							model.setMetaInfo(metaInfo.toString());
-							model.setName(processName);
-							model.setTenantId("pcitc");
-							// 固化
-							model.setKey(fileName);
-
-							repositoryService.saveModel(model);
-
-							ObjectNode editorNode = new BpmnJsonConverter().convertToJson(bpmnModel);
-							repositoryService.addModelEditorSource(model.getId(), editorNode.toString().getBytes("UTF-8"));
-						}
-					}
-				}
-			} catch (Exception e) {
-				throw new ActivitiException("Error Import Model", e);
-			}
-		}
-		return 1;
-	}
+	/*
+	 * @ApiOperation(value = "导入工作流模型", notes = "导入文件类型为bpmn，支持多文件导入")
+	 * 
+	 * @RequestMapping(value = "/workflow-provider/model/import/{fileIds}", method =
+	 * RequestMethod.POST) public Integer importWorkflowFiles(@PathVariable(value =
+	 * "fileIds", required = true) String fileIds) {
+	 * 
+	 * System.out.println("======导入工作流文件=======" + fileIds);
+	 * 
+	 * List<SysFile> fileList = new ArrayList<>(); if (!StrUtil.isEmpty(fileIds)) {
+	 * String[] fileIdArr = fileIds.split(","); SysFileExample sysFileExample = new
+	 * SysFileExample();
+	 * sysFileExample.getOredCriteria().add(sysFileExample.createCriteria().andIdIn(
+	 * Arrays.asList(fileIdArr))); fileList =
+	 * sysFileService.selectByExample(sysFileExample); }
+	 * 
+	 * for (SysFile file : fileList) { try { String fileName = file.getFileName();
+	 * if (fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")) { File
+	 * temFile = new File(fileName); XMLInputFactory xif =
+	 * XmlUtil.createSafeXmlInputFactory(); FileInputStream ins = new
+	 * FileInputStream(temFile); InputStreamReader in = new InputStreamReader(ins,
+	 * "UTF-8"); // InputStreamReader in = new InputStreamReader(new //
+	 * ByteArrayInputStream(temFile.le ), "UTF-8"); XMLStreamReader xtr =
+	 * xif.createXMLStreamReader(in); BpmnModel bpmnModel = new
+	 * BpmnXMLConverter().convertToBpmnModel(xtr);
+	 * 
+	 * if (bpmnModel.getMainProcess() != null && bpmnModel.getMainProcess().getId()
+	 * != null) {
+	 * 
+	 * if (!bpmnModel.getLocationMap().isEmpty()) {
+	 * 
+	 * String processName = bpmnModel.getMainProcess().getName(); if
+	 * (StringUtils.isEmpty(processName)) { processName =
+	 * bpmnModel.getMainProcess().getId(); }
+	 * 
+	 * Model model = repositoryService.newModel(); ObjectNode metaInfo = new
+	 * ObjectMapper().createObjectNode(); metaInfo.put("name", processName);
+	 * metaInfo.put("revision", 1);
+	 * 
+	 * model.setMetaInfo(metaInfo.toString()); model.setName(processName);
+	 * model.setTenantId("pcitc"); // 固化 model.setKey(fileName);
+	 * 
+	 * repositoryService.saveModel(model);
+	 * 
+	 * ObjectNode editorNode = new BpmnJsonConverter().convertToJson(bpmnModel);
+	 * repositoryService.addModelEditorSource(model.getId(),
+	 * editorNode.toString().getBytes("UTF-8")); } } } } catch (Exception e) { throw
+	 * new ActivitiException("Error Import Model", e); } } return 1; }
+	 */
 
 	@RequestMapping(value = "/workflow-provider/process/defines/list", method = RequestMethod.POST)
 	public Object selectProcessDefList(@RequestBody LayuiTableParam param) {

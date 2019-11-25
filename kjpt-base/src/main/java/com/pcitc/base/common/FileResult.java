@@ -3,7 +3,6 @@ package com.pcitc.base.common;
 import java.io.Serializable;
 import java.util.List;
 
-import com.pcitc.base.system.SysFile;
 
 
 public class FileResult implements Serializable{
@@ -17,11 +16,7 @@ public class FileResult implements Serializable{
     private List<String> initialPreview;
     private List<PreviewConfig> initialPreviewConfig;
 
-    private List<SysFile> list;
-
-    public List<SysFile> getList() {
-        return list;
-    }
+   
 
     public String getContentType() {
         return ContentType;
@@ -38,10 +33,6 @@ public class FileResult implements Serializable{
     public void setContentEncoding(String contentEncoding) {
         ContentEncoding = contentEncoding;
     }
-    public void setList(List<SysFile> list) {
-        this.list = list;
-    }
-    //private List<Object> initialPreviewThumbTags;*/
 
     /**
      *  whether to append the content to the initialPreview if you already set an initialPreview on INIT.
