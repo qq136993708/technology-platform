@@ -49,7 +49,7 @@
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  * from kypt_member where id = #{id} and deleted != '1'
+        select  * from view_kypt_member where id = #{id} and deleted != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
