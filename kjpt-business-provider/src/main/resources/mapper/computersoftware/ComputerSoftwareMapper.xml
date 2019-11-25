@@ -131,43 +131,43 @@
         select * from computer_software t where 1=1
 
         <if test="unitName != null and unitName != '' ">
-            UNIT_NAME = #{UNIT_NAME}
+            and UNIT_NAME = #{UNIT_NAME}
         </if>
         <if test="registerNumber != null and registerNumber != ''">
-            REGISTER_NUMBER = #{REGISTER_NUMBER}
+            and REGISTER_NUMBER = #{REGISTER_NUMBER}
         </if>
         <if test="softwareName != null and softwareName != ''">
-            SOFTWARE_NAME = #{SOFTWARE_NAME}
+            and  SOFTWARE_NAME = #{SOFTWARE_NAME}
         </if>
         <if test="copyrightOwner != null and copyrightOwner != ''">
-            COPYRIGHT_OWNER = #{COPYRIGHT_OWNER}
+            and COPYRIGHT_OWNER = #{COPYRIGHT_OWNER}
         </if>
         <if test="versionNumber != null and versionNumber != ''">
-            VERSION_NUMBER = #{VERSION_NUMBER}
+            and VERSION_NUMBER = #{VERSION_NUMBER}
         </if>
         <if test="recordDateStart != null and recordDateStart != ''">
-            DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
+            and DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
         </if>
         <if test="recordDateEnd != null and recordDateEnd != '' ">
-            DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
+            and DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
         </if>
         <if test="developFinishDate != null and developFinishDate != ''">
-            DEVELOP_FINISH_DATE = #{DEVELOP_FINISH_DATE}
+            and DEVELOP_FINISH_DATE = #{DEVELOP_FINISH_DATE}
         </if>
         <if test="softwareIntro != null and softwareIntro != ''">
-            SOFTWARE_INTRO = #{SOFTWARE_INTRO}
+            and SOFTWARE_INTRO = #{SOFTWARE_INTRO}
         </if>
         <if test="entryPeople != null and entryPeople != ''">
-            ENTRY_PEOPLE = #{ENTRY_PEOPLE}
+            and ENTRY_PEOPLE = #{ENTRY_PEOPLE}
         </if>
         <if test="entryTime != null and entryTime != ''">
-            ENTRY_TIME = #{ENTRY_TIME}
+            and ENTRY_TIME = #{ENTRY_TIME}
         </if>
         <if test="notes != null and notes != ''">
-            NOTES = #{NOTES}
+            and  NOTES = #{NOTES}
         </if>
         <if test="accessoryUpload != null and accessoryUpload != ''">
-            ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+            and ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
         </if>
         and deleted != '1'
     </select>
