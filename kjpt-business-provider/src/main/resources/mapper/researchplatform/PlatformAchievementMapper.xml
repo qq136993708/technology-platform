@@ -41,7 +41,7 @@
         select  * from view_kypt_achievement where id = #{id} and deleted != '1'
     </select>
 
-    <select id="query" parameterType="java.util.Map" resultType="BaseResultMap">
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_achievement where 1=1 and platform_id = #{platformId}
             and deleted != '1'
     </select>
