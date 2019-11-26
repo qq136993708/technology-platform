@@ -17,10 +17,12 @@
     <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
     <result column="user_company" jdbcType="VARCHAR" property="userCompany" />
     <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="unit_id" jdbcType="VARCHAR" property="unitId" /> 
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, log_time, user_id, user_name, log_ip, remarks, log_type, request_type, log_url, 
-    opt_describe, opt_result, opt_error, unit_name, user_company, user_type
+    opt_describe, opt_result, opt_error, unit_name, user_company, user_type,unit_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -37,14 +39,14 @@
       log_ip, remarks, log_type, 
       request_type, log_url, opt_describe, 
       opt_result, opt_error, unit_name, 
-      user_company, user_type)
+      user_company, user_type,unit_id)
     values (
       #{id,jdbcType=VARCHAR},
       #{logTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{logIp,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}, 
       #{requestType,jdbcType=VARCHAR}, #{logUrl,jdbcType=VARCHAR}, #{optDescribe,jdbcType=VARCHAR}, 
       #{optResult,jdbcType=VARCHAR}, #{optError,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
-      #{userCompany,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR})
+      #{userCompany,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.SysLog" useGeneratedKeys="true">
     insert into sys_log
@@ -95,6 +97,10 @@
       <if test="userType != null">
         user_type,
       </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -143,6 +149,9 @@
       <if test="userType != null">
         #{userType,jdbcType=VARCHAR},
       </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysLog">
@@ -190,6 +199,9 @@
       <if test="userType != null">
         user_type = #{userType,jdbcType=VARCHAR},
       </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -199,6 +211,7 @@
       user_id = #{userId,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
       log_ip = #{logIp,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
       log_type = #{logType,jdbcType=VARCHAR},
       request_type = #{requestType,jdbcType=VARCHAR},
@@ -224,6 +237,7 @@
 	     <if test="logType != null      and logType !=''  ">           AND t.log_type = #{logType}</if>
 	     <if test="userType != null       and userType !=''  ">         AND t.user_type = #{userType}</if>
 	     <if test="userCompany != null     and userCompany !=''  ">       AND t.user_company = #{userCompany}</if>
+	     <if test="unitId != null        and unitId !=''  ">          AND t.unit_id = #{unitId}</if>
 	     <if test="unitName != null        and unitName !=''  ">          AND t.unit_name = #{unitName}</if>
 	     <if test="beginTime != null     and beginTime !=''  ">       AND DATE_FORMAT(t.`log_time`,'%Y-%m-%d') &gt;= #{beginTime}</if>
 	     <if test="endTime != null     and endTime !=''  ">           AND DATE_FORMAT(t.`log_time`,'%Y-%m-%d') &lt;= #{endTime}</if>

@@ -1,50 +1,31 @@
 package com.pcitc.web.interceptor;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.RequestWrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.pcitc.base.common.Constant;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.system.SysLog;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.HostUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.TokenInterUtils;
 
 @Component
 public class TokenInterceptor extends BaseController implements HandlerInterceptor {
 
 	
-	private static final String LOG_ADD_URL = "http://kjpt-zuul/system-proxy/log-provider/add";
-	@Autowired
-	private HttpHeaders httpHeaders;
+	
+	
 	
 	@Autowired
 	private WebApplicationContext applicationContext;
@@ -54,23 +35,22 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
 			
-			    System.out.println(">>>>>>>>用户请求的URL："+request.getRequestURI());
-			    System.out.println(">>>>>>>>用户请求的IP："+request.getRemoteAddr());
 			    
 				
 				
-			    if(handler instanceof HandlerMethod)
-			    {
-			        HandlerMethod method = (HandlerMethod)handler;
-			        ApiOperation  apiOperation =method.getMethodAnnotation(ApiOperation.class);
-			        if(apiOperation!=null)
-			        {
-			        	  System.out.println("用户想执行的操作是--------------"+apiOperation.value());
-			        }
-			        System.out.println(">>>>>>>>用户请求的类："+method.getMethod().getDeclaringClass().getName());
-			        System.out.println(">>>>>>>用户请求的方法："+method.getMethod().getName());
-			    }
-			   
+			
+			  if(handler instanceof HandlerMethod) 
+			  { 
+				  HandlerMethod method = (HandlerMethod)handler; 
+				  OperationFilter apiOperation  =method.getMethodAnnotation(OperationFilter.class);
+				  if(apiOperation!=null) 
+				  {
+					  System.out.println("用户想执行的操作是--------------"+apiOperation.actionName()+"  "+apiOperation.modelName());
+					 // System.out.println(">>>>>>>>用户请求的类："+method.getMethod().getDeclaringClass(). getName());
+					 // System.out.println(">>>>>>>用户请求的方法："+method.getMethod().getName()); 
+				  }
+			 
+			  }
 			
 			String path = request.getRequestURI();
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
@@ -164,64 +144,8 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 	
-		System.out.println(">>>>>>dd>>用户请求的URL："+request.getRequestURI());
-	    System.out.println(">>>>>>dd>>用户请求的IP："+request.getRemoteAddr());
-	    
-	    String url=request.getRequestURI();
-		List<String> list = httpHeaders.get("Authorization");
-		if(list!=null)
-		{
-			JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
-			System.out.println(">>>>>>>>>>>Authorization:"+json.toString());
-			
-		    SysLog sysLog = new SysLog();
-			sysLog.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-			sysLog.setLogIp(getRemoteHost(request));
-			sysLog.setLogTime(new Date());
-			sysLog.setLogUrl(url);
-			if(url.equals("/index"))
-			{
-				sysLog.setLogType(Constant.LOG_TYPE_LOGIN);//日志类型：1登陆日志，2操作日志，3错误日志
-			}else
-			{
-				sysLog.setLogType(Constant.LOG_TYPE_OPT);
-			}
-			SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
-			String userName=userInfo.getUserDisp();
-			//用户类型：1普通用户，2系统管理员，3安全员，4审计员
-			if(userName.equals(Constant.LOG_SYSTEMADMIN))
-			{
-				sysLog.setUserType("2");
-			}else if(userName.equals(Constant.LOG_SECURITYADMIN))
-			{
-				sysLog.setUserType("3");
-			}else if(userName.equals(Constant.LOG_AUDITADMIN))
-			{
-				sysLog.setUserType("4");
-			}else
-			{
-				sysLog.setUserType("1");
-			}
-			sysLog.setUserName(userName); 
-			sysLog.setUserId(userInfo.getUserId());
-			sysLog.setRequestType(request.getMethod());
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-			//this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
-	
-		}
 		
-	    if(handler instanceof HandlerMethod)
-	    {
-	        HandlerMethod method = (HandlerMethod)handler;
-	        ApiOperation  apiOperation =method.getMethodAnnotation(ApiOperation.class);
-	        if(apiOperation!=null)
-	        {
-	        	  System.out.println("用户想执行的操作是--------------"+apiOperation.value());
-	        }
-	        System.out.println(">>>>>>>>用户请求的类："+method.getMethod().getDeclaringClass().getName());
-	        System.out.println(">>>>>>>用户请求的方法："+method.getMethod().getName());
-	        //sysLog.setRemarks("用户请求的类："+method.getMethod().getDeclaringClass().getName()+"-用户请求的方法："+method.getMethod().getName());
-	     }
+		   TokenInterUtils.saveSysLog(restTemplate, httpHeaders, request, sysUserInfo);
 	    
 	}
 
@@ -245,24 +169,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	
 	
 	
-	public String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
-		String ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
-	}
+	
+	
 	
 }

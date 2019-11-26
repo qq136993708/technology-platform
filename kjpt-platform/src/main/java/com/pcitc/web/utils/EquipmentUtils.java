@@ -40,11 +40,6 @@ import com.pcitc.web.common.JwtTokenUtil;
 
 public class EquipmentUtils {
 	
-	private static final String DEL_URL_PROJECT =    "http://kjpt-zuul/stp-proxy/sre-provider/project_basic/delete/";
-	private static final String DEL_URL_TASK = "http://kjpt-zuul/stp-proxy/sre-provider/project_task/delete/";
-	
-	
-	private static final String DEL_URL_SETUP = "http://kjpt-zuul/stp-proxy/sre-provider/project_setup/delete/";
 	
 	
 	
@@ -52,17 +47,11 @@ public class EquipmentUtils {
      private static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
      private static final String FUNCTION_FILTER_URL = "http://kjpt-zuul/system-proxy/userProperty-provider/function/getPostDic";
      
-     //科技部代码
-     private static final String KJB_UNIONPATH_NUM = "10010685";
-     //科技部综合计划处
-     public static final String KJB_ZHJHC_NUM = "30130054";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
      
      
      
-     public static final String GET_ORG_URL =     "http://kjpt-zuul/stp-proxy/sre-provider/techOrgCount/get/";
- 	 public static final String   GET_COST_URL =   "http://kjpt-zuul/stp-proxy/sre-provider/techCost/get/";
 	
 	public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -115,47 +104,8 @@ public class EquipmentUtils {
 	
 	
 	
-	public static Integer deleteSreProject(String id ,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		Integer str=0;
-		ResponseEntity<Integer> responseEntity = restTemplate.exchange(DEL_URL_PROJECT + id, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			str = responseEntity.getBody();
-		}
-		return str;
-	}
 	
 	
-	
-	
-	
-	
-	public static Integer deleteSreProjectTask(String id ,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		Integer str=0;
-		ResponseEntity<Integer> responseEntity = restTemplate.exchange(DEL_URL_TASK + id, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			str = responseEntity.getBody();
-		}
-		return str;
-	}
-	
-	
-	public static Integer deleteSreProjectSetup(String id ,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		Integer str=0;
-		ResponseEntity<Integer> responseEntity = restTemplate.exchange(DEL_URL_SETUP + id, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			str = responseEntity.getBody();
-		}
-		return str;
-	}
 	
 	
 	public static List<SysDictionary>  getSysDictionaryListByParentCode(String parentCode ,RestTemplate restTemplate,HttpHeaders httpHeaders)
@@ -217,87 +167,6 @@ public class EquipmentUtils {
 	
 	
 
-	/*public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
-	{
-		Map<String ,String> map=new HashMap<String ,String>();
-		String unitName = "";//申报单位
-		String unitCode = "";//申报单位
-		String applyDepartName = "";//具体部门
-		String applyDepartCode = "";//具体部门
-		String applyUnitId="";
-		String applyUnitPath="";
-		
-		String unitCodes = sysUserInfo.getUnitCode();//00000,108811,108811002
-		String unitNames = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
-		System.out.println("==========unitNames="+unitNames+" unitCodes:"+unitCodes);
-		//字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员)
-		List<SysDictionary> dicList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,httpHeaders);
-		if(dicList!=null && dicList.size()>0)
-		{
-			for(int i=0;i<dicList.size();i++)
-			{
-				SysDictionary sysDictionary=dicList.get(i);
-				String value=sysDictionary.getNumValue();
-				String name=sysDictionary.getName();
-				String arr[]=unitCodes.split(",");
-				if(arr!=null && arr.length>0)
-				{
-					for(int j=0;j<arr.length;j++)
-					{
-						String code=arr[j];
-						if(code.equals(value))
-						{
-							unitCode=code;
-							unitName=name;
-						}
-					}
-				}
-			}
-		}
-		//根据单位--》找出下级部门（中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所）
-		if(!unitCode.equals(""))
-		{
-			String arr[]=unitCodes.split(",");
-			if(arr!=null && arr.length>0)
-			{
-				for(int j=0;j<arr.length;j++)
-				{
-					String code=arr[j];
-					if(code.length()>6 && code.contains(unitCode))//部门：9位,且包含单位代码
-					{
-						applyDepartCode=code;
-						SysUnit sysUnit= getUnitByUnitCode(applyDepartCode, restTemplate, httpHeaders);
-						if(sysUnit!=null)
-						{
-							applyDepartName=sysUnit.getUnitName();
-							applyUnitId=sysUnit.getUnitId();
-							applyUnitPath=sysUnit.getUnitPath();
-						}
-					}
-					
-				}
-			}
-		}
-		
-		map.put("unitName", unitName);
-		map.put("unitCode", unitCode);
-		map.put("applyDepartName", applyDepartName);
-		map.put("applyDepartCode", applyDepartCode);
-		map.put("applyUnitId", applyUnitId);
-		map.put("applyUnitPath", applyUnitPath);
-		
-		System.out.println("==========单位 unitCode="+unitCode);
-		System.out.println("==========单位 unitName="+unitName);
-		System.out.println("==========部门 applyDepartName="+applyDepartName);
-		System.out.println("==========部门 applyDepartCode="+applyDepartCode);
-		System.out.println("==========部门 applyUnitId="+applyUnitId);
-		System.out.println("==========部门 applyUnitPath="+applyUnitPath);
-		
-		return map;
-		
-	}
-	*/
-	
 	public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
 		Map<String ,String> map=new HashMap<String ,String>();
@@ -825,36 +694,6 @@ public class EquipmentUtils {
 		return sysUser;
 	}
 	
-	//是不是科技部人员
-	public static boolean isKJBPerson(String unitPathIds)throws Exception
-	{
-		
-		System.out.println("---------isKJBPerson--unitPathId="+unitPathIds);
-		boolean flag=false;//默认不是
-		if(!unitPathIds.equals(""))
-		{
-			String array[]=unitPathIds.split(",");
-			for(int i=0;i<array.length;i++)
-			{
-				String strPath=array[i];
-				if(strPath!=null && !strPath.equals(""))
-				{
-					if(strPath.length()>4)
-					{
-						String parentUnitPathId=strPath.substring(0, strPath.length()-4);
-						if(parentUnitPathId.equals(EquipmentUtils.KJB_UNIONPATH_NUM))
-						{
-							flag=true;
-							
-							System.out.println("------------------isKJBPerson 是科技部人员-----------------------");
-						}
-					}
-				}
-				
-			}
-		}
-		return flag;
-	}
 	
 	//是不是8大院人员
 	public static String getYSPersonName(String unitPathIds,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
@@ -1518,6 +1357,29 @@ public class EquipmentUtils {
 			}
 		}
 		return pwd.toString();
+	}
+	
+	
+	
+	
+	public static String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
 	}
 	
 	
