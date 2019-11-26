@@ -44,7 +44,7 @@ public class PlatformTreatiseServiceImpl implements PlatformTreatiseService {
 
     @Override
     public Integer batchSave(List<PlatformTreatiseModel> dataList) {
-        return batchSave(dataList);
+        return ptm.batchSave(dataList);
     }
 
     @Override
