@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        /*.search-left{width: 85%;float: left}*/
+        .layui-form-item{margin-bottom: 10px !important;}
+        .search-right{text-align:right;}
+        .layui-float-left{float: left;width: 30%}
+        .origin {font-size: 14px;margin: 5px 5px 0px;width: 14px}
+        .layout-view-content.dialog .layui-form-label{width: 90px;max-width: 90px}
+        .layout-view-content.dialog .layui-input-block{margin-left: 90px}
+    </style>
+</head>
+<body>
+<div class="layout-view-content dialog">
+    <div class="layui-row layui-col-space20" style="position: relative;">
+        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+            <div class="search-left layui-col-md10">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">操作名称:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="optDescribe" id="optDescribe" placeholder="请输入操作名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">操作IP:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="logIp" id="logIp" placeholder="请输入操作IP" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label"><span class="text">日期范围:</span></label>
+                    <div class="layui-float-left">
+                        <input type="text" name="beginTime" id="beginTime" autocomplete="off" placeholder="请选择" class="laydate-input" lay-key="1">
+                    </div>
+                    <span class="origin layui-float-left">至</span>
+                    <div class="layui-float-left">
+                        <input type="text" name="endTime" id="endTime" autocomplete="off" placeholder="请选择" class="laydate-input" lay-key="2">
+                    </div>
+                </div>
+            </div>
+            <div class="search-right layui-col-md2">
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
+                    <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <table id="expertTable" lay-filter="expertTable"></table>
+</div>
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+    layui.use([ 'form', 'jquery','table','laydate'], function(){
+        var $ = layui.jquery, form = layui.form, table = layui.table,laydate = layui.laydate;
+        var tableRender = false,variable = getQueryVariable();
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#beginTime'
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#endTime'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        /*公共方法*/
+        var obj={
+            tableList:function (where) {
+                /*列表展示*/
+                if (!tableRender) {
+                    tableRender = true;
+                    table.render({
+                        elem: '#expertTable' // 表格元素ID
+                        ,url: '/sysLog-api/query' //数据接口
+                        ,cols: [[ //表头
+                            {title: '序号',type:'numbers',width:55 },
+                            {field: 'optResult', title: '登录结果' },
+                            {field: 'optDescribe', title: '操作功能'},
+                            {field: 'userName', title: '操作者'},
+                            {field: 'logUrl', title: 'URL' },
+                            {field: 'logIp', title: '操作IP地址'},
+                            {field: 'requestType', title: '操作方式'},
+                            {field: 'logTime', title: ' 操作时间', templet:  '<div>{{ layui.laytpl.toDateString(d.logTime) }}</div>'}
+                        ]],
+                        method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                        where: where
+                        ,request: {
+                            page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                            limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                        }
+                        , page: true //开启分页
+                        , limit: 15
+                        , limits: [15, 30, 45, 60], // 配置分页数据条数
+                    });
+                }else {
+                    table.reload('expertTable', {where: where});
+                }
+            }
+        }
+        /*初始表格*/
+        obj.tableList({logType:variable.logType,userType:variable.userType});
+        form.on('submit(newSubmit)', function(data) {
+            data.field.logType=variable.logType
+            data.field.userType=variable.userType
+            console.log(data.field)
+            obj.tableList(data.field)
+            return false
+        })
+    });
+</script>
+</body>
+</html>
