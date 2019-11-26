@@ -151,6 +151,7 @@ layui.config({
                     // 弹窗销毁时获取弹窗返回数据
                     achieveName = getDialogData('dialog-data');
                     if (achieveName) {
+                        $(".zjkAchievementJsonList ul li:not('.expert-li-last')").remove()
                         achieveName.map(function (item,index) {
                             var html='<li><span>'+item.achieveName+'</span><i class="layui-icon layui-unselect layui-tab-close closeAchievement">ဆ</i></li>'
                             $(".zjkAchievementJsonList ul li.expert-li-last").before(html)
@@ -180,6 +181,7 @@ layui.config({
                     // 弹窗销毁时获取弹窗返回数据
                     projectName = getDialogData('dialog-data');
                     if (projectName) {
+                        $(".zjkProjectJsonList ul li:not('.expert-li-last')").remove()
                         projectName.map(function (item,index) {
                             var html='<li><span>'+item.projectName+'</span><i class="layui-icon layui-unselect layui-tab-close closeProject">ဆ</i></li>'
                             $(".zjkProjectJsonList ul li.expert-li-last").before(html)
@@ -208,6 +210,7 @@ layui.config({
                     // 弹窗销毁时获取弹窗返回数据
                     patentName = getDialogData('dialog-data');
                     if (patentName) {
+                        $(".zjkPatentJsonList ul li:not('.expert-li-last')").remove()
                         patentName.map(function (item,index) {
                             var html='<li><span>'+item.patentName+'</span><i class="layui-icon layui-unselect layui-tab-close closePatent">ဆ</i></li>'
                             $(".zjkPatentJsonList ul li.expert-li-last").before(html)
@@ -236,6 +239,7 @@ layui.config({
                     // 弹窗销毁时获取弹窗返回数据
                     rewardName = getDialogData('dialog-data');
                     if (rewardName) {
+                        $(".zjkRewardJsonList ul li:not('.expert-li-last')").remove()
                         rewardName.map(function (item,index) {
                             var html='<li><span>'+item.rewarkLevelStr+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
                             $(".zjkRewardJsonList ul li.expert-li-last").before(html)
