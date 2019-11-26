@@ -64,6 +64,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         }
       }
     });
+    // 获取项目、评审、成果、专利个数
+    httpModule({
+      url: '/platform-api/selectPaltinfoCount/' + variable.id,
+      success: function(relData) {
+        if (relData.code === '0') {
+         $('[num-label]').each(function(i, item) {
+           var numLabel = $(this).attr('num-label');
+           if (numLabel) {
+            var itemVlue = relData.data.filter(function(value, i) { if (value.count_type === numLabel) return value; })[0];
+            $(this).empty().text(itemVlue.count);
+           }
+         });
+        }
+      }
+    });
 
     // 科研项目 /platformProject-api/load/
     addTableData({
