@@ -29,6 +29,19 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
           // 更新表单数据
           form.render();
   
+          setFileUpload({
+            id: 'file-filter-options', // 附件上传作用域ID值 必传
+            dataID: data.id, // 用来查找当前单据下绑定的附件，没有则不查找
+            readonly : file_readonly,
+            callback: function (tableData, type) {
+              /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+                * type 触发变更的类型 目前只有 delete | upload
+              */
+              var files = $.map(tableData, function(item) { return item.id});
+              $("#files").val(files.join(','));
+            }
+          });
+
 
         }
       }

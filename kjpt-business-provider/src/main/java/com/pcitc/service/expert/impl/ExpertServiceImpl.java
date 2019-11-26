@@ -101,6 +101,40 @@ public class ExpertServiceImpl implements IExpertService {
 		 zjkProjectMapper.deleteZjkProjectByExpertId(record.getId());
 		 //再增加相关的信息（专利，成果，项目，奖励）
 		 addRealtionInfo(record);
+		 
+		 
+		 
+		 
+		   String technicalFieldName="";
+			String codes=record.getTechnicalField();
+			if (!codes.equals("")) 
+			{
+				String chkbox[] = codes.split(",");
+				if (chkbox != null && chkbox.length > 0) 
+				{
+					List<String> list = Arrays.asList(chkbox);
+					List<TechFamily> tempList= techFamilyMapper.getTechFamilyListByCodes(list);
+					if (tempList!=null && tempList.size()>0) 
+					{
+						StringBuffer sb=new StringBuffer();
+						for(int i=0;i<tempList.size();i++)
+						{
+							TechFamily techFamily=tempList.get(i);
+							String str=techFamily.getTypeName();
+							if(i>0)
+							{
+								sb.append(",");
+							}
+							sb.append(str);
+						}
+						technicalFieldName=sb.toString();
+					}
+					
+				}
+			}
+			record.setTechnicalFieldName(technicalFieldName);
+			
+			
 		 return zjkBaseMapper.updateByPrimaryKey(record);
 	}
 

@@ -32,6 +32,7 @@
 /** 下拉条目选中 */
 .layui-form-select dl dd.layui-this {
   background-color: #1890FF;
+  font-size: 14px;
 }
 
 /** 选项卡 */
@@ -126,18 +127,16 @@
   border-color: #AAAAAA;
   border-radius: 5px;
   font-size: 14px;
-<<<<<<< HEAD
-=======
 }
 .layui-input {
   line-height: 28px;
->>>>>>> 5dacc8b7e296a0db81daa0eb2fc536d2178c7a29
 }
 .layui-form-select dl{
   top: 32px;
 }
 .layui-form-selectup dl{
   top: auto;
+  font-size: 14px;
 }
 .layui-form-switch{
   margin-top: 3px;
@@ -312,6 +311,21 @@
   padding-right: 8px;
 }
 
+/* 表单文本排版 */
+.layui-form-item .layui-text-block{
+  display: none;
+}
+.layui-form-item.form-text .layui-text-block{
+  display: block;
+  margin-left: 144px;
+}
+.layout-view-content.label-dialog .form-text .layui-text-block,
+.layout-view-content.dialog .form-text .layui-text-block{
+  margin-left: 120px;
+}
+.layout-view-content.min-label .form-text .layui-text-block {
+  margin-left: 108px;
+}
 
 /* 多选下拉框样式 */
 .xm-select-parent .xm-select{

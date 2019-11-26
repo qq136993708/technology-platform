@@ -273,7 +273,8 @@ function _commonLoadDic(dicKindCode, callback) {
 	if (dicKindCode && typeof(dicKindCode) !== 'object') {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
 		if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
-			httpUrl = '/sysDictionary-api/getAllList/' + dicKindCode;
+			httpUrl = '/unit-api/getTreeList';
+			/// '/sysDictionary-api/getAllList/' + dicKindCode;
 		}
 
 		httpModule({
@@ -288,16 +289,25 @@ function _commonLoadDic(dicKindCode, callback) {
 				} else if (relData.success) {
 					success = true;
 				}
+				if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+					success = true;
+				}
+
 				if (success) {
 					var __dicData = null;
-					if (!relData.data) {
-						__dicData = [];
+					if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+						__dicData = relData.children || [];
+						console.log('__dicData =>', __dicData);
 					} else {
-						var relData_data = relData.data;
-						if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
-							relData_data = relData.data.childNodes || relData.data.children;
+						if (!relData.data) {
+							__dicData = [];
+						} else {
+							__dicData = relData.data;
 						}
-						__dicData = switchHttpData(relData_data, null, function(itemData) {
+					}
+					
+					if (__dicData.length) {
+						__dicData = switchHttpData(__dicData, null, function(itemData) {
 							if (!itemData.value) {
 								itemData.value = (function() {
 									if (itemData.numValue || itemData.numValue === 0) {
@@ -328,6 +338,7 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			form.data(filter, 'local', {arr: __dicData});
 		} else {
 			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
+				console.log(event, param);
 				form.data(filter, 'local', {arr: param.data});
 			});
 		}

@@ -131,8 +131,8 @@
                 }
             });
         }
-        $(".label-value").hover(function () {
-            /*console.log($(this).html())*/
+        $(".label-value").eq(2).hover(function () {
+            $(this).attr("title",$(this).html())
         })
         var projectArr=[
             {title: '序号',type:'numbers',width:55 },
@@ -153,14 +153,14 @@
         var patentArr=[
             {title: '序号',type:'numbers' ,width:55},
             {field: 'patentName', title: '专利名称'},
-            {field: 'patentType', title: '专利类型'},
+            {field: 'patentTypeStr', title: '专利类型'},
             {field: 'getPatentTimeStr', title: '申请日期' },
             {field: 'describe', title: '专利描述'},
         ]
         tableRender('patent',patentArr,'/expert-patent-api/list',variable.id)
         var rewardArr=[
             {title: '序号',type:'numbers',width:55 },
-            {field: 'rewarkLevel', title: '奖励级别'},
+            {field: 'rewarkLevelStr', title: '奖励级别'},
             {field: 'notes', title: '奖励描述'},
             {field: 'awardingUnit', title: '授奖单位' },
             {field: 'awardingTimeStr', title: '获奖日期'},

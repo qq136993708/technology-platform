@@ -20,7 +20,11 @@ layui.config({
     laydate.render({
         elem: '#appDate', //指定元素
         type:"year",
-        trigger: 'click'
+        trigger: 'click',
+        change: function(value, date, endDate){
+            $("#appDate").val(value)
+            $('#layui-laydate1').remove();//删除
+        }
     });
     /*动态生成元素*/
     function createElement(code,id,element,name) {
@@ -30,8 +34,9 @@ layui.config({
             success: function(relData) {
                 if (relData.success === true) {
                     relData.data.map(function(item){
+                        console.log(item)
                         if(element=="option"){
-                            $("#"+id).append("<option value='"+item.code+"' name='"+name+"'>"+item.name+"</option>")
+                            $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
                         }else if(element=="radio"){
                             $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
                         }
