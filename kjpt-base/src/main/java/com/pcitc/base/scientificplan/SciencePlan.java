@@ -20,6 +20,8 @@ public class SciencePlan extends RecordModel implements Serializable {
     private String professionalField;//专业领域 PROFESSIONAL_FIELD
     private String specialtyCategory = "";//专业类别
     private Date releaseTime = new Date();//发布时间
+    private  String authenticateUitlText; //文档
+
 
     public SciencePlan() {
 
@@ -90,6 +92,14 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     public void setProfessionalField(String professionalField) {
         this.professionalField = professionalField;
+    }
+
+    public String getAuthenticateUitlText() {
+        return authenticateUitlText;
+    }
+
+    public void setAuthenticateUitlText(String authenticateUitlText) {
+        this.authenticateUitlText = authenticateUitlText;
     }
 }
 

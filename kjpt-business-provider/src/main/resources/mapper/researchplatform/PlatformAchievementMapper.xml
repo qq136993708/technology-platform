@@ -8,9 +8,8 @@
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
         <result column="achievement_name" jdbcType="VARCHAR" property="achievementName"/>
-        <result column="achievement_type" jdbcType="DECIMAL" property="achievementType"/>
-        <result column="achievement_type" jdbcType="DECIMAL" property="achievementType"/>
-        <result column="achievement_type_text" jdbcType="DECIMAL" property="achievementTypeText"/>
+        <result column="achievement_type" jdbcType="VARCHAR" property="achievementType"/>
+        <result column="achievement_type_text" jdbcType="VARCHAR" property="achievementTypeText"/>
         <result column="applicant_unit" jdbcType="VARCHAR" property="applicantUnit"/>
         <result column="applicant_unit_text" jdbcType="VARCHAR" property="applicantUnitText"/>
         <result column="applicant_year" jdbcType="VARCHAR" property="applicantYear"/>
