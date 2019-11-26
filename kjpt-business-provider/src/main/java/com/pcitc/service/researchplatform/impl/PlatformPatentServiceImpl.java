@@ -58,10 +58,6 @@ public class PlatformPatentServiceImpl implements PlatformPatentService {
 
     @Override
     public Integer batchSave(List<PlatformPatentModel> dataList) {
-        return platformPatentMapper.batchSave(dataList.stream().filter(pam ->{
-            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
-                pam.setId(UUID.randomUUID().toString().replace("-",""));
-            return true;
-        }).collect(Collectors.toList()));
+        return platformPatentMapper.batchSave(dataList);
     }
 }

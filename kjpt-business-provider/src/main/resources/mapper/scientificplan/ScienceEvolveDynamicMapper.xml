@@ -32,8 +32,7 @@
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from science_evolve_dynamic
-        where id = #{id} and deleted != '1'
+        select * from science_evolve_dynamic where id = #{id} and deleted != '1'
     </select>
 
 
@@ -75,18 +74,19 @@
         select * from science_evolve_dynamic where 1=1
 
         <if test="name != null and name !='' ">
-            and `NAME` = like CONCAT('%',#{NAME},'%')
+            and `NAME` like CONCAT('%',#{name},'%')
         </if>
 
         <if test="authenticateUtil != null  and authenticateUtil !='' ">
-            and AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL}
+            and AUTHENTICATE_UTIL = #{authenticateUtil}
         </if>
         <if test="researchField != null and researchField !='' ">
-            and RESEARCH_FIELD = #{RESEARCH_FIELD}
+            and RESEARCH_FIELD = #{researchField}
         </if>
         <if test="releaseTime != null and releaseTime !='' ">
-            and RELEASE_TIME = #{RELEASE_TIME}
+            and RELEASE_TIME = #{releaseTime}
         </if>
+
         and deleted != '1'
 
     </select>
@@ -95,17 +95,18 @@
     <update id="update" parameterType="com.pcitc.base.scientificplan.ScienceEvolveDynamic">
         update science_evolve_dynamic
         <trim prefix="SET" suffixOverrides=",">
+
             <if test="name != null and name != '' ">
-                `NAME` = #{NAME},
+                `NAME` = #{name},
             </if>
             <if test="authenticateUtil != null and  authenticateUtil != ''">
-                AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL},
+                AUTHENTICATE_UTIL = #{authenticateUtil},
             </if>
             <if test="researchField != null and researchField != ''">
-                RESEARCH_FIELD = #{RESEARCH_FIELD},
+                RESEARCH_FIELD = #{researchField},
             </if>
             <if test="releaseTime != null and releaseTime != '' ">
-                RELEASE_TIME = #{RELEASE_TIME},
+                RELEASE_TIME = #{releaseTime},
             </if>
             <if test="updateDate != null and updateDate != ''">
                 update_date = #{updateDate},

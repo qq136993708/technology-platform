@@ -35,7 +35,7 @@ public class FileCommonServiceImpl implements FileCommonService {
     @Transactional(rollbackFor = Exception.class)
     public void updateFileData(String fileIds, String dataId) {
         String[] fileArr = fileIds.split(",");
-        fcm.delete(fileArr);
+        fcm.delete(dataId);
         fcm.updateSetDataID(dataId,fileArr);
     }
 

@@ -31,8 +31,7 @@
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from year_summary
-        where id = #{id} and deleted != '1'
+        select * from year_summary where id = #{id} and deleted != '1'
     </select>
 
 
@@ -70,18 +69,20 @@
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+
         select * from year_summary where 1=1
+
         <if test="name != null and name != '' ">
-            and `NAME` = like CONCAT('%',#{NAME},'%')
+            and `NAME` like CONCAT('%',#{name},'%')
         </if>
         <if test="authenticateUtil != null authenticateUtil != '' ">
-            and AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL}
+            and AUTHENTICATE_UTIL = #{authenticateUtil}
         </if>
         <if test="researchField != null and researchField != '' ">
-            and RESEARCH_FIELD = #{RESEARCH_FIELD}
+            and RESEARCH_FIELD = #{researchField}
         </if>
         <if test="releaseTime != null and releaseTime != '' ">
-            and RELEASE_TIME = #{RELEASE_TIME}
+            and RELEASE_TIME = #{releaseTime}
         </if>
         and deleted != '1'
     </select>
@@ -91,16 +92,16 @@
         update year_summary
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != '' ">
-                `NAME` = #{NAME},
+                `NAME` = #{name},
             </if>
             <if test="authenticateUtil != null authenticateUtil != '' ">
-                AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL},
+                AUTHENTICATE_UTIL = #{authenticateUtil},
             </if>
             <if test="researchField != null researchField != '' ">
-                RESEARCH_FIELD = #{RESEARCH_FIELD},
+                RESEARCH_FIELD = #{researchField},
             </if>
             <if test="releaseTime != null releaseTime != '' ">
-                RELEASE_TIME = #{RELEASE_TIME},
+                RELEASE_TIME = #{releaseTime},
             </if>
             <if test="updateDate != null and updateDate != ''">
                 update_date = #{updateDate},
