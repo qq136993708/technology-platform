@@ -48,12 +48,8 @@
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from computer_software
-        where id = #{id} and deleted != '1'
+        select * from computer_software where id = #{id} and deleted != '1'
     </select>
-
 
     <update id="delete" parameterType="java.lang.String">
             update computer_software set deleted = '1' where id = #{id}
@@ -141,7 +137,7 @@
                 NOTES = #{NOTES},
             </if>
             <if test="accessoryUpload != null and accessoryUpload != ''">
-                ACCESSORY_UPLOAD  = #{ACCESSORY_UPLOAD},
+                ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD},
             </if>
             <if test="updateDate != null and updateDate != ''">
                 update_date = #{updateDate},
@@ -158,11 +154,12 @@
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select * from computer_software t where 1=1 and id = #{id}
+        select * from computer_software t where 1=1
 
         <if test="unitName != null and unitName != '' ">
-            and UNIT_NAME = #{UNIT_NAME}
+            and UNIT_NAME = like CONCAT('%',#{UNIT_NAME},'%')
         </if>
+
         <if test="registerNumber != null and registerNumber != ''">
             and REGISTER_NUMBER = #{REGISTER_NUMBER}
         </if>

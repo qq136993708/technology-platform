@@ -17,6 +17,7 @@ public class WorkPoint extends RecordModel implements Serializable {
     private String authenticateUtil = "";//申报单位
     private String researchField = "";//研究领域
     private Date releaseTime = new Date();//发布时间
+    private  String authenticateUitlText; //文档
 
     public WorkPoint() {
 
@@ -69,5 +70,13 @@ public class WorkPoint extends RecordModel implements Serializable {
 
     public void setReleaseTime(Date releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public String getAuthenticateUitlText() {
+        return authenticateUitlText;
+    }
+
+    public void setAuthenticateUitlText(String authenticateUitlText) {
+        this.authenticateUitlText = authenticateUitlText;
     }
 }

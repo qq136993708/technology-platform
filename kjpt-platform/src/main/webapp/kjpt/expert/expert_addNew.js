@@ -34,8 +34,9 @@ layui.config({
             success: function(relData) {
                 if (relData.success === true) {
                     relData.data.map(function(item){
+                        console.log(item)
                         if(element=="option"){
-                            $("#"+id).append("<option value='"+item.numValue+"' name='"+name+"'>"+item.name+"</option>")
+                            $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
                         }else if(element=="radio"){
                             $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
                         }
