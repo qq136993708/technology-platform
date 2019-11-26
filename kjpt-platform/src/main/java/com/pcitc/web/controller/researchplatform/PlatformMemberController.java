@@ -127,11 +127,10 @@ public class PlatformMemberController extends RestBaseController {
     @ApiOperation(value="批量添加")
     @RequestMapping(value = "/researchPlatformMember-api/batchSave", method = RequestMethod.POST)
     @ResponseBody
-    public Integer batchSave(@RequestBody List<PlatformMemberModel> pmList,@RequestParam String platformId) {
+    public Integer batchSave(@RequestBody List<PlatformMemberModel> pmList) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         pmList.forEach(p -> {
             this.setBaseData(p);
-            p.setPlatformId(platformId);
             p.setCreateDate(new Date());
             p.setCreator(this.getUserProfile().getUserName());
             p.setId(UUID.randomUUID().toString().replace("-",""));
