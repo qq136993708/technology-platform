@@ -44,9 +44,8 @@ import com.pcitc.base.system.SysUser;
 @Component
 public class SysAspect extends BaseController {
 
-	private static final String LOG_ADD_URL = "http://kjpt-zuul/system-proxy/log-provider/log/add";
+	private static final String LOG_ADD_URL = "http://kjpt-zuul/system-proxy/log-provider/add";
 
-	private static final String USER_DATA_FILTER_URL = "http://kjpt-zuul/system-proxy/userProperty-provider/data-filter/";
 	
 	private static final String FUNCTION_FILTER_URL = "http://kjpt-zuul/system-proxy/userProperty-provider/function/data-filter";
 
@@ -225,26 +224,23 @@ public class SysAspect extends BaseController {
 			if (logger.actionName() != null && !logger.actionName().equals("")) {
 				HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 				SysLog sysLog = new SysLog();
-				sysLog.setLogId(UUID.randomUUID().toString().replaceAll("-", ""));
-				sysLog.setLogActionName(logger.actionName());
-				sysLog.setLogAction(logger.modelName());
+				sysLog.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+				sysLog.setRemarks(logger.actionName()+";"+logger.modelName());
 				sysLog.setLogIp(getRemoteHost(request));
 				sysLog.setLogTime(new Date());
-				sysLog.setLogStatus("1");
-				sysLog.setAuditStatus("1");
 				List<String> list = httpHeaders.get("Authorization");
 				// 第一次登录时，没有header
 				if (list != null && list.get(0) != null) {
 					SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
-					sysLog.setLogPerson(userInfo.getUserDisp());
-					sysLog.setLogPersonId(userInfo.getUserId());
+					sysLog.setUserName(userInfo.getUserDisp()); 
+					sysLog.setUserId(userInfo.getUserId());
 				} else {
 					// 登录方法的特殊日志处理
-					sysLog.setLogPerson(request.getParameter("username"));
-					sysLog.setLogPersonId(request.getParameter("username"));
+					sysLog.setUserName(request.getParameter("username"));
+					sysLog.setUserId(request.getParameter("username"));
 				}
 				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-				this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
+				//this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
 			}
 		} catch (Exception exp) {
 			exp.printStackTrace();

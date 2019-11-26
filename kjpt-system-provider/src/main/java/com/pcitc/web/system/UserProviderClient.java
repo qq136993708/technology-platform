@@ -61,6 +61,13 @@ public class UserProviderClient {
 	public SysUser selectUserByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserByUserId(userId);
 	}
+
+	@ApiOperation(value="根据用户id查询当前信息-new",notes="根据用户id查询当前信息-new")
+	@RequestMapping(value = "/user-provider/user/currentUserInfo/{userId}", method = RequestMethod.GET)
+	public SysUser currentUserInfo(@PathVariable(value = "userId", required = true) String userId) throws Exception {
+		return userService.currentUserInfo(userId);
+	}
+
 	@ApiOperation(value="更新用户信息",notes="更新用户信息，如果用户角色、组织机构、所属岗位有变化，则同时更新这些信息。")
 	@RequestMapping(value = "/user-provider/user/update-user", method = RequestMethod.POST)
 	public Integer updateUser(@RequestBody SysUser user) {

@@ -16,10 +16,12 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/platform-api/query' //数据接口
+        ,url: '/data/datalist.json' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'platformName', title: '科研规划名称', templet: '#detailsTpl'}
+          ,{field: 'platformName', title: '科研规划名称', templet: function(d) {
+            return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.username+'</a>';
+          }}
           ,{field: 'supportingInstitutions', title: '申报单位', sort: true }
           ,{field: 'researchField', title: '研究领域'}
           ,{field: 'personLiable', title: '专业领域', sort: true}
@@ -27,7 +29,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'createDate', title: '发布日期', sort: true}
           ,{field: 'overallSituation', title: '发布者', sort: true}
         ]],
-        parseData: function(res) {return layuiParseData(res);},
+        parseData: function(res) {return layuiParseData(res, null, 3);},
         request: {
           page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize

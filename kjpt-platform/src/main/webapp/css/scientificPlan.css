@@ -1,0 +1,71 @@
+.plan-header-layout {
+  border-bottom: 1px #D4D7D8 dashed;
+  padding: 0 20px;
+}
+.plan-header-layout > .title {
+  height: 24px;
+  line-height: 24px;
+  font-size: 20px;
+  color: #383E45;
+}
+.plan-header-layout > .file-layout{
+  padding: 16px 0;
+}
+.file-item-list {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 300px;
+  margin-right: 24px;
+  position: relative;
+  padding-left: 56px;
+  height: 52px;
+}
+.file-item-list .file-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42px;
+  height: 100%;
+  line-height: 52px;
+  overflow: hidden;
+  text-align: center;
+}
+.file-item-list .file-icon > i {
+  font-size: 50px;
+  margin-left: -5px;
+  color: #FC804F;
+}
+.file-item-list .file-title{
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #383E45;
+}
+.file-item-list .file-option{
+  line-height: 20px;
+}
+.file-item-list .file-option > span:last-child {
+  margin-left: 24px;
+}
+.file-preview {
+  padding: 0 24px;
+  padding-top: 16px;
+}
+.preview-title > .text {
+  font-size: 28px;
+  line-height: 28px;
+  padding: 24px 0 16px 0;
+}
+.preview-title .preview-label {
+  font-size: 14px;
+  color: #95999F;
+  line-height: 20px;
+  padding-top: 24px;
+  padding-bottom: 1px;
+}
+.preview-title .preview-label > .right {
+  float: right;
+}
+.file-preview .preview-content {
+  padding-top: 16px;
+}

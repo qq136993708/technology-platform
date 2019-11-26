@@ -385,7 +385,7 @@
 	   SELECT t1.*,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XL'
-          AND t2.`code`=t1.`education`
+          AND t2.`num_value`=t1.`education`
       ) education_str
       ,
       ( 
@@ -402,7 +402,7 @@
       ,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
-          AND t2.code =t1.`title`
+          AND t2.num_value =t1.`title`
       )  title_str
       FROM zjk_base t1
 	</sql>

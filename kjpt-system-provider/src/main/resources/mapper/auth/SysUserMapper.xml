@@ -34,6 +34,10 @@
 		<result column="user_config2" property="userConfig2" jdbcType="VARCHAR" />
 		<result column="user_config3" property="userConfig3" jdbcType="VARCHAR" />
 		<result column="user_config4" property="userConfig4" jdbcType="VARCHAR" />
+		<result column="user_comment" property="userComment" jdbcType="VARCHAR" />
+		<result column="user_comment" property="userComment" jdbcType="VARCHAR" />
+		<result column="user_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+		<result column="user_login_date" property="lastLoginDate" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -130,6 +134,16 @@
 		from sys_user
 		where user_id = #{userId,jdbcType=VARCHAR}
 	</select>
+
+	<!--根据用户id查询当前信息-new-->
+	<select id="currentUserInfo" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select <include refid="Base_Column_List" />,b.name as userKindText
+		from sys_user a,sys_dictionary b
+		where  a.user_kind= b.code
+		and user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from sys_user
 		where user_id = #{userId,jdbcType=VARCHAR}

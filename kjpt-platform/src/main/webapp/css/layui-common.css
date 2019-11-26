@@ -311,6 +311,21 @@
   padding-right: 8px;
 }
 
+/* 表单文本排版 */
+.layui-form-item .layui-text-block{
+  display: none;
+}
+.layui-form-item.form-text .layui-text-block{
+  display: block;
+  margin-left: 144px;
+}
+.layout-view-content.label-dialog .form-text .layui-text-block,
+.layout-view-content.dialog .form-text .layui-text-block{
+  margin-left: 120px;
+}
+.layout-view-content.min-label .form-text .layui-text-block {
+  margin-left: 108px;
+}
 
 /* 多选下拉框样式 */
 .xm-select-parent .xm-select{

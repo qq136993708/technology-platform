@@ -30,6 +30,18 @@ public class Constant {
     
     
     
+    public static String LOG_TYPE_LOGIN  = "1";//日志类型：1登陆日志，2操作日志，3错误日志
+    public static String LOG_TYPE_OPT  = "2";
+    public static String LOG_TYPE_ERROR  = "3";
+    
+    
+    
+    public static String LOG_SYSTEMADMIN    = "systemadmin";
+    public static String LOG_SECURITYADMIN  = "securityadmin";
+    public static String LOG_AUDITADMIN     = "auditadmin";
+      
+    
+    
     
     
 
