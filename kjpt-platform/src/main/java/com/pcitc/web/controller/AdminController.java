@@ -1,12 +1,11 @@
 package com.pcitc.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -26,15 +25,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.constant.SysConstant;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysNews;
-import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.HostUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
@@ -43,7 +39,6 @@ import com.pcitc.web.common.SessionShare;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
-import com.pcitc.web.utils.OtherUtil;
 
 /**
  * @author zhf 系统登录成功后的首页
@@ -95,28 +90,29 @@ public class AdminController extends BaseController {
 	
 	
 	@RequestMapping(value = "/index")
-	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("toIndexPage----------====....");
+	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 		SysUser sysUserInfo = getUserProfile();
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
-		if (request.getParameter("username") != null && request.getParameter("password") != null) {
-			// 模拟登录时的用户Id密码
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		//如果是从登录过来的
+		if(username != null && password != null)
+		{
+			
 			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-			requestBody.add("username", username);
-			requestBody.add("password", MD5Util.MD5Encode(password));
-
-			HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-
+			MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+			valueMap.add("username", username);
+			valueMap.add("password", MD5Util.MD5Encode(password));
+            //从数据库中查到 然后返回 TOKEN
+			HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, this.httpHeaders);
 			ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 			JSONObject retJson = responseEntity.getBody();
-
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-			if (retJson == null || retJson.get("token") == null) {
-				// 获取的token有问题(用户名或密码不正确)
+			// 获取的token有问题(用户名或密码不正确) 返回登录
+			if (retJson == null || retJson.get("token") == null) 
+			{
 				Integer errorNumber = 0;
 				ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO + username, HttpMethod.GET, entity, SysUser.class);
 				SysUser rsUser = rsEntity.getBody();
@@ -125,17 +121,15 @@ public class AdminController extends BaseController {
 					rsUser.setLoginErrorNumber(errorNumber);
 					this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, this.httpHeaders), Integer.class);
 				}
-
 				// 登录错误次数
 				Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
 				loginCookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 				loginCookie.setPath("/");
 				response.addCookie(loginCookie);
 				response.sendRedirect("/login");
-
 				return null;
 			}
-
+            //token保存到Cookie
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
 			cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 			cookie.setPath("/");
@@ -195,24 +189,33 @@ public class AdminController extends BaseController {
 				SessionShare.getSessionIdSave().remove(userName);
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			}*/
+			
+			
+			
+			SysUser userIpAndDate =new SysUser();
+			userIpAndDate.setLastLoginIp(this.getIp(request));
+			userIpAndDate.setUserId(tokenUser.getUserId());
+
+			//存储登录时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+			String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+			userIpAndDate.setLastLoginDate(date);
+
+			this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userIpAndDate, this.httpHeaders), Integer.class);
 
 			request.setAttribute("userId", userDetails.getUserId());
-			String cFlag = request.getParameter("cFlag");
-			if (userDetails.getUserLevel() != null && (userDetails.getUserLevel() == 1 || userDetails.getUserLevel() == 2) && cFlag == null) {
-				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
-				request.setAttribute("companyCode", companyCode);
-				String month = HanaUtil.getCurrentYearMoth();
-				request.setAttribute("month", month);
-				List<SysNews> sysNewsList = OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
-				request.setAttribute("sysNewsList", sysNewsList);
-				return "/oneLevelMain";// leaderIndex
-			} else {
-				List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
-				request.setAttribute("list", list);
+			String userName=userDetails.getUserDisp();
+			if(userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_SECURITYADMIN))
+			{
+				return "/adminIndex";
+			} else 
+			{
 				return "/index";
 			}
-		} else {
-			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
+		}else
+		{
+			if (sysUserInfo == null || sysUserInfo.getUserId() == null) 
+			{
 				System.out.println("未登录！");
 				response.sendRedirect("/login");
 
@@ -282,19 +285,13 @@ public class AdminController extends BaseController {
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			}
 
-			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
-			if (userDetails.getUserLevel() != null && (userDetails.getUserLevel() == 1 || userDetails.getUserLevel() == 2) && cFlag == null) {
-				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
-				request.setAttribute("companyCode", companyCode);
-				String month = HanaUtil.getCurrentYearMoth();
-				request.setAttribute("month", month);
-				List<SysNews> sysNewsList = OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
-				request.setAttribute("sysNewsList", sysNewsList);
-				return "/oneLevelMain";// leaderIndex
-			} else {
-				List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
-				request.setAttribute("list", list);
+			
+			if(userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_SECURITYADMIN))
+			{
+				return "/adminIndex";
+			} else 
+			{
 				return "/index";
 			}
 		}
@@ -538,4 +535,28 @@ public class AdminController extends BaseController {
 
 	
 
+
+private String getIp(HttpServletRequest request)
+	{
+		String loginIp = request.getHeader("X-Forwarded-For");
+		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+			loginIp = request.getHeader("X-Real-IP");
+		}
+		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+			loginIp = request.getHeader("Proxy-Client-IP");
+		}
+		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+			loginIp = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+			loginIp = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+			loginIp = request.getRemoteAddr();
+		}
+		if ("0:0:0:0:0:0:0:1".equals(loginIp)) {
+			loginIp = "127.0.0.1";
+		}
+		return loginIp;
+	}
 }
