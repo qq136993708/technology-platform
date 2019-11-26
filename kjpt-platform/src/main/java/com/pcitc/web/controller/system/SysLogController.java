@@ -49,10 +49,18 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping
 public class SysLogController extends BaseController {
 
-	private static final String PAGE_SYSLOG_URL = "http://kjpt-zuul/system-proxy/sysLog-provider/page";
+	private static final String PAGE_SYSLOG_URL = "http://kjpt-zuul/system-proxy/log-provider/page";
 
-	private static final String SAVE_FUNCTION = "http://kjpt-zuul/system-proxy/sysLog-provider/saveSysLog";
+	private static final String SAVE_FUNCTION = "http://kjpt-zuul/system-proxy/log-provider/saveSysLog";
 
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	@ApiOperation(value = "系统日志查询（分页）", notes = "系统日志查询（分页）")

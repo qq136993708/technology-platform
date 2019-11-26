@@ -97,10 +97,11 @@ public class AdminController extends BaseController {
 		SysUser tokenUser = new SysUser();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
 		//如果是从登录过来的
 		if(username != null && password != null)
 		{
-			
+			System.out.println("\n\n\n------从登录过来的用户名："+username+"\n\n\n");
 			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 			MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
 			valueMap.add("username", username);
@@ -178,7 +179,7 @@ public class AdminController extends BaseController {
 			loginCookie.setMaxAge(0);// 设置过期
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
-			System.out.println("----------====登录成功2index....");
+		
 			
 			// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
 			/*String sessionID = request.getRequestedSessionId();
@@ -204,9 +205,10 @@ public class AdminController extends BaseController {
 			this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userIpAndDate, this.httpHeaders), Integer.class);
 
 			request.setAttribute("userId", userDetails.getUserId());
-			String userName=userDetails.getUserDisp();
-			if(userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_SECURITYADMIN))
+			
+			if(username.equals(Constant.LOG_SYSTEMADMIN) || username.equals(Constant.LOG_SECURITYADMIN) || username.equals(Constant.LOG_AUDITADMIN))
 			{
+				request.setAttribute("userName", username);
 				return "/adminIndex";
 			} else 
 			{
@@ -214,14 +216,15 @@ public class AdminController extends BaseController {
 			}
 		}else
 		{
+			
 			if (sysUserInfo == null || sysUserInfo.getUserId() == null) 
 			{
 				System.out.println("未登录！");
 				response.sendRedirect("/login");
-
 				return null;
 			}
-
+			
+			System.out.println("\n\n\n------从TOKEN过来的用户名："+sysUserInfo.getUserDisp()+"\n\n\n");
 			// 用户有哪些菜单权限
 			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 			List<SysFunction> funList = userDetails.getFunList();
@@ -287,8 +290,9 @@ public class AdminController extends BaseController {
 
 			request.setAttribute("userId", userDetails.getUserId());
 			
-			if(userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_SECURITYADMIN))
+			if(userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN))
 			{
+				request.setAttribute("userName", userName);
 				return "/adminIndex";
 			} else 
 			{

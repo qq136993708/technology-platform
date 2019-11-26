@@ -13,6 +13,16 @@ import io.swagger.annotations.ApiOperation;
 public class ExpertIndexController {
 	
 	
+	
+		@RequestMapping(value = "/syslog/to_list")
+		public String syslog_list(HttpServletRequest request, HttpServletResponse response) 
+		{
+			
+			
+			return "/base/sysLog/log_list";
+		}
+	
+	
 	    // 专家管理
 		@RequestMapping(value = "/kjpt/expert/expert_list")
 		public String expert_list(HttpServletRequest request, HttpServletResponse response) 
