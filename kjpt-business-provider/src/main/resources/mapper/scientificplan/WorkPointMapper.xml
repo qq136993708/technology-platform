@@ -70,9 +70,11 @@
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+
         select * from work_point where 1=1
+
         <if test="name != null and name != '' ">
-            and `NAME` = like CONCAT('%',#{NAME},'%')
+            and `NAME` like CONCAT('%',#{NAME},'%')
         </if>
         <if test="authenticateUtil != null and authenticateUtil != '' ">
             and AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL}

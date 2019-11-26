@@ -154,10 +154,11 @@
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+
         select * from computer_software  where 1=1
 
         <if test="unitName != null and unitName != '' ">
-            and UNIT_NAME = like CONCAT('%',#{UNIT_NAME},'%')
+            and UNIT_NAME like CONCAT('%',#{UNIT_NAME},'%')
         </if>
         <if test="registerNumber != null and registerNumber != ''">
             and REGISTER_NUMBER = #{REGISTER_NUMBER}
