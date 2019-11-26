@@ -60,6 +60,7 @@ public class PlatformMemberModel extends RecordModel {
      * 工作单位
      */
     private String workUnit="";
+    private String workUnitText="";
     /**
      * 角色
      */
@@ -184,5 +185,13 @@ public class PlatformMemberModel extends RecordModel {
 
     public void setEducationText(String educationText) {
         this.educationText = educationText;
+    }
+
+    public String getWorkUnitText() {
+        return workUnitText;
+    }
+
+    public void setWorkUnitText(String workUnitText) {
+        this.workUnitText = workUnitText;
     }
 }
