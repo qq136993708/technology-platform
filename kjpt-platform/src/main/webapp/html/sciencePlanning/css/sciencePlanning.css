@@ -1,0 +1,33 @@
+.layui-form-label{
+    width: auto;
+}
+.layui-form-label > .text{
+    white-space: nowrap;
+}
+.text{
+    display: inline-block;
+    font-size: 14px;
+    white-space: normal;
+    padding-right: 8px;
+    text-align: left;
+}
+.origin{
+    font-size: 14px;
+    margin: 5px 5px 0px;
+}
+.layui-float-left{
+    float: left;
+}
+.layui-float-right{
+    float: right;
+}
+.btn-group-left{
+    margin-left: 25px;
+    display: inline-block;
+}
+.btn-left{
+    margin-left: 10px;
+}
+.tableInfo{
+    /* overflow: hidden; */
+}

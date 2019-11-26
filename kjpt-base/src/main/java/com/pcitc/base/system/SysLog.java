@@ -68,7 +68,7 @@ public class SysLog implements Serializable {
     /**
      * 用户所属部门
      */
-    private String userDepartment="";
+    private String unitName="";
 
     /**
      * 用户所属公司或单位
@@ -79,8 +79,27 @@ public class SysLog implements Serializable {
               * 用户类型：1普通用户，2系统管理员，2安全员，3审计员
      */
     private String userType;
+    
+    private String unitId;
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public String getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(String unitId) {
+		this.unitId = unitId;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
@@ -178,13 +197,7 @@ public class SysLog implements Serializable {
         this.optError = optError;
     }
 
-    public String getUserDepartment() {
-        return userDepartment;
-    }
-
-    public void setUserDepartment(String userDepartment) {
-        this.userDepartment = userDepartment;
-    }
+   
 
     public String getUserCompany() {
         return userCompany;

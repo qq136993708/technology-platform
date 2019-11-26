@@ -14,13 +14,13 @@
     <result column="opt_describe" jdbcType="VARCHAR" property="optDescribe" />
     <result column="opt_result" jdbcType="VARCHAR" property="optResult" />
     <result column="opt_error" jdbcType="VARCHAR" property="optError" />
-    <result column="user_department" jdbcType="VARCHAR" property="userDepartment" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
     <result column="user_company" jdbcType="VARCHAR" property="userCompany" />
     <result column="user_type" jdbcType="VARCHAR" property="userType" />
   </resultMap>
   <sql id="Base_Column_List">
     id, log_time, user_id, user_name, log_ip, remarks, log_type, request_type, log_url, 
-    opt_describe, opt_result, opt_error, user_department, user_company, user_type
+    opt_describe, opt_result, opt_error, unit_name, user_company, user_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -36,14 +36,14 @@
     insert into sys_log (id,log_time, user_id, user_name, 
       log_ip, remarks, log_type, 
       request_type, log_url, opt_describe, 
-      opt_result, opt_error, user_department, 
+      opt_result, opt_error, unit_name, 
       user_company, user_type)
     values (
       #{id,jdbcType=VARCHAR},
       #{logTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{logIp,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}, 
       #{requestType,jdbcType=VARCHAR}, #{logUrl,jdbcType=VARCHAR}, #{optDescribe,jdbcType=VARCHAR}, 
-      #{optResult,jdbcType=VARCHAR}, #{optError,jdbcType=VARCHAR}, #{userDepartment,jdbcType=VARCHAR}, 
+      #{optResult,jdbcType=VARCHAR}, #{optError,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
       #{userCompany,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.SysLog" useGeneratedKeys="true">
@@ -86,8 +86,8 @@
       <if test="optError != null">
         opt_error,
       </if>
-      <if test="userDepartment != null">
-        user_department,
+      <if test="unitName != null">
+        unit_name,
       </if>
       <if test="userCompany != null">
         user_company,
@@ -134,8 +134,8 @@
       <if test="optError != null">
         #{optError,jdbcType=VARCHAR},
       </if>
-      <if test="userDepartment != null">
-        #{userDepartment,jdbcType=VARCHAR},
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
       </if>
       <if test="userCompany != null">
         #{userCompany,jdbcType=VARCHAR},
@@ -181,8 +181,8 @@
       <if test="optError != null">
         opt_error = #{optError,jdbcType=VARCHAR},
       </if>
-      <if test="userDepartment != null">
-        user_department = #{userDepartment,jdbcType=VARCHAR},
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
       </if>
       <if test="userCompany != null">
         user_company = #{userCompany,jdbcType=VARCHAR},
@@ -206,7 +206,7 @@
       opt_describe = #{optDescribe,jdbcType=VARCHAR},
       opt_result = #{optResult,jdbcType=VARCHAR},
       opt_error = #{optError,jdbcType=VARCHAR},
-      user_department = #{userDepartment,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
       user_company = #{userCompany,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
@@ -224,7 +224,7 @@
 	     <if test="logType != null      and logType !=''  ">           AND t.log_type = #{logType}</if>
 	     <if test="userType != null       and userType !=''  ">         AND t.user_type = #{userType}</if>
 	     <if test="userCompany != null     and userCompany !=''  ">       AND t.user_company = #{userCompany}</if>
-	     <if test="userDepartment != null        and userDepartment !=''  ">          AND t.user_department = #{userDepartment}</if>
+	     <if test="unitName != null        and unitName !=''  ">          AND t.unit_name = #{unitName}</if>
 	     <if test="beginTime != null     and beginTime !=''  ">       AND DATE_FORMAT(t.`log_time`,'%Y-%m-%d') &gt;= #{beginTime}</if>
 	     <if test="endTime != null     and endTime !=''  ">           AND DATE_FORMAT(t.`log_time`,'%Y-%m-%d') &lt;= #{endTime}</if>
 	 </trim>
@@ -235,7 +235,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_time desc
+        ORDER BY  log_time desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
