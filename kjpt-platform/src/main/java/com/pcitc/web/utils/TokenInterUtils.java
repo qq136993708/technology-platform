@@ -75,11 +75,12 @@ public class TokenInterUtils {
 					if(url.equals("/index"))
 					{
 						sysLog.setLogType(Constant.LOG_TYPE_LOGIN);//日志类型：1登陆日志，2操作日志，3错误日志
+						
 					}else
 					{
 						sysLog.setLogType(Constant.LOG_TYPE_OPT);
 					}
-					
+					sysLog.setOptResult("成功");
 					//用户类型：1普通用户，2系统管理员，3安全员，4审计员
 					if(userId.equals(Constant.LOG_SYSTEMADMIN))
 					{
