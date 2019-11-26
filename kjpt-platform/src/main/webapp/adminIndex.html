@@ -75,7 +75,9 @@
 							</dl>    
 						</li>
 						</#if>
-                        <!-- 安全员 -->
+                        <!-- 安全员 
+                              logType 日志类型：1登陆日志，2操作日志，3错误日志 
+                              userType  用户类型：1普通用户，2系统管理员，3安全员，4审计员  -->
                         <#if userName == 'securityadmin'>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="系统管理">
@@ -103,20 +105,20 @@
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="管理员登陆日志"  data-functionbuttons="ALL">管理员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志"  data-functionbuttons="ALL">管理员登陆日志</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="管理员操作日志"  data-functionbuttons="ALL">管理员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志"  data-functionbuttons="ALL">管理员操作日志</a>
 								</dd>
 								
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="普通用户登陆日志"  data-functionbuttons="ALL">普通用户登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=1" lay-text="普通用户登陆日志"  data-functionbuttons="ALL">普通用户登陆日志</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="普通用户操作日志"  data-functionbuttons="ALL">普通用户操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=1" lay-text="普通用户操作日志"  data-functionbuttons="ALL">普通用户操作日志</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="普通用户错误日志"  data-functionbuttons="ALL">普通用户错误日志</a>
+									<a lay-href="/syslog/to_list?logType=3&userType=1" lay-text="普通用户错误日志"  data-functionbuttons="ALL">普通用户错误日志</a>
 								</dd>
 							</dl>    
 						 </li>
@@ -133,16 +135,16 @@
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="管理员登陆日志" data-functionbuttons="ALL">管理员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志" data-functionbuttons="ALL">管理员登陆日志</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="管理员操作日志" data-functionbuttons="ALL">管理员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志" data-functionbuttons="ALL">管理员操作日志</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="安全员登陆日志" data-functionbuttons="ALL">安全员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=3" lay-text="安全员登陆日志" data-functionbuttons="ALL">安全员登陆日志</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list" lay-text="安全员操作日志" data-functionbuttons="ALL">安全员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=4" lay-text="安全员操作日志" data-functionbuttons="ALL">安全员操作日志</a>
 								</dd>
 							</dl>    
 						</li>
