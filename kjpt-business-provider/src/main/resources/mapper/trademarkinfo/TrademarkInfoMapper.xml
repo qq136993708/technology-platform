@@ -20,6 +20,7 @@
 
     <result column="commodity_category_text" jdbcType="VARCHAR" property="commodityCategoryText" />
     <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
+    <result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,7 +83,7 @@
   <sql id="Base_Column_List">
     id, unit_name, commodity_category, application_number, effective_date, register_notice_date, 
     entry_person, trademark_name, applicant, register_date, law_status, remark, entry_date, 
-    file,deleted,commodity_category_text,legal_status_text
+    file,deleted,commodity_category_text,legal_status_text,unit_name_text
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultMap="BaseResultMap">
     select
