@@ -182,7 +182,9 @@
         type: 'GET',
         success: function (relData) {
           if (relData.code === '0') {
-            form.val('formPlatform', relData.data);
+            var data = relData.data;
+            transToData(data, ['effectiveDate','registerNoticeDate','registerDate','entryDate']);
+            form.val('formPlatform', data);
             form.render();
 
           }
@@ -190,6 +192,19 @@
       });
     }
 
+    function transToData(data, fields) {
+        $.each(fields, function(index, f){
+           
+          if(data[f]) {
+            try {
+              data[f] = (new Date(data[f])).format('yyyy-MM-dd');
+            }
+            catch (e) {
+              
+            }
+          }  
+        });
+      }
     function upLoadFile(billDataID) {
       // var templet = '<div class="file-options">';
       // templet += '<span class="link-text file-options-download" data-fileid="' + billDataID + '">下载</a>';

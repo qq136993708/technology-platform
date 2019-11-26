@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  
+
   <!-- 更多样式在此引入 -->
 </head>
 
@@ -224,9 +224,9 @@
         success: function (relData) {
           if (relData.code === '0') {
             // 给form表单赋初始值
-
-            form.val('formPlatform', relData.data);
-
+            var data = relData.data;
+            transToData(data, ['effectiveDate','registerNoticeDate','registerDate','entryDate']);
+            form.val('formPlatform', data);
             // 更新表单数据
             form.render();
             upLoadFile(item.id || relData.data.id);
@@ -234,6 +234,20 @@
         }
       });
     }
+
+    function transToData(data, fields) {
+        $.each(fields, function(index, f){
+           
+          if(data[f]) {
+            try {
+              data[f] = (new Date(data[f])).format('yyyy-MM-dd');
+            }
+            catch (e) {
+              
+            }
+          }  
+        });
+      }
 
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
