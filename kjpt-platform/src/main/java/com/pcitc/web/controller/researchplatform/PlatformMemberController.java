@@ -1,9 +1,7 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
-import com.pcitc.base.researchplatform.PlatformTreatiseModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -129,13 +127,16 @@ public class PlatformMemberController extends RestBaseController {
     @ApiOperation(value="批量添加")
     @RequestMapping(value = "/researchPlatformMember-api/batchSave", method = RequestMethod.POST)
     @ResponseBody
-    public Integer batchSave(@RequestBody List<PlatformMemberModel> pmList) {
+    public Integer batchSave(@RequestBody List<PlatformMemberModel> pmList,@RequestParam String platformId) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        for(PlatformMemberModel p : pmList ){
+        pmList.forEach(p -> {
             this.setBaseData(p);
+            p.setPlatformId(platformId);
             p.setCreateDate(new Date());
             p.setCreator(this.getUserProfile().getUserName());
-        }
+            p.setId(UUID.randomUUID().toString().replace("-",""));
+            p.setDeleted("0");
+        });
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
