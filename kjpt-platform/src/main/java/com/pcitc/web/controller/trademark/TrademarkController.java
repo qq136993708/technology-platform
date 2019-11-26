@@ -67,8 +67,7 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query")
     })
 
-
-    @GetMapping(value = "/query")
+    @RequestMapping(value = "/query",  method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(@RequestParam(required = false) Integer pageNum,
                         @RequestParam(required = false) Integer pageSize,
