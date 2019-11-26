@@ -121,6 +121,13 @@ public class PlatformPatentController extends RestBaseController {
     @RequestMapping(value = "/researchPlatformPatent-api/batchSave", method = RequestMethod.POST)
     @ResponseBody
     public Integer batchSave(@RequestBody List<PlatformPatentModel> pmList) {
+        pmList.forEach(p -> {
+            this.setBaseData(p);
+            p.setCreateDate(new Date());
+            p.setCreator(this.getUserProfile().getUserName());
+            p.setId(UUID.randomUUID().toString().replace("-",""));
+            p.setDeleted("0");
+        });
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();

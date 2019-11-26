@@ -60,10 +60,6 @@ public class PlatformProjectServiceImpl implements PlatformProjectService {
 
     @Override
     public Integer batchSave(List<PlatformProjectModel> dataList) {
-        return platformProjectMapper.batchSave(dataList.stream().filter(pam ->{
-            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
-                pam.setId(UUID.randomUUID().toString().replace("-",""));
-            return true;
-        }).collect(Collectors.toList()));
+        return platformProjectMapper.batchSave(dataList);
     }
 }
