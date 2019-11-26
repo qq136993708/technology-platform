@@ -32,8 +32,7 @@
 
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  * from work_point
-        where id = #{id} and deleted != '1'
+        select  * from work_point where id = #{id} and deleted != '1'
     </select>
 
 

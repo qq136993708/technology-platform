@@ -168,7 +168,6 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	    System.out.println(">>>>>>dd>>用户请求的IP："+request.getRemoteAddr());
 	    
 	    String url=request.getRequestURI();
-		//Authorization头
 		List<String> list = httpHeaders.get("Authorization");
 		if(list!=null)
 		{

@@ -72,7 +72,7 @@
             table.render({
                 id:'logTable' //唯一即可
                 ,elem: '#logTable'
-                ,url: '/sysLog/getLogList'
+                ,url: '/sysLog-api/query'
                 ,limit: 15
                 ,height: commonDislodgeTable()
                 ,method: 'POST'
@@ -89,9 +89,9 @@
                 ,cols: [[
                     {type:'checkbox'},
                     {title:'序号', type:'numbers' ,width : 55},
-                    {field:'logActionName', title:'日志名称', event: 'setActive',style:'cursor: pointer;'},
-                    {field:'logAction', title:'模块名称', event: 'setActive',style:'cursor: pointer;'},
-                    {field:'logPerson', title:'操作人', event: 'setActive',style:'cursor: pointer;'},
+                    {field:'optResult', title:'操作结果', event: 'setActive',style:'cursor: pointer;'},
+                    {field:'optDescribe', title:'模块名称', event: 'setActive',style:'cursor: pointer;'},
+                    {field:'userName', title:'操作人', event: 'setActive',style:'cursor: pointer;'},
                     {field:'logTime', title:'日志时间' ,event: 'setActive',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.toDateString(d.logTime) }}</div>'},
                     {field:'logIp', title:'ip地址', event: 'setActive',style:'cursor: pointer;'}
                 ]]

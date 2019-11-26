@@ -6,11 +6,26 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pcitc.base.util.CommonUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
 public class ExpertIndexController {
+	
+	
+	
+		@RequestMapping(value = "/syslog/to_list")
+		public String syslog_list(HttpServletRequest request, HttpServletResponse response) 
+		{
+			
+			String logType=CommonUtil.getParameter(request, "logType", "");//日志类型：1登陆日志，2操作日志，3错误日志
+			String userType=CommonUtil.getParameter(request, "userType", "");//用户类型：1普通用户，2系统管理员，3安全员，4审计员
+			request.setAttribute("logType", logType);
+			request.setAttribute("userType", userType);
+			return "/base/sysLog/log_list";
+		}
 	
 	
 	    // 专家管理

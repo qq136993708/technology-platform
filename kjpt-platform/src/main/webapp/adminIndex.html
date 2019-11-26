@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>科技管理平 d台</title>
+<title>科技管理平台s</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/layuiadmin/style/liMarquee.css">
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
 <script>
-var __base_dic_store = {};
+
 </script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 </head>
@@ -27,12 +27,20 @@ var __base_dic_store = {};
 
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-					<li class="layui-nav-item"><a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
+					<li class="layui-nav-item">
+					    <a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
 							${userInfo.userDisp!}
 							<span class="layui-nav-more"></span>
 						</a>
 						<div class="layui-hide information">
 							<dl class="layui-nav-child-dl">
+								
+								<dd>
+									<a id="myInfo" href="javascript:void(0)">个人信息</a>
+								</dd>
+								<dd>
+									<a id="updatePassword" href="javascript:void(0)">修改密码</a>
+								</dd>
 								<dd>
 									<a id="logout" href="javascript:void(0)">退出登录</a>
 								</dd>
@@ -46,42 +54,101 @@ var __base_dic_store = {};
 				<div class="layui-side-scroll">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-            <li class="layadmin-flexible"><div></div></li>
-						
+                    <li class="layadmin-flexible"><div></div></li>
+                           
+						<!-- 系统管理员 -->
+						<#if userName == 'systemadmin'>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="科研平台">
-								<span>科研平台</span>
+								<span>系统管理</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
 								<span class="layui-nav-more"></span>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
-									<a lay-href="/html/scientificPlatform/scientificPlatform.html?type=0"
-                    lay-text="国家级科研平台"
-                    ata-id="9be9ca820e884b0f8cbdefe4175e1e7d"
-                    data-code="10010103" 
-										data-functionbuttons="ALL">国家级科研平台</a>
+									<a lay-href="/user/user_page_list"  lay-text="用户管理" data-functionbuttons="ALL">用户管理</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/unit/unit_tree" lay-text="机构管理" data-functionbuttons="ALL">机构管理</a>
 								</dd>
 							</dl>    
 						</li>
-
+						</#if>
+                        <!-- 安全员 
+                              logType 日志类型：1登陆日志，2操作日志，3错误日志 
+                              userType  用户类型：1普通用户，2系统管理员，3安全员，4审计员  -->
+                        <#if userName == 'securityadmin'>
 						<li class="layui-nav-item">
-							<a href="javascript:void(0);" title="专利管理">
-								<span>专利管理</span>
+							<a href="javascript:void(0);" title="系统管理">
+								<span>系统管理</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
 								<span class="layui-nav-more"></span>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
-								 <!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
-									<a lay-href="/html/patent/query.html"
-										lay-text="专利查询" 
-										data-functionbuttons="ALL">专利查询</a>
+									<a lay-href="/role/role_list" lay-text="角色管理"  data-functionbuttons="ALL">角色管理</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/post/post_function" lay-text="岗位授权"  data-functionbuttons="ALL">岗位授权</a>
 								</dd>
 							</dl>    
 						</li>
+						
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="日志查询">
+								<span>日志查询</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志"  data-functionbuttons="ALL">管理员登陆日志</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志"  data-functionbuttons="ALL">管理员操作日志</a>
+								</dd>
+								
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=1&userType=1" lay-text="普通用户登陆日志"  data-functionbuttons="ALL">普通用户登陆日志</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=2&userType=1" lay-text="普通用户操作日志"  data-functionbuttons="ALL">普通用户操作日志</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=3&userType=1" lay-text="普通用户错误日志"  data-functionbuttons="ALL">普通用户错误日志</a>
+								</dd>
+							</dl>    
+						 </li>
+						</#if>
+						
+						<!-- 审计员 -->
+						<#if userName == 'auditadmin'>
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="日志查询">
+								<span>日志查询</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志" data-functionbuttons="ALL">管理员登陆日志</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志" data-functionbuttons="ALL">管理员操作日志</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=1&userType=3" lay-text="安全员登陆日志" data-functionbuttons="ALL">安全员登陆日志</a>
+								</dd>
+								<dd class="">
+									<a lay-href="/syslog/to_list?logType=2&userType=4" lay-text="安全员操作日志" data-functionbuttons="ALL">安全员操作日志</a>
+								</dd>
+							</dl>    
+						</li>
+						</#if>
 					</ul>
 				</div>
 			</div>
@@ -135,6 +202,7 @@ var __base_dic_store = {};
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
 	<script>
+	
 		layui.config({
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
@@ -161,7 +229,7 @@ var __base_dic_store = {};
             async : false,
             url : '/logout',
             success : function(data) {
-              window.location.href = "./SSO/GLO/Redirect";
+              window.location.href = "/login";
             },
             error : function(e) { if (console && console.error) { console.error(e); } }
           });
