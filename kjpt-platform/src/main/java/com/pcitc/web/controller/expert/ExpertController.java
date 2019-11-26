@@ -292,6 +292,9 @@ public class ExpertController extends BaseController {
     	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(zjkBase));
 		System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
     
+		
+		
+		
 		if (id!=null && !id.equals("")) 
 		{
 			ResponseEntity<ZjkBase> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
@@ -312,6 +315,12 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setPost(zjkBase.getPost());
 			oldZjkBase.setPersonnelNum(zjkBase.getPersonnelNum());
 			oldZjkBase.setUseStatus(zjkBase.getUseStatus());
+			
+			oldZjkBase.setZjkAchievementJsonList(zjkBase.getZjkAchievementJsonList());
+			oldZjkBase.setZjkPatentJsonList(zjkBase.getZjkPatentJsonList());
+			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
+			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
+			
 			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();

@@ -11,11 +11,8 @@
     <result column="describe" jdbcType="VARCHAR" property="describe" />
     <result column="get_patent_time" jdbcType="TIMESTAMP" property="getPatentTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="patent_no" jdbcType="VARCHAR" property="patentNo" />
-    <result column="patent_scope" jdbcType="VARCHAR" property="patentScope" />
-    <result column="patent_types" jdbcType="VARCHAR" property="patentTypes" />
-    <result column="patent_ranking" jdbcType="VARCHAR" property="patentRanking" />
-    <result column="application_effect" jdbcType="VARCHAR" property="applicationEffect" />
+   
+    
     <result column="out_system_id"       jdbcType="VARCHAR" property="outSystemId" />
     <result column="patent_type_str"     jdbcType="VARCHAR" property="patentTypeStr" />
     <result column="get_patent_time_str" jdbcType="VARCHAR" property="getPatentTimeStr" />
@@ -24,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, patent_name, patent_type, `describe`, get_patent_time, 
-    create_time, patent_no, patent_scope, patent_types, patent_ranking, application_effect, 
+    create_time, 
     out_system_id
   </sql>
  
@@ -35,22 +32,16 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
     insert into zjk_patent (id,expert_id, source_type, del_status, 
       patent_name, patent_type, `describe`, 
-      get_patent_time, create_time, patent_no, 
-      patent_scope, patent_types, patent_ranking, 
-      application_effect, out_system_id)
+      get_patent_time, create_time, out_system_id)
     values (
       #{id,jdbcType=VARCHAR},
       #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
       #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
-      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{patentNo,jdbcType=VARCHAR}, 
-      #{patentScope,jdbcType=VARCHAR}, #{patentTypes,jdbcType=VARCHAR}, #{patentRanking,jdbcType=VARCHAR}, 
-      #{applicationEffect,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR})
+      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
     insert into zjk_patent
     <trim prefix="(" suffix=")" suffixOverrides=",">
-    
-    
       <if test="id != null">
         id,
       </if>
@@ -77,21 +68,6 @@
       </if>
       <if test="createTime != null">
         create_time,
-      </if>
-      <if test="patentNo != null">
-        patent_no,
-      </if>
-      <if test="patentScope != null">
-        patent_scope,
-      </if>
-      <if test="patentTypes != null">
-        patent_types,
-      </if>
-      <if test="patentRanking != null">
-        patent_ranking,
-      </if>
-      <if test="applicationEffect != null">
-        application_effect,
       </if>
       <if test="outSystemId != null">
         out_system_id,
@@ -126,21 +102,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="patentNo != null">
-        #{patentNo,jdbcType=VARCHAR},
-      </if>
-      <if test="patentScope != null">
-        #{patentScope,jdbcType=VARCHAR},
-      </if>
-      <if test="patentTypes != null">
-        #{patentTypes,jdbcType=VARCHAR},
-      </if>
-      <if test="patentRanking != null">
-        #{patentRanking,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationEffect != null">
-        #{applicationEffect,jdbcType=VARCHAR},
       </if>
       <if test="outSystemId != null">
         #{outSystemId,jdbcType=VARCHAR},
@@ -177,21 +138,6 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="patentNo != null">
-        patent_no = #{patentNo,jdbcType=VARCHAR},
-      </if>
-      <if test="patentScope != null">
-        patent_scope = #{patentScope,jdbcType=VARCHAR},
-      </if>
-      <if test="patentTypes != null">
-        patent_types = #{patentTypes,jdbcType=VARCHAR},
-      </if>
-      <if test="patentRanking != null">
-        patent_ranking = #{patentRanking,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationEffect != null">
-        application_effect = #{applicationEffect,jdbcType=VARCHAR},
-      </if>
       <if test="outSystemId != null">
         out_system_id = #{outSystemId,jdbcType=VARCHAR},
       </if>
@@ -208,11 +154,6 @@
       `describe` = #{describe,jdbcType=VARCHAR},
       get_patent_time = #{getPatentTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      patent_no = #{patentNo,jdbcType=VARCHAR},
-      patent_scope = #{patentScope,jdbcType=VARCHAR},
-      patent_types = #{patentTypes,jdbcType=VARCHAR},
-      patent_ranking = #{patentRanking,jdbcType=VARCHAR},
-      application_effect = #{applicationEffect,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

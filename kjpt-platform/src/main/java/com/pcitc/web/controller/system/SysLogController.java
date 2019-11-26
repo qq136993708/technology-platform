@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -41,33 +42,54 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.ExcelUtils;
 import com.pcitc.web.utils.ImportExcelUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Controller
-@RequestMapping
+@Api(value = "SysLog-API",tags = {"系统日志-接口"})
+@RestController
 public class SysLogController extends BaseController {
 
-	private static final String PAGE_SYSLOG_URL = "http://kjpt-zuul/system-proxy/sysLog-provider/page";
+	private static final String PAGE_SYSLOG_URL = "http://kjpt-zuul/system-proxy/log-provider/page";
 
-	private static final String SAVE_FUNCTION = "http://kjpt-zuul/system-proxy/sysLog-provider/saveSysLog";
+	private static final String SAVE_FUNCTION = "http://kjpt-zuul/system-proxy/log-provider/saveSysLog";
 
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	@ApiOperation(value = "系统日志查询（分页）", notes = "系统日志查询（分页）")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query"),
-			@ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query"),
+	@ApiImplicitParams({ 
+		    @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
+			@ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
 			@ApiImplicitParam(name = "optDescribe", value = "操作描述", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "logIp", value = "登陆IP", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
-			@ApiImplicitParam(name = "endTime", value = "截止时间", dataType = "string", paramType = "query") })
+			@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
+			@ApiImplicitParam(name = "logType",  value = "日志类型：1登陆日志，2操作日志，3错误日志",       dataType = "string", paramType = "query") ,
+			@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query")
+	
+	    })
 	@RequestMapping(value = "/sysLog-api/query", method = RequestMethod.POST)
 	public String querySysLogPage(
 
-			@RequestParam(required = true) Integer page, @RequestParam(required = true) Integer limit,
-			@RequestParam(required = false) String optDescribe, @RequestParam(required = false) String logIp,
-			@RequestParam(required = false) String beginTime, @RequestParam(required = false) String endTime,
+			@RequestParam(required = true) Integer page, 
+			@RequestParam(required = true) Integer limit,
+			@RequestParam(required = false) String optDescribe, 
+			@RequestParam(required = false) String logIp,
+			@RequestParam(required = false) String beginTime, 
+			@RequestParam(required = false) String endTime,
+			@RequestParam(required = false) String logType,
+			@RequestParam(required = false) String userType,
+			
+			
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		LayuiTableParam param = new LayuiTableParam();
@@ -77,6 +99,8 @@ public class SysLogController extends BaseController {
 		param.setPage(page);
 		param.getParam().put("beginTime", beginTime);
 		param.getParam().put("endTime", endTime);
+		param.getParam().put("logType", logType);
+		param.getParam().put("userType", userType);
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
