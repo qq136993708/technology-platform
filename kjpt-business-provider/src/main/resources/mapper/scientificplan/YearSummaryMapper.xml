@@ -31,9 +31,7 @@
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from year_summary
+        select * from year_summary
         where id = #{id} and deleted != '1'
     </select>
 

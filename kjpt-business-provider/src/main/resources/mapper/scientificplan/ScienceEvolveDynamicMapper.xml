@@ -32,9 +32,7 @@
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from science_evolve_dynamic
+        select * from science_evolve_dynamic
         where id = #{id} and deleted != '1'
     </select>
 
