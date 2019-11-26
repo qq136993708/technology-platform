@@ -189,19 +189,20 @@ public class AdminController extends BaseController {
 				SessionShare.getSessionIdSave().remove(userName);
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			}*/
-
+			
 			
 			
 			SysUser userIpAndDate =new SysUser();
 			userIpAndDate.setLastLoginIp(this.getIp(request));
 			userIpAndDate.setUserId(tokenUser.getUserId());
+
 			//存储登录时间
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 			String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
 			userIpAndDate.setLastLoginDate(date);
+
 			this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userIpAndDate, this.httpHeaders), Integer.class);
-			
-			
+
 			request.setAttribute("userId", userDetails.getUserId());
 			String userName=userDetails.getUserDisp();
 			if(userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_SECURITYADMIN))
@@ -532,7 +533,10 @@ public class AdminController extends BaseController {
 	
 
 
-	private String getIp(HttpServletRequest request)
+	
+
+
+private String getIp(HttpServletRequest request)
 	{
 		String loginIp = request.getHeader("X-Forwarded-For");
 		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
@@ -555,5 +559,4 @@ public class AdminController extends BaseController {
 		}
 		return loginIp;
 	}
-
 }

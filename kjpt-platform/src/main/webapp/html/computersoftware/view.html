@@ -20,10 +20,9 @@
      <div class="layui-row layui-col-space20">
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">单位名称：</span></label>
+           <label class="layui-form-label"><span class="text">单位名称：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="unitName" lay-verify="required"
-               autocomplete="off" class="layui-input">
+             <input type="text" name="unitNameText"  readonly="true" class="layui-input">
            </div>
          </div>
        </div>
@@ -32,17 +31,16 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">登记日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="recordDate"  autocomplete="off" class="layui-input">
+              <input type="text" name="recordDate"   readonly="true" class="layui-input">
             </div>
           </div>
         </div>
 
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">登记号：</span></label>
+          <label class="layui-form-label"><span class="text">登记号：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="registerNumber" lay-verify="required"
-              autocomplete="off" class="layui-input">
+            <input type="text" name="registerNumber"  readonly="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -58,20 +56,18 @@
 
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">软件名称：</span></label>
+          <label class="layui-form-label"><span class="text">软件名称：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="softwareName" lay-verify="required"
-              autocomplete="off" class="layui-input">
+            <input type="text" name="softwareName"  readonly="true" class="layui-input">
           </div>
         </div>
       </div>
 
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">软件介绍：</span></label>
+          <label class="layui-form-label"><span class="text">软件介绍：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="softwareIntro" lay-verify="required"
-              autocomplete="off" class="layui-input">
+            <input type="text" name="softwareIntro"  readonly="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -79,10 +75,9 @@
 
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">著作权人：</span></label>
+          <label class="layui-form-label"><span class="text">著作权人：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="copyrightOwner" lay-verify="required"
-              autocomplete="off" class="layui-input">
+            <input type="text" name="copyrightOwner"  readonly="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -90,20 +85,18 @@
 
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">录入人：</span></label>
+          <label class="layui-form-label"><span class="text">录入人：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="entryPeople" lay-verify="required"
-              autocomplete="off" class="layui-input">
+            <input type="text" name="entryPeople"  readonly="true" class="layui-input">
           </div>
         </div>
       </div>
        
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">版本号：</span></label>
+            <label class="layui-form-label"><span class="text">版本号：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="versionNumber" lay-verify="required"
-                autocomplete="off" class="layui-input">
+              <input type="text" name="versionNumber" readonly="true" class="layui-input">
             </div>
           </div>
         </div>
@@ -112,7 +105,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">录入日期：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="entryTime" placeholder="请填写..." autocomplete="off" class="layui-input">
+             <input type="text" name="entryTime"  readonly="true" class="layui-input">
            </div>
          </div>
        </div>
@@ -122,18 +115,13 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">备注：</span></label>
            <div class="layui-input-block">
-             <textarea name="notes" placeholder="请输入内容" class="layui-textarea"></textarea>
+             <textarea name="notes" placeholder="请输入内容"  readonly="true" class="layui-textarea"></textarea>
            </div>
          </div>
        </div>
  
     
     <div id="file-filter-options">
-        <div class="view-title-layout" style="margin-top:40px;">
-            <div class="right">
-              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-            </div>
-        </div>
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">附件：</span></label>
           <div class="layui-input-block"><table></table></div>
@@ -145,7 +133,6 @@
     <div style="height:80px;"></div>
 
     <div class="dialog-footer-btn">
-        <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
         <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
     </div>
 
@@ -166,11 +153,7 @@
 
   
 
-<script >
-        //$("input").css('border', '0px');
-        //$("textarea").css('border', '0px');
-        $("input").attr('readonly', true);
-        $("textarea").attr('readonly', true); 
+<script > 
 
         file_readonly = true;
 </script>

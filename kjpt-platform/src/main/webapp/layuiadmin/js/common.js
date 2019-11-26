@@ -274,7 +274,6 @@ function _commonLoadDic(dicKindCode, callback) {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
 		if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
 			httpUrl = '/unit-api/getTreeList';
-			/// '/sysDictionary-api/getAllList/' + dicKindCode;
 		}
 
 		httpModule({

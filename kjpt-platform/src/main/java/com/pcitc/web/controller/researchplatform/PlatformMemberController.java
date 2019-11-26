@@ -58,7 +58,7 @@ public class PlatformMemberController extends RestBaseController {
     }
 
 
-    @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台项目列表")
+    @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台成员列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
