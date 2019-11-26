@@ -9,10 +9,11 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+
   <!-- 更多样式在此引入 -->
 </head>
 
@@ -21,17 +22,13 @@
     <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
       <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">单位名称:</span></label>
-                <div class="layui-input-block">
-                    <select name="unitName"
-                        xm-select="supportingInstitutions"
-                        xm-select-skin="normal"
-                        xm-select-radio=""
-                        dic-base-data="ROOT_KJPT_YTDW" 
-                        placeholder="请选择"></select>
-                </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">单位名称：</span></label>
+            <div class="layui-input-block">
+              <select name="unitName" dic-base-data="ROOT_KJPT_YTDW">
+              </select>
             </div>
+          </div>
         </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
@@ -40,7 +37,7 @@
             <div class="layui-input-block">
               <select name="commodityCategory" lay-verify="required" dic-base-data="ROOT_KJPT_HDSYSPDL">
                 <option value=""></option>
-
+                
               </select>
             </div>
           </div>
@@ -119,9 +116,9 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">法律状态：</span></label>
             <div class="layui-input-block">
-              <select name="lawStatus" dic-base-data="ROOT_KJPT_FLZT" lay-verify="required" placeholder="请选择...">
-
-              </select>
+                <select name="lawStatus" dic-base-data="ROOT_KJPT_FLZT" lay-verify="required">
+                    
+                </select>
             </div>
           </div>
         </div>
@@ -199,13 +196,13 @@
           /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
             * type 触发变更的类型 目前只有 delete | upload
           */
-          var fileString = "";
-          if (tableData.length) {
-            for (var i = 0; i < tableData.length; i++) {
+         var fileString = "";
+         if(tableData.length){
+           for(var i = 0; i< tableData.length; i++){
               fileString += tableData[i].id;
-            }
-          }
-          console.log("fileString", fileString);
+           }
+         }
+         console.log("fileString", fileString);
           $("[name=files]").val(fileString);
           console.log(tableData, type);
         }
@@ -224,9 +221,9 @@
         success: function (relData) {
           if (relData.code === '0') {
             // 给form表单赋初始值
-
+            
             form.val('formPlatform', relData.data);
-
+            
             // 更新表单数据
             form.render();
             upLoadFile(item.id || relData.data.id);
