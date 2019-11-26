@@ -29,10 +29,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSONArray;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysLog;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.TokenInterUtils;
 
 /**
  * @author zhanghaifeng
@@ -214,6 +217,14 @@ public class SysAspect extends BaseController {
 	 */
 	private void handleLog(JoinPoint joinPoint, Exception e) {
 		try {
+			
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			
+			
+			System.out.println(">>>>>>>>handleLog用户请求的URL："+request.getRequestURI());
+		    System.out.println(">>>>>>>>handleLog用户请求的IP："+request.getRemoteAddr());
+		    //TokenInterUtils.saveSysLog(restTemplate, httpHeaders, request, sysUserInfo);
+		    
 			// 获得注解
 			OperationFilter logger = giveController(joinPoint);
 			if (logger == null) {
@@ -221,31 +232,32 @@ public class SysAspect extends BaseController {
 			}
 
 			// 有日志记录的才进行日志保存（一般是增删改）
-			if (logger.actionName() != null && !logger.actionName().equals("")) {
-				HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-				SysLog sysLog = new SysLog();
-				sysLog.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-				sysLog.setRemarks(logger.actionName()+";"+logger.modelName());
-				sysLog.setLogIp(getRemoteHost(request));
-				sysLog.setLogTime(new Date());
-				List<String> list = httpHeaders.get("Authorization");
-				// 第一次登录时，没有header
-				if (list != null && list.get(0) != null) {
-					SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
-					sysLog.setUserName(userInfo.getUserDisp()); 
-					sysLog.setUserId(userInfo.getUserId());
-				} else {
-					// 登录方法的特殊日志处理
-					sysLog.setUserName(request.getParameter("username"));
-					sysLog.setUserId(request.getParameter("username"));
-				}
-				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-				//this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
-			}
+			/*
+			 * if (logger.actionName() != null && !logger.actionName().equals("")) {
+			 * System.out.println(">>>>>>>>actionName："+logger.actionName());
+			 * System.out.println(">>>>>>>>actionName："+logger.modelName()); SysLog sysLog =
+			 * new SysLog(); sysLog.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+			 * sysLog.setRemarks(logger.actionName()+";"+logger.modelName());
+			 * sysLog.setLogIp(EquipmentUtils.getRemoteHost(request)); sysLog.setLogTime(new
+			 * Date()); List<String> list = httpHeaders.get("Authorization"); //
+			 * 第一次登录时，没有header if (list != null && list.get(0) != null) { SysUser userInfo =
+			 * JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+			 * sysLog.setUserName(userInfo.getUserDisp());
+			 * sysLog.setUserId(userInfo.getUserId()); } else { // 登录方法的特殊日志处理
+			 * sysLog.setUserName(request.getParameter("username"));
+			 * sysLog.setUserId(request.getParameter("username")); }
+			 * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			 * this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new
+			 * HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class); }
+			 */
 		} catch (Exception exp) {
 			exp.printStackTrace();
 		}
 	}
+	
+	
+	
+	
 
 	/**
 	 * 获得注解
@@ -265,24 +277,5 @@ public class SysAspect extends BaseController {
 		return null;
 	}
 
-	public String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
-		String ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
-	}
 
 }

@@ -103,7 +103,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'name', title: '名称' }
         ,{field: 'assumeOffice', title: '担任职务', sort: true }
         ,{field: 'technicalTitle', title: '技术职称', sort: true}
-        ,{field: 'workUnit', title: '工作单位'} 
+        ,{field: 'workUnitText', title: '工作单位'} 
         ,{field: 'majorStudied', title: '专业'}
       ]],
       where: {role: '1'}

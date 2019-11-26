@@ -8,6 +8,7 @@ import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.computersoftware.ComputerSoftwareMapper;
 import com.pcitc.service.computersoftware.ComputerSoftwareService;
+import com.pcitc.service.file.FileCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
     @Autowired
     private ComputerSoftwareMapper computerSoftwareMapper;
 
+    @Autowired
+    private FileCommonService fileCommonService;
+
     @Override
     public ComputerSoftware load(String id) {
         return computerSoftwareMapper.load(id);
@@ -29,6 +33,8 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
     public ComputerSoftware save(ComputerSoftware computerSoftware) {
         IsEmptyUtil.isEmpty(computerSoftware.getId());
 
+        fileCommonService.updateFileData(computerSoftware.getAccessoryUpload(),computerSoftware.getId());
+
         if (load(computerSoftware.getId()) == null) {
             computerSoftware.setCreateDate(computerSoftware.getUpdateDate());
             computerSoftware.setCreator(computerSoftware.getUpdator());
@@ -36,6 +42,7 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
         } else {
             computerSoftwareMapper.update(computerSoftware);
         }
+
 
         return computerSoftware;
     }

@@ -70,11 +70,11 @@ public class SciencePlanApiController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "name", value = "名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "authenticate_util", value = "申报单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "research_field", value = "研究领域", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "professional_field", value = "专业领域", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "specialty_category", value = "专业类别", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "release_time", value = "发布时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "professionalField", value = "专业领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "specialtyCategory", value = "专业类别", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
@@ -82,11 +82,11 @@ public class SciencePlanApiController extends RestBaseController {
             @RequestParam(required = false, value = "pageNum") Integer pageNum,
             @RequestParam(required = false, value = "pageSize") Integer pageSize,
             @RequestParam(required = false, value = "name") String name,
-            @RequestParam(required = false, value = "authenticate_util") String authenticate_util,
-            @RequestParam(required = false, value = "research_field") String research_field,
-            @RequestParam(required = false, value = "professional_field") String professional_field,
-            @RequestParam(required = false, value = "specialty_category") String specialty_category,
-            @RequestParam(required = false, value = "release_time") String release_time
+            @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
+            @RequestParam(required = false, value = "researchField") String researchField,
+            @RequestParam(required = false, value = "professionalField") String professionalField,
+            @RequestParam(required = false, value = "specialtyCategory") String specialtyCategory,
+            @RequestParam(required = false, value = "releaseTime") String releaseTime
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
@@ -102,20 +102,20 @@ public class SciencePlanApiController extends RestBaseController {
         if (!StringUtils.isEmpty(name)) {
             this.setParam(condition, "name", name);
         }
-        if (!StringUtils.isEmpty(authenticate_util)) {
-            this.setParam(condition, "authenticate_util", authenticate_util);
+        if (!StringUtils.isEmpty(authenticateUtil)) {
+            this.setParam(condition, "authenticateUtil", authenticateUtil);
         }
-        if (!StringUtils.isEmpty(research_field)) {
-            this.setParam(condition, "research_field", research_field);
+        if (!StringUtils.isEmpty(researchField)) {
+            this.setParam(condition, "researchField", researchField);
         }
-        if (!StringUtils.isEmpty(professional_field)) {
-            this.setParam(condition, "professional_field", professional_field);
+        if (!StringUtils.isEmpty(professionalField)) {
+            this.setParam(condition, "professionalField", professionalField);
         }
-        if (!StringUtils.isEmpty(specialty_category)) {
-            this.setParam(condition, "specialty_category", specialty_category);
+        if (!StringUtils.isEmpty(specialtyCategory)) {
+            this.setParam(condition, "specialtyCategory", specialtyCategory);
         }
-        if (!StringUtils.isEmpty(release_time)) {
-            this.setParam(condition, "release_time", release_time);
+        if (!StringUtils.isEmpty(releaseTime)) {
+            this.setParam(condition, "releaseTime", releaseTime);
         }
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
