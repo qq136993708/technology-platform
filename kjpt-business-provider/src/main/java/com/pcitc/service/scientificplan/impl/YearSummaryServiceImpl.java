@@ -51,7 +51,6 @@ public class YearSummaryServiceImpl implements YearSummaryService {
 //        int pageSize = (int) paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         List dataList = yearSummaryMapper.query(paramMap);
-        Page p = new Page();
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
