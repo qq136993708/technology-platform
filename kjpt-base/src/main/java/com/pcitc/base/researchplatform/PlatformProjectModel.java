@@ -32,10 +32,12 @@ public class PlatformProjectModel extends RecordModel implements Serializable {
      * 专业类型
      */
     private String majorType="";
+    private String majorTypeText="";
     /**
      * 负责单位
      */
     private String dutyInstitutions="";
+    private String dutyInstitutionsText="";
     /**
      * 立项年度
      */
@@ -95,5 +97,21 @@ public class PlatformProjectModel extends RecordModel implements Serializable {
 
     public void setApprovalYear(String approvalYear) {
         this.approvalYear = approvalYear;
+    }
+
+    public String getDutyInstitutionsText() {
+        return dutyInstitutionsText;
+    }
+
+    public void setDutyInstitutionsText(String dutyInstitutionsText) {
+        this.dutyInstitutionsText = dutyInstitutionsText;
+    }
+
+    public String getMajorTypeText() {
+        return majorTypeText;
+    }
+
+    public void setMajorTypeText(String majorTypeText) {
+        this.majorTypeText = majorTypeText;
     }
 }

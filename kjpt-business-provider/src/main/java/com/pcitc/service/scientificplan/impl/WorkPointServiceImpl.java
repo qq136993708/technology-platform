@@ -29,6 +29,8 @@ public class WorkPointServiceImpl implements WorkPointService {
     public WorkPoint save(WorkPoint workPoint) {
         IsEmptyUtil.isEmpty(workPoint.getId());
         if (load(workPoint.getId()) == null) {
+            workPoint.setCreateDate(workPoint.getUpdateDate());
+            workPoint.setCreator(workPoint.getUpdator());
             workPointMapper.add(workPoint);
         } else {
             workPointMapper.update(workPoint);

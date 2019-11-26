@@ -42,11 +42,14 @@ public class ZjkAchievement implements Serializable {
      * 申请单位
      */
     private String applyUnit="";
+    
+    private String  applyUnitStr;
 
     /**
      * 成果类别
      */
     private String achieveType="";
+    private String achieveTypeStr;
 
     /**
      * 创建时间
@@ -57,8 +60,27 @@ public class ZjkAchievement implements Serializable {
      * 外系统ID
      */
     private String outSystemId="";
+    
+    
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getApplyUnitStr() {
+		return applyUnitStr;
+	}
+
+	public void setApplyUnitStr(String applyUnitStr) {
+		this.applyUnitStr = applyUnitStr;
+	}
+
+	public String getAchieveTypeStr() {
+		return achieveTypeStr;
+	}
+
+	public void setAchieveTypeStr(String achieveTypeStr) {
+		this.achieveTypeStr = achieveTypeStr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;

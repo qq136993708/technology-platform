@@ -5,6 +5,11 @@ if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d
 //拓展Array filter方法
 if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
 
+// 获取树项结构的字段 code
+var TREE_DICKIND_CODE = [
+	'ROOT_KJPT_YTDW' //依托单位
+];
+
 // 对Date的扩展，将 Date 转化为指定格式的String   
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
 // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
@@ -109,30 +114,36 @@ function getDialogData(id) {
 }
 
 // 转换HTTP请求数据
-function switchHttpData(dataJson, value) {
+function switchHttpData(dataJson, value, callback) {
 	if (dataJson != null && typeof(dataJson) === 'object') {
 		var tempData = null;
 		if (dataJson.length) {
 			tempData = [];
 			for (var i = 0; i < dataJson.length; i++) {
 				if (typeof(dataJson[i]) === 'object') {
-					tempData[i] = switchHttpData(dataJson[i], value);
+					tempData[i] = switchHttpData(dataJson[i], value, callback);
 				} else if (!dataJson[i] && (dataJson[i] !== 0 && dataJson[i] !== '0')) {
 					tempData[i] = value || '';
 				} else {
 					tempData[i] = dataJson[i];
 				}
 			}
+		} else if (dataJson.length === 0) {
+			tempData = [];
 		} else {
 			tempData = {};
 			for (var key in dataJson) {
 				if (typeof(dataJson[key]) === 'object') {
-					tempData[key] = switchHttpData(dataJson[key], value);
+					tempData[key] = switchHttpData(dataJson[key], value, callback);
 				} else if (!dataJson[key] && (dataJson[key] !== 0 && dataJson[key] !== '0')) {
 					tempData[key] = value || '';
 				} else {
 					tempData[key] = dataJson[key];
 				}
+			}
+
+			if (callback) {
+				tempData = callback(tempData);
 			}
 		}
 		
@@ -223,9 +234,12 @@ function httpModule(config) {
 	}
 }
 /*关闭标签页*/
-function closeTabsPage(){
+function closeTabsPage(index){
+	var iframe=parent.$("#LAY_app_body div").eq(index+1).find("iframe")
+	var iframeSrc=$(iframe).attr("src")
+    $(iframe).attr('src',iframeSrc);
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;
-    parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click')
+    parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click');
 }
 
 
@@ -245,7 +259,7 @@ function _getDicStore(key, type, callback) {
 				}
 			});
 		}
-		store = top.__base_dic_store[key].data.map(function(item, i) { return item });
+		store = switchHttpData(top.__base_dic_store[key].data, null);
 	}
 	if (callback) {
 		callback(store);
@@ -258,6 +272,11 @@ function _getDicStore(key, type, callback) {
 function _commonLoadDic(dicKindCode, callback) {
 	if (dicKindCode && typeof(dicKindCode) !== 'object') {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
+		if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+			httpUrl = '/unit-api/getTreeList';
+			/// '/sysDictionary-api/getAllList/' + dicKindCode;
+		}
+
 		httpModule({
 			url: httpUrl,
 			type: 'GET',
@@ -270,18 +289,36 @@ function _commonLoadDic(dicKindCode, callback) {
 				} else if (relData.success) {
 					success = true;
 				}
+				if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+					success = true;
+				}
 
 				if (success) {
 					var __dicData = null;
-					if (!relData.data) {
-						__dicData = [];
+					if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+						__dicData = relData.children || [];
+						console.log('__dicData =>', __dicData);
 					} else {
-						__dicData = relData.data.map(function(item, i) {
-							if (!item.value) {
-								item.value = item.code;
+						if (!relData.data) {
+							__dicData = [];
+						} else {
+							__dicData = relData.data;
+						}
+					}
+					
+					if (__dicData.length) {
+						__dicData = switchHttpData(__dicData, null, function(itemData) {
+							if (!itemData.value) {
+								itemData.value = (function() {
+									if (itemData.numValue || itemData.numValue === 0) {
+										return itemData.numValue;
+									} else {
+										return itemData.code;
+									}
+								})();
 							}
-							return item
-						});
+							return itemData;
+						})
 					}
 					top.__base_dic_store[dicKindCode].data = __dicData;
 					if (callback) {
@@ -301,6 +338,7 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			form.data(filter, 'local', {arr: __dicData});
 		} else {
 			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
+				console.log(event, param);
 				form.data(filter, 'local', {arr: param.data});
 			});
 		}
@@ -425,20 +463,18 @@ function getObjectData(dataJson, value) {
 					break;
 				}
 				// 判断是否有子集， 有子集则从子集中去匹配
-				if (dataJson[i].hasOwnProperty('childNodes') || dataJson[i].hasOwnProperty('children')) {
-					var tempDataArr = [];
-					if (typeof(dataJson[i].childNodes) === 'object' && dataJson[i].childNodes.length) {
-						tempDataArr = tempDataArr.concat(dataJson[i].childNodes);
-					}
-					if (typeof(dataJson[i].children) === 'object' && dataJson[i].children.length) {
-						tempDataArr = tempDataArr.concat(dataJson[i].children);
-					}
-					if (tempDataArr.length) {
-						tempData = getObjectData(dataJson, value);
-						// 如果从子集中拿到相应的值后、则退出循环
-						if (tempData) {
-							break;
-						}
+				var tempDataArr = [];
+				if (dataJson[i].hasOwnProperty('childNodes') && dataJson[i].childNodes.length) {
+					tempDataArr = tempDataArr.concat(dataJson[i].childNodes);
+				}
+				if (dataJson[i].hasOwnProperty('children') && dataJson[i].children.length) {
+					tempDataArr = tempDataArr.concat(dataJson[i].children);
+				}
+				if (tempDataArr.length) {
+					tempData = getObjectData(tempDataArr, value);
+					// 如果从子集中拿到相应的值后、则退出循环
+					if (tempData) {
+						break;
 					}
 				}
 			}
@@ -447,31 +483,41 @@ function getObjectData(dataJson, value) {
 	return tempData;
 }
 
+function _getArrKeyValue(data, labelKey) {
+	var targetValue = '';
+	if (labelKey.indexOf(',') !== -1) {
+		var keyArr = labelKey.split(',');
+		for (var i = 0; i < keyArr.length; i++) {
+			targetValue += ',' + getObjectData(data, keyArr[i]);
+		}
+		targetValue = targetValue.substring(1);
+	} else {
+		targetValue = getObjectData(data, labelKey);
+	}
+	if (!targetValue) {
+		targetValue = '-';
+	}
+	return targetValue;
+}
+
 // 给非form表单域标签统一赋值
 function setTargetNameValue(data) {
 	if (data && typeof(data) === 'object' && !data.length) {
 		$('[diy-form-value]').each(function(index, item) {
-			var labelKey = $(this).attr('diy-form-value');
-			var dicKindCode = $(this).attr('diy-dic-data');
-			var targetValue = '';
+			var labelKey = $(this).attr('diy-form-value'),
+			dicKindCode = $(this).attr('diy-dic-data'),
+			$this = $(this),
+			targetValue = '';
 			if (dicKindCode) {
 				// 从字典中读取数据
 				var __dicData = _getDicStore(dicKindCode, 'target');
 				// 是否获取到相应字典数据
 				if (__dicData.length) {
-					if (data[labelKey].indexOf(',') !== -1) {
-						var keyArr = data[labelKey].split(',');
-						for (var i = 0; i < keyArr.length; i++) {
-							targetValue += ',' + getObjectData(__dicData, keyArr[i]);
-						}
-						targetValue = targetValue.substring(1);
-					} else {
-						targetValue = getObjectData(__dicData, data[labelKey]);
-					}
+					targetValue = _getArrKeyValue(__dicData, data[labelKey]);
 				} else {
 					// 当前字典数据暂未获取到，绑定获取数据成功事件
 					$(document).on('dicTarget_' + dicKindCode, function(event, param) {
-						$(this).text(getObjectData(param.data, data[labelKey]));
+						$this.text(_getArrKeyValue(param.data, data[labelKey]));
 					})
 				}
 
@@ -536,9 +582,8 @@ function setFileSize(number) {
 
 
 // 渲染字典
-layui.use(['jquery', 'form', 'formSelects'], function() {
-	var $ = layui.jquery;
-	
+layui.use(['form', 'formSelects'], function() {
+
 	// 关闭 top层 所有弹窗
 	$('.close-all-dialog').click(function() {
 		top.layer.closeAll();

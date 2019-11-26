@@ -103,4 +103,8 @@ public interface SysDictionaryService {
 	 * @return
 	 */
 	int batchDelete(List<String> dataIdList) throws Exception;
+	
+	
+	public	List getAllList()throws Exception;
+	
 }

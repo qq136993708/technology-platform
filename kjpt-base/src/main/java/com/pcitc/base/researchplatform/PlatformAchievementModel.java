@@ -32,10 +32,12 @@ public class PlatformAchievementModel extends RecordModel implements Serializabl
      * 成果类别
      */
     private String achievementType="";
+    private String achievementTypeText="";
     /**
      * 申请单位
      */
     private String applicantUnit="";
+    private String applicantUnitText="";
     /**
      * 申请年度
      */
@@ -95,5 +97,21 @@ public class PlatformAchievementModel extends RecordModel implements Serializabl
 
     public void setApplicantYear(String applicantYear) {
         this.applicantYear = applicantYear;
+    }
+
+    public String getAchievementTypeText() {
+        return achievementTypeText;
+    }
+
+    public void setAchievementTypeText(String achievementTypeText) {
+        this.achievementTypeText = achievementTypeText;
+    }
+
+    public String getApplicantUnitText() {
+        return applicantUnitText;
+    }
+
+    public void setApplicantUnitText(String applicantUnitText) {
+        this.applicantUnitText = applicantUnitText;
     }
 }

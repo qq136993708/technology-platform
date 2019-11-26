@@ -8,7 +8,8 @@
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
         <result column="thesis_title" jdbcType="VARCHAR" property="thesisTitle"/>
-        <result column="thesis_level" jdbcType="DECIMAL" property="thesisLevel"/>
+        <result column="thesis_level" jdbcType="VARCHAR" property="thesisLevel"/>
+        <result column="thesis_level_text" jdbcType="VARCHAR" property="thesisLevelText"/>
         <result column="journal_title" jdbcType="VARCHAR" property="journalTitle"/>
         <result column="thesis_author" jdbcType="VARCHAR" property="thesisAuthor"/>
         <result column="thesis_year" jdbcType="VARCHAR" property="thesisYear"/>
@@ -37,7 +38,7 @@
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_treatise where id = #{id} and deleted != '1'
+        select  * from view_kypt_treatise where id = #{id} and deleted != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">

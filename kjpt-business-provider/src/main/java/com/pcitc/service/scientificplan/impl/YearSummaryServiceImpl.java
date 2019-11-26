@@ -29,6 +29,8 @@ public class YearSummaryServiceImpl implements YearSummaryService {
     public YearSummary save(YearSummary yearSummary) {
         IsEmptyUtil.isEmpty(yearSummary.getId());
         if (load(yearSummary.getId()) == null) {
+            yearSummary.setCreateDate(yearSummary.getUpdateDate());
+            yearSummary.setCreator(yearSummary.getUpdator());
             yearSummaryMapper.add(yearSummary);
         } else {
             yearSummaryMapper.update(yearSummary);

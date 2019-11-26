@@ -6,11 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -39,6 +43,7 @@ import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.PageCommon;
 
+@Api(value = "user-api", description = "用户信息")
 @Controller
 public class UserController extends BaseController {
 
@@ -46,7 +51,7 @@ public class UserController extends BaseController {
 	 * 1、可以直接通过注册的服务名来访问，来实现访问和负载。不过如果用zuul的话， 要用zuul的服务名和实际访问的服务名一起
 	 * 2、pplus本身是一个微服务，属于微服务之间的调用，可以直接用名称，不用ip.（注意启动类中的注解）
 	 */
-
+    private static final String USER_CURRENT_URL = "http://kjpt-zuul/system-proxy/user-provider/user/currentUserInfo/";
 	private static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
 	private static final String USER_GET_IN_ROLE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-in-role";
 	private static final String USER_GET_NOT_ROLE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-not-role";
@@ -56,10 +61,10 @@ public class UserController extends BaseController {
 	private static final String USER_LIST_PAGE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-list";
 	private static final String USER_DEL_URL = "http://kjpt-zuul/system-proxy/user-provider/user/delete-user/";
 	private static final String USER_UNIQUE_CHECK_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-validate";
-	
+
 	private static final String QUERY_SYS_USER_LIST_BY_PAGE = "http://kjpt-zuul/system-proxy/user-provider/user/querySysUserListByPage/";
 	private static final String GET_SYS_USER_LIST_BY_UNIT = "http://kjpt-zuul/system-proxy/user-provider/user/getSysUserListByUserUnitPage/";
-	
+
 
 	// private static final String USER_GET_BY_UNIT =
 	// "http://kjpt-zuul/system-proxy/user-provider/user/get-user-by-unit";
@@ -161,7 +166,7 @@ public class UserController extends BaseController {
 		//机构,岗位
 		Set<String> unitids = new HashSet<String>();
 		Set<String> postids = new HashSet<String>();
-		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();)
 		{
 			Map<?,?> map = (Map<?,?>)iter.next();
 			String uids = (String)map.get("userUnit");
@@ -178,11 +183,11 @@ public class UserController extends BaseController {
 			dataObject.put("data", array);
 			return dataObject;
 		}
-		
+
 		List<Map<String,Object>> units = this.restTemplate.exchange(UNIT_BY_IDS, HttpMethod.POST, new HttpEntity<Set<String>>(unitids, this.httpHeaders), List.class).getBody();
 		List<Map<String,Object>> posts = this.restTemplate.exchange(POST_BY_IDS, HttpMethod.POST, new HttpEntity<Set<String>>(postids, this.httpHeaders), List.class).getBody();
-		
-		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+
+		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();)
 		{
 			Map<String,Object> map = (Map<String,Object>)iter.next();
 			map.put("userUnitDisp", "");
@@ -191,22 +196,22 @@ public class UserController extends BaseController {
 			String pids = (String)map.get("userPost");
 			if(!StringUtils.isBlank(uids)) {
 				List<Map<String,Object>> us = units.stream().filter(a -> Arrays.asList(uids.split(",")).contains(a.get("unitId"))).collect(Collectors.toList());
-				for(Map<String,Object> u:us) 
+				for(Map<String,Object> u:us)
 				{
 					map.put("userUnitDisp", (StringUtils.isBlank(map.get("userUnitDisp")+"")?"":map.get("userUnitDisp")+",")+u.get("unitName"));
 				}
-				
+
 			}
 			if(!StringUtils.isBlank(pids)) {
 				List<Map<String,Object>> ps = posts.stream().filter(a -> Arrays.asList(pids.split(",")).contains(a.get("postId"))).collect(Collectors.toList());
-				for(Map<String,Object> p:ps) 
+				for(Map<String,Object> p:ps)
 				{
 					map.put("userPostDisp", (StringUtils.isBlank(map.get("userPostDisp")+"")?"":map.get("userPostDisp")+",")+p.get("postName"));
 				}
 			}
 		}
 		dataObject.put("data", array);
-		
+
 		return dataObject;
 		/*writebackField = "userUnit"; // 回写字段
 		DataTableInfoVo tableInfo = new DataTableInfoVo();
@@ -269,7 +274,7 @@ public class UserController extends BaseController {
 
 	/**
 	 * 人员选择
-	 * 
+	 *
 	 * @param param
 	 * @return
 	 * @throws IOException
@@ -378,7 +383,7 @@ public class UserController extends BaseController {
 
 	/*
 	 * @SuppressWarnings("unchecked")
-	 * 
+	 *
 	 * @RequestMapping(value = "/user/get-user-by-unit", method =
 	 * RequestMethod.POST) public Object getUserByUnit(DataTableInfo
 	 * tableInfo,HttpServletRequest request) throws IOException { //传递参数
@@ -389,13 +394,13 @@ public class UserController extends BaseController {
 	 * JSONObject.class); JSONObject retJson = responseEntity.getBody(); Long
 	 * totalCount = retJson.get("totalCount") != null?
 	 * Long.parseLong(retJson.get("totalCount").toString()):0l;
-	 * 
+	 *
 	 * List<SysUser> userList = JSONArray.toList(retJson.getJSONArray("list"),
 	 * new SysUser(), new JsonConfig()); DataTableParameter data = new
 	 * DataTableParameter(); data.setAaData(userList); //要显示的总条数
 	 * data.setiTotalDisplayRecords(totalCount); //真实的总条数
 	 * data.setiTotalRecords(totalCount);
-	 * 
+	 *
 	 * return data; }
 	 */
 	@RequestMapping(value = "/user/delete-users", method = RequestMethod.POST)
@@ -439,6 +444,84 @@ public class UserController extends BaseController {
 			return new Result(true, "密码修改成功！");
 		}
 	}
+
+
+	/**
+	 *功能描述 重置密码功能
+	 * @author t-chengjia.chen
+	 * @date 2019/11/25
+	 * @return java.lang.Object
+	 */
+	@ApiOperation(value = "修改当前用户密码", notes = "修改当前用户密码")
+	@RequestMapping(value = "/user/changePassword", method = RequestMethod.POST)
+	@ResponseBody
+	public Object changePassword(@RequestParam(value = "oldPass", required = false) String oldPass, @RequestParam(value = "newPass", required = false) String newPass) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
+
+		SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		if (user == null) {
+			return new Result(false, "用户不存在！");
+		}
+		if (!user.getUserPassword().equals(MD5Util.MD5Encode(oldPass))) {
+			return new Result(false, "原始密码错误！");
+		}
+		user.setUserPassword(MD5Util.MD5Encode(newPass));
+		if(newPass!=null&&!newPass.isEmpty()){
+			Pattern pattern = Pattern.compile("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$");
+			if (pattern.matcher(newPass).matches()){
+				ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
+				if (status.getBody() == 0) {
+					return new Result(false, "密码更改失败，请联系管理员！");
+				} else {
+					return new Result(true, "密码修改成功！");
+				}
+			}else{
+				return new Result(false, "密码格式错误！");
+			}
+		}else{
+			return new Result(false, "新密码不能为空！");
+		}
+	}
+
+
+    /**
+     *功能描述 更改个人信息
+     * @author t-chengjia.chen
+     * @date 2019/11/25
+     * @param
+     * @return java.lang.Object
+     */
+    @ApiOperation(value = "修改当前用户信息", notes = "修改当前用户信息")
+    @RequestMapping(value = "/user/updateUserInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateUserInfo(@RequestBody String params) throws IOException {
+        // 获取个人原有信息
+        SysUser sysUserInfo = getUserProfile();
+        SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+
+        if (user == null) {
+            return new Result(false, "用户不存在！");
+        }
+        JSONObject reJson = JSONObject.parseObject(params);
+        //System.out.println("===updateSelfConfig---"+reJson.getString("userConfig1"));
+        user.setUserConfig1(reJson.getString("userConfig1"));
+        ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
+        if (status.getBody() == 0) {
+            return new Result(false, "个人设置失败！");
+        } else {
+            return new Result(true, "个人设置成功！");
+        }
+    }
+
+
+    @ApiOperation(value = "获取当前用户信息", notes = "获取当前用户信息")
+    @RequestMapping(value = "/user/currentUserInfo")
+    @ResponseBody
+    public Object currentUserInfo(@RequestParam(value = "userId", required = true) String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return this.restTemplate.exchange(USER_CURRENT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+    }
+
+
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/ini-self-config")
 	private String toUpdatePassPage(HttpServletRequest request) {
@@ -488,9 +571,9 @@ public class UserController extends BaseController {
 			return new Result(true, "密码修改成功！");
 		}
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value = "/user/querySysUserListByPage", method = RequestMethod.POST)
 	@ResponseBody
 	public Object querySysUserListByPage(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
@@ -500,9 +583,9 @@ public class UserController extends BaseController {
 	    JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value = "/user/getSysUserListByUserUnitPage", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getSysUserListByUserUnitPage(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
@@ -513,12 +596,12 @@ public class UserController extends BaseController {
 		return retJson;
 	}
 
-	
-	
-	
-	
-	
 
-	
-	
+
+
+
+
+
+
+
 }

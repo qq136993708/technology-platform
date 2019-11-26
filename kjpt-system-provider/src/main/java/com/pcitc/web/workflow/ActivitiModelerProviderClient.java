@@ -51,7 +51,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
@@ -341,74 +340,61 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		}
 	}
 
-	@ApiOperation(value = "上传model模型", notes = "activiti系统接口")
-	@RequestMapping(value = "/modeler-provider/model/upload", method = RequestMethod.POST)
-	public Result uploadModel(@RequestBody WorkflowVo workflowVo) {
-		List<SysFile> fileList = workflowVo.getFileList();
-		boolean bpmnFlag = true;
-		String msg = "";
-		ModelQuery mq = repositoryService.createModelQuery();
-
-		for (int i = 0; i<fileList.size(); i++) {
-			try {
-				InputStream input = OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				// 创建转换对象
-				BpmnXMLConverter converter = new BpmnXMLConverter();
-				XMLInputFactory factory = XMLInputFactory.newInstance();
-				XMLStreamReader reader = factory.createXMLStreamReader(input);// createXmlStreamReader
-				// 将xml文件转换成BpmnModel
-				BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
-				mq = mq.modelName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
-				if (mq.count()>0) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf("."))+"-->已经上传，请重新选择！";
-					bpmnFlag = false;
-					break;
-				}
-				if (bpmnModel.getMainProcess()==null||bpmnModel.getMainProcess().getId()==null) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf("."))+"-->流程文件解析有问题！";
-					bpmnFlag = false;
-					break;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		System.out.println("3uploadModel===="+msg);
-		if (!bpmnFlag) {
-			// 上传的文件有问题
-			return new Result(false, "部署失败", msg);
-		}
-		for (int i = 0; i<fileList.size(); i++) {
-
-			try {
-				InputStream input = OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				// 创建转换对象
-				BpmnXMLConverter converter = new BpmnXMLConverter();
-				XMLInputFactory factory = XMLInputFactory.newInstance();
-				XMLStreamReader reader = factory.createXMLStreamReader(input);// createXmlStreamReader
-				// 将xml文件转换成BpmnModel
-				BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
-
-				BpmnJsonConverter bpmnCon = new BpmnJsonConverter();
-				ObjectNode modelNode = bpmnCon.convertToJson(bpmnModel);
-				Model modelData = repositoryService.newModel();
-				ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
-				modelObjectNode.put("name", fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
-				modelObjectNode.put("revision", 1);
-
-				modelData.setMetaInfo(modelObjectNode.toString());
-				modelData.setName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
-				repositoryService.saveModel(modelData);
-				repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes(StandardCharsets.UTF_8));
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return new Result(true, "部署成功");
-	}
+	/*
+	 * @ApiOperation(value = "上传model模型", notes = "activiti系统接口")
+	 * 
+	 * @RequestMapping(value = "/modeler-provider/model/upload", method =
+	 * RequestMethod.POST) public Result uploadModel(@RequestBody WorkflowVo
+	 * workflowVo) { List<SysFile> fileList = workflowVo.getFileList(); boolean
+	 * bpmnFlag = true; String msg = ""; ModelQuery mq =
+	 * repositoryService.createModelQuery();
+	 * 
+	 * for (int i = 0; i<fileList.size(); i++) { try { InputStream input =
+	 * OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+
+	 * OSSUtil.BUCKET+"/")[1]); // 创建转换对象 BpmnXMLConverter converter = new
+	 * BpmnXMLConverter(); XMLInputFactory factory = XMLInputFactory.newInstance();
+	 * XMLStreamReader reader = factory.createXMLStreamReader(input);//
+	 * createXmlStreamReader // 将xml文件转换成BpmnModel BpmnModel bpmnModel =
+	 * converter.convertToBpmnModel(reader); mq =
+	 * mq.modelName(fileList.get(i).getFileName().substring(0,
+	 * fileList.get(i).getFileName().indexOf("."))); if (mq.count()>0) { msg =
+	 * fileList.get(i).getFileName().substring(0,
+	 * fileList.get(i).getFileName().indexOf("."))+"-->已经上传，请重新选择！"; bpmnFlag =
+	 * false; break; } if
+	 * (bpmnModel.getMainProcess()==null||bpmnModel.getMainProcess().getId()==null)
+	 * { msg = fileList.get(i).getFileName().substring(0,
+	 * fileList.get(i).getFileName().indexOf("."))+"-->流程文件解析有问题！"; bpmnFlag =
+	 * false; break; } } catch (Exception e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } } System.out.println("3uploadModel===="+msg); if
+	 * (!bpmnFlag) { // 上传的文件有问题 return new Result(false, "部署失败", msg); } for (int i
+	 * = 0; i<fileList.size(); i++) {
+	 * 
+	 * try { InputStream input =
+	 * OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+
+	 * OSSUtil.BUCKET+"/")[1]); // 创建转换对象 BpmnXMLConverter converter = new
+	 * BpmnXMLConverter(); XMLInputFactory factory = XMLInputFactory.newInstance();
+	 * XMLStreamReader reader = factory.createXMLStreamReader(input);//
+	 * createXmlStreamReader // 将xml文件转换成BpmnModel BpmnModel bpmnModel =
+	 * converter.convertToBpmnModel(reader);
+	 * 
+	 * BpmnJsonConverter bpmnCon = new BpmnJsonConverter(); ObjectNode modelNode =
+	 * bpmnCon.convertToJson(bpmnModel); Model modelData =
+	 * repositoryService.newModel(); ObjectNode modelObjectNode = new
+	 * ObjectMapper().createObjectNode(); modelObjectNode.put("name",
+	 * fileList.get(i).getFileName().substring(0,
+	 * fileList.get(i).getFileName().indexOf("."))); modelObjectNode.put("revision",
+	 * 1);
+	 * 
+	 * modelData.setMetaInfo(modelObjectNode.toString());
+	 * modelData.setName(fileList.get(i).getFileName().substring(0,
+	 * fileList.get(i).getFileName().indexOf(".")));
+	 * repositoryService.saveModel(modelData);
+	 * repositoryService.addModelEditorSource(modelData.getId(),
+	 * modelNode.toString().getBytes(StandardCharsets.UTF_8));
+	 * 
+	 * } catch (Exception e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } } return new Result(true, "部署成功"); }
+	 */
 
 	@ApiOperation(value = "查询所有流程定义", notes = "查询条件：模型名称；分页查询")
 	@RequestMapping(value = "/modeler-provider/process/define/list", method = RequestMethod.POST)

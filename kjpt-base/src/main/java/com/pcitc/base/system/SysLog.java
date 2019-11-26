@@ -1,85 +1,93 @@
 package com.pcitc.base.system;
 
-import com.pcitc.base.util.SearchInfo;
-
+import java.io.Serializable;
 import java.util.Date;
 
-public class SysLog extends SearchInfo {
+/**
+ * sys_log
+ * @author 
+ */
+public class SysLog implements Serializable {
+    private String id;
+
     /**
-     *
+     * 操作时间
      */
-    private static final long serialVersionUID = 5350965137472396023L;
-
-    private String logId;
-
-    private String logActionName;
-
-    private String logAction;
-
-    private String logType;
-
-    private String logPersonId;
-
-    private String logPerson;
-
     private Date logTime;
 
-    private String logsTime;
+    /**
+     * 登陆人
+     */
+    private String userId="";
 
-    private String logStatus;
+    /**
+     * 登陆人
+     */
+    private String userName="";
 
-    private String logIp;
+    /**
+     * 登陆IP
+     */
+    private String logIp="";
 
-    private String auditStatus;
+    /**
+     * 备注
+     */
+    private String remarks="";
 
-    private String logRemarks;
+    /**
+     * 日志类型：1登陆日志，2操作日志，3错误日志
+     */
+    private String logType="2";
 
-    public String getLogId() {
-        return logId;
+    /**
+     * GET,POST等
+     */
+    private String requestType="";
+
+    /**
+     * URL
+     */
+    private String logUrl="";
+
+    /**
+     * 操作描述
+     */
+    private String optDescribe="";
+
+    /**
+     * 操作结果
+     */
+    private String optResult="";
+
+    /**
+     * 操作错误信息
+     */
+    private String optError="";
+
+    /**
+     * 用户所属部门
+     */
+    private String userDepartment="";
+
+    /**
+     * 用户所属公司或单位
+     */
+    private String userCompany="";
+
+    /**
+              * 用户类型：1普通用户，2系统管理员，2安全员，3审计员
+     */
+    private String userType;
+
+    private static final long serialVersionUID = 1L;
+
+    public String getId() {
+        return id;
     }
 
-    public void setLogId(String logId) {
-        this.logId = logId;
-    }
-
-    public String getLogActionName() {
-        return logActionName;
-    }
-
-    public void setLogActionName(String logActionName) {
-        this.logActionName = logActionName;
-    }
-
-    public String getLogAction() {
-        return logAction;
-    }
-
-    public void setLogAction(String logAction) {
-        this.logAction = logAction;
-    }
-
-    public String getLogType() {
-        return logType;
-    }
-
-    public void setLogType(String logType) {
-        this.logType = logType;
-    }
-
-    public String getLogPersonId() {
-        return logPersonId;
-    }
-
-    public void setLogPersonId(String logPersonId) {
-        this.logPersonId = logPersonId;
-    }
-
-    public String getLogPerson() {
-        return logPerson;
-    }
-
-    public void setLogPerson(String logPerson) {
-        this.logPerson = logPerson;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Date getLogTime() {
@@ -90,20 +98,20 @@ public class SysLog extends SearchInfo {
         this.logTime = logTime;
     }
 
-    public String getLogsTime() {
-        return logsTime;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setLogsTime(String logsTime) {
-        this.logsTime = logsTime;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getLogStatus() {
-        return logStatus;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLogStatus(String logStatus) {
-        this.logStatus = logStatus;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getLogIp() {
@@ -114,19 +122,83 @@ public class SysLog extends SearchInfo {
         this.logIp = logIp;
     }
 
-    public String getAuditStatus() {
-        return auditStatus;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setAuditStatus(String auditStatus) {
-        this.auditStatus = auditStatus;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
-    public String getLogRemarks() {
-        return logRemarks;
+    public String getLogType() {
+        return logType;
     }
 
-    public void setLogRemarks(String logRemarks) {
-        this.logRemarks = logRemarks;
+    public void setLogType(String logType) {
+        this.logType = logType;
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
+
+    public String getLogUrl() {
+        return logUrl;
+    }
+
+    public void setLogUrl(String logUrl) {
+        this.logUrl = logUrl;
+    }
+
+    public String getOptDescribe() {
+        return optDescribe;
+    }
+
+    public void setOptDescribe(String optDescribe) {
+        this.optDescribe = optDescribe;
+    }
+
+    public String getOptResult() {
+        return optResult;
+    }
+
+    public void setOptResult(String optResult) {
+        this.optResult = optResult;
+    }
+
+    public String getOptError() {
+        return optError;
+    }
+
+    public void setOptError(String optError) {
+        this.optError = optError;
+    }
+
+    public String getUserDepartment() {
+        return userDepartment;
+    }
+
+    public void setUserDepartment(String userDepartment) {
+        this.userDepartment = userDepartment;
+    }
+
+    public String getUserCompany() {
+        return userCompany;
+    }
+
+    public void setUserCompany(String userCompany) {
+        this.userCompany = userCompany;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

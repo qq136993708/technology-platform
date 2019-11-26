@@ -13,16 +13,6 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <!-- 更多样式在此引入 -->
-  <style>
-    .layui-input {
-      border: none;
-      outline: none;
-    }
-
-    input:focus {
-      outline: 0 !important
-    }
-  </style>
 </head>
 
 <body class="">
@@ -33,7 +23,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">单位名称：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="unitName" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="unitName" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -42,7 +32,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">核定使用商品大类：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="commodityCategory" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="commodityCategory" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -51,7 +41,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">商标申请号：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="applicationNumber" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="applicationNumber" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -60,7 +50,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">有效日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="effectiveDate" id="validDate" disabled="true" autocomplete="off"
+              <input type="text" name="effectiveDate" id="validDate" readonly="readonly" autocomplete="off"
                 class="layui-input">
             </div>
           </div>
@@ -70,7 +60,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">注册公告日：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="registerNoticeDate" id="bulletinDate" disabled="true" autocomplete="off"
+              <input type="text" name="registerNoticeDate" id="bulletinDate" readonly="readonly" autocomplete="off"
                 class="layui-input">
             </div>
           </div>
@@ -80,7 +70,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">录入人：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="entryPerson" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="entryPerson" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -89,7 +79,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">注册商标名称：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="trademarkName" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="trademarkName" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -98,7 +88,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">申请人：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="applicant" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="applicant" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -107,7 +97,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">注册日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="registerDate" id="registerDate" disabled="true" autocomplete="off"
+              <input type="text" name="registerDate" id="registerDate" readonly="readonly" autocomplete="off"
                 class="layui-input">
             </div>
           </div>
@@ -117,7 +107,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">法律状态：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="lawStatus" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="lawStatus" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -126,7 +116,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">备注：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="remark" disabled="true" autocomplete="off" class="layui-input">
+              <input type="text" name="remark" readonly="readonly" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -135,14 +125,14 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">录入时间：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="entryDate" id="importDate" disabled="true" autocomplete="off"
+              <input type="text" name="entryDate" id="importDate" readonly="readonly" autocomplete="off"
                 class="layui-input">
             </div>
           </div>
         </div>
 
         <div id="file-filter-options">
-          <div class="view-title-layout disabled-box view-pt0">
+          <div class="view-title-layout readonly=-readonlyview-pt0">
             <div class="right">
               <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
             </div>

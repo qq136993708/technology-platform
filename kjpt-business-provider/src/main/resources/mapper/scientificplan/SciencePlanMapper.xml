@@ -12,6 +12,11 @@
         <result column="PROFESSIONAL_FIELD" jdbcType="VARCHAR" property="professionalField"/>
         <result column="SPECIALTY_CATEGORY" jdbcType="VARCHAR" property="specialtyCategory"/>
         <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="updator" jdbcType="VARCHAR" property="updator"/>
     </resultMap>
 
 
@@ -22,7 +27,12 @@
      RESEARCH_FIELD,
      PROFESSIONAL_FIELD,
      SPECIALTY_CATEGORY,
-     RELEASE_TIME
+     RELEASE_TIME,
+     DELETED,
+     create_date,
+     create_user,
+     update_date,
+     update_user
   </sql>
 
 
@@ -41,39 +51,55 @@
 
     <insert id="add"  parameterType="com.pcitc.base.scientificplan.SciencePlan">
     insert into science_plan (
+       ID,
       `NAME`,
        AUTHENTICATE_UTIL,
        RESEARCH_FIELD,
        PROFESSIONAL_FIELD,
        SPECIALTY_CATEGORY,
-       RELEASE_TIME
+       RELEASE_TIME,
+       DELETED,
+       create_date,
+       create_user,
+       update_date,
+       update_user
       )
     values (
+        #{id},
         #{name},
         #{authenticateUtil},
         #{researchField},
         #{professionalField},
         #{specialtyCategory},
-        #{releaseTime}
+        #{releaseTime},
+        #{deleted},
+        #{createDate},
+        #{creator},
+        #{updateDate},
+        #{updator}
       )
   </insert>
 
 
     <select id="query"  parameterType="java.util.Map" resultMap="BaseResultMap" >
         select * from science_plan where 1=1
-        <if test="name != null  and name ！= '' ">
-            and `NAME` = #{NAME}
+
+        <if test="name != null and name !='' ">
+            and `NAME` = like CONCAT('%',#{NAME},'%')
         </if>
+
         <if test="authenticateUtil != null and authenticateUtil != '' ">
             and AUTHENTICATE_UTIL = #{AUTHENTICATE_UTIL}
         </if>
         <if test="researchField != null and researchField != '' ">
             and RESEARCH_FIELD = #{RESEARCH_FIELD}
         </if>
+
         <if test="professionalField != null and professionalField != '' ">
-            and PROFESSIONAL_FIELD = #{PROFESSIONAL_FIELD}
+             and PROFESSIONAL_FIELD = #{PROFESSIONAL_FIELD}
         </if>
-        <if test="specialtyCategory != null and specialtyCategory != ''  ">
+
+        <if test="specialtyCategory != null and specialtyCategory != '' ">
             and SPECIALTY_CATEGORY = #{SPECIALTY_CATEGORY}
         </if>
         <if test="releaseTime != null  and releaseTime != '' ">
@@ -103,8 +129,18 @@
                 SPECIALTY_CATEGORY = #{SPECIALTY_CATEGORY},
             </if>
             <if test="releaseTime != null and releaseTime != '' ">
-                RELEASE_TIME = #{RELEASE_TIME}
+                RELEASE_TIME = #{RELEASE_TIME},
             </if>
+            <if test="deleted != null and deleted != ''" >
+                deleted = #{deleted,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null and updateDate != ''" >
+                update_date = #{updateDate},
+            </if>
+            <if test="updator != null and updator != ''" >
+                updator = #{updator,jdbcType=VARCHAR}
+            </if>
+
         </trim>
         where id = #{id}
     </update>
@@ -115,61 +151,4 @@
 
 
 
-    <!--<insert id="insertSelective" keyColumn="ID" keyProperty="id"-->
-            <!--parameterType="com.pcitc.base.scientificplan.SciencePlan" useGeneratedKeys="true">-->
-        <!--insert into science_plan-->
-        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
-            <!--<if test="name != null">-->
-                <!--`NAME`,-->
-            <!--</if>-->
-            <!--<if test="authenticateUtil != null">-->
-                <!--AUTHENTICATE_UTIL,-->
-            <!--</if>-->
-            <!--<if test="researchField != null">-->
-                <!--RESEARCH_FIELD,-->
-            <!--</if>-->
-            <!--<if test="professionalField != null">-->
-                <!--PROFESSIONAL_FIELD,-->
-            <!--</if>-->
-            <!--<if test="specialtyCategory != null">-->
-                <!--SPECIALTY_CATEGORY,-->
-            <!--</if>-->
-            <!--<if test="releaseTime != null">-->
-                <!--RELEASE_TIME,-->
-            <!--</if>-->
-        <!--</trim>-->
-        <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
-            <!--<if test="name != null">-->
-                <!--#{name,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="authenticateUtil != null">-->
-                <!--#{authenticateUtil,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="researchField != null">-->
-                <!--#{researchField,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="professionalField != null">-->
-                <!--#{professionalField,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="specialtyCategory != null">-->
-                <!--#{specialtyCategory,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="releaseTime != null">-->
-                <!--#{releaseTime,jdbcType=DATE},-->
-            <!--</if>-->
-        <!--</trim>-->
-    <!--</insert>-->
-
-
-
-    <!--<update id="updateByPrimaryKey" parameterType="com.pcitc.base.scientificplan.SciencePlan">-->
-    <!--update science_plan-->
-    <!--set `NAME` = #{name,jdbcType=VARCHAR},-->
-      <!--AUTHENTICATE_UTIL = #{authenticateUtil,jdbcType=VARCHAR},-->
-      <!--RESEARCH_FIELD = #{researchField,jdbcType=VARCHAR},-->
-      <!--PROFESSIONAL_FIELD = #{professionalField,jdbcType=VARCHAR},-->
-      <!--SPECIALTY_CATEGORY = #{specialtyCategory,jdbcType=VARCHAR},-->
-      <!--RELEASE_TIME = #{releaseTime,jdbcType=DATE}-->
-    <!--where ID = #{id,jdbcType=VARCHAR}-->
-  <!--</update>-->
 </mapper>

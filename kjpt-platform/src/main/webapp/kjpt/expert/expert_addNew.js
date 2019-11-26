@@ -20,7 +20,11 @@ layui.config({
     laydate.render({
         elem: '#appDate', //指定元素
         type:"year",
-        trigger: 'click'
+        trigger: 'click',
+        change: function(value, date, endDate){
+            $("#appDate").val(value)
+            $('#layui-laydate1').remove();//删除
+        }
     });
     /*动态生成元素*/
     function createElement(code,id,element,name) {
@@ -31,7 +35,7 @@ layui.config({
                 if (relData.success === true) {
                     relData.data.map(function(item){
                         if(element=="option"){
-                            $("#"+id).append("<option value='"+item.code+"' name='"+name+"'>"+item.name+"</option>")
+                            $("#"+id).append("<option value='"+item.numValue+"' name='"+name+"'>"+item.name+"</option>")
                         }else if(element=="radio"){
                             $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
                         }
@@ -67,6 +71,8 @@ layui.config({
     });
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
+
+    console.log(variable)
     /*判断id，回显*/
     if(variable!=null){
         httpModule({
@@ -75,6 +81,7 @@ layui.config({
             success: function(relData) {
                 if (relData.success === true) {
                     // 给form表单赋初始值
+                    console.log(relData.data)
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
@@ -113,7 +120,7 @@ layui.config({
                         patentName.splice(num,1)
                     })
                     rewardName.map(function (item, index) {
-                        var html='<li><span>'+item.rewarkLevel+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
+                        var html='<li><span>'+item.rewarkLevelStr+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
                         $(".zjkRewardJsonList ul li.expert-li-last").before(html)
                     })
                     $(".closeReward").click(function () {
@@ -130,7 +137,7 @@ layui.config({
     var $ = layui.$, active = {
         addAchievements:function () {
             var url="/kjpt/expert/achievements_add.html"
-            if(variable!=null){
+            if(variable.id!=undefined){
                 url="/kjpt/expert/achievements_add.html?id="+variable.id
             }
             top.layer.open({
@@ -157,8 +164,9 @@ layui.config({
             });
         },
         addProject:function(){
+            console.log(variable.id)
             var url="/kjpt/expert/project_add.html"
-            if(variable!=null){
+            if(variable.id!=undefined){
                 url="/kjpt/expert/project_add.html?id="+variable.id
             }
             top.layer.open({
@@ -186,7 +194,7 @@ layui.config({
         },
         addPatent:function(){
             var url="/kjpt/expert/patent_add.html"
-            if(variable!=null){
+            if(variable.id!=undefined){
                 url="/kjpt/expert/patent_add.html?id="+variable.id
             }
             top.layer.open({
@@ -214,7 +222,7 @@ layui.config({
         },
         addReward:function(){
             var url="/kjpt/expert/reward_add.html"
-            if(variable!=null){
+            if(variable.id!=undefined){
                 url="/kjpt/expert/reward_add.html?id="+variable.id
             }
             top.layer.open({
@@ -228,7 +236,7 @@ layui.config({
                     rewardName = getDialogData('dialog-data');
                     if (rewardName) {
                         rewardName.map(function (item,index) {
-                            var html='<li><span>'+item.rewarkLevel+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
+                            var html='<li><span>'+item.rewarkLevelStr+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
                             $(".zjkRewardJsonList ul li.expert-li-last").before(html)
                         })
                     }
@@ -242,7 +250,7 @@ layui.config({
         },
         close:function () {
             /*模拟关闭标签页事件*/
-            closeTabsPage();
+            closeTabsPage(variable.index);
         }
     }
     $('.layui-btn').on('click', function(){
@@ -293,7 +301,7 @@ layui.config({
                 console.log(e)
                 if(e.success){
                     layer.msg('保存成功!', {icon: 1});
-                    closeTabsPage();
+                    closeTabsPage(variable.index)
                 }
             }
         });

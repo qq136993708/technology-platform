@@ -57,8 +57,20 @@ public class ZjkProject implements Serializable {
      * 外系统ID
      */
     private String outSystemId;
+    
+    private String  chargeUnitStr;
+    
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getChargeUnitStr() {
+		return chargeUnitStr;
+	}
+
+	public void setChargeUnitStr(String chargeUnitStr) {
+		this.chargeUnitStr = chargeUnitStr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;

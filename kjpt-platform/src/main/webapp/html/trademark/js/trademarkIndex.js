@@ -123,7 +123,7 @@ layui.use(['form', 'laydate', 'table'], function () {
             content: '/html/trademark/trademark_check.html?id=' + id,
             btn: null,
             end: function () {
-
+                
             }
         });
     }
@@ -136,7 +136,7 @@ layui.use(['form', 'laydate', 'table'], function () {
         if (itemRowData) {
             openDataDilog(itemRowData.id);
         } else {
-            layer.msg('请选择需要编辑的平台！');
+            layer.msg('请选择需要编辑的商标！');
         }
     })
 
@@ -149,7 +149,7 @@ layui.use(['form', 'laydate', 'table'], function () {
         if (itemRowData) {
             checkDilog(itemRowData.id);
         } else {
-            layer.msg('请选择需要编辑的平台！');
+            layer.msg('请选择需要编辑的商标！');
         }
     })
 

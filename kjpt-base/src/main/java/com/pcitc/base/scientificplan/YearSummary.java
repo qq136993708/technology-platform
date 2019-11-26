@@ -13,22 +13,22 @@ public class YearSummary extends RecordModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id; //id
-    private String name="";   //名称
-    private String authenticate_util="";//申报单位
-    private  String research_field="";//研究领域
-    private Date release_time=new Date();//发布时间
+    private String name = "";   //名称
+    private String authenticateUtil = "";//申报单位
+    private String researchField = "";//研究领域
+    private Date releaseTime = new Date();//发布时间
 
     public YearSummary() {
     }
 
-    public YearSummary(String id, String name,
-                       String authenticate_util, String research_field, Date release_time) {
+    public YearSummary(String id, String name, String authenticateUtil, String researchField, Date releaseTime) {
         this.id = id;
         this.name = name;
-        this.authenticate_util = authenticate_util;
-        this.research_field = research_field;
-        this.release_time = release_time;
+        this.authenticateUtil = authenticateUtil;
+        this.researchField = researchField;
+        this.releaseTime = releaseTime;
     }
+
 
     public String getId() {
         return id;
@@ -46,27 +46,27 @@ public class YearSummary extends RecordModel implements Serializable {
         this.name = name;
     }
 
-    public String getAuthenticate_util() {
-        return authenticate_util;
+    public String getAuthenticateUtil() {
+        return authenticateUtil;
     }
 
-    public void setAuthenticate_util(String authenticate_util) {
-        this.authenticate_util = authenticate_util;
+    public void setAuthenticateUtil(String authenticateUtil) {
+        this.authenticateUtil = authenticateUtil;
     }
 
-    public String getResearch_field() {
-        return research_field;
+    public String getResearchField() {
+        return researchField;
     }
 
-    public void setResearch_field(String research_field) {
-        this.research_field = research_field;
+    public void setResearchField(String researchField) {
+        this.researchField = researchField;
     }
 
-    public Date getRelease_time() {
-        return release_time;
+    public Date getReleaseTime() {
+        return releaseTime;
     }
 
-    public void setRelease_time(Date release_time) {
-        this.release_time = release_time;
+    public void setReleaseTime(Date releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }

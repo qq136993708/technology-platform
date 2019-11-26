@@ -444,13 +444,13 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		//判断是生产环境还是测试环境
+		/*//判断是生产环境还是测试环境
 		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
 		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
 		serverHosts.retainAll(stpServerHosts);
 		if(serverHosts.size()>0) {
 			return new Result(true, "logout","./SSO/GLO/Redirect");
-		}
+		}*/
 		return new Result(true, "logout","/login");
 	}
 

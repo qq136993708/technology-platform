@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="/css/scientificPlatform.css">
     <style>
         .item-details-img .img-box{background: none}
+        .bg-blue-box{margin:0;}
+        .layui-tab-content{padding: 10px 0}
+        .layui-table-view .layui-table,.layui-table-box tr.layui-none{width: 100% !important;}
     </style>
 </head>
 <body>
@@ -42,7 +45,7 @@
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon003"></div>
-                    <div class="item-text  ib-block font16">相关成果<span class="font20" diy-form-value="achievement"></span>个</div>
+                    <div class="item-text  ib-block font16">相关成果<span class="font20" diy-form-value="achievementNum"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon003"></div>
@@ -115,22 +118,26 @@
                 type: 'GET',
                 success: function(relData) {
                     if (relData.success === true) {
-                        relData.data.achievement=JSON.parse(relData.data.zjkAchievementJsonList).length
+                        relData.data.achievementNum=JSON.parse(relData.data.zjkAchievementJsonList).length
                         relData.data.patent=JSON.parse(relData.data.zjkPatentJsonList).length
                         relData.data.project=JSON.parse(relData.data.zjkProjectJsonList).length
                         relData.data.reward=JSON.parse(relData.data.zjkRewardJsonList).length
                         if(relData.data.headPic!=''){
-                            $("#img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                            console.log(relData.data.headPic)
+                            $("#img img").attr("src",'/file/imgFile/'+relData.data.headPic)
                         }
                         setTargetNameValue(relData.data)
                     }
                 }
             });
         }
+        $(".label-value").eq(2).hover(function () {
+            $(this).attr("title",$(this).html())
+        })
         var projectArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'projectName', title: '项目名称'},
-            {field: 'chargeUnit', title: '负责单位'},
+            {field: 'chargeUnitStr', title: '负责单位'},
             {field: 'researchTarget', title: '研究目标' },
             {field: 'setupYeat', title: '立项年度'},
         ]
@@ -138,32 +145,31 @@
         var achievementsArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'achieveName', title: '成果名称'},
-            {field: 'applyUnit', title: '申请单位'},
+            {field: 'applyUnitStr', title: '申请单位'},
             {field: 'achieveType', title: '成果类别' },
             {field: 'applyYear', title: '申请年度'},
         ]
         tableRender('achievements',achievementsArr,'/expert-achievement-api/list',variable.id)
         var patentArr=[
             {title: '序号',type:'numbers' ,width:55},
-            {field: 'projectName', title: '项目名称'},
-            {field: 'chargeUnit', title: '负责单位'},
-            {field: 'researchTarget', title: '研究目标' },
-            {field: 'setupYeat', title: '立项年度'},
+            {field: 'patentName', title: '专利名称'},
+            {field: 'patentTypeStr', title: '专利类型'},
+            {field: 'getPatentTimeStr', title: '申请日期' },
+            {field: 'describe', title: '专利描述'},
         ]
-        tableRender('patent',patentArr,'/expert-reward-api/list',variable.id)
+        tableRender('patent',patentArr,'/expert-patent-api/list',variable.id)
         var rewardArr=[
             {title: '序号',type:'numbers',width:55 },
-            {field: 'rewarkLevel', title: '奖励级别'},
+            {field: 'rewarkLevelStr', title: '奖励级别'},
             {field: 'notes', title: '奖励描述'},
             {field: 'awardingUnit', title: '授奖单位' },
             {field: 'awardingTimeStr', title: '获奖日期'},
         ]
-        tableRender('reward',rewardArr,'/expert-project-api/list',variable.id)
+        tableRender('reward',rewardArr,'/expert-reward-api/list',variable.id)
         function tableRender(id,cols,url,where) {
             table.render({
                 elem: '#'+id // 表格元素ID
                 ,url:url //数据接口
-                ,height:commonDislodgeTable()
                 ,cols: [cols],
                 method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                 where: {
@@ -174,6 +180,9 @@
                 ,request: {
                     page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
                     limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                },
+                done:function (res, curr, count) {
+                    //console.log(res)
                 }
                 , page: true //开启分页
                 , limit: 15

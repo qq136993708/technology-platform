@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>科技管理平 d台</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/liMarquee.css">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
+<script>
+var __base_dic_store = {};
+</script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+</head>
+<body class="layui-layout-body">
+	<div id="LAY_app">
+		<div class="layui-layout layui-layout-admin">
+			<!--top-->
+			<div class="layui-header">
+				<!--logo-->
+				<div class="layui-header-logo inline-block">
+					<img src="/layuiadmin/layui/images/header-logo.png" />
+				</div>
+
+				<!--右侧-->
+				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+					<li class="layui-nav-item"><a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
+							${userInfo.userDisp!}
+							<span class="layui-nav-more"></span>
+						</a>
+						<div class="layui-hide information">
+							<dl class="layui-nav-child-dl">
+								<dd>
+									<a id="logout" href="javascript:void(0)">退出登录</a>
+								</dd>
+							</dl>
+						</div></li>
+				</ul>
+			</div>
+
+			<!-- 侧边菜单 -->
+			<div class="layui-side layui-side-menu layui-side-menu-div">
+				<div class="layui-side-scroll">
+					<!--左侧导航-->
+					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
+            <li class="layadmin-flexible"><div></div></li>
+						
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="科研平台">
+								<span>科研平台</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+									<a lay-href="/html/scientificPlatform/scientificPlatform.html?type=0"
+                    lay-text="国家级科研平台"
+                    ata-id="9be9ca820e884b0f8cbdefe4175e1e7d"
+                    data-code="10010103" 
+										data-functionbuttons="ALL">国家级科研平台</a>
+								</dd>
+							</dl>    
+						</li>
+
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="专利管理">
+								<span>专利管理</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+								 <!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
+									<a lay-href="/html/patent/query.html"
+										lay-text="专利查询" 
+										data-functionbuttons="ALL">专利查询</a>
+								</dd>
+							</dl>    
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="layadmin-pagetabs" id="LAY_app_tabs">
+				<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+				<div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+				<div class="layui-icon layadmin-tabs-control layui-icon-down">
+					<ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+						<li class="layui-nav-item" lay-unselect><a href="javascript:;"></a>
+							<dl class="layui-nav-child layui-anim-fadein">
+								<dd layadmin-event="closeThisTabs">
+									<a href="javascript:;">关闭当前页</a>
+								</dd>
+								<dd layadmin-event="closeOtherTabs">
+									<a href="javascript:;">关闭其它页</a>
+								</dd>
+								<dd layadmin-event="closeAllTabs">
+									<a href="javascript:;">关闭全部页</a>
+								</dd>
+								<dd layadmin-event="collection" id="collection">
+									<a id="collectFunction" href="javascript:void(0)">收藏/取消</a>
+								</dd>
+							</dl></li>
+					</ul>
+				</div>
+				<div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+					<ul class="layui-tab-title" id="LAY_app_tabsheader">
+					</ul>
+				</div>
+			</div>
+			<input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
+
+			<!-- 主体内容 -->
+			<div class="layui-body" id="LAY_app_body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<iframe id="mainIframe" frameborder="0" class="layadmin-iframe"></iframe>
+				</div>
+			</div>
+			<div class="layui-footer">
+				<div>
+					<p>版权所有：中国核工业集团有限公司</p>
+				</div>
+			</div>
+			<!-- 辅助元素，一般用于移动设备下遮罩 -->
+			<div class="layadmin-body-shade" layadmin-event="shade"></div>
+		</div>
+	</div>
+
+	<script src="/layuiadmin/javascript/jquery.liMarquee.js"></script>
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script src="/layuiadmin/js/common.js"></script>
+	<script>
+		layui.config({
+			base : '../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use( [ 'index', 'jquery', "publicMethods" ], function() {
+      var $ = layui.jquery, publicMethods = layui.publicMethods;
+
+      $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").click(function () {
+        $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-this");
+        $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-nav-itemed");
+        $(this).addClass("layui-this");
+        $(this).addClass("layui-nav-itemed");
+      });
+      
+      
+      $("#logout").on("click", function() {
+        layer.confirm('确定要退出登录吗？', {
+          title : "退出登录"
+        }, function(index) {
+          layer.close(index);
+          $.ajax({
+            type : 'post',
+            dataType : 'json',
+            async : false,
+            url : '/logout',
+            success : function(data) {
+              window.location.href = "./SSO/GLO/Redirect";
+            },
+            error : function(e) { if (console && console.error) { console.error(e); } }
+          });
+        });
+      });
+
+      $("#nav li dl dd a").hover(function() {
+        $(this).find("img").removeClass("layui-hide");
+        $(this).find("img").off("click").on( "click", function() {
+          $.ajax({
+            type : 'post',
+            dataType : 'json',
+            async : false,
+            url : '/admin/collect?functionCode=' + $(this).parent().attr("data-code") + "&functionName=" + $(this).parent().attr("lay-text") + "&functionId=" + $(this).parent().attr("data-id"),
+            success : function(data) {
+              layer.msg(data.message);
+              if (data.success) {
+                // 动态修改当前我的收藏
+                var obj = eval('(' + data.data + ')');
+                if (obj.status == '1') {
+                  var collectMenu = document.getElementById("dlCollect").innerHTML;
+                  collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName
+                      + "<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
+                  document.getElementById("dlCollect").innerHTML = collectMenu;
+
+                } else if (obj.status == '0') {
+                  var dl = document.getElementById("dlCollect");
+                  // 查找dl里的所有dd
+                  var dds = document.getElementsByTagName('dd');
+                  for (var i = dds.length - 1; i >= 0; i--) {
+                    if (dds[i].id == obj.dataId) {
+                      dl.removeChild(dds[i]);
+                    }
+                  }
+                }
+
+              }
+
+            },
+            error : function(e) { if (console && console.error) { console.error(e); } }
+          });
+          return false;
+        });
+      }, function() { 
+        $(this).find("img").addClass("layui-hide");
+      });
+
+      // 菜单收藏
+      $("#collectFunction").on("click", function() {
+        var param = JSON.parse(window.localStorage.getItem("param"));
+        $.ajax({
+          type : 'post',
+          dataType : 'json',
+          async : false,
+          url : '/admin/collect?functionCode=' + param.code + "&functionName=" + param.name + "&functionId=" + param.id,
+          success : function(data) {
+            layer.msg(data.message);
+
+            if (data.success) {
+              // 动态修改当前我的收藏
+              var obj = eval('(' + data.data + ')');
+              if (obj.status == '1') {
+                var collectMenu = document.getElementById("dlCollect").innerHTML;
+                collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
+                document.getElementById("dlCollect").innerHTML = collectMenu;
+              } else if (obj.status == '0') {
+                var dl = document.getElementById("dlCollect");
+                // 查找dl里的所有dd
+                var dds = document.getElementsByTagName('dd');
+                for (var i = dds.length - 1; i >= 0; i--) {
+                  if (dds[i].id == obj.dataId) {
+                    dl.removeChild(dds[i]);
+                  }
+                }
+              }
+
+            }
+
+          },
+          error : function(e) {
+            console.log(e);
+          }
+        });
+      });
+  
+      $(document).ready(function() {
+        $("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
+      });
+    });
+	</script>
+</body>
+</html>

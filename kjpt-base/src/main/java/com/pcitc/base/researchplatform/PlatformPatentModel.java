@@ -33,6 +33,8 @@ public class PlatformPatentModel extends RecordModel implements Serializable {
      * 专利类型
      */
     private String patentType="";
+    private String patentTypeText="";
+
     /**
      * 申请日期
      */
@@ -96,5 +98,13 @@ public class PlatformPatentModel extends RecordModel implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getPatentTypeText() {
+        return patentTypeText;
+    }
+
+    public void setPatentTypeText(String patentTypeText) {
+        this.patentTypeText = patentTypeText;
     }
 }

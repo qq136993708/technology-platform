@@ -27,10 +27,10 @@ layui.use(['form', 'table', 'layer'], function(){
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
           ,{field: 'platformName', title: '平台名称', templet: '#detailsTpl'}
-          ,{field: 'supportingInstitutions', title: '依托单位', sort: true }
+          ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
           ,{field: 'personLiable', title: '主要负责人', sort: true}
-          ,{field: 'type', title: '平台类型'} 
-          ,{field: 'researchField', title: '研究领域'}
+          ,{field: 'typeText', title: '平台类型'} 
+          ,{field: 'researchFieldText', title: '研究领域'}
           ,{field: 'experience', title: '主要项目', sort: true}
           ,{field: 'overallSituation', title: '科研整体情况', sort: true}
           ,{field: 'researchFunds', title: '科研经费'}
@@ -97,7 +97,6 @@ layui.use(['form', 'table', 'layer'], function(){
   // 表格行被选中
   table.on('radio(tableDemo)', function(obj){
 	  itemRowData = obj.data;
-    console.log(obj)
   });
   // 编辑平台
   $('#editItem').on('click', function(e) {
@@ -110,8 +109,8 @@ layui.use(['form', 'table', 'layer'], function(){
   // 删除平台
   $('#delItem').on('click', function(e) {
     if (itemRowData) {
-		layer.confirm('您确定要删除”'+itemRowData.platformName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
-		  layer.close(index);
+		top.layer.confirm('您确定要删除”'+itemRowData.platformName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		  top.layer.close(index);
       // 确认删除
       httpModule({
         url: '/platform-api/delete/' + itemRowData.id,

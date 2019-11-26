@@ -23,6 +23,9 @@ public interface SysUserMapper {
 
 	SysUser selectByPrimaryKey(String userId);
 
+	//根据用户id查询当前信息-new
+	SysUser currentUserInfo(String userId);
+
 	int updateByExampleSelective(@Param("record") SysUser record, @Param("example") SysUserExample example);
 
 	int updateByExample(@Param("record") SysUser record, @Param("example") SysUserExample example);

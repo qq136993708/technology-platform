@@ -3,6 +3,7 @@ package com.pcitc.service.researchplatform;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,6 @@ public interface PlatformService {
      */
     Integer delete(String id);
 
-    Map selectPaltinfoCount(String id);
+    List<Map> selectPaltinfoCount(String id);
 
 }

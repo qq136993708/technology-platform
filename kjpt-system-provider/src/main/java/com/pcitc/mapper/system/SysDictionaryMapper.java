@@ -109,4 +109,6 @@ public interface SysDictionaryMapper {
 	 * 批量修改用户编码规则
 	 */
 	int updateDictionaryCodeBatch(HashMap<String, String> hashmap);
+	
+	List getAllList();
 }

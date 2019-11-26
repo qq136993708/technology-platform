@@ -32,9 +32,12 @@
   border: 1px #e7e7e7 solid;
   font-size: 0;
   overflow: hidden;
+  background: #fff url('/images/icon-synopsis2.png') center center no-repeat;
+  background-size: contain;
 }
 .item-details-img .img-box > img {
   width: 100%;
+  max-height: 100%;
   display: inline-block;
   vertical-align: middle;
 }
@@ -52,6 +55,9 @@
   line-height: 16px;
   padding-bottom: 12px;
   color: #46484B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .item-details-img .text-box .text-list li:last-child {
   padding-bottom: 0;
