@@ -6,7 +6,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	var laydate = layui.laydate;
 	var variable = getQueryVariable();
 	console.log(variable)
-	
+
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
 		var httpUrl = '/researchPlatformMember-api/newInit/' + data.platformId;
@@ -88,17 +88,57 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 
 		table.render({
 		  elem: '#unInputTable' // 表格元素ID
-		  ,url: '/data/datalist.json' //数据接口
-		  ,page: true //开启分页
+		  ,url: '/expert-api/list' //数据接口
+			,page: true //开启分页
+			,method: 'POST'
+			,limit: 5
 		  ,where: { name: searchData }
 		  ,cols: [[ // 表头
 		    {type: 'checkbox' } // 表格多选
-		    ,{field: 'username', title: '项目名称' } // 模版配置列
-		    ,{field: 'sex', title: '专业类别', sort: true}
-		    ,{field: 'city', title: '负责单位'} 
-		    ,{field: 'sign', title: '立项年度'}
+		    ,{field: 'name', title: '姓名' } // 模版配置列
+		    ,{field: 'birth', title: '出生年月', hide: (variable.item === 'member' ? false : true) }
+		    ,{field: 'educationText', title: '学历', hide: (variable.item === 'member' ? false : true)} 
+				,{field: 'assumeOffice', title: '担任职务'}
+				,{field: 'workUnitText', title: '工作单位', hide: (variable.item === 'member' ? true : false)}
+				,{field: 'graduateSchool', title: '学校名称', hide: (variable.item === 'member' ? false : true)}
+				,{field: 'majorStudied', title: '所学专业'}
+				,{field: 'technicalTitle', title: '技术职称', hide: (variable.item === 'member' ? true : false)}
+				,{field: 'postName', title: '岗位名称', hide: (variable.item === 'member' ? false : true)}
 		  ]]
-		  ,parseData: function(res) { return layuiParseData(res, null, 5); }
+		  ,parseData: function(res) {
+				var relData = {
+					code: res.code,
+					count: res.count,
+					msg: res.msg,
+					data: []
+				};
+				relData.data = $.map(res.data, function(item, i) {
+					return {
+						"assumeOffice": '-',
+						"baseId": item.id,
+						"birth": item.age,
+						"createDate": (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd'): ''),
+						"creator": item.creator,
+						"deleted": item.deleted,
+						"education": item.education,
+						"educationText": item.educationStr,
+						"graduateSchool": '-',
+						"id": item.id,
+						"majorStudied": '-',
+						"name": item.name,
+						"platformId": variable.platformId,
+						"postName": item.titleStr,
+						"role": (variable.item === 'member' ? '0' : '1'),
+						"roleText": '',
+						"technicalTitle": item.post,
+						"updateDate": (item.updateTime ? new Date(item.updateTime).format('yyyy-MM-dd'): ''),
+						"updator": item.updator,
+						"workUnit": item.belongUnit,
+						"workUnitText": item.belongUnitStr
+					}
+				})
+				return relData;
+			}
 		});
 	}
 

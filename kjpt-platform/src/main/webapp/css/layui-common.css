@@ -148,13 +148,15 @@
   margin-top: 0;
   margin-bottom: 0;
 }
-.layui-col-space20 .layui-form-item{
+.layui-col-space20 .layui-form-item,
+.layui-col-btn .layui-form-item{
   margin-bottom: 0;
 }
 .layui-col-space0 .layui-form-item,
 .layui-form-item{
   margin-bottom: 20px;
 }
+
 .laydate-input{
   outline: 0;
   -webkit-appearance: none;
