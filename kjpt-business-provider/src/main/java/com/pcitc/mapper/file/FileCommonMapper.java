@@ -21,7 +21,7 @@ public interface FileCommonMapper {
 
     //int delete(@Param("dataId") String dataId,@Param("list") List<String> list);
 
-    void delete(String[] fileds);
+    void delete(String dataId);
 
     void updateSetDataID(@Param("dataId") String dataId,@Param("array") String[] fileds);
 }
