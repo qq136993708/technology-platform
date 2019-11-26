@@ -196,6 +196,37 @@ body > .layui-layout{
 a.link-text:hover {
   text-decoration: underline;
 }
+.layui-fold-btn{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #0AA1FF;
+  cursor: pointer;
+  margin-left: 8px;
+  position: relative;
+  padding-right: 20px;
+}
+.layui-fold-btn::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border: 1px #0AA1FF solid;
+  border-width: 1px 0 0 1px;
+  transform-origin: 2px 2px;
+  -ms-transform-origin: 2px 2px;
+  transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: 0;
+}
+.layui-form[fold-panel="open"]  .layui-fold-btn::before{
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  margin-top: -2px;
+}
 
 /* 下拉目录树 */
 .xm-select-parent .xm-input {
