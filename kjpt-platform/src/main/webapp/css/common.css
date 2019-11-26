@@ -110,7 +110,8 @@ body > .layui-layout{
 .view-title-layout {
   padding: 9px 0;
   font-size: 0;
-  height: 48px;
+  padding-bottom: 15px;
+  height: 54px;
 }
 .view-title-layout.view-pt0 {
   padding-top: 0;

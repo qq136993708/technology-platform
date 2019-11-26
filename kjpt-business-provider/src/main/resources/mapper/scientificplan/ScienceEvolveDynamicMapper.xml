@@ -32,8 +32,7 @@
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from science_evolve_dynamic
-        where id = #{id} and deleted != '1'
+        select * from science_evolve_dynamic where id = #{id} and deleted != '1'
     </select>
 
 
@@ -75,7 +74,7 @@
         select * from science_evolve_dynamic where 1=1
 
         <if test="name != null and name !='' ">
-            and `NAME` = like CONCAT('%',#{NAME},'%')
+            and `NAME` like CONCAT('%',#{NAME},'%')
         </if>
 
         <if test="authenticateUtil != null  and authenticateUtil !='' ">

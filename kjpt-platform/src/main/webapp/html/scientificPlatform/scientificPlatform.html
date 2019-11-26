@@ -13,19 +13,21 @@
   <link rel="stylesheet" href="/css/scientificPlatform.css">
 </head>
 <body>
-  <div class="layout-view-content label-dialog">
+  <div class="layout-view-content min-label">
     <form class="layui-form" action="" lay-filter="patentFormDemo">
       <div class="layui-row layui-col-space20">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" form-label-item="unlevel">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" form-label-item="unlevel">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">平台名称：</span></label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
               <input type="text" name="platformName" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
           </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" form-label-item="unlevel">
+          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
@@ -72,17 +74,29 @@
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md8" form-label-item="level">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">平台得分：</span></label>
-            <div class="layui-input-inline margin0" style="width: 160px">
-              <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
+            <div class="layui-input-block font0">
+              <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+              <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+              <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
             </div>
-            <span class="ib-block">-</span>
-            <div class="layui-input-inline" style="width: 160px">
-              <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
           </div>
         </div>
+
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-btn" form-label-item="level">
+          <div class="layui-form-item">
+            <div class="layui-form-block text-right">
+              <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+        </div>
+
+
+        
         
       </div>
 
