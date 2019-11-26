@@ -10,7 +10,6 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="birth" jdbcType="DECIMAL" property="birth"/>
         <result column="education" jdbcType="VARCHAR" property="education"/>
-        <result column="educationText" jdbcType="VARCHAR" property="education_text"/>
         <result column="technical_title" jdbcType="VARCHAR" property="technicalTitle"/>
         <result column="graduate_school" jdbcType="VARCHAR" property="graduateSchool"/>
         <result column="major_studied" jdbcType="VARCHAR" property="majorStudied"/>
@@ -24,6 +23,7 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
 		<result column="role_text" jdbcType="VARCHAR" property="roleText"/>
+		<result column="education_text" jdbcType="VARCHAR" property="educationText"/>
     </resultMap>
 
 
