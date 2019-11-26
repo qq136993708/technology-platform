@@ -590,7 +590,9 @@
 		user_config1 = #{userConfig1,jdbcType=VARCHAR},
 		user_config2 = #{userConfig2,jdbcType=VARCHAR},
 		user_config3 = #{userConfig3,jdbcType=VARCHAR},
-		user_config4 = #{userConfig4,jdbcType=VARCHAR}
+		user_config4 = #{userConfig4,jdbcType=VARCHAR},
+		user_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+		user_login_date = #{lastLoginDate,jdbcType=VARCHAR}
 		where user_id = #{userId,jdbcType=VARCHAR}
 	</update>
 

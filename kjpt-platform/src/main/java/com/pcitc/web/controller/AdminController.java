@@ -1,5 +1,6 @@
 package com.pcitc.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -136,6 +137,8 @@ public class AdminController extends BaseController {
 				return null;
 			}
 
+
+
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
 			cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 			cookie.setPath("/");
@@ -195,6 +198,38 @@ public class AdminController extends BaseController {
 				SessionShare.getSessionIdSave().remove(userName);
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			}*/
+
+			//登录成功 记录当前用户的IP 记录当前登录时间
+			//获取用户登录ip;
+			String loginIp = request.getHeader("X-Forwarded-For");
+			if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+				loginIp = request.getHeader("X-Real-IP");
+			}
+			if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+				loginIp = request.getHeader("Proxy-Client-IP");
+			}
+			if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+				loginIp = request.getHeader("WL-Proxy-Client-IP");
+			}
+			if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+				loginIp = request.getHeader("HTTP_CLIENT_IP");
+			}
+			if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
+				loginIp = request.getRemoteAddr();
+			}
+			if ("0:0:0:0:0:0:0:1".equals(loginIp)) {
+				loginIp = "127.0.0.1";
+			}
+			SysUser userIpAndDate =new SysUser();
+			userIpAndDate.setLastLoginIp(loginIp);
+			userIpAndDate.setUserId(tokenUser.getUserId());
+
+			//存储登录时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+			String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+			userIpAndDate.setLastLoginDate(date);
+
+			this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userIpAndDate, this.httpHeaders), Integer.class);
 
 			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");
@@ -271,7 +306,7 @@ public class AdminController extends BaseController {
 			loginCookie.setMaxAge(0);
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
-			
+
 			// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
 			String sessionID = request.getRequestedSessionId();
 			String userName = userDetails.getUserName();
