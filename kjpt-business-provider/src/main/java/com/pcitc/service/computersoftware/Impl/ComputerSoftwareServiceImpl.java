@@ -42,15 +42,16 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
 
     @Override
     public PageInfo query(Map paramMap) {
-        int pageNum = (int) paramMap.get("pageNum");
-        int pageSize = (int) paramMap.get("pageSize");
+        int pageNum = paramMap.get("pageNum") !=null? (int)paramMap.get("pageNum"):1;
+        int pageSize = paramMap.get("pageSize") !=null? (int)paramMap.get("pageSize"):1;
+        //         int pageNum = (int) paramMap.get("pageNum");
+        //        int pageSize = (int) paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         List dataList = computerSoftwareMapper.query(paramMap);
-        Page p = new Page();
-
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
+
 
     @Override
     public Integer delete(String id) {

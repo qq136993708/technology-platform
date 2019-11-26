@@ -33,7 +33,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             title: '核定使用商品大类'
                         },
                         {
-                            field: 'legalStatusText',
+                            field: 'lawStatus',
                             title: '法律状态'
                         },
                         {
@@ -156,7 +156,7 @@ layui.use(['form', 'laydate', 'table'], function () {
     $('#delItem').on('click', function (e) { // 删除平台
         console.log('sss',itemRowData);
         if (itemRowData) {
-            layer.confirm('您确定要删除”' + itemRowData.unitNameText + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
+            layer.confirm('您确定要删除”' + itemRowData.unitName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
                 layer.close(index);
                 // 确认删除
                 httpModule({

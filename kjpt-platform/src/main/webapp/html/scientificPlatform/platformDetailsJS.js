@@ -89,7 +89,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{title: '序号', type: 'numbers', width: 90}
         ,{field: 'projectName', title: '项目名称', sort: true }
         ,{field: 'dutyInstitutionsText', title: '负责单位', sort: true}
-        ,{field: 'majorTypeText', title: '专业类型'} 
+        // ,{field: 'majorTypeText', title: '专业类型'} 
         ,{field: 'approvalYear', title: '立项年度'}
       ]]
     });

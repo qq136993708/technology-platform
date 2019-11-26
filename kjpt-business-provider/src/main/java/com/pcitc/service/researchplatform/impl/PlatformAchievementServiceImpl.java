@@ -63,10 +63,6 @@ public class PlatformAchievementServiceImpl implements PlatformAchievementServic
 
     @Override
     public Integer batchSave(List<PlatformAchievementModel> dataList) {
-        return platformAchievementMapper.batchSave(dataList.stream().filter(pam ->{
-            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
-                pam.setId(UUID.randomUUID().toString().replace("-",""));
-            return true;
-        }).collect(Collectors.toList()));
+        return platformAchievementMapper.batchSave(dataList);
     }
 }

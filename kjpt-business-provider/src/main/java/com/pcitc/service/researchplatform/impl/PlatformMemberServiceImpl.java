@@ -57,10 +57,6 @@ public class PlatformMemberServiceImpl implements PlatformMemberService {
 
     @Override
     public Integer batchSave(List<PlatformMemberModel> dataList) {
-        return platformMemberMapper.batchSave( dataList.stream().filter(pam ->{
-            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
-                pam.setId(UUID.randomUUID().toString().replace("-",""));
-            return true;
-        }).collect(Collectors.toList()));
+        return platformMemberMapper.batchSave(dataList);
     }
 }

@@ -75,8 +75,8 @@ public class ComputerSoftwareController extends RestBaseController {
     @GetMapping(value = "/query")
     @ResponseBody
     public PageInfo query(
-            @RequestParam(required = true) Integer pageNum,
-            @RequestParam(required = true) Integer pageSize,
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) String unitName,
             @RequestParam(required = false) String registerNumber,
             @RequestParam(required = false) String softwareName,
@@ -135,8 +135,8 @@ public class ComputerSoftwareController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
-    }
 
+    }
 
     @ApiOperation(value = "保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
