@@ -103,7 +103,13 @@ public class SysLogServiceImpl implements SysLogService {
 			data.setCount(total.intValue());
 		    return data;
 	}
-	
+	public List getSysLogList(Map map)throws Exception
+	{
+		
+		List<SysLog> list = sysLogMapper.getList(map);
+		System.out.println(">>>>>>>>>日志查询分页结果 "+list.size());
+	    return list;
+	}
 	
 	
 	

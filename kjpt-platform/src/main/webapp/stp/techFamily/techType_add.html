@@ -12,11 +12,10 @@
   
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all"> 
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
-  <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
 <div class="formBox">
-  <form id="show-form" name="show-form"  class="layui-form" lay-filter="component-form-group layui-container">
+  <form id="show-form" class="layui-form" lay-filter="show-form">
   <div class="box-body">
   <input id="parentId" name="parentId" type="hidden">
   	<div class="layui-row">
@@ -28,7 +27,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">分类标签</label>
@@ -38,7 +37,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="layui-row">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
@@ -48,18 +47,18 @@
           </div>
         </div>
       </div>
-      
-      
+
+
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">分类编码<span class="must-fill">*</span></label>
           <div class="layui-input-block">
-            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text" value="${typeCode}" disabled>
+            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text"  disabled>
           </div>
         </div>
       </div>
     </div>
-    
+
     <div class="layui-row">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
@@ -69,25 +68,25 @@
           </div>
         </div>
       </div>
-      
-      
+
+
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">分类编码<span class="must-fill">*</span></label>
           <div class="layui-input-block">
-            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text" value="${typeCode}" disabled>
+            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text"  disabled>
           </div>
         </div>
       </div>
     </div>
-    
+
     <div class="layui-row">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">创建人</label>
           <div class="layui-input-block">
-            <input class="layui-input readOnlyBox" id="createUser" name="createUser" type="text" value="${userInfo.userDisp}" disabled>
-          	<input id="createUserId" name="createUserId" type="hidden" value="${userInfo.userId}">
+            <input class="layui-input readOnlyBox" id="createUser" name="createUser" type="text" disabled>
+          	<input id="createUserId" name="createUserId" type="hidden">
           </div>
         </div>
       </div>
@@ -100,16 +99,16 @@
         </div>
       </div>
     </div>
-    
+
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">说明</label>
       <div class="layui-input-block">
         <textarea placeholder="请输入说明" class="layui-textarea" name="remarks" id="remarks"></textarea>
       </div>
     </div>
-  
+
   </div>
-  
+
   <div class="form-bottom">
     <div class="form-bottom-btns">
       <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="form-submit">保存</button>
@@ -119,31 +118,50 @@
   </div>
   </form>
 </div>
-
+<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 <script>
 
     layui.config({
         base: '../../../../' //静态资源所在路径
     }).use([ 'form', 'laydate','table','jquery','layer'], function(){
-    	
+
         var $ = layui.jquery
         	,admin = layui.admin
             ,element = layui.element
             ,layer = layui.layer
             ,laydate = layui.laydate
             ,form = layui.form;
-        
-        form.render(null, 'component-form-group');
-        $("#parentId").attr("value", parent.temTypeId);
-        $("#parentTypeName").attr("value", parent.temTypeName);
-        
+        var typeCode=''
+        // 获取地址栏传递过来的参数
+        var variable = getQueryVariable();
+        if(variable!=null){
+            httpModule({
+                url: '/techFamily-api/get/'+variable.tfmTypeId,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        // 给form表单赋初始值
+                        relData.data.parentTypeName=relData.data.typeName
+                        relData.data.typeName=''
+                        typeCode=relData.data.typeCode
+                        console.log(relData.data)
+                        form.val('show-form', relData.data);
+                    }
+                }
+            });
+        }
+        /*$("#parentId").attr("value", parent.temTypeId);
+        $("#parentTypeName").attr("value", parent.temTypeName);*/
+
       	//日期时间选择器
         laydate.render({
             elem: '#createDate',
             type: 'datetime',
-            value: new Date() 
+            value: new Date()
         });
-      	
+
       	// 防止重置时清空
         $("#createDate").attr("value", $("#createDate").val());
 
@@ -153,13 +171,26 @@
 
         //关闭事件
         $("#closeBtn").click(function () {
+            setDialogData('');
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         });
-    	
+
     	/* 监听提交 */
         form.on('submit(form-submit)', function(data){
-            $.ajax({
+            console.log(data)
+            httpModule({
+                url: '/tech-family/type/save',
+                data: data.field,
+                type: "POST",
+                success: function(res) {
+                    if(res.code!=-1){
+                        res.data.typeCode=typeCode
+                        setDialogData(res);
+                    }
+                }
+            });
+            /*$.ajax({
                 type : 'POST',
                 url : "/tech-family/type/save",
                 data : JSON.stringify(data.field),
@@ -175,19 +206,19 @@
                     }
                 },
                 success : function(data) { //请求成功后处理函数。
-                	parent.messageInfo = data.message;
+                    console.log(data)
+                	/!*parent.messageInfo = data.message;
                 	parent.active.alertEvent();
-                	parent.ztreeAsyncChildNodes();
+                	parent.ztreeAsyncChildNodes();*!/
                 }
-            });
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
+            });*/
             return false;
         });
     	
         $("#closeBtn").click(function () {
         	var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
+            setDialogData('');
             return false;
         })
     });

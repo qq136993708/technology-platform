@@ -1,5 +1,7 @@
 package com.pcitc.web.system;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -79,7 +82,15 @@ public class SysLogClient {
 	
     
     
-    
+	@ApiOperation(value = "获取系统日志", notes = "获取系统日志")
+	@RequestMapping(value = "/log-provider/list", method = RequestMethod.POST)
+	public JSONArray getZjkBase_List(@RequestBody Map param)throws Exception
+	{
+		logger.info("=== SysLog param============"+param);
+		List list=sysLogService.getSysLogList(param);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
     
     
     

@@ -36,4 +36,6 @@ public interface PlatformMemberService {
      */
     Integer batchSave(List<PlatformMemberModel> dataList);
 
+    Integer updateMemberRole(String ids,String role);
+
 }

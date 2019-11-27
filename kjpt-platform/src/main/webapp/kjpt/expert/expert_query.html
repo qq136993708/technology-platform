@@ -10,101 +10,95 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
-    <style>
-        /*.search-left{width: 85%;float: left}*/
-        .layui-form-item{margin-bottom: 10px !important;}
-        .search-right{text-align:right;}
-    </style>
+    <link rel="stylesheet" href="/css/scientificPlatform.css">
 </head>
 <body>
-<div class="layout-view-content dialog">
-    <div class="layui-row layui-col-space20" style="position: relative;">
-        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-            <div class="search-left layui-col-md10">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">专家姓名：</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">所在单位：</span></label>
-                        <div class="layui-input-block">
-                            <select name="belongUnit" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">技术领域：</span></label>
-                        <div class="layui-input-block">
-                            <select name="technicalField" xm-select="applaType3" xm-select-skin="normal"></select>
-                            <!--<input type="text" name="technicalField"
-                                   placeholder="" autocomplete="off" class="layui-input">-->
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">性别：</span></label>
-                        <div class="layui-input-block">
-                            <select name="sex" id="sex">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">学历：</span></label>
-                        <div class="layui-input-block">
-                            <select name="education" id="education">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">职称：</span></label>
-                        <div class="layui-input-block">
-                            <select name="title" id="title">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">职务：</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" name="post" id="post" placeholder="请输入专家职务" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">状态：</span></label>
-                        <div class="layui-input-block">
-                            <select name="useStatus" id="useStatus">
-                                <option value=""></option>
-                            </select>
-                        </div>
+<div class="layout-view-content min-label">
+    <form class="layui-form layui-form-screen" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">专家姓名：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
-            <div class="search-right layui-col-md2">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">所在单位：</span></label>
+                    <div class="layui-input-block">
+                        <select name="belongUnit" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">技术领域：</span></label>
+                    <div class="layui-input-block">
+                        <select name="technicalField" xm-select="applaType3" xm-select-skin="normal"></select>
+                        <!--<input type="text" name="technicalField"
+                               placeholder="" autocomplete="off" class="layui-input">-->
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">性别：</span></label>
+                    <div class="layui-input-block">
+                        <select name="sex" id="sex">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">学历：</span></label>
+                    <div class="layui-input-block">
+                        <select name="education" id="education">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">职称：</span></label>
+                    <div class="layui-input-block">
+                        <select name="title" id="title">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">职务：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="post" id="post" placeholder="请输入专家职务" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">状态：</span></label>
+                    <div class="layui-input-block">
+                        <select name="useStatus" id="useStatus">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
                     <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
+                    <span class="layui-fold-btn"></span>
                 </div>
             </div>
-        </form>
-
-    </div>
+        </div>
+    </form>
     <table id="expertTable" lay-filter="expertTable"></table>
 </div>
 
@@ -172,7 +166,7 @@
                     if (relData.success === true) {
                         relData.data.map(function(item){
                             if(element=="option"){
-                                $("#"+id).append("<option value='"+item.code+"' name='"+name+"'>"+item.name+"</option>")
+                                $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
                             }else if(element=="radio"){
                                 $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
                             }

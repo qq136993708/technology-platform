@@ -100,7 +100,13 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/researchPlatformMember-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'name', title: '名称' }
+        ,{field: 'name', title: '姓名', templet: function(d) {
+          if (d.baseId && d.baseId != '-') {
+            return '<a class="link-text" href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
+          } else {
+            return d.name;
+          }
+        }}
         ,{field: 'assumeOffice', title: '担任职务', sort: true }
         ,{field: 'technicalTitle', title: '技术职称', sort: true}
         ,{field: 'workUnitText', title: '工作单位'} 
@@ -129,15 +135,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/researchPlatformMember-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'name', title: '姓名' }
-        ,{field: 'birth', title: '年龄', sort: true }
+        ,{field: 'name', title: '姓名', templet: function(d) {
+          if (d.baseId && d.baseId != '-') {
+            return '<a class="link-text" href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
+          } else {
+            return d.name;
+          }
+        }}
+        ,{field: 'birth', title: '出生年月', sort: true }
         ,{field: 'educationText', title: '学历', sort: true}
         ,{field: 'technicalTitle', title: '技术职称'} 
         ,{field: 'graduateSchool', title: '毕业学校'}
         ,{field: 'majorStudied', title: '所学专业'}
-        ,{field: 'postName', title: '岗位名称'} 
-      ]],
-      where: {role: '0'}
+        // ,{field: 'postName', title: '岗位名称'} 
+      ]]
+      // ,where: {role: '0'}
     });
 
     // 主要成果
@@ -246,38 +258,61 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     return false;
   })
   
+  function deleteItem(deleteUrl, httpType) {
+    httpModule({
+      url: deleteUrl,
+      type: httpType,
+      success: function(res) {
+        if (res.code === '0') {
+          table.reload(tableFilterArr[activeTab].tableId);
+          layer.msg('删除'+ tableFilterArr[activeTab].title + '成功。', {icon: 1});
+        }  else {
+          layer.msg('删除'+ tableFilterArr[activeTab].title + '失败!', {icon: 2});
+        }
+      }
+    });
+  }
 
   // 编辑
   $('.deleteItem').on('click', function(e) {
     var delItem = table.checkStatus(tableFilterArr[activeTab].tableId).data;
     if (delItem.length) {
-      top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
-        top.layer.close(index);
-  
-        var deleteUrl = '/platformProject-api/delete/';
-        if (activeTab == 2 || activeTab == 4) {
-          deleteUrl = '/researchPlatformMember-api/delete/';
-        } else if (activeTab == 3) {
-          deleteUrl = '/platformTreatise-api/delete/';
-        } else if (activeTab == 5) {
-          deleteUrl = '/researchPlatformAchievement-api/delete/';
-        } else if (activeTab == 6) {
-          deleteUrl = '/researchPlatformPatent-api/delete/';
-        }
 
-        httpModule({
-          url: (deleteUrl + delItem[0].id),
-          type: 'DELETE',
-          success: function(res) {
-            if (res.code === '0') {
-              table.reload(tableFilterArr[activeTab].tableId);
-              layer.msg('删除'+ tableFilterArr[activeTab].title + '成功。', {icon: 1});
-            }  else {
-              layer.msg('删除'+ tableFilterArr[activeTab].title + '失败!', {icon: 2});
-            }
+      if (activeTab == 4 && delItem[0].role === '1') {
+        // 团队成员
+        var url = '/researchPlatformMember-api/delete/' + delItem[0].id;
+        top.layer.confirm(delItem[0].name + '是领军人物，您确定要删除吗？',
+          {icon: 3, title:'删除提示'},
+          function(yl) {
+            top.layer.close(yl);
+            deleteItem(url, 'DELETE');
           }
+        );
+      } else {
+        top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
+          top.layer.close(index);
+          // 科研项目
+          var deleteUrl = '/platformProject-api/delete/' + delItem[0].id,
+          httpType = 'DELETE';
+          if (activeTab == 2) {
+            // 领军人物
+            deleteUrl = '/researchPlatformMember-api/updateMemberRole?ids=' + delItem[0].id + '&role=0';
+            httpType = 'POST';
+          } else if (activeTab == 3) {
+            // 论文
+            deleteUrl = '/platformTreatise-api/delete/' + delItem[0].id;
+          } else if (activeTab == 4) {
+            deleteUrl = '/researchPlatformMember-api/delete/' + delItem[0].id;
+          } else if (activeTab == 5) {
+            // 成果
+            deleteUrl = '/researchPlatformAchievement-api/delete/' + delItem[0].id;
+          } else if (activeTab == 6) {
+            // 专利
+            deleteUrl = '/researchPlatformPatent-api/delete/' + delItem[0].id;
+          }
+          deleteItem(deleteUrl, httpType);
         });
-      });
+      }
     } else {
       layer.msg('请选择需要删除的数据！');
     }

@@ -152,6 +152,31 @@ function switchHttpData(dataJson, value, callback) {
 		return dataJson;
 	}
 }
+
+function dialogError(data) {
+	if (top.layer) {
+		console.log('ERROR_DATA => ', data);
+		top.layer.open({
+			type: 1,
+			title: null,
+			closeBtn: 0,
+			area: ['440px', '280px'],
+			shade: 0.1,
+			btn: ['关闭'],
+			yes: function(index) {
+				top.layer.close(index);
+			},
+			content: (function() {
+				// <i class="layui-icon layui-icon-close"></i>
+				var layerHtml = '<div class="middle-block http-error-dialog"><ul class="error-box"><li>';
+				layerHtml += (data.message || data.msg || '服务器处理出错！');
+				layerHtml += '</li></ul></div>';
+				return layerHtml;
+			})(),
+		})
+	}
+}
+
 // 统一HTTP请求方法调用， 配置项与 $.ajax 参数一样；
 function httpModule(config) {
 	if (config && typeof(config) === 'object') {
@@ -169,9 +194,13 @@ function httpModule(config) {
 				if(config.useForm === true) {
 					return config.data;
 				}
-				if (config.hasOwnProperty('data')) {
-					return JSON.stringify(config.data);
-				}  
+				if (config.hasOwnProperty('data')) { 
+					if (httpType === 'GET') {
+						return config.data;
+					} else {
+						return JSON.stringify(config.data);
+					}
+				}
 			})(),
 			dataType: config.dataType || "json",
 			contentType: config.contentType || 'application/json',
@@ -191,13 +220,25 @@ function httpModule(config) {
 			},
 			success: function(reldata) {
 				if (config.hasOwnProperty('success')) {
-					return config.success(reldata);
+					config.success(reldata);
+				}
+				if (reldata.hasOwnProperty('code')) {
+					if (reldata.code === '-1') {
+						dialogError(reldata);
+					}
+				}
+				if (reldata.hasOwnProperty('success')) {
+					if (!reldata.success) {
+						dialogError(reldata);
+					}
 				}
 			},
 			error: function(err) {
 				if (config.hasOwnProperty('error')) {
 					config.error(err);
 				}
+				dialogError(err);
+				console.log('空 error');
 			},
 			complete: function(XHR, TS) {
 				if (config.hasOwnProperty('complete')) {

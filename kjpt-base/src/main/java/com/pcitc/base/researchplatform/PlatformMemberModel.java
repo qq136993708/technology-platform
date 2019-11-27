@@ -10,7 +10,6 @@ import com.pcitc.base.common.RecordModel;
  */
 public class PlatformMemberModel extends RecordModel {
 
-    private static final long serialVersionUID = 1L;
     /**
      * 数据主键
      */
