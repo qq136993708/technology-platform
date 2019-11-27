@@ -80,6 +80,7 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String unitName,
             @RequestParam(required = false) String registerNumber,
             @RequestParam(required = false) String softwareName,
+            @RequestParam(required = false) String softwareIntroduce,
             @RequestParam(required = false) String copyrightOwner,
             @RequestParam(required = false) String versionNumber,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date recordDateStart,
@@ -104,6 +105,9 @@ public class ComputerSoftwareController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(softwareName)) {
             this.setParam(condition, "softwareName", softwareName);
+        }
+        if (!StringUtils.isEmpty(softwareIntroduce)) {
+            this.setParam(condition, "softwareIntroduce", softwareIntroduce);
         }
         if (!StringUtils.isEmpty(copyrightOwner)) {
             this.setParam(condition, "copyrightOwner", copyrightOwner);

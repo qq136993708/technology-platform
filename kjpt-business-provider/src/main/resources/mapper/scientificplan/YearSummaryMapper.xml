@@ -75,9 +75,13 @@
         <if test="name != null and name != '' ">
             and `NAME` like CONCAT('%',#{name},'%')
         </if>
-        <if test="authenticateUtil != null authenticateUtil != '' ">
+
+
+        <if test="authenticateUtil != null and authenticateUtil != '' ">
             and AUTHENTICATE_UTIL = #{authenticateUtil}
         </if>
+
+
         <if test="researchField != null and researchField != '' ">
             and RESEARCH_FIELD = #{researchField}
         </if>
