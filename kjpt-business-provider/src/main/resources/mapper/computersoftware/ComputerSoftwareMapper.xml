@@ -9,6 +9,7 @@
         <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName"/>
         <result column="REGISTER_NUMBER" jdbcType="VARCHAR" property="registerNumber"/>
         <result column="SOFTWARE_NAME" jdbcType="VARCHAR" property="softwareName"/>
+        <result column="SOFTWARE_INTRODUCE" jdbcType="VARCHAR" property="softwareIntroduce"/>
         <result column="COPYRIGHT_OWNER" jdbcType="VARCHAR" property="copyrightOwner"/>
         <result column="VERSION_NUMBER" jdbcType="VARCHAR" property="versionNumber"/>
         <result column="RECORD_DATE" jdbcType="TIMESTAMP" property="recordDate"/>
@@ -30,6 +31,7 @@
       UNIT_NAME,
       REGISTER_NUMBER,
       SOFTWARE_NAME,
+      SOFTWARE_INTRODUCE,
       COPYRIGHT_OWNER,
       VERSION_NUMBER,
       RECORD_DATE,
@@ -62,6 +64,7 @@
       UNIT_NAME,
       REGISTER_NUMBER,
       SOFTWARE_NAME,
+      SOFTWARE_INTRODUCE,
       COPYRIGHT_OWNER,
       VERSION_NUMBER,
       RECORD_DATE,
@@ -82,6 +85,7 @@
        #{unitName},
        #{registerNumber},
        #{softwareName},
+       #{softwareIntroduce},
        #{copyrightOwner},
        #{versionNumber},
        #{recordDate},
@@ -112,6 +116,11 @@
             <if test="softwareName != null and softwareName != ''">
                 SOFTWARE_NAME = #{softwareName},
             </if>
+
+            <if test="softwareIntroduce != null and softwareIntroduce != ''">
+                SOFTWARE_INTRODUCE = #{softwareIntroduce}
+            </if>
+
             <if test="copyrightOwner != null and copyrightOwner != ''">
                 COPYRIGHT_OWNER = #{copyrightOwner},
             </if>
@@ -155,7 +164,7 @@
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
 
-        select * from computer_software  where 1=1
+        select * from computer_software where 1=1
 
         <if test="unitName != null and unitName != '' ">
             and UNIT_NAME like CONCAT('%',#{unitName},'%')
@@ -166,6 +175,11 @@
         <if test="softwareName != null and softwareName != ''">
             and SOFTWARE_NAME = #{softwareName}
         </if>
+
+        <if test="softwareIntroduce != null and softwareIntroduce != ''">
+            and SOFTWARE_INTRODUCE = #{softwareIntroduce}
+        </if>
+
         <if test="copyrightOwner != null and copyrightOwner != ''">
             and COPYRIGHT_OWNER = #{copyrightOwner}
         </if>
@@ -197,13 +211,13 @@
             and ACCESSORY_UPLOAD = #{accessoryUpload}
         </if>
         <!--<if test="updateDate != null and updateDate != ''">-->
-            <!--update_date = #{updateDate},-->
+        <!--update_date = #{updateDate},-->
         <!--</if>-->
         <!--<if test="updator != null and updator != ''">-->
-            <!--updator = #{updator,jdbcType=VARCHAR},-->
+        <!--updator = #{updator,jdbcType=VARCHAR},-->
         <!--</if>-->
         <!--<if test="deleted != null and deleted != ''">-->
-            <!--deleted = #{deleted,jdbcType=VARCHAR}-->
+        <!--deleted = #{deleted,jdbcType=VARCHAR}-->
         <!--</if>-->
         and deleted != '1'
     </select>
