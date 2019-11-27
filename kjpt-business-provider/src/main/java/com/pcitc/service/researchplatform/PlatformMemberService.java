@@ -1,6 +1,7 @@
 package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
 
@@ -25,6 +26,11 @@ public interface PlatformMemberService {
      * 查询科研平台成员列表
      */
     PageInfo query(Map paramMap);
+
+    /**
+     * 查询科研平台成员列表
+     */
+    List<PlatformMemberModel> queryNoPage(Map paramMap);
 
     /**
      * 科研平台项目删除

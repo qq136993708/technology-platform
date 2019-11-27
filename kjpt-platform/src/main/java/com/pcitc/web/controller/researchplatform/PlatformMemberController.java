@@ -1,12 +1,16 @@
 package com.pcitc.web.controller.researchplatform;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -54,12 +58,40 @@ public class PlatformMemberController extends RestBaseController {
      */
     private static final String updateMemberRole = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/updateMemberRole";
 
+    /**
+     * 查询平台成员不分页
+     */
+    private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/queryNoPage";
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/researchPlatformMember-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody
     public PlatformMemberModel load(@PathVariable String id) {
         ResponseEntity<PlatformMemberModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformMemberModel.class);
         return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="导出excel")
+    @RequestMapping(value = "/researchPlatformMember-api/export", method = RequestMethod.GET)
+    @ResponseBody
+    public void export(
+            @RequestParam(value = "platformId") String platformId,
+            @RequestParam(required = false,value = "role") String role
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(2);
+        if (!StringUtils.isEmpty(platformId)) {
+            this.setParam(condition, "platformId", platformId);
+        }
+        if (!StringUtils.isEmpty(role)) {
+            this.setParam(condition, "role", role);
+        }
+        String[] headers = { "名称",  "出生年月",    "学历"  , "技术职称", "毕业院校", "所学专业", "岗位名称", "担任职务","工作单位"};
+        String[] cols =    {"name","birth","educationText","technicalTitle","graduateSchool","majorStudied","postName","assumeOffice","workUnitText"};
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformMemberModel.class);
+        String fileName = "科研平台成员表"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
     }
 
 
