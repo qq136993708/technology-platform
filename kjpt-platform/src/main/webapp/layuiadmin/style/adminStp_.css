@@ -996,10 +996,17 @@ html{ background-color: #F9F9F9; color: #666;}
 
 /* 弹窗样式 */
 .layui-layer-iframe .layui-layer-content{
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px !important;
 	overflow: hidden;
 }
 .layui-layer-iframe .layui-layer-title{
-	border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0 !important;
 }
-
+/* 弹窗关闭图标样式  */
+.layui-layer-setwin .layui-layer-close1{
+    background: url('../../images/dialog-close.png') no-repeat center center !important;
+    background-size: 100% 100% !important;
+}
+.layui-layer-setwin .layui-layer-close1:hover {
+    opacity: .8 !important;
+}

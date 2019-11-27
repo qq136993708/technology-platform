@@ -167,7 +167,11 @@ function httpModule(config) {
 			type: httpType,
 			data: (function() {
 				if (config.hasOwnProperty('data')) {
-					return JSON.stringify(config.data);
+					if (httpType === 'POST') {
+						return JSON.stringify(config.data);
+					} else {
+						return config.data;
+					}
 				}
 			})(),
 			dataType: config.dataType || "json",

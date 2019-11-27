@@ -100,7 +100,13 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/researchPlatformMember-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'name', title: '名称' }
+        ,{field: 'name', title: '姓名', templet: function(d) {
+          if (d.baseId && d.baseId != '-') {
+            return '<a class="link-text" href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
+          } else {
+            return d.name;
+          }
+        }}
         ,{field: 'assumeOffice', title: '担任职务', sort: true }
         ,{field: 'technicalTitle', title: '技术职称', sort: true}
         ,{field: 'workUnitText', title: '工作单位'} 
@@ -130,14 +136,14 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       cols: [[ //表头
         {type: 'radio', field: 'id'}
         ,{field: 'name', title: '姓名' }
-        ,{field: 'birth', title: '年龄', sort: true }
+        ,{field: 'birth', title: '出生年月', sort: true }
         ,{field: 'educationText', title: '学历', sort: true}
         ,{field: 'technicalTitle', title: '技术职称'} 
         ,{field: 'graduateSchool', title: '毕业学校'}
         ,{field: 'majorStudied', title: '所学专业'}
-        ,{field: 'postName', title: '岗位名称'} 
-      ]],
-      where: {role: '0'}
+        // ,{field: 'postName', title: '岗位名称'} 
+      ]]
+      // ,where: {role: '0'}
     });
 
     // 主要成果

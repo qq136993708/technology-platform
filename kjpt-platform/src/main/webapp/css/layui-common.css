@@ -376,3 +376,14 @@
   top: 0;
   text-align: center;
 }
+
+/* 弹窗关闭图标样式  */
+.layui-layer-setwin .layui-layer-close1{
+  background: url('../images/dialog-close.png') no-repeat center center;
+  background-size: 100% 100%;
+}
+.layui-layer-setwin .layui-layer-close1:hover {
+  opacity: .8;
+}
+
+
