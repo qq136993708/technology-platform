@@ -463,7 +463,8 @@ public class UserController extends BaseController {
 		}
 		user.setUserPassword(MD5Util.MD5Encode(newPass));
 		if(newPass!=null&&!newPass.isEmpty()){
-			Pattern pattern = Pattern.compile("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$");
+			// 密码验证的正则表达式:由数字和字母组成，并且要同时含有数字和字母，且长度要在8-16位之间。
+			Pattern pattern = Pattern.compile("^(?:([a-z])|([A-Z])|([0-9])|(.)){8,}|(.)+$");
 			if (pattern.matcher(newPass).matches()){
 				ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
 				if (status.getBody() == 0) {
