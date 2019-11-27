@@ -38,7 +38,6 @@ public class PlatformAchievementClient {
     @ApiOperation(value = "科研平台项目保存", notes = "科研平台项目保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public PlatformAchievementModel save(@RequestBody PlatformAchievementModel platformAchievementModel){
-
         return pas.save(platformAchievementModel);
     }
 
