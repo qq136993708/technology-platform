@@ -64,10 +64,10 @@ public class PlatformController extends RestBaseController {
     @ApiOperation(value="导出excel")
     @RequestMapping(value = "/platform-api/export", method = RequestMethod.GET)
     @ResponseBody
-    public void export(@RequestParam String platformName) throws Exception {
+    public void export(@RequestParam(required = false) String platformName) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
-        if (platformName == null) {
-            this.setParam(condition, "platformName", 1);
+        if (platformName != null) {
+            this.setParam(condition, "platformName", platformName);
         }
         String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分" };
         String[] cols =    {"platformName","supportingInstitutionsText","personLiable","typeText","researchFieldText","overallSituation","researchFunds","platformScoring"};
