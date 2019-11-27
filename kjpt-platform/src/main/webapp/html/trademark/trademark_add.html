@@ -187,7 +187,7 @@
     var $ = layui.jquery;
     var form = layui.form;
     var laydate = layui.laydate;
-    // var formSelects = layui.formSelects;
+    var formSelects = layui.formSelects;
 
 
     // formSelects.btns('unitName', ['remove']); // 只显示清除按钮
@@ -235,7 +235,7 @@
       });
     }
 
-    function transToData(data, fields) {
+    function transToData(data, fields) { //转换时间戳
         $.each(fields, function(index, f){
            
           if(data[f]) {

@@ -207,6 +207,17 @@ public class PatentInfo implements Serializable {
      * 单位名称翻译
      */
 	private String unitNameText;
+	
+	/**
+     * 技术领域
+     */
+	private String technicalField;
+	
+	
+	/**
+     * 技术领域名称翻译
+     */
+	private String technicalFieldText;
 
     private static final long serialVersionUID = 1L;
 
@@ -529,6 +540,23 @@ public class PatentInfo implements Serializable {
     public void setUnitNameText(String unitNameText) {
         this.unitNameText = unitNameText;
     }
+	
+	public String getTechnicalField() {
+        return technicalField;
+    }
+
+    public void setTechnicalField(String technicalField) {
+        this.technicalField = technicalField;
+    }
+	
+	public String getTechnicalFieldText() {
+        return technicalFieldText;
+    }
+
+    public void setTechnicalFieldText(String technicalFieldText) {
+        this.technicalFieldText = technicalFieldText;
+    }
+	
 	
     @Override
     public boolean equals(Object that) {

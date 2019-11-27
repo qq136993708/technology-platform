@@ -68,7 +68,7 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "name", value = "名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "authenticate_util", value = "申报单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query")
 
