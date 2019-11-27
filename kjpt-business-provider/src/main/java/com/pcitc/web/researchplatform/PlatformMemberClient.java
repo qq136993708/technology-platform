@@ -60,7 +60,7 @@ public class PlatformMemberClient {
 
     @ApiOperation(value = "修改团队人员的角色", notes = "修改团队人员的角色")
     @RequestMapping(value = "/updateMemberRole", method = RequestMethod.POST)
-    public Integer updateMemberRole(@RequestParam String ids,@RequestParam String role){
-        return pms.updateMemberRole(ids,role);
+    public Integer updateMemberRole(@RequestBody(required = false) Map param){
+        return pms.updateMemberRole(param.get("ids")==null?"":param.get("ids").toString(),param.get("role")==null?"":param.get("role").toString());
     }
 }

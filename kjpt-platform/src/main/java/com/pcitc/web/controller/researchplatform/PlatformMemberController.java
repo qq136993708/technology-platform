@@ -128,10 +128,15 @@ public class PlatformMemberController extends RestBaseController {
     @ResponseBody
     public Integer updateMemberRole(@RequestParam String ids,@RequestParam String role) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
-        param.add("ids",ids);
-        param.add("role",role);
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updateMemberRole, HttpMethod.POST, new HttpEntity<MultiValueMap>(param,this.httpHeaders), Integer.class);
+
+        Map<String, Object> param = new HashMap<>(2);
+        if (!StringUtils.isEmpty(role)) {
+            this.setParam(param, "role", role);
+        }
+        if (!StringUtils.isEmpty(role)) {
+            this.setParam(param, "ids", ids);
+        }
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updateMemberRole, HttpMethod.POST, new HttpEntity<Map>(param,this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
 
