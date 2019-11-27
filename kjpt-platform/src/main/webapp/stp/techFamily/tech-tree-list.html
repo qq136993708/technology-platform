@@ -16,7 +16,7 @@
 	<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
-	<div class="treeTableContainer">
+	<div class="treeTableContainer layout-view-content">
 		<div class="treeBox">
            <!--加标题-->
            <div class="title-box">
@@ -233,7 +233,6 @@
             		var temUrl="/stp/techFamily/techType_add.html?tfmTypeId="+temTypeId;
                     top.layer.open({
                         title:'新增',
-                        skin: 'layui-layer-lan',
                         shadeClose: true,
                         type: 2,
                         fixed: false,
@@ -286,7 +285,12 @@
             	var jsonstr = {"tfmTypeId":typeIds, "typeIndex":temTypeIndex, "parentId":temParentId};
             	console.log("jsonstr"+JSON.stringify(jsonstr));
             	//return;
-               if (typeof(selectRowData) == "undefined") 
+                if (typeof(temTypeId) == "undefined") {
+                    layer.msg("请先选择左侧技术族分类节点");
+                    return
+                }
+                console.log(selectRowData)
+               if (selectRowData == "")
             	{
             		layer.msg('请点击选择要删除的数据!');
             	} else {
@@ -294,7 +298,7 @@
             		if (alterFlag == 'true') {
             			alterStr = "要删除的节点中有子节点，确定要删除吗？";
             		}
-            		layer.confirm(alterStr, function(){
+            		top.layer.confirm(alterStr, function(){
             			$.ajax({
                 			type : "POST",
                             contentType : "application/json",

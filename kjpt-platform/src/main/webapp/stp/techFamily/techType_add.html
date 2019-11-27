@@ -9,19 +9,19 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="format-detection" content="telephone=no">
-  
-  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all"> 
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <link rel="stylesheet" href="/css/form.css">
 </head>
 <body>
-<div class="formBox">
+<div class="layout-view-content dialog">
   <form id="show-form" class="layui-form" lay-filter="show-form">
   <div class="box-body">
   <input id="parentId" name="parentId" type="hidden">
-  	<div class="layui-row">
+  	<div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label">父节点名称<span class="must-fill">*</span></label>
+          <label for="" class="layui-form-label"><span class="must-fill">*</span>父节点名称</label>
           <div class="layui-input-block">
           	  <input class="layui-input readOnlyBox" id="parentTypeName" name="parentTypeName" lay-verify="required" type="text" disabled>
           </div>
@@ -38,10 +38,10 @@
       </div>
     </div>
 
-    <div class="layui-row">
+    <div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label">分类名称<span class="must-fill">*</span></label>
+          <label for="" class="layui-form-label"><span class="must-fill">*</span>分类名称</label>
           <div class="layui-input-block">
             <input class="layui-input" id="typeName" name="typeName" lay-verify="required" placeholder="请输入分类名称" type="text">
           </div>
@@ -51,7 +51,7 @@
 
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label">分类编码<span class="must-fill">*</span></label>
+          <label for="" class="layui-form-label"><span class="must-fill">*</span>分类编码</label>
           <div class="layui-input-block">
             <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text"  disabled>
           </div>
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="layui-row">
+    <div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">发展方向</label>
@@ -72,7 +72,7 @@
 
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label">分类编码<span class="must-fill">*</span></label>
+          <label for="" class="layui-form-label"><span class="must-fill">*</span>分类编码</label>
           <div class="layui-input-block">
             <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text"  disabled>
           </div>
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div class="layui-row">
+    <div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">创建人</label>
@@ -109,13 +109,11 @@
 
   </div>
 
-  <div class="form-bottom">
-    <div class="form-bottom-btns">
-      <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="form-submit">保存</button>
-      <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button>
-      <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="closeBtn">取消</button>
+    <div class="dialog-footer-btn">
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="form-submit">保存</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      <button type="button" class="layui-btn layui-btn-primary"  id="closeBtn">取消</button>
     </div>
-  </div>
   </form>
 </div>
 <script src="/layuiadmin/layui/layui.js"></script>
