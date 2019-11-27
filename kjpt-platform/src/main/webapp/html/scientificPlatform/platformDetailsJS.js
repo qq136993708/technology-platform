@@ -119,7 +119,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'thesisLevelText', title: '论文级别', sort: true }
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
-        ,{field: 'thesisYear', title: '年度'}
+        ,{field: 'thesisYear', title: '发表时间'}
       ]]
     });
 
@@ -281,6 +281,12 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     } else {
       layer.msg('请选择需要删除的数据！');
     }
+  })
+
+  // 模版下载、导入、导出
+  $('.exportDown, .exportData, .importData').on('click', function() {
+    layer.msg('功能开发中...暂未实现！');
+    return;
   })
   
 });
