@@ -2,6 +2,7 @@ package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformAchievementModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,14 @@ public interface PlatformAchievementService {
      */
     PlatformAchievementModel save(PlatformAchievementModel platformAchievementModel);
     /**
-     * 查询科研平台成果列表
+     * 查询科研平台成果列表分页
      */
     PageInfo query(Map paramMap);
+
+    /**
+     * 查询科研平台成果列表
+     */
+    List<PlatformAchievementModel> queryNoPage(Map paramMap);
 
     /**
      * 科研平台项目删除

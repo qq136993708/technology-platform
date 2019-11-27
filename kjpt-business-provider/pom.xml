@@ -182,6 +182,19 @@
 				</exclusion>
 			</exclusions> -->
 		</dependency>
+
+		<!--操作word转PDF-->
+		<!--<dependency>
+			<groupId>com.aspose</groupId>
+			<artifactId>aspose-cells</artifactId>
+			<version>8.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aspose</groupId>
+			<artifactId>aspose-words</artifactId>
+			<version>15.8.0</version>
+			<classifier>jdk16</classifier>
+		</dependency>-->
         <!-- echarts -->
         <!-- https://mvnrepository.com/artifact/com.github.abel533/ECharts -->
         <!--<dependency>-->

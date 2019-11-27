@@ -1,5 +1,7 @@
 package com.pcitc.web.researchplatform;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.service.researchplatform.PlatformMemberService;
@@ -44,14 +46,22 @@ public class PlatformMemberClient {
         return pms.batchSave(list);
     }
 
-    @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台项目列表")
+    @ApiOperation(value = "查询科研平台成员列表分页", notes = "查询科研平台成员列表分页")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageInfo query(@RequestBody(required = false) Map param){
         return pms.query(param);
     }
 
+    @ApiOperation(value = "查询科研平台成员列表", notes = "查询科研平台成员列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+        List list=pms.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
 
-    @ApiOperation(value = "科研平台项目删除", notes = "科研平台项目删除")
+
+    @ApiOperation(value = "科研平台成员删除", notes = "科研平台成员删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public Integer delete(@PathVariable String id){
         return pms.delete(id);

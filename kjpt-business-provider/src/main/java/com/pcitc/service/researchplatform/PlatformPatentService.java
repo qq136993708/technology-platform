@@ -1,6 +1,7 @@
 package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.base.researchplatform.PlatformPatentModel;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
 
@@ -22,9 +23,14 @@ public interface PlatformPatentService {
      */
     PlatformPatentModel save(PlatformPatentModel platformPatentModel);
     /**
-     * 查询科研平台专利列表
+     * 查询科研平台专利列表分页
      */
     PageInfo query(Map paramMap);
+
+    /**
+     * 查询科研平台成员列表
+     */
+    List<PlatformPatentModel> queryNoPage(Map paramMap);
 
     /**
      * 科研平台专利删除
