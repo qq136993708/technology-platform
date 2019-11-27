@@ -127,7 +127,7 @@ public class PlatformMemberController extends RestBaseController {
     @RequestMapping(value = "/researchPlatformMember-api/updateMemberRole", method = RequestMethod.POST)
     @ResponseBody
     public Integer updateMemberRole(@RequestParam String ids,@RequestParam String role) {
-        this.httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
         param.add("ids",ids);
         param.add("role",role);
