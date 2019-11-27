@@ -1,12 +1,16 @@
 package com.pcitc.web.controller.researchplatform;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformPatentModel;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -46,6 +50,11 @@ public class PlatformProjectController extends RestBaseController {
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/delete/";
 
+    /**
+     * 查询平台项目列表不分页
+     */
+    private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/queryNoPage";
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/platformProject-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -54,6 +63,21 @@ public class PlatformProjectController extends RestBaseController {
         return responseEntity.getBody();
     }
 
+
+    @ApiOperation(value="导出excel")
+    @RequestMapping(value = "/platformProject-api/export", method = RequestMethod.GET)
+    @ResponseBody
+    public void export(@RequestParam String platformId) throws Exception {
+        Map<String, Object> condition = new HashMap<>(2);
+        this.setParam(condition, "platformId", platformId);
+        String[] headers = { "项目名称",  "负责单位",    "立项年度" };
+        String[] cols =    {"projectName","dutyInstitutionsText","approvalYear"};
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformProjectModel.class);
+        String fileName = "科研平台项目表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
+    }
 
     @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台项目列表")
     @ApiImplicitParams({

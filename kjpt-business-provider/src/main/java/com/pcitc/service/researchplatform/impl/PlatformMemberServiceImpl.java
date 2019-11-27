@@ -52,6 +52,11 @@ public class PlatformMemberServiceImpl implements PlatformMemberService {
     }
 
     @Override
+    public List<PlatformMemberModel> queryNoPage(Map paramMap) {
+        return platformMemberMapper.query(paramMap);
+    }
+
+    @Override
     public Integer delete(String id) {
         return platformMemberMapper.delete(id);
     }

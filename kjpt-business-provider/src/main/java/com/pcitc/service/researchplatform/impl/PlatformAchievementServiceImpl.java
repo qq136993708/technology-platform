@@ -57,6 +57,11 @@ public class PlatformAchievementServiceImpl implements PlatformAchievementServic
     }
 
     @Override
+    public List<PlatformAchievementModel> queryNoPage(Map paramMap) {
+        return platformAchievementMapper.query(paramMap);
+    }
+
+    @Override
     public Integer delete(String id) {
         return platformAchievementMapper.delete(id);
     }
