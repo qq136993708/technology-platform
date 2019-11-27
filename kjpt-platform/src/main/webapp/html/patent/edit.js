@@ -5,9 +5,6 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     var form = layui.form;
     var $ = layui.$; 
     var laydate = layui.laydate;
-  
-    var $ = layui.jquery;
-    var form = layui.form; 
     var formSelects = layui.formSelects;
  
 

@@ -12,11 +12,13 @@
 <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/css/common.css">
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <style>
 	.tree-content {
 	  position: absolute;
@@ -160,10 +162,21 @@
 			</div>
 			<div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
 				<div class="layui-form-item layui-row">
-					<div class="photo_box" style="margin-left: 80px;"></div>
+				 
+					<div class="layui-input-block" style="margin-left: 20px; width:155px"> 
+							<div class="img-view-block middle-block" style="height:180px;" id="imgFileUpload">
+							  <img src="" alt="请选择图片上传" />
+							  <div class="file-img-btn" label="imgUpload">
+								<span class="btn-icon"></span>
+								<span class="btn-text">点击此区域上传图片</span>
+							  </div>
+							  <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+							</div>
+						  </div>
+
 				</div>
 				<div class="layui-form-item layui-row">
-					<label for="" class="layui-form-label" style="width: 200px;">照片(尺寸:2.5cm*3.5cm)<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label" style="width: 200px; margin-left: 20px; text-align: left;">照片(尺寸:2.5cm*3.5cm)<span class="must-fill">*</span></label>
 				</div>
 			</div>
 		</div>
@@ -195,24 +208,32 @@
 	var zNodes,form,roleMap={},unitMap={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
 	var unitList = [],postList = [];
 	var userId = "${userId?default(0)}";
-	$(document).on("click",".photo_box", function(event) {
-		$("#file").click();
-    });
-	$(document).on("change", "#file", function(event){
-		$.ajax({  
-	        type : "POST",  
-	        url : "/sysfile/uploadSignMultipleFile",  
-	        data : new FormData($("#fileUploadForm")[0]),
-	        async: false,  
-	        cache: false,  
-	        contentType: false,  
-	        processData: false,
-	        success : function(msg) {
-	        	$("#userExtend").val(msg.filePath);
-	        	$(".photo_box").html('<img src="'+msg.filePath+'" style="width: 140px;height: 173px" />');
-	        }  
-		}); 			
+
+	setImagesUpload({
+		id: '#imgFileUpload', // 图片作用域的ID
+		callback: function (data, type) {
+		if (data) { $('#userExtend').val(data.id) } else { $('#userExtend').val('') }
+		}
 	});
+	
+	// $(document).on("click",".photo_box", function(event) {
+	// 	$("#file").click();
+    // });
+	// $(document).on("change", "#file", function(event){
+	// 	$.ajax({  
+	//         type : "POST",  
+	//         url : "/sysfile/uploadSignMultipleFile",  
+	//         data : new FormData($("#fileUploadForm")[0]),
+	//         async: false,  
+	//         cache: false,  
+	//         contentType: false,  
+	//         processData: false,
+	//         success : function(msg) {
+	//         	$("#userExtend").val(msg.filePath);
+	//         	$(".photo_box").html('<img src="'+msg.filePath+'" style="width: 140px;height: 173px" />');
+	//         }  
+	// 	}); 			
+	// });
 	//根据机构列表初始化岗位树（岗位树是一棵两级结构的树）
 	function inintPostSelectTree(unitList)
 	{
@@ -373,8 +394,10 @@
 	        		
 	        		//头像
 	        		if($("#userExtend").val() != null && $("#userExtend").val() != ""){
-	        	     	$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
-	        		}
+						 //$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
+						 setImagesUploadState({imgID:$("#userExtend").val(), id: '#imgFileUpload'});
+					}
+					 
 	           	 
 	            });
 		        $("#userPassword").val("");        	
@@ -430,17 +453,17 @@
 					}
 				},
 				//新增用户时必须输入密码，编辑时可输入可不输入密码
-				<#if !userId??> 
-					pass : [/(.+){6,30}$/, '密码长度6到30位']
-				<#else>
-					pass : function(value,item)
+				pass : 
+					userId.length>0 ? 
+						[/(.+){6,30}$/, '密码长度6到30位'] 
+					: 
+					function(value,item)
 					{
 						if(value && (value.length < 6 || value.length > 30))
 						{
-			            	return '密码长度6到30位！';
-			            }
+							return '密码长度6到30位！';
+						}
 					}
-				</#if>
 				
 			});
 			/* 监听提交 */
@@ -453,8 +476,7 @@
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
 				data.field.userPost = $("#userPostValue").val();
 				data.field.userRole = $("#userRoleValue").val();
-				console.log(unitText);
-				console.log(data.field);
+
 				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
 					if(dt.success){
 				       	parent.layui.table.reload('userTable',null);

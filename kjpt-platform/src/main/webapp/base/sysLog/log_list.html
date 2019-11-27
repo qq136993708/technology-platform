@@ -69,7 +69,7 @@
 	
 	 <div class="view-title-layout">
         <div class="right">
-            <a href="/sysLog-api/log_exput_excel?" class="layui-btn border-blue" id="exportData" data-type="exportData">导出</a>
+            <a href="" class="layui-btn border-blue" id="exportData" data-type="exportData">导出</a>
         </div>
     </div>
     
@@ -107,6 +107,9 @@
                 });
             }
         });
+        $("#exportData").click(function () {
+            window.location.href="/sysLog-api/log_exput_excel?logType="+variable.logType+"&userType="+variable.userType
+        })
         /*公共方法*/
         var obj={
             tableList:function (where) {

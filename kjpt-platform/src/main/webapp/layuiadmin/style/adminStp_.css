@@ -995,11 +995,47 @@ html{ background-color: #F9F9F9; color: #666;}
 }
 
 /* 弹窗样式 */
+.middle-block {
+    font-size: 0;
+    white-space: nowrap;
+}
+.middle-block::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 0;
+}
 .layui-layer-iframe .layui-layer-content{
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px !important;
 	overflow: hidden;
 }
 .layui-layer-iframe .layui-layer-title{
-	border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0 !important;
 }
-
+/* 弹窗关闭图标样式  */
+.layui-layer-setwin .layui-layer-close1{
+    background: url('../../images/dialog-close.png') no-repeat center center !important;
+    background-size: 100% 100% !important;
+}
+.layui-layer-setwin .layui-layer-close1:hover {
+    opacity: .8 !important;
+}
+.http-error-dialog {
+    height: 100%;
+    padding: 20px;
+    padding-bottom: 0;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 200px;
+}
+.http-error-dialog * {
+    box-sizing: border-box;
+}
+.http-error-dialog .error-box{
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 99%;
+    white-space: normal;
+    font-size: 14px;
+}
