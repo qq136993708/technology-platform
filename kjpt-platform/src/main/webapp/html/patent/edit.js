@@ -12,6 +12,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     httpModule({
       url: "/techFamily-api/getTreeList",
       type: 'GET',
+      async: false,  
       success: function(relData) {
           relData.children.map(function (item,index) {
               item.children.map(function (items,i) {
@@ -40,11 +41,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
           var data = relData.data;
           transToData(data, ['applicationDate','entryDate']);
-          data.technicalField = relData.data.technicalField.split(',');
-
+          //data.technicalField = data.technicalField.split(',');
+           
           form.val('formMain', data);
+          formSelects.value('technicalField', relData.data.technicalField.split(',')); 
+
           // 更新表单数据
-          form.render();
+          //form.render();
+
 
           setRadioShow();
 
