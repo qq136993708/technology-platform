@@ -30,7 +30,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label "><span class="text">头像：</span></label>
            <div class="layui-input-block">
-            <input type="hidden" name="imgId" id="imgId" />
+            <input type="hidden" name="userExtend" id="userExtend" />
             <div class="img-view-block middle-block" id="imgFileUpload">
               <img src="" alt="请选择图片上传" />
               <div class="file-img-btn" label="imgUpload">
@@ -49,18 +49,18 @@
             <div class="layui-form-item">
             <label class="layui-form-label "><span class="text">归属公司：</span></label>
             <div class="layui-input-block">
-                <input type="text" name="userUnitText" readonly="true" class="layui-input noborder">
+                <input type="text" id="userUnitText" readonly="true" class="layui-input noborder">
             </div>
             </div>
-        </div>
+        </div>id
     </div>
 
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">归属部门：</span></label>
+          <label class="layui-form-label "><span class="text">所属岗位：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="userPostText" readonly="true" class="layui-input noborder">
+            <input type="text" id="userPostText" readonly="true" class="layui-input noborder">
           </div>
         </div>
       </div>
@@ -74,21 +74,17 @@
             <input type="text" name="userName" readonly="true" class="layui-input noborder">
           </div>
         </div>
-      </div>
-    </div>
-
-      <div class="layui-row layui-col-space20">
+      </div> 
+ 
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
            <label class="layui-form-label "><span class="text">邮箱：</span></label>
            <div class="layui-input-block">
-            <input type="text" name="userEmail" class="layui-input">
+            <input type="text" name="userMail" class="layui-input">
            </div>
          </div>
-       </div>
-    </div>
-
-       <div class="layui-row layui-col-space20">
+       </div> 
+ 
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label "><span class="text">电话：</span></label>
@@ -98,9 +94,8 @@
           </div>
         </div>
       </div>
-    </div>
-       
-      <div class="layui-row layui-col-space20">
+    
+        
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
            <label class="layui-form-label "><span class="text">手机：</span></label>
@@ -110,10 +105,9 @@
            </div>
          </div>
        </div>
-    </div>
-
-       <div class="layui-row layui-col-space20">
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+   
+ 
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">备注：</span></label>
            <div class="layui-input-block">
@@ -128,7 +122,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label "><span class="text">用户类型：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="userKindText" readonly="true"  class="layui-input noborder">
+            <input type="text" id="userKindText" readonly="true"  class="layui-input noborder">
           </div>
         </div>
       </div>
@@ -139,14 +133,14 @@
         <div class="layui-form-item">
           <label class="layui-form-label "><span class="text">用户角色：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="userRoleText" readonly="true"  class="layui-input noborder">
+            <input type="text" id="userRoleText" readonly="true"  class="layui-input noborder">
           </div>
         </div>
       </div>
     </div>
 
       <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <div class="layui-form-item">
           <label class="layui-form-label "><span class="text">上次登录IP：</span></label>
           <div class="layui-input-inline margin0" style="width: 130px;">
@@ -157,22 +151,22 @@
                 <input type="text" name="lastLoginDate"   readonly="true" class="layui-input noborder">
           </div>
         </div>
-       
-
+        
       </div>
-
-       
-    </div>
-       
-
-    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item"> 
-            <div class="layui-input-block">
-                <button style="float: right;margin-right:10px" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">保存</button> 
-            </div>
-        </div>
-    </div>
  
+    </div>
+    
+    
+    <div style="height:80px;"></div>
+    
+    <div class="dialog-footer-btn">
+        <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
+        <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
+    </div>
+
+    <input type="hidden" name="userId">
+
+    
  
    </form>
 </div>
@@ -187,7 +181,106 @@
 
 
 <script > 
+ 
+
+layui.use(['form', 'layer', 'laydate', 'upload'], function(){
+    var form = layui.form;
+    var $ = layui.$; 
+    var laydate = layui.laydate; 
+ 
+
+  setImagesUpload({
+    id: '#imgFileUpload', // 图片作用域的ID
+    callback: function (data, type) {
+      if (data) { $('#userExtend').val(data.id) } else { $('#userExtend').val('') }
+    }
+  });
+
+
+  function getItemInitData() {
+    var httpUrl = '/user/currentUserInfo';  
+    httpModule({
+      url: httpUrl,
+      type: 'GET',
+      success: function(relData) { 
+          transToData(relData, ['lastLoginDate']);
+          form.val('formMain', relData);
+          // 更新表单数据
+          form.render();
+
+          if(relData.userExtend){
+            setImagesUploadState({imgID: relData.userExtend, id: '#imgFileUpload'});
+          }
+
+          loadText('/unit/list-data', 'unitId', 'unitName', relData.userUnit, '#userUnitText');
+          loadText('/post/list-data', 'postId', 'postName', relData.userPost, '#userPostText');
+          loadText('/dictionary/list/ROOT_XTGL_YHLX', 'code', 'name', relData.userKind, '#userKindText');
+          loadText('/role/role-list-all', 'roleId', 'roleName', relData.userRole, '#userRoleText');
+      }
+    });
+  }
+
+  function loadText(url, codef, textf, data, el) {
+      data = data.split(',');
+      httpModule({
+        url: url,
+        type: 'POST',
+        success: function(relData) { 
+            var map = {};
+            $.each(relData, function(index, item){
+                map[item[codef]] = item[textf];
+            });
+            
+            var arr = [];
+            $.each(data, function(index, item){
+                arr.push(map[data]);
+            });
+
+            $(el).val(arr.join(','));
+        }
+    });
+  }
+  
+	// 获取地址栏传递过来的参数
+   getItemInitData();
+
+	form.on('submit(newSubmit)', function(data) {
+
+        var d = data.field;
+        delete d.lastLoginIp;
+        delete d.lastLoginDate;
+		httpModule({
+			url: '/user/updateUserInfo',
+			data: d,
+            type: "POST",
+            
+			success: function(e) {
+				layer.msg(e.message);
+			}
+		});
+		return false;
+    })
+     
+    function transToData(data, fields) {
+      $.each(fields, function(index, f){
          
+        if(data[f]) {
+          try {
+            data[f] = (new Date(data[f])).format('yyyy-MM-dd hh:mm:ss');
+          }
+          catch (e) {
+            
+          }
+        }  
+      });
+    }
+       
+
+  });
+  
+  
+
+
 </script>
 
 </body>

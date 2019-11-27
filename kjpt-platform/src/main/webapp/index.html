@@ -532,7 +532,16 @@ var __base_dic_store = {
 						// });
 
 
-						parent.layui.index.openTabsPage("/html/user/my_info.html", "用户信息");
+						//parent.layui.index.openTabsPage("/html/user/my_info.html", "用户信息");
+
+						top.layer.open({
+							type: 2,
+							title: '用户信息',
+							area: ['800px', '80%'],
+								content: '/html/user/my_info.html',
+								btn: null
+							});
+							
 
 					});
 					$("#logout").on("click", function() {
@@ -569,7 +578,15 @@ var __base_dic_store = {
 						// 	content : "/user/upd-pass?userId=${userInfo.userId}"
 						// });
 
-						parent.layui.index.openTabsPage("/html/user/change_password.html", "修改密码");
+						//parent.layui.index.openTabsPage("/html/user/change_password.html", "修改密码");
+
+						top.layer.open({
+							type: 2,
+							title: '修改密码',
+							area: ['500px', '400px'],
+								content: '/html/user/change_password.html',
+								btn: null
+							});
 					});
 
 					$("#selfConfig").on("click", function() {
