@@ -488,19 +488,20 @@ public class UserController extends BaseController {
      * @return java.lang.Object
      */
     @ApiOperation(value = "修改当前用户信息", notes = "修改当前用户信息")
-    @RequestMapping(value = "/user/updateUserInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/updateCurrentUserInfo", method = RequestMethod.POST)
     @ResponseBody
-    public Object updateUserInfo(@RequestBody String params) throws IOException {
-        // 获取个人原有信息
-        SysUser sysUserInfo = getUserProfile();
-        SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-
-        if (user == null) {
+    public Object updateUserInfo(@RequestBody SysUser user) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
+    	SysUser u = super.getUserProfile();
+    	if(!u.getUserId().equals(user.getUserId())) {
+			return new Result(false, "当前用户无修改权限！");
+		}
+        // 获取个人原有信息 S
+		u = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+        if (u == null) {
             return new Result(false, "用户不存在！");
         }
-        JSONObject reJson = JSONObject.parseObject(params);
-        //System.out.println("===updateSelfConfig---"+reJson.getString("userConfig1"));
-        user.setUserConfig1(reJson.getString("userConfig1"));
+
         ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
         if (status.getBody() == 0) {
             return new Result(false, "个人设置失败！");
