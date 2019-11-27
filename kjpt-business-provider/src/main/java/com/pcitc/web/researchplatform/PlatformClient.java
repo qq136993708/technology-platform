@@ -1,5 +1,7 @@
 package com.pcitc.web.researchplatform;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.service.researchplatform.PlatformService;
@@ -45,10 +47,18 @@ public class PlatformClient {
         return  null;
     }*/
 
-    @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
+    @ApiOperation(value = "查询科研平台列表分页", notes = "查询科研平台列表分页")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageInfo query(@RequestBody(required = false) Map param){
         return ps.query(param);
+    }
+
+    @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+        List list=ps.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
     }
 
 

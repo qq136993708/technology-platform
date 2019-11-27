@@ -10,7 +10,6 @@ import java.io.Serializable;
  * @author ty
  */
 public class PlatformAchievementModel extends RecordModel implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 数据主键

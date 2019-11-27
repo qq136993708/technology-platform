@@ -56,4 +56,11 @@ public class PlatformMemberClient {
     public Integer delete(@PathVariable String id){
         return pms.delete(id);
     }
+
+
+    @ApiOperation(value = "修改团队人员的角色", notes = "修改团队人员的角色")
+    @RequestMapping(value = "/updateMemberRole", method = RequestMethod.POST)
+    public Integer updateMemberRole(@RequestParam String ids,@RequestParam String role){
+        return pms.updateMemberRole(ids,role);
+    }
 }
