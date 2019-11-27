@@ -1,5 +1,4 @@
-layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
-	var $ = layui.jquery;
+layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	var form = layui.form;
 	var table = layui.table;
 	var layer = layui.layer;
@@ -31,6 +30,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 						} else if ( variable.item === 'character' ) {
 							// 添加领军人物
 							formData.role = '1';
+							if (formData.workUnit) {
+								layui.formSelects.value('workUnit', [formData.workUnit]);
+							}
 						}
 					}
 					form.val('formProject', formData);
@@ -183,7 +185,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/platformTreatise-api/batchSave',
+				url: '/researchPlatformMember-api/batchSave',
 				data: tableCheckedData,
 				success: function(res) {
 					if (res.code === '0') {

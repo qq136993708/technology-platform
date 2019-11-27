@@ -157,6 +157,19 @@
 .layui-form-item{
   margin-bottom: 20px;
 }
+.layui-form[fold-panel="close"] .layui-row > div:not(.layui-col-btn){
+  display: none;
+}
+.layui-form[fold-panel="close"] .layui-row > div:nth-child(1),
+.layui-form[fold-panel="close"] .layui-row > div:nth-child(2) {
+  display: inline-block;
+}
+@media screen and (min-width: 992px) {
+  .layui-form-screen .form-col-ly4 {
+    width: 33.33333333%;
+  }
+}
+
 
 .laydate-input{
   outline: 0;
