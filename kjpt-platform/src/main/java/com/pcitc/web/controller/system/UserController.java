@@ -20,13 +20,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -90,7 +84,9 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/user/get-user")
 	@ResponseBody
 	public Object getUser(@RequestParam(value = "userId", required = true) String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return this.restTemplate.exchange(USER_GET_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		SysUser user = this.restTemplate.exchange(USER_GET_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		user.setUserPassword(null);
+		return user;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -515,14 +511,14 @@ public class UserController extends BaseController {
 
 
     @ApiOperation(value = "获取当前用户信息", notes = "获取当前用户信息")
-    @RequestMapping(value = "/user/currentUserInfo")
+    @GetMapping(value = "/user/currentUserInfo")
     @ResponseBody
     public Object currentUserInfo( HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser sysUserInfo = getUserProfile();
-		String userId = sysUserInfo.getUserId();
-        return this.restTemplate.exchange(USER_CURRENT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		user.setUserPassword(null);
+		return user;
     }
-
 
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/ini-self-config")
