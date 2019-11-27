@@ -5,10 +5,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
     var form = layui.form;
     var $ = layui.$; 
     var laydate = layui.laydate;
-  
-    var $ = layui.jquery;
-    var form = layui.form; 
- 
+    
 
   function getItemInitData(item) {
     var httpUrl = '/ComputerSoftware/newInit';

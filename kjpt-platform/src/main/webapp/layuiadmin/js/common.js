@@ -166,9 +166,12 @@ function httpModule(config) {
 			url: config.url,
 			type: httpType,
 			data: (function() {
+				if(config.useForm === true) {
+					return config.data;
+				}
 				if (config.hasOwnProperty('data')) {
 					return JSON.stringify(config.data);
-				}
+				}  
 			})(),
 			dataType: config.dataType || "json",
 			contentType: config.contentType || 'application/json',
@@ -219,6 +222,8 @@ function httpModule(config) {
 				}
 			}
 		}
+
+		
 
 		for (var key in config) {
 			if (!options.hasOwnProperty(key)) {
