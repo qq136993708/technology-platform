@@ -274,8 +274,24 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/researchPlatformMember-api/batchSave',
-				data: tableCheckedData,
+				url: (function() {
+					if (variable.item === 'member') {
+						return '/researchPlatformMember-api/batchSave';
+					} else {
+						var roleMember = '/researchPlatformMember-api/updateMemberRole?ids=';
+						var ids = '';
+						$.each(tableCheckedData, function(i, item) {
+							ids += (','+item.id);
+						})
+						roleMember += (ids.substring(1) + '&role=1');
+						return roleMember;
+					}
+				})(),
+				data: (function() {
+					if (variable.item === 'member') {
+						return tableCheckedData;
+					}
+				})(),
 				success: function(res) {
 					if (res.code === '0') {
 						setDialogData(res);
