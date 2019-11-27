@@ -14,6 +14,7 @@ public class SysLog implements Serializable {
      * 操作时间
      */
     private Date logTime;
+    private String  logTimeStr;
 
     /**
      * 登陆人
@@ -82,8 +83,19 @@ public class SysLog implements Serializable {
     
     private String unitId="";
     
+    
+    
+    
 
-    public String getUnitName() {
+    public String getLogTimeStr() {
+		return logTimeStr;
+	}
+
+	public void setLogTimeStr(String logTimeStr) {
+		this.logTimeStr = logTimeStr;
+	}
+
+	public String getUnitName() {
 		return unitName;
 	}
 
@@ -99,7 +111,6 @@ public class SysLog implements Serializable {
 		this.unitId = unitId;
 	}
 
-	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
