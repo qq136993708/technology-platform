@@ -1,6 +1,7 @@
 package com.pcitc.service.system;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
@@ -38,6 +39,6 @@ public interface SysLogService {
 	     * 获取日志（分页）
 	*/
 	public LayuiTableData getSysLogPage(LayuiTableParam param)throws Exception;
-	
+	public List getSysLogList(Map param)throws Exception;
 	
 }

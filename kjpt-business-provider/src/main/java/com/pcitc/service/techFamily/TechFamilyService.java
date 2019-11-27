@@ -65,5 +65,7 @@ public interface TechFamilyService {
     public List<TechFamily> getTechFamilyListByCodes(List<String> list)throws Exception;    
     
     
-    public List<TechFamily> getTechFamilyList(Map map)throws Exception;    
+    public List<TechFamily> getTechFamilyList(Map map)throws Exception;   
+    
+    public TechFamily getTechFamilyById(String tfmTypeId)throws Exception;
 }

@@ -211,4 +211,11 @@ public class TechFamilyServiceImpl implements TechFamilyService {
     	return techFamilyMapper.getTechFamilyList(map);
     }
     
+    
+    
+    public TechFamily getTechFamilyById(String tfmTypeId)throws Exception
+    {
+    	return techFamilyMapper.selectByPrimaryKey(tfmTypeId);
+    }
+    
 }

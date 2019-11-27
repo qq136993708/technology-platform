@@ -109,8 +109,9 @@
 		user_create_time,
 		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
 		login_error_number,
-		login_check_code, user_config1, user_config2, user_config3, user_config4
+		login_check_code, user_config1, user_config2, user_config3, user_config4,user_login_ip,user_login_date
 	</sql>
+
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.pcitc.base.system.SysUserExample">
 		select
