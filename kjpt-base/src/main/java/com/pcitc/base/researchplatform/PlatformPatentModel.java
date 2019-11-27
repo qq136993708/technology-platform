@@ -11,7 +11,6 @@ import java.util.Date;
  * @author ty
  */
 public class PlatformPatentModel extends RecordModel implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 数据主键

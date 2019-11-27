@@ -58,6 +58,13 @@
         <if test="role != null and role != '' " >
             and role = #{role}
         </if>
+        <if test="baseIds !=null">
+            and base_id in (
+                <foreach collection="baseIds"  index="index"  item="id"  separator=",">
+                    #{id}
+                </foreach>
+            )
+        </if>
             and deleted != '1'
     </select>
 
@@ -108,5 +115,14 @@
             (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.role},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator})
         </foreach>
     </insert>
+
+    <update id="updateMemberRole">
+        update kypt_member set role = #{role}
+        where id in (
+        <foreach collection="ids"  item="id"  separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
 
 </mapper>

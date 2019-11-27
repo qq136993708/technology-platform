@@ -2,6 +2,7 @@ package com.pcitc.mapper.researchplatform;
 
 import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public interface PlatformMemberMapper {
      * 批量添加
      */
     int batchSave(List<PlatformMemberModel> list);
+
+    int updateMemberRole(@Param("ids") String[] ids,@Param("role") String role);
 
 
 }
