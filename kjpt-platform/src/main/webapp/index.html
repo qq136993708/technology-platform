@@ -13,44 +13,12 @@
 <script>
 var __base_dic_store = {
 	// 非树形结构数据样例
-	DIC_DEMO_DATA: {
-		dis: '非树形结构数据样例',
-		data: [
-			{value:'0', name: '北京'},
-			{value: '1', name: '上海'},
-			{value: '2', name: '广州'},
-			{value: '3', name: '深圳'},
-			{value: '4', name: '杭州'}
-		]
-	},
-	// 树形结构样例数据
-	DIC_DEMO_TREE: {
-		dis: '树形结构样例数据',
-		data: [{
-        name: '常用文件夹',
-        value: 1,
-        children: [{name: '所有未读', value: 11}, {
-          name: '置顶邮件',
-          value: 12
-        }, {name: '标签邮件', value: 13}]
-      }, {
-        name: '我的邮箱',
-        value: 2,
-        children: [{
-            name: 'QQ邮箱',
-            value: 21,
-            children: [{
-              name: '收件箱',
-              value: 211,
-              children: [{name: '所有未读', value: 2111}, {name: '置顶邮件', value: 2112}, {name: '标签邮件', value: 2113}]
-            }, {name: '已发出的邮件', value: 212}, {name: '垃圾邮件', value: 213}]
-        }, {
-            name: '阿里云邮',
-            value: 22,
-            children: [{name: '收件箱', value: 221}, {name: '已发出的邮件', value: 222}, {name: '垃圾邮件', value: 223}]
-        }]
-    }]
-	}
+	// DIC_DEMO_DATA: {
+	// 	dis: '非树形结构数据样例',
+	// 	data: [
+	// 		{value:'0', name: '北京'}
+	// 	]
+	// }
 };
 </script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -206,6 +174,9 @@ var __base_dic_store = {
 										lay-text="科研规划" 
 										data-functionbuttons="ALL">科研规划</a>
 								</dd>
+								<dd class=""><a lay-href="/html/scientificMaterials/scientificPlan.html" lay-text="科研规划" 
+									data-functionbuttons="ALL">科研规划</a>
+								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
@@ -224,6 +195,9 @@ var __base_dic_store = {
 								</dd>
 								<dd class=""><a lay-href="/html/demo/select.html" lay-text="selected 下拉框" 
 									data-functionbuttons="ALL">selected 下拉框</a>
+								</dd>
+								<dd class=""><a lay-href="/html/demo/advancedSearch.html" lay-text="高级筛选演示" 
+									data-functionbuttons="ALL">高级筛选演示</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/button.html" lay-text="Button 按钮" 
 									data-functionbuttons="ALL">Button 与 Tab</a>

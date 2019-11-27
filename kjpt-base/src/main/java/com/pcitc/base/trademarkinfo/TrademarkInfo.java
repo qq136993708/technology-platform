@@ -93,6 +93,11 @@ public class TrademarkInfo implements Serializable {
      */
     private String legalStatusText;
 
+    /**
+     * 单位名称翻译
+     */
+    private String unitNameText;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -229,6 +234,14 @@ public class TrademarkInfo implements Serializable {
 
     public void setDeleted(String deleted) {
         this.deleted = deleted;
+    }
+
+    public String getUnitNameText() {
+        return unitNameText;
+    }
+
+    public void setUnitNameText(String unitNameText) {
+        this.unitNameText = unitNameText;
     }
 
     @Override

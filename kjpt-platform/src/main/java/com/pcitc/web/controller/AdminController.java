@@ -194,7 +194,7 @@ public class AdminController extends BaseController {
 			
 			
 			SysUser userIpAndDate =new SysUser();
-			userIpAndDate.setLastLoginIp(this.getIp(request));
+			userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(request));
 			userIpAndDate.setUserId(tokenUser.getUserId());
 
 			//存储登录时间
@@ -352,8 +352,6 @@ public class AdminController extends BaseController {
 		request.setAttribute("scList", scList);
 
 		String unitPathId = sysUserInfo.getUnitPath();
-		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
-		request.setAttribute("isKJBPerson", isKJBPerson);
 
 
 		
@@ -539,28 +537,4 @@ public class AdminController extends BaseController {
 
 	
 
-
-private String getIp(HttpServletRequest request)
-	{
-		String loginIp = request.getHeader("X-Forwarded-For");
-		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
-			loginIp = request.getHeader("X-Real-IP");
-		}
-		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
-			loginIp = request.getHeader("Proxy-Client-IP");
-		}
-		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
-			loginIp = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
-			loginIp = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (loginIp == null || loginIp.length() == 0 || "unknown".equalsIgnoreCase(loginIp)) {
-			loginIp = request.getRemoteAddr();
-		}
-		if ("0:0:0:0:0:0:0:1".equals(loginIp)) {
-			loginIp = "127.0.0.1";
-		}
-		return loginIp;
-	}
 }

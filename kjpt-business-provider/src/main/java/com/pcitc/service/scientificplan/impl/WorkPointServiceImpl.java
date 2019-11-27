@@ -52,7 +52,6 @@ public class WorkPointServiceImpl implements WorkPointService {
 //        int pageSize = (int) paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         List dataList = workPointMapper.query(paramMap);
-        Page p = new Page();
 
         PageInfo pageInfo = new PageInfo(dataList);
 

@@ -19,7 +19,7 @@
 	<div id="tempHtml"></div>
 
 	<div class="layui-form radio-tab-box" lay-filter="formRadio">
-		<input type="radio" name="optionType" disabled value="unInput" title="关联添加" lay-filter="optionType" />
+		<input type="radio" name="optionType" value="unInput" title="关联添加" lay-filter="optionType" />
 		<input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
 	</div>
 	<!-- 关联添加 -->
@@ -53,7 +53,7 @@
 						<label class="layui-form-label label-required"><span class="text">出生年月：</span></label>
 						<div class="layui-input-block">
 							<input type="text" name="birth" id="birth" lay-verify="required"
-								placeholder="" autocomplete="off" class="layui-input">
+								placeholder="" autocomplete="off" class="laydate-input">
 						</div>
 					</div>
 				</div>
@@ -79,8 +79,10 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label"><span class="text">工作单位：</span></label>
 						<div class="layui-input-block">
-								<input type="text" name="workUnit"
-								placeholder="" autocomplete="off" class="layui-input">
+							<select name="workUnit"
+								xm-select-radio=""
+								xm-select="workUnit" xm-select-skin="normal"
+								dic-base-data="ROOT_KJPT_YTDW" placeholder="请选择"></select>
 						</div>
 					</div>
 				</div>

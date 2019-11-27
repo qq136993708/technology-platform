@@ -517,7 +517,9 @@ public class UserController extends BaseController {
     @ApiOperation(value = "获取当前用户信息", notes = "获取当前用户信息")
     @RequestMapping(value = "/user/currentUserInfo")
     @ResponseBody
-    public Object currentUserInfo(@RequestParam(value = "userId", required = true) String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Object currentUserInfo( HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
+		String userId = sysUserInfo.getUserId();
         return this.restTemplate.exchange(USER_CURRENT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
     }
 

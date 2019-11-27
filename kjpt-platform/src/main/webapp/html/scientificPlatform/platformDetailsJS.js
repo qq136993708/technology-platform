@@ -89,7 +89,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{title: '序号', type: 'numbers', width: 90}
         ,{field: 'projectName', title: '项目名称', sort: true }
         ,{field: 'dutyInstitutionsText', title: '负责单位', sort: true}
-        ,{field: 'majorTypeText', title: '专业类型'} 
+        // ,{field: 'majorTypeText', title: '专业类型'} 
         ,{field: 'approvalYear', title: '立项年度'}
       ]]
     });
@@ -103,7 +103,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'name', title: '名称' }
         ,{field: 'assumeOffice', title: '担任职务', sort: true }
         ,{field: 'technicalTitle', title: '技术职称', sort: true}
-        ,{field: 'workUnit', title: '工作单位'} 
+        ,{field: 'workUnitText', title: '工作单位'} 
         ,{field: 'majorStudied', title: '专业'}
       ]],
       where: {role: '1'}
@@ -119,7 +119,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'thesisLevelText', title: '论文级别', sort: true }
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
-        ,{field: 'thesisYear', title: '年度'}
+        ,{field: 'thesisYear', title: '发表时间'}
       ]]
     });
 
@@ -281,6 +281,12 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     } else {
       layer.msg('请选择需要删除的数据！');
     }
+  })
+
+  // 模版下载、导入、导出
+  $('.exportDown, .exportData, .importData').on('click', function() {
+    layer.msg('功能开发中...暂未实现！');
+    return;
   })
   
 });

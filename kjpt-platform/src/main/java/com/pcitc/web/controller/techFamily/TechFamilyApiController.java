@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,8 @@ import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.FormSelectNode;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.TreeUtils;
@@ -35,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class TechFamilyApiController extends BaseController{
 	
-	private static final String TECH_TYPE_TREE = "http://kjpt-zuul/stp-proxy/tech-family-provider/type-tree";
+	private static final String GET_FAMILY_URL = "http://kjpt-zuul/stp-proxy/tech-family-provider/getTechFamilyById/";
 	
 	
 	private static final String TECH_TYPE_TREE_NODE = "http://kjpt-zuul/stp-proxy/tech-family-provider/type_tree";
@@ -112,7 +115,29 @@ public class TechFamilyApiController extends BaseController{
 	
 	
 	
-	
+	  /**
+		  *根据ID获取技术族信息详情
+		 */
+	    @ApiOperation(value = "根据ID获取技术族信息详情", notes = "根据ID获取技术族信息详情")
+		@RequestMapping(value = "/techFamily-api/get/{id}", method = RequestMethod.GET)
+		public String getTechFamilyById(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	    {
+	    	Result resultsDate = new Result();
+	    	ResponseEntity<TechFamily> responseEntity = this.restTemplate.exchange(GET_FAMILY_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechFamily.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			TechFamily techFamily = responseEntity.getBody();
+			logger.info("============远程返回  statusCode " + statusCode);
+			if (statusCode == 200)
+			{
+				resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
+				resultsDate.setData(techFamily);
+			} else 
+			{
+				resultsDate = new Result(false, "根据ID获取技术族信息详情失败");
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
+		}
 	
 	
 

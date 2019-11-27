@@ -78,9 +78,9 @@ public class SysLog implements Serializable {
     /**
               * 用户类型：1普通用户，2系统管理员，2安全员，3审计员
      */
-    private String userType;
+    private String userType="";
     
-    private String unitId;
+    private String unitId="";
     
 
     public String getUnitName() {

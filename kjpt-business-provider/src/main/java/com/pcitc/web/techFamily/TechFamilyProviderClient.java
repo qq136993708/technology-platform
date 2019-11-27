@@ -428,4 +428,13 @@ public class TechFamilyProviderClient {
 		return techFamilyService.getTechFamilyListByCodes(list);
 	}
     
+    
+    @ApiOperation(value = "根据ID技术族信息", notes = "根据ID技术族信息")
+	@RequestMapping(value = "/tech-family-provider/getTechFamilyById/{id}", method = RequestMethod.GET)
+	public TechFamily getTechFamilyById(@PathVariable("id") String id)throws Exception{
+		return techFamilyService.getTechFamilyById(id) ;
+	}
+	
+    
+    
 }

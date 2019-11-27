@@ -582,6 +582,23 @@ function setFileSize(number) {
 
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
+	if ($('.layui-form-screen').length) {
+		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
+			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选'),
+			$form = $(this);
+			$foldBtn.off('click').on({
+				'click': function() {
+					if ($form.attr('fold-panel') === 'close') {
+						$form.attr('fold-panel', 'open');
+						$(this).text('收起筛选').closest('.layui-col-btn').removeClass('form-col-ly4');
+					} else {
+						$form.attr('fold-panel', 'close');
+						$(this).text('高级筛选').closest('.layui-col-btn').addClass('form-col-ly4');
+					}
+				}
+			}).closest('.layui-col-btn').addClass('form-col-ly4');
+		});
+	}
 
 	// 关闭 top层 所有弹窗
 	$('.close-all-dialog').click(function() {
