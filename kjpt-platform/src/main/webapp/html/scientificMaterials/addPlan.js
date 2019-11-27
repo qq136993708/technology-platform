@@ -12,10 +12,7 @@ layui.use(['element', 'form', 'table', 'formSelects'], function(){
 
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
-    setFomeDisabled('formAddPlan', '.disabled');
-    $('.disabled-box').remove();
-    layui.form.render('select');
-    layui.formSelects.disabled();
+    itemDataUrl = '/SciencePlan/load/' + variable.id;
   } else if (variable.type === 'add') {
     
   } else if (variable.type === 'edit') {
@@ -32,6 +29,12 @@ layui.use(['element', 'form', 'table', 'formSelects'], function(){
         form.render();
         if (formData.authenticateUtil) {
           layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+        }
+        if (variable.type === 'see') {
+          setFomeDisabled('formAddPlan', '.disabled');
+          $('.disabled-box').remove();
+          layui.form.render('select');
+          layui.formSelects.disabled();
         }
       }
     }
