@@ -108,14 +108,19 @@ body > .layui-layout{
 }
 
 .view-title-layout {
-  padding: 9px 0;
   font-size: 0;
-  padding-bottom: 15px;
-  height: 54px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.view-title-layout::after{
+  content: '';
+  display: block;
+  clear: both;
+  padding: 0;
+  margin: 0;
 }
 .view-title-layout.view-pt0 {
   padding-top: 0;
-  height: 39px;
 }
 .view-title-layout > .right {
   float: right;
