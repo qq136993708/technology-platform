@@ -131,7 +131,7 @@
             type: 'post',
             async: false,
             url: '/tech-family/type/tech-type-list',
-            data: {param: {"levelCode": "1"}},
+            data: {param: {"levelCode": "1","status":"1"}},
             dataType: 'json',
             success: function (data, status) {
                 for (let i = 0; i < data.data.length; i++) {

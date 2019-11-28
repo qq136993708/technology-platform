@@ -168,7 +168,6 @@ public class TechFamilyController extends BaseController {
 		techType.setStatus("1");
 		techType.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		techType.setIsParent("0");
-
 		int retI = this.restTemplate.exchange(TECH_TYPE_ADD, HttpMethod.POST, new HttpEntity<TechFamily>(techType, this.httpHeaders), Integer.class).getBody();
 		if (retI >= 1) {
 			System.out.println("=================操作成功---" + retI);

@@ -182,9 +182,12 @@
                 data: data.field,
                 type: "POST",
                 success: function(res) {
-                    if(res.code!=-1){
-                        res.data.typeCode=typeCode
+                	
+                	console.log("提交:\n"+res)
+                    if(res.success==true){
+                        res.typeCode=typeCode
                         setDialogData(res);
+                        top.layer.closeAll(); //
                     }
                 }
             });
