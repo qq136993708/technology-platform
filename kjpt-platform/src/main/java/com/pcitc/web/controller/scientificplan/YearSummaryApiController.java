@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -71,7 +72,14 @@ public class YearSummaryApiController extends RestBaseController {
             @ApiImplicitParam(name = "name", value = "名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
+
+            @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
+
+
+            @ApiImplicitParam(name = "annual", value = "发布时间", dataType = "string", paramType = "query")
+
+
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
@@ -81,7 +89,14 @@ public class YearSummaryApiController extends RestBaseController {
             @RequestParam(required = false, value = "name") String name,
             @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
             @RequestParam(required = false, value = "researchField") String researchField,
-            @RequestParam(required = false, value = "releaseTime") String releaseTime
+            @RequestParam(required = false, value = "releaseTime") String releaseTime,
+
+            @RequestParam(required = false, value = "accessory") String accessory,
+
+
+
+            @RequestParam(required = false, value = "annual") @DateTimeFormat(pattern = "yyyy-MM-dd") Date annual
+
 
 
     ) {
@@ -107,6 +122,16 @@ public class YearSummaryApiController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(releaseTime)) {
             this.setParam(condition, "releaseTime", releaseTime);
+        }
+
+
+        if (!StringUtils.isEmpty(accessory)) {
+            this.setParam(condition, "accessory", accessory);
+        }
+
+
+        if (annual != null) {
+            this.setParam(condition, "annual", annual);
         }
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
