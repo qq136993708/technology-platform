@@ -9,30 +9,31 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="format-detection" content="telephone=no">
+
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
   <link rel="stylesheet" href="/css/form.css">
+  <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
 <div class="layout-view-content dialog">
-  <form id="show-form" class="layui-form" lay-filter="show-form">
+  <form id="show-form" name="show-form"  class="layui-form" lay-filter="component-form-group layui-container">
   <div class="box-body">
   <input id="parentId" name="parentId" type="hidden">
   	<div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label"><span class="must-fill">*</span>父节点名称</label>
+          <label for="" class="layui-form-label">父节点名称<span class="must-fill">*</span></label>
           <div class="layui-input-block">
           	  <input class="layui-input readOnlyBox" id="parentTypeName" name="parentTypeName" lay-verify="required" type="text" disabled>
           </div>
         </div>
       </div>
-
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label">分类标签</label>
+          <label for="" class="layui-form-label">分类编码<span class="must-fill">*</span></label>
           <div class="layui-input-block">
-            <input class="layui-input" id="typeScope" name="typeScope" placeholder="请输入分类标签" type="text">
+            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text" value="${typeCode}" disabled>
           </div>
         </div>
       </div>
@@ -41,55 +42,24 @@
     <div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label for="" class="layui-form-label"><span class="must-fill">*</span>分类名称</label>
+          <label for="" class="layui-form-label">分类名称<span class="must-fill">*</span></label>
           <div class="layui-input-block">
             <input class="layui-input" id="typeName" name="typeName" lay-verify="required" placeholder="请输入分类名称" type="text">
           </div>
         </div>
       </div>
-
-
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label for="" class="layui-form-label"><span class="must-fill">*</span>分类编码</label>
-          <div class="layui-input-block">
-            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text"  disabled>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="layui-row layui-col-space10">
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label for="" class="layui-form-label">发展方向</label>
-          <div class="layui-input-block">
-            <input class="layui-input" id="directionInfo" name="directionInfo" placeholder="请输入发展方向" type="text">
-          </div>
-        </div>
-      </div>
-
-
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label for="" class="layui-form-label"><span class="must-fill">*</span>分类编码</label>
-          <div class="layui-input-block">
-            <input class="layui-input readOnlyBox" id="typeCode" name="typeCode" lay-verify="required" type="text"  disabled>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">创建人</label>
           <div class="layui-input-block">
-            <input class="layui-input readOnlyBox" id="createUser" name="createUser" type="text" disabled>
-          	<input id="createUserId" name="createUserId" type="hidden">
+            <input class="layui-input readOnlyBox" id="createUser" name="createUser" type="text" value="${userInfo.userDisp}" disabled>
+            <input id="createUserId" name="createUserId" type="hidden" value="${userInfo.userId}">
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label for="" class="layui-form-label">创建时间</label>
@@ -116,7 +86,6 @@
     </div>
   </form>
 </div>
-<script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
@@ -131,7 +100,6 @@
             ,layer = layui.layer
             ,laydate = layui.laydate
             ,form = layui.form;
-        var typeCode=''
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         if(variable!=null){
@@ -141,17 +109,13 @@
                 success: function(relData) {
                     if (relData.success === true) {
                         // 给form表单赋初始值
-                        relData.data.parentTypeName=relData.data.typeName
-                        relData.data.typeName=''
-                        typeCode=relData.data.typeCode
-                        console.log(relData.data)
-                        form.val('show-form', relData.data);
+                        $("#parentId").attr("value", variable.tfmTypeId);
+                        $("#parentTypeName").attr("value", relData.data.typeName);
                     }
                 }
             });
         }
-        /*$("#parentId").attr("value", parent.temTypeId);
-        $("#parentTypeName").attr("value", parent.temTypeName);*/
+        form.render(null, 'component-form-group');
 
       	//日期时间选择器
         laydate.render({
@@ -169,26 +133,13 @@
 
         //关闭事件
         $("#closeBtn").click(function () {
-            setDialogData('');
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         });
 
     	/* 监听提交 */
         form.on('submit(form-submit)', function(data){
-            console.log(data)
-            httpModule({
-                url: '/tech-family/type/save',
-                data: data.field,
-                type: "POST",
-                success: function(res) {
-                    if(res.code!=-1){
-                        res.data.typeCode=typeCode
-                        setDialogData(res);
-                    }
-                }
-            });
-            /*$.ajax({
+            $.ajax({
                 type : 'POST',
                 url : "/tech-family/type/save",
                 data : JSON.stringify(data.field),
@@ -205,18 +156,22 @@
                 },
                 success : function(data) { //请求成功后处理函数。
                     console.log(data)
-                	/!*parent.messageInfo = data.message;
-                	parent.active.alertEvent();
-                	parent.ztreeAsyncChildNodes();*!/
+                    if(data.success){
+                        setDialogData(data); // 通知上层页面状态 - 弹窗中使用
+                        top.layer.closeAll(); // 关闭弹窗
+                    }
+
                 }
-            });*/
+            });
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
             return false;
         });
-    	
+
         $("#closeBtn").click(function () {
+            setDialogData(''); // 通知上层页面状态 - 弹窗中使用
         	var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            setDialogData('');
             return false;
         })
     });
