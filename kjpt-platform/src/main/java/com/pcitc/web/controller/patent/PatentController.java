@@ -85,6 +85,7 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String patentName,
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor
+
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {

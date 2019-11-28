@@ -10,11 +10,17 @@
         <result column="AUTHENTICATE_UTIL" jdbcType="VARCHAR" property="authenticateUtil"/>
         <result column="RESEARCH_FIELD" jdbcType="VARCHAR" property="researchField"/>
         <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
+
+        <result column="accessory" jdbcType="DATE" property="accessory"/>
+
+
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
+
+        <result column="annual" jdbcType="VARCHAR" property="annual"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,16 +29,18 @@
      AUTHENTICATE_UTIL,
      RESEARCH_FIELD,
      RELEASE_TIME,
+     accessory,
       DELETED,
       create_date,
       create_user,
       update_date,
-      update_user
+      update_user,
+      annual
   </sql>
 
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  * from work_point where id = #{id} and deleted != '1'
+        select  * from view_work_point where id = #{id} and deleted != '1'
     </select>
 
 
@@ -48,11 +56,13 @@
        AUTHENTICATE_UTIL,
        RESEARCH_FIELD,
        RELEASE_TIME,
+       accessory,
        DELETED,
        create_date,
        create_user,
        update_date,
-       update_user
+       update_user,
+       annual
       )
     values (
       #{id},
@@ -60,18 +70,20 @@
       #{authenticateUtil},
       #{researchField},
       #{releaseTime},
+      #{accessory},
       #{deleted},
       #{createDate},
       #{creator},
       #{updateDate},
-      #{updator}
+      #{updator},
+      #{annual}
        )
   </insert>
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
 
-        select * from work_point where 1=1
+        select * from view_work_point where 1=1
 
         <if test="name != null and name != '' ">
             and `NAME` like CONCAT('%',#{name},'%')
@@ -84,6 +96,16 @@
         </if>
         <if test="releaseTime != null and releaseTime != '' ">
             and RELEASE_TIME = #{releaseTime}
+        </if>
+
+
+        <if test=" accessory != null and  accessory != '' ">
+            and  accessory = #{ accessory}
+        </if>
+
+
+        <if test="annual != null  ">
+            and annual = #{annual}
         </if>
         and deleted != '1'
 
@@ -103,18 +125,31 @@
             <if test="researchField != null and researchField != '' ">
                 RESEARCH_FIELD = #{researchField},
             </if>
-            <if test="releaseTime != null and releaseTime != '' ">
+            <if test="releaseTime != null ">
                 RELEASE_TIME = #{releaseTime},
             </if>
-            <if test="updateDate != null and updateDate != ''" >
+
+            <if test=" accessory != null ">
+                accessory = #{ accessory},
+            </if>
+
+
+
+            <if test="deleted != null and deleted != ''">
+                deleted = #{deleted,jdbcType=VARCHAR},
+            </if>
+
+            <if test="updator != null and updator != ''">
+                create_user = #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
                 update_date = #{updateDate},
             </if>
-            <if test="updator != null and updator != ''" >
-                updator = #{updator,jdbcType=VARCHAR},
+
+            <if test="annual != null ">
+                annual = #{annual}
             </if>
-            <if test="deleted != null and deleted != ''" >
-                deleted = #{deleted,jdbcType=VARCHAR}
-            </if>
+
         </trim>
         where id = #{id}
     </update>

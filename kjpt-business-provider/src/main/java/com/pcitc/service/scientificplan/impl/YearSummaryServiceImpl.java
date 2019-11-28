@@ -6,6 +6,7 @@ import com.pcitc.base.common.Page;
 import com.pcitc.base.scientificplan.YearSummary;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.scientificplan.YearSummaryMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.scientificplan.YearSummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class YearSummaryServiceImpl implements YearSummaryService {
     private YearSummaryMapper yearSummaryMapper;
 
 
+    @Autowired
+    private FileCommonService fileCommonService;
+
+
     @Override
     public YearSummary load(String id) {
         return yearSummaryMapper.load(id);
@@ -28,6 +33,9 @@ public class YearSummaryServiceImpl implements YearSummaryService {
     @Override
     public YearSummary save(YearSummary yearSummary) {
         IsEmptyUtil.isEmpty(yearSummary.getId());
+
+        fileCommonService.updateFileData(yearSummary.getAccessory(),yearSummary.getId());
+
         if (load(yearSummary.getId()) == null) {
             yearSummary.setCreateDate(yearSummary.getUpdateDate());
             yearSummary.setCreator(yearSummary.getUpdator());

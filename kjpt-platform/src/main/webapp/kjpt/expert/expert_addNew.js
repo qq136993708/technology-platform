@@ -35,7 +35,6 @@ layui.config({
             success: function(relData) {
                 if (relData.success === true) {
                     relData.data.map(function(item){
-                        console.log(item)
                         if(element=="option"){
                             $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
                         }else if(element=="radio"){
@@ -53,7 +52,6 @@ layui.config({
         type: 'GET',
         async:false,
         success: function(relData) {
-            console.log(relData)
             relData.children.map(function (item,index) {
                 item.children.map(function (items,i) {
                     delete items.children
@@ -76,9 +74,9 @@ layui.config({
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
 
-    console.log(variable)
+    console.log(variable.id)
     /*判断id，回显*/
-    if(variable!=null){
+    if(variable.id!=undefined){
         httpModule({
             url: '/expert-api/get/'+variable.id,
             type: 'GET',
