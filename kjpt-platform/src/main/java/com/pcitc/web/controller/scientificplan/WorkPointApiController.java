@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -55,7 +56,6 @@ public class WorkPointApiController extends RestBaseController {
     }
 
 
-
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -63,7 +63,6 @@ public class WorkPointApiController extends RestBaseController {
         ResponseEntity<WorkPoint> responseEntity = this.restTemplate.exchange(load + id, HttpMethod.GET, new HttpEntity(this.httpHeaders), WorkPoint.class);
         return responseEntity.getBody();
     }
-
 
 
     @ApiOperation(value = "查询科技规划列表", notes = "查询科技规划列表")
@@ -74,26 +73,44 @@ public class WorkPointApiController extends RestBaseController {
             @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
+
+
+            @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
+
+
+
+            @ApiImplicitParam(name = "annual", value = "发布时间", dataType = "string", paramType = "query")
+
+
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(
-            @RequestParam(required = false,value = "pageNum") Integer pageNum,
-            @RequestParam(required = false,value = "pageSize") Integer pageSize,
-            @RequestParam(required = false,value = "name") String name,
-            @RequestParam(required = false,value = "authenticateUtil") String authenticateUtil,
-            @RequestParam(required = false,value = "researchField") String researchField,
-            @RequestParam(required = false,value = "releaseTime") String releaseTime
+            @RequestParam(required = false, value = "pageNum") Integer pageNum,
+            @RequestParam(required = false, value = "pageSize") Integer pageSize,
+            @RequestParam(required = false, value = "name") String name,
+            @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
+            @RequestParam(required = false, value = "researchField") String researchField,
+
+            @RequestParam(required = false, value = "releaseTime") String releaseTime,
+
+
+            @RequestParam(required = false, value = "accessory") String accessory,
+
+
+            @RequestParam(required = false, value = "annual") @DateTimeFormat(pattern = "yyyy-MM-dd") Date annual
+
+
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
-        }else {
+        } else {
             this.setParam(condition, "pageNum", pageNum);
         }
         if (pageSize == null) {
             this.setParam(condition, "pageSize", 10);
-        }else {
+        } else {
             this.setParam(condition, "pageSize", pageSize);
         }
         if (!StringUtils.isEmpty(name)) {
@@ -110,13 +127,22 @@ public class WorkPointApiController extends RestBaseController {
             this.setParam(condition, "releaseTime", releaseTime);
         }
 
+        if (!StringUtils.isEmpty(accessory)) {
+            this.setParam(condition, "accessory", accessory);
+        }
+
+
+        if (annual != null) {
+            this.setParam(condition, "annual", annual);
+        }
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
     }
 
 
-    @ApiOperation(value="保存")
+    @ApiOperation(value = "保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public WorkPoint save(@RequestBody WorkPoint wp) {
@@ -126,20 +152,20 @@ public class WorkPointApiController extends RestBaseController {
         return responseEntity.getBody();
     }
 
-    @ApiOperation(value="删除")
+    @ApiOperation(value = "删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Integer delete(@PathVariable String id) {
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete + id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
 
-    @ApiOperation(value="初始化")
+    @ApiOperation(value = "初始化")
     @RequestMapping(value = "/newInit", method = RequestMethod.GET)
     @ResponseBody
     public WorkPoint newInit() {
         WorkPoint p = new WorkPoint();
-        p.setId(UUID.randomUUID().toString().replace("_",""));
+        p.setId(UUID.randomUUID().toString().replace("_", ""));
         p.setDeleted("0");  //删除标识
         p.setCreateDate(new Date());  // 创建时间
         p.setCreator(this.getUserProfile().getUserName());

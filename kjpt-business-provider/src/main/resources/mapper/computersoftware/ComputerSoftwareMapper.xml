@@ -19,7 +19,7 @@
         <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime"/>
         <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
         <result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>
-        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="DELETED" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
@@ -127,10 +127,10 @@
             <if test="versionNumber != null and versionNumber != ''">
                 VERSION_NUMBER = #{versionNumber},
             </if>
-            <if test="recordDate != null and recordDate != ''">
+            <if test="recordDate != null">
                 RECORD_DATE = #{recordDate},
             </if>
-            <if test="developFinishDate != null and developFinishDate != ''">
+            <if test="developFinishDate != null">
                 DEVELOP_FINISH_DATE = #{developFinishDate},
             </if>
             <if test="softwareIntro != null and softwareIntro != ''">
@@ -139,7 +139,7 @@
             <if test="entryPeople != null and entryPeople != ''">
                 ENTRY_PEOPLE = #{entryPeople},
             </if>
-            <if test="entryTime != null and entryTime != ''">
+            <if test="entryTime != null">
                 ENTRY_TIME = #{entryTime},
             </if>
             <if test="notes != null and notes != ''">
@@ -148,15 +148,18 @@
             <if test="accessoryUpload != null and accessoryUpload != ''">
                 ACCESSORY_UPLOAD = #{accessoryUpload},
             </if>
-            <if test="updateDate != null and updateDate != ''">
-                update_date = #{updateDate},
-            </if>
-            <if test="updator != null and updator != ''">
-                updator = #{updator,jdbcType=VARCHAR},
-            </if>
-            <if test="deleted != null and deleted != ''">
-                deleted = #{deleted,jdbcType=VARCHAR}
-            </if>
+
+            <!--<if test="deleted != null and deleted != ''">-->
+                <!--deleted = #{deleted,jdbcType=VARCHAR},-->
+            <!--</if>-->
+
+            <!--<if test="updator != null and updator != ''">-->
+                <!--create_user = #{updator,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="updateDate != null">-->
+                <!--update_date = #{updateDate}-->
+            <!--</if>-->
+
         </trim>
         where id = #{id}
     </update>

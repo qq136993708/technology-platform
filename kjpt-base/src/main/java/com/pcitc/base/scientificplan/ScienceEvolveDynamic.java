@@ -17,20 +17,25 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
     private String authenticateUtil = "";//申报单位
     private String researchField = "";//研究领域
     private Date releaseTime = new Date();//发布时间
-    private  String authenticateUitlText; //文档
+    private String authenticateUitlText; //文档
+    private Date annual = new Date();//年度/月度
+
+    private  String accessory; //附件
 
     public ScienceEvolveDynamic() {
     }
 
-    public ScienceEvolveDynamic(String id, String name, String authenticateUtil,
-                                String researchField, Date releaseTime) {
+    public ScienceEvolveDynamic(String id, String name, String authenticateUtil, String researchField, Date releaseTime,
+                                String authenticateUitlText, Date annual, String accessory) {
         this.id = id;
         this.name = name;
         this.authenticateUtil = authenticateUtil;
         this.researchField = researchField;
         this.releaseTime = releaseTime;
+        this.authenticateUitlText = authenticateUitlText;
+        this.annual = annual;
+        this.accessory = accessory;
     }
-
 
     public String getId() {
         return id;
@@ -78,5 +83,23 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
 
     public void setAuthenticateUitlText(String authenticateUitlText) {
         this.authenticateUitlText = authenticateUitlText;
+    }
+
+
+    public Date getAnnual() {
+        return annual;
+    }
+
+    public void setAnnual(Date annual) {
+        this.annual = annual;
+    }
+
+
+    public String getAccessory() {
+        return accessory;
+    }
+
+    public void setAccessory(String accessory) {
+        this.accessory = accessory;
     }
 }
