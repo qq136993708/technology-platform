@@ -6,7 +6,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var layer = layui.layer;
   var laydate = layui.laydate;
 
-  laydate.render({elem: '#annualTime'});
+  laydate.render({elem: '#startReleaseDate'});
   laydate.render({elem: '#endReleaseDate'});
 
   //表格渲染
@@ -19,13 +19,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,url: '/SciencePlan/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'name', title: '科研规划名称', templet: function(d) {
+          ,{field: 'name', title: '工作重点名称', templet: function(d) {
             return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
           }} // authenticateUitlText
           ,{field: 'authenticateUtil', title: '申报单位', sort: true }
           ,{field: 'researchField', title: '研究领域'}
-          ,{field: 'professionalField', title: '专业领域', sort: true}
-          ,{field: 'specialtyCategory', title: '专业类别'} 
+          ,{field: 'annual', title: '年度/月度', sort: true, templet: function(d) {
+            if (d.annual && (''+ d.annual).indexOf('-') === -1) {
+              return new Date().format('yyyy/MM');
+            }
+          }}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -61,7 +64,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/scientificMaterials/addPlan.html?type='+type+'&id='+(id || ''),
+		  content: '/html/scientificMaterials/addPoints.html?type='+type+'&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -77,28 +80,28 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	  });
   }
   
-  // 新增规划
+  // 新增重点
   $('#addItem').on('click', function(e) {
 	  openDataDilog('add');
   })
-  // 查看规划
+  // 查看重点
   $('#seeItem').on('click', function(e) {
 	   // 获取表格中选中的数据
      var itemRowData = table.checkStatus('tableDemo').data;
      if (itemRowData.length) {
      openDataDilog('see', itemRowData[0].id);
      } else {
-       layer.msg('请选择科研规划！');
+       layer.msg('请选择工作重点！');
      }
   })
-  // 编辑规划
+  // 编辑重点
   $('#editItem').on('click', function(e) {
     // 获取表格中选中的数据
     var itemRowData = table.checkStatus('tableDemo').data;
 	  if (itemRowData.length) {
 		openDataDilog('edit', itemRowData[0].id);
     } else {
-    	layer.msg('请选择科研规划！');
+    	layer.msg('请选择工作重点！');
     }
   })
   // 删除规划
@@ -123,7 +126,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         });
       });
     } else {
-    	layer.msg('请选择需要删除的科研规划！');
+    	layer.msg('请选择需要删除的工作重点！');
     }
   })
 

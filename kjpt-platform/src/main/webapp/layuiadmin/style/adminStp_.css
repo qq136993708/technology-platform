@@ -1017,9 +1017,10 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-layer-setwin .layui-layer-close1{
     background: url('../../images/dialog-close.png') no-repeat center center !important;
     background-size: 100% 100% !important;
+    opacity: .7;
 }
 .layui-layer-setwin .layui-layer-close1:hover {
-    opacity: .8 !important;
+    opacity: .9 !important;
 }
 .http-error-dialog .layui-layer-setwin {
     width: 13px;
