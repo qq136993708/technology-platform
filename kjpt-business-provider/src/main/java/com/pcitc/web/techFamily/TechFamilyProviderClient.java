@@ -7,13 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -23,7 +29,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.stp.techFamily.TechFamilys;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.service.techFamily.TechFamilyService;
 
@@ -37,109 +42,6 @@ public class TechFamilyProviderClient {
 
 	@Autowired
 	private TechFamilyService techFamilyService;
-	
-	@RequestMapping(value = "/tech-family-provider/getNodeList", method = RequestMethod.POST)
-	public List<TreeNode> getNodeList(@RequestBody Map map) {
-		List<TreeNode> list = null;
-		try {
-			list = techFamilyService.getNodeList(map);
-			for (int i = 0; i < list.size(); i++)
-			{
-				TreeNode tree = list.get(i);
-				// 前几层默认打开
-				if (tree.getLevelCode() < 2)
-				{
-					tree.setOpen("true");
-				} else {
-					tree.setOpen("false");
-				}
-			}
-		} catch (Exception e) {
-			logger.error("[分类树获取失败：]", e);
-		}
-		return list;
-	}
-	
-	
-	
-	
-	@ApiOperation(value = "根据ID查询下级技术族", notes = "根据ID查询下级技术族")
-	@RequestMapping(value = "/tech-family-provider/getChildslist", method = RequestMethod.POST)
-	public LayuiTableData getChildslist(@RequestBody LayuiTableParam param)throws Exception
-	{
-		logger.info("=== 技术族 param============"+param);
-		return techFamilyService.getTechFamilysPage(param);
-	}
-	
-	
-	@ApiOperation(value = "根据ID查询下级技术族个数", notes = "根据ID查询下级技术族个数")
-	@RequestMapping(value = "/tech-family-provider/getChildCount/{id}", method = RequestMethod.POST)
-	public Integer getChildCount(@PathVariable("id") String id)throws Exception
-	{
-		int count=0;
-		List list=techFamilyService.getChildListByParent(id);
-		if(list!=null && list.size()>0)
-		{
-			count=list.size();
-		}
-		return count;
-	}
-	
-	
-	@ApiOperation(value = "增加技术族信息", notes = "增加技术族信息")
-	@RequestMapping(value = "/tech-family-provider/add", method = RequestMethod.POST)
-	public String insertTechFamilys(@RequestBody TechFamilys TechFamilys) throws Exception{
-		logger.info("====================add TechFamilys....========================");
-		Integer count= techFamilyService.insertTechFamilys(TechFamilys);
-		return TechFamilys.getId();
-	}
-	
-	
-	@ApiOperation(value = "修改技术族信息", notes = "修改技术族信息")
-	@RequestMapping(value = "/tech-family-provider/update", method = RequestMethod.POST)
-	public Integer updateTechFamilys(@RequestBody TechFamilys TechFamilys) throws Exception{
-		logger.info("==================update TechFamilys===========================");
-		return techFamilyService.updateTechFamilys(TechFamilys);
-	}
-	
-	@ApiOperation(value = "根据ID物理删除技术族信息", notes = "根据ID删除技术族信息")
-	@RequestMapping(value = "/tech-family-provider/delete/{id}", method = RequestMethod.POST)
-	public int deleteTechFamilys(@PathVariable("id") String id)throws Exception{
-		logger.info("=============================根据ID物理删除技术族信息 TechFamilys==="+id+"==============");
-		return techFamilyService.deleteTechFamilys(id) ;
-	}
-	
-	
-	@ApiOperation(value = "根据ID逻辑删除技术族信息", notes = "根据ID删除技术族信息")
-	@RequestMapping(value = "/tech-family-provider/logic_delete/{id}", method = RequestMethod.POST)
-	public int deleteLoginTechFamilys(@PathVariable("id") String id)throws Exception{
-		logger.info("=============================根据ID逻辑删除技术族信息==="+id+"==============");
-		return techFamilyService.deleteLogicTechFamilys(id);
-	}
-	
-	
-	@ApiOperation(value = "根据ID获取技术族信息详情", notes = "根据ID获取技术族信息详情")
-	@RequestMapping(value = "/tech-family-provider/get/{id}", method = RequestMethod.GET)
-	public TechFamilys selectTechFamilysId(@PathVariable(value = "id", required = true) String id) throws Exception {
-		logger.info("===============================get TechFamilys id "+id+"===========");
-		return techFamilyService.selectTechFamilys(id);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
