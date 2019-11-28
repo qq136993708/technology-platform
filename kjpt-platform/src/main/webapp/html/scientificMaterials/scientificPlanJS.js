@@ -26,13 +26,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'researchField', title: '研究领域'}
           ,{field: 'professionalField', title: '专业领域', sort: true}
           ,{field: 'specialtyCategory', title: '专业类别'} 
-          ,{field: 'releaseTime', title: '发布日期', sort: true, templet: function(d) {
-            if (d.releaseTime) {
-              return new Date(d.releaseTime).format('yyyy-MM-dd');
-            } else {
-              return '-';
-            }
-          }}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
