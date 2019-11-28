@@ -111,12 +111,12 @@ var __base_dic_store = {
 				<div class="layui-side-scroll">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible"><div></div></li>
-						
-						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
-						<li class="layui-nav-item layui-nav-itemed"> </#if> <#if gztFlag=="1">
-						<li class="layui-nav-item"> </#if> <a href="#" title="${grgzt.name}">
-								<#if grgzt.icon !=''><span class="item-icon ${grgzt.icon}"></span></#if>
+						<li class="layadmin-flexible">
+							<div></div>
+						</li> <#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
+						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
+						<li class="layui-nav-item"></#if> <a href="#" title="${grgzt.name}">
+								<span class="icon_name ${grgzt.icon}"></span>
 								<span>${grgzt.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -157,6 +157,26 @@ var __base_dic_store = {
 									<a lay-href="/html/patent/query.html"
 										lay-text="专利查询" 
 										data-functionbuttons="ALL">专利查询</a>
+								</dd>
+							</dl>    
+						</li>
+
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="科技材料">
+								<span>科技材料</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+									<!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
+									<a lay-href="/html/scientificMaterials/scientificPlan.html"
+										lay-text="科研规划" 
+										data-functionbuttons="ALL">科研规划</a>
+								</dd>
+								<dd class=""><a lay-href="/html/scientificMaterials/scientificPlan.html" lay-text="科研规划" 
+									data-functionbuttons="ALL">科研规划</a>
 								</dd>
 							</dl>    
 						</li>
@@ -236,11 +256,12 @@ var __base_dic_store = {
 
 					<#if upList?exists> <#list upList as p>
 					<ul class="layui-nav layui-nav-tree layui-hide"  lay-text="${p.name}" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible"><div></div></li>
-						<#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
+						<li class="layadmin-flexible">
+							<div></div>
+						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
-							<#if s.icon !=''><span class="item-icon ${s.icon}"></span></#if>	
-							<span>${s.name}</span>
+								<span class="icon_name ${s.icon}"></span>
+								<span>${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
 							</a>
@@ -263,7 +284,7 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#if openFlag!="0">
 						<li class="layui-nav-item"><a href="#" title="${s.name}">
-								<#if s.icon !=''><span class="item-icon ${s.icon}"></span></#if>
+								<span class="icon_name ${s.icon}"></span>
 								<span>${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -287,7 +308,7 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
 						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
-								<#if s.icon !=''><span class="item-icon ${s.icon}"></span></#if>	
+							<span class="icon_name ${s.icon}"></span>	
 							<span>${s.name}</span>
 							</a></li> </#if> </#list>
 						
