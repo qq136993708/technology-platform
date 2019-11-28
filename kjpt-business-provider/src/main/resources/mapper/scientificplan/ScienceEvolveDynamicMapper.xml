@@ -93,16 +93,12 @@
         <if test="researchField != null and researchField !='' ">
             and RESEARCH_FIELD = #{researchField}
         </if>
-        <if test="releaseTime != null and releaseTime !='' ">
+        <if test="releaseTime != null ">
             and RELEASE_TIME = #{releaseTime}
         </if>
-
-
         <if test=" accessory != null and  accessory !='' ">
             and  accessory = #{ accessory}
         </if>
-
-
         <if test="annual != null  and annual != ''  ">
             and annual = #{annual}
         </if>

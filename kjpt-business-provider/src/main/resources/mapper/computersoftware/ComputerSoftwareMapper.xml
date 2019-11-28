@@ -127,10 +127,12 @@
             <if test="versionNumber != null and versionNumber != ''">
                 VERSION_NUMBER = #{versionNumber},
             </if>
-            <if test="recordDate != null">
+
+            <if test="recordDate != null  and recordDate != ''">
                 RECORD_DATE = #{recordDate},
             </if>
-            <if test="developFinishDate != null">
+
+            <if test="developFinishDate != null  and developFinishDate != ''">
                 DEVELOP_FINISH_DATE = #{developFinishDate},
             </if>
             <if test="softwareIntro != null and softwareIntro != ''">
@@ -139,7 +141,7 @@
             <if test="entryPeople != null and entryPeople != ''">
                 ENTRY_PEOPLE = #{entryPeople},
             </if>
-            <if test="entryTime != null">
+            <if test="entryTime != null and entryTime != ''" >
                 ENTRY_TIME = #{entryTime},
             </if>
             <if test="notes != null and notes != ''">
@@ -189,13 +191,26 @@
         <if test="versionNumber != null and versionNumber != ''">
             and VERSION_NUMBER = #{versionNumber}
         </if>
-        <if test="recordDateStart != null ">
-            and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
+
+
+        <if test="recordDate != null and recordDate != '' ">
+            and RECORD_DATE = #{recordDate}
         </if>
-        <if test="recordDateEnd != null  ">
-            and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
-        </if>
-        <if test="developFinishDate != null ">
+
+        <!--<if test="recordDate != null ">-->
+            <!--and RECORD_DATE = #{recordDate}-->
+        <!--</if>-->
+
+
+
+        <!--<if test="recordDateStart != null ">-->
+            <!--and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')-->
+        <!--</if>-->
+        <!--<if test="recordDateEnd != null  ">-->
+            <!--and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')-->
+        <!--</if>-->
+
+        <if test="developFinishDate != null  and developFinishDate != '' ">
             and DEVELOP_FINISH_DATE = #{developFinishDate}
         </if>
         <if test="softwareIntro != null and softwareIntro != ''">
@@ -204,7 +219,7 @@
         <if test="entryPeople != null and entryPeople != ''">
             and ENTRY_PEOPLE = #{entryPeople}
         </if>
-        <if test="entryTime != null ">
+        <if test="entryTime != null and entryTime != '' ">
             and ENTRY_TIME = #{entryTime}
         </if>
         <if test="notes != null and notes != ''">
@@ -213,15 +228,7 @@
         <if test="accessoryUpload != null and accessoryUpload != ''">
             and ACCESSORY_UPLOAD = #{accessoryUpload}
         </if>
-        <!--<if test="updateDate != null and updateDate != ''">-->
-        <!--update_date = #{updateDate},-->
-        <!--</if>-->
-        <!--<if test="updator != null and updator != ''">-->
-        <!--updator = #{updator,jdbcType=VARCHAR},-->
-        <!--</if>-->
-        <!--<if test="deleted != null and deleted != ''">-->
-        <!--deleted = #{deleted,jdbcType=VARCHAR}-->
-        <!--</if>-->
+
         and deleted != '1'
     </select>
 

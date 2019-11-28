@@ -45,17 +45,6 @@ public class YearSummaryApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/yearSummary-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/yearsummary/yearsummary_view";
-    }
-
-    @RequestMapping(value = "/add")
-    public String add() {
-        return "/kjpt/yearsummary/yearsummary_add";
-    }
-
-
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody

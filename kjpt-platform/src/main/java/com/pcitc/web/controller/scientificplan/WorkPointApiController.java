@@ -45,15 +45,6 @@ public class WorkPointApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/workPoint-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/workpoint/workpoint_view";
-    }
-
-    @RequestMapping(value = "/add")
-    public String add() {
-        return "/kjpt/workpoint/workpoint_add";
-    }
 
 
     @ApiOperation(value = "读取")

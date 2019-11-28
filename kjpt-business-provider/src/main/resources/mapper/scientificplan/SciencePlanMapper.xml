@@ -90,7 +90,7 @@
     <select id="query"  parameterType="java.util.Map" resultMap="BaseResultMap" >
         select * from science_plan where 1=1
 
-        <if test="name != null and name !='' ">
+        <if test="name != null and name != '' ">
             and `NAME` like CONCAT('%',#{name},'%')
         </if>
 
@@ -108,11 +108,11 @@
         <if test="specialtyCategory != null and specialtyCategory != '' ">
             and SPECIALTY_CATEGORY = #{specialtyCategory}
         </if>
-        <if test="releaseTime != null  and releaseTime != '' ">
+        <if test="releaseTime != null and releaseTime != '' ">
             and RELEASE_TIME = #{releaseTime}
         </if>
 
-        <if test="accessory != null  and accessory != '' ">
+        <if test="accessory != null and accessory != '' ">
             and accessory = #{accessory}
         </if>
 

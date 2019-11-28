@@ -45,17 +45,6 @@ public class SciencePlanApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/sciencePlan-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/scienceplan/scienceplan_view";
-    }
-
-    @RequestMapping(value = "/addadd")
-    public String add() {
-        return "/kjpt/scienceplan/scienceplan_add";
-    }
-
-
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -91,10 +80,8 @@ public class SciencePlanApiController extends RestBaseController {
             @RequestParam(required = false, value = "researchField") String researchField,
             @RequestParam(required = false, value = "professionalField") String professionalField,
             @RequestParam(required = false, value = "specialtyCategory") String specialtyCategory,
-            @RequestParam(required = false, value = "releaseTime") String releaseTime,
-
+            @RequestParam(required = false, value = "releaseTime")@DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
             @RequestParam(required = false, value = "accessory") String accessory,
-
             @RequestParam(required = false, value = "annual")@DateTimeFormat(pattern = "yyyy-MM-dd") Date annual
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -123,7 +110,7 @@ public class SciencePlanApiController extends RestBaseController {
         if (!StringUtils.isEmpty(specialtyCategory)) {
             this.setParam(condition, "specialtyCategory", specialtyCategory);
         }
-        if (!StringUtils.isEmpty(releaseTime)) {
+        if (releaseTime!=null) {
             this.setParam(condition, "releaseTime", releaseTime);
         }
         if (!StringUtils.isEmpty(accessory)) {

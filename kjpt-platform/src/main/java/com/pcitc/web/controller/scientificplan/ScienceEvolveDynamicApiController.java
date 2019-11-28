@@ -44,15 +44,7 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/scienceEvolveDynamic-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/scienceevolvedynamic/scienceevolvedynamic_view";
-    }
 
-    @RequestMapping(value = "/add")
-    public String add() {
-        return "/kjpt/scienceevolvedynamic/scienceevolvedynamic_add";
-    }
 
 
     @ApiOperation(value = "读取")
