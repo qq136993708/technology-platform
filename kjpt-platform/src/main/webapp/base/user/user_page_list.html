@@ -171,7 +171,26 @@
             		return;
             	}
             	var temUrl = '/user/user_page_edit?userId='+selectRowData.userId;
-                publicMethods.openBaseWinFull("编辑用户",temUrl);
+                top.layer.open({
+                    title:'编辑用户',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin : true,
+                    area : [ '80%', '90%' ],
+                    content:  temUrl,
+                    end: function(lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        var getDialogData = getDialogData('dialog-data');
+                        /*判断成功刷新table*/
+                        if(getDialogData.code=="0"){
+                            table.reload('userTable',null)
+                        }
+
+                    }
+                });
+                //publicMethods.openBaseWinFull("编辑用户",temUrl);
             },
             deleteEvent: function(){  //点击删除按钮
             	//var dt = table.checkStatus('userTable').data;

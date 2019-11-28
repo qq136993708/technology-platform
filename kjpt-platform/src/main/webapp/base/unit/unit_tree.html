@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	<script src="/layuiadmin/js/common.js"></script>
 </head>
 <style>
     .rowForm{height: 226px;border-top:1px solid #e6e6e6;padding-right: 30px;}
@@ -416,7 +417,7 @@
             		layer.msg('请点击选择一行数据');
             		return;
             	}
-            	var temUrl="/post/edit-post?unitId="+unitId+"&postId="+selectRowData.postId;
+            	var temUrl="/post/postTable?unitId="+unitId+"&postId="+selectRowData.postId;
             	openBaseWin("编辑岗位",temUrl);
                 
             },
@@ -444,7 +445,26 @@
         			return;
         		}
             	var temUrl="/unit/edit_unit?parentUnitId="+nodes[0].id;
-            	openBaseWin("新增下级机构",temUrl);
+            	//openBaseWin("新增下级机构",temUrl);
+				top.layer.open({
+					title:'新增岗位',
+					shadeClose: true,
+					type: 2,
+					fixed: false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : true,
+					area : [ '80%', '90%' ],
+					content:  temUrl,
+					end: function(lay, index) {
+						// 弹窗销毁时获取弹窗返回数据
+						var getDialogData = getDialogData('dialog-data');
+						/*判断成功刷新table*/
+						if(getDialogData.code=="0"){
+							table.reload('postTable',null)
+						}
+
+					}
+				});
             },
             editUnitEvent:function(){
             	var nodes = zTreeObj.getSelectedNodes();
@@ -454,7 +474,26 @@
         			return;
         		}
             	var temUrl="/unit/edit_unit?unitId="+nodes[0].id;
-            	openBaseWin("编辑机构",temUrl);
+            	//openBaseWin("编辑机构",temUrl);
+				top.layer.open({
+					title:'编辑岗位',
+					shadeClose: true,
+					type: 2,
+					fixed: false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : true,
+					area : [ '80%', '90%' ],
+					content:  temUrl,
+					end: function(lay, index) {
+						// 弹窗销毁时获取弹窗返回数据
+						var getDialogData = getDialogData('dialog-data');
+						/*判断成功刷新table*/
+						if(getDialogData.code=="0"){
+							table.reload('postTable',null)
+						}
+
+					}
+				});
             },
             deleteUnitEvent:function(){
             	var nodes = zTreeObj.getSelectedNodes();
