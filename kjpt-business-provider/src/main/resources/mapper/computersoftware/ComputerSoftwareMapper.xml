@@ -131,11 +131,11 @@
                 VERSION_NUMBER = #{versionNumber},
             </if>
 
-            <if test="recordDate != null  and recordDate != ''">
+            <if test="recordDate != null ">
                 RECORD_DATE = #{recordDate},
             </if>
 
-            <if test="developFinishDate != null  and developFinishDate != ''">
+            <if test="developFinishDate != null ">
                 DEVELOP_FINISH_DATE = #{developFinishDate},
             </if>
             <if test="softwareIntro != null and softwareIntro != ''">
@@ -144,7 +144,7 @@
             <if test="entryPeople != null and entryPeople != ''">
                 ENTRY_PEOPLE = #{entryPeople},
             </if>
-            <if test="entryTime != null and entryTime != ''" >
+            <if test="entryTime != null" >
                 ENTRY_TIME = #{entryTime},
             </if>
             <if test="notes != null and notes != ''">
