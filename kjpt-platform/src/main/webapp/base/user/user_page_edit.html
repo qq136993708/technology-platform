@@ -19,6 +19,7 @@
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 <style>
 	.tree-content {
 	  position: absolute;
@@ -479,10 +480,11 @@
 
 				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
 					if(dt.success){
-				       	parent.layui.table.reload('userTable',null);
+                        setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+				       	/*parent.layui.table.reload('userTable',null);
 				       	parent.renderfunc();//隐藏全选按钮
 				       	var index = parent.layer.getFrameIndex(window.name);
-				       	parent.layer.close(index);
+				       	parent.layer.close(index);*/
 					}else{
 						parent.layer.alert(dt.message, {
 							title : '信息'
@@ -493,6 +495,7 @@
 				return false;
 			});
 			$("#cancel").click(function() {
+                setDialogData(''); // 通知上层页面状态 - 弹窗中使用
 				layer.close();
 			})
 			
