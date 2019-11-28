@@ -25,7 +25,7 @@
 .layui-table td, .layui-table th{ font-size: 12px;}
 .searchBox .dateInput span{font-weight: normal;margin-right: 4px; color:#000000;font-size: 14px;}
 .form-control{ width: 8%; min-width: 130px; display: inline-block !important;font-size: 14px !important;height: 30px !important;font-weight: normal !important;
-    line-height: 30px !important;padding-left: 6px !important;padding-right: 6px !important;border-radius: 2px !important;vertical-align:middle;color: #555;
+    line-height: 30px !important;padding-left: 6px !important;padding-right: 6px !important;border-radius: 5px !important;vertical-align:middle;color: #555;
     background-color: #fff;background-image: none;border: 1px solid #ccc;margin-right: 8px;}
 .searchBox .label {display: inline-block;max-width: 100%;margin-bottom: 5px;font-weight: 700;}
 .tableBtns{border-top: 1px solid #fff;padding-right: 10px;padding-top: 1px;}
@@ -756,6 +756,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .ck-editor__editable { min-height: 240px; }
 .enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100% !important;}
 .demo_line_05{font-size: 16px;font-weight: bold;margin: 16px 0;}
+.layui-table-page>div{text-align: right}
 @media (max-width: 1308px) {
     .layui-leader .layui-q>.layui-tab-title li{width: 114px;
         height: 77px;background-size: 100%;}

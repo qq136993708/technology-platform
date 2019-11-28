@@ -149,8 +149,6 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "technicalField", value = "技术领域",  dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "sex",            value = "性别",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query")
-        
-        
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -325,7 +323,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setZjkPatentJsonList(zjkBase.getZjkPatentJsonList());
 			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
 			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
-			
+			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();

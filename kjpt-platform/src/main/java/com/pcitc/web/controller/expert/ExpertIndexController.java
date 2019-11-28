@@ -79,6 +79,32 @@ public class ExpertIndexController {
 		{
 			return "/kjpt/expert/expert_graceful";
 		}
+		
+		
+		
+		
+		
+		
+		@RequestMapping(value = "/tech-family/tree_index")
+		public String tree_index(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/kjpt/techFamily/tree_index";
+		}
+		
+		@RequestMapping(value = "/tech-family/add")
+		public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/kjpt/techFamily/add";
+		}
+		
+		
+		@RequestMapping(value = "/tech-family/update")
+		public String update(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/kjpt/techFamily/update";
+		}
+		
+		
 				
 
 }

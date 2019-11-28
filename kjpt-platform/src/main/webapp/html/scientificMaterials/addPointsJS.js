@@ -31,13 +31,13 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         if (formData.annual) {
           formData.annual = new Date(formData.annual).format('yyyy-MM');
         }
-        form.val('formAddPlan', formData);
+        form.val('formAddPoints', formData);
         form.render();
         if (formData.authenticateUtil) {
           layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
         if (variable.type === 'see') {
-          setFomeDisabled('formAddPlan', '.disabled');
+          setFomeDisabled('formAddPoints', '.disabled');
           $('.disabled-box').remove();
           layui.form.render('select');
           layui.formSelects.disabled();
@@ -48,7 +48,7 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
 
   // 附件
   setFileUpload({
-    id: 'addPlanFile',
+    id: 'addPointsFile',
     dataID: billID,
     readonly: readonlyFile,
     callback: function (tableData, type) {
@@ -58,15 +58,15 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
           fileIds += ',' + item.id;
         })
         fileIds = fileIds.substring(1);
-        form.val('formAddPlan', {accessory: fileIds});
+        form.val('formAddPoints', {accessory: fileIds});
       } else {
-        form.val('formAddPlan', {accessory: ''});
+        form.val('formAddPoints', {accessory: ''});
       }
     }
   });
 
 
-  form.on('submit(formAddPlanBtn)', function(data) {
+  form.on('submit(formAddPointsBtn)', function(data) {
     var saveData = data.field;
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
