@@ -6,6 +6,7 @@ import com.pcitc.base.common.Page;
 import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.scientificplan.SciencePlanMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.scientificplan.SciencePlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class SciencePlanServiceImpl implements SciencePlanService {
     @Autowired
     private SciencePlanMapper sciencePlanMapper;
 
+    @Autowired
+    private FileCommonService fileCommonService;
+
     @Override
     public SciencePlan load(String id) {
         return sciencePlanMapper.load(id);
@@ -28,6 +32,9 @@ public class SciencePlanServiceImpl implements SciencePlanService {
     @Override
     public SciencePlan save(SciencePlan sciencePlan) {
         IsEmptyUtil.isEmpty(sciencePlan.getId());
+
+        fileCommonService.updateFileData(sciencePlan.getAccessory(),sciencePlan.getId());
+
         if (load(sciencePlan.getId()) == null) {
             sciencePlan.setCreateDate(sciencePlan.getUpdateDate());
             sciencePlan.setCreator(sciencePlan.getUpdator());
