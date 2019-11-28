@@ -1,0 +1,56 @@
+.layout-view-content.dialog {
+    padding: 20px 30px;
+    min-height: auto;
+    height: calc(100% - 61px);
+    overflow: auto;
+}
+.layout-view-content .dialog-footer-btn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px #e8e8e8 solid;
+    padding: 15px 40px 15px 20px;
+    text-align: right;
+    box-sizing: border-box;
+}
+.layui-btn {
+    height: 30px;
+    line-height: 30px;
+    min-width: 72px;
+    padding: 0 11px;
+    text-align: center;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px #C9C9C9 solid;
+    transition: all .24s ease-out;
+}
+.layui-btn.layui-btn-normal {
+    background-color: #1890FF;
+    border-color: #1890FF;
+    color: #fff;
+}
+.layui-btn:not(:disabled):not(.border-red):active, .layui-btn:not(:disabled):not(.border-red):hover {
+    box-shadow: 0 0 3px #1890FF;
+    -ms-box-shadow: 0 0 3px #1890FF;
+}
+.layui-btn:not(.border-blue):not(.border-red):not(.layui-btn-normal):hover {
+    border-color: #1890FF;
+    color: #1890FF;
+}
+.layui-form-label,.layui-input, .layui-select,.layui-textarea{
+    font-size: 14px;
+    border-radius: 5px;
+}
+.must-fill{
+    position: static;
+}
+.box-body{
+    padding-right: 0;
+}
+.layui-input:not(:disabled):hover, .layui-input:not(:disabled):active, .laydate-input:not(:disabled):hover, .laydate-input:not(:disabled):active, .layui-textarea:not(:disabled):hover, .layui-textarea:not(:disabled):active {
+    border-color: #0AA1FF !important;
+    box-shadow: 0 0 7px -3px #0AA1FF;
+    -ms-box-shadow: 0 0 7px -3px #0AA1FF;
+}

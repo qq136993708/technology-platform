@@ -36,6 +36,7 @@
     <result column="updator" jdbcType="VARCHAR" property="updator" />
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
     <result column="country" jdbcType="VARCHAR" property="country" />
+	<result column="technical_field" jdbcType="VARCHAR" property="technicalField" />
 
     <result column="application_of_patent_transformation_text" jdbcType="VARCHAR" property="applicationOfPatentTransformationText" />
     <result column="application_type_text" jdbcType="VARCHAR" property="applicationTypeText" />
@@ -164,7 +165,7 @@
       unenforced_reason, licensee, licensee_mode,
       licensee_profit, assignor, assign_profit,
       file, creator, create_date,
-      update_date, updator, deleted,country
+      update_date, updator, deleted, country, technical_field, technical_field_text
       )
     values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR},
       #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR},
@@ -177,7 +178,7 @@
       #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL},
       #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{updateDate,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR},
-      #{country,jdbcType=VARCHAR}
+      #{country,jdbcType=VARCHAR}, #{technicalField,jdbcType=VARCHAR}, #{technicalFieldText,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.patent.PatentInfo">
@@ -285,6 +286,13 @@
       <if test="country != null">
         country,
       </if>
+	  
+	  <if test="technicalField != null">
+        technical_field,
+      </if>
+	  <if test="technicalFieldText != null">
+        technical_field_text,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -389,6 +397,12 @@
       <if test="country != null">
         #{country,jdbcType=VARCHAR},
       </if>
+	  <if test="technicalField != null">
+        #{technicalField,jdbcType=VARCHAR},
+      </if>
+	  <if test="technicalFieldText != null">
+        #{technicalFieldText,jdbcType=VARCHAR},
+	</if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultType="java.lang.Long">
@@ -499,6 +513,12 @@
       <if test="record.deleted != null">
         deleted = #{record.deleted,jdbcType=VARCHAR},
       </if>
+	  <if test="record.technicalField != null">
+        technical_field = #{record.technicalField,jdbcType=VARCHAR},
+      </if>
+	  <if test="record.technicalFieldText != null">
+        technical_field_text = #{record.technicalFieldText,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -539,7 +559,9 @@
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       updator = #{record.updator,jdbcType=VARCHAR},
       deleted = #{record.deleted,jdbcType=VARCHAR},
-      country = #{record.country,jdbcType=VARCHAR}
+      country = #{record.country,jdbcType=VARCHAR},
+	  technical_field = #{record.technicalField,jdbcType=VARCHAR},
+	  technical_field_text = #{record.technicalFieldText,jdbcType=VARCHAR},
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -643,6 +665,12 @@
       <if test="deleted != null">
         deleted = #{deleted,jdbcType=VARCHAR},
       </if>
+	  <if test="technicalField != null">
+        technical_field = #{technicalField,jdbcType=VARCHAR},
+      </if>
+	  <if test="technicalFieldText != null">
+        technical_field_text = #{technicalFieldText,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -680,7 +708,9 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       updator = #{updator,jdbcType=VARCHAR},
       deleted = #{deleted,jdbcType=VARCHAR},
-      country = #{country,jdbcType=VARCHAR}
+      country = #{country,jdbcType=VARCHAR},
+	  technical_field = #{technicalField,jdbcType=VARCHAR},
+	  technical_field_text = #{technicalFieldText,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 

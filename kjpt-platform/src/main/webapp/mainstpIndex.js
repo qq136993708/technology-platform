@@ -76,6 +76,6 @@ layui.use(['element', 'jquery'], function() {
     });
   }
 
-  getItemValue('/expert-api/getZjkBaseCount', '#expertNumber');
+  // getItemValue('/expert-api/getZjkBaseCount', '#expertNumber');
 
 });

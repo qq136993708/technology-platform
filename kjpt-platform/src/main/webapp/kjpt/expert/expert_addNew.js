@@ -31,6 +31,7 @@ layui.config({
         httpModule({
             url: "/sysDictionary-api/getChildsListByCode/"+code,
             type: 'GET',
+            async:false,
             success: function(relData) {
                 if (relData.success === true) {
                     relData.data.map(function(item){
@@ -50,6 +51,7 @@ layui.config({
     httpModule({
         url: "/techFamily-api/getTreeList",
         type: 'GET',
+        async:false,
         success: function(relData) {
             console.log(relData)
             relData.children.map(function (item,index) {
@@ -65,6 +67,7 @@ layui.config({
     httpModule({
         url: "/unit-api/getTreeList",
         type: 'GET',
+        async:false,
         success: function(relData) {
             formSelects.data('belongUnit', 'local', { arr: relData.children });
             formSelects.btns('belongUnit', ['remove']);

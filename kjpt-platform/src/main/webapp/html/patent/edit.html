@@ -77,7 +77,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">申请类型：</span></label>
            <div class="layui-input-block">
-             <select name="applicationType" dic-base-data="ROOT_KJPT_ZLFW" lay-verify="required" placeholder="请选择..."> 
+             <select name="applicationType" dic-base-data="ROOT_KJPT_SQLX" lay-verify="required" placeholder="请选择..."> 
                
              </select>
            </div>
@@ -108,9 +108,9 @@
        
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">日期：</span></label>
+           <label class="layui-form-label"><span class="text">技术领域：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="date" id="date"  placeholder="请填写..." autocomplete="off" class="laydate-input">
+              <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select>
            </div>
          </div>
        </div>
@@ -306,7 +306,7 @@
      <input type="hidden" name="updateDate">
      <input type="hidden" name="updator"> 
      <input type="hidden" name="deleted"> 
-     <input type="hidden" name="files" id="files">
+     <input type="hidden" name="files" id="files"> 
    </form>
 </div>
 

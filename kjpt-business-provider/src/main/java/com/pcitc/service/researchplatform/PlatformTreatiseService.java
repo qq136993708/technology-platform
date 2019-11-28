@@ -1,6 +1,7 @@
 package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
 import com.pcitc.base.researchplatform.PlatformTreatiseModel;
 
 import java.util.List;
@@ -26,9 +27,14 @@ public interface PlatformTreatiseService {
      */
     Integer batchSave(List<PlatformTreatiseModel> dataList);
     /**
-     * 查询科研平台项目列表
+     * 查询科研平台项目列表分页
      */
     PageInfo query(Map paramMap);
+
+    /**
+     * 查询科研平台论文列表
+     */
+    List<PlatformTreatiseModel> queryNoPage(Map paramMap);
 
     /**
      * 科研平台项目删除

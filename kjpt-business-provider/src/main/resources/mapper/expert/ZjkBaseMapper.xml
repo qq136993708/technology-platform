@@ -378,6 +378,9 @@
 	     <if test="technicalField != null        and technicalField !=''  ">  AND t.technical_field = #{technicalField}</if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
 	     <if test="technicalFieldName != null and technicalFieldName  !='' "> AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
+	     <if test="sex != null                 and sex !=''  ">           AND t.sex = #{sex}</if>
+	     <if test="education != null          and education !=''  ">      AND t.education = #{education}</if>
+	     
 	 </trim>
 	</sql>
 	

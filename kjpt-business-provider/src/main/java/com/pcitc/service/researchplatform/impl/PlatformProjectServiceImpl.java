@@ -52,6 +52,11 @@ public class PlatformProjectServiceImpl implements PlatformProjectService {
     }
 
     @Override
+    public List<PlatformProjectModel> queryNoPage(Map paramMap) {
+        return  platformProjectMapper.query(paramMap);
+    }
+
+    @Override
     public Integer delete(String id) {
         return platformProjectMapper.delete(id);
     }

@@ -8,11 +8,14 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -31,8 +34,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -41,6 +46,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.ExcelUtils;
 import com.pcitc.web.utils.ImportExcelUtil;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -53,7 +59,7 @@ public class SysLogController extends BaseController {
 
 	private static final String PAGE_SYSLOG_URL = "http://kjpt-zuul/system-proxy/log-provider/page";
 
-	private static final String SAVE_FUNCTION = "http://kjpt-zuul/system-proxy/log-provider/saveSysLog";
+	private static final String SYSLOG_EXCEL_OUT = "http://kjpt-zuul/system-proxy/log-provider/list";
 
 	
 	
@@ -101,7 +107,9 @@ public class SysLogController extends BaseController {
 		param.getParam().put("endTime", endTime);
 		param.getParam().put("logType", logType);
 		param.getParam().put("userType", userType);
-
+		
+		JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(param));
+        System.out.print(">>>>>>>>>>>系统日志查询（分页）参数："+json.toString());
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_SYSLOG_URL, HttpMethod.POST, entity,
@@ -114,6 +122,308 @@ public class SysLogController extends BaseController {
 		logger.info("============获取系统日志列表（分页） " + result.toString());
 		return result.toString();
 	}
+	
+	
+	
+	
+	
+	
+	
+	     @ApiOperation(value = "导出登陆日志信息", notes = "导出登陆日志信息")
+	     @ApiImplicitParams({ 
+	        @ApiImplicitParam(name = "optDescribe", value = "操作描述", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "logIp", value = "登陆IP", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
+			@ApiImplicitParam(name = "logType",  value = "日志类型：1登陆日志，2操作日志，3错误日志",       dataType = "string", paramType = "query",required=true) ,
+			@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query",required=true)
+           })
+	    @RequestMapping(value = "/sysLog-api/log_exput_excel", method = RequestMethod.GET)
+	   	public String jsgztj_data_exput_excel(
+	   			
+	   			@RequestParam(required = false) String optDescribe, 
+				@RequestParam(required = false) String logIp,
+				@RequestParam(required = false) String beginTime, 
+				@RequestParam(required = false) String endTime,
+				@RequestParam(required = false) String logType,
+				@RequestParam(required = false) String userType,
+	   		 HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("optDescribe", optDescribe);
+	   	    paramMap.put("logIp", logIp);
+	        paramMap.put("beginTime", beginTime);
+	        paramMap.put("endTime", endTime);
+	        paramMap.put("logType", logType);
+	        paramMap.put("userType", userType);
+	        
+	        JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(paramMap));
+	        System.out.print(">>>>>>>>>>>导出登陆日志信息参数："+json.toString());
+	        
+	        
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(SYSLOG_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<SysLog> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), SysLog.class);
+	   			if(list!=null &&  list.size()>0)
+	   			{
+	   				for(int i=0;i<list.size();i++)
+	   				{
+	   					SysLog zjkBase= list.get(i);
+	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_YYYY));
+	   				}
+	   			}
+	   		}
+	   		
+	   		
+         
+	   		    String[] headers = { "登录结果",  "登录名",    "登录IP"  , "操作方式"  ,         "操作时间" };
+	   		    String[] cols =    {"optResult","userName","logIp",  "requestType",      "logTimeStr"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = "登陆日志信息__"+DateFormatUtils.format(new Date(), "ddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<SysLog>  pee = new PoiExcelExportUitl<SysLog>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
+	    
+	
+	
+	
+	
+	
+	     @ApiOperation(value = "导出操作日志信息", notes = "导出操作日志信息")
+	     @ApiImplicitParams({ 
+		        @ApiImplicitParam(name = "optDescribe", value = "操作描述", dataType = "string", paramType = "query"),
+				@ApiImplicitParam(name = "logIp", value = "登陆IP", dataType = "string", paramType = "query"),
+				@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
+				@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
+				@ApiImplicitParam(name = "logType",  value = "日志类型：1登陆日志，2操作日志，3错误日志",       dataType = "string", paramType = "query",required=true) ,
+				@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query",required=true)
+	           })
+	    @RequestMapping(value = "/sysLog-api/opt_exput_excel", method = RequestMethod.GET)
+	   	public String opt_exput_excel(
+	   			
+	   			@RequestParam(required = false) String optDescribe, 
+				@RequestParam(required = false) String logIp,
+				@RequestParam(required = false) String beginTime, 
+				@RequestParam(required = false) String endTime,
+				@RequestParam(required = false) String logType,
+				@RequestParam(required = false) String userType,
+	   		 HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	    	
+	    	
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("optDescribe", optDescribe);
+	   	    paramMap.put("logIp", logIp);
+	        paramMap.put("beginTime", beginTime);
+	        paramMap.put("endTime", endTime);
+	        paramMap.put("logType", logType);
+	        paramMap.put("userType", userType);
+	        
+	        JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(paramMap));
+	        System.out.print(">>>>>>>>>>>导出操作日志信息参数："+json.toString());
+	        
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(SYSLOG_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<SysLog> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), SysLog.class);
+	   			if(list!=null &&  list.size()>0)
+	   			{
+	   				for(int i=0;i<list.size();i++)
+	   				{
+	   					SysLog zjkBase= list.get(i);
+	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_YYYY));
+	   				}
+	   			}
+	   		}
+	   		
+	   		
+         
+	   		    String[] headers = { "登录结果",  "操作名称",      "操作者",    "URL" ,    "登录IP"  , "操作方式"  ,         "操作时间" };
+	   		    String[] cols =    {"optResult","optDescribe","userName","logUrl",  "logIp",  "requestType",      "logTimeStr"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = "操作日志信息__"+DateFormatUtils.format(new Date(), "ddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<SysLog>  pee = new PoiExcelExportUitl<SysLog>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
+	    
+	
+	
+	
+	
+	
+	
+	
+        //导出错语日志
+	     @ApiOperation(value = "导出错误日志信息", notes = "导出错误日志信息")
+	     @ApiImplicitParams({ 
+		        @ApiImplicitParam(name = "optDescribe", value = "操作描述", dataType = "string", paramType = "query"),
+				@ApiImplicitParam(name = "logIp", value = "登陆IP", dataType = "string", paramType = "query"),
+				@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
+				@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
+				@ApiImplicitParam(name = "logType",  value = "日志类型：1登陆日志，2操作日志，3错误日志",       dataType = "string", paramType = "query",required=true) ,
+				@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query",required=true)
+	           })
+	    @RequestMapping(value = "/sysLog-api/error_exput_excel", method = RequestMethod.GET)
+	   	public String error_exput_excel(
+	   			
+	   			@RequestParam(required = false) String optDescribe, 
+				@RequestParam(required = false) String logIp,
+				@RequestParam(required = false) String beginTime, 
+				@RequestParam(required = false) String endTime,
+				@RequestParam(required = false) String logType,
+				@RequestParam(required = false) String userType,
+	   		 HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	    	
+	    	
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("optDescribe", optDescribe);
+	   	    paramMap.put("logIp", logIp);
+	        paramMap.put("beginTime", beginTime);
+	        paramMap.put("endTime", endTime);
+	        paramMap.put("logType", logType);
+	        paramMap.put("userType", userType);
+	        
+	        JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(paramMap));
+	        System.out.print(">>>>>>>>>>>导出错误日志信息参数："+json.toString());
+	        
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(SYSLOG_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<SysLog> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), SysLog.class);
+	   			if(list!=null &&  list.size()>0)
+	   			{
+	   				for(int i=0;i<list.size();i++)
+	   				{
+	   					SysLog zjkBase= list.get(i);
+	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_YYYY));
+	   				}
+	   			}
+	   		}
+	   		
+	   		
+	   		
+            
+            
+         
+	   		    String[] headers = {  "操作名称",      "操作者",      "所在公司",      "所在部门",    "URL" ,    "登录IP"  , "操作方式"  ,         "操作时间",         "操作错误" };
+	   		    String[] cols =    {"optDescribe","userName",  "userCompany",   "unitName","logUrl",  "logIp",  "requestType",      "logTimeStr",      "optError"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = "错误日志信息__"+DateFormatUtils.format(new Date(), "ddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<SysLog>  pee = new PoiExcelExportUitl<SysLog>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
+	    
+	
+	
+	
+	
+	
+	
+	
 
 	/*
 	

@@ -47,10 +47,16 @@ public class PlatformServiceImpl implements PlatformService {
         int pageSize = (int)paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         List dataList = platformServiceMapper.query(paramMap);
-        Page p = new Page();
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
+
+    @Override
+    public List<PlatformInfoModel> queryNoPage(Map paramMap) {
+        List dataList = platformServiceMapper.query(paramMap);
+        return dataList;
+    }
+
 
     @Override
     public Integer delete(String id) {

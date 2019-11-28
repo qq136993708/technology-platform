@@ -143,11 +143,12 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "useStatus",      value = "状态", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "post",           value = "职务", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "title",          value = "职称", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
-        
+        @ApiImplicitParam(name = "useStatus",      value = "状态",    dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "post",           value = "职务",    dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "title",          value = "职称",    dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "technicalField", value = "技术领域",  dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "sex",            value = "性别",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query")
         
         
     })
@@ -162,6 +163,8 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String post,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String technicalField,
+            @RequestParam(required = false) String sex,
+            @RequestParam(required = false) String education,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -176,6 +179,8 @@ public class ExpertController extends BaseController {
     	param.getParam().put("post", post);
     	param.getParam().put("title", title);
     	param.getParam().put("technicalField", technicalField);
+    	param.getParam().put("sex", sex);
+    	param.getParam().put("education", education);
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);

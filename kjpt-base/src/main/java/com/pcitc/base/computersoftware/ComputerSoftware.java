@@ -36,6 +36,11 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     private String softwareName="";
 
     /**
+     * 软件介绍
+     */
+    private String  softwareIntroduce;
+
+    /**
      * 著作权人
      */
     private String copyrightOwner="";
@@ -185,4 +190,11 @@ public class ComputerSoftware extends RecordModel implements Serializable {
         this.accessoryUpload = accessoryUpload;
     }
 
+    public String getSoftwareIntroduce() {
+        return softwareIntroduce;
+    }
+
+    public void setSoftwareIntroduce(String softwareIntroduce) {
+        this.softwareIntroduce = softwareIntroduce;
+    }
 }

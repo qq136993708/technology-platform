@@ -5,6 +5,7 @@ import com.pcitc.base.exception.SysException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author ty
  */
 
+@RestController
 @ControllerAdvice
 @CrossOrigin(allowCredentials = "true")
 public class ErrorController extends BaseController{
@@ -40,7 +42,6 @@ public class ErrorController extends BaseController{
 
 	@ExceptionHandler(value = { Exception.class })
     public Result handleException(Exception ex) {
-		ex.printStackTrace();
 		Result result = new Result();
 		result.setSuccess(false);
 		result.setCode("-1");

@@ -86,7 +86,6 @@
         <if test="releaseTime != null and releaseTime !='' ">
             and RELEASE_TIME = #{releaseTime}
         </if>
-
         and deleted != '1'
 
     </select>

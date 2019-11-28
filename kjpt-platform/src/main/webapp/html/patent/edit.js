@@ -1,14 +1,29 @@
 var file_readonly = false;
 
 
-layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
+layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], function(){
     var form = layui.form;
     var $ = layui.$; 
     var laydate = layui.laydate;
-  
-    var $ = layui.jquery;
-    var form = layui.form; 
+    var formSelects = layui.formSelects;
  
+
+    /*领域*/
+    httpModule({
+      url: "/techFamily-api/getTreeList",
+      type: 'GET',
+      async: false,  
+      success: function(relData) {
+          relData.children.map(function (item,index) {
+              item.children.map(function (items,i) {
+                  delete items.children
+              })
+          })
+          formSelects.data('technicalField', 'local', { arr: relData.children });
+          formSelects.btns('technicalField', ['remove']);
+      }
+  });
+
 
   function getItemInitData(item) {
     var httpUrl = '/patentController/newInit';
@@ -25,11 +40,15 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
           // 给form表单赋初始值
 
           var data = relData.data;
-          transToData(data, ['date','applicationDate','entryDate']);
-
+          transToData(data, ['applicationDate','entryDate']);
+          //data.technicalField = data.technicalField.split(',');
+           
           form.val('formMain', data);
+          formSelects.value('technicalField', relData.data.technicalField.split(',')); 
+
           // 更新表单数据
-          form.render();
+          //form.render();
+
 
           setRadioShow();
 
@@ -59,6 +78,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {
+
+    if(formSelects.value('technicalField')){
+      var technicalFieldText=''
+      formSelects.value('technicalField').map(function (item, index) {
+        technicalFieldText+=item.name+','
+      })
+      data.field.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
+  }
 
 		httpModule({
 			url: '/patentController/save',
@@ -106,12 +133,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
       $("div[showWhere='" + val + "']").css('display',''); 
 
     }
-
-        
-    laydate.render({
-      elem: '#date' //指定元素
-      ,trigger: 'click'
-    });
+ 
   
     laydate.render({
       elem: '#applicationDate' //指定元素
