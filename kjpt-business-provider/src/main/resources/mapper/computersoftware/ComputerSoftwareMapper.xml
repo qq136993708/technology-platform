@@ -189,13 +189,13 @@
         <if test="versionNumber != null and versionNumber != ''">
             and VERSION_NUMBER = #{versionNumber}
         </if>
-        <if test="recordDateStart != null and recordDateStart != '' ">
+        <if test="recordDateStart != null ">
             and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
         </if>
-        <if test="recordDateEnd != null and recordDateEnd != '' ">
+        <if test="recordDateEnd != null  ">
             and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
         </if>
-        <if test="developFinishDate != null and developFinishDate != ''">
+        <if test="developFinishDate != null ">
             and DEVELOP_FINISH_DATE = #{developFinishDate}
         </if>
         <if test="softwareIntro != null and softwareIntro != ''">
@@ -204,7 +204,7 @@
         <if test="entryPeople != null and entryPeople != ''">
             and ENTRY_PEOPLE = #{entryPeople}
         </if>
-        <if test="entryTime != null and entryTime != ''">
+        <if test="entryTime != null ">
             and ENTRY_TIME = #{entryTime}
         </if>
         <if test="notes != null and notes != ''">
