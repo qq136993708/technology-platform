@@ -481,6 +481,7 @@
 				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
 					if(dt.success){
                         setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+						top.layer.closeAll(); // 关闭弹窗
 				       	/*parent.layui.table.reload('userTable',null);
 				       	parent.renderfunc();//隐藏全选按钮
 				       	var index = parent.layer.getFrameIndex(window.name);
