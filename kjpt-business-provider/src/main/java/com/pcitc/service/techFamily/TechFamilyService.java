@@ -9,8 +9,56 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.stp.techFamily.TechFamilys;
 
 public interface TechFamilyService {
+	
+	
+	
+	
+
+
+	/**
+                * 根据ID获取技术族信息详情
+    */
+	public TechFamilys selectTechFamilys(String id) throws Exception;
+	
+	 /**
+	     *修改技术族信息
+	*/
+	public Integer updateTechFamilys(TechFamilys record)throws Exception;
+	 /**
+	     *根据ID删除技术族信息
+	*/
+	public int deleteTechFamilys(String id)throws Exception;
+	public int deleteLogicTechFamilys(String id)throws Exception;
+	 /**
+	     * 增加技术族信息
+	 */
+	public Integer insertTechFamilys(TechFamilys record)throws Exception;
+	
+	/**
+	     * 获取技术族（分页）
+	*/
+	public LayuiTableData getTechFamilysPage(LayuiTableParam param)throws Exception;
+	
+	
+	public List<TreeNode> getNodeList(Map map)throws Exception;
+	
+	
+	public List<TechFamilys> getChildListByParent(String id)throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 根据层级显示树

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.techFamily.TechFamilysMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.techFamily.TechFamilys">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="tech_namne" jdbcType="VARCHAR" property="techNamne" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="level_code" jdbcType="VARCHAR" property="levelCode" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="is_hot" jdbcType="VARCHAR" property="isHot" />
+    <result column="node_path" jdbcType="VARCHAR" property="nodePath" />
+    <result column="is_parent" jdbcType="VARCHAR" property="isParent" />
+    <result column="is_leaf" jdbcType="VARCHAR" property="isLeaf" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tech_namne, parent_id, del_status, create_time, orders, level_code, remarks, 
+    is_hot, node_path, is_parent, is_leaf
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tech_familys
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tech_familys
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.techFamily.TechFamilys">
+    insert into tech_familys (id, tech_namne, parent_id, 
+      del_status, create_time, orders, 
+      level_code, remarks, is_hot, 
+      node_path, is_parent, is_leaf
+      )
+    values (#{id,jdbcType=VARCHAR}, #{techNamne,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{delStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{orders,jdbcType=INTEGER}, 
+      #{levelCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{isHot,jdbcType=VARCHAR}, 
+      #{nodePath,jdbcType=VARCHAR}, #{isParent,jdbcType=VARCHAR}, #{isLeaf,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.techFamily.TechFamilys">
+    insert into tech_familys
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="techNamne != null">
+        tech_namne,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="orders != null">
+        orders,
+      </if>
+      <if test="levelCode != null">
+        level_code,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="nodePath != null">
+        node_path,
+      </if>
+      <if test="isParent != null">
+        is_parent,
+      </if>
+      <if test="isLeaf != null">
+        is_leaf,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="techNamne != null">
+        #{techNamne,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders != null">
+        #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="levelCode != null">
+        #{levelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=VARCHAR},
+      </if>
+      <if test="nodePath != null">
+        #{nodePath,jdbcType=VARCHAR},
+      </if>
+      <if test="isParent != null">
+        #{isParent,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null">
+        #{isLeaf,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.techFamily.TechFamilys">
+    update tech_familys
+    <set>
+      <if test="techNamne != null">
+        tech_namne = #{techNamne,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders != null">
+        orders = #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="levelCode != null">
+        level_code = #{levelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=VARCHAR},
+      </if>
+      <if test="nodePath != null">
+        node_path = #{nodePath,jdbcType=VARCHAR},
+      </if>
+      <if test="isParent != null">
+        is_parent = #{isParent,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null">
+        is_leaf = #{isLeaf,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.techFamily.TechFamilys">
+    update tech_familys
+    set tech_namne = #{techNamne,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      del_status = #{delStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      orders = #{orders,jdbcType=INTEGER},
+      level_code = #{levelCode,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      is_hot = #{isHot,jdbcType=VARCHAR},
+      node_path = #{nodePath,jdbcType=VARCHAR},
+      is_parent = #{isParent,jdbcType=VARCHAR},
+      is_leaf = #{isLeaf,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="techNamne != null     and techNamne  !='' ">      AND t.tech_namne like CONCAT('%',#{techNamne},'%')</if>
+	     <if test="parentId != null      and parentId !=''  ">       AND t.parent_id = #{parentId}</if>
+	     <if test="delStatus != null     and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
+	     <if test="levelCode != null     and levelCode !=''  ">      AND t.level_code = #{levelCode}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from tech_familys t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  orders asc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM tech_familys t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+   <select id="getNodeList" resultType="com.pcitc.base.common.TreeNode" parameterType="Map" >
+     select id,
+	     parent_id pId,
+	     tech_namne  as name,
+	     level_codeas levelCode
+	     id AS CODE,
+	     node_path AS nodePath 
+     from tech_familys t <include refid="selectCondition" />    
+      ORDER BY  orders asc
+   </select>
+  
+  
+  <update id="deleteLogicById" parameterType="string">
+    update tech_familys set `del_status` = '1'   where id = #{id}
+  </update>
+  
+  
+  
+   <select id="getChildListByParentId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+       select * from tech_familys t  where t.parent_id = #{parentId}
+   </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>
