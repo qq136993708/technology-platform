@@ -8,6 +8,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
   laydate.render({elem: '#startReleaseDate',trigger: 'click'});
   laydate.render({elem: '#endReleaseDate',trigger: 'click'});
+  laydate.render({elem:'#yearOrMonth',trigger:'click',type:'month'});
 
   //表格渲染
   var tableRender = false;

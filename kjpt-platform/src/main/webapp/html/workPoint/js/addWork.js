@@ -8,6 +8,11 @@ layui.use(['element', 'form', 'table', 'formSelects','laydate'], function(){
     elem: '#registerTime',
     trigger: 'click',
   });
+  laydate.render({
+    elem:'#yearOrMonth',
+    trigger:'click',
+    type:'month'
+  })
   var variable = getQueryVariable();
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
@@ -29,7 +34,4 @@ layui.use(['element', 'form', 'table', 'formSelects','laydate'], function(){
       console.log(tableData);
     }
   });
-
-
-
 });
