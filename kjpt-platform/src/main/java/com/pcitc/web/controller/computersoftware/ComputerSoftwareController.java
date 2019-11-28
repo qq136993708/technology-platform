@@ -3,6 +3,7 @@ package com.pcitc.web.controller.computersoftware;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.computersoftware.ComputerSoftware;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -70,12 +71,16 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "softwareIntro", value = "软件简介", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "entryPeople", value = "录入人", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "entryTime", value = "录入时间", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "accessoryUpload", value = "附件上传", dataType = "string", paramType = "query"),
     })
 
     @GetMapping(value = "/query")
     @ResponseBody
     public PageInfo query(
+
+
+
             @RequestParam(required = false) Integer pageNum,
             @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) String unitName,
@@ -84,13 +89,14 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String softwareIntroduce,
             @RequestParam(required = false) String copyrightOwner,
             @RequestParam(required = false) String versionNumber,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date recordDateStart,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date recordDateEnd,
-            @RequestParam(required = false) String developFinishDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date recordDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date developFinishDate,
             @RequestParam(required = false) String softwareIntro,
             @RequestParam(required = false) String entryPeople,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date entryTime,
-            @RequestParam(required = false) String notes
+            @RequestParam(required = false) String notes,
+            @RequestParam(required = false) String accessoryUpload
+
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -116,13 +122,10 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(versionNumber)) {
             this.setParam(condition, "versionNumber", versionNumber);
         }
-        if (recordDateStart != null) {
-            this.setParam(condition, "recordDateStart", recordDateStart);
+        if (!StringUtils.isEmpty(DateUtil.format(recordDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "recordDate", DateUtil.format(recordDate,DateUtil.FMT_SS));
         }
-        if (recordDateEnd != null) {
-            this.setParam(condition, "recordDateEnd", recordDateEnd);
-        }
-        if (!StringUtils.isEmpty(developFinishDate)) {
+        if (developFinishDate != null) {
             this.setParam(condition, "developFinishDate", developFinishDate);
         }
         if (!StringUtils.isEmpty(softwareIntro)) {
@@ -136,6 +139,9 @@ public class ComputerSoftwareController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(notes)) {
             this.setParam(condition, "notes", notes);
+        }
+        if (!StringUtils.isEmpty(accessoryUpload)) {
+            this.setParam(condition, "accessoryUpload", accessoryUpload);
         }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);

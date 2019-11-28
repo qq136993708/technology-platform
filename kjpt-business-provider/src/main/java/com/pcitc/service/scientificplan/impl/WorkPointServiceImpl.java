@@ -6,6 +6,7 @@ import com.pcitc.base.common.Page;
 import com.pcitc.base.scientificplan.WorkPoint;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.scientificplan.WorkPointMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.scientificplan.WorkPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class WorkPointServiceImpl implements WorkPointService {
     @Autowired
     private WorkPointMapper workPointMapper;
 
+    @Autowired
+    private FileCommonService fileCommonService;
+
 
     @Override
     public WorkPoint load(String id) {
@@ -28,6 +32,10 @@ public class WorkPointServiceImpl implements WorkPointService {
     @Override
     public WorkPoint save(WorkPoint workPoint) {
         IsEmptyUtil.isEmpty(workPoint.getId());
+
+        fileCommonService.updateFileData(workPoint.getAccessory(),workPoint.getId());
+
+
         if (load(workPoint.getId()) == null) {
             workPoint.setCreateDate(workPoint.getUpdateDate());
             workPoint.setCreator(workPoint.getUpdator());

@@ -16,26 +16,16 @@
 </head>
 <body class="addPlan">
 <div class="layout-view-content dialog">
-  <form class="layui-form" action="" lay-filter="formAddPlan">
+  <form class="layui-form" action="" lay-filter="formAddProgress">
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">科研规划名称：</span></label>
+          <label class="layui-form-label label-required"><span class="text">年度总结名称：</span></label>
           <div class="layui-input-block">
             <input type="text" name="name" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
           <div class="layui-text-block"></div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">专业领域：</span></label>
-          <div class="layui-input-block">
-            <select name="professionalField" lay-filter="professionalField"
-              placeholder="请选择"
-              dic-base-data="ROOT_KJPT_ZYLY"></select>
-          </div>
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
@@ -47,16 +37,6 @@
               xm-select-radio=""
               xm-select-skin="normal"
               dic-base-data="ROOT_KJPT_YTDW"></select>
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">专业类别：</span></label>
-          <div class="layui-input-block">
-            <select name="specialtyCategory" lay-filter="specialtyCategory"
-              placeholder="请选择"
-              dic-base-data="ROOT_KJPT_ZYLB"></select>
           </div>
         </div>
       </div>
@@ -75,13 +55,13 @@
           <label class="layui-form-label"><span class="text">年度/月度：</span></label>
           <div class="layui-input-block">
             <input type="text" name="annual" id="annualDate"
-              placeholder="请填写..." autocomplete="off" class="laydate-input">
+              placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
       
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="addPlanFile">
-        <input type="hidden" name="accessory">
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="addProgressFile">
+        <input type="hidden" name="accessory" id="accessoryFile">
         <div class="view-title-layout disabled-box view-pt0">
           <div class="right">
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -95,7 +75,7 @@
     </div>
 
     <div class="dialog-footer-btn">
-      <button class="layui-btn layui-btn-normal disabled-box" lay-submit lay-filter="formAddPlanBtn">立即提交</button>
+      <button class="layui-btn layui-btn-normal disabled-box" lay-submit lay-filter="formAddProgressBtn">立即提交</button>
       <button type="button" class="layui-btn layui-btn-primary close-all-dialog">关闭</button>
     </div>
 
@@ -114,7 +94,7 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
-<script src="addPlan.js"></script>
+<script src="addSummaryJS.js"></script>
 <!-- 更多JS在此引入 -->
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.pcitc.web.controller.scientificplan;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.scientificplan.YearSummary;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,17 +46,6 @@ public class YearSummaryApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/yearSummary-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/yearsummary/yearsummary_view";
-    }
-
-    @RequestMapping(value = "/add")
-    public String add() {
-        return "/kjpt/yearsummary/yearsummary_add";
-    }
-
-
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -89,7 +79,7 @@ public class YearSummaryApiController extends RestBaseController {
             @RequestParam(required = false, value = "name") String name,
             @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
             @RequestParam(required = false, value = "researchField") String researchField,
-            @RequestParam(required = false, value = "releaseTime") String releaseTime,
+            @RequestParam(required = false, value = "releaseTime")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
 
             @RequestParam(required = false, value = "accessory") String accessory,
 
@@ -120,8 +110,12 @@ public class YearSummaryApiController extends RestBaseController {
         if (!StringUtils.isEmpty(researchField)) {
             this.setParam(condition, "researchField", researchField);
         }
-        if (!StringUtils.isEmpty(releaseTime)) {
-            this.setParam(condition, "releaseTime", releaseTime);
+//        if (!StringUtils.isEmpty(releaseTime)) {
+//            this.setParam(condition, "releaseTime", releaseTime);
+//        }
+
+        if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
+            this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
         }
 
 
@@ -130,9 +124,15 @@ public class YearSummaryApiController extends RestBaseController {
         }
 
 
-        if (annual != null) {
-            this.setParam(condition, "annual", annual);
+//        if (annual != null) {
+//            this.setParam(condition, "annual", annual);
+//        }
+
+
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_SS));
         }
+
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);

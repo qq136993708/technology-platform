@@ -6,7 +6,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var layer = layui.layer;
   var laydate = layui.laydate;
 
-  laydate.render({elem: '#annualTime'});
+  laydate.render({elem: '#startReleaseDate'});
   laydate.render({elem: '#endReleaseDate'});
 
   //表格渲染
@@ -16,16 +16,19 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/SciencePlan/query' //数据接口
+        ,url: '/ScienceEvolveDynamic/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'name', title: '科研规划名称', templet: function(d) {
-            return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
-          }} // authenticateUitlText
+          ,{field: 'name', title: '总结名称', templet: function(d) {
+            return '<a href="progressDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
+          }}
           ,{field: 'authenticateUtil', title: '申报单位', sort: true }
           ,{field: 'researchField', title: '研究领域'}
-          ,{field: 'professionalField', title: '专业领域', sort: true}
-          ,{field: 'specialtyCategory', title: '专业类别'} 
+          ,{field: 'annual', title: '年度/月度', sort: true, templet: function(d) {
+            if (d.annual && (''+ d.annual).indexOf('-') === -1) {
+              return new Date().format('yyyy/MM');
+            }
+          }}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -61,7 +64,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/scientificMaterials/addPlan.html?type='+type+'&id='+(id || ''),
+		  content: '/html/scientificMaterials/addSummary.html?type='+type+'&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -88,7 +91,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
      if (itemRowData.length) {
      openDataDilog('see', itemRowData[0].id);
      } else {
-       layer.msg('请选择科研规划！');
+       layer.msg('请选择年度总结！');
      }
   })
   // 编辑规划
@@ -98,7 +101,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	  if (itemRowData.length) {
 		openDataDilog('edit', itemRowData[0].id);
     } else {
-    	layer.msg('请选择科研规划！');
+    	layer.msg('请选择年度总结！');
     }
   })
   // 删除规划
@@ -110,7 +113,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/SciencePlan/delete/' + itemRowData[0].id,
+          url: '/ScienceEvolveDynamic/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {
@@ -123,7 +126,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         });
       });
     } else {
-    	layer.msg('请选择需要删除的科研规划！');
+    	layer.msg('请选择需要删除的年度总结！');
     }
   })
 

@@ -16,20 +16,21 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/data/datalist.json' //数据接口
+        ,url: '/ScienceEvolveDynamic/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'platformName', title: '科研规划名称', templet: function(d) {
-            return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.username+'</a>';
+          ,{field: 'name', title: '科技动态名称', templet: function(d) {
+            return '<a href="progressDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
           }}
-          ,{field: 'supportingInstitutions', title: '申报单位', sort: true }
+          ,{field: 'authenticateUtil', title: '申报单位', sort: true }
           ,{field: 'researchField', title: '研究领域'}
-          ,{field: 'personLiable', title: '专业领域', sort: true}
-          ,{field: 'type', title: '专业类别'} 
-          ,{field: 'createDate', title: '发布日期', sort: true}
-          ,{field: 'overallSituation', title: '发布者', sort: true}
+          ,{field: 'annual', title: '年度/月度', sort: true, templet: function(d) {
+            if (d.annual && (''+ d.annual).indexOf('-') === -1) {
+              return new Date().format('yyyy/MM');
+            }
+          }}
         ]],
-        parseData: function(res) {return layuiParseData(res, null, 3);},
+        parseData: function(res) {return layuiParseData(res);},
         request: {
           page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -63,7 +64,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/scientificMaterials/addPlan.html?type='+type+'&id='+(id || ''),
+		  content: '/html/scientificMaterials/addProgress.html?type='+type+'&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -88,7 +89,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	   // 获取表格中选中的数据
      var itemRowData = table.checkStatus('tableDemo').data;
      if (itemRowData.length) {
-     openDataDilog('see', itemRowData.id);
+     openDataDilog('see', itemRowData[0].id);
      } else {
        layer.msg('请选择科研规划！');
      }
@@ -98,7 +99,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     // 获取表格中选中的数据
     var itemRowData = table.checkStatus('tableDemo').data;
 	  if (itemRowData.length) {
-		openDataDilog('edit', itemRowData.id);
+		openDataDilog('edit', itemRowData[0].id);
     } else {
     	layer.msg('请选择科研规划！');
     }
@@ -108,11 +109,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     // 获取表格中选中的数据
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData.length) {
-		  layer.confirm('您确定要删除”'+itemRowData.platformName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
-		    layer.close(index);
+		  top.layer.confirm('您确定要删除”'+itemRowData[0].name+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/platform-api/delete/' + itemRowData.id,
+          url: '/ScienceEvolveDynamic/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {

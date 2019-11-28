@@ -4,6 +4,7 @@ package com.pcitc.web.controller.scientificplan;
 import com.github.pagehelper.PageInfo;
 
 import com.pcitc.base.scientificplan.WorkPoint;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,15 +46,6 @@ public class WorkPointApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/workPoint-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/workpoint/workpoint_view";
-    }
-
-    @RequestMapping(value = "/add")
-    public String add() {
-        return "/kjpt/workpoint/workpoint_add";
-    }
 
 
     @ApiOperation(value = "读取")
@@ -92,7 +84,7 @@ public class WorkPointApiController extends RestBaseController {
             @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
             @RequestParam(required = false, value = "researchField") String researchField,
 
-            @RequestParam(required = false, value = "releaseTime") String releaseTime,
+            @RequestParam(required = false, value = "releaseTime")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
 
 
             @RequestParam(required = false, value = "accessory") String accessory,
@@ -123,18 +115,29 @@ public class WorkPointApiController extends RestBaseController {
             this.setParam(condition, "researchField", researchField);
         }
 
-        if (!StringUtils.isEmpty(releaseTime)) {
-            this.setParam(condition, "releaseTime", releaseTime);
+//        if (!StringUtils.isEmpty(releaseTime)) {
+//            this.setParam(condition, "releaseTime", releaseTime);
+//        }
+
+
+        if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
+            this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
         }
+
 
         if (!StringUtils.isEmpty(accessory)) {
             this.setParam(condition, "accessory", accessory);
         }
 
 
-        if (annual != null) {
-            this.setParam(condition, "annual", annual);
+//        if (annual != null) {
+////            this.setParam(condition, "annual", annual);
+////        }
+
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_SS));
         }
+
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
