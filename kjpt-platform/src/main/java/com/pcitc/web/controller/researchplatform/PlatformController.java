@@ -1,12 +1,16 @@
 package com.pcitc.web.controller.researchplatform;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -32,6 +36,11 @@ public class PlatformController extends RestBaseController {
      * 查询平台列表
      */
     private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatform-api/query";
+
+    /**
+     * 查询平台列表不分页
+     */
+    private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatform-api/queryNoPage";
     /**
      * 保存平台
      */
@@ -50,6 +59,23 @@ public class PlatformController extends RestBaseController {
     public PlatformInfoModel load(@PathVariable String id) {
         ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformInfoModel.class);
         return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="导出excel")
+    @RequestMapping(value = "/platform-api/export", method = RequestMethod.GET)
+    @ResponseBody
+    public void export(@RequestParam(required = false) String platformName) throws Exception {
+        Map<String, Object> condition = new HashMap<>(2);
+        if (platformName != null) {
+            this.setParam(condition, "platformName", platformName);
+        }
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","typeText","researchFieldText","overallSituation","researchFunds","platformScoring"};
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformInfoModel.class);
+        String fileName = "科研平台表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
     }
 
 
@@ -156,5 +182,7 @@ public class PlatformController extends RestBaseController {
         p.setDeleted("0");
         return p;
     }
+
+
 
 }

@@ -9,6 +9,7 @@ import com.pcitc.service.researchplatform.PlatformMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -51,6 +52,11 @@ public class PlatformMemberServiceImpl implements PlatformMemberService {
     }
 
     @Override
+    public List<PlatformMemberModel> queryNoPage(Map paramMap) {
+        return platformMemberMapper.query(paramMap);
+    }
+
+    @Override
     public Integer delete(String id) {
         return platformMemberMapper.delete(id);
     }
@@ -58,5 +64,12 @@ public class PlatformMemberServiceImpl implements PlatformMemberService {
     @Override
     public Integer batchSave(List<PlatformMemberModel> dataList) {
         return platformMemberMapper.batchSave(dataList);
+    }
+
+    @Override
+    public Integer updateMemberRole(String ids, String role) {
+        IsEmptyUtil.isEmpty(ids);
+        IsEmptyUtil.isEmpty(role);
+        return platformMemberMapper.updateMemberRole(ids.split(","),role);
     }
 }

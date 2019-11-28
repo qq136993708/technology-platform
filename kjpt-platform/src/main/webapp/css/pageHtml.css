@@ -8,3 +8,17 @@
 .addKY_project .unInput-layout-box{
 	padding-top: 10px;
 }
+.tips-dialog-content {
+	height: 100%;
+	padding: 20px;
+	padding-bottom: 0;
+	display: none;
+	text-align: center;
+}
+.tips-dialog-content > .text {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 20px;
+	max-width: 99%;
+	font-size: 14px;
+}

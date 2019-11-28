@@ -21,9 +21,14 @@ public interface PlatformService {
      */
     PlatformInfoModel save(PlatformInfoModel platformInfoModel);
     /**
-     * 查询科研平台列表
+     * 查询科研平台列表分页
      */
     PageInfo query(Map paramMap);
+
+    /**
+     * 查询科研平台列表
+     */
+    List<PlatformInfoModel> queryNoPage(Map paramMap);
 
     /**
      * 科研平台删除

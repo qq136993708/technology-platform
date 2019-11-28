@@ -59,6 +59,11 @@ public class PlatformTreatiseServiceImpl implements PlatformTreatiseService {
     }
 
     @Override
+    public List<PlatformTreatiseModel> queryNoPage(Map paramMap) {
+        return ptm.query(paramMap);
+    }
+
+    @Override
     public Integer delete(String id) {
         return ptm.delete(id);
     }

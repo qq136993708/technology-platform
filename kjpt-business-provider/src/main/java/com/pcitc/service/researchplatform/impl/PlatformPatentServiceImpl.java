@@ -2,6 +2,7 @@ package com.pcitc.service.researchplatform.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.base.researchplatform.PlatformPatentModel;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.researchplatform.PlatformPatentMapper;
@@ -49,6 +50,11 @@ public class PlatformPatentServiceImpl implements PlatformPatentService {
         List dataList = platformPatentMapper.query(paramMap);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
+    }
+
+    @Override
+    public List<PlatformPatentModel> queryNoPage(Map paramMap) {
+        return platformPatentMapper.query(paramMap);
     }
 
     @Override

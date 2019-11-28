@@ -200,6 +200,7 @@ body > .layui-layout{
 }
 a.link-text:hover {
   text-decoration: underline;
+  color: #0AA1FF;
 }
 .layui-fold-btn{
   display: inline-block;
