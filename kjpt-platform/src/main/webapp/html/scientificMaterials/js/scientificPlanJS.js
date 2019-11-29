@@ -6,8 +6,56 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var layer = layui.layer;
   var laydate = layui.laydate;
 
-  laydate.render({elem: '#startReleaseDate'});
-  laydate.render({elem: '#endReleaseDate'});
+  var newTime = new Date(); //发布时间初始值
+  var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
+  laydate.render({elem: '#releaseTime',trigger:'click',value:timeString});
+  laydate.render({elem: '#yearOrMonth',trigger:'click',type:'month'});
+
+  var params = getQueryVariable();
+  var reportType = +params.reportType  || console.log('url配置错误');
+  
+  var cols  = [ //表头
+    {type: 'radio', field: 'id'},
+    {field: 'name', title: '科研规划名称', templet: function(d) {
+      return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
+    }}, // authenticateUitlText
+    {field: 'authenticateUtil', title: '申报单位', sort: true },
+    {field: 'researchField', title: '研究领域'},
+    {field: 'researchField', title: '发布时间'},
+    {field: 'researchField', title: '年度/月度'}
+    
+  ]
+
+  var additional = [
+    {field: 'professionalField', title: '专业领域', sort: true},
+    {field: 'specialtyCategory', title: '专业类别'}
+  ]
+
+  if(reportType !== 0){ //专业领域和专业类别是否隐藏
+    $('#professionalField').css("display","none");
+    $('#professionalType').css("display","none");
+  }else{
+    $('#professionalField').css("display","block");
+    $('#professionalType').css("display","block");
+    cols = cols.concat(additional);
+  }
+
+  var tabUrl = "";
+  switch (reportType){ //根据不同界面请求不同接口
+      case 0:
+        tabUrl = "";
+      break;
+      case 1:
+        tabUrl = "";
+      break;
+      case 2:
+        tabUrl = "";
+      break;
+      case 3:
+        tabUrl = "";
+      break;
+  }
+
 
   //表格渲染
   var tableRender = false;
@@ -16,18 +64,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/data/datalist.json' //数据接口
-        ,cols: [[ //表头
-          {type: 'radio', field: 'id'}
-          ,{field: 'platformName', title: '名称', templet: function(d) {
-            return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.username+'</a>';
-          }}
-          ,{field: 'supportingInstitutions', title: '申报单位', sort: true }
-          ,{field: 'personLiable', title: '年度/月度', sort: true}
-          ,{field: 'researchField', title: '研究领域'}
-          ,{field: 'createDate', title: '发布日期', sort: true}
-        ]],
-        parseData: function(res) {return layuiParseData(res, null, 3);},
+        ,url: tabUrl //数据接口
+        ,cols: [
+          cols
+        ],
+        parseData: function(res) {return layuiParseData(res);},
         request: {
           page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -54,16 +95,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	  var dialogTitle = '添加';
 	  if (type === 'edit') {
 		  dialogTitle = '编辑'; 
-	  }else{
-      dialogTitle = '查看';
-    }
+	  }
 	  
 	  // 打开弹窗
 	  top.layer.open({
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/workPoint/addWork.html?type='+type+'&id='+(id || ''),
+		  content: '/html/scientificMaterials/addPlan.html?type='+type+'reportType='+reportType+'&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -88,7 +127,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	   // 获取表格中选中的数据
      var itemRowData = table.checkStatus('tableDemo').data;
      if (itemRowData.length) {
-     openDataDilog('see', itemRowData.id);
+     openDataDilog('see', itemRowData[0].id);
      } else {
        layer.msg('请选择科研规划！');
      }
@@ -98,7 +137,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     // 获取表格中选中的数据
     var itemRowData = table.checkStatus('tableDemo').data;
 	  if (itemRowData.length) {
-		openDataDilog('edit', itemRowData.id);
+		openDataDilog('edit', itemRowData[0].id);
     } else {
     	layer.msg('请选择科研规划！');
     }
@@ -108,11 +147,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     // 获取表格中选中的数据
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData.length) {
-		  layer.confirm('您确定要删除”'+itemRowData.platformName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
-		    layer.close(index);
+		  top.layer.confirm('您确定要删除”'+itemRowData[0].name+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/platform-api/delete/' + itemRowData.id,
+          url: '/SciencePlan/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {
