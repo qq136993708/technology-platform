@@ -288,11 +288,13 @@ layui.config({
         }
         console.log(formSelects.value('technicalField'))
         if(formSelects.value('technicalField')){
-            var technicalFieldName=''
+            var technicalFieldName='',technicalFieldIndex=''
             formSelects.value('technicalField').map(function (item, index) {
                 technicalFieldName+=item.name+','
+                technicalFieldIndex+=item.nodePath+','
             })
             data.field.technicalFieldName=technicalFieldName.substring(0,technicalFieldName.length-1)
+            data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1)
         }
         data.field.headPic=headPic
         data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
@@ -303,7 +305,7 @@ layui.config({
             data.field.id=variable.id
         }
         console.log(data.field)
-        /*httpModule({
+        httpModule({
             url: '/expert-api/save',
             data: data.field,
             type: "POST",
@@ -314,7 +316,7 @@ layui.config({
                     closeTabsPage(variable.index)
                 }
             }
-        });*/
+        });
         return false;
     })
 
