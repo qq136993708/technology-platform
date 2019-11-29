@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
-@Api(value = "ExpertPatent-API",tags = {"专家库-专利接口"})
+@Api(value = "ExpertPatent-API",tags = {"外系统-项目接口"})
 @RestController
 public class OutProjectController extends BaseController {
 	
@@ -33,11 +33,11 @@ public class OutProjectController extends BaseController {
 	/**
 	 * 获取项目（分页）
 	 */
-	private static final String PAGE_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_project/list";
+	private static final String LIST_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_project/list";
 	/**
 	 * 根据ID获取对象信息
 	 */
-	public static final String LIST_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_project/page";
+	public static final String PAGE_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_project/page";
 	
 	/**
 	 * 根据ID获取对象信息
@@ -78,17 +78,17 @@ public class OutProjectController extends BaseController {
 	 */
     @ApiOperation(value = "查询外系统-项目列表（分页）", notes = "查询外系统-项目列表（分页）")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "page",           value = "页码",       dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "limit",          value = "每页显示条数",  dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "page",           value = "页码",       dataType = "string", paramType = "query",required=true),
+        @ApiImplicitParam(name = "limit",          value = "每页显示条数",  dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "techType",       value = "专业领域",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "techTypeIndex",  value = "专业领域索引",     dataType = "string", paramType = "query")
     })
-    @RequestMapping(value = "/outProject-api/page", method = RequestMethod.POST)
+    @RequestMapping(value = "/outProject-api/page", method = RequestMethod.GET)
 	public String getExpertPage(
 			
 
-			@RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer limit,
+			@RequestParam(required = true) Integer page,
+            @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String techType,
             @RequestParam(required = false) String techTypeIndex,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
