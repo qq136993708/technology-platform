@@ -15,6 +15,7 @@
   <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
   <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	<script src="/layuiadmin/js/common.js"></script>
   <script type="text/javascript">
 	var unitId="${unitId?default(0)}";
 	var parentUnitId = "${parentUnitId?default(0)}"
@@ -70,7 +71,10 @@
 					});
 					return;
 				}
-				var index = parent.layer.getFrameIndex(window.name);
+
+				setDialogData(dt);
+				top.layer.closeAll(); // 关闭弹窗
+				/*var index = parent.layer.getFrameIndex(window.name);
 		       	parent.layer.close(index);
 		       	parent.loadUnitTree(dt.data);
 		       	parent.loadUnitInfo(dt.data);
@@ -78,7 +82,7 @@
 		       	{
 		       		parent.reloadTable('postTable',{param: {"unitId":unitId}});
 		       		//parent.layui.table.reload('postTable',{where: {param: {"unitId":unitId}}});
-		       	}
+		       	}*/
 			});
 			return false;
 		});

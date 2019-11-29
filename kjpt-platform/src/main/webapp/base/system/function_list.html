@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-
+	<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 	<div class="treeTableContainer">
@@ -266,7 +266,26 @@
 					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
 						var temUrl = "/function/function_edit_desk?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
 						temUrl = encodeURI(temUrl);
-						layer.open({
+						top.layer.open({
+							title:'新增',
+							shadeClose: true,
+							type: 2,
+							fixed: false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							area : [ '80%', '90%' ],
+							content:  temUrl,
+							end: function(lay, index) {
+								// 弹窗销毁时获取弹窗返回数据
+								var getDialogData = getDialogData('dialog-data');
+								/*判断成功刷新table*/
+								if(getDialogData.code=="0"){
+									table.reload('functionTable',null)
+								}
+
+							}
+						});
+					/*	layer.open({
 							title : '新增',
 							skin : 'layui-layer-lan',
 							shadeClose : true,
@@ -277,13 +296,32 @@
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							area : [ '70%', '90%' ],
 							content : temUrl
-						});
+						});*/
 					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
 						layer.msg("工作台不允许新增");
 					} else {
 						var temUrl = "/function/edit?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
 						temUrl = encodeURI(temUrl);
-						layer.open({
+						top.layer.open({
+							title:'新增',
+							shadeClose: true,
+							type: 2,
+							fixed: false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							area : [ '80%', '90%' ],
+							content:  temUrl,
+							end: function(lay, index) {
+								// 弹窗销毁时获取弹窗返回数据
+								var getDialogData = getDialogData('dialog-data');
+								/*判断成功刷新table*/
+								if(getDialogData.code=="0"){
+									table.reload('functionTable',null)
+								}
+
+							}
+						});
+						/*layer.open({
 							title : '新增',
 							skin : 'layui-layer-lan',
 							shadeClose : true,
@@ -294,7 +332,7 @@
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							area : [ '70%', '90%' ],
 							content : temUrl
-						});
+						});*/
 					}
 					nodeId = '';
 				},
@@ -306,7 +344,7 @@
 					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
 						var temUrl = "/function/function_edit_desk?id=" + nodeId;
 						temUrl = encodeURI(temUrl);
-						layer.open({
+						/*layer.open({
 							title : '编辑',
 							skin : 'layui-layer-lan',
 							shadeClose : true,
@@ -317,10 +355,48 @@
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							area : [ '70%', '90%' ],
 							content : temUrl
+						});*/
+						top.layer.open({
+							title:'编辑',
+							shadeClose: true,
+							type: 2,
+							fixed: false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							area : [ '80%', '90%' ],
+							content:  temUrl,
+							end: function(lay, index) {
+								// 弹窗销毁时获取弹窗返回数据
+								var getDialogData = getDialogData('dialog-data');
+								/*判断成功刷新table*/
+								if(getDialogData.code=="0"){
+									table.reload('functionTable',null)
+								}
+
+							}
 						});
 					} else {
 						var temUrl = "/function/edit?id=" + nodeId;
-						layer.open({
+						top.layer.open({
+							title:'编辑',
+							shadeClose: true,
+							type: 2,
+							fixed: false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							area : [ '80%', '90%' ],
+							content:  temUrl,
+							end: function(lay, index) {
+								// 弹窗销毁时获取弹窗返回数据
+								var getDialogData = getDialogData('dialog-data');
+								/*判断成功刷新table*/
+								if(getDialogData.code=="0"){
+									table.reload('functionTable',null)
+								}
+
+							}
+						});
+						/*layer.open({
 							title : '编辑',
 							skin : 'layui-layer-lan',
 							shadeClose : true,
@@ -331,7 +407,7 @@
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							area : [ '70%', '90%' ],
 							content : temUrl
-						});
+						});*/
 						refreshTree();
 					}
 				},

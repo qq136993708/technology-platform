@@ -43,7 +43,7 @@
 
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from science_plan where id = #{id} and deleted != '1'
+        select * from view_science_plan where id = #{id} and deleted != '1'
     </select>
 
     <update id="delete" parameterType="java.lang.String">
@@ -51,7 +51,7 @@
     </update>
 
 
-    <insert id="add"  parameterType="com.pcitc.base.scientificplan.SciencePlan">
+    <insert id="add" parameterType="com.pcitc.base.scientificplan.SciencePlan">
     insert into science_plan (
        ID,
       `NAME`,
@@ -87,8 +87,8 @@
   </insert>
 
 
-    <select id="query"  parameterType="java.util.Map" resultMap="BaseResultMap" >
-        select * from science_plan where 1=1
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from view_science_plan where 1=1
 
         <if test="name != null and name != '' ">
             and `NAME` like CONCAT('%',#{name},'%')
@@ -102,7 +102,7 @@
         </if>
 
         <if test="professionalField != null and professionalField != '' ">
-             and PROFESSIONAL_FIELD = #{professionalField}
+            and PROFESSIONAL_FIELD = #{professionalField}
         </if>
 
         <if test="specialtyCategory != null and specialtyCategory != '' ">
@@ -146,12 +146,9 @@
             <if test="releaseTime != null  ">
                 RELEASE_TIME = #{releaseTime},
             </if>
-
-
             <if test=" accessory != null  ">
                 accessory = #{ accessory},
             </if>
-
 
             <if test="deleted != null and deleted != ''">
                 deleted = #{deleted,jdbcType=VARCHAR},
@@ -164,20 +161,13 @@
                 update_date = #{updateDate},
             </if>
 
-
             <if test="annual != null  ">
-                and annual = #{annual}
+                annual = #{annual}
             </if>
-
 
         </trim>
         where id = #{id}
     </update>
-
-
-
-
-
 
 
 </mapper>

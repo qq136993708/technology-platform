@@ -116,6 +116,7 @@ var __base_dic_store = {
 						</li> <#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
 						<li class="layui-nav-item"></#if> <a href="#" title="${grgzt.name}">
+								<span class="icon_name ${grgzt.icon}"></span>
 								<span>${grgzt.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -259,6 +260,7 @@ var __base_dic_store = {
 							<div></div>
 						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
+								<span class="icon_name ${s.icon}"></span>
 								<span>${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -282,6 +284,7 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#if openFlag!="0">
 						<li class="layui-nav-item"><a href="#" title="${s.name}">
+								<span class="icon_name ${s.icon}"></span>
 								<span>${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -305,7 +308,8 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
 						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
-								<span>${s.name}</span>
+							<span class="icon_name ${s.icon}"></span>	
+							<span>${s.name}</span>
 							</a></li> </#if> </#list>
 						
 					</ul>

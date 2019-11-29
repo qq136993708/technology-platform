@@ -22,6 +22,9 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
 
     private  String accessory; //附件
 
+
+    private  String nameTxt ="";
+
     public ScienceEvolveDynamic() {
     }
 
@@ -101,5 +104,14 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
 
     public void setAccessory(String accessory) {
         this.accessory = accessory;
+    }
+
+
+    public String getNameTxt() {
+        return nameTxt;
+    }
+
+    public void setNameTxt(String nameTxt) {
+        this.nameTxt = nameTxt;
     }
 }

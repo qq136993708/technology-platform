@@ -77,6 +77,7 @@ public class TreeUtils {
 			formSelectNode.setValue(node.getTypeCode());
 			formSelectNode.setName(node.getTypeName());
 			formSelectNode.setParentId(node.getParentId());
+			formSelectNode.setNodePath(node.getTypeIndex());
 			reslutList.add(formSelectNode);
 			
 		}

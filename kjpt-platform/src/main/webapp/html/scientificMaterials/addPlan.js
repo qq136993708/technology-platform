@@ -1,6 +1,4 @@
-layui.use(['element', 'form', 'table', 'formSelects'], function(){
-	var element = layui.element;
-	var table = layui.table;
+layui.use(['form', 'formSelects', 'laydate'], function(){
 	var form = layui.form;
 	
   var variable = getQueryVariable();
@@ -9,15 +7,20 @@ layui.use(['element', 'form', 'table', 'formSelects'], function(){
   var itemDataUrl = '/SciencePlan/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
+  var readonlyFile = false; // 附件是否只读
 
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
     itemDataUrl = '/SciencePlan/load/' + variable.id;
+    readonlyFile = true;
   } else if (variable.type === 'add') {
-    
+    // 年份月度
+    layui.laydate.render({elem: '#annualDate', type: 'month'});
   } else if (variable.type === 'edit') {
     itemDataUrl = '/SciencePlan/load/' + variable.id;
     msgTitle = '编辑';
+    // 年份月度
+    layui.laydate.render({elem: '#annualDate', type: 'month'});
   }
   
   httpModule({
@@ -25,6 +28,9 @@ layui.use(['element', 'form', 'table', 'formSelects'], function(){
     success: function(res) {
       if (res.code === '0') {
         var formData = res.data;
+        if (formData.annual) {
+          formData.annual = new Date(formData.annual).format('yyyy-MM');
+        }
         form.val('formAddPlan', formData);
         form.render();
         if (formData.authenticateUtil) {
@@ -40,23 +46,34 @@ layui.use(['element', 'form', 'table', 'formSelects'], function(){
     }
   })
 
-
   // 附件
   setFileUpload({
     id: 'addPlanFile',
     dataID: billID,
+    readonly: readonlyFile,
     callback: function (tableData, type) {
-      console.log(tableData);
+      if (tableData) {
+        var fileIds = '';
+        $.each(tableData, function(i, item) {
+          fileIds += ',' + item.id;
+        })
+        fileIds = fileIds.substring(1);
+        form.val('formAddPlan', {accessory: fileIds});
+      } else {
+        form.val('formAddPlan', {accessory: ''});
+      }
     }
   });
 
 
   form.on('submit(formAddPlanBtn)', function(data) {
-
-
+    var saveData = data.field;
+    if (saveData.annual) {
+      saveData.annual = new Date(saveData.annual).getTime();
+    }
     httpModule({
       url: '/SciencePlan/save',
-      data: data.field,
+      data: saveData,
       type: 'POST',
       success: function(res) {
         if (res.code === '0') {

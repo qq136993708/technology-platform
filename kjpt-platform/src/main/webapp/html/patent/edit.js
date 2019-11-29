@@ -41,10 +41,15 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
           var data = relData.data;
           transToData(data, ['applicationDate','entryDate']);
+          if(data.technicalField) {
+            data.technicalField = data.technicalField.split(',');
+          } else {
+            data.technicalField = [];
+          }
           //data.technicalField = data.technicalField.split(',');
            
           form.val('formMain', data);
-          formSelects.value('technicalField', relData.data.technicalField.split(',')); 
+          formSelects.value('technicalField', data.technicalField); 
 
           // 更新表单数据
           //form.render();
