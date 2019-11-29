@@ -69,7 +69,8 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
     @ResponseBody
@@ -84,7 +85,8 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicationNumber,
             @RequestParam(required = false) String patentName,
             @RequestParam(required = false) String applicant,
-            @RequestParam(required = false) String inventor
+            @RequestParam(required = false) String inventor,
+            @RequestParam(required = false) String technicalFieldIndex
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -124,6 +126,9 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(inventor)) {
             this.setParam(condition, "inventor", inventor);
+        }
+        if (!StringUtils.isEmpty(technicalFieldIndex)) {
+            this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
         }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
