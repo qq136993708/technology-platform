@@ -148,7 +148,9 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "title",          value = "职称",    dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalField", value = "技术领域",  dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "sex",            value = "性别",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "technicalFieldIndex",       value = "技术索引",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -163,6 +165,8 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String technicalField,
             @RequestParam(required = false) String sex,
             @RequestParam(required = false) String education,
+            @RequestParam(required = false) String technicalFieldIndex,
+            @RequestParam(required = false) String technicalFieldName,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
