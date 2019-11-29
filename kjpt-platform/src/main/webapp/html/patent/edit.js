@@ -85,12 +85,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 	form.on('submit(newSubmit)', function(data) {
 
     if(formSelects.value('technicalField')){
-      var technicalFieldText=''
+      var technicalFieldText='', technicalFieldIndex='';
       formSelects.value('technicalField').map(function (item, index) {
-        technicalFieldText+=item.name+','
+        technicalFieldText+=item.name+',';
+        technicalFieldIndex+=item.nodePath+',';
       })
       data.field.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
-  }
+      data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
+    }
 
 		httpModule({
 			url: '/patentController/save',

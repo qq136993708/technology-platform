@@ -288,7 +288,7 @@ layui.config({
         }
         console.log(formSelects.value('technicalField'))
         if(formSelects.value('technicalField')){
-            var technicalFieldName='',technicalFieldIndex=''
+            var technicalFieldName='',technicalFieldIndex='';
             formSelects.value('technicalField').map(function (item, index) {
                 technicalFieldName+=item.name+','
                 technicalFieldIndex+=item.nodePath+','
