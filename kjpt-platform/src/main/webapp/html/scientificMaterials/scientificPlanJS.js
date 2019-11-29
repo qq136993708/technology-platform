@@ -21,8 +21,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           {type: 'radio', field: 'id'}
           ,{field: 'name', title: '科研规划名称', templet: function(d) {
             return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
-          }} // authenticateUitlText
-          ,{field: 'authenticateUtil', title: '申报单位', sort: true }
+          }}
+          ,{field: 'authenticateUitlText', title: '申报单位', sort: true }
           ,{field: 'researchField', title: '研究领域'}
           ,{field: 'professionalField', title: '专业领域', sort: true}
           ,{field: 'specialtyCategory', title: '专业类别'} 

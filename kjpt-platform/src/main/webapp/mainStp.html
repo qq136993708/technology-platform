@@ -24,7 +24,7 @@
 					<span class="text-title">专家人数</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number" id="expertNumber">121</span><span class="text">个</span>
+					<span class="number" id="expertNumber" num-label="zik">121</span><span class="text">个</span>
 				</div>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 					<span class="text-title">科研平台</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number">90</span><span class="text">家</span>
+					<span class="number" num-label="kypt">90</span><span class="text">家</span>
 				</div>
 			</div>
 		</div>
@@ -45,10 +45,10 @@
 			<div class="item-cell">
 				<div class="title-cl-item">
 					<span class="text-icon"><img src="/images/icon005.png" alt=""></span>
-					<span class="text-title">专利数量</span>
+					<span class="text-title">专利个数</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number">60</span><span class="text">个</span>
+					<span class="number" num-label="patent">60</span><span class="text">个</span>
 				</div>
 			</div>
 		</div>
@@ -57,10 +57,10 @@
 			<div class="item-cell">
 				<div class="title-cl-item">
 					<span class="text-icon"><img src="/images/icon004.png" alt=""></span>
-					<span class="text-title">科研预算</span>
+					<span class="text-title">科技成果</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number">95.5</span><span class="text">亿元</span>
+					<span class="number" num-label="kycg">95.5</span><span class="text">个</span>
 				</div>
 			</div>
 		</div>
@@ -69,10 +69,10 @@
 			<div class="item-cell">
 				<div class="title-cl-item">
 					<span class="text-icon"><img src="/images/icon001.png" alt=""></span>
-					<span class="text-title">知识数量</span>
+					<span class="text-title">核行业标准</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number">32</span><span class="text">个</span>
+					<span class="number" num-label="">32</span><span class="text">个</span>
 				</div>
 			</div>
 		</div>
@@ -81,10 +81,10 @@
 			<div class="item-cell">
 				<div class="title-cl-item">
 					<span class="text-icon"><img src="/images/icon003.png" alt=""></span>
-					<span class="text-title">成果数量</span>
+					<span class="text-title">质量报表</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number">0</span><span class="text">个</span>
+					<span class="number" num-label="">0</span><span class="text">个</span>
 				</div>
 			</div>
 		</div>
@@ -93,22 +93,10 @@
 			<div class="item-cell">
 				<div class="title-cl-item">
 					<span class="text-icon"><img src="/images/icon001.png" alt=""></span>
-					<span class="text-title">软件数量</span>
+					<span class="text-title">经验反馈</span>
 				</div>
 				<div class="number-cl-item">
-					<span class="number">86</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon001.png" alt=""></span>
-					<span class="text-title">成果报奖</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number">751</span><span class="text">个</span>
+					<span class="number" num-label="">86</span><span class="text">个</span>
 				</div>
 			</div>
 		</div>
@@ -189,7 +177,7 @@
 							</ul>
 						</div>
 						<div class="layui-tab-item">成果转化</div>
-						<div class="layui-tab-item">专利</div>
+						<div class="layui-tab-item"><ul class="details-list" id="patent_tab_list"></ul></div>
 					</div>
 				</div>
 			</div>
@@ -209,7 +197,7 @@
 					</ul>
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
-							<ul class="details-list">
+							<ul class="details-list" id="plan_tab_list">
 								<li class="item-details">
 									<span class="date-text">[2019-07-23 14:20:58]</span>
 									<span class="details-text">关于项目（课题）合同（任务书）7月31日关闭上报功能的通知</span>
