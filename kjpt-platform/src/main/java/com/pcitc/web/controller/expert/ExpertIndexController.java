@@ -105,6 +105,11 @@ public class ExpertIndexController {
 		}
 		
 		
-				
+		    @RequestMapping(value = "/out/getOutProjectList")
+		    public String out_projectList(HttpServletRequest request) throws Exception {
+		        request.setAttribute("projectName", request.getParameter("projectName"));
+		        request.setAttribute("setupYear", request.getParameter("setupYear"));
+		        return "/kjpt/out/out_projectList";
+		    }
 
 }

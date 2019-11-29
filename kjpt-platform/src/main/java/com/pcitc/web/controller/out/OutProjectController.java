@@ -82,7 +82,9 @@ public class OutProjectController extends BaseController {
         @ApiImplicitParam(name = "page",           value = "页码",       dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "limit",          value = "每页显示条数",  dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "techType",       value = "专业领域",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "techTypeIndex",  value = "专业领域索引",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "techTypeIndex",  value = "专业领域索引",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "projectName",    value = "项目名称",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "setupYear",      value = "年份",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/outProject-api/page", method = RequestMethod.GET)
 	public String getExpertPage(
@@ -92,12 +94,16 @@ public class OutProjectController extends BaseController {
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String techType,
             @RequestParam(required = false) String techTypeIndex,
+            @RequestParam(required = false) String projectName,
+            @RequestParam(required = false) String setupYear,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("techType", techType);
     	param.getParam().put("techTypeIndex", techTypeIndex);
+    	param.getParam().put("projectName", projectName);
+    	param.getParam().put("setupYear", setupYear);
     	param.setLimit(limit);
     	param.setPage(page);
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -130,6 +136,10 @@ public class OutProjectController extends BaseController {
     }
    
 	
+    
+    
+    
+  
     
 
 }
