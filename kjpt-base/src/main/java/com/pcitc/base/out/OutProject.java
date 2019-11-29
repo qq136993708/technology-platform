@@ -33,8 +33,19 @@ public class OutProject implements Serializable {
      * 技术分类
      */
     private String techType;
+    
+    private String   techTypeIndex;
+    
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getTechTypeIndex() {
+		return techTypeIndex;
+	}
+
+	public void setTechTypeIndex(String techTypeIndex) {
+		this.techTypeIndex = techTypeIndex;
+	}
+
 
     public String getId() {
         return id;
