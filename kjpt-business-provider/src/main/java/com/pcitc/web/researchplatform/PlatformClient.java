@@ -3,6 +3,7 @@ package com.pcitc.web.researchplatform;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.patent.KgjImportModel;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.service.researchplatform.PlatformService;
 import io.swagger.annotations.Api;
@@ -73,5 +74,12 @@ public class PlatformClient {
     @RequestMapping(value = "/selectPaltinfoCount/{id}", method = RequestMethod.GET)
     public List<Map> selectPaltinfoCount(@PathVariable String id){
         return ps.selectPaltinfoCount(id);
+    }
+
+
+    @RequestMapping(value="/excelImport/{currrentUser}",method =RequestMethod.POST)
+    public String excelImport(@PathVariable(value="currrentUser") String currrentUser, @RequestBody List<List<String>> dataList){
+        //return ks.kgjImport(dataList,currrentUser);
+        return null;
     }
 }

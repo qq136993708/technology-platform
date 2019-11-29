@@ -37,4 +37,11 @@ public interface PlatformService {
 
     List<Map> selectPaltinfoCount(String id);
 
+    /**
+     *excel导入
+     * @param dataList
+     * @param currentUser
+     */
+    List excelImport(List dataList,String currentUser);
+
 }

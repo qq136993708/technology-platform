@@ -81,6 +81,8 @@ public class BlocScientificPlanController extends RestBaseController {
             @RequestParam(required = false) String reportType
 
     ) {
+
+
         Map<String, Object> condition = new HashMap<>(6);
 
         this.setParam(condition, "pageNum", pageNum);
@@ -92,11 +94,11 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(publication)) {
             this.setParam(condition, "publication", publication);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
-            this.setParam(condition, "annual", annual);
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_DD))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_DD));
         }
-        if (!StringUtils.isEmpty(DateUtil.format(pubdate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "pubdate", pubdate);
+        if (!StringUtils.isEmpty(DateUtil.format(pubdate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "pubdate", DateUtil.format(pubdate,DateUtil.FMT_DD));
         }
         if (!StringUtils.isEmpty(accessory)) {
             this.setParam(condition, "accessory", accessory);
@@ -119,6 +121,10 @@ public class BlocScientificPlanController extends RestBaseController {
         this.setBaseData(bsp);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<BlocScientificPlan> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<BlocScientificPlan>(bsp, this.httpHeaders), BlocScientificPlan.class);
+
+
+
+
         return responseEntity.getBody();
     }
 

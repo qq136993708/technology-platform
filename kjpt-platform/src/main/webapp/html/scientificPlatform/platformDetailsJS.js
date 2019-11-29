@@ -73,7 +73,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
            var numLabel = $(this).attr('num-label');
            if (numLabel) {
             var itemVlue = relData.data.filter(function(value, i) { if (value.count_type === numLabel) return value; })[0];
-            $(this).empty().text(itemVlue.count);
+            if (itemVlue) {
+              $(this).empty().text(itemVlue.count);
+            }
            }
          });
         }

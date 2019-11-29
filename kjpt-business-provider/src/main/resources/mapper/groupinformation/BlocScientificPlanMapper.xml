@@ -18,9 +18,9 @@
         <result column="accessory" jdbcType="VARCHAR" property="accessory"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
-        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
-        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
     </resultMap>
 
@@ -34,7 +34,7 @@
         deleted,
         create_date,
         create_user,
-        update_dete,
+        update_date,
         update_user,
         report_type
   </sql>
@@ -59,7 +59,7 @@
        deleted,
        create_date,
        create_user,
-       update_dete,
+       update_date,
        update_user,
        report_type
        )
@@ -73,9 +73,9 @@
       #{deleted},
       #{createDate},
       #{creator},
-      #{updateDete},
+      #{updateDate},
       #{updator},
-      #{report_type}
+      #{reportType}
       )
 
   </insert>
@@ -91,7 +91,7 @@
             and publication = #{publication}
         </if>
         <if test="annual != null and annual != ''">
-            and annual = #{annual}
+            and annual  <![CDATA[ >= ]]> #{annual}
         </if>
         <if test="pubdate != null and pubdate != ''">
             and pubdate = #{pubdate}
@@ -135,28 +135,28 @@
             <if test="createDate != null">
                 create_date = #{createDate,jdbcType=TIMESTAMP},
             </if>
-            <if test="createUser != null">
-                create_user = #{createUser,jdbcType=VARCHAR},
+            <if test="creator != null">
+                create_user = #{creator,jdbcType=VARCHAR},
             </if>
-            <if test="updateDete != null">
-                update_dete = #{updateDete,jdbcType=TIMESTAMP},
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
             </if>
-            <if test="updateUser != null">
-                update_user = #{updateUser,jdbcType=VARCHAR},
+            <if test="updator != null">
+                update_user = #{updator,jdbcType=VARCHAR},
             </if>
 
             <if test="reportType != null and reportType != ''">
                 report_type = #{reportType}
             </if>
 
-            <!--<if test="createUser != null">-->
-            <!--create_user = #{createUser,jdbcType=VARCHAR},-->
+            <!--<if test="creator != null">-->
+            <!--create_user = #{creator,jdbcType=VARCHAR},-->
             <!--</if>-->
-            <!--<if test="updateDete != null">-->
-            <!--update_dete = #{updateDete,jdbcType=TIMESTAMP},-->
+            <!--<if test="updateDate != null">-->
+            <!--update_date = #{updateDate,jdbcType=TIMESTAMP},-->
             <!--</if>-->
-            <!--<if test="updateUser != null">-->
-            <!--update_user = #{updateUser,jdbcType=VARCHAR},-->
+            <!--<if test="updator != null">-->
+            <!--update_user = #{updator,jdbcType=VARCHAR},-->
             <!--</if>-->
 
         </trim>

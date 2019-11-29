@@ -1,6 +1,7 @@
 layui.use(['element', 'jquery'], function() {
   var $ = layui.jquery;
 
+  // 饼图渲染
   function getPieChartOption(data) {
     /*
     public data: {completed: 8, unCompleted: 2, title: '上周工作完成情况'};
@@ -52,8 +53,67 @@ layui.use(['element', 'jquery'], function() {
     };
     return option;
   }
+  // 列表渲染
+  function getItemHtml(config) {
+    var $parent = $(config.id).empty();
+    $.each(config.data, function(i, item) {
+      var $li = $('<li class="item-details"></li>');
+      var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
+      $li.append(itemHtml);
+      
+      if (config.href) {
+        var itemHref = config.href;
+        if (config.hrefData) {
+          var dataList = '';
+          for (var i = 0; i < config.hrefData.length; i++) {
+            dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];
+          }
+          if (itemHref.indexOf('?') === -1) {
+            itemHref += ('?' + dataList.substring(1));
+          } else {
+            itemHref += dataList;
+          }
+        }
 
-  
+        $li.click(function(e) {
+          if (config.openType && config.openType === 'layer') {
+            top.layer.open({
+              type: 2,
+              title: config.title || '查看详情',
+              content: itemHref,
+              area: ['880px', '70%'],
+              btn: null,
+            });
+          } else {
+            window.location.href = itemHref;
+          }
+        })  
+      }
+      $parent.append($li);
+    })
+  }
+  // 获取tab页签对应的内容
+  function getTabContentList(config) {
+    httpModule({
+      url: config.url,
+      data: config.data,
+      success: function(res) {
+        if (res.code === '0' || res.success === true) {
+          getItemHtml({
+            id: config.id,
+            name: config.name,
+            data: res.data.list,
+            href: config.href,
+            hrefData: config.hrefData,
+            title: config.title,
+            openType: config.openType
+          })
+        }
+      }
+    })
+  }
+
   var lastWeekChart = echarts.init(document.getElementById('lastWeek'));
   lastWeekChart.setOption(getPieChartOption({completed: 8, unCompleted: 2, title: '上周工作完成情况'}));
 
@@ -65,17 +125,47 @@ layui.use(['element', 'jquery'], function() {
     thisWeekChart.resize();
   });
 
-
-  function getItemValue(url, id) {
-    // 
-    httpModule({
-      url: url,
-      success: function(res) {
-        if (res.success) { $(id).text(res.data) }
+  // 获取相关个数
+  httpModule({
+    url: '/indexHome-model/homeNummary',
+    success: function(res) {
+      if ( res.list.length) {
+        $('[num-label]').each(function(i, item) {
+          var numLabel = $(this).attr('num-label');
+          if (numLabel) {
+           var itemVlue = res.list.filter(function(value, i) { if (value.sumName === numLabel) return value; })[0];
+           if (itemVlue) {
+             $(this).empty().text(itemVlue.num);
+           }
+          } else {
+            $(this).empty().text(0)
+          }
+        });
       }
-    });
-  }
+    }
+  });
 
-  // getItemValue('/expert-api/getZjkBaseCount', '#expertNumber');
+  // 专利列表
+  getTabContentList({
+    id: '#patent_tab_list',
+    url: '/patentController/query',
+    data: { page: 1, limit: 10 },
+    name: 'patentName',
+    href: '/html/patent/view.html',
+    hrefData: ['id'],
+    title: '专利详情',
+    openType: 'layer'
+  })
+
+  // 科技规划
+  getTabContentList({
+    id: '#plan_tab_list',
+    name: 'name',
+    url: '/SciencePlan/query',
+    data: { page: 1, limit: 10 },
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '科技规划详情'
+  })
 
 });

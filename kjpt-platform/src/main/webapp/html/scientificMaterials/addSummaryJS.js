@@ -1,5 +1,6 @@
 layui.use(['laydate', 'form', 'formSelects'], function(){
-	var form = layui.form;
+  var form = layui.form;
+  var formSelects = layui.formSelects;
 	
   var variable = getQueryVariable();
   console.log(variable);
@@ -34,13 +35,13 @@ layui.use(['laydate', 'form', 'formSelects'], function(){
         form.val('formAddProgress', formData);
         form.render();
         if (formData.authenticateUtil) {
-          layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+          formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddProgress', '.disabled');
           $('.disabled-box').remove();
           layui.form.render('select');
-          layui.formSelects.disabled();
+          formSelects.disabled();
         }
       }
     }
@@ -67,9 +68,13 @@ layui.use(['laydate', 'form', 'formSelects'], function(){
 
 
   form.on('submit(formAddProgressBtn)', function(data) {
-    var saveData = data.field;
+    var saveData = data.field,
+    utilData = formSelects.value('authenticateUtil');
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
+    }
+    if (utilData.length) {
+      saveData.authenticateUitlText = utilData[0].name;
     }
     httpModule({
       url: '/ScienceEvolveDynamic/save',

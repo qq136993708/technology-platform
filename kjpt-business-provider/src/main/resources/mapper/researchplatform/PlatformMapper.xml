@@ -16,7 +16,7 @@
         <result column="overall_situation" jdbcType="VARCHAR" property="overallSituation"/>
         <result column="platform_scoring" jdbcType="INTEGER" property="platformScoring"/>
         <result column="level" jdbcType="VARCHAR" property="level"/>
-        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
@@ -44,7 +44,7 @@
         platform_scoring,
         level,
         img_id,
-        creator,
+        create_user,
         create_date,
         update_date,
         updator,
@@ -84,7 +84,7 @@
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
-        overall_situation,platform_scoring,img_id,level,creator,create_date,update_date,updator,deleted)
+        overall_situation,platform_scoring,img_id,level,create_user,create_date,update_date,updator,deleted)
          values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
          #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
     </insert>
@@ -152,4 +152,46 @@
     <update id="delete" parameterType="java.lang.String">
             update kypt_info set deleted = '1' where id = #{id}
     </update>
+
+    <insert id="excelData2MemoryDB" parameterType="java.util.List">
+        insert into kypt_info_memory(
+            id,
+            platform_name,
+            research_field,
+            supporting_institutions,
+            research_funds,
+            platform_introduction,
+            team_Introduction,
+            overall_situation,
+            person_liable,
+            platform_scoring,
+            level,
+            deleted,
+            create_user,
+            create_date
+        )values
+            <foreach collection="list" item="plf" separator=",">
+            (
+            #{plf.id},
+            #{plf.platformName},
+            #{plf.researchField},
+            #{plf.supportingInstitutions},
+            #{plf.researchFunds},
+            #{plf.platformIntroduction},
+            #{plf.teamIntroduction},
+            #{plf.overallSituation},
+            #{plf.personLiable},
+            #{plf.platformScoring},
+            #{plf.level},
+            #{plf.deleted},
+            #{plf.creator},
+            #{plf.createDate}
+            )
+        </foreach>
+    </insert>
+
+    <select id="handlerKyptInfoImport" parameterType="java.lang.String" resultMap="BaseResultMap">
+        call handler_kypt_import(#{batchId})
+    </select>
+
 </mapper>

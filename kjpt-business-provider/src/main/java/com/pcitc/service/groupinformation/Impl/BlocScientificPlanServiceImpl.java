@@ -31,7 +31,7 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
         IsEmptyUtil.isEmpty(blocScientificPlan.getId());
 
         if (load(blocScientificPlan.getId()) == null) {
-            blocScientificPlan.setCreateDate(blocScientificPlan.getUpdateDate());
+            blocScientificPlan.setUpdateDate(blocScientificPlan.getUpdateDate());
             blocScientificPlan.setCreator(blocScientificPlan.getUpdator());
             blocScientificPlanMapper.add(blocScientificPlan);
         } else {
