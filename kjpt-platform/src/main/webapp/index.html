@@ -55,7 +55,7 @@ var __base_dic_store = {
 					</div>
 				</div>
 				<!--搜索-->
-				<div class="layui-header-search inline-block">
+				<div class="layui-header-search inline-block layui-hide">
 					<div class="seacrhBox">
 						<input type="text" placeholder="搜索">
 						<img src="/layuiadmin/layui/images/icon-s.png" alt="">
@@ -543,7 +543,6 @@ var __base_dic_store = {
 								showMoreItem = true;
 							}
 						}
-						console.log($(this).outerWidth(), $(this).text())
 					})
 					if (showMoreItem) {
 						$('#navPrev').removeClass('layui-hide');
