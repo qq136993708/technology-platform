@@ -1,5 +1,6 @@
 package com.pcitc.base.researchplatform;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pcitc.base.common.RecordModel;
 
 import java.io.Serializable;
@@ -69,6 +70,19 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
      */
     private String imgId="";
 
+    /**
+     * 导入数据的批次标识
+     */
+    @JsonInclude
+    private String batchId="";
+
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
+    }
 
     public String getId() {
         return id;

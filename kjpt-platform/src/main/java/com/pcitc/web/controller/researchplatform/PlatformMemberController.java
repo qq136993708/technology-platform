@@ -63,6 +63,8 @@ public class PlatformMemberController extends RestBaseController {
      */
     private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/queryNoPage";
 
+    private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/excelImport/";
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/researchPlatformMember-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody

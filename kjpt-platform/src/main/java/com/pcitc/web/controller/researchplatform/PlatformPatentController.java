@@ -55,6 +55,8 @@ public class PlatformPatentController extends RestBaseController {
      */
     private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatformPatent-api/queryNoPage";
 
+    private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatformPatent-api/excelImport/";
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/researchPlatformPatent-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody

@@ -55,6 +55,8 @@ public class PlatformProjectController extends RestBaseController {
      */
     private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/queryNoPage";
 
+    private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/excelImport/";
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/platformProject-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody

@@ -56,10 +56,11 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency> -->
 		<!-- 自动重新编译 取消热部署 -->
+		<!--开发阶段开起来-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<optional>false</optional>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
