@@ -54,6 +54,17 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         return pageInfo;
     }
 
+    @Override
+    public List queryPatent(Map param) {
+        int pageNum = (int)param.get("pageNum");
+        int pageSize = (int)param.get("pageSize");
+        PageHelper.startPage(pageNum, pageSize);
+        List dataList = patentInfoMapper.queryPatentList(param);
+        //PageInfo pageInfo = new PageInfo(dataList);
+
+        return dataList;
+    }
+
     public PatentInfo getPatentInfo(String id){
         return patentInfoMapper.selectByPrimaryKey(id);
     }

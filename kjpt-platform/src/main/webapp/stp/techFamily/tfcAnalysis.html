@@ -379,25 +379,17 @@
                     // {type: 'checkbox', event: 'changeEvents', width: 55},
                     {title: '序号', type: 'numbers', width: 55},
                     {
-                        field: "nd",
-                        title: "年度", event: 'setActive', style: 'cursor: pointer;', width: 55
+                        field: "setupYear",
+                        title: "年度", event: 'setActive', style: 'cursor: pointer;', width: 100
                     },
                     {
-                        field: "hth",
-                        title: "合同号", event: 'setActive', style: 'cursor: pointer;', width: 100
-                    },
-                    {
-                        field: "xmmc",
-                        title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
+                        field: "projectName",
+                        title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
                     },
 
                     {
-                        field: "kssj",
-                        title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 80
-                    },
-                    {
-                        field: "jssj",
-                        title: "结束时间", event: 'setActive', style: 'cursor: pointer;', width: 80
+                        field: "projectCycle",
+                        title: "项目周期", event: 'setActive', style: 'cursor: pointer;'
                     }
                 ]],
                 method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
@@ -412,6 +404,7 @@
                 , limit: 15
                 , limits: [15, 30, 45, 60], // 配置分页数据条数
                 done: function (res, curr, count) {
+                    console.log(res)
                     $("#indexOutProjectInfoTableIdCount").html("(" + count + ")");
                 }
             });
