@@ -751,6 +751,9 @@
     <if test="applicationDateEnd != null and applicationDateEnd != '' " >
       and application_date &lt;= #{applicationDateEnd}
     </if>
+    <if test="technicalFieldIndex != null and technicalFieldIndex != '' " >
+     AND technical_field_index like CONCAT(#{technicalFieldIndex},'%')
+    </if>
     and deleted != '1'
   </select>
 </mapper>
