@@ -113,7 +113,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/SciencePlan/delete/' + itemRowData[0].id,
+          url: '/WorkPoint/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {

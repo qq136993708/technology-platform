@@ -5,20 +5,20 @@ layui.use(['laydate', 'form', 'formSelects'], function(){
   var variable = getQueryVariable();
   console.log(variable);
 
-  var itemDataUrl = '/ScienceEvolveDynamic/newInit';
+  var itemDataUrl = '/YearSummary/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
   var readonlyFile = false;
 
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
-    itemDataUrl = '/ScienceEvolveDynamic/load/' + variable.id;
+    itemDataUrl = '/YearSummary/load/' + variable.id;
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
   } else if (variable.type === 'edit') {
-    itemDataUrl = '/ScienceEvolveDynamic/load/' + variable.id;
+    itemDataUrl = '/YearSummary/load/' + variable.id;
     msgTitle = '编辑';
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
@@ -77,7 +77,7 @@ layui.use(['laydate', 'form', 'formSelects'], function(){
       saveData.authenticateUitlText = utilData[0].name;
     }
     httpModule({
-      url: '/ScienceEvolveDynamic/save',
+      url: '/YearSummary/save',
       data: saveData,
       type: 'POST',
       success: function(res) {
