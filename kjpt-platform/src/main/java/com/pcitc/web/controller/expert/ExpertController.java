@@ -139,8 +139,8 @@ public class ExpertController extends BaseController {
     
     @ApiOperation(value = "专家查询（分页）", notes = "专家查询（分页）")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "page",           value = "页码", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "page",           value = "页码", dataType = "string", paramType = "query",required=true),
+        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "useStatus",      value = "状态",    dataType = "string", paramType = "query"),
@@ -148,9 +148,9 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "title",          value = "职称",    dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalField", value = "技术领域",  dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "sex",            value = "性别",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query")
-        
-        
+        @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "technicalFieldIndex",       value = "技术索引",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -165,6 +165,8 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String technicalField,
             @RequestParam(required = false) String sex,
             @RequestParam(required = false) String education,
+            @RequestParam(required = false) String technicalFieldIndex,
+            @RequestParam(required = false) String technicalFieldName,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -315,6 +317,8 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setNum(zjkBase.getNum());
 			oldZjkBase.setWorkExperience(zjkBase.getWorkExperience());
 			oldZjkBase.setTechnicalField(zjkBase.getTechnicalField());
+			oldZjkBase.setTechnicalFieldName(zjkBase.getTechnicalFieldName());
+			oldZjkBase.setTechnicalFieldIndex(zjkBase.getTechnicalFieldIndex());
 			oldZjkBase.setTitle(zjkBase.getTitle());
 			oldZjkBase.setSex(zjkBase.getSex());
 			oldZjkBase.setPost(zjkBase.getPost());
@@ -325,7 +329,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setZjkPatentJsonList(zjkBase.getZjkPatentJsonList());
 			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
 			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
-			
+			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();

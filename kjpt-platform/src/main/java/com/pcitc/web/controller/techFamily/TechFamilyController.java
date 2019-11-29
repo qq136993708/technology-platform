@@ -46,6 +46,9 @@ public class TechFamilyController extends BaseController {
 	private static final String TECH_TYPE_ADD = "http://kjpt-zuul/stp-proxy/tech-family-provider/type-insert";
 	private static final String TECH_TYPE_DEL = "http://kjpt-zuul/stp-proxy/tech-family-provider/type-del";
 	private static final String TECH_TYPE_DELETE = "http://kjpt-zuul/stp-proxy/tech-family-provider/type-delete";
+	
+	
+	private static final String GET_OUT_PROJECT_COUNT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list-count/";
 
 	@RequestMapping(value = "/tech-family/type/tree-list/ini")
 	public String iniTechFamilyType(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -165,14 +168,13 @@ public class TechFamilyController extends BaseController {
 		techType.setStatus("1");
 		techType.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		techType.setIsParent("0");
-
 		int retI = this.restTemplate.exchange(TECH_TYPE_ADD, HttpMethod.POST, new HttpEntity<TechFamily>(techType, this.httpHeaders), Integer.class).getBody();
 		if (retI >= 1) {
 			System.out.println("=================操作成功---" + retI);
 			return new Result(true, "操作成功");
 		} else {
 			System.out.println("=================操作失败---" + retI);
-			return new Result(true, "操作失败");
+			return new Result(false, "操作失败");
 		}
 	}
 
@@ -271,5 +273,66 @@ public class TechFamilyController extends BaseController {
 		System.out.println(treeNodes+"------222-------");
 		return treeNodes;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+      * 技术热点图
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/tech-family/tfcHotPoint")
+    public String tfcHotPoint() 
+    {
+        String dataId = request.getParameter("dataId");
+        if (dataId==null||"".equals(dataId))
+        {
+            dataId="no";
+        }
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_COUNT+dataId, HttpMethod.POST, new HttpEntity<>(this.httpHeaders), JSONObject.class);
+        JSONObject outProjectInfo = responseEntity.getBody();
+        request.setAttribute("value",outProjectInfo.get("value"));
+        request.setAttribute("name",outProjectInfo.get("name"));
+        return "stp/techFamily/tfcHotPoint";
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/tech-family/tfcAnalysis")
+    public String tfcAnalysis() 
+    {
+        return "stp/techFamily/tfcAnalysis";
+    }
+    
+    
+    
+
+    @RequestMapping(method = RequestMethod.GET, value = "/tech-family/tfcAnalysisDetail")
+    public String tfcAnalysisDetail()
+    {
+        request.setAttribute("typeIndex",request.getParameter("typeIndex"));
+        request.setAttribute("typeName",request.getParameter("typeName"));
+        request.setAttribute("typeCode",request.getParameter("typeCode"));
+        return "stp/techFamily/tfcAnalysisDetail";
+    }
+	
+	
+	
+	
+	
+	
+	
 
 }

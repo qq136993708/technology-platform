@@ -2,6 +2,8 @@ package com.pcitc.web.common;
 
 import com.pcitc.base.common.Result;
 import com.pcitc.base.exception.SysException;
+import com.pcitc.web.utils.TokenInterUtils;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,6 +49,7 @@ public class ErrorController extends BaseController{
 		result.setSuccess(false);
 		result.setCode("-1");
 		result.setMessage("服务器错误=" + ex.getMessage());
+		TokenInterUtils.saveErrorSysLog(restTemplate, httpHeaders, request, sysUserInfo,ex.getMessage());
         return result;
     }
 }

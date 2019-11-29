@@ -3,6 +3,7 @@ package com.pcitc.web.controller.scientificplan;
 import com.github.pagehelper.PageInfo;
 
 import com.pcitc.base.scientificplan.SciencePlan;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -44,17 +46,6 @@ public class SciencePlanApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/sciencePlan-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/scienceplan/scienceplan_view";
-    }
-
-    @RequestMapping(value = "/addadd")
-    public String add() {
-        return "/kjpt/scienceplan/scienceplan_add";
-    }
-
-
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -75,6 +66,10 @@ public class SciencePlanApiController extends RestBaseController {
             @ApiImplicitParam(name = "professionalField", value = "专业领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "specialtyCategory", value = "专业类别", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query")
+
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
@@ -86,7 +81,10 @@ public class SciencePlanApiController extends RestBaseController {
             @RequestParam(required = false, value = "researchField") String researchField,
             @RequestParam(required = false, value = "professionalField") String professionalField,
             @RequestParam(required = false, value = "specialtyCategory") String specialtyCategory,
-            @RequestParam(required = false, value = "releaseTime") String releaseTime
+            @RequestParam(required = false, value = "releaseTime")@DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
+            @RequestParam(required = false, value = "accessory") String accessory,
+            @RequestParam(required = false, value = "annual")@DateTimeFormat(pattern = "yyyy-MM-dd") Date annual,
+            @RequestParam(required = false, value = "reportType") String reportType
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
@@ -114,9 +112,27 @@ public class SciencePlanApiController extends RestBaseController {
         if (!StringUtils.isEmpty(specialtyCategory)) {
             this.setParam(condition, "specialtyCategory", specialtyCategory);
         }
-        if (!StringUtils.isEmpty(releaseTime)) {
-            this.setParam(condition, "releaseTime", releaseTime);
+//        if (releaseTime!=null) {
+//            this.setParam(condition, "releaseTime", releaseTime);
+//        }
+        if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
+            this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
         }
+        if (!StringUtils.isEmpty(accessory)) {
+            this.setParam(condition, "accessory", accessory);
+        }
+//        if (annual != null) {
+//            this.setParam(condition, "annual", annual);
+//        }
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(reportType)) {
+            this.setParam(condition, "reportType", reportType);
+        }
+
+
+
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);

@@ -125,7 +125,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		  layer.close(index);
       // 确认删除
       httpModule({
-        url: '/ComputerSoftware/delete' + itemRowData.id,
+        url: '/ComputerSoftware/delete/' + itemRowData.id,
         type: 'DELETE',
         success: function(relData) {
           if (relData.code === '0') {

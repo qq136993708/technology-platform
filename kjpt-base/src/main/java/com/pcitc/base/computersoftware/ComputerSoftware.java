@@ -86,6 +86,9 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     private String accessoryUpload="";
 
 
+    private  String unitNameText= "";
+
+
     public String getId() {
         return id;
     }
@@ -196,5 +199,13 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     public void setSoftwareIntroduce(String softwareIntroduce) {
         this.softwareIntroduce = softwareIntroduce;
+    }
+
+    public String getUnitNameText() {
+        return unitNameText;
+    }
+
+    public void setUnitNameText(String unitNameText) {
+        this.unitNameText = unitNameText;
     }
 }

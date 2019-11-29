@@ -5,6 +5,14 @@ if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d
 //拓展Array filter方法
 if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
 
+if (!console) {
+	// IE9下避免 console错误
+	console = {
+		log: function() {},
+  	error: function() {}
+	};
+}
+
 // 获取树项结构的字段 code
 var TREE_DICKIND_CODE = [
 	'ROOT_KJPT_YTDW' //依托单位
@@ -159,18 +167,21 @@ function dialogError(data) {
 		top.layer.open({
 			type: 1,
 			title: null,
-			closeBtn: 0,
-			area: ['440px', '280px'],
+			// closeBtn: 0,
+			skin: 'http-error-dialog',
+			area: ['400px', '220px'],
 			shade: 0.1,
 			btn: ['关闭'],
 			yes: function(index) {
 				top.layer.close(index);
 			},
 			content: (function() {
-				// <i class="layui-icon layui-icon-close"></i>
-				var layerHtml = '<div class="middle-block http-error-dialog"><ul class="error-box"><li>';
-				layerHtml += (data.message || data.msg || '服务器处理出错！');
-				layerHtml += '</li></ul></div>';
+				var layerHtml = '<div class="http-error-content">';
+				layerHtml += '<div class="error-content">';
+				layerHtml += '<div class="error-title-text">错误提示</div><ul>';
+				layerHtml += '<li>'+ (data.message || data.msg || '服务器处理出错！') +'</li>';
+				layerHtml += '</ul></div>';
+				layerHtml += '<div class="error-icon-block"><i class="layui-icon layui-icon-close"></i></div></div>';
 				return layerHtml;
 			})(),
 		})
@@ -226,8 +237,7 @@ function httpModule(config) {
 					if (reldata.code === '-1') {
 						dialogError(reldata);
 					}
-				}
-				if (reldata.hasOwnProperty('success')) {
+				} else if (reldata.hasOwnProperty('success')) {
 					if (!reldata.success) {
 						dialogError(reldata);
 					}

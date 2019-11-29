@@ -143,23 +143,7 @@
 			<artifactId>feign-form-spring</artifactId>
 		</dependency>
 
-		<!--<dependency> -->
-		<!--<groupId>org.apache.httpcomponents</groupId> -->
-		<!--<artifactId>httpclient</artifactId> -->
-		<!--</dependency> -->
-		<!--<dependency> -->
-		<!--<groupId>org.apache.httpcomponents</groupId> -->
-		<!--<artifactId>httpmime</artifactId> -->
-		<!--</dependency> -->
-		<!--<dependency> -->
-		<!--<groupId>org.springframework.boot</groupId> -->
-		<!--<artifactId>spring-boot-starter-thymeleaf</artifactId> -->
-		<!--</dependency> -->
-		<!--<dependency> -->
-		<!--<groupId>org.springframework.cloud</groupId> -->
-		<!--<artifactId>spring-cloud-starter-feign</artifactId> -->
-		<!--</dependency> -->
-		<!--httpclient end -->
+		
 
 
 		<dependency>
@@ -185,35 +169,14 @@
 			<artifactId>poi-ooxml</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
-
-		<!-- <dependency> <groupId>net.sf.json-lib</groupId> <artifactId>json-lib</artifactId> 
-			<version>2.4</version> <classifier>jdk15</classifier> </dependency> -->
+		
 
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
 
-		<!-- 统一身份认证 -->
-		<!-- <dependency>
-			<groupId>com.sinopec.siam</groupId>
-			<artifactId>siam-am-agent-simple</artifactId>
-			<version>3.2.RELEASE</version>
-			<scope>system</scope>
-			<systemPath>${pom.basedir}/lib/siam-am-agent-simple-3.2.RELEASE.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sinopec.siam.provisioning</groupId>
-			<artifactId>siam-provisioning-subscriber-client</artifactId>
-			<version>3.2.RELEASE</version>
-			<scope>system</scope>
-			<systemPath>${pom.basedir}/lib/siam-provisioning-subscriber-clients-3.2.RELEASE.jar</systemPath>
-		</dependency> -->
+		
 		
 		
 		<dependency>
@@ -226,29 +189,7 @@
 			<artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
 
-		<!--<dependency> -->
-		<!--<groupId>com.fasterxml.jackson.core</groupId> -->
-		<!--<artifactId>jackson-core</artifactId> -->
-		<!--</dependency> -->
-
-		<!--<dependency> -->
-		<!--<groupId>com.fasterxml.jackson.core</groupId> -->
-		<!--<artifactId>jackson-databind</artifactId> -->
-		<!--</dependency> -->
-
-		<!--<dependency> -->
-		<!--<groupId>com.fasterxml.jackson.core</groupId> -->
-		<!--<artifactId>jackson-annotations</artifactId> -->
-		<!--</dependency> -->
-
-		<!--<dependency> -->
-		<!--<groupId>com.fasterxml.jackson.datatype</groupId> -->
-		<!--<artifactId>jackson-datatype-joda</artifactId> -->
-		<!--</dependency> -->
-		<!--<dependency> -->
-		<!--<groupId>com.fasterxml.jackson.module</groupId> -->
-		<!--<artifactId>jackson-module-parameter-names</artifactId> -->
-		<!--</dependency> -->
+		
 
 		<!--文档在线查看 -->
 		<dependency>
@@ -298,13 +239,7 @@
 				</includes>
 			</resource>
 
-			<!-- <resource>
-				<directory>src/main/java/com/sinopec</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>**/**</include>
-				</includes>
-			</resource> -->
+			
 		</resources>
 
 		<pluginManagement>
@@ -318,11 +253,6 @@
 						<encoding>UTF-8</encoding>-->
 						<warSourceExcludes>src/main/resources/**</warSourceExcludes>
 						<warName>stp</warName>
-
-						<!-- 打包时，排除不打进去的资源。websocket在外置tomcat时不用打进去，tomcat中的已经有ServerEndpointExporter -->
-						<packagingExcludes>
-							WEB-INF/classes/com/pcitc/web/config/WebSocketConfig.class
-						</packagingExcludes>
 						<webResources>
 							<!-- 第三方jar硬性引入 -->
 							<resource>
@@ -332,16 +262,6 @@
 									<include>**/*.jar</include>
 								</includes>
 							</resource>
-
-							<!-- 统一身份认证其中一个配置文件硬性引入 -->
-							<!-- <resource>
-								<directory>src/main/java/com/sinopec</directory>
-								<targetPath>WEB-INF/classes/com/sinopec</targetPath>
-								<includes>
-									<include>**/*.properties</include>
-									<include>**/keystore</include>
-								</includes>
-							</resource> -->
 						</webResources>
 					</configuration>
 				</plugin>

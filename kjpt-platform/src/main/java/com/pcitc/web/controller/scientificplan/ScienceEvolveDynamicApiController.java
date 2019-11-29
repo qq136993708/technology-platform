@@ -2,12 +2,14 @@ package com.pcitc.web.controller.scientificplan;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.scientificplan.ScienceEvolveDynamic;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -43,15 +45,7 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
     private static final String delete = "http://kjpt-zuul/stp-proxy/scienceEvolveDynamic-api/delete/";
 
 
-    @RequestMapping(value = "/view")
-    public String view() {
-        return "/kjpt/scienceevolvedynamic/scienceevolvedynamic_view";
-    }
 
-    @RequestMapping(value = "/add")
-    public String add() {
-        return "/kjpt/scienceevolvedynamic/scienceevolvedynamic_add";
-    }
 
 
     @ApiOperation(value = "读取")
@@ -70,7 +64,10 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
             @ApiImplicitParam(name = "name", value = "名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query")
 
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
@@ -81,7 +78,11 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
             @RequestParam(required = false, value = "name") String name,
             @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
             @RequestParam(required = false, value = "researchField") String researchField,
-            @RequestParam(required = false, value = "releaseTime") String releaseTime
+            @RequestParam(required = false, value = "releaseTime")@DateTimeFormat(pattern = "yyyy-MM-dd")Date releaseTime,
+            @RequestParam(required = false, value = "accessory") String accessory,
+            @RequestParam(required = false, value = "annual") @DateTimeFormat(pattern = "yyyy-MM-dd") Date annual,
+            @RequestParam(required = false, value = "reportType") String reportType
+
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -104,8 +105,23 @@ public class ScienceEvolveDynamicApiController extends RestBaseController {
         if (!StringUtils.isEmpty(researchField)) {
             this.setParam(condition, "researchField", researchField);
         }
-        if (!StringUtils.isEmpty(releaseTime)) {
-            this.setParam(condition, "releaseTime", releaseTime);
+//        if (releaseTime != null) {
+//            this.setParam(condition, "releaseTime", releaseTime);
+//        }
+        if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
+            this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(accessory)) {
+            this.setParam(condition, "accessory", accessory);
+        }
+//        if (annual != null) {
+//            this.setParam(condition, "annual", annual);
+//        }
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(reportType)) {
+            this.setParam(condition, "reportType", reportType);
         }
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

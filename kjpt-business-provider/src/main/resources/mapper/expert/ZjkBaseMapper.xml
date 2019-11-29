@@ -37,11 +37,14 @@
     <result column="sex_str"              jdbcType="VARCHAR" property="sexStr" />
     <result column="title_str"            jdbcType="VARCHAR" property="titleStr" />
     
+    <result column="technical_field_index"            jdbcType="VARCHAR" property="technicalFieldIndex" />
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
-    achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id,use_status,technical_field_name
+    achievement, head_pic, create_time, create_user, update_time, update_user, 
+    out_system_id,use_status,technical_field_name,technical_field_index
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -56,7 +59,7 @@
       post, work_experience, contact_way, 
       email, brief, achievement, 
       head_pic, create_time, create_user, 
-      update_time, update_user, out_system_id,use_status,technical_field_name
+      update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -68,6 +71,7 @@
       #{headPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
       , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
+      , #{technicalFieldIndex,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -155,10 +159,9 @@
       <if test="technicalFieldName != null">
         technical_field_name,
       </if>
-      
-      
-      
-      
+      <if test="technicalFieldIndex != null">
+        technical_field_index,
+      </if>
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -245,6 +248,10 @@
       <if test="technicalFieldName != null">
         #{technicalFieldName,jdbcType=VARCHAR},
       </if> 
+      <if test="technicalFieldIndex != null">
+        #{technicalFieldIndex,jdbcType=VARCHAR},
+      </if>  
+      
       
     </trim>
   </insert>
@@ -329,6 +336,10 @@
       <if test="technicalFieldName != null">
         technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
       </if>
+      <if test="technicalFieldIndex != null">
+        technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
+      </if>
+     
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -355,6 +366,7 @@
       head_pic = #{headPic,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=VARCHAR},
+      technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=VARCHAR},
       technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
@@ -374,13 +386,13 @@
 	     <if test="useStatus != null             and useStatus !=''  ">       AND t.use_status = #{useStatus}</if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.use_status = #{belongUnit}</if>
 	     <if test="post != null                  and post !=''  ">            AND t.post = #{post}</if>
-	     <if test="title != null                 and title !=''  ">           AND t.title = #{title}</if>
-	     <if test="technicalField != null        and technicalField !=''  ">  AND t.technical_field = #{technicalField}</if>
-	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
-	     <if test="technicalFieldName != null and technicalFieldName  !='' "> AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
-	     <if test="sex != null                 and sex !=''  ">           AND t.sex = #{sex}</if>
-	     <if test="education != null          and education !=''  ">      AND t.education = #{education}</if>
-	     
+	     <if test="title != null                 and title !=''  ">               AND t.title = #{title}</if>
+	     <if test="technicalField != null        and technicalField !=''  ">      AND FIND_IN_SET(#{technicalField},t.`technical_field`) </if>
+	     <if test="belongUnit != null            and belongUnit !=''  ">          AND t.belong_unit = #{belongUnit}</if>
+	     <if test="technicalFieldName != null    and technicalFieldName  !='' ">  AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
+	     <if test="sex != null                   and sex !=''  ">                 AND t.sex = #{sex}</if>
+	     <if test="education != null             and education !=''  ">           AND t.education = #{education}</if>
+	     <if test="technicalFieldIndex != null   and technicalFieldIndex !=''  "> AND t.technical_field_index like CONCAT(#{technicalFieldIndex},'%')</if>
 	 </trim>
 	</sql>
 	

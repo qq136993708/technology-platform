@@ -87,7 +87,7 @@ public class TokenInterUtils {
 	
 	
 	
-	//保存日志
+	//保存日志：1登陆日志，2操作日志，
 	public static Integer saveSysLog(RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletRequest request,SysUser userInfo)
 		{
 			Integer resutl=0;
@@ -123,7 +123,6 @@ public class TokenInterUtils {
 					if(url.equals("/index"))
 					{
 						sysLog.setLogType(Constant.LOG_TYPE_LOGIN);//日志类型：1登陆日志，2操作日志，3错误日志
-						
 					}else
 					{
 						sysLog.setLogType(Constant.LOG_TYPE_OPT);
@@ -165,6 +164,83 @@ public class TokenInterUtils {
 			}
 			return resutl;
 		}
+	
+	
+	
+	
+	
+	    //保存日志  3错误日志 
+		public static Integer saveErrorSysLog(RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletRequest request,SysUser userInfo,String optError)
+			{
+				Integer resutl=0;
+				String url=request.getRequestURI();
+				System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+url);
+				Map map=TokenInterUtils.getUrlMap();
+				Object urlName=map.get(url);
+				if(urlName!=null)
+				{
+					String optDescribe="";
+					//如果当前环境下为空,则从TOKEN中获取
+					if(userInfo==null)
+					{
+						System.out.println("========================当前环境userInfo为空=============================");
+						List<String> list = httpHeaders.get("Authorization");
+						if (list != null && list.get(0) != null)
+						{
+							userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+						}
+					}
+					if(userInfo!=null)
+					{
+						
+						JSONObject user = JSONObject.parseObject(JSONObject.toJSONString(userInfo));
+						System.out.println(">>>>>>>>>>>>>>>>>>>>USER信息"+user.toString());
+						String userName=userInfo.getUserDisp();
+						String userId=userInfo.getUserName();
+						SysLog sysLog = new SysLog();
+						sysLog.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+						sysLog.setLogIp(EquipmentUtils.getRemoteHost(request));
+						sysLog.setLogTime(new Date());
+						sysLog.setLogUrl(url);
+						sysLog.setLogType(Constant.LOG_TYPE_ERROR);//3错误日志
+						sysLog.setOptResult("失败");
+						//用户类型：1普通用户，2系统管理员，3安全员，4审计员
+						if(userId.equals(Constant.LOG_SYSTEMADMIN))
+						{
+							sysLog.setUserType("2");
+						}else if(userId.equals(Constant.LOG_SECURITYADMIN))
+						{
+							sysLog.setUserType("3");
+						}else if(userId.equals(Constant.LOG_AUDITADMIN))
+						{
+							sysLog.setUserType("4");
+						}else
+						{
+							sysLog.setUserType("1");
+						}
+						optDescribe=String.valueOf(urlName);
+						sysLog.setUserName(userName); 
+						sysLog.setOptError(optError);
+						sysLog.setUserId(userId);
+						sysLog.setRequestType(request.getMethod());
+						sysLog.setUnitId(userInfo.getUnitId());
+						sysLog.setUnitName(userInfo.getUnitName());
+						sysLog.setOptDescribe(optDescribe);
+						JSONObject sysLogstr = JSONObject.parseObject(JSONObject.toJSONString(sysLog));
+						System.out.println(">>>>>>>>>>>>>>>>>>>>sysLog信息"+sysLogstr.toString());
+						httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+						ResponseEntity<String> responseEntity =restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, httpHeaders), String.class);
+						int statusCode = responseEntity.getStatusCodeValue();
+						if (statusCode == 200) 
+						{
+							String dataId = responseEntity.getBody();
+							resutl=1;
+						}
+					
+					}
+				}
+				return resutl;
+			}
 		
 
 }

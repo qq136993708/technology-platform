@@ -19,10 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Api(value = "patent-api", description = "专利接口")
 @Controller
@@ -32,6 +29,8 @@ public class PatentController extends RestBaseController {
     private static final String SAVE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_save";
 
     private static final String QUERY = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_query";
+
+    private static final String QUERY_PATENT = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_queryPatent";
 
     private static final String LOAD = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_load/";
 
@@ -69,7 +68,8 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
     @ResponseBody
@@ -84,7 +84,9 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicationNumber,
             @RequestParam(required = false) String patentName,
             @RequestParam(required = false) String applicant,
-            @RequestParam(required = false) String inventor
+            @RequestParam(required = false) String inventor,
+            @RequestParam(required = false) String technicalFieldIndex
+
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
@@ -124,11 +126,96 @@ public class PatentController extends RestBaseController {
         if (!StringUtils.isEmpty(inventor)) {
             this.setParam(condition, "inventor", inventor);
         }
+        if (!StringUtils.isEmpty(technicalFieldIndex)) {
+            this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
+        }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
     }
 
+    /**
+     * 专利列表-分页查询
+     *
+     * @return PageInfo
+     */
+    @ApiOperation(value = "查询专利列表", notes = "查询专利列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationDateStart", value = "申请日期开始", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "applicationDateEnd", value = "申请日期结束", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "applicationType", value = "申请类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentType", value = "专利类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/queryPatent",  method = RequestMethod.GET)
+    @ResponseBody
+    public List queryPatent(
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date applicationDateStart,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date applicationDateEnd,
+            @RequestParam(required = false) String applicationType,
+            @RequestParam(required = false) String patentType,
+            @RequestParam(required = false) String applicationNumber,
+            @RequestParam(required = false) String patentName,
+            @RequestParam(required = false) String applicant,
+            @RequestParam(required = false) String inventor,
+            @RequestParam(required = false) String technicalFieldIndex
+
+    ) {
+        Map<String, Object> condition = new HashMap<>(6);
+        if (pageNum == null) {
+            this.setParam(condition, "pageNum", 1);
+        }else {
+            this.setParam(condition, "pageNum", pageNum);
+        }
+        if (pageSize == null) {
+            this.setParam(condition, "pageSize", 10);
+        }else {
+            this.setParam(condition, "pageSize", pageSize);
+        }
+        if (!StringUtils.isEmpty(unitName)) {
+            this.setParam(condition, "unitName", unitName);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(applicationDateStart,DateUtil.FMT_SS))) {
+            this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(applicationDateEnd,DateUtil.FMT_SS))) {
+            this.setParam(condition, "applicationDateEnd", DateUtil.format(applicationDateEnd,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(applicationType)) {
+            this.setParam(condition, "applicationType", applicationType);
+        }
+        if (!StringUtils.isEmpty(patentType)) {
+            this.setParam(condition, "patentType", patentType);
+        }
+        if (!StringUtils.isEmpty(applicationNumber)) {
+            this.setParam(condition, "applicationNumber", applicationNumber);
+        }
+        if (!StringUtils.isEmpty(patentName)) {
+            this.setParam(condition, "patentName", patentName);
+        }
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "applicant", applicant);
+        }
+        if (!StringUtils.isEmpty(inventor)) {
+            this.setParam(condition, "inventor", inventor);
+        }
+        if (!StringUtils.isEmpty(technicalFieldIndex)) {
+            this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
+        }
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_PATENT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
 
     /**
      * 根据ID查询专利信息

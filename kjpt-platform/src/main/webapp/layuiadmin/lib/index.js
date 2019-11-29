@@ -156,14 +156,32 @@ layui.extend({
       var child = $("#"+parent.$(".layui-body .layui-show .layadmin-iframe").eq(0).attr("id"))[0].contentWindow;
       child.getParam();
   });
+
+  var $layuiHeaderNav = $('#layuiHeaderNav');
+  $layuiHeaderNav.on('click', '.header-nav-item', function() {
+    $layuiHeaderNav.find('.header-nav-item').removeClass('layui-this');
+    $(this).addClass('layui-this');
+    if ($(this).hasClass('home-item')) {
+        if (!$('.layui-header-search:eq(0)').hasClass('layui-hide')) {
+            $('.layui-header-search:eq(0)').addClass('layui-hide');
+        }
+    } else {
+        if ($('.layui-header-search:eq(0)').hasClass('layui-hide')) {
+            $('.layui-header-search:eq(0)').removeClass('layui-hide');
+        }
+    }
+  })
+
   $(".index-fixed li").click(function () {
-      $("#mainIframe").attr('src', $("#mainIframe").attr('src'));
-      $(".layui-nav-item").removeClass("layui-this");
-      $(".layui-nav-tree").addClass("layui-hide");
-      $(".layui-nav-tree").eq(0).removeClass("layui-hide");
-      $(".layadmin-tabsbody-item").removeClass("layui-show");
-      $(".layadmin-tabsbody-item").eq(0).addClass("layui-show");
-      $(".layui-tab-title li").removeClass("layui-this");
+    $(this).addClass('layui-this');
+    $("#mainIframe").attr('src', $("#mainIframe").attr('src'));
+    $('#layuiHeaderNav .header-nav-item').not($(this)).removeClass("layui-this");
+    
+    $(".layui-nav-tree").addClass("layui-hide");
+    $(".layui-nav-tree").eq(0).removeClass("layui-hide");
+    $(".layadmin-tabsbody-item").removeClass("layui-show");
+    $(".layadmin-tabsbody-item").eq(0).addClass("layui-show");
+    $("#LAY_app_tabsheader li").removeClass("layui-this");
   });
   $(document).on('click', '.layui-tab-close', function() {
       if($("#LAY_app_body .layui-show").index()==1 && $("#LAY_app_tabsheader .layui-this").index()==-1){
@@ -195,7 +213,7 @@ layui.extend({
             $(".information").addClass('layui-hide');
         }
     });
-    $(".layui-nav-item-a").on("click", function(e) {
+    $(".header-nav-item-a").on("click", function(e) {
         e.stopPropagation();
         $(".information").toggleClass("layui-hide");
         if ($(".QRCode-content").hasClass('layui-hide') == false) {

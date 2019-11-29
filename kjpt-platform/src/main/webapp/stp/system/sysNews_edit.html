@@ -11,6 +11,7 @@
     <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor5_common.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 <div class="formBox">
@@ -263,11 +264,13 @@
                 } */
 
                 ajaxPost("/sysNews/saveSysNews", data.field, function (dt, status) {
-                    layer.msg("操作成功");
+                   /* layer.msg("操作成功");
                     // parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
                     parent.renderTable();
                     var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
+                    parent.layer.close(index);*/
+                    setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+                    top.layer.closeAll(); // 关闭弹窗
                 });
                 return false;
             });

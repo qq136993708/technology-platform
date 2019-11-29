@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.scientificplan.ScienceEvolveDynamic;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.scientificplan.ScienceEvolveDynamicMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.scientificplan.ScienceEvolveDynamicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class ScienceEvolveDynamicServiceImpl implements ScienceEvolveDynamicServ
     private ScienceEvolveDynamicMapper scienceEvolveDynamicMapper;
 
 
+    @Autowired
+    private FileCommonService fileCommonService;
+
     @Override
     public ScienceEvolveDynamic load(String id) {
         return scienceEvolveDynamicMapper.load(id);
@@ -30,6 +34,8 @@ public class ScienceEvolveDynamicServiceImpl implements ScienceEvolveDynamicServ
     @Override
     public ScienceEvolveDynamic save(ScienceEvolveDynamic scienceEvolveDynamic) {
         IsEmptyUtil.isEmpty(scienceEvolveDynamic.getId());
+
+        fileCommonService.updateFileData(scienceEvolveDynamic.getAccessory(), scienceEvolveDynamic.getId());
         if (load(scienceEvolveDynamic.getId()) == null) {
             scienceEvolveDynamic.setCreateDate(scienceEvolveDynamic.getUpdateDate());
             scienceEvolveDynamic.setCreator(scienceEvolveDynamic.getUpdator());
@@ -48,8 +54,8 @@ public class ScienceEvolveDynamicServiceImpl implements ScienceEvolveDynamicServ
 
     @Override
     public PageInfo query(Map paramMap) {
-        int pageNum = paramMap.get("pageNum") !=null? (int)paramMap.get("pageNum"):1;
-        int pageSize = paramMap.get("pageSize") !=null? (int)paramMap.get("pageSize"):1;
+        int pageNum = paramMap.get("pageNum") != null ? (int) paramMap.get("pageNum") : 1;
+        int pageSize = paramMap.get("pageSize") != null ? (int) paramMap.get("pageSize") : 1;
 //        int pageNum = (int) paramMap.get("pageNum");
 //        int pageSize = (int) paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);

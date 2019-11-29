@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.groupinformation.BlocScientificPlanMapper">
+    <!--com.pcitc.base.mapper.blocscientificplan.BlocScientificPlanMapper-->
+
+    <!--<mapper namespace="com.pcitc.mapper.computersoftware.ComputerSoftwareMapper">-->
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.groupinformation.BlocScientificPlan">
+
+        <!--<resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">-->
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="publication" jdbcType="VARCHAR" property="publication"/>
+        <result column="annual" jdbcType="TIMESTAMP" property="annual"/>
+        <result column="pubdate" jdbcType="TIMESTAMP" property="pubdate"/>
+        <result column="accessory" jdbcType="VARCHAR" property="accessory"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        `name`,
+        publication,
+        annual,
+        pubdate,
+        accessory,
+        deleted,
+        create_date,
+        create_user,
+        update_date,
+        update_user,
+        report_type
+  </sql>
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from bloc_scientific_plan where id = #{id,jdbcType=VARCHAR} and deleted != '1'
+    </select>
+
+
+    <update id="delete" parameterType="java.lang.String">
+            update bloc_scientific_plan set deleted = '1' where id = #{id}
+    </update>
+
+
+    <insert id="add" parameterType="com.pcitc.base.groupinformation.BlocScientificPlan">
+    insert into bloc_scientific_plan (
+       id,
+      `name`,
+       publication,
+       annual,
+       pubdate,
+       accessory,
+       deleted,
+       create_date,
+       create_user,
+       update_date,
+       update_user,
+       report_type
+       )
+    values (
+      #{id},
+      #{name},
+      #{publication},
+      #{annual},
+      #{pubdate},
+      #{accessory},
+      #{deleted},
+      #{createDate},
+      #{creator},
+      #{updateDate},
+      #{updator},
+      #{reportType}
+      )
+
+  </insert>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select * from bloc_scientific_plan where 1=1
+
+        <if test="name != null and name != '' ">
+            and `name` like CONCAT('%',#{name},'%')
+        </if>
+        <if test="publication != null and publication != '' ">
+            and publication = #{publication}
+        </if>
+        <if test="annual != null and annual != ''">
+            and annual  <![CDATA[ >= ]]> #{annual}
+        </if>
+        <if test="pubdate != null and pubdate != ''">
+            and pubdate = #{pubdate}
+        </if>
+        <if test="accessory != null and accessory != ''">
+            and accessory = #{accessory}
+        </if>
+
+        <if test="reportType != null and reportType != ''">
+            and report_type = #{reportType}
+        </if>
+        and deleted != '1'
+    </select>
+
+
+    <update id="update" parameterType="com.pcitc.base.groupinformation.BlocScientificPlan">
+
+        update bloc_scientific_plan
+
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="publication != null and publication != '' ">
+                publication = #{publication},
+            </if>
+            <if test="annual != null">
+                annual = #{annual},
+            </if>
+            <if test="pubdate != null ">
+                pubdate = #{pubdate},
+            </if>
+            <if test=" accessory != null and  accessory != '' ">
+                accessory = #{ accessory},
+            </if>
+
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                create_user = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updator != null">
+                update_user = #{updator,jdbcType=VARCHAR},
+            </if>
+
+            <if test="reportType != null and reportType != ''">
+                report_type = #{reportType}
+            </if>
+
+            <!--<if test="creator != null">-->
+            <!--create_user = #{creator,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="updateDate != null">-->
+            <!--update_date = #{updateDate,jdbcType=TIMESTAMP},-->
+            <!--</if>-->
+            <!--<if test="updator != null">-->
+            <!--update_user = #{updator,jdbcType=VARCHAR},-->
+            <!--</if>-->
+
+        </trim>
+    </update>
+
+</mapper>

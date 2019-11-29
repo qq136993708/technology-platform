@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
+	<script src="/layuiadmin/js/common.js"></script>
 	<style>
 		body{padding: 10px 10px 0;}
 	</style>
@@ -210,12 +211,14 @@
                 async : false,
                 success : function(data) {
                     if (data=='200') {
-                        var index = parent.layer.getFrameIndex(window.name);
+						setDialogData(data); // 通知上层页面状态 - 弹窗中使用
+						top.layer.closeAll();
+						/*var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
                         parent.layer.msg("保存成功");
                         //刷新table;
                         parent.layui.table.reload('notice', {});
-                        $$(".layui-table-header table thead th input").remove();
+                        $$(".layui-table-header table thead th input").remove();*/
                         //$$("#comType").val("2222")
                     } else {
                         layer.msg("保存失败");

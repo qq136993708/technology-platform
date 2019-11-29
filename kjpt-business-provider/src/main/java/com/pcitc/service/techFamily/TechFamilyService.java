@@ -11,6 +11,14 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
 
 public interface TechFamilyService {
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 根据层级显示树
@@ -68,4 +76,6 @@ public interface TechFamilyService {
     public List<TechFamily> getTechFamilyList(Map map)throws Exception;   
     
     public TechFamily getTechFamilyById(String tfmTypeId)throws Exception;
+    
+    
 }

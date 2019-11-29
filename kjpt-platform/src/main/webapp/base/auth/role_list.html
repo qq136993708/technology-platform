@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
 
+    <link rel="stylesheet" href="/css/layui-common.css">
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
-<div class="twoListleft">
+<div class="twoListleft layout-view-content dialog">
 	<div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
@@ -22,7 +24,7 @@
         </label>
         <!--按钮组-->
         <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="roleSearchEvent">查询
+            <button class="layui-btn layui-btn-normal" data-type="roleSearchEvent">查询
             </button>
         </div>
     </div>
@@ -30,13 +32,13 @@
         <div class="tableToolBox">
             <div class="whiteLine"></div>
             <div class="tableBtns">
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                <button class="layui-btn border-blue"
                         data-type="addEvent">新增
                 </button>
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                <button class="layui-btn border-blue"
                         data-type="editEvent">编辑
                 </button>
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                <button class="layui-btn border-red"
                         data-type="delEvent">删除
                 </button>
             </div>
@@ -55,7 +57,7 @@
         </label>
         <!--按钮组-->
         <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="userSearchEvent">查询
+            <button class="layui-btn layui-btn-normal" data-type="userSearchEvent">查询
             </button>
         </div>
     </div>
@@ -63,7 +65,7 @@
         <div class="tableToolBox">
             <div class="whiteLine"></div>
             <div class="tableBtns">
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                <button class="layui-btn border-blue"
                         data-type="userRoleEvent">赋角色
                 </button>
                <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
@@ -194,15 +196,55 @@
         },
         addEvent:function(){
         	 var temUrl = '/role/edit';
-             openBaseWin("新增角色",temUrl);
+             top.layer.open({
+                title:'新增角色',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : true,
+                area : [ '80%', '90%' ],
+                content:  temUrl,
+                end: function(lay, index) {
+                    // 弹窗销毁时获取弹窗返回数据
+                    var getData = getDialogData('dialog-data');
+                    /*判断成功刷新table*/
+                    if(getData){
+                        reloadTable("roleListTable",{param: {"roleName":''}});
+
+                    }
+
+                }
+            });
+             //openBaseWin("新增角色",temUrl);
         },
         editEvent:function(){
             if (!selectRowData) {
-            	layer.msg('请选择一个角色!');
-        		return;
-        	}
+                layer.msg('请选择一个角色!');
+                return;
+            }
             var temUrl = '/role/edit?roleId='+selectRowData.roleId;
-            openBaseWin("编辑角色",temUrl);
+            top.layer.open({
+                title:'编辑角色',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : true,
+                area : [ '80%', '90%' ],
+                content:  temUrl,
+                end: function(lay, index) {
+                    // 弹窗销毁时获取弹窗返回数据
+                    var getData = getDialogData('dialog-data');
+                    console.log(getData)
+                    /*判断成功刷新table*/
+                    if(getData){
+                        reloadTable("roleListTable",{param: {"roleName":''}});
+                    }
+
+                }
+            });
+            //openBaseWin("编辑角色",temUrl);
         	
         },
         delEvent:function(){
@@ -210,11 +252,12 @@
             	layer.msg('请选择一个角色!');
         		return;
         	}
-            layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+            top.layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 				layer.close(index);
 	            ajaxPost("/role/del-role/"+selectRowData.roleId,null,function(data){
 	                if(data.success){
 	                	 reloadTable("roleListTable",{param: {"roleName":$("#roleName").val()}});
+                        top.layer.closeAll(); // 关闭弹窗
 	                }
 	            });
             });
@@ -225,7 +268,28 @@
         		return;
         	}
             var temUrl = '/role/user_role_rel?roleId='+selectRowData.roleId;
-            openBaseWin("赋予用户角色(左侧列表未赋角色，右侧列表已赋角色)",temUrl);
+            top.layer.open({
+                title:'赋予用户角色(左侧列表未赋角色，右侧列表已赋角色',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content:  temUrl,
+                end: function(lay, index) {
+                    // 弹窗销毁时获取弹窗返回数据
+                    var getData = getDialogData('dialog-data');
+                    /*判断成功刷新table*/
+                    console.log(getData.code)
+                    if(getData.code){
+                        table.reload('userListTable',{where:{param: {"roleId":getData.roleId}}});
+                    }
+
+                }
+            });
+            //openBaseWin("赋予用户角色(左侧列表未赋角色，右侧列表已赋角色)",temUrl);
         }
  	};
     //区别按钮属性

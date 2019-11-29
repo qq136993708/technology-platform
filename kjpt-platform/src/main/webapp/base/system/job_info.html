@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 <div class="formBox">
@@ -188,12 +189,14 @@
                 async : false,
                 success : function(data) {
                     if (data=="1") {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.layer.msg("保存成功");
-                        //刷新table;
-                        parent.layui.table.reload('sysJob', {});
-                        $$(".layui-table-header table thead th input").remove();
+                        setDialogData(data); // 通知上层页面状态 - 弹窗中使用
+                        top.layer.closeAll(); // 关闭弹窗
+                        /*  var index = parent.layer.getFrameIndex(window.name);
+                          parent.layer.close(index);
+                          parent.layer.msg("保存成功");
+                          //刷新table;
+                          parent.layui.table.reload('sysJob', {});
+                          $$(".layui-table-header table thead th input").remove();*/
                         //$$("#comType").val("2222")
                     } else {
                         layer.msg("保存失败");

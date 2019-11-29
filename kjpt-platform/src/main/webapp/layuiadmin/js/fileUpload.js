@@ -28,26 +28,33 @@ function selectFileUpload(config) {
 }
 
 function setFileUpload(config) {
-  /*
-  config = {
-    id: 作用域ID;
-    dataID, 单据ID;
-    callback 表格数据表格时的回调函数;
-    cols: 文件列表表头配置
-    更多配置请自行添加
+  var configOption = {
+    id: '', // 作用域ID;
+    dataID: '', // 单据ID;
+    accept: 'file', // 上传附件的类型 file | images
+    callback: null, // 表格数据表格时的回调函数;
+    cols: null, // 文件列表表头配置
+    readonly: false, // 默认可以删除
+    download: true // 默认可以下载
+  };
+
+  if ( typeof(config) === 'object') {
+    for (var key in config) {
+    configOption[key] = config[key];
+    }
   }
-  */
-  if (!config.id) { return false; }
+
+  if (!configOption.id) { return false; }
   layui.use(['table', 'upload', 'layer'], function(){
     var table = layui.table,
     fileListData = [], // 表格数据
-    configDataID = config.dataID, // 单据ID
-    readonly = config.readonly,
-    tableID = config.id + 'file-table-list',
-    $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
+    configDataID = configOption.dataID, // 单据ID
+    readonly = configOption.readonly, // 
+    tableID = configOption.id + 'file-table-list',
+    $field = $((configOption.id.indexOf('#') === -1 ? ('#' + configOption.id) : configOption.id)),
     addFile = $field.find('[filter="addFile"]').get(0),
     tableDemo = $field.find('table').get(0),
-    tableCols = config.cols || [
+    tableCols = configOption.cols || [
       {field: 'fileName', title: '文件名称', sort: true},
       {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
       {title: '操作', templet: function(d) {
@@ -55,8 +62,9 @@ function setFileUpload(config) {
         if(! (readonly === true)) {
           templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
         }
-        
-        templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
+        if (configOption.download) {
+          templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
+        }
         templet += '</div>';
         return templet;
       }}
@@ -79,8 +87,8 @@ function setFileUpload(config) {
 
             table.reload(tableID, {data: fileListData});
             // 表格数据变化时执行回调函数
-            if (config.callback) {
-              config.callback(fileListData, 'query');
+            if (configOption.callback) {
+              configOption.callback(fileListData, 'query');
             }
           }
         }
@@ -105,8 +113,8 @@ function setFileUpload(config) {
         })
         table.reload(tableID, {data: fileListData});
         // 表格数据变化时执行回调函数
-        if (config.callback) {
-          config.callback(fileListData, 'delete');
+        if (configOption.callback) {
+          configOption.callback(fileListData, 'delete');
         }
       }
     })
@@ -115,7 +123,7 @@ function setFileUpload(config) {
     selectFileUpload({
       elem: addFile,
       upload: layui.upload,
-      accept: config.accept || 'file',
+      accept: configOption.accept || 'file',
       callback: function(res) {
         //上传完毕回调
         if (res.code === '0') {
@@ -123,8 +131,8 @@ function setFileUpload(config) {
           table.reload(tableID, {data: fileListData});
 
           // 表格数据变化时执行回调函数
-          if (config.callback) {
-            config.callback(fileListData, 'upload');
+          if (configOption.callback) {
+            configOption.callback(fileListData, 'upload');
           }
         }
       }

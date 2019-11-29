@@ -31,10 +31,10 @@ layui.config({
         httpModule({
             url: "/sysDictionary-api/getChildsListByCode/"+code,
             type: 'GET',
+            async:false,
             success: function(relData) {
                 if (relData.success === true) {
                     relData.data.map(function(item){
-                        console.log(item)
                         if(element=="option"){
                             $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
                         }else if(element=="radio"){
@@ -50,6 +50,7 @@ layui.config({
     httpModule({
         url: "/techFamily-api/getTreeList",
         type: 'GET',
+        async:false,
         success: function(relData) {
             console.log(relData)
             relData.children.map(function (item,index) {
@@ -65,6 +66,7 @@ layui.config({
     httpModule({
         url: "/unit-api/getTreeList",
         type: 'GET',
+        async:false,
         success: function(relData) {
             formSelects.data('belongUnit', 'local', { arr: relData.children });
             formSelects.btns('belongUnit', ['remove']);
@@ -73,9 +75,9 @@ layui.config({
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
 
-    console.log(variable)
+    console.log(variable.id)
     /*判断id，回显*/
-    if(variable!=null){
+    if(variable.id!=undefined){
         httpModule({
             url: '/expert-api/get/'+variable.id,
             type: 'GET',
@@ -86,6 +88,8 @@ layui.config({
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        $("#imgFileUpload").addClass("success")
+                        headPic=relData.data.headPic
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
@@ -282,12 +286,15 @@ layui.config({
             layer.msg("所在单位必为选项不能为空！", {icon: 2});
             return false
         }
+        console.log(formSelects.value('technicalField'))
         if(formSelects.value('technicalField')){
-            var technicalFieldName=''
+            var technicalFieldName='',technicalFieldIndex='';
             formSelects.value('technicalField').map(function (item, index) {
                 technicalFieldName+=item.name+','
+                technicalFieldIndex+=item.nodePath+','
             })
             data.field.technicalFieldName=technicalFieldName.substring(0,technicalFieldName.length-1)
+            data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1)
         }
         data.field.headPic=headPic
         data.field.zjkAchievementJsonList=JSON.stringify(achieveName)

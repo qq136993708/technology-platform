@@ -148,10 +148,17 @@ public class ZjkBase  {
     private String zjkProjectJsonList;
     private String zjkRewardJsonList;
     private String technicalFieldName="";
-    
-    
+    private String technicalFieldIndex="";
     
 
+
+	public String getTechnicalFieldIndex() {
+		return technicalFieldIndex;
+	}
+
+	public void setTechnicalFieldIndex(String technicalFieldIndex) {
+		this.technicalFieldIndex = technicalFieldIndex;
+	}
 
 	public String getTechnicalFieldName() {
 		return technicalFieldName;

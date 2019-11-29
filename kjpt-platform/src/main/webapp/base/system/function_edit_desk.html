@@ -214,12 +214,14 @@
 				async : false,
 				success : function(data) {
 					if (data == '200') {
-						var index = parent.layer.getFrameIndex(window.name);
+						setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+						top.layer.closeAll(); //
+						/*var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
 						parent.layer.msg("保存成功");
 						//刷新table;
 						parent.layui.table.reload('function', {});
-						parent.initTree();
+						parent.initTree();*/
 					} else if (data == '201') {
 						layer.msg("菜单名称重复，请核对后再保存")
 					} else {

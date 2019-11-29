@@ -1,22 +1,33 @@
 package com.pcitc.service.techFamily.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.out.OutProject;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyExample;
 import com.pcitc.base.stp.techFamily.TechFamilyExample.Criteria;
+import com.pcitc.mapper.out.OutProjectMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.techFamily.TechFamilyService;
 
@@ -26,6 +37,11 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 
     @Autowired
     private TechFamilyMapper techFamilyMapper;
+    
+    
+    @Autowired
+    private OutProjectMapper outProjectMapper;
+    
 
     /**
      * @param techType
@@ -217,5 +233,10 @@ public class TechFamilyServiceImpl implements TechFamilyService {
     {
     	return techFamilyMapper.selectByPrimaryKey(tfmTypeId);
     }
+    
+    
+    
+    
+    
     
 }

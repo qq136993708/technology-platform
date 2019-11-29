@@ -12,6 +12,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     httpModule({
       url: "/techFamily-api/getTreeList",
       type: 'GET',
+      async: false,  
       success: function(relData) {
           relData.children.map(function (item,index) {
               item.children.map(function (items,i) {
@@ -40,11 +41,19 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
           var data = relData.data;
           transToData(data, ['applicationDate','entryDate']);
-          data.technicalField = relData.data.technicalField.split(',');
-
+          if(data.technicalField) {
+            data.technicalField = data.technicalField.split(',');
+          } else {
+            data.technicalField = [];
+          }
+          //data.technicalField = data.technicalField.split(',');
+           
           form.val('formMain', data);
+          formSelects.value('technicalField', data.technicalField); 
+
           // 更新表单数据
-          form.render();
+          //form.render();
+
 
           setRadioShow();
 
@@ -76,12 +85,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 	form.on('submit(newSubmit)', function(data) {
 
     if(formSelects.value('technicalField')){
-      var technicalFieldText=''
+      var technicalFieldText='', technicalFieldIndex='';
       formSelects.value('technicalField').map(function (item, index) {
-        technicalFieldText+=item.name+','
+        technicalFieldText+=item.name+',';
+        technicalFieldIndex+=item.nodePath+',';
       })
       data.field.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
-  }
+      data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
+    }
 
 		httpModule({
 			url: '/patentController/save',
