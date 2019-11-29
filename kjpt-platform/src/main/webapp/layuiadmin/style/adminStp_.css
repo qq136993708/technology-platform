@@ -126,7 +126,7 @@ html{ background-color: #F9F9F9; color: #666;}
     width: 56px;}
 
 .QRCode{background: url("/layuiadmin/layui/images/stpicon_04.png") center center no-repeat;padding-top: 32px;
-    display: inline-block; float: left;margin-top: 16px;cursor: pointer;width: 19px;height: 19px;}
+    display: block; float:left; margin-top: 16px;cursor: pointer;width: 19px;height: 19px;}
 .QRCode-content img{box-shadow: 0 0 10px #c8c7c7;border-radius: 4px;top: 42px;position: absolute;left: -86px;}
 .layui-nav-child-dl,.layui-nav-child-span{background: white;border-radius: 4px;box-shadow: 0 0 10px #c8c7c7;padding: 10px 0;}
 .layui-nav-child-span{position: absolute;z-index: 99999;width: 106px;margin-left: -10px;}
@@ -362,7 +362,7 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-layout-admin .layui-header a,
 .layui-layout-admin .layui-header a cite{    color: rgba(255,255,255,0.9);
     font-weight: bold;}
-.layui-layout-admin .layui-header a:hover{color: #fff;transform: none !important;-webkit-transition:none !important;}
+.layui-layout-admin .layui-header a:hover{color: #fff; transform: none !important; }
 .layui-layout-admin .layui-header .layui-this a{color: #fff;}
 .layui-layout-admin .layui-header .layui-this dl dd a{ color: black !important;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-more{border-top-color: #fff;}
@@ -703,7 +703,7 @@ html{ background-color: #F9F9F9; color: #666;}
 .visualization-content{width: 80.5%;}
 .visualization-content img{width: 100%;}
 .visualizationSearchBox{height: auto !important;overflow: hidden;margin: 0 10px;}
-.title-show{float: left;text-indent: 1em;display: inline-block;height: 35px;line-height: 35px;}
+.title-show{float: left;text-indent: 1em;display: block;height: 35px;line-height: 35px;}
 .formBoxConfig .box-body{padding: 0;}
 .formBoxConfig .layui-col-md2{width: 18%;float: left;}
 .formBoxConfig .btn-function{padding: 0;}
