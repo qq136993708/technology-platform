@@ -144,6 +144,7 @@ var __base_dic_store = {
 									<span class="item-title">我的收藏</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
 								</div>
 							</a>
 							<dl class="layui-nav-child" id="dlCollect">
@@ -358,9 +359,7 @@ var __base_dic_store = {
 
 					<#if upList?exists> <#list upList as p>
 					<ul class="layui-nav layui-nav-tree layui-hide"  lay-text="${p.name}" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible">
-							<div></div>
-						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
+						<#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
 							<div class="item-row-block">
 								<span class="icon_name ${s.icon}"></span>
