@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 <div class="layer-box">
@@ -165,8 +166,9 @@
 
                 if (data.success == true || data.success == 'true') {
 
-
-                    layer.alert(
+                    setDialogData(data); // 通知上层页面状态 - 弹窗中使用
+                    top.layer.closeAll(); // 关闭弹窗
+                    /*layer.alert(
                         successMsg,
                         {icon: 1, closeBtn: 0},
                         function () {
@@ -174,7 +176,7 @@
                             parent.layer.close(index);  // 关闭layer
                             parent.location.href = backurl;
                         });
-
+*/
                 } else {
                     layer.alert(failMsg);
                 }
