@@ -136,16 +136,15 @@
             success: function (data, status) {
                 for (let i = 0; i < data.data.length; i++) {
                     if (i == 0) {
-                        tfcBase = tfcBase + "<li class=\"layui-this\" onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
+                        tfcBase = tfcBase + "<li class=\"layui-this\" id='"+data.data[i].typeIndex +"' onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
                     } else  if(i!=3){
-                        tfcBase = tfcBase + "<li onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
+                        tfcBase = tfcBase + "<li id='"+data.data[i].typeIndex +"' onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
                     }else {
-                        tfBase3 = "<li onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
+                        tfBase3 = "<li id='"+data.data[i].typeIndex +"' onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
                     }
                 }
                 $("#tfcBase").html(tfcBase+tfBase3);
                 tfcCode = data.data[0].typeIndex;
-                alert(tfcCode);
             }
         });
     }
@@ -188,6 +187,7 @@
 
     function changeTfcCode(code) {
         tfcCode = code;
+        console.log(tfcCode)
         renderTable();
         renderTableZl();
         renderTableCg();
@@ -217,71 +217,37 @@
         $("#container").css("height",$(".skill-left").height()+"px");
         myChart.resize();
         //人员
-        var colsRy =
-            [
-                {
-                    field: "fzrxm",
-                    title: "负责人", event: 'setActive', style: 'cursor: pointer;',width:'60%'
-                },
-                {
-                    field: "define8",
-                    title: "所在单位", event: 'setActive', style: 'cursor: pointer;',width:'20%'
-                },
-                {
-                    field: "typeName",
-                    title: "技术领域", event: 'setActive', style: 'cursor: pointer;',width:'20%'
-                },
-            ];
-
         function renderTableRy() {
-            var where = {
-                param:
+            table.render({
+                elem: '#indexOutProjectInfoTableIdRy' // 表格元素ID
+                ,url: '/expert-api/query' //数据接口
+                ,cols: [[
                     {
-                        "typeIndex": tfcCode
-                        , "type": "ry"
-                    }
-            };
-            treeGridCom.render({
-                id: "indexOutProjectInfoTableIdRy"
-                , elem: '#indexOutProjectInfoTableIdRy'
-                , url: '/indexOutProjectInfo/getTableDataTree'
-                , where: where
-                , cellMinWidth: 100
-                , idField: 'dataId'//必須字段
-                , treeId: 'dataId'//树形id字段名称
-                , treeUpId: 'nd'//树形父id字段名称
-                , treeShowName: 'fzrxm'//以树形式显示的字段
-                , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: commonDislodgeTable()-100
-                , isFilter: false
-                , iconOpen: true//是否显示图标【默认显示】
-                , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
-                , loading: false
-                , method: 'POST'
-                , page: {
-                    groups: 5
-                    , limits: [param.selfRownum, 15, 30, 45, 60]
-                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                    , first: '首页' //不显示首页
-                    , last: '尾页' //不显示尾页
-                    , theme: '#0F9EE0'
-                },
-                cols: [colsRy],
+                        field: "name",
+                        title: "负责人", event: 'setActive', style: 'cursor: pointer;',width:100
+                    },
+                    {
+                        field: "belongUnitStr",
+                        title: "所在单位", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "technicalFieldName",
+                        title: "技术领域", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                ]],
+                method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                where: {
+                    technicalFieldIndex:tfcCode // 表格请求时传递的参数
+                }
+                ,request: {
+                    page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                    limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                }
+                , page: true //开启分页
+                , limit: 15
+                , limits: [15, 30, 45, 60], // 配置分页数据条数
                 done: function (res, curr, count) {
-                    var rycount = 0;
-                    for (let i = 0,l = res.data.length; i < l; i++) {
-                        if (typeof res.data[i].typeIndex == "undefined") {
-                            rycount++;
-                        }
-                    }
-                    $("#indexOutProjectInfoTableIdRyCount").html("(" + rycount + ")");
-                },
-                onDblClickRow: function (index, o) {
-                    if(o.xmmc==""){
-                    }else {
-                        detailEvent(o.dataId);
-                    }
-
+                    $("#indexOutProjectInfoTableIdRyCount").html("(" + count + ")");
                 }
             });
         }
@@ -405,53 +371,51 @@
         renderTableJf();
         window.renderTableJf = renderTableJf;
         //项目
-        var cols =
-            [
-                // {type: 'checkbox', event: 'changeEvents', width: 55},
-                {title: '序号', type: 'numbers', width: 55},
-                {
-                    field: "nd",
-                    title: "年度", event: 'setActive', style: 'cursor: pointer;', width: 55
-                },
-                {
-                    field: "hth",
-                    title: "合同号", event: 'setActive', style: 'cursor: pointer;', width: 100
-                },
-                {
-                    field: "xmmc",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
-                },
-
-                {
-                    field: "kssj",
-                    title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 80
-                },
-                {
-                    field: "jssj",
-                    title: "结束时间", event: 'setActive', style: 'cursor: pointer;', width: 80
-                }
-            ];
-
         function renderTable() {
-            var where = {
-                param:
+            table.render({
+                elem: '#indexOutProjectInfoTableId' // 表格元素ID
+                ,url: '/outProject-api/page' //数据接口
+                ,cols: [[
+                    // {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
                     {
-                        "typeIndex": tfcCode
+                        field: "nd",
+                        title: "年度", event: 'setActive', style: 'cursor: pointer;', width: 55
+                    },
+                    {
+                        field: "hth",
+                        title: "合同号", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    },
+                    {
+                        field: "xmmc",
+                        title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
+                    },
+
+                    {
+                        field: "kssj",
+                        title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 80
+                    },
+                    {
+                        field: "jssj",
+                        title: "结束时间", event: 'setActive', style: 'cursor: pointer;', width: 80
                     }
-            };
-            publicMethods.tableRenderH('indexOutProjectInfoTableId', 'indexOutProjectInfoTableId',commonDislodgeTable()-100, '/indexOutProjectInfo/getTableData', false, cols, where, true, function (res, curr, count) {
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-                });
-                selectRowData = "";
-                $("#indexOutProjectInfoTableIdCount").html("(" + res.count + ")");
+                ]],
+                method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                where: {
+                    technicalFieldIndex:tfcCode // 表格请求时传递的参数
+                }
+                ,request: {
+                    page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                    limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                }
+                , page: true //开启分页
+                , limit: 15
+                , limits: [15, 30, 45, 60], // 配置分页数据条数
+                done: function (res, curr, count) {
+                    $("#indexOutProjectInfoTableIdCount").html("(" + count + ")");
+                }
             });
-            $(".layui-table-header table thead th input").remove();
+
         }
 
         renderTable();
