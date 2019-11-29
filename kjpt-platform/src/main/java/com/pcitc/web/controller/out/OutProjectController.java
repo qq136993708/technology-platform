@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
-@Api(value = "ExpertPatent-API",tags = {"专家库-专利接口"})
+@Api(value = "ExpertPatent-API",tags = {"外系统-项目接口"})
 @RestController
 public class OutProjectController extends BaseController {
 	
