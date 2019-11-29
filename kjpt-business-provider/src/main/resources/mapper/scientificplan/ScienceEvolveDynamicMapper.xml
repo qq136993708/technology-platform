@@ -20,6 +20,13 @@
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="annual" jdbcType="VARCHAR" property="annual"/>
 
+
+        <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
+
+
+        <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -34,7 +41,8 @@
       create_user,
       update_date,
       update_user,
-      annual
+      annual,
+      report_type
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -60,7 +68,8 @@
       create_user,
       update_date,
       update_user,
-      annual
+      annual,
+      report_type
       )
     values (
       #{id},
@@ -74,7 +83,8 @@
        #{creator},
        #{updateDate},
        #{updator},
-       #{annual}
+       #{annual},
+       #{report_type}
        )
   </insert>
 
@@ -97,11 +107,17 @@
             and RELEASE_TIME = #{releaseTime}
         </if>
         <if test=" accessory != null and  accessory !='' ">
-            and  accessory = #{ accessory}
+            and accessory = #{ accessory}
         </if>
         <if test="annual != null  and annual != ''  ">
             and annual = #{annual}
         </if>
+
+        <if test="reportType != null  and reportType != ''  ">
+            and report_type = #{reportType}
+        </if>
+
+
         and deleted != '1'
 
     </select>
@@ -142,9 +158,14 @@
             </if>
 
 
-                <if test="annual != null ">
-                    annual = #{annual}
-                </if>
+            <if test="annual != null ">
+                annual = #{annual},
+            </if>
+
+
+            <if test="reportType != null  and reportType != ''  ">
+                report_type = #{reportType}
+            </if>
 
         </trim>
         where id = #{id}

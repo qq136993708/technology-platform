@@ -65,13 +65,9 @@ public class WorkPointApiController extends RestBaseController {
             @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
-
-
             @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
-
-
-
-            @ApiImplicitParam(name = "annual", value = "发布时间", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "annual", value = "发布时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query")
 
 
     })
@@ -83,14 +79,10 @@ public class WorkPointApiController extends RestBaseController {
             @RequestParam(required = false, value = "name") String name,
             @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
             @RequestParam(required = false, value = "researchField") String researchField,
-
             @RequestParam(required = false, value = "releaseTime")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
-
-
             @RequestParam(required = false, value = "accessory") String accessory,
-
-
-            @RequestParam(required = false, value = "annual") @DateTimeFormat(pattern = "yyyy-MM-dd") Date annual
+            @RequestParam(required = false, value = "annual") @DateTimeFormat(pattern = "yyyy-MM-dd") Date annual,
+            @RequestParam(required = false, value = "reportType") String reportType
 
 
     ) {
@@ -114,28 +106,23 @@ public class WorkPointApiController extends RestBaseController {
         if (!StringUtils.isEmpty(researchField)) {
             this.setParam(condition, "researchField", researchField);
         }
-
 //        if (!StringUtils.isEmpty(releaseTime)) {
 //            this.setParam(condition, "releaseTime", releaseTime);
 //        }
-
-
         if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
             this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
         }
-
-
         if (!StringUtils.isEmpty(accessory)) {
             this.setParam(condition, "accessory", accessory);
         }
-
-
 //        if (annual != null) {
-////            this.setParam(condition, "annual", annual);
-////        }
-
+//            this.setParam(condition, "annual", annual);
+//        }
         if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
             this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(reportType)) {
+            this.setParam(condition, "reportType", reportType);
         }
 
 
