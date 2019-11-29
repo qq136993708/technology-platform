@@ -648,62 +648,8 @@ var __base_dic_store = {
 										$(this).addClass("layui-this");
 										$(this).addClass("layui-nav-itemed");
 								});
-			function initMessageSocket() {
-				//初始化websocket
-				var websocket = null;
-				if ('WebSocket' in window) {
-					var protocolStr = document.location.protocol;
-					var wsFlag = "ws:";
-					if(protocolStr.indexOf("https")>-1) {
-						wsFlag = "wss:"
-					}
-					websocket = new WebSocket(wsFlag+"//" + document.location.host + "/messageIndex/${userId?default(0)}");
-					websocket.onerror = function() {
-					};
-					websocket.onopen = function(event) {
-						console.log("onopen.............");
-					}
-					websocket.onclose = function() {
-						console.log("onclose.............");
-					}
-					window.onbeforeunload = function() {
-						websocket.close();
-					}
-					websocket.onmessage = function(event) {
-						getNotReadMessageList();
-					}
-				} else {
-					console.log('Not support websocket');
-				}
-			}
-			function initTaskSocket() {
-				//初始化websocket
-				var websocket = null;
-				if ('WebSocket' in window) {
-					var protocolStr = document.location.protocol;
-					var wsFlag = "ws:";
-					if(protocolStr.indexOf("https")>-1) {
-						wsFlag = "wss:"
-					}
-					websocket = new WebSocket(wsFlag+"//" + document.location.host + "/taskIndex/${userId?default(0)}");
-					websocket.onerror = function() {
-					};
-					websocket.onopen = function(event) {
-						console.log("onopen.............");
-					}
-					websocket.onclose = function() {
-						console.log("onclose.............");
-					}
-					window.onbeforeunload = function() {
-						websocket.close();
-					}
-					websocket.onmessage = function(event) {
-						getNotReadTaskList();
-					}
-				} else {
-					console.log('Not support websocket');
-				}
-			}
+			
+			
 			$("#toUserInfo").on("click", function() {
 				// layer.open({
 				// 	title : "用户详情",
@@ -933,8 +879,8 @@ var __base_dic_store = {
 			}
 			$(document).ready(function() {
 				$("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
-				initMessageSocket();
-				initTaskSocket();
+				//initMessageSocket();
+				//initTaskSocket();
 				getNotReadMessageList();
 				getNotReadTaskList();
 			});
