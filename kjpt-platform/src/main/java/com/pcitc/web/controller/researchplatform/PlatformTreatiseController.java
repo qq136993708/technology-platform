@@ -55,6 +55,8 @@ public class PlatformTreatiseController extends RestBaseController {
      */
     private static final String queryNopage = "http://kjpt-zuul/stp-proxy/researchPlatformTreatise-api/queryNoPage";
 
+    private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatformTreatise-api/excelImport/";
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/platformTreatise-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody
