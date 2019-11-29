@@ -52,6 +52,7 @@ layui.config({
         type: 'GET',
         async:false,
         success: function(relData) {
+            console.log(relData)
             relData.children.map(function (item,index) {
                 item.children.map(function (items,i) {
                     delete items.children
@@ -285,6 +286,7 @@ layui.config({
             layer.msg("所在单位必为选项不能为空！", {icon: 2});
             return false
         }
+        console.log(formSelects.value('technicalField'))
         if(formSelects.value('technicalField')){
             var technicalFieldName=''
             formSelects.value('technicalField').map(function (item, index) {
@@ -301,7 +303,7 @@ layui.config({
             data.field.id=variable.id
         }
         console.log(data.field)
-        httpModule({
+        /*httpModule({
             url: '/expert-api/save',
             data: data.field,
             type: "POST",
@@ -312,7 +314,7 @@ layui.config({
                     closeTabsPage(variable.index)
                 }
             }
-        });
+        });*/
         return false;
     })
 

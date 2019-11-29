@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/form.css">
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
@@ -33,7 +34,7 @@
 </style>
 </head>
 <body>
-<div class="formBox">
+<div class="layout-view-content dialog">
 	<form id="user-form" name="user-form" lay-filter="user-form" class="form-horizontal layui-form">
 	<div class="box-body">
 		<input type="hidden" name="userId" id="userId">
@@ -189,13 +190,11 @@
 	         </div>
        </div>
 	</div>
-	<div class="form-bottom">
-      <div class="form-bottom-btns">
-      	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-      	<!-- <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button> -->
-      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
-      </div>
-    </div>
+	<div class="dialog-footer-btn">
+		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+		<!-- <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button> -->
+		<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+	</div>
 </form>
 <form class="form-horizontal " action="${pageContext.request.contextPath}/sysfile/uploadMultipleFile" method="post" enctype="multipart/form-data" id="fileUploadForm" style="display:none;">
 	<p class="pt20">
@@ -305,7 +304,7 @@
 	    	});
 	   	});
 		//获取岗位信息
-		ajaxPost('/post/list-data', null, function (data, status) { 
+		ajaxPost('/post/list-data', null, function (data, status) {
 	    	$.each(data,function(i,dt){
 	    		postMap[data[i].postId]=data[i];
 	    	});

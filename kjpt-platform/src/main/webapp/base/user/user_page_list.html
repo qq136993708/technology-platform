@@ -8,7 +8,9 @@
 	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
+    <link rel="stylesheet" href="/css/layui-common.css">
 	<style>
 	.tree-content {
 	  position: absolute;
@@ -154,9 +156,10 @@
                     content:  temUrl,
                     end: function(lay, index) {
                         // 弹窗销毁时获取弹窗返回数据
-                        var getDialogData = getDialogData('dialog-data');
+                        var getData = getDialogData('dialog-data');
                         /*判断成功刷新table*/
-                        if(getDialogData.code=="0"){
+                        console.log(getData)
+                        if(getData){
                             table.reload('userTable',null)
                         }
 
@@ -182,9 +185,9 @@
                     content:  temUrl,
                     end: function(lay, index) {
                         // 弹窗销毁时获取弹窗返回数据
-                        var getDialogData = getDialogData('dialog-data');
+                        var getData = getDialogData('dialog-data');
                         /*判断成功刷新table*/
-                        if(getDialogData.code=="0"){
+                        if(getData){
                             table.reload('userTable',null)
                         }
 
