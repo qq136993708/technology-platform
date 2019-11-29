@@ -108,36 +108,57 @@ var __base_dic_store = {
 
 			<!-- 侧边菜单 -->
 			<div class="layui-side layui-side-menu layui-side-menu-div">
+					<div class="layadmin-flexible"><div></div></div>
 				<div class="layui-side-scroll">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible">
-							<div></div>
-						</li> <#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
+						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
 						<li class="layui-nav-item"></#if> <a href="#" title="${grgzt.name}">
-								<span class="icon_name ${grgzt.icon}"></span>
-								<span>${grgzt.name}</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
+								<div class="item-row-block">
+									<span class="icon_name ${grgzt.icon}"></span>
+									<span class="item-title">${grgzt.name}</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</div>
 							</a> <#assign gztFlag="1"> </#if>
 							<dl class="layui-nav-child">
 								<#list grgztList as threeLevel> <#if threeLevel.parentId == grgzt.id>
-								<dd>
-									<a lay-href="${threeLevel.url}" lay-text="${threeLevel.name}" data-id="${threeLevel.id}" data-code="${threeLevel.code}" data-functionbuttons="ALL">${threeLevel.name}</a>
+								<dd class="sub-nav-item">
+									<a lay-href="${threeLevel.url}"
+										lay-text="${threeLevel.name}"
+										data-id="${threeLevel.id}"
+										data-code="${threeLevel.code}"
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name ${threeLevel.icon}"></span>
+											<span class="item-title">${threeLevel.name}</span>
+										</div>
+									</a>
 								</dd>
 								</#if> </#list>
 							</dl> </#list> </#if> <#if scList?exists>
 						<li class="layui-nav-item"><a href="#" title="我的收藏">
-								<span>我的收藏</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">我的收藏</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</div>
 							</a>
 							<dl class="layui-nav-child" id="dlCollect">
 								<#list scList as sc>
 								<dd id="${sc.dataId}">
-									<a lay-href="${sc.collectUrl}" lay-text="${sc.collectName}" data-id="${sc.functionId}" data-code="${sc.functionCode}" data-functionbuttons="ALL">
-										${sc.collectName} <img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
+									<a lay-href="${sc.collectUrl}"
+										lay-text="${sc.collectName}"
+										data-id="${sc.functionId}"
+										data-code="${sc.functionCode}"
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name ${threeLevel.icon}"></span>
+											<span class="item-title">${sc.collectName}</span>
+											<img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
+										</div>
 									</a>
 								</dd>
 								</#list>
@@ -146,109 +167,190 @@ var __base_dic_store = {
 
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="专利管理">
-								<span>专利管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">专利管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
 								 <!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
 									<a lay-href="/html/patent/query.html"
 										lay-text="专利查询" 
-										data-functionbuttons="ALL">专利查询</a>
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name icon_sub"></span>
+											<span class="item-title">专利查询</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>
 
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="科技材料">
-								<span>科技材料</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">科技材料</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
 									<!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
 									<a lay-href="/html/scientificMaterials/scientificPlan.html"
 										lay-text="科研规划" 
-										data-functionbuttons="ALL">科研规划</a>
-								</dd>
-								<dd class=""><a lay-href="/html/scientificMaterials/scientificPlan.html" lay-text="科研规划" 
-									data-functionbuttons="ALL">科研规划</a>
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name icon_sub"></span>
+											<span class="item-title">科研规划</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="Demo规范">
-								<span>Demo规范</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">Demo规范</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class=""><a lay-href="/html/demo/layout.html" lay-text="页面排版说明" 
-									data-functionbuttons="ALL">页面排版</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">页面排版说明</span>
+									</div>
+								</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/form.html" lay-text="Form 表单" 
-									data-functionbuttons="ALL">Form 表单</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Form 表单</span>
+									</div>
+								</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/select.html" lay-text="selected 下拉框" 
-									data-functionbuttons="ALL">selected 下拉框</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">selected 下拉框</span>
+									</div>
+								</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/advancedSearch.html" lay-text="高级筛选演示" 
-									data-functionbuttons="ALL">高级筛选演示</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">高级筛选演示</span>
+									</div>
+								</a>
 								</dd>
-								<dd class=""><a lay-href="/html/demo/button.html" lay-text="Button 按钮" 
-									data-functionbuttons="ALL">Button 与 Tab</a>
+								<dd class=""><a lay-href="/html/demo/button.html" lay-text="Button 与 Tab" 
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Button 与 Tab</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/table.html" lay-text="Table 表格" 
-									data-functionbuttons="ALL">Table 表格</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Table 表格</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/dialog.html" lay-text="Dialog 弹窗" 
-									data-functionbuttons="ALL">Dialog 弹窗</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Dialog 弹窗</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/dictionaries.html" lay-text="公告方法演示" 
-									data-functionbuttons="ALL">公告方法演示</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">公告方法演示</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/file.html" lay-text="附件上传 File" 
-									data-functionbuttons="ALL">附件上传 File</a>
+									data-functionbuttons="ALL"><div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">附件上传 File</span>
+									</div></a>
 								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="商标管理">
-								<span>商标管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">商标管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class=""><a lay-href="/html/trademark/index.html" lay-text="商标管理" 
-									data-functionbuttons="ALL">商标管理</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">商标管理</span>
+									</div></a>
 								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="专家管理">
-								<span>专家管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">专家管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>
 							<dl class="layui-nav-child">
 								<dd class=""><a lay-href="/kjpt/expert/expert_list.html" lay-text="专家信息管理"
-												data-functionbuttons="ALL">专家信息管理</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">专家信息管理</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/kjpt/expert/expert_query.html" lay-text="专家查询"
-												data-functionbuttons="ALL">专家查询</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">专家查询</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/kjpt/expert/expert_demeanor.html" lay-text="专家风采"
-												data-functionbuttons="ALL">专家风采</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">专家风采</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/stp/techFamily/tech-tree-list.html" lay-text="技术族"
-												data-functionbuttons="ALL">技术族</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">技术族</span>
+									</div></a>
 								</dd>
 							</dl>
 						</li>
@@ -260,22 +362,38 @@ var __base_dic_store = {
 							<div></div>
 						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
+							<div class="item-row-block">
 								<span class="icon_name ${s.icon}"></span>
-								<span>${s.name}</span>
+								<span class="item-title">${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
+							</div>
 							</a>
 							<dl class="layui-nav-child">
 								<#list funList as t> <#if t.parentId == s.id>
 								<dd>
 									<#if t.url != '#'>
-									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
+									<a lay-href="${t.url}" lay-text="${t.name}"
+										data-id="${t.id}" data-code="${t.code}"
+										data-functionbuttons="${t.functionButtons}">
+										<div class="item-row-block">
+											<span class="icon_name ${t.icon}"></span>
+											<span class="item-title">${t.name}</span>
+										</div></a>
 									</#if> <#if t.url == '#'>
-									<a href="${t.url}" title="${t.name}">${t.name}</a>
+									<a href="${t.url}" title="${t.name}"><div class="item-row-block">
+										<span class="icon_name ${t.icon}"></span>
+										<span class="item-title">${t.name}</span>
+									</div></a>
 									<dl class="layui-nav-child">
 										<#list funList as k> <#if k.parentId == t.id>
 										<dd>
-											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
+											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}"
+												data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}"
+												title="${k.name}"><div class="item-row-block">
+												<span class="icon_name ${k.icon}"></span>
+												<span class="item-title">${k.name}</span>
+											</div></a>
 										</dd>
 										</#if> </#list>
 									</dl>
@@ -284,22 +402,39 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#if openFlag!="0">
 						<li class="layui-nav-item"><a href="#" title="${s.name}">
-								<span class="icon_name ${s.icon}"></span>
-								<span>${s.name}</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
+								<div class="item-row-block">
+									<span class="icon_name ${s.icon}"></span>
+									<span class="item-title">${s.name}</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</div>
 							</a>
 							<dl class="layui-nav-child">
 								<#list funList as t> <#if t.parentId == s.id>
 								<dd>
 									<#if t.url != '#'>
-									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
+									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}"
+										data-code="${t.code}" data-functionbuttons="${t.functionButtons}">
+										<div class="item-row-block">
+											<span class="icon_name ${t.icon}"></span>
+											<span class="item-title">${t.name}</span>
+										</div></a>
 									</#if> <#if t.url == '#'>
-									<a href="${t.url}" title="${t.name}">${t.name}</a>
+									<a href="${t.url}" title="${t.name}">
+										<div class="item-row-block">
+											<span class="icon_name ${k.icon}"></span>
+											<span class="item-title">${t.name}</span>
+										</div>
+									</a>
 									<dl class="layui-nav-child">
 										<#list funList as k> <#if k.parentId == t.id>
 										<dd>
-											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
+											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}"
+											data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}"
+											title="${k.name}"><div class="item-row-block">
+												<span class="icon_name ${k.icon}"></span>
+												<span class="item-title">${k.name}</span>
+											</div></a>
 										</dd>
 										</#if> </#list>
 									</dl>
@@ -308,8 +443,10 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
 						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
-							<span class="icon_name ${s.icon}"></span>	
-							<span>${s.name}</span>
+							<div class="item-row-block">
+								<span class="icon_name ${s.icon}"></span>	
+								<span class="item-title">${s.name}</span>
+							</div>
 							</a></li> </#if> </#list>
 						
 					</ul>
