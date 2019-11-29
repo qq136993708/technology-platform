@@ -457,9 +457,9 @@
 					content:  temUrl,
 					end: function(lay, index) {
 						// 弹窗销毁时获取弹窗返回数据
-						var getDialogData = getDialogData('dialog-data');
+						var getData = getDialogData('dialog-data');
 						/*判断成功刷新table*/
-						if(getDialogData.code=="0"){
+						if(getData.code=="0"){
 							table.reload('postTable',null)
 						}
 
@@ -486,9 +486,9 @@
 					content:  temUrl,
 					end: function(lay, index) {
 						// 弹窗销毁时获取弹窗返回数据
-						var getDialogData = getDialogData('dialog-data');
+						var getData = getDialogData('dialog-data');
 						/*判断成功刷新table*/
-						if(getDialogData.code=="0"){
+						if(getData.code=="0"){
 							table.reload('postTable',null)
 						}
 
