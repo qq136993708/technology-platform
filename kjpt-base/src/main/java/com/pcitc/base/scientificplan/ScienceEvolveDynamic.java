@@ -23,13 +23,15 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
     private  String accessory; //附件
 
 
-    private  String nameTxt ="";
+    private  String nameText ="";
+
+    private  String reportType; //上报类型
 
     public ScienceEvolveDynamic() {
     }
 
     public ScienceEvolveDynamic(String id, String name, String authenticateUtil, String researchField, Date releaseTime,
-                                String authenticateUitlText, Date annual, String accessory) {
+                                String authenticateUitlText, Date annual, String accessory, String nameText, String reportType) {
         this.id = id;
         this.name = name;
         this.authenticateUtil = authenticateUtil;
@@ -38,6 +40,8 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
         this.authenticateUitlText = authenticateUitlText;
         this.annual = annual;
         this.accessory = accessory;
+        this.nameText = nameText;
+        this.reportType = reportType;
     }
 
     public String getId() {
@@ -107,11 +111,19 @@ public class ScienceEvolveDynamic extends RecordModel implements Serializable {
     }
 
 
-    public String getNameTxt() {
-        return nameTxt;
+    public String getNameText() {
+        return nameText;
     }
 
-    public void setNameTxt(String nameTxt) {
-        this.nameTxt = nameTxt;
+    public void setNameText(String nameText) {
+        this.nameText = nameText;
+    }
+
+    public String getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
     }
 }

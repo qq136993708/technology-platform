@@ -21,6 +21,12 @@
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
 
         <result column="annual" jdbcType="VARCHAR" property="annual"/>
+
+
+        <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
+
+        <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -35,7 +41,8 @@
       create_user,
       update_date,
       update_user,
-      annual
+      annual,
+      report_type
   </sql>
 
 
@@ -62,7 +69,8 @@
        create_user,
        update_date,
        update_user,
-       annual
+       annual,
+       report_type
       )
     values (
       #{id},
@@ -76,7 +84,8 @@
       #{creator},
       #{updateDate},
       #{updator},
-      #{annual}
+      #{annual},
+      #{report_type}
        )
   </insert>
 
@@ -106,6 +115,11 @@
 
         <if test="annual != null  ">
             and annual = #{annual}
+        </if>
+
+
+        <if test="reportType != null  and reportType != ''  ">
+            and report_type = #{reportType}
         </if>
         and deleted != '1'
 
@@ -147,7 +161,12 @@
             </if>
 
             <if test="annual != null ">
-                annual = #{annual}
+                annual = #{annual},
+            </if>
+
+
+            <if test="reportType != null  and reportType != ''  ">
+                 report_type = #{reportType}
             </if>
 
         </trim>
