@@ -87,6 +87,7 @@ layui.config({
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        $("#imgFileUpload").addClass("success")
                         headPic=relData.data.headPic
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
