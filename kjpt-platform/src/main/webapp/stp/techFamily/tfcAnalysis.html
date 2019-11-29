@@ -465,44 +465,51 @@
 
         renderTableCg();
         window.renderTableCg = renderTableCg;
-
-        var colsZl =
-            [
-                // {type: 'checkbox', event: 'changeEvents', width: 55},
-                {title: '序号', type: 'numbers', width: 55},
-                {
-                    field: "sqri",
-                    title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100, templet: function (d) {
-                        return d.sqri.substring(0, 10);
-                    }
-                },
-                {
-                    field: "fmmc",
-                    title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: 200
-                },
-                {
-                    field: "shenqr",
-                    title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: 150
-                },
-                {
-                    field: "fmr",
-                    title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: 150
-                },
-                {
-                    field: "zlh",
-                    title: "专利号", event: 'setActive', style: 'cursor: pointer;', width: 150
-                }
-            ];
-
         function renderTableZl() {
-
-            var where = {
-                param:
+            table.render({
+                elem: '#indexOutPatentTableId' // 表格元素ID
+                ,url: '/patentController/queryPatent' //数据接口
+                ,cols: [[
+                    // {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
                     {
-                        "typeIndex": tfcCode
+                        field: "applicationDate",
+                        title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100,
+                    },
+                    {
+                        field: "patentName",
+                        title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: 200
+                    },
+                    {
+                        field: "applicant",
+                        title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: 150
+                    },
+                    {
+                        field: "inventor",
+                        title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: 150
+                    },
+                    {
+                        field: "applicationNumber",
+                        title: "专利号", event: 'setActive', style: 'cursor: pointer;', width: 150
                     }
-            };
-            publicMethods.tableRenderH('indexOutPatentTableId', 'indexOutPatentTableId',commonDislodgeTable()-100, '/indexOutPatent/getTableData', false, colsZl, where, true, function (res, curr, count) {
+                ]],
+                method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                where: {
+                    technicalFieldIndex:tfcCode // 表格请求时传递的参数
+                }
+                ,request: {
+                    page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                    limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                }
+                , page: true //开启分页
+                , limit: 15
+                , limits: [15, 30, 45, 60], // 配置分页数据条数
+                done: function (res, curr, count) {
+                    console.log(res)
+                    //$("#indexOutProjectInfoTableIdCount").html("(" + count + ")");
+                }
+            });
+            /*publicMethods.tableRenderH('indexOutPatentTableId', 'indexOutPatentTableId',commonDislodgeTable()-100, '/indexOutPatent/getTableData', false, colsZl, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -513,7 +520,7 @@
                 });
                 $("#indexOutPatentTableIdCount").html("(" + res.count + ")");
             });
-            $(".layui-table-header table thead th input").remove();
+            $(".layui-table-header table thead th input").remove();*/
         }
 
         renderTableZl();
@@ -536,7 +543,7 @@
         $.ajax({
             type: 'post',
             async: false,
-            url: "/indexOutProjectInfo/selectByExampleByTypeIndexCode?typeIndex=" + tfcCode,
+            url: " /outProject-api/getHotByTypeIndex?typeIndex=" + tfcCode,
             dataType: 'json',
             success: function (d) {
                 console.log(d)
