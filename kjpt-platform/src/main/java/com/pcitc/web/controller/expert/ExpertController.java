@@ -139,8 +139,8 @@ public class ExpertController extends BaseController {
     
     @ApiOperation(value = "专家查询（分页）", notes = "专家查询（分页）")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "page",           value = "页码", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "page",           value = "页码", dataType = "string", paramType = "query",required=true),
+        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "useStatus",      value = "状态",    dataType = "string", paramType = "query"),
