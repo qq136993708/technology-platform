@@ -219,6 +219,11 @@ public class PatentInfo implements Serializable {
      */
 	private String technicalFieldText;
 
+    /**
+     * 技术领域索引
+     */
+    private String technicalFieldIndex;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -556,8 +561,15 @@ public class PatentInfo implements Serializable {
     public void setTechnicalFieldText(String technicalFieldText) {
         this.technicalFieldText = technicalFieldText;
     }
-	
-	
+
+    public String getTechnicalFieldIndex() {
+        return technicalFieldIndex;
+    }
+
+    public void setTechnicalFieldIndex(String technicalFieldIndex) {
+        this.technicalFieldIndex = technicalFieldIndex;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
