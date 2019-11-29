@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.out.OutProjectMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.out.OutProject">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="setup_year" jdbcType="VARCHAR" property="setupYear" />
+    <result column="project_cycle" jdbcType="VARCHAR" property="projectCycle" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="tech_type" jdbcType="VARCHAR" property="techType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, setup_year, project_cycle, project_type, project_name, create_time, tech_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from out_project
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from out_project
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutProject" useGeneratedKeys="true">
+    insert into out_project (id,setup_year, project_cycle, project_type, 
+      project_name, create_time, tech_type
+      )
+    values (#{id,jdbcType=VARCHAR},#{setupYear,jdbcType=VARCHAR}, #{projectCycle,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{projectName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{techType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutProject" useGeneratedKeys="true">
+    insert into out_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+      <if test="setupYear != null">
+        setup_year,
+      </if>
+      <if test="projectCycle != null">
+        project_cycle,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="techType != null">
+        tech_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null">
+        #{setupYear,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCycle != null">
+        #{projectCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="techType != null">
+        #{techType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.out.OutProject">
+    update out_project
+    <set>
+      <if test="setupYear != null">
+        setup_year = #{setupYear,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCycle != null">
+        project_cycle = #{projectCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="techType != null">
+        tech_type = #{techType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.out.OutProject">
+    update out_project
+    set setup_year = #{setupYear,jdbcType=VARCHAR},
+      project_cycle = #{projectCycle,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      tech_type = #{techType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="projectName != null and projectName  !='' ">      AND t.project_name like CONCAT('%',#{projectName},'%')</if>
+	     <if test="setupYear != null      and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from out_project t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM out_project t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

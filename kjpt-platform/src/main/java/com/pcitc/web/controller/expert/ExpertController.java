@@ -313,6 +313,8 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setNum(zjkBase.getNum());
 			oldZjkBase.setWorkExperience(zjkBase.getWorkExperience());
 			oldZjkBase.setTechnicalField(zjkBase.getTechnicalField());
+			oldZjkBase.setTechnicalFieldName(zjkBase.getTechnicalFieldName());
+			oldZjkBase.setTechnicalFieldIndex(zjkBase.getTechnicalFieldIndex());
 			oldZjkBase.setTitle(zjkBase.getTitle());
 			oldZjkBase.setSex(zjkBase.getSex());
 			oldZjkBase.setPost(zjkBase.getPost());
