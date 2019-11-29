@@ -25,7 +25,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	
 	
 	/**
-     * 根据ID获取专家奖励信息详情
+              * 根据ID获取外系统项目信息详情
 	*/
 	public OutProject selectOutProject(String id) throws Exception
 	{
@@ -33,7 +33,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	}
 	
 	 /**
-	     *修改专家奖励信息
+	     *修改外系统项目信息
 	*/
 	public Integer updateOutProject(OutProject record)throws Exception
 	{
@@ -42,7 +42,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	
 	
 	 /**
-	     *根据ID删除专家奖励信息
+	     *根据ID删除外系统项目信息
 	 */
 	public int deleteOutProject(String id)throws Exception
 	{
@@ -51,7 +51,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	
 	
 	/**
-	     * 增加专家奖励信息
+	     * 增加外系统项目信息
 	 */
 	public Integer insertOutProject(OutProject record)throws Exception
 	{
@@ -60,7 +60,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	
 	
 	/**
-	  * 获取专家奖励（分页）
+	  * 获取外系统项目（分页）
 	*/
 	public LayuiTableData getOutProjectPage(LayuiTableParam param)throws Exception
 	{
@@ -78,18 +78,21 @@ public class OutProjectServiceImpl implements IOutProjectService {
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
 			String expertId=getTableParam(param,"expertId","");
+			String techTypeIndex=getTableParam(param,"techTypeIndex","");
+			
+			
 			Map map=new HashMap();
 			map.put("rewarkLevel", rewarkLevel);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
 			map.put("expertId", expertId);
-			
+			map.put("techTypeIndex", techTypeIndex);
 			
 			
 			List<OutProject> list = outProjectMapper.getList(map);
 			PageInfo<OutProject> pageInfo = new PageInfo<OutProject>(list);
-			System.out.println(">>>>>>>>>专家奖励查询分页结果 "+pageInfo.getList().size());
+			System.out.println(">>>>>>>>>外系统项目查询分页结果 "+pageInfo.getList().size());
 			
 			LayuiTableData data = new LayuiTableData();
 			data.setData(pageInfo.getList());

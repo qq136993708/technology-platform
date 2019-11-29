@@ -9,9 +9,13 @@
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="tech_type" jdbcType="VARCHAR" property="techType" />
+    <result column="tech_type_index" jdbcType="VARCHAR" property="techTypeIndex" />
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
-    id, setup_year, project_cycle, project_type, project_name, create_time, tech_type
+    id, setup_year, project_cycle, project_type, project_name, create_time, tech_type,tech_type_index
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -25,10 +29,10 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutProject" useGeneratedKeys="true">
     insert into out_project (id,setup_year, project_cycle, project_type, 
-      project_name, create_time, tech_type
+      project_name, create_time, tech_type,tech_type_index
       )
     values (#{id,jdbcType=VARCHAR},#{setupYear,jdbcType=VARCHAR}, #{projectCycle,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
-      #{projectName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{techType,jdbcType=VARCHAR}
+      #{projectName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{techType,jdbcType=VARCHAR}, #{techTypeIndex,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutProject" useGeneratedKeys="true">
@@ -56,6 +60,12 @@
       <if test="techType != null">
         tech_type,
       </if>
+      <if test="techTypeIndex != null">
+        tech_type_index,
+      </if>
+      
+       
+       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -80,6 +90,15 @@
       <if test="techType != null">
         #{techType,jdbcType=VARCHAR},
       </if>
+      
+      <if test="techTypeIndex != null">
+        #{techTypeIndex,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.out.OutProject">
@@ -103,6 +122,10 @@
       <if test="techType != null">
         tech_type = #{techType,jdbcType=VARCHAR},
       </if>
+      <if test="techTypeIndex != null">
+        tech_type_index = #{techTypeIndex,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -111,6 +134,7 @@
     set setup_year = #{setupYear,jdbcType=VARCHAR},
       project_cycle = #{projectCycle,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=VARCHAR},
+      tech_type_index = #{techTypeIndex,jdbcType=VARCHAR},
       project_name = #{projectName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       tech_type = #{techType,jdbcType=VARCHAR}
@@ -129,8 +153,10 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="projectName != null and projectName  !='' ">      AND t.project_name like CONCAT('%',#{projectName},'%')</if>
-	     <if test="setupYear != null      and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
+	       <if test="projectType != null     and projectType !=''  ">   AND FIND_IN_SET(#{projectType},t.`project_type`) </if>
+	       <if test="projectName != null     and projectName  !='' ">   AND t.project_name like CONCAT('%',#{projectName},'%')</if>
+	       <if test="setupYear != null       and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
+	       <if test="techTypeIndex != null   and techTypeIndex !=''  "> AND t.tech_type_index like CONCAT(#{techTypeIndex},'%')</if>
 	 </trim>
 	</sql>
 	

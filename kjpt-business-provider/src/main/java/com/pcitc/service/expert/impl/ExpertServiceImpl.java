@@ -361,6 +361,8 @@ public class ExpertServiceImpl implements IExpertService {
 			String technicalField=getTableParam(param,"technicalField","");
 			String sex=getTableParam(param,"sex","");
 			String education=getTableParam(param,"education","");
+			String technicalFieldIndex=getTableParam(param,"technicalFieldIndex","");
+			String technicalFieldName=getTableParam(param,"technicalFieldName","");
 	    	
 			Map map=new HashMap();
 			map.put("name", name);
@@ -374,6 +376,9 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("technicalField", technicalField);
 			map.put("sex", sex);
 			map.put("education", education);
+			
+			map.put("technicalFieldIndex", technicalFieldIndex);
+			map.put("technicalFieldName", technicalFieldName);
 			
 			List<ZjkBase> list = zjkBaseMapper.getList(map);
 			PageInfo<ZjkBase> pageInfo = new PageInfo<ZjkBase>(list);
@@ -391,27 +396,8 @@ public class ExpertServiceImpl implements IExpertService {
 	
 	public List getZjkBaseList(Map map)throws Exception
 	{
-		/*
-		 * String name=getTableParam(param,"name",""); String
-		 * sourceType=getTableParam(param,"sourceType",""); String
-		 * delStatus=getTableParam(param,"delStatus",""); String
-		 * outSystemId=getTableParam(param,"outSystemId",""); String
-		 * belongUnit=getTableParam(param,"belongUnit",""); String
-		 * useStatus=getTableParam(param,"useStatus",""); String
-		 * post=getTableParam(param,"post",""); String
-		 * title=getTableParam(param,"title",""); String
-		 * technicalField=getTableParam(param,"technicalField","");
-		 * 
-		 * Map map=new HashMap(); map.put("name", name); map.put("sourceType",
-		 * sourceType); map.put("delStatus", delStatus); map.put("outSystemId",
-		 * outSystemId); map.put("belongUnit", belongUnit); map.put("useStatus",
-		 * useStatus); map.put("post", post); map.put("title", title);
-		 * map.put("technicalField", technicalField);
-		 */
-		
 		List<ZjkBase> list = zjkBaseMapper.getList(map);
-		System.out.println(">>>>>>>>>专家查询分页结果 "+list.size());
-		
+		System.out.println(">>>>>>>>>专家查询结果 "+list.size());
 	    return list;
 	}
 	

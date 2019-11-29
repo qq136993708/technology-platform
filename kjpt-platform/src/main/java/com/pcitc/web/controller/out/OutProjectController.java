@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
-@Api(value = "ExpertPatent-API",tags = {"专家库-专利接口"})
+@Api(value = "ExpertPatent-API",tags = {"外系统-项目接口"})
 @RestController
 public class OutProjectController extends BaseController {
 	
@@ -50,13 +50,17 @@ public class OutProjectController extends BaseController {
 	 */
 	@ApiOperation(value = "查询外系统-项目", notes = "查询外系统-项目")
 	@ApiImplicitParams({
-	       @ApiImplicitParam(name = "techType",  value = "专业领域", dataType = "string", paramType = "query")
-	       
+	       @ApiImplicitParam(name = "techType",  value = "专业领域", dataType = "string", paramType = "query"),
+	       @ApiImplicitParam(name = "techTypeIndex",  value = "专业领域索引", dataType = "string", paramType = "query")
 	   })
 	@RequestMapping(value = "/outProject-api/getList", method = RequestMethod.GET)
-	public String getChildsListByCodeTree(@RequestParam(required = false) String techType,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getChildsListByCodeTree(
+			@RequestParam(required = false) String techType,
+			@RequestParam(required = false) String techTypeIndex,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 	    Map  map = new HashMap();
+	    map.put("techTypeIndex", techTypeIndex);
 	    map.put("techType", techType);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(LIST_OUTPROJECT_URL, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 		JSONArray temparray = responseEntity.getBody();
@@ -76,7 +80,8 @@ public class OutProjectController extends BaseController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page",           value = "页码",       dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "limit",          value = "每页显示条数",  dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "techType",       value = "专业领域",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "techType",       value = "专业领域",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "techTypeIndex",  value = "专业领域索引",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/outProject-api/page", method = RequestMethod.POST)
 	public String getExpertPage(
@@ -85,11 +90,13 @@ public class OutProjectController extends BaseController {
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
             @RequestParam(required = false) String techType,
+            @RequestParam(required = false) String techTypeIndex,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("techType", techType);
+    	param.getParam().put("techTypeIndex", techTypeIndex);
     	param.setLimit(limit);
     	param.setPage(page);
 		LayuiTableData layuiTableData = new LayuiTableData();
