@@ -44,7 +44,8 @@ public class OutProjectController extends BaseController {
 	 */
 	public static final String GET_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/expert_patent/get/";
 
-	
+	 private static final String GET_HOT_FAMILY_URL = "http://kjpt-zuul/stp-proxy/out_project/getHotByTypeIndex";
+		
 	/**
 	  *查询外系统-项目
 	 */
@@ -111,7 +112,24 @@ public class OutProjectController extends BaseController {
 		return result.toString();
 	}
 
-    
+
+    @ApiOperation(value = "查询技术族-项目热点", notes = "查询技术-项目热点")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "typeIndex",  value = "专业领域索引",     dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/outProject-api/getHotByTypeIndex", method = RequestMethod.GET)
+    public String getHotByTypeIndex(  @RequestParam(required = false) String typeIndex,HttpServletRequest request, HttpServletResponse response) throws Exception  {
+
+    	
+    	logger.info("============typeIndex" + typeIndex);
+    	 Map  map = new HashMap();
+ 	     map.put("typeIndex", typeIndex);
+ 	    ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_HOT_FAMILY_URL, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        return JSON.toJSON(retJson).toString();
+    }
+   
+	
     
 
 }

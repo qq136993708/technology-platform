@@ -76,4 +76,6 @@ public interface TechFamilyService {
     public List<TechFamily> getTechFamilyList(Map map)throws Exception;   
     
     public TechFamily getTechFamilyById(String tfmTypeId)throws Exception;
+    
+    
 }

@@ -3,6 +3,7 @@ package com.pcitc.service.out;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.out.OutProject;
@@ -37,5 +38,7 @@ public interface IOutProjectService {
 	public LayuiTableData getOutProjectPage(LayuiTableParam param)throws Exception;
 	
 	public List getOutProjectList(Map map)throws Exception;
+	
+	public JSONObject getHotByTypeIndex(JSONObject obj)throws Exception;
 
 }

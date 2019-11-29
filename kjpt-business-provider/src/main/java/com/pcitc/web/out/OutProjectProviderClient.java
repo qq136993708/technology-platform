@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.out.OutProject;
@@ -32,6 +33,26 @@ public class OutProjectProviderClient {
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectProviderClient.class); 
 	@Autowired
     private IOutProjectService outProjectService; 
+	
+	
+	
+	
+	
+	
+	@ApiOperation(value = "查询技术族-项目热点", notes = "查询技术族-项目热点")
+    @RequestMapping(value = "/out_project/getHotByTypeIndex", method = RequestMethod.POST)
+    public JSONObject getHotByTypeIndex(@RequestBody Map map) {
+        JSONObject retJson = new JSONObject();
+        JSONObject obj = new JSONObject();
+        obj.put("typeIndex", String.valueOf(map.get("typeIndex")));
+        try {
+            retJson = outProjectService.getHotByTypeIndex(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
+	
 	
 	@ApiOperation(value = "获取项目列表", notes = "获取项目列表")
 	@RequestMapping(value = "/out_project/list", method = RequestMethod.POST)

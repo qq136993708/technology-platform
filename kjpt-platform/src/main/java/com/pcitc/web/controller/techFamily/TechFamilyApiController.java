@@ -55,6 +55,7 @@ public class TechFamilyApiController extends BaseController
 	private static final String LIST_BY_IDS_URL = "http://kjpt-zuul/stp-proxy/tech-family-provider/getListByCodes";
 	
 	
+	   
 	
 	
 	/**
@@ -82,9 +83,6 @@ public class TechFamilyApiController extends BaseController
 		System.out.println("-----------------树形结构："+trreeJson.toString());
 		return trreeJson.toString();
 	}
-	
-	
-	
 	
 	
 	
