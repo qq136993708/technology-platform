@@ -45,6 +45,7 @@
     <result column="country_text" jdbcType="VARCHAR" property="countryText" />
 	<result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText" />
 	<result column="technical_field_text" jdbcType="VARCHAR" property="technicalFieldText" />
+    <result column="technical_field_index" jdbcType="VARCHAR" property="technicalFieldIndex" />
 
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -111,7 +112,7 @@
     entry_date, application_cost, remark, summary, application_of_patent_transformation,
     major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor,
     assign_profit, file, creator, create_date, update_date, updator, deleted,country,application_of_patent_transformation_text,
-    patent_type_text,country_text,application_type_text,legal_status_text, unit_name_text, technical_field, technical_field_text
+    patent_type_text,country_text,application_type_text,legal_status_text, unit_name_text, technical_field, technical_field_text,technical_field_index
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -293,6 +294,9 @@
 	  <if test="technicalFieldText != null">
         technical_field_text,
       </if>
+      <if test="technicalFieldIndex != null">
+        technical_field_index,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -402,7 +406,10 @@
       </if>
 	  <if test="technicalFieldText != null">
         #{technicalFieldText,jdbcType=VARCHAR},
-	</if>
+      </if>
+      <if test="technicalFieldIndex != null">
+        #{technicalFieldIndex,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultType="java.lang.Long">
@@ -710,7 +717,8 @@
       deleted = #{deleted,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
 	  technical_field = #{technicalField,jdbcType=VARCHAR},
-	  technical_field_text = #{technicalFieldText,jdbcType=VARCHAR}
+	  technical_field_text = #{technicalFieldText,jdbcType=VARCHAR},
+	  technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
