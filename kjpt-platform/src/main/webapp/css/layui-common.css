@@ -385,5 +385,7 @@
 .layui-layer-setwin .layui-layer-close1:hover {
   opacity: .8;
 }
-
+.layui-table-tips-c {
+  padding: 0;
+}
 
