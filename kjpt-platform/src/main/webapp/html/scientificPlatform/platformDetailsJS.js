@@ -319,10 +319,42 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     }
   })
 
-  // 模版下载、导入、导出
-  $('.exportData, .importData').on('click', function() {
+  // 导入
+  $('.exportData').on('click', function() {
     layer.msg('功能开发中...暂未实现！');
     return;
+  })
+
+  // 导出
+  $('.importData').click(function() {
+    var importUrl = '';
+    switch ($(this).data('item')+'') {
+      case '1':
+        // 项目
+        importUrl =  '/platformProject-api/export?platformId='+ variable.id;
+        break;
+      case '2':
+        // 领军人物
+        importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id + '&role=1';
+        break;
+      case '3':
+        // 论文
+        importUrl =  '/platformTreatise-api/export?platformId='+ variable.id + '&role=1';
+        break;
+      case '4':
+        // 成员
+        importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id;
+        break;
+      case '5':
+        // 成果
+        importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
+        break;
+      case '6':
+        // 专利
+        importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
+        break;
+    }
+    window.open(importUrl, '_blank');
   })
   
 });
