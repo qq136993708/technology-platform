@@ -1,10 +1,10 @@
 var file_readonly = false;
 
-
-layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
+layui.use(['form', 'laydate', 'formSelects'], function(){
     var form = layui.form;
     var $ = layui.$; 
     var laydate = layui.laydate;
+    var formSelects = layui.formSelects
     
 
   function getItemInitData(item) {
@@ -38,6 +38,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
               $("#files").val(files.join(','));
             }
           });
+          formSelects.value('supportingInstitutions', [data.unitName]);
 
 
         }
