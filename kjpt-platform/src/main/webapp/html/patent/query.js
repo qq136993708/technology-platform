@@ -24,7 +24,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'applicationTypeText', title: '申请类型', sort: true}
           ,{field: 'patentTypeText', title: '专利类型' } 
           ,{field: 'applicant', title: '申请人'}
-          ,{field: 'inventor', title: '发明人', sort: true, templet: '#showUserTpl'}
+          ,{field: 'inventor', title: '发明人', sort: true}
           ,{field: 'applicationDate', title: '申请日期', sort: true, templet: function(d) {
             return dateFieldText(d.recordDate);
           }}

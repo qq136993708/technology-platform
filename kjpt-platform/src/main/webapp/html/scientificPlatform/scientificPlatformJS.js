@@ -129,7 +129,22 @@ layui.use(['form', 'table', 'layer'], function(){
     	layer.msg('请选择需要删除的平台！');
     }
   })
-  
 
+  // 导出
+  $('#importData').click(function() {
+    var name = $('[name="platformName"]').val();
+    name ? name = name.trim() : name = '';
+    window.open('/platform-api/export?level='+variable.level+'&platformName=' + name, '_blank');
+  })
+
+  // 导入
+  importFiles({
+    id: 'opations-btn',
+    url: '/kgjImport/1',
+    callback: function(res, type) {
+      
+    }
+  });
+  
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });

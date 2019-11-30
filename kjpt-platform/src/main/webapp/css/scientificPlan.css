@@ -40,6 +40,9 @@
   line-height: 30px;
   font-size: 16px;
   color: #383E45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .file-item-list .file-option{
   line-height: 20px;
