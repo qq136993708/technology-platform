@@ -234,7 +234,7 @@
         <if test="notes != null and notes != ''">
             and NOTES = #{notes}
         </if>
-        <if test="files != null and accessoryUpload != ''">
+        <if test="files != null and files != ''">
             and file = #{files}
         </if>
 
