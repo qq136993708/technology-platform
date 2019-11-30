@@ -1037,7 +1037,6 @@ html{ background-color: #F9F9F9; color: #666;}
 .layadmin-link{color: #029789!important;}
 .layadmin-link:hover{opacity: 0.8;}
 
-
 .layui-nav-tree .layui-nav-item,
 .layui-nav-tree .layui-nav-item:hover {
     background: none !important;
@@ -1110,30 +1109,28 @@ html{ background-color: #F9F9F9; color: #666;}
     text-overflow: ellipsis;
     padding-left: 16px;
 }
-.layui-side-menu-div .layui-nav a > .layui-nav-more {
+.layui-side-menu-div .layui-nav .layui-nav-more {
     display: none !important;
 }
-.layui-side-menu-div .layui-nav .layui-nav-more,
-.layui-side-menu-div .layui-nav .layui-nav-mored{
-    border-width:0 !important;
-    background: url("/layuiadmin/layui/images/icon-r.png") no-repeat;
-    width: 6px;
-    height: 12px;
-    position: absolute;
-    top: 50%;
-    margin-top: -6px;
-    right: 10px;
-}
-.layui-nav-itemed>dl>.layui-nav-itemed>a .layui-nav-more {
-    background-image: url(/layuiadmin/layui/images/down_gray.png);
-}
-.layui-side-menu-div .layui-nav .layui-nav-mored,
-.layui-nav .layui-nav-itemed > a .layui-nav-more {
-    background-image: url("/layuiadmin/layui/images/icon-w.png");
+.layui-nav-item .item-row-block .arrow{
+    display: block;
     width: 12px;
-    height: 6px;
-    margin-top: -3px;
+    height: 8px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    margin-top: -4px;
+    background: url('../../images/pull_down.png') no-repeat center center;
+    background-size: 100%;
+    transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transition: transform .18s ease-out;
 }
+.layui-nav-item.layui-nav-itemed .item-row-block .arrow{
+    transform: rotate(0deg);
+    -ms-transform: rotate(-0deg);
+}
+
 .layui-nav-tree .layui-this > a,
 .layui-nav-tree .layui-nav-child dd.layui-this,
 .layui-nav-tree .layui-nav-child dd.layui-this a{
@@ -1230,5 +1227,7 @@ html{ background-color: #F9F9F9; color: #666;}
 .layadmin-side-shrink .layui-header-div{left: 60px;}
 .layadmin-side-shrink .selectBox-span{margin-left: 90px !important;}
 
-
+.layadmin-side-shrink .item-row-block > .arrow {
+    display: none !important;
+}
 /* 菜单样式 --------------end---------------------------------------------------------------- */
