@@ -138,13 +138,15 @@ layui.use(['form', 'table', 'layer'], function(){
   })
 
   // 导入
-  importFiles({
-    id: 'opations-btn',
-    url: '/kgjImport/1',
-    callback: function(res, type) {
-      
-    }
-  });
+  if (variable.level) {
+    importFiles({
+      id: 'opations-btn',
+      url: '/excelImport/kyptImp?pid=' + variable.level,
+      callback: function(res, type) {
+        
+      }
+    });
+  }
   
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });
