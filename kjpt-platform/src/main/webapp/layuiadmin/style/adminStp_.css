@@ -843,33 +843,6 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
 .news{position: fixed;top: 80px;right: 40px;z-index: 999;left: 260px;}
 .news a{margin: 0 15px;display: inline-block;z-index: 9999;}
-.layui-side-menu .layui-nav-tree .layui-nav-item.layui-this>a{color: white !important;
-    background: url(/layuiadmin/layui/images/tree_w_m.png) 10px 14px no-repeat #1890ff;}
-.layui-nav-tree>li:nth-child(2).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_05.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(3).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_10.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(4).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_14.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(5).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_18.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(6).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_22.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(7).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_26.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(8).layui-this>a{
-    background: url(/layuiadmin/layui/images/tree_30.png) 10px 14px no-repeat #1890ff !important;}
-
-.layui-nav-tree>li:nth-child(9).layui-this>a{
-    background: url(/layuiadmin/layui/images/ziyuan-w.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(10).layui-this>a{
-    background: url(/layuiadmin/layui/images/yusuandan-w.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(11).layui-this>a{
-    background: url(/layuiadmin/layui/images/system_select-w.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(12).layui-this>a{
-    background: url(/layuiadmin/layui/images/bumenjizigongsi-w.png) 10px 14px no-repeat #1890ff !important;}
-.layui-nav-tree>li:nth-child(13).layui-this>a{
-    background: url(/layuiadmin/layui/images/yusuan-w.png) 10px 14px no-repeat #1890ff !important;}
 
 .layadmin-pagetabs .layui-tab-title li:after{background-color: #e6f7ff !important;}
 .layui-leader .layui-header .layui-nav .layui-nav-item{height: 56px;line-height: 56px;}
@@ -1028,9 +1001,17 @@ html{ background-color: #F9F9F9; color: #666;}
     left: 0;
     top: 0;
 }
-.layadmin-flexible div{background:url("/layuiadmin/layui/images/stpicon_08.png") no-repeat;
-    width: 18px;height: 18px;position: absolute;right: 20px;top: 12px;cursor: pointer;}
-.layadmin-flexible div.flexd{background:url("/layuiadmin/layui/images/stpicon_08_d.png") no-repeat !important;}
+.layadmin-flexible div{
+    background:url("/images/nav_left.png") no-repeat center center;
+    background-size: 100% 100%;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    margin-top: -12px;
+    cursor: pointer;
+}
 .layui-bg-white{background-color: #fff;}
 .layadmin-loading{position: absolute; left: 50%; top: 50%; margin: -16px -15px; font-size: 30px; color: #c2c2c2;}
 .layadmin-fixed{position: fixed; left: 0; top: 0; z-index: 999;}
@@ -1046,6 +1027,7 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-side-menu .layui-nav-item dd > a{
     display: block;
     height: 40px;
+    line-height: 40px;
     padding: 0 12px;
     color:#000;
 }
@@ -1070,7 +1052,9 @@ html{ background-color: #F9F9F9; color: #666;}
     color: #0AA1FF;
     background-color: rgba(0, 0, 0 , .03);
 }
-.layui-nav-itemed > a,
+.layui-nav-itemed > a {
+    color: #333 !important;
+}
 .layui-nav-itemed > a:hover {
     color: #0AA1FF !important;
 }
@@ -1093,11 +1077,11 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-nav-item .item-row-block > .icon_name {
     width: 20px;
     height: 20px;
-    background: url('../layui/images/wdzl-d.png') center center no-repeat;
-    background-size: 100% 100%;
+    background: url('../../images/kjclsb.png') center center no-repeat;
+    background-size: 116% 116%;
 }
 .layui-nav-item > a:hover .item-row-block > .icon_name{
-    background-image: url('../layui/images/wdzl-h.png');
+    background-image: url('../../images/kjclsb.png');
 }
 .layui-nav-item dd .item-row-block > .icon_name{
     opacity: 0;
@@ -1153,7 +1137,11 @@ html{ background-color: #F9F9F9; color: #666;}
 .layadmin-side-shrink .layadmin-flexible{
     color: #4476a7;
 }
-.layadmin-side-shrink .layui-layout-admin .layadmin-flexible div{background: url("/layuiadmin/layui/images/stpicon_08.png") no-repeat;right: 26px;}
+.layadmin-side-shrink .layadmin-flexible div.flexd{
+    background-image: url("/images/nav_right.png");
+    right: 50%;
+    margin-right: -12px;
+}
 .layadmin-side-shrink .layui-layout-admin .layui-logo span{display: none;}
 .layadmin-side-shrink .layui-side{left: 0; width: 60px;}
 .layadmin-side-shrink .layadmin-pagetabs,

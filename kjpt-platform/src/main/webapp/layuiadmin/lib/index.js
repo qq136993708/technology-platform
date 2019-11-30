@@ -160,14 +160,10 @@ layui.extend({
   $layuiHeaderNav.on('click', '.header-nav-item', function() {
     $layuiHeaderNav.find('.header-nav-item').removeClass('layui-this');
     $(this).addClass('layui-this');
-    if ($(this).hasClass('home-item')) {
-        if (!$('.layui-header-search:eq(0)').hasClass('layui-hide')) {
-            $('.layui-header-search:eq(0)').addClass('layui-hide');
-        }
-    } else {
-        if ($('.layui-header-search:eq(0)').hasClass('layui-hide')) {
-            $('.layui-header-search:eq(0)').removeClass('layui-hide');
-        }
+    if (!$(this).hasClass('home-item')) {
+        var navId = $(this).find('a').attr('id');
+        $('#nav'+navId+ ' .layui-nav-item').removeClass('layui-nav-itemed');
+        $('#nav'+navId).find('a[lay-href]').eq(0).click().closest('.layui-nav-item').addClass('layui-nav-itemed');
     }
   })
 
@@ -183,13 +179,13 @@ layui.extend({
     $("#LAY_app_tabsheader li").removeClass("layui-this");
   });
   $(document).on('click', '.layui-tab-close', function() {
-      if($("#LAY_app_body .layui-show").index()==1 && $("#LAY_app_tabsheader .layui-this").index()==-1){
-          $("#LAY_app_body .layadmin-tabsbody-item").eq(1).removeClass("layui-show");
-          $("#LAY_app_body .layadmin-tabsbody-item").eq(0).addClass("layui-show");
-      }else if($("#LAY_app_tabsheader li").length==0){
-          $(".layadmin-tabsbody-item").addClass("layui-show");
-          $(".index-fixed li").addClass("layui-this");
-      }
+    if($("#LAY_app_body .layui-show").index()==1 && $("#LAY_app_tabsheader .layui-this").index()==-1){
+        $("#LAY_app_body .layadmin-tabsbody-item").eq(1).removeClass("layui-show");
+        $("#LAY_app_body .layadmin-tabsbody-item").eq(0).addClass("layui-show");
+    }else if($("#LAY_app_tabsheader li").length==0){
+        $(".layadmin-tabsbody-item").addClass("layui-show");
+        $(".index-fixed li").addClass("layui-this");
+    }
   });
   
   //扩展 lib 目录下的其它模块

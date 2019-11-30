@@ -102,7 +102,7 @@ function setFileUpload(config) {
     $field.on('click', '.file-options-download', function(e) {
       var fileID = $(this).data('fileid');
       if (fileID) {
-        window.open('/file/downLoadFile/' + fileID);
+        window.open('/file/downLoadFile/' + fileID, '_blank');
       }
     }).on('click', '.file-options-delete', function(e) {
       // 删除附件事件

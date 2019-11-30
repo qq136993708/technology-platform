@@ -129,6 +129,7 @@ layui.use(['form', 'table', 'layer'], function(){
     	layer.msg('请选择需要删除的平台！');
     }
   })
+  
 
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });
