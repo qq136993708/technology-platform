@@ -28,7 +28,7 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
   }
 
 
-  var itemDataUrl = '/WorkPoint/newInit';
+  var itemDataUrl = '/SciencePlan/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
   var readonlyFile = false; // 附件是否只读
@@ -37,13 +37,13 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
 
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
-    itemDataUrl = '/WorkPoint/load/' + variable.id;
+    itemDataUrl = '/SciencePlan/load/' + variable.id;
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
   } else if (variable.type === 'edit') {
-    itemDataUrl = '/WorkPoint/load/' + variable.id;
+    itemDataUrl = '/SciencePlan/load/' + variable.id;
     msgTitle = '编辑';
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
@@ -66,8 +66,9 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         form.val('formAddPlan', formData);
         form.render();
         $('#reportType').val(reportTypeVal);
+        console.log('formData',formData);
         if (formData.authenticateUtil) {
-          formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+          layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
@@ -107,7 +108,7 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
       saveData.annual = new Date(saveData.annual).getTime();
     }
     httpModule({
-      url: '/WorkPoint/save',
+      url: '/SciencePlan/save',
       data: saveData,
       type: 'POST',
       success: function(res) {

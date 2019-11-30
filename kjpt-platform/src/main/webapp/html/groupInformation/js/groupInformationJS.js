@@ -77,11 +77,12 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,cols: [
           cols
         ],
-        parseData: function(res) {return layuiParseData(res);},
         request: {
-          page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-          limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
+        parseData: function(res) {return layuiParseData(res);},
+
         page: true, //开启分页
         limit: 10, // 每页数据条数,
         limits: [5, 10, 15, 20], // 配置分页数据条数
