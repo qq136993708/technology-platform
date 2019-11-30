@@ -111,7 +111,8 @@
         update computer_software
         <trim prefix="SET" suffixOverrides=",">
 
-            <if test="unitName != null and unitName != '' ">
+--              and unitName != ''
+            <if test="unitName != null ">
                 UNIT_NAME = #{unitName},
             </if>
             <if test="registerNumber != null and registerNumber != '' ">
