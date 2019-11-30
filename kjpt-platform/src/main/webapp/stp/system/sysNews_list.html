@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
@@ -50,9 +51,9 @@
     </label>
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        <button class="layui-btn layui-btn-normal" data-type="searchEvent">查询
         </button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+        <button class="layui-btn layui-btn-primary"
                 data-type="resetEvent">重置
         </button>
     </div>
@@ -65,16 +66,16 @@
 
 
 
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+            <button class="layui-btn border-blue"
                     data-type="addEvent">新增
             </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+            <button class="layui-btn border-blue"
                     data-type="editEvent">编辑
             </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+            <button class="layui-btn border-red"
                     data-type="deleteEvent">删除
             </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+            <button class="layui-btn border-blue"
                     data-type="detailEvent">查看
             </button>
 
@@ -291,7 +292,7 @@
                         // 弹窗销毁时获取弹窗返回数据
                         var getData = getDialogData('dialog-data');
                         /*判断成功刷新table*/
-                        if(getData.code=="0"){
+                        if(getData){
                             table.reload('sysNewsTableId',null)
                         }
 
@@ -329,7 +330,7 @@
                             // 弹窗销毁时获取弹窗返回数据
                             var getData = getDialogData('dialog-data');
                             /*判断成功刷新table*/
-                            if(getData.code=="0"){
+                            if(getData){
                                 table.reload('sysNewsTableId',null)
                             }
 
@@ -360,9 +361,8 @@
                 var dataId;
                 if (selectRowData != undefined&&selectRowData!="") {
                     dataId = selectRowData.dataId;
-                    layer.open({
+                    top.layer.open({
                         title: param.name + '-查看',
-                        skin: 'layui-layer-lan',
                         shadeClose: false,
                         type: 2,
                         fixed: false,
@@ -384,7 +384,7 @@
                 if (selectRowData != undefined&&selectRowData!="") {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
-                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                    top.layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
                         $.ajax({
                             type: 'post',
@@ -397,6 +397,7 @@
                                 selectRowData="";
                                 layer.msg("删除成功");
                                 active.searchEvent();
+                                top.layer.closeAll(); // 关闭弹窗
                                 // }
                             },
                             error: function (e) {
@@ -436,9 +437,8 @@
         //监听行双击事件
         table.on('rowDouble(tableEvent)', function(obj){
             var dataId =  obj.data.dataId;
-            layer.open({
+            top.layer.open({
                 title:param.name+'-查看',
-                skin: 'layui-layer-lan',
                 shadeClose: false,
                 type: 2,
                 fixed: false,

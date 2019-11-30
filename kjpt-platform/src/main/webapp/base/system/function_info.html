@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/css/form.css">
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
@@ -26,7 +27,7 @@
 		<form id="editForm" class="layui-form" action="" lay-filter="component-form-group layui-container">
 			<div class="formBox">
 
-				<div class="tableToolBox">
+				<div class="tableToolBoxF">
 					<div class="tableBtns">
 						<div class="tableTitle">
 							菜单信息
@@ -130,17 +131,17 @@
 			<div class="tableBox">
 				<div class="tableToolBox">
 					<div class="tableBtns">
-						<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEventBtn">新增 </a>
-						<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除 </a>
+						<a class="layui-btn border-blue" data-type="addEventBtn">新增 </a>
+						<a class="layui-btn border-red" data-type="deleteEvent">删除 </a>
 					</div>
 				</div>
 
 				<table id="buttonTable" class="layui-hide" lay-filter="tableData"></table>
 			</div>
 			<div class="form-bottom">
-				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-save">保存</button>
-					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+				<div class="dialog-footer-btn">
+					<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="component-form-save">保存</button>
+					<button type="button" class="layui-btn layui-btn-primary" id="closeBtn">关闭</button>
 				</div>
 			</div>
 		</form>
@@ -284,7 +285,6 @@
 			},
 			limit : 10,
 			id : 'buttonTable',
-			height : "full-318",
 			page : {
 				count : 500, //数据总数，从服务端得到
 				groups : 5,
