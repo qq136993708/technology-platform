@@ -59,13 +59,14 @@
     <table id="showTable" class="layui-table" lay-filter="tableData"></table>
 </div>
 
+<script src="/layuiadmin/js/common.js"></script>
 
 <!--表格数据操作js-->
 <script>
     var table, active, dateId, xmid, erpProjectCode, selectRowData = '';
     layui.use(['jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl'], function () {
         table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
-
+        var variable = getQueryVariable();
         function renderTable() {
             var param = JSON.parse(window.localStorage.getItem("param"));
             var lodingMsg = layer.msg('数据加载中....');
@@ -74,16 +75,11 @@
             table.render({
                 elem: '#showTable',
                 url: '/outProject-api/page',
-                method: "POST",
+                method: "get",
                 where: {
                     param: {
-                        "projectName": "${projectName}",
-                        "setupYear": "${setupYear}",
-                        "hth": $('#hth').val(),
-                        "xmmc": $('#xmmc').val(),
-                        "leaderFlag": "1",
-                        "project_property": $("#project_property").val(),
-                        "functionCode": param.code
+                        projectName: variable.typeName,
+                        setupYear: variable.pYear
                     }
                 },
                 limit: param.selfRownum,
@@ -99,41 +95,27 @@
                     last: '尾页', //不显示尾页
                     theme: '#0F9EE0'
                 },
-                cols: [[{
-                    type: 'checkbox',
-                    event: 'changeEvents'
-                }, {
+                cols: [[ {
                     title: '序号',
                     type: 'numbers',
                     width: 55
                 }, {
-                    field: 'nd',
+                    field: 'setupYear',
                     title: '立项年度',
-                    width: '8%',
+                    width: '10%',
                     style: 'cursor: pointer;'
                 }, {
-                    field: 'hth',
-                    title: '合同号',
-                    width: '8%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'xmmc',
+                    field: 'projectName',
                     title: '项目名称',
                     width: '28%',
                     style: 'cursor: pointer;'
                 }, {
-                    field: 'zylb',
+                    field: 'projectType',
                     title: '专业类别',
-                    width: '8%',
                     style: 'cursor: pointer;'
                 }, {
-                    field: 'fzdw',
-                    title: '负责单位',
-                    width: '12%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'define8',
-                    title: '参与单位',
+                    field: 'projectCycle',
+                    title: '项目周期',
                     style: 'cursor: pointer;'
                 }
                     // , {
