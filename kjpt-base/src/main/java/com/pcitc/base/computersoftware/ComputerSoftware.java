@@ -83,7 +83,7 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     /**
      * 附件上传
      */
-    private String fileIds="";
+    private String files="";
 
 
     private  String unitNameText= "";
@@ -202,12 +202,11 @@ public class ComputerSoftware extends RecordModel implements Serializable {
         this.unitNameText = unitNameText;
     }
 
-
-    public String getFileIds() {
-        return fileIds;
+    public String getFiles() {
+        return files;
     }
 
-    public void setFileIds(String fileIds) {
-        this.fileIds = fileIds;
+    public void setFiles(String files) {
+        this.files = files;
     }
 }

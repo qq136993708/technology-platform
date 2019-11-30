@@ -22,20 +22,23 @@ public class SciencePlan extends RecordModel implements Serializable {
     private Date releaseTime = new Date();//发布时间
     private String authenticateUitlText; //文档
     private Date annual = new Date();//年度/月度
-    private  String accessory; //附件
+    private String accessory; //附件
 
 
-    private  String nameText;
+    private String nameText;
 
 
-    private  String reportType; //上报类型
+    private String reportType; //上报类型
+
+
+    private String researchFieldText = "";
 
 
     public SciencePlan() {
 
     }
 
-    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType) {
+    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType, String researchFieldText) {
         this.id = id;
         this.name = name;
         this.authenticateUtil = authenticateUtil;
@@ -48,6 +51,7 @@ public class SciencePlan extends RecordModel implements Serializable {
         this.accessory = accessory;
         this.nameText = nameText;
         this.reportType = reportType;
+        this.researchFieldText = researchFieldText;
     }
 
     public String getId() {
@@ -146,6 +150,15 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     public void setReportType(String reportType) {
         this.reportType = reportType;
+    }
+
+
+    public String getResearchFieldText() {
+        return researchFieldText;
+    }
+
+    public void setResearchFieldText(String researchFieldText) {
+        this.researchFieldText = researchFieldText;
     }
 }
 
