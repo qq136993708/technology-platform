@@ -110,6 +110,7 @@
     <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
         update computer_software
         <trim prefix="SET" suffixOverrides=",">
+
             <if test="unitName != null and unitName != '' ">
                 UNIT_NAME = #{unitName},
             </if>
