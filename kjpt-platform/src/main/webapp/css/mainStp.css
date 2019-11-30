@@ -52,23 +52,23 @@
 .home-header-layout .top-item .text-icon{
   display: inline-block;
   vertical-align: top;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   font-size: 0;
 }
 .home-header-layout .text-title {
   display: inline-block;
   vertical-align: top;
-  line-height: 24px;
-  max-width: calc(100% - 34px);
+  line-height: 30px;
+  max-width: calc(100% - 38px);
   font-size: 14px;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 .home-header-layout .top-item .text-icon img {
   width: 100%;
 }
 .home-header-layout .title-cl-item {
-  padding-bottom: 20px;
+  padding-bottom: 12px;
 }
 .home-header-layout .number-cl-item .number{
   font-size: 36px;

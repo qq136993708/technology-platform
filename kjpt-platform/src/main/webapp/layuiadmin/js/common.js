@@ -657,6 +657,19 @@ function setFileSize(number) {
 	return size;
 }
 
+// 模版下载
+function downloadExeclTemplet(name, type) {
+	if (name) {
+		var fileName = name;
+		if (type) {
+			fileName += '.'+type;
+		} else if (fileName.indexOf('.xlsx') === -1) {
+			fileName += '.xlsx';
+		}
+
+		window.open('/data/'+ fileName, '_blank');
+	}
+}
 
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
@@ -694,5 +707,12 @@ layui.use(['form', 'formSelects'], function() {
 			}
 		}
 	});
+
+	// 模版下载
+	$('[download-templet]').on('click', function() {
+		if ($(this).attr('download-templet')) {
+			downloadExeclTemplet($(this).attr('download-templet'));
+		}
+	})
 })
   
