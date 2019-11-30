@@ -21,9 +21,8 @@ public class ExcelImportClient {
     private ExcelData2DbService e2s;
 
     @ApiOperation(value="Excel导入")
-    @RequestMapping(value = "/import/{importType}/{currentUser}/{pid}", method = RequestMethod.POST)
-    public List kgjImport(@RequestBody List<List<Object>> dataList, @PathVariable String importType, @PathVariable String currentUser, @PathVariable String pid)  {
-        e2s.excelData2Db(currentUser,pid,importType,dataList);
-        return null;
+    @RequestMapping(value = {"/import/{importType}/{currentUser}/{pid}","/import/{importType}/{currentUser}"}, method = RequestMethod.POST)
+    public List kgjImport(@RequestBody List<List<Object>> dataList, @PathVariable String importType, @PathVariable String currentUser, @PathVariable(value="pid",required=false) String pid)  {
+        return e2s.excelData2Db(currentUser,pid,importType,dataList);
     }
 }
