@@ -94,8 +94,10 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_project" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue exportDown" download-templet="kyptxm_templet">模版下载</button>
-              <button class="layui-btn border-blue exportData">导入</button>
               <button class="layui-btn border-blue importData" data-item="1">导出</button>
+              <div class="ib-button" id="export_kyxm" export-type="kyptProjectImp">
+                <button class="layui-btn border-blue" filter="addFile">导入</button>
+              </div>
             </div>
           </div>
           <table id="tableProject" lay-filter="tableProject"></table>
@@ -108,8 +110,10 @@
               <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue exportDown" download-templet="kyptcy_templet">模版下载</button>
-              <button class="layui-btn border-blue exportData">导入</button>
               <button class="layui-btn border-blue importData" data-item="2">导出</button>
+              <div class="ib-button" id="export_ljrw" export-type="kyptMemberImp">
+                <button class="layui-btn border-blue" filter="addFile">导入</button>
+              </div>
             </div>
           </div>
           <table id="leadingFigure" lay-filter="leadingFigure"></table>
@@ -122,8 +126,10 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue exportDown" download-templet="kyptlw_templet">模版下载</button>
-              <button class="layui-btn border-blue exportData">导入</button>
               <button class="layui-btn border-blue importData" data-item="3">导出</button>
+              <div class="ib-button" id="export_lw" export-type="kyptTreatiseImp">
+                <button class="layui-btn border-blue" filter="addFile">导入</button>
+              </div>
             </div>
           </div>
           <table id="tablePaper" lay-filter="tablePaper"></table>
@@ -136,8 +142,10 @@
               <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue exportDown" download-templet="kyptcy_templet">模版下载</button>
-              <button class="layui-btn border-blue exportData">导入</button>
               <button class="layui-btn border-blue importData" data-item="4">导出</button>
+              <div class="ib-button" id="export_tdcy" export-type="kyptMemberImp">
+                <button class="layui-btn border-blue" filter="addFile">导入</button>
+              </div>
             </div>
           </div>
           <table id="teamMembers" lay-filter="teamMembers"></table>
@@ -150,8 +158,10 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
               <button class="layui-btn border-blue exportDown" download-templet="kyptcg_templet">模版下载</button>
-              <button class="layui-btn border-blue exportData">导入</button>
               <button class="layui-btn border-blue importData" data-item="5">导出</button>
+              <div class="ib-button" id="export_zycg" export-type="kyptAchievementImp">
+                <button class="layui-btn border-blue" filter="addFile">导入</button>
+              </div>
             </div>
           </div>
           <table id="mainAchievements" lay-filter="mainAchievements"></table>
@@ -164,8 +174,10 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_mainPatent" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
               <button class="layui-btn border-blue exportDown" download-templet="kyptzl_templet">模版下载</button>
-              <button class="layui-btn border-blue exportData">导入</button>
               <button class="layui-btn border-blue importData" data-item="6">导出</button>
+              <div class="ib-button" id="export_zl" export-type="kyptPatentImp">
+                <button class="layui-btn border-blue" filter="addFile">导入</button>
+              </div>
             </div>
           </div>
           <table id="mainPatent" lay-filter="mainPatent"></table>
@@ -177,6 +189,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script src="platformDetailsJS.js"></script>
 </body>
 </html>

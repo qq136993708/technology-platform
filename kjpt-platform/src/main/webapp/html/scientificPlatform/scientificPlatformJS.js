@@ -143,7 +143,12 @@ layui.use(['form', 'table', 'layer'], function(){
       id: 'opations-btn',
       url: '/excelImport/kyptImp?pid=' + variable.level,
       callback: function(res, type) {
-        
+        if (res.code === '0') {
+          layer.msg('数据导入成功!', {icon: 1});
+          $('[lay-filter="formDemo"]').click();
+        } else {
+          layer.msg('数据导入失败', {icon: 2});
+        }
       }
     });
   }

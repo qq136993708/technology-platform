@@ -320,9 +320,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   })
 
   // 导入
-  $('.exportData').on('click', function() {
-    layer.msg('功能开发中...暂未实现！');
-    return;
+  $('.ib-button').each(function() {
+    var buttonId = $(this).attr('id'),
+    exportType = $(this).attr('export-type');
+    importFiles({
+      id: buttonId,
+      url: '/excelImport/'+ exportType +'?pid=' + variable.id,
+      callback: function(res, type) {
+        if (res.code === '0') {
+          layer.msg('数据导入成功!', {icon: 1});
+          addTableData({update: true, id: tableFilterArr[activeTab].tableId})
+        } else {
+          layer.msg('数据导入失败', {icon: 2});
+        }
+      }
+    });
   })
 
   // 导出
