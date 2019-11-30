@@ -32,7 +32,7 @@ import java.util.List;
 public class KgjImportController extends RestBaseController {
 
     /**
-     * 根据ID获取对象信息
+     * 导入
      */
     private static final String importPath = "http://kjpt-zuul/stp-proxy/kgjImport-api/kgjImport/";
 

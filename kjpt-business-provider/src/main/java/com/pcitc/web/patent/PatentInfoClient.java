@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,6 +55,18 @@ public class PatentInfoClient {
 	@RequestMapping(value = "/patent-provider/patentInfo/patentInfo_query", method = RequestMethod.POST)
 	public PageInfo queryPatentListByPage(@RequestBody(required = false) Map param) {
 		return patentInfoService.queryPatentList(param);
+	}
+
+	/**
+	 * 分页查询
+	 *
+	 * @param param
+	 * @return
+	 */
+	@ApiOperation(value = "查利列表-分页查询", notes = "查利列表-分页查询")
+	@RequestMapping(value = "/patent-provider/patentInfo/patentInfo_queryPatent", method = RequestMethod.POST)
+	public List queryPatent(@RequestBody(required = false) Map param) {
+		return patentInfoService.queryPatent(param);
 	}
 
 	@ApiOperation(value = "查询专利详细信息", notes = "按ID查询查询专利详细信息详情信息,操作成功返回PatentInfo对象")

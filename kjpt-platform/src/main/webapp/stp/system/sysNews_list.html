@@ -289,9 +289,9 @@
                     content:  temUrl,
                     end: function(lay, index) {
                         // 弹窗销毁时获取弹窗返回数据
-                        var getDialogData = getDialogData('dialog-data');
+                        var getData = getDialogData('dialog-data');
                         /*判断成功刷新table*/
-                        if(getDialogData.code=="0"){
+                        if(getData.code=="0"){
                             table.reload('sysNewsTableId',null)
                         }
 
@@ -317,7 +317,7 @@
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     top.layer.open({
-                        title:'新增',
+                        title:'编辑',
                         shadeClose: true,
                         type: 2,
                         fixed: false,
@@ -327,9 +327,9 @@
                         content:  temUrl,
                         end: function(lay, index) {
                             // 弹窗销毁时获取弹窗返回数据
-                            var getDialogData = getDialogData('dialog-data');
+                            var getData = getDialogData('dialog-data');
                             /*判断成功刷新table*/
-                            if(getDialogData.code=="0"){
+                            if(getData.code=="0"){
                                 table.reload('sysNewsTableId',null)
                             }
 

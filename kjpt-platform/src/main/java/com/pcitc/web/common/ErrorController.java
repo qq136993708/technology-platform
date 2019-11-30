@@ -32,7 +32,8 @@ public class ErrorController extends BaseController{
 		Result result = new Result();
 		result.setSuccess(false);
 		result.setCode(ex.getCode());
-		result.setMessage(ex.getMessage());
+		result.setMessage("服务器异常,错误码"+ex.getCode());
+		result.setData(ex.getMessage());
         return result;
     }
 	

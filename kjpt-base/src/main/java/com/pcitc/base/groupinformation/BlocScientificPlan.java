@@ -47,11 +47,14 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
      */
     private String reportType = "";
 
+
+    private String nameText = "";
+
     public BlocScientificPlan() {
     }
 
-    public BlocScientificPlan(String id, String name,
-                              String publication, Date annual, Date pubdate, String accessory, String reportType) {
+    public BlocScientificPlan(String id, String name, String publication,
+                              Date annual, Date pubdate, String accessory, String reportType, String nameText) {
         this.id = id;
         this.name = name;
         this.publication = publication;
@@ -59,8 +62,8 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
         this.pubdate = pubdate;
         this.accessory = accessory;
         this.reportType = reportType;
+        this.nameText = nameText;
     }
-
 
     public String getId() {
         return id;
@@ -116,5 +119,14 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
 
     public void setReportType(String reportType) {
         this.reportType = reportType;
+    }
+
+
+    public String getNameText() {
+        return nameText;
+    }
+
+    public void setNameText(String nameText) {
+        this.nameText = nameText;
     }
 }

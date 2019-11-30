@@ -84,7 +84,7 @@ layui.extend({
                     "selfRownum":selfRownum
                 }
                 param = JSON.stringify(param)
-                console.log(parent.$(".layui-body .layui-show .layadmin-iframe"))
+
                 window.localStorage.setItem("param",param);
                 parent.$(".layui-body .layui-show .layadmin-iframe").on("load",function(){
                     layer.close(lodingMsg);
@@ -103,7 +103,6 @@ layui.extend({
                     "selfRownum":selfRownum
                 }
                 param = JSON.stringify(param)
-                console.log(param)
                 window.localStorage.setItem("param",param);
 
             }
@@ -161,6 +160,15 @@ layui.extend({
   $layuiHeaderNav.on('click', '.header-nav-item', function() {
     $layuiHeaderNav.find('.header-nav-item').removeClass('layui-this');
     $(this).addClass('layui-this');
+    if ($(this).hasClass('home-item')) {
+        if (!$('.layui-header-search:eq(0)').hasClass('layui-hide')) {
+            $('.layui-header-search:eq(0)').addClass('layui-hide');
+        }
+    } else {
+        if ($('.layui-header-search:eq(0)').hasClass('layui-hide')) {
+            $('.layui-header-search:eq(0)').removeClass('layui-hide');
+        }
+    }
   })
 
   $(".index-fixed li").click(function () {

@@ -71,14 +71,36 @@ function getQueryVariable(key) {
 
 // layui 表格http请求返回结果转换可识别
 function layuiParseData(RelData, callback, number) {
-  var codeData = {
-    "code": '0', //解析接口状态
-		"msg": RelData.message, //解析提示文本
-		"count": RelData.data.total, //解析数据长度
-		"data": (function(){
-			return switchHttpData(RelData.data.list, '-');
-		})() //解析数据列表
-  };
+	var codeData = { code: '-1', msg: '无数据', count: 0, data: []};
+	if (RelData) {
+		codeData = {
+			"code": RelData.code, //解析接口状态
+			"msg": RelData.message, //解析提示文本
+			"count": (function(){
+				if (RelData.data) {
+					return RelData.data.total || 0;
+				} else {
+					return 0;
+				}
+			})(), //解析数据长度
+			"data": (function(){
+				if (RelData.data) {
+					return switchHttpData(RelData.data.list, '-');
+				} else {
+					return [];
+				}
+			})() //解析数据列表
+		};
+	}
+
+	if (!RelData || RelData.code === '-1' || !RelData.success) {
+		// 出错提示
+		dialogError(RelData || {
+			code: '-1',
+			data: 'error',
+			message: '请求接口异常，后台报错，但不返回值'
+		})
+	}
 
   if (callback) {
     callback(codeData);

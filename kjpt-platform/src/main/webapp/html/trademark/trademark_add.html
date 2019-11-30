@@ -183,7 +183,7 @@
 </html>
 
 <script>
-  layui.use(['form', 'jquery', 'laydate'], function () {
+  layui.use(['form', 'jquery', 'laydate','formSelects'], function () {
     var $ = layui.jquery;
     var form = layui.form;
     var laydate = layui.laydate;
@@ -229,6 +229,7 @@
             form.val('formPlatform', data);
             // 更新表单数据
             form.render();
+            formSelects.value('supportingInstitutions', [data.unitName]);
             upLoadFile(item.id || relData.data.id);
           }
         }

@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.ImportExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +18,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -52,12 +56,26 @@ public class PlatformController extends RestBaseController {
 
     private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount/";
 
+    private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatform-api/excelImport/";
+
 
     @ApiOperation(value="读取")
     @RequestMapping(value = "/platform-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody
     public PlatformInfoModel load(@PathVariable String id) {
         ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformInfoModel.class);
+        return responseEntity.getBody();
+    }
+
+
+    @ApiOperation(value="Excel导入")
+    @RequestMapping(value = "/kgjImport/{importType}", method = RequestMethod.POST)
+    @ResponseBody
+    public List kgjImport(@RequestParam(value = "file", required = false) MultipartFile impExcel, @PathVariable String importType) throws Exception {
+        InputStream in = new BufferedInputStream(impExcel.getInputStream());
+        List dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(importPath+this.getUserProfile().getUserName(), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 

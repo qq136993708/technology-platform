@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.excelimport.ExcelImportMapper">
+
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.common.ExcelImportConfig">
+        <result column="import_type" jdbcType="VARCHAR" property="importType"/>
+        <result column="table_name" jdbcType="VARCHAR" property="tableName"/>
+        <result column="process_name" jdbcType="VARCHAR" property="processName"/>
+        <result column="excelcol_name" jdbcType="VARCHAR" property="excelColNameDb"/>
+        <result column="dbcol_name" jdbcType="VARCHAR" property="dbColNameDb"/>
+    </resultMap>
+
+<select id="getConfig" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from excel_import_config where import_type = #{importType}
+</select>
+
+    <insert id="excelData2Db" parameterType="com.pcitc.base.common.ExcelImportConfig">
+        insert into ${tableName}(
+            <foreach collection="dbColName"  item="colName" index="index"  separator=",">
+                ${colName}
+            </foreach>
+        )values(
+            <foreach collection="dataList"  item="data" index="index"  separator=",">
+                #{data}
+            </foreach>
+        )
+
+    </insert>
+
+    <select id="handlerData" parameterType="java.util.Map" resultMap="BaseResultMap">
+        call ${processName}(#{batchId},#{pid},#{currentDate},#{creatUser})
+    </select>
+
+
+</mapper>

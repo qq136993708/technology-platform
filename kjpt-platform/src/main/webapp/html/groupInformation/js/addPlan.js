@@ -88,10 +88,11 @@ layui.use(['form','laydate'], function(){
 
   form.on('submit(formAddPlanBtn)', function(data) {
     var saveData = data.field;
-    
+
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }
+
     httpModule({
       url: '/blocScientificPlan/save',
       data: saveData,

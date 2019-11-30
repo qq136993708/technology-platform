@@ -20,11 +20,7 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="annual" jdbcType="VARCHAR" property="annual"/>
-
-
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
-
-
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
 
     </resultMap>
@@ -91,7 +87,7 @@
         #{updateDate},
         #{updator},
         #{annual},
-        #{report_type}
+        #{reportType}
       )
   </insert>
 

@@ -36,4 +36,9 @@ public interface PlatformMapper {
      */
     List<Map> selectPaltinfoCount(String id);
 
+
+    void excelData2MemoryDB(List<PlatformInfoModel> dataList);
+
+    List handlerKyptInfoImport(String batchId);
+
 }

@@ -3,16 +3,16 @@ package com.pcitc.service.researchplatform.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Page;
+import com.pcitc.base.patent.KgjImportModel;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.researchplatform.PlatformMapper;
 import com.pcitc.service.researchplatform.PlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ty
@@ -66,5 +66,36 @@ public class PlatformServiceImpl implements PlatformService {
     @Override
     public List<Map> selectPaltinfoCount(String id) {
         return platformServiceMapper.selectPaltinfoCount(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List excelImport(List dataList, String currentUser) {
+
+        String batchId = UUID.randomUUID().toString().replaceAll("-","");
+        IsEmptyUtil.isEmpty(dataList);
+        IsEmptyUtil.isEmpty(currentUser);
+        List<PlatformInfoModel> list = new ArrayList<>();
+        for (int i = 0; i < dataList.size(); i++) {
+            List<Object> lo = (List<Object>) dataList.get(i);
+            PlatformInfoModel pm = new PlatformInfoModel();
+            pm.setId(UUID.randomUUID().toString().replace("-",""));
+            pm.setCreator(currentUser);
+            pm.setCreateDate(new Date());
+            pm.setDeleted("0");
+            pm.setBatchId(batchId);
+            pm.setPlatformName(String.valueOf(lo.get(0)));
+            pm.setResearchField(String.valueOf(lo.get(1)));
+            pm.setSupportingInstitutions(String.valueOf(lo.get(2)));
+            pm.setResearchFunds(String.valueOf(lo.get(3)));
+            pm.setPlatformIntroduction(String.valueOf(lo.get(4)));
+            pm.setTeamIntroduction(String.valueOf(lo.get(5)));
+            pm.setOverallSituation(String.valueOf(lo.get(6)));
+            pm.setPersonLiable(String.valueOf(lo.get(7)));
+            pm.setPlatformScoring(String.valueOf(lo.get(8)));
+            pm.setLevel(String.valueOf(lo.get(9)));
+        }
+        platformServiceMapper.excelData2MemoryDB(list);
+        return platformServiceMapper.handlerKyptInfoImport(batchId);
     }
 }

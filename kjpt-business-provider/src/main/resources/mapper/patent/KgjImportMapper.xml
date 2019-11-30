@@ -105,6 +105,6 @@
     </insert>
 
     <select id="handlerKgjImport" parameterType="java.lang.String" resultMap="BaseResultMap">
-        call hadler_kgj_import(#{batchId})
+        call handler_kgj_import(#{batchId})
     </select>
 </mapper>

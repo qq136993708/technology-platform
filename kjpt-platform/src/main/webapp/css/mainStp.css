@@ -279,11 +279,13 @@
 }
 .home-footer-layout .layui-tab {
   margin: 28px 0 0 0;
-  height: clac(100% - 28px);
+  height: calc(100% - 28px);
 }
 .home-footer-layout .layui-tab-content {
-  padding: 16px 16px 24px 16px;
-  overflow: auto;
+  padding: 16px;
+  overflow: hidden;
+  height: calc(100% - 54px);
+  position: relative;
 }
 .home-footer-layout .layui-tab-title {
   height: 30px;
@@ -305,16 +307,25 @@
   display: none;
 }
 .home-footer-layout li.item-details{
-  margin-bottom: 10px;
-  line-height: 20px;
+  height: 30px;
+  padding: 0 15px;
+  line-height: 30px;
   white-space: nowrap;
   cursor: pointer;
+}
+.home-footer-layout li.item-details::after {
+  content: '';
+  display: block;
+  clear: both;
+  font-size: 0;
+  height: 0;
+  float: none;
 }
 li.item-details .date-text{
   display: block;
   float: right;
   width: 140px;
-  line-height: 20px;
+  line-height: 30px;
 }
 li.item-details .details-text {
   display: block;
@@ -322,7 +333,10 @@ li.item-details .details-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 20px;
+  line-height: 30px;
+}
+.home-footer-layout li.item-details:hover{
+  background-color: rgba(227, 244, 255, .3);
 }
 .home-footer-layout li.item-details:hover span{
   text-decoration: underline;
