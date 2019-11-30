@@ -3,7 +3,7 @@ function selectFileUpload(config) {
   var layerLoadIndex = null;
   config.upload.render({
     elem: config.elem //绑定元素
-    ,accept: config.accept
+    ,accept: config.accept || 'file'
     ,url:config.url ||  '/file/upload' //上传接口
     ,before: function(obj) {
       layerLoadIndex = top.layer.load();
@@ -102,7 +102,7 @@ function setFileUpload(config) {
     $field.on('click', '.file-options-download', function(e) {
       var fileID = $(this).data('fileid');
       if (fileID) {
-        window.open('/file/downLoadFile/' + fileID);
+        window.open('/file/downLoadFile/' + fileID, '_blank');
       }
     }).on('click', '.file-options-delete', function(e) {
       // 删除附件事件
@@ -211,7 +211,7 @@ function setImagesUploadState(config) {
 }
 /*导入文件*/
 function importFiles(config){
-    layui.use(['table', 'upload', 'layer'], function(){
+    layui.use(['upload'], function(){
         var $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
             addFile = $field.find('[filter="addFile"]').get(0)
         selectFileUpload({

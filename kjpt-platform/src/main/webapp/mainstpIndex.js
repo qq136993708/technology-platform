@@ -162,10 +162,43 @@ layui.use(['element', 'jquery'], function() {
     id: '#plan_tab_list',
     name: 'name',
     url: '/SciencePlan/query',
-    data: { page: 1, limit: 10 },
+    data: { page: 1, limit: 10, reportType: 1},
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
-    title: '科技规划详情'
+    title: '科技规划'
+  })
+
+  // 工作要点
+  getTabContentList({
+    id: '#work_tab_list',
+    name: 'name',
+    url: '/SciencePlan/query',
+    data: { page: 1, limit: 10, reportType: 2},
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '工作要点'
+  })
+
+  // 科技进展动态
+  getTabContentList({
+    id: '#progress_tab_list',
+    name: 'name',
+    url: '/SciencePlan/query',
+    data: { page: 1, limit: 10, reportType: 3},
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '科技进展动态'
+  })
+
+  // 年度总结
+  getTabContentList({
+    id: '#summary_tab_list',
+    name: 'name',
+    url: '/SciencePlan/query',
+    data: { page: 1, limit: 10, reportType: 4},
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '年度总结'
   })
 
 });

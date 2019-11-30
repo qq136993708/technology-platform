@@ -410,7 +410,26 @@
         			return;
         		}
             	var temUrl="/post/edit-post?unitId="+nodes[0].id;
-            	openBaseWin("新增岗位",temUrl);
+                top.layer.open({
+                    title:'新增岗位',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin : true,
+                    area : [ '80%', '90%' ],
+                    content:  temUrl,
+                    end: function(lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        var getData = getDialogData('dialog-data');
+                        /*判断成功刷新table*/
+                        if(getData){
+                           reloadTable('postTable',{param: {"unitId":unitId}});
+                        }
+
+                    }
+                });
+            	//openBaseWin("新增岗位",temUrl);
             },
             editPostEvent: function(){ //点击编辑按钮
                 if (!selectRowData) {
@@ -426,11 +445,12 @@
             		layer.msg('请点击选择一行数据');
             		return;
             	}
-                layer.confirm('确定要删除吗?',{btn: ['确认', '取消'],title:"删除确认"},function(index){
+                top.layer.confirm('确定要删除吗?',{btn: ['确认', '取消'],title:"删除确认"},function(index){
             		layer.close(index);
 	            	ajaxPost('/post/del-post?postId='+selectRowData.postId, null, function (data) {
 	            		 if (data.success) {
 	                     	layui.table.reload('postTable',{where: {param: {"unitId":unitId}}});
+                             top.layer.closeAll(); // 关闭弹窗
 	                     }
 	                });
             	});
@@ -459,7 +479,7 @@
 						// 弹窗销毁时获取弹窗返回数据
 						var getData = getDialogData('dialog-data');
 						/*判断成功刷新table*/
-						if(getData.code=="0"){
+						if(getData){
 							table.reload('postTable',null)
 						}
 
@@ -488,7 +508,7 @@
 						// 弹窗销毁时获取弹窗返回数据
 						var getData = getDialogData('dialog-data');
 						/*判断成功刷新table*/
-						if(getData.code=="0"){
+						if(getData){
 							table.reload('postTable',null)
 						}
 
@@ -502,7 +522,7 @@
         			layer.msg('请选择机构');
         			return;
         		}
-            	layer.confirm('确定要删除吗？',{btn: ['确认', '取消'],title:"删除确认"},function(index){
+            	top.layer.confirm('确定要删除吗？',{btn: ['确认', '取消'],title:"删除确认"},function(index){
             		layer.close(index);
             		ajaxPost("/unit/del-unit/" + nodes[0].id, null, function (data) {
             			if(data.success)
@@ -511,9 +531,11 @@
                 			$('#unit-form').find("input,textarea").val("");
                 			table.reload('postTable',{where: {param: {"unitId":nodes[0].id}}});
                 			loadUnitTree();
+                            top.layer.closeAll(); // 关闭弹窗
             			}else{
             				layer.alert('该机构有下级机构，请先删除下级机构！', function(index){
-            					  layer.close(index);
+                                top.layer.closeAll(); // 关闭弹窗
+            					  //layer.close(index);
             				});     
             			}
                     });

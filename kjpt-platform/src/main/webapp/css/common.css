@@ -139,6 +139,14 @@ body > .layui-layout{
   display: inline-block;
   vertical-align: middle;
 }
+.view-title-layout > .layui-btn,
+.view-title-layout > button,
+.view-title-layout > .ib-button{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
 .view-title-layout > .text,
 .view-title-layout > .sub-text{
   font-size: 16px;

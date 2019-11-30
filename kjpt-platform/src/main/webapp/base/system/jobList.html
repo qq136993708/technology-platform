@@ -6,7 +6,9 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/css/layui-common.css">
 <script src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
@@ -18,20 +20,20 @@
 		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
-			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+			<button class="layui-btn layui-btn-normal" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-primary" data-type="resetEvent">重置</button>
 		</div>
 	</div>
 	<div class="tableBox">
 		<div class="tableToolBox">
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_enabled btnMyBgImg" data-type="exportEvent">启用</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_pause btnMyBgImg" data-type="importEvent">暂停</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_execute btnMyBgImg" data-type="deployEvent">执行</button>
+				<button class="layui-btn border-blue" data-type="addEvent">新增</button>
+				<button class="layui-btn border-blue" data-type="editEvent">编辑</button>
+				<button class="layui-btn border-red" data-type="deleteEvent">删除</button>
+				<button class="layui-btn border-blue" data-type="exportEvent">启用</button>
+				<button class="layui-btn border-blue" data-type="importEvent">暂停</button>
+				<button class="layui-btn border-blue" data-type="deployEvent">执行</button>
 			</div>
 		</div>
 		<table id="sysJobTable" class="layui-hide" lay-filter="demoEvent"></table>
@@ -254,7 +256,7 @@
 						layer.msg('请选择要删除的数据');
 						return;
 					}
-					layer.confirm('确认要删除吗？', {
+					top.layer.confirm('确认要删除吗？', {
 						icon : 3,
 						btn : [ '确定', '取消' ]
 					}, function(index) {
@@ -271,6 +273,7 @@
 									layer.msg('删除成功');
 								}
 								active['searchEvent'].call(this);//刷新table;
+                                top.layer.closeAll(); // 关闭弹窗
 							},
 							error : function(e) {
 								alert("出错了");
@@ -286,7 +289,7 @@
 						layer.msg('请选择要暂停的作业');
 						return;
 					}
-					layer.confirm('确认要暂停吗？', {
+					top.layer.confirm('确认要暂停吗？', {
 						icon : 3,
 						btn : [ '确定', '取消' ]
 					}, function(index) {
@@ -303,6 +306,7 @@
 									layer.msg('暂停成功');
 								}
 								active['searchEvent'].call(this);//刷新table;
+                                top.layer.closeAll(); // 关闭弹窗
 							},
 							error : function(e) {
 								alert("出错了");
@@ -318,7 +322,7 @@
 						layer.msg('请选择要启用的作业');
 						return;
 					}
-					layer.confirm('确认要启用吗？', {
+					top.layer.confirm('确认要启用吗？', {
 						icon : 3,
 						btn : [ '确定', '取消' ]
 					}, function(index) {
@@ -335,6 +339,7 @@
 									layer.msg('启用成功');
 								}
 								active['searchEvent'].call(this);//刷新table;
+                                top.layer.closeAll(); // 关闭弹窗
 							},
 							error : function(e) {
 								alert("出错了");
@@ -350,7 +355,7 @@
 						layer.msg('请选择要执行的作业');
 						return;
 					}
-					layer.confirm('确认要执行吗？', {
+					top.layer.confirm('确认要执行吗？', {
 						icon : 3,
 						btn : [ '确定', '取消' ]
 					}, function(index) {
@@ -367,6 +372,7 @@
 									layer.msg('执行成功');
 								}
 								active['searchEvent'].call(this);//刷新table;
+                                top.layer.closeAll(); // 关闭弹窗
 							},
 							error : function(e) {
 								alert("出错了");

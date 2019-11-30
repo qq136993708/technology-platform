@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<link rel="stylesheet" href="/css/layui-common.css">
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
@@ -28,8 +29,8 @@
 
 		<!--按钮组-->
 		<div class="btnGroup">
-			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+			<button class="layui-btn layui-btn-normal" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-primary" data-type="resetEvent">重置</button>
 		</div>
 	</div>
 
@@ -37,13 +38,13 @@
 		<div class="tableToolBox">
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_deploy" data-type="deployEvent">部署</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" data-type="exportEvent">导出</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_import" data-type="importEvent">导入</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
+				<button class="layui-btn border-blue" data-type="addEvent">新增</button>
+				<button class="layui-btn border-blue" data-type="editEvent">编辑</button>
+				<button class="layui-btn border-blue" data-type="deployEvent">部署</button>
+				<button class="layui-btn border-blue" data-type="exportEvent">导出</button>
+				<button class="layui-btn border-blue" data-type="importEvent">导入</button>
+				<button class="layui-btn border-blue" data-type="detailEvent">详情</button>
+				<button class="layui-btn border-red" data-type="deleteEvent">删除</button>
 			</div>
 		</div>
 		<table id="model-table" class="layui-hide" lay-filter="tableData"></table>
@@ -252,14 +253,13 @@
 						layer.msg('请点击选择一行数据');
 					} else {
 						var temUrl = "/activiti-model/show/" + selectRowData.id;
-						layer.open({
+						top.layer.open({
 							title : '详情',
-							skin : 'layui-layer-lan',
 							shadeClose : true,
 							type : 2,
 							fixed : false,
 							maxmin : true,
-							area : [ '70%', '90%' ],
+							area : [ '70%', '50%' ],
 							content : temUrl
 						});
 					}

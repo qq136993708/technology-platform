@@ -6,8 +6,65 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var layer = layui.layer;
   var laydate = layui.laydate;
 
-  laydate.render({elem: '#startReleaseDate'});
-  laydate.render({elem: '#endReleaseDate'});
+  // var newTime = new Date(); //发布时间初始值
+  // var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
+  laydate.render({elem: '#releaseTime',trigger:'click'});
+  laydate.render({elem: '#yearOrMonth',trigger:'click',type:'month'});
+
+  var params = getQueryVariable();
+  var reportType = +params.reportType;
+
+  function setSelectInput(){ //js动态设置条件过滤布局
+      var len = ($("#selectRows").children(".layui-col-md4").length - 1) % 3;
+      switch(len){
+        case 0:
+          $('#btnGroup').removeClass('layui-col-md4');
+          $('#btnGroup').addClass('layui-col-md12');
+        break;
+        case 1:
+          $('#btnGroup').removeClass('layui-col-md4');
+          $('#btnGroup').addClass('layui-col-md8');
+        break;
+      }
+  }
+  setSelectInput();
+
+  var tipTitle = "";
+  switch(reportType){ //动态设置名称
+    case 1:
+        $('#configName').html("科技规划名称:");
+        tipTitle = "科技规划";
+    break;
+    case 2:
+        $('#configName').html("工作指南名称:");
+        tipTitle = "工作指南";
+    break;
+    case 3:
+        $('#configName').html("工作要点名称:");
+        tipTitle = "工作要点";
+    break;
+    case 4:
+        $('#configName').html("质量信息名称:");
+        tipTitle = "质量信息";
+    break;
+  }
+
+  var cols  = [ //表头
+    {type: 'radio', field: 'id'},
+    {field: 'name', title: '科研规划名称', templet: function(d) {
+      return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
+    }}, // authenticateUitlText
+    {field: 'publication', title:'发布处室'},
+    {field: 'pubdate', title: '发布时间',templet: function(d){
+      var times = new Date(d.pubdate);
+       return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+    }},
+    {field: 'annual', title: '年度/月度',templet: function(d){
+       var times = new Date(d.annual);
+       return times.getFullYear() + '-' + (times.getMonth()+1);
+    }}
+    
+  ]
 
   //表格渲染
   var tableRender = false;
@@ -16,25 +73,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/YearSummary/query' //数据接口
-        ,cols: [[ //表头
-          {type: 'radio', field: 'id'}
-          ,{field: 'name', title: '总结名称', templet: function(d) {
-            return '<a href="progressDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
-          }}
-          ,{field: 'authenticateUtil', title: '申报单位', sort: true }
-          ,{field: 'researchField', title: '研究领域'}
-          ,{field: 'annual', title: '年度/月度', sort: true, templet: function(d) {
-            if (d.annual && (''+ d.annual).indexOf('-') === -1) {
-              return new Date().format('yyyy/MM');
-            }
-          }}
-        ]],
-        parseData: function(res) {return layuiParseData(res);},
+        ,url: '/blocScientificPlan/query?reportType='+ reportType //数据接口
+        ,cols: [
+          cols
+        ],
         request: {
-          page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-          limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
+        parseData: function(res) {return layuiParseData(res);},
+
         page: true, //开启分页
         limit: 10, // 每页数据条数,
         limits: [5, 10, 15, 20], // 配置分页数据条数
@@ -64,7 +112,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/scientificMaterials/addSummary.html?type='+type+'&id='+(id || ''),
+		  content: '/html/groupInformation/addPlan.html?type=' + type +'&reportType=' + reportType + '&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -91,7 +139,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
      if (itemRowData.length) {
      openDataDilog('see', itemRowData[0].id);
      } else {
-       layer.msg('请选择年度总结！');
+       layer.msg('请选择'+tipTitle+'！');
      }
   })
   // 编辑规划
@@ -101,7 +149,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	  if (itemRowData.length) {
 		openDataDilog('edit', itemRowData[0].id);
     } else {
-    	layer.msg('请选择年度总结！');
+    	layer.msg('请选择'+tipTitle+'！');
     }
   })
   // 删除规划
@@ -113,7 +161,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/YearSummary/delete/' + itemRowData[0].id,
+          url: '/blocScientificPlan/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {
@@ -126,7 +174,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         });
       });
     } else {
-    	layer.msg('请选择需要删除的年度总结！');
+    	layer.msg('请选择需要删除的'+tipTitle+'！');
     }
   })
 

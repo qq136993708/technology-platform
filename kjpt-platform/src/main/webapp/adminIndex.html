@@ -19,7 +19,9 @@
 			color: #FF5A5A;
 			text-align: center;
 			float: left;
-			padding: 5px 30px;
+			height: 35px;
+			line-height: 35px;
+			padding: 0px 30px;
 			border-radius: 15px;
 			margin: 21px;
 			font-size: 20px;
@@ -32,14 +34,41 @@
 			<!--top-->
 			<div class="layui-header">
 				<!--logo-->
-				<div class="layui-header-logo inline-block">
+				<div class="layui-header-logo middle-block">
 					<img src="/layuiadmin/layui/images/header-logo.png" />
 				</div>
 
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-					<li>内部(涉密）禁止录入涉密信息</li>
-					<li class="layui-nav-item">
+					<li class="header-nav-item">内部(涉密）禁止录入涉密信息</li>
+					<li class="header-nav-item middle-block">
+						<a href="javascript:;" class="header-nav-item-a">
+							<span class="user-name" title="${userInfo.userDisp!}">${userInfo.userDisp!}</span>
+							<span class="layui-nav-more"></span>
+						</a>
+						<div class="layui-hide information">
+							<dl class="layui-nav-child-dl">
+
+								<dd>
+									<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
+								</dd>
+								<dd>
+									<a id="toUpdPass" href="javascript:void(0)">修改密码</a>
+								</dd>
+								<!--
+								<dd>
+									<a id="changeIndex" href="javascript:void(0)">切换</a>
+								</dd>
+								<dd>
+									<a id="selfConfig" href="javascript:void(0)">个人设置</a>
+								</dd>
+								 -->
+								<dd>
+									<a id="logout" href="javascript:void(0)">退出登录</a>
+								</dd>
+							</dl>
+						</div></li>
+					<!--<li class="layui-nav-item">
 					    <a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
 							${userInfo.userDisp!}
 							<span class="layui-nav-more"></span>
@@ -57,7 +86,7 @@
 									<a id="logout" href="javascript:void(0)">退出登录</a>
 								</dd>
 							</dl>
-						</div></li>
+						</div></li>-->
 				</ul>
 			</div>
 

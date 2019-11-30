@@ -22,11 +22,12 @@
       <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">单位名称:</span></label>
+                <label class="layui-form-label label-required"><span class="text">单位名称:</span></label>
                 <div class="layui-input-block">
                     <select name="unitName"
                         xm-select="supportingInstitutions"
                         xm-select-skin="normal"
+                        lay-verify="required"
                         xm-select-radio=""
                         dic-base-data="ROOT_KJPT_YTDW" 
                         placeholder="请选择"></select>
@@ -48,9 +49,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">商标申请号：</span></label>
+            <label class="layui-form-label"><span class="text">商标申请号：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="applicationNumber" lay-verify="required" placeholder="" autocomplete="off"
+              <input type="text" name="applicationNumber" placeholder="" autocomplete="off"
                 class="layui-input">
             </div>
           </div>
@@ -119,7 +120,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">法律状态：</span></label>
             <div class="layui-input-block">
-              <select name="lawStatus" dic-base-data="ROOT_KJPT_FLZT" lay-verify="required" placeholder="请选择...">
+              <select name="lawStatus" dic-base-data="ROOT_KJPT_SBFLZT" lay-verify="required" placeholder="请选择...">
 
               </select>
             </div>
@@ -137,7 +138,7 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">录入时间：</span></label>
+            <label class="layui-form-label"><span class="text">录入时间：</span></label>
             <div class="layui-input-block">
               <input type="text" name="entryDate" id="importDate" placeholder="请填写..." autocomplete="off"
                 class="laydate-input">
@@ -183,7 +184,7 @@
 </html>
 
 <script>
-  layui.use(['form', 'jquery', 'laydate'], function () {
+  layui.use(['form', 'jquery', 'laydate','formSelects'], function () {
     var $ = layui.jquery;
     var form = layui.form;
     var laydate = layui.laydate;
@@ -229,6 +230,7 @@
             form.val('formPlatform', data);
             // 更新表单数据
             form.render();
+            formSelects.value('supportingInstitutions', [data.unitName]);
             upLoadFile(item.id || relData.data.id);
           }
         }

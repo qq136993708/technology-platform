@@ -18,7 +18,11 @@
         <result column="ENTRY_PEOPLE" jdbcType="VARCHAR" property="entryPeople"/>
         <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime"/>
         <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
-        <result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>
+
+        <!--<result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>-->
+
+        <result column="file" jdbcType="VARCHAR" property="fileIds"/>
+
         <result column="DELETED" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
@@ -43,7 +47,7 @@
       ENTRY_PEOPLE,
       ENTRY_TIME,
       NOTES,
-      ACCESSORY_UPLOAD,
+      file,
       DELETED,
       create_date,
       create_user,
@@ -76,7 +80,7 @@
       ENTRY_PEOPLE,
       ENTRY_TIME,
       NOTES,
-      ACCESSORY_UPLOAD,
+      file,
       DELETED,
       create_date,
       create_user,
@@ -97,7 +101,7 @@
        #{entryPeople},
        #{entryTime},
        #{notes},
-       #{accessoryUpload},
+       #{fileIds},
        #{deleted},
        #{createDate},
        #{creator},
@@ -110,7 +114,9 @@
     <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
         update computer_software
         <trim prefix="SET" suffixOverrides=",">
-            <if test="unitName != null and unitName != '' ">
+
+--              and unitName != ''
+            <if test="unitName != null ">
                 UNIT_NAME = #{unitName},
             </if>
             <if test="registerNumber != null and registerNumber != '' ">
@@ -150,8 +156,8 @@
             <if test="notes != null and notes != ''">
                 NOTES = #{notes},
             </if>
-            <if test="accessoryUpload != null and accessoryUpload != ''">
-                ACCESSORY_UPLOAD = #{accessoryUpload},
+            <if test="fileIds != null and fileIds != ''">
+                file = #{fileIds},
             </if>
 
             <!--<if test="deleted != null and deleted != ''">-->
@@ -228,8 +234,8 @@
         <if test="notes != null and notes != ''">
             and NOTES = #{notes}
         </if>
-        <if test="accessoryUpload != null and accessoryUpload != ''">
-            and ACCESSORY_UPLOAD = #{accessoryUpload}
+        <if test="fileIds != null and fileIds != ''">
+            and file = #{fileIds}
         </if>
 
         and deleted != '1'
