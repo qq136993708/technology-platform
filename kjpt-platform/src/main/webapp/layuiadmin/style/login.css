@@ -20,15 +20,15 @@ body{background: white;}
 #sub_button{
   background: #0AA1FF;
 }
-.user-login-box{ width: 75%;position: relative;margin: 0 auto;height: 100%;}
+.user-login-box{width: 75%;position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;height: 100%;}
 .login-house{ width: 60%;position: absolute; left: 0px;}
 .layadmin-user-login-box{padding: 20px 20px 0;}
-.layadmin-user-login-header{width: 95%;padding:6px 0;height: 70px;
-  background: url("/layuiadmin/layui/images/header-logo.png") 0 0 no-repeat; background-size:auto 100%; margin:30px auto 0;}
+.layadmin-user-login-header{width: 95%;padding:6px 0;height: 70px;margin:30px auto 0;}
+.layadmin-user-login-header img{height:60px;vertical-align: middle;}
 .engineering-header{background: url("/layuiadmin/layui/images/engineering-login-logo.png") left 16px no-repeat;}
 .layadmin-user-login-header h2{margin-bottom: 10px; font-weight: 300; font-size: 30px; color: #000;}
 .layadmin-user-login-header p{font-weight: 300; color: #999;}
-.layadmin-user-login-body{ height: 69%;}
+.layadmin-user-login-body{ height: 69%;position: relative;}
 .engineering-body{background: url("/layuiadmin/layui/images/engineering-login-bj.png") no-repeat center top #1852a8;}
 .layadmin-user-login-body .layui-form-item{position: relative;padding-bottom: 10px;}
 .layadmin-user-login-icon{position: absolute; left: 1px; top: 1px; width: 38px; line-height: 36px;
@@ -48,7 +48,7 @@ body{background: white;}
 
 .layadmin-user-jump-change{float: right;}
 
-.layadmin-user-login-footer{width: 95%;margin: 10px auto 0;color: #ffffff;font-size: 12px;line-height: 22px;}
+.layadmin-user-login-footer{width: 95%;color: #ffffff;font-size: 12px;line-height: 22px;position: absolute;left: 0;bottom: 20px;right: 0;margin: auto;}
 .layadmin-user-login-footer .red{color: #e70819;}
 .layadmin-user-login-footer span{padding: 0 5px;}
 .layadmin-user-login-footer a{padding: 0 5px; color: rgba(0,0,0,.5);}
