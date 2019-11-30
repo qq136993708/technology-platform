@@ -6,5 +6,5 @@ import java.util.List;
  * @author ty
  */
 public interface ExcelData2DbService {
-    void excelData2Db(String creator,String pid,String importType, List<List<Object>> dataList);
+    List excelData2Db(String creator,String pid,String importType, List<List<Object>> dataList);
 }

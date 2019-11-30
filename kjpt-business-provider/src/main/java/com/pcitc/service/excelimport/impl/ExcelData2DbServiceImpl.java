@@ -20,7 +20,7 @@ public class ExcelData2DbServiceImpl implements ExcelData2DbService {
     private ExcelImportMapper em;
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void excelData2Db(String creator,String pid,String importType, List<List<Object>> dataList) {
+    public List excelData2Db(String creator,String pid,String importType, List<List<Object>> dataList) {
         ExcelImportConfig eic = em.getConfig(importType);
         //当前导入数据集合的标识
         String batchId = UUID.randomUUID().toString().replaceAll("-","");
@@ -36,7 +36,7 @@ public class ExcelData2DbServiceImpl implements ExcelData2DbService {
             eic.setDataList(list);
             em.excelData2Db(eic);
         }
-        em.handlerData(eic.getProcessName(),batchId,pid,creator,new Date());
+         return em.handlerData(eic.getProcessName(),batchId,pid,creator,new Date());
     }
 
 }
