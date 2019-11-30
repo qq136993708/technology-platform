@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.FileModel;
 import com.pcitc.base.patent.PatentInfo;
+import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.patent.PatentInfoMapper;
 import com.pcitc.service.file.FileCommonService;
@@ -59,7 +60,10 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         int pageNum = (int)param.get("pageNum");
         int pageSize = (int)param.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
-        List dataList = patentInfoMapper.queryPatentList(param);
+        List<PatentInfo> dataList = patentInfoMapper.queryPatentList(param);
+        dataList.forEach((PatentInfo patentInfo)->{
+            patentInfo.setApplicationDateStr(DateUtils.format(patentInfo.getApplicationDate(),DateUtils.FMT_SS));
+        });
         //PageInfo pageInfo = new PageInfo(dataList);
 
         return dataList;

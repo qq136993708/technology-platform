@@ -214,7 +214,12 @@ public class PatentController extends RestBaseController {
         }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_PATENT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
-        return responseEntity.getBody();
+        List arraylist = new ArrayList();
+        Map hashMap = new HashMap<String,Object>();
+        hashMap.put("total",responseEntity.getBody().size());
+        hashMap.put("list",responseEntity.getBody());
+        arraylist.add(hashMap);
+        return arraylist;
     }
 
     /**

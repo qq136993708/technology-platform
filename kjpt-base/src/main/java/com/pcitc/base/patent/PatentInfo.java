@@ -1,5 +1,6 @@
 package com.pcitc.base.patent;
 
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -223,6 +224,11 @@ public class PatentInfo implements Serializable {
      * 技术领域索引
      */
     private String technicalFieldIndex;
+
+    /**
+     * 技术领域索引
+     */
+    private String applicationDateStr;
 
     private static final long serialVersionUID = 1L;
 
@@ -568,6 +574,14 @@ public class PatentInfo implements Serializable {
 
     public void setTechnicalFieldIndex(String technicalFieldIndex) {
         this.technicalFieldIndex = technicalFieldIndex;
+    }
+
+    public String getApplicationDateStr() {
+        return applicationDateStr;
+    }
+
+    public void setApplicationDateStr(String applicationDateStr) {
+        this.applicationDateStr = applicationDateStr;
     }
 
     @Override
