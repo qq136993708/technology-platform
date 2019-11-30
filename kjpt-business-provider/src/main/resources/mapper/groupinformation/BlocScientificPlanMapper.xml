@@ -115,7 +115,9 @@
 
         <trim prefix="SET" suffixOverrides=",">
 
-            <if test="name != null and name != '' ">
+--             and name != ''
+
+            <if test="name != null  ">
                 name = #{name},
             </if>
             <if test="publication != null and publication != '' ">
@@ -132,19 +134,19 @@
             </if>
 
             <if test="deleted != null">
-                deleted = #{deleted,jdbcType=VARCHAR},
+                deleted = #{deleted},
             </if>
             <if test="createDate != null">
-                create_date = #{createDate,jdbcType=TIMESTAMP},
+                create_date = #{createDate},
             </if>
             <if test="creator != null">
-                create_user = #{creator,jdbcType=VARCHAR},
+                create_user = #{creator},
             </if>
             <if test="updateDate != null">
-                update_date = #{updateDate,jdbcType=TIMESTAMP},
+                update_date = #{updateDate},
             </if>
             <if test="updator != null">
-                update_user = #{updator,jdbcType=VARCHAR},
+                update_user = #{updator},
             </if>
 
             <if test="reportType != null and reportType != ''">
