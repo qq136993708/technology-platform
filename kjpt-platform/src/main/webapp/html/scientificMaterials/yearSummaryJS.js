@@ -16,7 +16,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/ScienceEvolveDynamic/query' //数据接口
+        ,url: '/YearSummary/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
           ,{field: 'name', title: '总结名称', templet: function(d) {
@@ -113,7 +113,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/ScienceEvolveDynamic/delete/' + itemRowData[0].id,
+          url: '/YearSummary/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {

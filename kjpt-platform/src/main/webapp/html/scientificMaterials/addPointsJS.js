@@ -1,23 +1,24 @@
 layui.use(['form', 'formSelects', 'laydate'], function(){
-	var form = layui.form;
+  var form = layui.form;
+  var formSelects = layui.formSelects;
 	
   var variable = getQueryVariable();
   console.log(variable);
 
-  var itemDataUrl = '/SciencePlan/newInit';
+  var itemDataUrl = '/WorkPoint/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
   var readonlyFile = false; // 附件是否只读
 
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
-    itemDataUrl = '/SciencePlan/load/' + variable.id;
+    itemDataUrl = '/WorkPoint/load/' + variable.id;
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
   } else if (variable.type === 'edit') {
-    itemDataUrl = '/SciencePlan/load/' + variable.id;
+    itemDataUrl = '/WorkPoint/load/' + variable.id;
     msgTitle = '编辑';
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
@@ -34,13 +35,13 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         form.val('formAddPoints', formData);
         form.render();
         if (formData.authenticateUtil) {
-          layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+          formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddPoints', '.disabled');
           $('.disabled-box').remove();
           layui.form.render('select');
-          layui.formSelects.disabled();
+          formSelects.disabled();
         }
       }
     }
@@ -67,12 +68,16 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
 
 
   form.on('submit(formAddPointsBtn)', function(data) {
-    var saveData = data.field;
+    var saveData = data.field,
+    utilData = formSelects.value('authenticateUtil');
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }
+    if (utilData.length) {
+      saveData.authenticateUitlText = utilData[0].name;
+    }
     httpModule({
-      url: '/SciencePlan/save',
+      url: '/WorkPoint/save',
       data: saveData,
       type: 'POST',
       success: function(res) {

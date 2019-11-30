@@ -84,7 +84,7 @@ layui.extend({
                     "selfRownum":selfRownum
                 }
                 param = JSON.stringify(param)
-                console.log(parent.$(".layui-body .layui-show .layadmin-iframe"))
+
                 window.localStorage.setItem("param",param);
                 parent.$(".layui-body .layui-show .layadmin-iframe").on("load",function(){
                     layer.close(lodingMsg);
@@ -103,7 +103,6 @@ layui.extend({
                     "selfRownum":selfRownum
                 }
                 param = JSON.stringify(param)
-                console.log(param)
                 window.localStorage.setItem("param",param);
 
             }

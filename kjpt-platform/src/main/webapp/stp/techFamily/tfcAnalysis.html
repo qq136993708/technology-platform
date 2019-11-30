@@ -473,7 +473,7 @@
                     // {type: 'checkbox', event: 'changeEvents', width: 55},
                     {title: '序号', type: 'numbers', width: 55},
                     {
-                        field: "applicationDate",
+                        field: "applicationDateStr",
                         title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100,
                     },
                     {
@@ -652,8 +652,8 @@
          pYear= e.name;
         typeName = days[e.value[1]];
 
-        var temUrl = "/expertController/zjkOutProjectList_tfc?typeName=" + typeName + "&pYear=" + pYear;
-        layer.open({
+        var temUrl = "/kjpt/out/out_projectList.html?typeName=" + typeName + "&pYear=" + pYear;
+        top.layer.open({
             title: '项目列表',
             shadeClose: true,
             type: 2,
@@ -661,7 +661,7 @@
             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
             maxmin: true,
             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-            area: ['90%', '80%'],
+            area: ['60%', '80%'],
             content: temUrl
         });
     });

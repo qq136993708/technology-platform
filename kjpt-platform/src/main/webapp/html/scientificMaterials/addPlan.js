@@ -1,5 +1,6 @@
 layui.use(['form', 'formSelects', 'laydate'], function(){
-	var form = layui.form;
+  var form = layui.form;
+  var formSelects = layui.formSelects;
 	
   var variable = getQueryVariable();
   console.log(variable);
@@ -34,13 +35,13 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         form.val('formAddPlan', formData);
         form.render();
         if (formData.authenticateUtil) {
-          layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+          formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
           layui.form.render('select');
-          layui.formSelects.disabled();
+          formSelects.disabled();
         }
       }
     }
@@ -67,9 +68,13 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
 
 
   form.on('submit(formAddPlanBtn)', function(data) {
-    var saveData = data.field;
+    var saveData = data.field,
+    utilData = formSelects.value('authenticateUtil');
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
+    }
+    if (utilData.length) {
+      saveData.authenticateUitlText = utilData[0].name;
     }
     httpModule({
       url: '/SciencePlan/save',

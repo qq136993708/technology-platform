@@ -310,6 +310,14 @@
   white-space: nowrap;
   cursor: pointer;
 }
+.home-footer-layout li.item-details::after {
+  content: '';
+  display: block;
+  clear: both;
+  font-size: 0;
+  height: 0;
+  float: none;
+}
 li.item-details .date-text{
   display: block;
   float: right;
