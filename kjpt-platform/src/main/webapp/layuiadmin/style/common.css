@@ -18,13 +18,13 @@
 /*表格*/
 .layui-table, .layui-table-view{margin: 0;}
 .layui-table-cell{height:38px;line-height: 38px;padding: 0 10px;}
-.tableToolBox {background: #fff;text-align: right;margin-bottom: 16px;margin-top: 19px}
+.tableToolBox {background: #fff;margin-bottom: 16px;margin-top: 19px;text-align: left;}
 .layui-table-page{background: #ffffff;}
 .layui-table-view .layui-table td, .layui-table-view .layui-table th{padding: 0;}
 .btnGroup{display: inline-block}
 .layui-table td, .layui-table th{ font-size: 12px;}
 .searchBox .dateInput span{font-weight: normal;margin-right: 4px; color:#000000;font-size: 14px;}
-.form-control{ width: 8%; min-width: 130px; display: inline-block !important;font-size: 14px !important;height: 30px !important;font-weight: normal !important;
+.form-control{ width: 24%; min-width: 130px; display: inline-block !important;font-size: 14px !important;height: 30px !important;font-weight: normal !important;
     line-height: 30px !important;padding-left: 6px !important;padding-right: 6px !important;border-radius: 5px !important;vertical-align:middle;color: #555;
     background-color: #fff;background-image: none;border: 1px solid #ccc;margin-right: 8px;}
 .searchBox .label {display: inline-block;max-width: 100%;margin-bottom: 5px;font-weight: 700;}

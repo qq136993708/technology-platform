@@ -68,24 +68,17 @@ public class PlatformController extends RestBaseController {
     }
 
 
-    @ApiOperation(value="Excel导入")
-    @RequestMapping(value = "/kgjImport/{importType}", method = RequestMethod.POST)
-    @ResponseBody
-    public List kgjImport(@RequestParam(value = "file", required = false) MultipartFile impExcel, @PathVariable String importType) throws Exception {
-        InputStream in = new BufferedInputStream(impExcel.getInputStream());
-        List dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<List> responseEntity = this.restTemplate.exchange(importPath+this.getUserProfile().getUserName(), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
-        return responseEntity.getBody();
-    }
 
     @ApiOperation(value="导出excel")
     @RequestMapping(value = "/platform-api/export", method = RequestMethod.GET)
     @ResponseBody
-    public void export(@RequestParam(required = false) String platformName) throws Exception {
+    public void export(@RequestParam(required = false) String platformName,@RequestParam(required = false) String level) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         if (platformName != null) {
             this.setParam(condition, "platformName", platformName);
+        }
+        if (level != null) {
+            this.setParam(condition, "level", level);
         }
         String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分" };
         String[] cols =    {"platformName","supportingInstitutionsText","personLiable","typeText","researchFieldText","overallSituation","researchFunds","platformScoring"};

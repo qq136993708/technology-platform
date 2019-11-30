@@ -185,13 +185,6 @@ public class ComputerSoftware extends RecordModel implements Serializable {
         this.notes = notes;
     }
 
-//    public String getAccessoryUpload() {
-//        return accessoryUpload;
-//    }
-//
-//    public void setAccessoryUpload(String accessoryUpload) {
-//        this.accessoryUpload = accessoryUpload;
-//    }
 
     public String getSoftwareIntroduce() {
         return softwareIntroduce;

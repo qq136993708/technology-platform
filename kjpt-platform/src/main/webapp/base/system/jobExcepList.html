@@ -6,6 +6,7 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
      <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
        <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
@@ -21,7 +22,7 @@
     </label>
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-normal" data-type="searchEvent">查询</button>
     </div>
 </div>
 
@@ -58,9 +59,8 @@
     function view(id) 
     {
     	 var temUrl="/sysJob/getExcep/" + id;
-		 layer.open({
+		 top.layer.open({
             title:'详情',
-            skin: 'layui-layer-lan',
             shadeClose: true,
             type: 2,
             fixed: false,
