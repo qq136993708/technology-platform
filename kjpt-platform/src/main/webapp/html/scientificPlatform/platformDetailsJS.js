@@ -248,7 +248,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             layer.msg(dialogTitle + '失败。', {icon: 2});
           }
         }
-        console.log(returnValue);
       }
     });
     
@@ -321,7 +320,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   })
 
   // 模版下载、导入、导出
-  $('.exportDown, .exportData, .importData').on('click', function() {
+  $('.exportData, .importData').on('click', function() {
     layer.msg('功能开发中...暂未实现！');
     return;
   })

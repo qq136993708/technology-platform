@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.groupinformation.BlocScientificPlanMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.groupinformation.BlocScientificPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
     @Autowired
     private BlocScientificPlanMapper blocScientificPlanMapper;
 
+    @Autowired
+    private FileCommonService fileCommonService;
+
 
     @Override
     public BlocScientificPlan load(String id) {
@@ -29,6 +33,10 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
     public BlocScientificPlan save(BlocScientificPlan blocScientificPlan) {
 
         IsEmptyUtil.isEmpty(blocScientificPlan.getId());
+
+
+        fileCommonService.updateFileData(blocScientificPlan.getAccessory(), blocScientificPlan.getId());
+
 
         if (load(blocScientificPlan.getId()) == null) {
             blocScientificPlan.setUpdateDate(blocScientificPlan.getUpdateDate());
@@ -43,7 +51,7 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
     @Override
     public PageInfo query(Map paramMap) {
         int pageNum = paramMap.get("pageNum") != null ? (int) paramMap.get("pageNum") : 1;
-        int pageSize = paramMap.get("pageSize") != null ? (int) paramMap.get("pageSize") : 1;
+        int pageSize = paramMap.get("pageSize") != null ? (int) paramMap.get("pageSize") : 10;
         PageHelper.startPage(pageNum, pageSize);
         List dataList = blocScientificPlanMapper.query(paramMap);
         PageInfo pageInfo = new PageInfo(dataList);

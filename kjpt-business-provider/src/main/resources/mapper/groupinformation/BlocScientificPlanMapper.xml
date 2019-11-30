@@ -2,13 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pcitc.mapper.groupinformation.BlocScientificPlanMapper">
-    <!--com.pcitc.base.mapper.blocscientificplan.BlocScientificPlanMapper-->
 
-    <!--<mapper namespace="com.pcitc.mapper.computersoftware.ComputerSoftwareMapper">-->
 
     <resultMap id="BaseResultMap" type="com.pcitc.base.groupinformation.BlocScientificPlan">
 
-        <!--<resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">-->
 
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -22,6 +19,11 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+
+
+        <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
+
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -113,7 +115,9 @@
 
         <trim prefix="SET" suffixOverrides=",">
 
-            <if test="name != null and name != '' ">
+--             and name != ''
+
+            <if test="name != null  ">
                 name = #{name},
             </if>
             <if test="publication != null and publication != '' ">
@@ -130,19 +134,19 @@
             </if>
 
             <if test="deleted != null">
-                deleted = #{deleted,jdbcType=VARCHAR},
+                deleted = #{deleted},
             </if>
             <if test="createDate != null">
-                create_date = #{createDate,jdbcType=TIMESTAMP},
+                create_date = #{createDate},
             </if>
             <if test="creator != null">
-                create_user = #{creator,jdbcType=VARCHAR},
+                create_user = #{creator},
             </if>
             <if test="updateDate != null">
-                update_date = #{updateDate,jdbcType=TIMESTAMP},
+                update_date = #{updateDate},
             </if>
             <if test="updator != null">
-                update_user = #{updator,jdbcType=VARCHAR},
+                update_user = #{updator},
             </if>
 
             <if test="reportType != null and reportType != ''">
@@ -160,6 +164,8 @@
             <!--</if>-->
 
         </trim>
+
+        where id = #{id}
     </update>
 
 </mapper>

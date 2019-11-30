@@ -1,29 +1,46 @@
-layui.use(['form', 'formSelects', 'laydate'], function(){
-  var form = layui.form;
-  var formSelects = layui.formSelects;
+layui.use(['form','laydate'], function(){
+	var form = layui.form;
 	
   var variable = getQueryVariable();
-  console.log(variable);
+  var reportTypeVal = +variable.reportType;
+  switch(reportTypeVal){
+    case 1:
+        $('#configName').html("科技规划名称:");
+    break;
+    case 2:
+        $('#configName').html("工作指南名称:");
+    break;
+    case 3:
+        $('#configName').html("工作要点名称:");
+    break;
+    case 4:
+        $('#configName').html("质量信息名称:");
+    break;
+  }
 
-  var itemDataUrl = '/WorkPoint/newInit';
+  var itemDataUrl = '/blocScientificPlan/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
   var readonlyFile = false; // 附件是否只读
+  layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
+  
 
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
-    itemDataUrl = '/WorkPoint/load/' + variable.id;
+    itemDataUrl = '/blocScientificPlan/load/' + variable.id;
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
   } else if (variable.type === 'edit') {
-    itemDataUrl = '/WorkPoint/load/' + variable.id;
+    itemDataUrl = '/blocScientificPlan/load/' + variable.id;
     msgTitle = '编辑';
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month'});
   }
+
   
+
   httpModule({
     url: itemDataUrl,
     success: function(res) {
@@ -32,16 +49,18 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         if (formData.annual) {
           formData.annual = new Date(formData.annual).format('yyyy-MM');
         }
-        form.val('formAddPoints', formData);
-        form.render();
-        if (formData.authenticateUtil) {
-          formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+        if(formData.pubdate){
+          formData.pubdate = new Date(formData.pubdate).format('yyyy-MM-dd');
         }
+        form.val('formAddPlan', formData);
+        form.render();
+        $('#reportType').val(reportTypeVal);
+       
         if (variable.type === 'see') {
-          setFomeDisabled('formAddPoints', '.disabled');
+          setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
           layui.form.render('select');
-          formSelects.disabled();
+          $('#reportType').val(reportTypeVal);
         }
       }
     }
@@ -49,7 +68,7 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
 
   // 附件
   setFileUpload({
-    id: 'addPointsFile',
+    id: 'addPlanFile',
     dataID: billID,
     readonly: readonlyFile,
     callback: function (tableData, type) {
@@ -59,25 +78,23 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
           fileIds += ',' + item.id;
         })
         fileIds = fileIds.substring(1);
-        form.val('formAddPoints', {accessory: fileIds});
+        form.val('formAddPlan', {accessory: fileIds});
       } else {
-        form.val('formAddPoints', {accessory: ''});
+        form.val('formAddPlan', {accessory: ''});
       }
     }
   });
 
 
-  form.on('submit(formAddPointsBtn)', function(data) {
-    var saveData = data.field,
-    utilData = formSelects.value('authenticateUtil');
+  form.on('submit(formAddPlanBtn)', function(data) {
+    var saveData = data.field;
+
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }
-    if (utilData.length) {
-      saveData.authenticateUitlText = utilData[0].name;
-    }
+
     httpModule({
-      url: '/WorkPoint/save',
+      url: '/blocScientificPlan/save',
       data: saveData,
       type: 'POST',
       success: function(res) {

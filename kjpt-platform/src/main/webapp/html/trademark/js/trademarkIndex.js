@@ -66,8 +66,8 @@ layui.use(['form', 'laydate', 'table'], function () {
                 limit: 10, // 每页数据条数,
                 parseData: function (res) { return layuiParseData(res); },
                 request: {
-                    page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-                    limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                    pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+                    limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
                 },
                 defaultToolbar: "none",
                 limits: [5, 10, 15, 20], // 配置分页数据条数

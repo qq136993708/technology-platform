@@ -72,7 +72,7 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "entryPeople", value = "录入人", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "entryTime", value = "录入时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "accessoryUpload", value = "附件上传", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "file", value = "附件上传", dataType = "string", paramType = "query"),
     })
 
     @GetMapping(value = "/query")
@@ -95,7 +95,7 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String entryPeople,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date entryTime,
             @RequestParam(required = false) String notes,
-            @RequestParam(required = false) String accessoryUpload
+            @RequestParam(required = false) String file
 
 
     ) {
@@ -140,8 +140,8 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(notes)) {
             this.setParam(condition, "notes", notes);
         }
-        if (!StringUtils.isEmpty(accessoryUpload)) {
-            this.setParam(condition, "accessoryUpload", accessoryUpload);
+        if (!StringUtils.isEmpty(file)) {
+            this.setParam(condition, "file", file);
         }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
