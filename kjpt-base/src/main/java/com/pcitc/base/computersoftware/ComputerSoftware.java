@@ -83,7 +83,7 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     /**
      * 附件上传
      */
-    private String accessoryUpload="";
+    private String fileIds="";
 
 
     private  String unitNameText= "";
@@ -185,13 +185,13 @@ public class ComputerSoftware extends RecordModel implements Serializable {
         this.notes = notes;
     }
 
-    public String getAccessoryUpload() {
-        return accessoryUpload;
-    }
-
-    public void setAccessoryUpload(String accessoryUpload) {
-        this.accessoryUpload = accessoryUpload;
-    }
+//    public String getAccessoryUpload() {
+//        return accessoryUpload;
+//    }
+//
+//    public void setAccessoryUpload(String accessoryUpload) {
+//        this.accessoryUpload = accessoryUpload;
+//    }
 
     public String getSoftwareIntroduce() {
         return softwareIntroduce;
@@ -207,5 +207,14 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     public void setUnitNameText(String unitNameText) {
         this.unitNameText = unitNameText;
+    }
+
+
+    public String getFileIds() {
+        return fileIds;
+    }
+
+    public void setFileIds(String fileIds) {
+        this.fileIds = fileIds;
     }
 }
