@@ -30,22 +30,25 @@ var __base_dic_store = {
 			<!--top-->
 			<div class="layui-header">
 				<!--logo-->
-				<div class="layui-header-logo inline-block">
+				<div class="layui-header-logo middle-block">
 					<img src="/layuiadmin/layui/images/header-logo.png" />
 				</div>
-				<!--首页-->
-				<div class="layui-header-index inline-block">
+				
+				<!-- <div class="layui-header-index inline-block">
 					<div class="layui-tab index-fixed-tab">
-						<ul class="layui-tab-title index-fixed">
-							<li lay-id="" lay-attr="" class="layui-this"><img src="/layuiadmin/layui/images/header-index.png" /></li>
-						</ul>
+						
 					</div>
-				</div>
+				</div> -->
 				<!--导航-->
-				<div class="layui-header-nav inline-block">
-					<ul class="layui-nav layui-layout-left">
+				<div class="layui-header-nav inline-block middle-block" id="layuiHeaderNav">
+					<!--首页-->
+					<ul class="layui-nav index-fixed">
+						<li class="header-nav-item home-item layui-this"><a class="home-index-a">首页</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-left" id="showItemNav">
 						<#if upList?exists> <#list upList as p>
-						<li class="layui-nav-item ${p_index}" id="up${p.id}"><a href="javascript:;" id="${p.id}">${p.name}</a></li> </#list> </#if>
+						<li class="header-nav-item ${p_index}" id="up${p.id}"><a href="javascript:;" id="${p.id}">${p.name}</a></li>
+						</#list> </#if>
 					</ul>
 					<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide" id="navPrev">
 						<ul class="layui-nav layui-layout-left layui-hide"></ul>
@@ -60,25 +63,31 @@ var __base_dic_store = {
 				</div>
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-					<li class="layui-nav-item layui-nav-itemnew chat" title="消息"><a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息">
+					<li class="header-nav-item layui-nav-itemnew chat" title="消息">
+						<a lay-href="/message/sys_message_list" lay-text="消息">
+							<span id="numberChat" class="number" style="visibility: hidden"></span>
 							<span id="nc" style="visibility: hidden"></span>
 						</a>
 						<div class="chat-content layui-hide">
-							<dl id="message_box" class="layui-nav-child-dl">
-							</dl>
-						</div></li>
-					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务"><a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务">
+							<dl id="message_box" class="layui-nav-child-dl"></dl>
+						</div>
+					</li>
+					<li class="header-nav-item layui-nav-itemnew deal" title="待办任务">
+						<a lay-href="/task/pending/list/ini" lay-text="待办任务">
+							<span id="numberDeal" class="number" style="visibility: hidden"></span>
 							<span id="pendingCount" style="visibility: hidden"></span>
-						</a></li>
-					<!-- <li class="layui-nav-item layui-nav-itemnew notify">
+						</a>
+					</li>
+					<!-- <li class="header-nav-item layui-nav-itemnew notify">
 						<a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
 					</li> -->
-					<!--<li class="layui-nav-item layui-nav-itemnew " title="二维码"><span class="QRCode"></span>
+					<!--<li class="header-nav-item layui-nav-itemnew " title="二维码"><span class="QRCode"></span>
 						<div class="QRCode-content layui-hide">
 							<img src="/layuiadmin/layui/images/weixin.png" />
 						</div></li>-->
-					<li class="layui-nav-item"><a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
-							${userInfo.userDisp!}
+					<li class="header-nav-item middle-block">
+						<a href="javascript:;" class="header-nav-item-a">
+							<span class="user-name" title="${userInfo.userDisp!}">${userInfo.userDisp!}</span>
 							<span class="layui-nav-more"></span>
 						</a>
 						<div class="layui-hide information">
@@ -108,35 +117,58 @@ var __base_dic_store = {
 
 			<!-- 侧边菜单 -->
 			<div class="layui-side layui-side-menu layui-side-menu-div">
+					<div class="layadmin-flexible"><div></div></div>
 				<div class="layui-side-scroll">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible">
-							<div></div>
-						</li> <#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
+						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
 						<li class="layui-nav-item"></#if> <a href="#" title="${grgzt.name}">
-								<span>${grgzt.name}</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
+								<div class="item-row-block">
+									<span class="icon_name ${grgzt.icon}"></span>
+									<span class="item-title">${grgzt.name}</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</div>
 							</a> <#assign gztFlag="1"> </#if>
 							<dl class="layui-nav-child">
 								<#list grgztList as threeLevel> <#if threeLevel.parentId == grgzt.id>
-								<dd>
-									<a lay-href="${threeLevel.url}" lay-text="${threeLevel.name}" data-id="${threeLevel.id}" data-code="${threeLevel.code}" data-functionbuttons="ALL">${threeLevel.name}</a>
+								<dd class="sub-nav-item">
+									<a lay-href="${threeLevel.url}"
+										lay-text="${threeLevel.name}"
+										data-id="${threeLevel.id}"
+										data-code="${threeLevel.code}"
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name ${threeLevel.icon}"></span>
+											<span class="item-title">${threeLevel.name}</span>
+										</div>
+									</a>
 								</dd>
 								</#if> </#list>
 							</dl> </#list> </#if> <#if scList?exists>
 						<li class="layui-nav-item"><a href="#" title="我的收藏">
-								<span>我的收藏</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">我的收藏</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>
 							<dl class="layui-nav-child" id="dlCollect">
 								<#list scList as sc>
 								<dd id="${sc.dataId}">
-									<a lay-href="${sc.collectUrl}" lay-text="${sc.collectName}" data-id="${sc.functionId}" data-code="${sc.functionCode}" data-functionbuttons="ALL">
-										${sc.collectName} <img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
+									<a lay-href="${sc.collectUrl}"
+										lay-text="${sc.collectName}"
+										data-id="${sc.functionId}"
+										data-code="${sc.functionCode}"
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name ${threeLevel.icon}"></span>
+											<span class="item-title">${sc.collectName}</span>
+											<img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
+										</div>
 									</a>
 								</dd>
 								</#list>
@@ -145,109 +177,190 @@ var __base_dic_store = {
 
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="专利管理">
-								<span>专利管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">专利管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
 								 <!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
 									<a lay-href="/html/patent/query.html"
 										lay-text="专利查询" 
-										data-functionbuttons="ALL">专利查询</a>
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name icon_sub"></span>
+											<span class="item-title">专利查询</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>
 
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="科技材料">
-								<span>科技材料</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">科技材料</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
 									<!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
 									<a lay-href="/html/scientificMaterials/scientificPlan.html"
 										lay-text="科研规划" 
-										data-functionbuttons="ALL">科研规划</a>
-								</dd>
-								<dd class=""><a lay-href="/html/scientificMaterials/scientificPlan.html" lay-text="科研规划" 
-									data-functionbuttons="ALL">科研规划</a>
+										data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name icon_sub"></span>
+											<span class="item-title">科研规划</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="Demo规范">
-								<span>Demo规范</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">Demo规范</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class=""><a lay-href="/html/demo/layout.html" lay-text="页面排版说明" 
-									data-functionbuttons="ALL">页面排版</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">页面排版说明</span>
+									</div>
+								</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/form.html" lay-text="Form 表单" 
-									data-functionbuttons="ALL">Form 表单</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Form 表单</span>
+									</div>
+								</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/select.html" lay-text="selected 下拉框" 
-									data-functionbuttons="ALL">selected 下拉框</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">selected 下拉框</span>
+									</div>
+								</a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/advancedSearch.html" lay-text="高级筛选演示" 
-									data-functionbuttons="ALL">高级筛选演示</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">高级筛选演示</span>
+									</div>
+								</a>
 								</dd>
-								<dd class=""><a lay-href="/html/demo/button.html" lay-text="Button 按钮" 
-									data-functionbuttons="ALL">Button 与 Tab</a>
+								<dd class=""><a lay-href="/html/demo/button.html" lay-text="Button 与 Tab" 
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Button 与 Tab</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/table.html" lay-text="Table 表格" 
-									data-functionbuttons="ALL">Table 表格</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Table 表格</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/dialog.html" lay-text="Dialog 弹窗" 
-									data-functionbuttons="ALL">Dialog 弹窗</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">Dialog 弹窗</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/dictionaries.html" lay-text="公告方法演示" 
-									data-functionbuttons="ALL">公告方法演示</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">公告方法演示</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/html/demo/file.html" lay-text="附件上传 File" 
-									data-functionbuttons="ALL">附件上传 File</a>
+									data-functionbuttons="ALL"><div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">附件上传 File</span>
+									</div></a>
 								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="商标管理">
-								<span>商标管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">商标管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class=""><a lay-href="/html/trademark/index.html" lay-text="商标管理" 
-									data-functionbuttons="ALL">商标管理</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">商标管理</span>
+									</div></a>
 								</dd>
 							</dl>    
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="专家管理">
-								<span>专家管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name collection"></span>
+									<span class="item-title">专家管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>
 							<dl class="layui-nav-child">
 								<dd class=""><a lay-href="/kjpt/expert/expert_list.html" lay-text="专家信息管理"
-												data-functionbuttons="ALL">专家信息管理</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">专家信息管理</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/kjpt/expert/expert_query.html" lay-text="专家查询"
-												data-functionbuttons="ALL">专家查询</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">专家查询</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/kjpt/expert/expert_demeanor.html" lay-text="专家风采"
-												data-functionbuttons="ALL">专家风采</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">专家风采</span>
+									</div></a>
 								</dd>
 								<dd class=""><a lay-href="/stp/techFamily/tech-tree-list.html" lay-text="技术族"
-												data-functionbuttons="ALL">技术族</a>
+									data-functionbuttons="ALL">
+									<div class="item-row-block">
+										<span class="icon_name icon_sub"></span>
+										<span class="item-title">技术族</span>
+									</div></a>
 								</dd>
 							</dl>
 						</li>
@@ -255,25 +368,40 @@ var __base_dic_store = {
 
 					<#if upList?exists> <#list upList as p>
 					<ul class="layui-nav layui-nav-tree layui-hide"  lay-text="${p.name}" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible">
-							<div></div>
-						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
+						<#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
-								<span>${s.name}</span>
+							<div class="item-row-block">
+								<span class="icon_name ${s.icon}"></span>
+								<span class="item-title">${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
+							</div>
 							</a>
 							<dl class="layui-nav-child">
 								<#list funList as t> <#if t.parentId == s.id>
 								<dd>
 									<#if t.url != '#'>
-									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
+									<a lay-href="${t.url}" lay-text="${t.name}"
+										data-id="${t.id}" data-code="${t.code}"
+										data-functionbuttons="${t.functionButtons}">
+										<div class="item-row-block">
+											<span class="icon_name ${t.icon}"></span>
+											<span class="item-title">${t.name}</span>
+										</div></a>
 									</#if> <#if t.url == '#'>
-									<a href="${t.url}" title="${t.name}">${t.name}</a>
+									<a href="${t.url}" title="${t.name}"><div class="item-row-block">
+										<span class="icon_name ${t.icon}"></span>
+										<span class="item-title">${t.name}</span>
+									</div></a>
 									<dl class="layui-nav-child">
 										<#list funList as k> <#if k.parentId == t.id>
 										<dd>
-											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
+											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}"
+												data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}"
+												title="${k.name}"><div class="item-row-block">
+												<span class="icon_name ${k.icon}"></span>
+												<span class="item-title">${k.name}</span>
+											</div></a>
 										</dd>
 										</#if> </#list>
 									</dl>
@@ -282,21 +410,39 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#if openFlag!="0">
 						<li class="layui-nav-item"><a href="#" title="${s.name}">
-								<span>${s.name}</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
+								<div class="item-row-block">
+									<span class="icon_name ${s.icon}"></span>
+									<span class="item-title">${s.name}</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</div>
 							</a>
 							<dl class="layui-nav-child">
 								<#list funList as t> <#if t.parentId == s.id>
 								<dd>
 									<#if t.url != '#'>
-									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
+									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}"
+										data-code="${t.code}" data-functionbuttons="${t.functionButtons}">
+										<div class="item-row-block">
+											<span class="icon_name ${t.icon}"></span>
+											<span class="item-title">${t.name}</span>
+										</div></a>
 									</#if> <#if t.url == '#'>
-									<a href="${t.url}" title="${t.name}">${t.name}</a>
+									<a href="${t.url}" title="${t.name}">
+										<div class="item-row-block">
+											<span class="icon_name ${k.icon}"></span>
+											<span class="item-title">${t.name}</span>
+										</div>
+									</a>
 									<dl class="layui-nav-child">
 										<#list funList as k> <#if k.parentId == t.id>
 										<dd>
-											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
+											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}"
+											data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}"
+											title="${k.name}"><div class="item-row-block">
+												<span class="icon_name ${k.icon}"></span>
+												<span class="item-title">${k.name}</span>
+											</div></a>
 										</dd>
 										</#if> </#list>
 									</dl>
@@ -305,7 +451,10 @@ var __base_dic_store = {
 								</#if> </#list>
 							</dl></li> </#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
 						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
-								<span>${s.name}</span>
+							<div class="item-row-block">
+								<span class="icon_name ${s.icon}"></span>	
+								<span class="item-title">${s.name}</span>
+							</div>
 							</a></li> </#if> </#list>
 						
 					</ul>
@@ -376,382 +525,421 @@ var __base_dic_store = {
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
 			index : 'lib/index' //主入口模块
-		}).use(
-				[ 'index', 'jquery', "publicMethods" ],
-				function() {
-					var $ = layui.jquery, publicMethods = layui.publicMethods;
-					$('.dowebok').liMarquee();
-					var headerNav = $(".layui-header-nav ul").html();
-					var navLeft = 36;
-					$(".layui-header-nav ul li").each(function(i, val) {
-						if (i > 4) {
-							$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-							$(val).remove();
+		}).use( [ 'index', 'jquery', "publicMethods" ], function() {
+
+			function setHeaderMoreItem(params) {
+				setTimeout(function (params) {
+					var $showItemNav = $('#showItemNav'),
+					parentWidth = $showItemNav.parent().width() - 130,
+					itemSunWidth = 0,
+					showMoreItem = false;
+					$(".layui-header-nav ul.layui-layout-left li").each(function(i, ele) {
+						if (($(this).outerWidth() + itemSunWidth) <= parentWidth) {
+							$showItemNav.append($(this));
+							itemSunWidth += $(this).outerWidth();
 						} else {
-							navLeft += $(val).width() + 24;
-						}
-					});
-
-					$(".seacrhBox img").click(function() {
-						var val = $(".seacrhBox input").val();
-						parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
-					});
-					$(document).keyup(function(event) {
-						if (event.keyCode == 13) {
-							var val = $(".seacrhBox input").val();
-							parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
-						}
-					});
-					$(".layui-header .layui-icon-prev").css("left", (navLeft - 10) + "px");
-					if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
-						$("#navPrev ul").append(headerNav);
-						$("#navPrev ul span").remove();
-						$("#navPrev ul li").each(function(i, val) {
-							if (i < 5) {
-								$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-								$(val).remove();
+							$('#navPrev ul:eq(0)').append($(this));
+							if (!showMoreItem) {
+								showMoreItem = true;
 							}
-						});
-						$(".layui-header .layui-icon-prev").on({
-							mouseover : function() {
-								$(".layui-layout-left").eq(1).removeClass("layui-hide");
-							},
-							mouseout : function() {
-								$(".layui-layout-left").eq(1).toggleClass("layui-hide");
-							}
-
-						});
+						}
+						console.log($(this).outerWidth(), $(this).text())
+					})
+					if (showMoreItem) {
+						$('#navPrev').removeClass('layui-hide');
+						$("#navPrev ul > span").remove();
+					} else {
+						$('#navPrev').addClass('layui-hide');
 					}
-					$(".layui-header .layui-layout-left li a").on("click", function() {
-						var id = $(this).attr("id")
-						if ($(this).text() == "科研项目系统") {
-							window.open("http://10.1.19.130:8008/index.aspx");
-							return false;
-						}
-						if ($(this).text() == "知识产权系统") {
-							window.open("http://10.1.19.130/zshzlgl/");
-							return false;
-						}
-						if ($(this).text() == "成果鉴定系统") {
-							window.open("http://10.1.19.130/zshjdgl/");
-							return false;
-						}
-						if ($(this).text() == "科技奖励系统") {
-							window.open("http://10.1.19.130/zshkjjl/");
-							return false;
-						}
-                        if ($("#" + id).text() == "辅助决策") {
-                            $("#nav" + id+" li").eq(1).removeClass("layui-nav-itemed")
-                        }
-						$(".layui-nav-tree").addClass("layui-hide");
-						$("#nav" + id).removeClass("layui-hide");
-
-						if ($("#" + id).text() == "专家库") {
-							parent.layui.index.openTabsPage("/expertController/expertIndexNew", "专家库");
-						}
-
-						$(".layui-header .layui-layout-left li").removeClass("layui-this");
-						if (!$(this).parent().hasClass("layui-this")) {
-							$(this).parent().addClass("layui-this");
-						}
-					});
-					$("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").click(function () {
-                        $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-this");
-                        $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-nav-itemed");
-                        $(this).addClass("layui-this");
-                        $(this).addClass("layui-nav-itemed");
-                    });
-					function initMessageSocket() {
-						//初始化websocket
-						var websocket = null;
-						if ('WebSocket' in window) {
-							var protocolStr = document.location.protocol;
-							var wsFlag = "ws:";
-							if(protocolStr.indexOf("https")>-1) {
-								wsFlag = "wss:"
-							}
-							websocket = new WebSocket(wsFlag+"//" + document.location.host + "/messageIndex/${userId?default(0)}");
-							websocket.onerror = function() {
-							};
-							websocket.onopen = function(event) {
-								console.log("onopen.............");
-							}
-							websocket.onclose = function() {
-								console.log("onclose.............");
-							}
-							window.onbeforeunload = function() {
-								websocket.close();
-							}
-							websocket.onmessage = function(event) {
-								getNotReadMessageList();
-							}
-						} else {
-							console.log('Not support websocket');
-						}
-					}
-					function initTaskSocket() {
-						//初始化websocket
-						var websocket = null;
-						if ('WebSocket' in window) {
-							var protocolStr = document.location.protocol;
-							var wsFlag = "ws:";
-							if(protocolStr.indexOf("https")>-1) {
-								wsFlag = "wss:"
-							}
-							websocket = new WebSocket(wsFlag+"//" + document.location.host + "/taskIndex/${userId?default(0)}");
-							websocket.onerror = function() {
-							};
-							websocket.onopen = function(event) {
-								console.log("onopen.............");
-							}
-							websocket.onclose = function() {
-								console.log("onclose.............");
-							}
-							window.onbeforeunload = function() {
-								websocket.close();
-							}
-							websocket.onmessage = function(event) {
-								getNotReadTaskList();
-							}
-						} else {
-							console.log('Not support websocket');
-						}
-					}
-					$("#toUserInfo").on("click", function() {
-						// layer.open({
-						// 	title : "用户详情",
-						// 	skin : 'layui-layer-lan',
-						// 	shadeClose : true,
-						// 	type : 2,
-						// 	fixed : false,
-						// 	//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-						// 	maxmin : false,
-						// 	//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-						// 	area : [ '80%', '70%' ],
-						// 	content : "/user/user-dispaly?userId=${userInfo.userId}"
-						// });
+				}, 120);
+			}
 
 
-						//parent.layui.index.openTabsPage("/html/user/my_info.html", "用户信息");
+			var $ = layui.jquery, publicMethods = layui.publicMethods;
+			$('.dowebok').liMarquee();
+			// var headerNav = $(".layui-header-nav ul.layui-layout-left").html();
+			
+			// 设置头部导航超出隐藏
+			setHeaderMoreItem();
 
-						top.layer.open({
-							type: 2,
-							title: '用户信息',
-							area: ['800px', '80%'],
-								content: '/html/user/my_info.html',
-								btn: null
-							});
-							
+			$('#navPrev').on({
+				mouseover : function() {
+					$(this).children(".layui-layout-left").removeClass("layui-hide");
+				},
+				mouseout : function() {
+					$(this).children(".layui-layout-left").toggleClass("layui-hide");
+				}
+			});
 
-					});
-					$("#logout").on("click", function() {
-						layer.confirm('确定要退出登录吗？', {
-							title : "退出登录"
-						}, function(index) {
-							layer.close(index);
-							$.ajax({
-								type : 'post',
-								dataType : 'json',
-								async : false,
-								url : '/logout',
-								success : function(data) {
-									window.location.href = "/login";
-									//window.location.href = "./SSO/GLO/Redirect";
-								},
-								error : function(e) {
-									console.log(e);
-								}
-							});
-						});
-					});
-					$("#toUpdPass").on("click", function() {
-						// layer.open({
-						// 	title : "修改密码",
-						// 	skin : 'layui-layer-lan',
-						// 	shadeClose : true,
-						// 	type : 2,
-						// 	fixed : false,
-						// 	//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-						// 	maxmin : false,
-						// 	//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-						// 	area : [ '500px', '300px' ],
-						// 	content : "/user/upd-pass?userId=${userInfo.userId}"
-						// });
+			// var navLeft = 36;
+			// $(".layui-header-nav ul.layui-layout-left li").each(function(i, val) {
+			// 	if (i > 4) {
+			// 		$(".layui-header .layui-icon-prev").removeClass("layui-hide");
+			// 		$(val).remove();
+			// 	} else {
+			// 		navLeft += $(val).width() + 24;
+			// 	}
+			// });
 
-						//parent.layui.index.openTabsPage("/html/user/change_password.html", "修改密码");
-
-						top.layer.open({
-							type: 2,
-							title: '修改密码',
-							area: ['500px', '400px'],
-								content: '/html/user/change_password.html',
-								btn: null
-							});
-					});
-
-					$("#selfConfig").on("click", function() {
-						layer.open({
-							title : "个人设置",
-							skin : 'layui-layer-lan',
-							shadeClose : true,
-							type : 2,
-							fixed : false,
-							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-							maxmin : false,
-							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-							area : [ '500px', '300px' ],
-							content : "/user/ini-self-config"
-						});
-					});
-
-					$("#changeIndex").on("click", function() {
-						var host = window.location.host;
-						window.location.href = "http://" + host + "/work";
-					});
-					$("#moreInfo").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/dragon", "_target");
-					});
-
-					$("#nav li dl dd a").hover(
-							function() {
-								$(this).find("img").removeClass("layui-hide");
-								$(this).find("img").off("click").on(
-										"click",
-										function() {
-											$.ajax({
-												type : 'post',
-												dataType : 'json',
-												async : false,
-												url : '/admin/collect?functionCode=' + $(this).parent().attr("data-code") + "&functionName=" + $(this).parent().attr("lay-text") + "&functionId=" + $(this).parent().attr("data-id"),
-												success : function(data) {
-													layer.msg(data.message);
-													if (data.success) {
-														// 动态修改当前我的收藏
-														var obj = eval('(' + data.data + ')');
-														if (obj.status == '1') {
-															var collectMenu = document.getElementById("dlCollect").innerHTML;
-															collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName
-																	+ "<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
-															document.getElementById("dlCollect").innerHTML = collectMenu;
-
-														} else if (obj.status == '0') {
-															var dl = document.getElementById("dlCollect");
-															// 查找dl里的所有dd
-															var dds = document.getElementsByTagName('dd');
-															for (var i = dds.length - 1; i >= 0; i--) {
-																if (dds[i].id == obj.dataId) {
-																	dl.removeChild(dds[i]);
-																}
-															}
-														}
-
-													}
-
-												},
-												error : function(e) {
-													console.log(e);
-												}
-											});
-											return false;
-										});
-							}, function() {
-								$(this).find("img").addClass("layui-hide");
-							});
-					// 菜单收藏
-					$("#collectFunction").on("click", function() {
-						var param = JSON.parse(window.localStorage.getItem("param"));
-						$.ajax({
-							type : 'post',
-							dataType : 'json',
-							async : false,
-							url : '/admin/collect?functionCode=' + param.code + "&functionName=" + param.name + "&functionId=" + param.id,
-							success : function(data) {
-								layer.msg(data.message);
-
-								if (data.success) {
-									// 动态修改当前我的收藏
-									var obj = eval('(' + data.data + ')');
-									if (obj.status == '1') {
-										var collectMenu = document.getElementById("dlCollect").innerHTML;
-										collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
-										document.getElementById("dlCollect").innerHTML = collectMenu;
-									} else if (obj.status == '0') {
-										var dl = document.getElementById("dlCollect");
-										// 查找dl里的所有dd
-										var dds = document.getElementsByTagName('dd');
-										for (var i = dds.length - 1; i >= 0; i--) {
-											if (dds[i].id == obj.dataId) {
-												dl.removeChild(dds[i]);
-											}
+			$(".seacrhBox img").click(function() {
+				var val = $(".seacrhBox input").val();
+				parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
+			});
+			$(document).keyup(function(event) {
+				if (event.keyCode == 13) {
+					var val = $(".seacrhBox input").val();
+					parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
+				}
+			});
+			// $(".layui-header .layui-icon-prev").css("left", (navLeft - 10) + "px");
+			// if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
+			// 	$("#navPrev ul").append(headerNav);
+			// 	$("#navPrev ul span").remove();
+			// 	$("#navPrev ul li").each(function(i, val) {
+			// 		if (i < 5) {
+			// 			$(".layui-header .layui-icon-prev").removeClass("layui-hide");
+			// 			$(val).remove();
+			// 		}
+			// 	});
+			// 	$(".layui-header .layui-icon-prev").on({
+			// 		mouseover : function() {
+			// 			$(".layui-layout-left").eq(1).removeClass("layui-hide");
+			// 		},
+			// 		mouseout : function() {
+			// 			$(".layui-layout-left").eq(1).toggleClass("layui-hide");
+			// 		}
+			// 	});
+			// }
+			$(".layui-header .layui-layout-left li a").on("click", function() {
+				var id = $(this).attr("id")
+				if ($(this).text() == "科研项目系统") {
+					window.open("http://10.1.19.130:8008/index.aspx");
+					return false;
+				}
+				if ($(this).text() == "知识产权系统") {
+					window.open("http://10.1.19.130/zshzlgl/");
+					return false;
+				}
+				if ($(this).text() == "成果鉴定系统") {
+					window.open("http://10.1.19.130/zshjdgl/");
+					return false;
+				}
+				if ($(this).text() == "科技奖励系统") {
+					window.open("http://10.1.19.130/zshkjjl/");
+					return false;
+				}
+										if ($("#" + id).text() == "辅助决策") {
+												$("#nav" + id+" li").eq(1).removeClass("layui-nav-itemed")
 										}
-									}
+				$(".layui-nav-tree").addClass("layui-hide");
+				$("#nav" + id).removeClass("layui-hide");
 
-								}
+				if ($("#" + id).text() == "专家库") {
+					parent.layui.index.openTabsPage("/expertController/expertIndexNew", "专家库");
+				}
 
-							},
-							error : function(e) {
-								console.log(e);
-							}
-						});
-					});
-					//获取未读消息
-					window.getNotReadMessageList = function() {
-						publicMethods.ajaxAsyncPost('/message/get-newest-messages', {
-							page : 1,
-							limit : 100,
-							param : {
-								"isRead" : "0"
-							}
-						}, function(data, status) {
-							$(".message_more").unbind();
-							$(".message_info").unbind();
-							var content = "";
-							if (data.length <= 0) {
-								$("#nc").css("visibility", "hidden");
-							} else {
-								/* $.each(data,function(index,dt){
-									if(index < 3){//最新消息(取前三条未读)
-										content += '<dd class="message_info" dataId="'+dt.dataId+'"><span class="layui-name">'+dt.userName+'</span><span class="layui-text">'+dt.messageTitle+'</span><span class="layui-time"><i class="fa fa-clock-o mr-1"></i>'+dt.ago+'</span></dd>';
-									}
-								}); */
-								$("#nc").text(data.length);
-								$("#nc").css("visibility", "visible");
-							}
-							content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
-							$("#message_box").html(content);
-							$('.message_more').on('click', function() {
-								parent.layui.index.openTabsPage("/message/sys_message_list", "消息列表");
-							});
-						});
+				$(".layui-header .layui-layout-left li").removeClass("layui-this");
+				if (!$(this).parent().hasClass("layui-this")) {
+					$(this).parent().addClass("layui-this");
+				}
+			});
+			$("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").click(function () {
+										$("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-this");
+										$("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-nav-itemed");
+										$(this).addClass("layui-this");
+										$(this).addClass("layui-nav-itemed");
+								});
+			function initMessageSocket() {
+				//初始化websocket
+				var websocket = null;
+				if ('WebSocket' in window) {
+					var protocolStr = document.location.protocol;
+					var wsFlag = "ws:";
+					if(protocolStr.indexOf("https")>-1) {
+						wsFlag = "wss:"
 					}
-					//待办任务
-					window.getNotReadTaskList = function() {
-						publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
-							$(".task_more").unbind();
-							$(".task_info").unbind();
-							var pendingCount = data.pendingTaskCount;
-							var content = "";
-							if (pendingCount <= 0) {
-								$("#pendingCount").css("visibility", "hidden");
-							} else {
-								$("#pendingCount").text(pendingCount);
-								$("#pendingCount").css("visibility", "visible");
-							}
-							content += '<dd><a class="task_more"  href="javascript:void(0)">查看更多</a></dd>';
-							$("#task_box").html(content);
-							$(".task_more").on("click", function() {
-								parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
-							});
-			            });
+					websocket = new WebSocket(wsFlag+"//" + document.location.host + "/messageIndex/${userId?default(0)}");
+					websocket.onerror = function() {
+					};
+					websocket.onopen = function(event) {
+						console.log("onopen.............");
 					}
-					$(document).ready(function() {
-						$("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
-						initMessageSocket();
-						initTaskSocket();
+					websocket.onclose = function() {
+						console.log("onclose.............");
+					}
+					window.onbeforeunload = function() {
+						websocket.close();
+					}
+					websocket.onmessage = function(event) {
 						getNotReadMessageList();
+					}
+				} else {
+					console.log('Not support websocket');
+				}
+			}
+			function initTaskSocket() {
+				//初始化websocket
+				var websocket = null;
+				if ('WebSocket' in window) {
+					var protocolStr = document.location.protocol;
+					var wsFlag = "ws:";
+					if(protocolStr.indexOf("https")>-1) {
+						wsFlag = "wss:"
+					}
+					websocket = new WebSocket(wsFlag+"//" + document.location.host + "/taskIndex/${userId?default(0)}");
+					websocket.onerror = function() {
+					};
+					websocket.onopen = function(event) {
+						console.log("onopen.............");
+					}
+					websocket.onclose = function() {
+						console.log("onclose.............");
+					}
+					window.onbeforeunload = function() {
+						websocket.close();
+					}
+					websocket.onmessage = function(event) {
 						getNotReadTaskList();
+					}
+				} else {
+					console.log('Not support websocket');
+				}
+			}
+			$("#toUserInfo").on("click", function() {
+				// layer.open({
+				// 	title : "用户详情",
+				// 	skin : 'layui-layer-lan',
+				// 	shadeClose : true,
+				// 	type : 2,
+				// 	fixed : false,
+				// 	//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				// 	maxmin : false,
+				// 	//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				// 	area : [ '80%', '70%' ],
+				// 	content : "/user/user-dispaly?userId=${userInfo.userId}"
+				// });
+
+
+				//parent.layui.index.openTabsPage("/html/user/my_info.html", "用户信息");
+
+				top.layer.open({
+					type: 2,
+					title: '用户信息',
+					area: ['800px', '80%'],
+						content: '/html/user/my_info.html',
+						btn: null
+					});
+					
+
+			});
+			$("#logout").on("click", function() {
+				layer.confirm('确定要退出登录吗？', {
+					title : "退出登录"
+				}, function(index) {
+					layer.close(index);
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						async : false,
+						url : '/logout',
+						success : function(data) {
+							window.location.href = "/login";
+							//window.location.href = "./SSO/GLO/Redirect";
+						},
+						error : function(e) {
+							console.log(e);
+						}
 					});
 				});
+			});
+			$("#toUpdPass").on("click", function() {
+				// layer.open({
+				// 	title : "修改密码",
+				// 	skin : 'layui-layer-lan',
+				// 	shadeClose : true,
+				// 	type : 2,
+				// 	fixed : false,
+				// 	//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				// 	maxmin : false,
+				// 	//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				// 	area : [ '500px', '300px' ],
+				// 	content : "/user/upd-pass?userId=${userInfo.userId}"
+				// });
+
+				//parent.layui.index.openTabsPage("/html/user/change_password.html", "修改密码");
+
+				top.layer.open({
+					type: 2,
+					title: '修改密码',
+					area: ['500px', '400px'],
+						content: '/html/user/change_password.html',
+						btn: null
+					});
+			});
+
+			$("#selfConfig").on("click", function() {
+				layer.open({
+					title : "个人设置",
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : false,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '500px', '300px' ],
+					content : "/user/ini-self-config"
+				});
+			});
+
+			$("#changeIndex").on("click", function() {
+				var host = window.location.host;
+				window.location.href = "http://" + host + "/work";
+			});
+			$("#moreInfo").on("click", function() {
+				window.open("/instituteIndex?url=" + "/one_level_main/dragon", "_target");
+			});
+
+			$("#nav li dl dd a").hover(
+					function() {
+						$(this).find("img").removeClass("layui-hide");
+						$(this).find("img").off("click").on(
+								"click",
+								function() {
+									$.ajax({
+										type : 'post',
+										dataType : 'json',
+										async : false,
+										url : '/admin/collect?functionCode=' + $(this).parent().attr("data-code") + "&functionName=" + $(this).parent().attr("lay-text") + "&functionId=" + $(this).parent().attr("data-id"),
+										success : function(data) {
+											layer.msg(data.message);
+											if (data.success) {
+												// 动态修改当前我的收藏
+												var obj = eval('(' + data.data + ')');
+												if (obj.status == '1') {
+													var collectMenu = document.getElementById("dlCollect").innerHTML;
+													collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName
+															+ "<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
+													document.getElementById("dlCollect").innerHTML = collectMenu;
+
+												} else if (obj.status == '0') {
+													var dl = document.getElementById("dlCollect");
+													// 查找dl里的所有dd
+													var dds = document.getElementsByTagName('dd');
+													for (var i = dds.length - 1; i >= 0; i--) {
+														if (dds[i].id == obj.dataId) {
+															dl.removeChild(dds[i]);
+														}
+													}
+												}
+
+											}
+
+										},
+										error : function(e) {
+											console.log(e);
+										}
+									});
+									return false;
+								});
+					}, function() {
+						$(this).find("img").addClass("layui-hide");
+					});
+			// 菜单收藏
+			$("#collectFunction").on("click", function() {
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				$.ajax({
+					type : 'post',
+					dataType : 'json',
+					async : false,
+					url : '/admin/collect?functionCode=' + param.code + "&functionName=" + param.name + "&functionId=" + param.id,
+					success : function(data) {
+						layer.msg(data.message);
+
+						if (data.success) {
+							// 动态修改当前我的收藏
+							var obj = eval('(' + data.data + ')');
+							if (obj.status == '1') {
+								var collectMenu = document.getElementById("dlCollect").innerHTML;
+								collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
+								document.getElementById("dlCollect").innerHTML = collectMenu;
+							} else if (obj.status == '0') {
+								var dl = document.getElementById("dlCollect");
+								// 查找dl里的所有dd
+								var dds = document.getElementsByTagName('dd');
+								for (var i = dds.length - 1; i >= 0; i--) {
+									if (dds[i].id == obj.dataId) {
+										dl.removeChild(dds[i]);
+									}
+								}
+							}
+
+						}
+
+					},
+					error : function(e) {
+						console.log(e);
+					}
+				});
+			});
+			//获取未读消息
+			window.getNotReadMessageList = function() {
+				publicMethods.ajaxAsyncPost('/message/get-newest-messages', {
+					page : 1,
+					limit : 100,
+					param : {
+						"isRead" : "0"
+					}
+				}, function(data, status) {
+					$(".message_more").unbind();
+					$(".message_info").unbind();
+					var content = "";
+					if (data.length <= 0) {
+						$("#nc").css("visibility", "hidden");
+					} else {
+						/* $.each(data,function(index,dt){
+							if(index < 3){//最新消息(取前三条未读)
+								content += '<dd class="message_info" dataId="'+dt.dataId+'"><span class="layui-name">'+dt.userName+'</span><span class="layui-text">'+dt.messageTitle+'</span><span class="layui-time"><i class="fa fa-clock-o mr-1"></i>'+dt.ago+'</span></dd>';
+							}
+						}); */
+						$("#nc").text(data.length);
+						$("#nc").css("visibility", "visible");
+					}
+					content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
+					$("#message_box").html(content);
+					$('.message_more').on('click', function() {
+						parent.layui.index.openTabsPage("/message/sys_message_list", "消息列表");
+					});
+				});
+			}
+			//待办任务
+			window.getNotReadTaskList = function() {
+				publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
+					$(".task_more").unbind();
+					$(".task_info").unbind();
+					var pendingCount = data.pendingTaskCount;
+					var content = "";
+					if (pendingCount <= 0) {
+						$("#pendingCount").css("visibility", "hidden");
+					} else {
+						$("#pendingCount").text(pendingCount);
+						$("#pendingCount").css("visibility", "visible");
+					}
+					content += '<dd><a class="task_more"  href="javascript:void(0)">查看更多</a></dd>';
+					$("#task_box").html(content);
+					$(".task_more").on("click", function() {
+						parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
+					});
+							});
+			}
+			$(document).ready(function() {
+				$("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
+				initMessageSocket();
+				initTaskSocket();
+				getNotReadMessageList();
+				getNotReadTaskList();
+			});
+		});
 		
 		
 		

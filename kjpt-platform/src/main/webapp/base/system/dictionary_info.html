@@ -15,6 +15,7 @@
 <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script src="/layuiadmin/js/common.js"></script>
 <style>
 body {
 	padding: 10px 10px 0;
@@ -163,13 +164,15 @@ body {
 					async : false,
 					success : function(data) {
 						if (data == '200') {
-							var index = parent.layer.getFrameIndex(window.name);
+							/*var index = parent.layer.getFrameIndex(window.name);
 							parent.layer.close(index);
 							parent.layer.msg("保存成功");
 							//刷新table;
 							parent.layui.table.reload('dictionary', {});
 							//$$("#comType").val("2222")
-							parent.initTree();
+							parent.initTree();*/
+							setDialogData(data); // 通知上层页面状态 - 弹窗中使用
+							top.layer.closeAll(); // 关闭弹窗
 						} else if (data == '201') {
 							layer.msg("字典名称重复，请核对后再保存")
 						} else {
@@ -180,12 +183,31 @@ body {
 						layer.msg("出错了");
 					}
 				});
+			/*	ajaxPost("/dictionary/saveDictionary?i=" + Math.random(), data.field, function(dt, status) {
+					if(dt.success){
+						setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+						top.layer.closeAll(); // 关闭弹窗
+						/!*parent.layui.table.reload('userTable',null);
+                        parent.renderfunc();//隐藏全选按钮
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);*!/
+					}else{
+						parent.layer.alert(dt.message, {
+							title : '信息'
+						});
+						return;
+					}
+				});*/
 				return false;
 			});
-			$("#cancel").click(function() {
+			/*$("#cancel").click(function() {
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
-			});
+			});*/
+			$("#cancel").click(function() {
+				setDialogData(''); // 通知上层页面状态 - 弹窗中使用
+				top.layer.closeAll(); // 关闭弹窗
+			})
 
 		});
 

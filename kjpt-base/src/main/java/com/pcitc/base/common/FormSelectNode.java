@@ -17,9 +17,18 @@ public class FormSelectNode implements Serializable {
     
     private String name;
     private String value;
+    private String nodePath;
     
     private List<FormSelectNode> children = new ArrayList<FormSelectNode>();
     
+    
+	public String getNodePath() {
+		return nodePath;
+	}
+
+	public void setNodePath(String nodePath) {
+		this.nodePath = nodePath;
+	}
 
 	public String getName() {
 		return name;

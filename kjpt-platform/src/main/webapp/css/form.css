@@ -54,3 +54,18 @@
     box-shadow: 0 0 7px -3px #0AA1FF;
     -ms-box-shadow: 0 0 7px -3px #0AA1FF;
 }
+.form-bottom .dialog-footer-btn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px #e8e8e8 solid;
+    padding: 15px 40px 15px 20px;
+    text-align: right;
+}
+.formBox .searchBox {
+    margin-top: 0;
+    margin-bottom: 10px;
+}

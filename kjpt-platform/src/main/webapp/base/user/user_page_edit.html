@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/form.css">
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
@@ -30,11 +31,17 @@
 	  border: 1px solid #ccc;
 	  overflow-y: scroll;
 	}
+	.layout-view-content.label-dialog .layui-input-block, .layout-view-content.dialog .layui-input-block {
+		margin-left: 145px;
+	}
+	.layui-form-item {
+		margin-bottom: 10px;
+	}
 </style>
 </head>
 <body>
-<div class="formBox">
-	<form id="user-form" name="user-form" lay-filter="user-form" class="form-horizontal layui-form">
+<div class="layout-view-content dialog">
+	<form id="user-form" name="user-form" lay-filter="user-form" class="layui-form">
 	<div class="box-body">
 		<input type="hidden" name="userId" id="userId">
 		<input type="hidden" name="userExtend" id="userExtend">
@@ -43,7 +50,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label">登录名称<span class="must-fill">*</span></label>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>登录名称</label>
 							<div class="layui-input-block">
 								<input type="text"  class="layui-input readOnlyBox" id="userName" name="userName" lay-verify="required" placeholder="请输入登录名" autocomplete="off">
 							</div>
@@ -51,7 +58,7 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item"  id="password" >
-							<label for="" class="layui-form-label">密码<span class="must-fill">*</span></label>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>密码</label>
 							<div class="layui-input-block">
 								<input type="text" class="layui-input" id="userPassword" name="userPassword" lay-verify="required" placeholder="请输入密码" value ="000000" autocomplete="off">
 							</div>
@@ -61,7 +68,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label">显示名称<span class="must-fill">*</span></label>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>显示名称</label>
 							<div class="layui-input-block">
 								<input type="text" class="layui-input" id="userDisp" name="userDisp" lay-verify="required" placeholder="请输入显示姓名" autocomplete="off">
 							</div>
@@ -81,7 +88,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						 <div class="layui-form-item">
-							  <label class="layui-form-label">所属机构<span class="must-fill">*</span></label>
+							  <label class="layui-form-label"><span class="must-fill">*</span>所属机构</label>
 							  <div class="layui-input-block">
 								  <div class="selectTreeBox">
 									<!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
@@ -92,7 +99,7 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							  <label class="layui-form-label">所属岗位<span class="must-fill">*</span></label>
+							  <label class="layui-form-label"><span class="must-fill">*</span>所属岗位</label>
 							  <div class="layui-input-block">
 								  <div class="selectTreeBox">
 									<div id="userPost" class="layui-form-select select-tree"></div>
@@ -105,7 +112,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label">用户类型<span class="must-fill">*</span></label>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>用户类型</label>
 							<div class="layui-input-block">
 								<select name="userKind" id="userKind" lay-verify="userKind"  lay-filter="userKind">
 									<option value="">请选择</option>
@@ -115,7 +122,7 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label">所属角色<span class="must-fill">*</span></label>
+							<label class="layui-form-label"><span class="must-fill">*</span>所属角色</label>
 							<div class="layui-input-block">
 								<div class="selectTreeBox">
 									<div id="userRole" class="layui-form-select select-tree"></div>
@@ -145,7 +152,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label">邮箱<span class="must-fill">*</span></label>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>邮箱</label>
 							<div class="layui-input-block">
 								<input type="text" class="layui-input" lay-verify="email|required" id="userMail" name="userMail" placeholder="请输入邮箱">
 							</div>
@@ -189,13 +196,11 @@
 	         </div>
        </div>
 	</div>
-	<div class="form-bottom">
-      <div class="form-bottom-btns">
-      	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-      	<!-- <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button> -->
-      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
-      </div>
-    </div>
+	<div class="dialog-footer-btn">
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="submitBtn">保存</button>
+		<!-- <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button> -->
+		<button type="button" class="layui-btn layui-btn-primary"  id="cancel">取消</button>
+	</div>
 </form>
 <form class="form-horizontal " action="${pageContext.request.contextPath}/sysfile/uploadMultipleFile" method="post" enctype="multipart/form-data" id="fileUploadForm" style="display:none;">
 	<p class="pt20">
@@ -305,7 +310,7 @@
 	    	});
 	   	});
 		//获取岗位信息
-		ajaxPost('/post/list-data', null, function (data, status) { 
+		ajaxPost('/post/list-data', null, function (data, status) {
 	    	$.each(data,function(i,dt){
 	    		postMap[data[i].postId]=data[i];
 	    	});
@@ -481,6 +486,7 @@
 				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
 					if(dt.success){
                         setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+						top.layer.closeAll(); // 关闭弹窗
 				       	/*parent.layui.table.reload('userTable',null);
 				       	parent.renderfunc();//隐藏全选按钮
 				       	var index = parent.layer.getFrameIndex(window.name);

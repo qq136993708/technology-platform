@@ -18,7 +18,7 @@
 /*表格*/
 .layui-table, .layui-table-view{margin: 0;}
 .layui-table-cell{height:38px;line-height: 38px;padding: 0 10px;}
-.tableToolBox {background: #fff;height: 34px;line-height: 27px;text-align: right;margin-bottom: 10px}
+.tableToolBox {background: #fff;text-align: right;margin-bottom: 16px;margin-top: 19px}
 .layui-table-page{background: #ffffff;}
 .layui-table-view .layui-table td, .layui-table-view .layui-table th{padding: 0;}
 .btnGroup{display: inline-block}
@@ -82,141 +82,45 @@
 .twoTree-tableBox .layui-table-box:last-child{margin-bottom: 0;}
 
 /*按钮*/
-.layui-btn+.layui-btn {margin-left: 6px;}
-.layui-btn{background-color: #1890ff}
-.layui-red{background: red;border: 1px solid red;color: white;border-radius: 2px;}
-.layui-upload-list tr td>span{color: #1890ff !important;}
-.btn_search {background: #1890ff url(/layuiadmin/layui/images/icon_04.png) no-repeat;}
-.btn_look {background: url(/layuiadmin/layui/images/operation_72.png) no-repeat;}
-.btn_look:hover{ background: #1890ff url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
-.btn_look.active{ background: #1890ff url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
-.btn_reset{background: #F3F3F3 url(/layuiadmin/layui/images/icon-17.png) no-repeat;}
-.btn_reset:hover{color: #8E8E8E; background: #F2F2F2 url(/layuiadmin/layui/images/icon-17.png) no-repeat;}
-.btn_reset2{background: url(/layuiadmin/layui/images/operation_110.png) no-repeat;}
-.btn_reset2:hover{background: #1890ff url(/layuiadmin/layui/images/operation_109.png) no-repeat;}
-.btn_reset2.active{background: #1890ff url(/layuiadmin/layui/images/operation_109.png) no-repeat;}
-.btn_save {height: 25px;line-height: 25px;background: none;margin-top: 4px;}
-.btn_save:hover {background: #1890ff;margin-top: 4px;}
-.btn_save2 {background: url(/layuiadmin/layui/images/operation_45.png) no-repeat;background-size: 16px auto;}
-.btn_save2:hover{background: #1890ff url(/layuiadmin/layui/images/operation_b.png) no-repeat;background-size: 16px auto;}
-.btn_save2.active{background: #1890ff url(/layuiadmin/layui/images/operation_b.png) no-repeat;background-size: 16px auto;}
-.btn_print {background: url(/layuiadmin/layui/images/operation_106.png) no-repeat;}
-.btn_print:hover{background: #1890ff url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
-.btn_print.active{background: #1890ff url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
-.btn_add {background: url(/layuiadmin/layui/images/operation_78.png) no-repeat;}
-.btn_add1{background: none;padding:0 10px !important;}
-.btn_add:hover{background: #1890ff url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
-.btn_add1:hover{background: #1890ff;}
-.btn_add.active{background: #1890ff url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
-.btn_transfer {background: url(/layuiadmin/layui/images/operation_96.png) no-repeat;}
-.btn_transfer:hover{background: #1890ff url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
-.btn_transfer.active{background: #1890ff url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
-.btn_edit{background: url(/layuiadmin/layui/images/operation_75.png) no-repeat;}
-.btn_edit:hover {background: #1890ff url(/layuiadmin/layui/images/operation_90.png) no-repeat; }
-.btn_edit.active{background: #1890ff url(/layuiadmin/layui/images/operation_90.png) no-repeat;}
-.btn_deploy {background: url(/layuiadmin/layui/images/operation_19.png) no-repeat;}
-.btn_deploy:hover {background: #1890ff url(/layuiadmin/layui/images/operation_60.png) no-repeat; }
-.btn_deploy.active{background: #1890ff url(/layuiadmin/layui/images/operation_60.png) no-repeat;}
-.btn_export {background: url(/layuiadmin/layui/images/operation_34.png) no-repeat;}
-.btn_export:hover {background: #1890ff url(/layuiadmin/layui/images/operation_22.png) no-repeat;}
-.btn_export.active{background: #1890ff url(/layuiadmin/layui/images/operation_22.png) no-repeat;}
-.btn_import {background: url(/layuiadmin/layui/images/operation_79.png) no-repeat;}
-.btn_import:hover {background: #1890ff url(/layuiadmin/layui/images/operation_23.png) no-repeat;}
-.btn_import.active{background: #1890ff url(/layuiadmin/layui/images/operation_23.png) no-repeat;}
-.btn_details {background: url(/layuiadmin/layui/images/operation_03.png) no-repeat;}
-.btn_details:hover {background: #1890ff url(/layuiadmin/layui/images/operation_02.png) no-repeat;}
-.btn_details.active{background: #1890ff url(/layuiadmin/layui/images/operation_02.png) no-repeat;}
-.btn_delete {background: url(/layuiadmin/layui/images/operation_76.png) no-repeat;}
-.btn_delete:hover {background: #1890ff url(/layuiadmin/layui/images/operation_91.png) no-repeat; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
-.btn_delete.active{background: #1890ff url(/layuiadmin/layui/images/operation_91.png) no-repeat; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
-.btn_delete2 {background: url(/layuiadmin/layui/images/operation_71.png) no-repeat;}
-.btn_delete2:hover {background: #1890ff url(/layuiadmin/layui/images/operation_70.png) no-repeat; }
-.btn_delete2.active{background: #1890ff url(/layuiadmin/layui/images/operation_70.png) no-repeat;}
-.btn_issue {background: url(/layuiadmin/layui/images/icon_05.png) no-repeat;}
-.btn_issue:hover {background: #1890ff url(/layuiadmin/layui/images/icon_13.png) no-repeat;}
-.btn_issue.active {background: #1890ff url(/layuiadmin/layui/images/icon_13.png) no-repeat;}
-.btn_assignRole{background: url(/layuiadmin/layui/images/icon_25.png) no-repeat;}
-.btn_assignRole:hover{background: #1890ff url(/layuiadmin/layui/images/icon_31.png) no-repeat;}
-.btn_assignRole.active{background: #1890ff url(/layuiadmin/layui/images/icon_31.png) no-repeat;}
-.btn_execute {background: url(/layuiadmin/layui/images/icon_45.png) no-repeat;}
-.btn_execute:hover {background: #1890ff url(/layuiadmin/layui/images/icon_50.png) no-repeat;}
-.btn_execute:active {background: #1890ff url(/layuiadmin/layui/images/icon_50.png) no-repeat;}
-.btn_grant {background: url(/layuiadmin/layui/images/icon_45.png) no-repeat;}
-.btn_grant:hover {background: #1890ff url(/layuiadmin/layui/images/btn_grant_w.png) no-repeat;}
-.btn_grant:active {background: #1890ff url(/layuiadmin/layui/images/btn_grant_w.png) no-repeat;}
-.btn_verify {background: url(/layuiadmin/layui/images/icon_68.png) no-repeat;}
-.btn_verify:hover {background: #1890ff url(/layuiadmin/layui/images/icon_58.png) no-repeat;}
-.btn_verify.active {background: #1890ff url(/layuiadmin/layui/images/icon_58.png) no-repeat;}
-.btn_submit {background: url(/layuiadmin/layui/images/operation_74.png) no-repeat;}
-.btn_submit:hover {background: #1890ff url(/layuiadmin/layui/images/operation_93.png) no-repeat;}
-.btn_submit.active {background: #1890ff url(/layuiadmin/layui/images/operation_93.png) no-repeat;}
-.btn_maintain {background: url(/layuiadmin/layui/images/icon_27.png) no-repeat;}
-.btn_maintain:hover {background: #1890ff url(/layuiadmin/layui/images/icon_19.png) no-repeat;}
-.btn_maintain.active {background: #1890ff url(/layuiadmin/layui/images/icon_19.png) no-repeat;}
-.btn_history {background: url(/layuiadmin/layui/images/icon_36.png) no-repeat;}
-.btn_history:hover {background: #1890ff url(/layuiadmin/layui/images/icon_42.png) no-repeat;}
-.btn_history.active {background: #1890ff url(/layuiadmin/layui/images/icon_42.png) no-repeat;}
-.btn_forbidden {background: #FBFBFB url(/layuiadmin/layui/images/icon_30.png) no-repeat;border: 1px solid #e6e6e6;}
-.btn_activate {background: url(/layuiadmin/layui/images/icon_26.png) no-repeat;}
-.btn_activate:hover {background: #1890ff url(/layuiadmin/layui/images/icon_17.png) no-repeat;}
-.btn_activate.active {background: #1890ff url(/layuiadmin/layui/images/icon_17.png) no-repeat;}
-.btn_hangUp {background: url(/layuiadmin/layui/images/icon_29.png) no-repeat;}
-.btn_hangUp:hover {background: #1890ff url(/layuiadmin/layui/images/icon_34.png) no-repeat;}
-.btn_hangUp.active {background: #1890ff url(/layuiadmin/layui/images/icon_34.png) no-repeat;}
-.btn_enabled {background: url(/layuiadmin/layui/images/icon_46.png) no-repeat;}
-.btn_enabled:hover {background: #1890ff url(/layuiadmin/layui/images/icon_52.png) no-repeat;}
-.btn_enabled.active {background: #1890ff url(/layuiadmin/layui/images/icon_52.png) no-repeat;}
-.btn_pause {background: url(/layuiadmin/layui/images/icon_74.png) no-repeat;}
-.btn_pause:hover {background: #1890ff url(/layuiadmin/layui/images/icon_64.png) no-repeat;}
-.btn_pause.active {background: #1890ff url(/layuiadmin/layui/images/icon_64.png) no-repeat;}
-.btn_back {background: url(/layuiadmin/layui/images/icon_back_01.png) no-repeat;}
-.btn_back:hover {background: #1890ff url(/layuiadmin/layui/images/icon_back_02.png) no-repeat;}
-.btn_back.active {background: #1890ff url(/layuiadmin/layui/images/icon_back_02.png) no-repeat;}
-.btn_copy {background: url(/layuiadmin/layui/images/icon_copy_01.png) no-repeat;}
-.btn_copy:hover {background: #1890ff url(/layuiadmin/layui/images/icon_copy_02.png) no-repeat;}
-.btn_copy.active {background: #1890ff url(/layuiadmin/layui/images/icon_copy_02.png) no-repeat;}
-.btn_exeState {background: url(/layuiadmin/layui/images/icon_set_01.png) no-repeat;}
-.btn_exeState:hover {background: #1890ff url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
-.btn_exeState.active {background: #1890ff url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
-.btn_forward {background: url(/layuiadmin/layui/images/btn-forward.png) no-repeat;}
-.btn_forward:hover {background: #1890ff url(/layuiadmin/layui/images/btn-forward-h.png) no-repeat;}
-.btn_forward.active {background: #1890ff url(/layuiadmin/layui/images/btn-forward-h.png) no-repeat;}
-.btn_frozen {background: url(/layuiadmin/layui/images/btn-frozen.png) no-repeat;}
-.btn_frozen:hover {background: #1890ff url(/layuiadmin/layui/images/btn-frozen-h.png) no-repeat;}
-.btn_frozen.active {background: #1890ff url(/layuiadmin/layui/images/btn-frozen-h.png) no-repeat;}
-.btn_thaw {background: url(/layuiadmin/layui/images/btn-thaw.png) no-repeat;}
-.btn_thaw:hover {background: #1890ff url(/layuiadmin/layui/images/btn-thaw-h.png) no-repeat;}
-.btn_thaw.active {background: #1890ff url(/layuiadmin/layui/images/btn-thaw-h.png) no-repeat;}
-.btn_selectExpert {background: url(/layuiadmin/layui/images/btn-selectExpert.png) no-repeat;}
-.btn_selectExpert:hover {background: #1890ff url(/layuiadmin/layui/images/btn-selectExpert-h.png) no-repeat;}
-.btn_selectExpert.active {background: #1890ff url(/layuiadmin/layui/images/btn-selectExpert-h.png) no-repeat;}
-.btn_selectedExperts {background: url(/layuiadmin/layui/images/btn-selectedExperts.png) no-repeat;}
-.btn_selectedExperts:hover {background: #1890ff url(/layuiadmin/layui/images/btn-selectedExperts-h.png) no-repeat;}
-.btn_selectedExperts.active {background: #1890ff url(/layuiadmin/layui/images/btn-selectedExperts-h.png) no-repeat;}
-.btn_download {background: url(/layuiadmin/layui/images/btn-download.png) no-repeat;}
-.btn_download:hover {background: #1890ff url(/layuiadmin/layui/images/btn-download-h.png) no-repeat;}
-.btn_download.active {background: #1890ff url(/layuiadmin/layui/images/btn-download-h.png) no-repeat;}
-.btn_accept {background: url(/layuiadmin/layui/images/btn-accept.png) no-repeat;}
-.btn_accept:hover {background: #1890ff url(/layuiadmin/layui/images/btn-accept-h.png) no-repeat;}
-.btn_accept.active {background: #1890ff url(/layuiadmin/layui/images/btn-accept-h.png) no-repeat;}
-.btn_evaluate {background: url(/layuiadmin/layui/images/btn-evaluate.png) no-repeat;}
-.btn_evaluate:hover {background: #1890ff url(/layuiadmin/layui/images/btn-evaluate-h.png) no-repeat;}
-.btn_evaluate.active {background: #1890ff url(/layuiadmin/layui/images/btn-evaluate-h.png) no-repeat;}
-.btn_handle {background: url(/layuiadmin/layui/images/btn-handle.png) no-repeat;}
-.btn_handle:hover {background: #1890ff url(/layuiadmin/layui/images/btn-handle-h.png) no-repeat;}
-.btn_handle.active {background: #1890ff url(/layuiadmin/layui/images/btn-handle-h.png) no-repeat;}
-.btn_complaint {background: url(/layuiadmin/layui/images/btn-complaint.png) no-repeat;}
-.btn_complaint:hover {background: #1890ff url(/layuiadmin/layui/images/btn-complaint-h.png) no-repeat;}
-.btn_complaint.active {background: #1890ff url(/layuiadmin/layui/images/btn-complaint-h.png) no-repeat;}
-.btn_technology {background: url(/layuiadmin/layui/images/btn-technology.png) no-repeat;}
-.btn_technology:hover {background: #1890ff url(/layuiadmin/layui/images/btn-technology-h.png) no-repeat;}
-.btn_technology.active {background: #1890ff url(/layuiadmin/layui/images/btn-technology-h.png) no-repeat;}
-.btn_withdraw {background: url(/layuiadmin/layui/images/btn_withdraw.png) no-repeat;}
-.btn_withdraw:hover {background: #1890ff url(/layuiadmin/layui/images/btn_withdraw-h.png) no-repeat;}
-.btn_withdraw.active {background: #1890ff url(/layuiadmin/layui/images/btn_withdraw-h.png) no-repeat;}
-.btn_topic {background: url(/layuiadmin/layui/images/btn_topic.png) no-repeat;}
-.btn_topic:hover {background: #1890ff url(/layuiadmin/layui/images/btn_topic-h.png) no-repeat;}
-.btn_topic.active {background: #1890ff url(/layuiadmin/layui/images/btn_topic-h.png) no-repeat;}
+.layui-btn {
+    height: 30px;
+    line-height: 30px;
+    min-width: 72px;
+    padding: 0 11px;
+    text-align: center;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px #C9C9C9 solid;
+    transition: all .24s ease-out;
+}
+.layui-btn.border-blue {
+    border-color: #1890FF;
+    color: #1890FF;
+}
+.layui-btn:not(:disabled):not(.border-red):active, .layui-btn:not(:disabled):not(.border-red):hover {
+    box-shadow: 0 0 3px #1890FF;
+    -ms-box-shadow: 0 0 3px #1890FF;
+}
+.layui-btn.border-red {
+    border-color: #FF2626;
+    color: #FF2626;
+}
+.layui-btn.border-red:not(:disabled):active, .layui-btn.border-red:not(:disabled):hover {
+    box-shadow: 0 0 3px #FF2626;
+    -ms-box-shadow: 0 0 3px #FF2626;
+}
+.treeBox .layui-btn {
+    height: 24px;
+    line-height: 24px;
+    min-width: 50px;
+    padding: 0 0px;
+    text-align: center;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px #C9C9C9 solid;
+    transition: all .24s ease-out;
+    font-size: 12px;
+}
 
 .btnMyBgImg {box-sizing: border-box;height: 25px;line-height: 25px;font-size: 12px;padding: 0 6px 0 24px; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 .btnMyBgImg:hover {background-position: 8px;background-size: 12px auto;margin-top: 1px;}
@@ -244,7 +148,7 @@
 .formBoxTab .layui-tab-title{height: 40px;}
 /*form.css*/
 .formBox{margin: 0 10px;padding-top: 10px;background: none;}
-.layui-input, .layui-select{display: block;width: 100%;height: 34px;padding: 6px 12px;font-size: 12px;line-height: 1.42857143;color: #555;background-color: #fff;
+.layui-input, .layui-select{display: block;width: 100%;height: 30px;padding: 6px 12px;font-size: 12px;line-height: 1.42857143;color: #555;background-color: #fff;
     background-image: none;border: 1px solid #ccc;border-radius: 3px;-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;}

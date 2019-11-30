@@ -6,23 +6,68 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var layer = layui.layer;
   var laydate = layui.laydate;
 
-  var newTime = new Date(); //发布时间初始值
-  var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
-  laydate.render({elem: '#releaseTime',trigger:'click',value:timeString});
+  // var newTime = new Date(); //发布时间初始值
+  // var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
+  laydate.render({elem: '#releaseTime',trigger:'click'});
   laydate.render({elem: '#yearOrMonth',trigger:'click',type:'month'});
-
+  var tipTitle = '';
   var params = getQueryVariable();
-  var reportType = +params.reportType  || console.log('url配置错误');
-  
+  var reportType = +params.reportType;
+
+  function setSelectInput(){ //js动态设置条件过滤布局
+    var len;
+    if(reportType == 1){
+      len = ($("#selectRows").children(".layui-col-md4").length - 1) % 3;
+    }else{
+      len = ($("#selectRows").children(".layui-col-md4").length - 3) % 3;
+    }
+    console.log('len',len);
+    switch(len){
+      case 0:
+        $('#btnGroup').removeClass('layui-col-md4');
+        $('#btnGroup').addClass('layui-col-md12');
+      break;
+      case 1:
+        $('#btnGroup').removeClass('layui-col-md4');
+        $('#btnGroup').addClass('layui-col-md8');
+      break;
+    }
+}
+setSelectInput();
+
+  switch(reportType){
+    case 1:
+        $('#configName').html("科技规划名称:");
+        tipTitle = "科技规划";
+    break;
+    case 2:
+        $('#configName').html("工作要点名称:");
+        tipTitle = "工作要点";
+    break;
+    case 3:
+        $('#configName').html("科技进度名称:");
+        tipTitle = "科技进度";
+    break;
+    case 4:
+        $('#configName').html("年度总结名称:");
+        tipTitle = "年度总结";
+    break;
+  }
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
     {field: 'name', title: '科研规划名称', templet: function(d) {
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
-    {field: 'authenticateUtil', title: '申报单位', sort: true },
+    {field: 'nameText', title: '申报单位', sort: true },
     {field: 'researchField', title: '研究领域'},
-    {field: 'researchField', title: '发布时间'},
-    {field: 'researchField', title: '年度/月度'}
+    {field: 'releaseTime', title: '发布时间',templet: function(d){
+      var times = new Date(d.releaseTime);
+       return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+    }},
+    {field: 'annual', title: '年度/月度',templet: function(d){
+       var times = new Date(d.annual);
+       return times.getFullYear() + '-' + (times.getMonth()+1);
+    }}
     
   ]
 
@@ -31,30 +76,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     {field: 'specialtyCategory', title: '专业类别'}
   ]
 
-  if(reportType !== 0){ //专业领域和专业类别是否隐藏
+  if(reportType !== 1){ //专业领域和专业类别是否隐藏
     $('#professionalField').css("display","none");
     $('#professionalType').css("display","none");
   }else{
-    $('#professionalField').css("display","block");
-    $('#professionalType').css("display","block");
     cols = cols.concat(additional);
   }
 
-  var tabUrl = "";
-  switch (reportType){ //根据不同界面请求不同接口
-      case 0:
-        tabUrl = "";
-      break;
-      case 1:
-        tabUrl = "";
-      break;
-      case 2:
-        tabUrl = "";
-      break;
-      case 3:
-        tabUrl = "";
-      break;
-  }
 
 
   //表格渲染
@@ -64,7 +92,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: tabUrl //数据接口
+        ,url: '/SciencePlan/query?reportType='+ reportType //数据接口
         ,cols: [
           cols
         ],
@@ -102,7 +130,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/scientificMaterials/addPlan.html?type='+type+'reportType='+reportType+'&id='+(id || ''),
+		  content: '/html/scientificMaterials/addPlan.html?type=' + type +'&reportType=' + reportType + '&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -129,7 +157,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
      if (itemRowData.length) {
      openDataDilog('see', itemRowData[0].id);
      } else {
-       layer.msg('请选择科研规划！');
+       layer.msg('请选择'+tipTitle+'！');
      }
   })
   // 编辑规划
@@ -139,7 +167,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	  if (itemRowData.length) {
 		openDataDilog('edit', itemRowData[0].id);
     } else {
-    	layer.msg('请选择科研规划！');
+    	layer.msg('请选择'+tipTitle+'！');
     }
   })
   // 删除规划
@@ -164,7 +192,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         });
       });
     } else {
-    	layer.msg('请选择需要删除的科研规划！');
+    	layer.msg('请选择需要删除的'+tipTitle+'！');
     }
   })
 

@@ -52,6 +52,7 @@ layui.config({
         type: 'GET',
         async:false,
         success: function(relData) {
+            console.log(relData)
             relData.children.map(function (item,index) {
                 item.children.map(function (items,i) {
                     delete items.children
@@ -87,6 +88,8 @@ layui.config({
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        $("#imgFileUpload").addClass("success")
+                        headPic=relData.data.headPic
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
@@ -283,12 +286,15 @@ layui.config({
             layer.msg("所在单位必为选项不能为空！", {icon: 2});
             return false
         }
+        console.log(formSelects.value('technicalField'))
         if(formSelects.value('technicalField')){
-            var technicalFieldName=''
+            var technicalFieldName='',technicalFieldIndex='';
             formSelects.value('technicalField').map(function (item, index) {
                 technicalFieldName+=item.name+','
+                technicalFieldIndex+=item.nodePath+','
             })
             data.field.technicalFieldName=technicalFieldName.substring(0,technicalFieldName.length-1)
+            data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1)
         }
         data.field.headPic=headPic
         data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
