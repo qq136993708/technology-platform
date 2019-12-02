@@ -107,6 +107,7 @@
 }
 
 .home-middle-layout .oneItem{
+  background-color: #0AA1FF;
   background:linear-gradient(223deg,rgba(24,189,244,1) 0%,rgba(37,147,245,1) 100%);
 }
 .home-middle-layout .twoItem{
