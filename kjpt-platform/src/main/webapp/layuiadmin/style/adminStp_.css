@@ -362,7 +362,7 @@ html{ background-color: #F9F9F9; color: #666;}
 
 /* 默认主题修饰 */
 .layui-layout-admin .layui-header{border-bottom: 1px solid #e6e6e6; box-sizing: border-box;
-    background-color: #1890ff;}
+    background:linear-gradient(49deg,rgba(0,109,223,1) 0%,rgba(10,161,255,1) 100%);}
 .layui-layout-admin .layui-header a,
 .layui-layout-admin .layui-header a cite{    color: rgba(255,255,255,0.9);
     font-weight: bold;}

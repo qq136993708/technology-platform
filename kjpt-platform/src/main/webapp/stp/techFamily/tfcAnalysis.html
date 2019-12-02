@@ -53,13 +53,9 @@
 </head>
 <body>
 <div class="skill layui-row">
-    <p><span></span>技术族</p>
     <div class="skill-left layui-col-md6">
         <ul id="tfcBase">
-            <!--<li class="layui-this" onclick="changeTfcCode('@10@10001@');">勘探开发</li>-->
-            <!--<li onclick="changeTfcCode('@10@10002@');">石油炼制</li>-->
-            <!--<li onclick="changeTfcCode('@10@10003@');">石油化工</li>-->
-            <!--<li onclick="changeTfcCode('@10@10004@');">催化剂</li>-->
+
         </ul>
         <div class="layui-tab-item layui-show">
             <div class="layui-card-body">
@@ -81,27 +77,17 @@
                         </div>
 
                         <div class="layui-tab-item">
-                            <div class="lan">
-                                <table id="indexOutProjectInfoTableId" class="layui-hide" lay-filter="indexOutProjectInfoTableIdEvent"></table>
-                            </div>
+                            <table id="indexOutProjectInfoTableId" class="layui-hide" lay-filter="indexOutProjectInfoTableIdEvent"></table>
                         </div>
                         <div class="layui-tab-item">
-                            <div class="lan">
-                                <table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
-                            </div>
+                            <table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
                         </div>
                         <div class="layui-tab-item">
-                            <div class="lan">
-                                <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
-                            </div>
-
+                            <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
                         </div>
                         <div class="layui-tab-item">
-                            <div class="lan">
-                                <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
-
-                            </div>
+                            <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
                             <!--<div style="display:none;">-->
                             <!--</div>-->
                             <!--<div id="indexOutProjectInfoTableIdRyShow"></div>-->
@@ -118,7 +104,7 @@
         </div>
     </div>
 
-    <div class="layui-col-md6" id="container"></div>
+    <div class="layui-col-md6" id="container" style="padding-right: 10px"></div>
     <!--右侧-->
     <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 </div>
@@ -209,19 +195,20 @@
         table = layui.table;
         publicMethods = layui.publicMethods;
         var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage, treeGridCom = layui.treeGridCom, treeGridCom1 = layui.treeGridCom;
-        ;
+        var height=$(window).height()-80-$(".layui-tab").offset().top
         $(".skill-left>ul li").click(function () {
             $(".skill-left>ul li").removeClass("layui-this");
             $(this).addClass("layui-this");
         });
-        $(".layui-tab-content").css("height", (parseInt(parent.$("#LAY_app_body .layui-show iframe").height()) - 174) + "px");
-        $("#container").css("height",$(".skill-left").height()+"px");
+        $(".layui-tab-content").css("height", (height) + "px");
+        $("#container").css("height",($(".skill-left").height()-10)+"px");
         myChart.resize();
         //人员
         function renderTableRy() {
             table.render({
                 elem: '#indexOutProjectInfoTableIdRy' // 表格元素ID
                 ,url: '/expert-api/query' //数据接口
+                , height: height
                 ,cols: [[
                     {
                         field: "name",
@@ -280,7 +267,7 @@
                 , treeUpId: 'parentId'//树形父id字段名称
                 , treeShowName: 'typeName'//以树形式显示的字段
                 , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: commonDislodgeTable()-100
+                , height: height
                 , isFilter: false
                 , iconOpen: true//是否显示图标【默认显示】
                 , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
@@ -376,6 +363,7 @@
             table.render({
                 elem: '#indexOutProjectInfoTableId' // 表格元素ID
                 ,url: '/outProject-api/page' //数据接口
+                ,height:height
                 ,cols: [[
                     // {type: 'checkbox', event: 'changeEvents', width: 55},
                     {title: '序号', type: 'numbers', width: 55},
@@ -488,6 +476,7 @@
         function renderTableZl() {
             table.render({
                 elem: '#indexOutPatentTableId' // 表格元素ID
+                , height: height
                 ,url: '/patentController/queryPatent' //数据接口
                 ,cols: [[
                     // {type: 'checkbox', event: 'changeEvents', width: 55},
@@ -545,7 +534,6 @@
             });
             $(".layui-table-header table thead th input").remove();*/
         }
-
         renderTableZl();
         window.renderTableZl = renderTableZl;
     });
@@ -591,7 +579,6 @@
             tooltip: {
                 position: 'left',
                 formatter:function(params){
-                    console.log(params)
                     return params.name+"年<br/>"+days[params.data[1]]+"相关课题数:"+params.data[2]
                 }
             },

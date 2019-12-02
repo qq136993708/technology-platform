@@ -85,7 +85,7 @@ public class FileUtil {
         fm.setCreateDate(new Date());
         fm.setFileSize(file.getSize());
         fm.setType(file.getContentType());
-        fm.setFilePath(relativePath);
+        fm.setFilePath(relativePath+"/"+id+"."+fileName.split("\\.")[1]);
         //上传附件
         return fm;
     }
@@ -100,7 +100,7 @@ public class FileUtil {
         File file =new File(dirPath);
         if  (!file .exists()  && !file .isDirectory())
         {
-            file .mkdir();
+            file.mkdirs();
         }
         return dirPath+fileName;
     }

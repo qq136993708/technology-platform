@@ -633,29 +633,32 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-tab-brief>.layui-tab-title .layui-this{color: #1890ff}
 .cycle-midd{width: 6% !important;}
 /*skill*/
-.skill{padding: 6px 0px 15px;border: 1px solid #dadada;
+.skill{padding: 26px 0px 15px;border: 1px solid #dadada;
     border-radius: 3px;}
 .skill>p{margin-bottom: 10px;padding-bottom: 6px;border-bottom: 1px solid #dadada;padding-left: 10px;}
 .skill>p span{border-left: 3px solid #1890ff;display: inline-block;height: 14px;position: relative;
     top: 2px;margin-right: 6px;}
 .skill .layui-card-body{padding: 10px 0px;}
-.skill .layui-tab-content{padding: 5px 0px;}
-.skill-left{margin: 0 auto;padding-left: 10px;}
+.skill .layui-tab-content{padding: 5px;    border: 1px solid #e6e6e6;
+    border-top: 0;}
+.skill  .lan .layui-table td,.skill  .lan .layui-table-view{border-color: #fff !important;}
+.skill  .lan .layui-table-header{display: none}
+.lan .layui-table tr:nth-child(2n){background: #fff}
+.skill-left{margin: 0 auto;padding-left: 23px;}
 .skill-left>ul{height: auto;overflow: hidden;margin-bottom: 5px;}
-.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 18%;float: left;color: #5258f3;
-    background-color: #e8e4ff;margin-top: 2px;padding: 0 8px;box-sizing: border-box;}
-.skill-left>ul li:nth-child(1){width: 28%;}
-.skill-left .layui-tab .layui-tab-title li{margin: 0 4px;border-radius: 3px 3px 0 0;
-    }
-.skill-left .layui-tab .layui-tab-title li:nth-child(1){margin-left: 0;}
+.skill-left>ul li{height: 30px;line-height: 30px;text-align: center;float: left;color: #46484B;
+    background-color: #fff;margin-top: 2px;padding: 0 8px;box-sizing: border-box;}
+.skill-left .layui-tab .layui-tab-title li{margin: 0 4px;background: rgba(236,240,244,1);
+    color: #95999F;}
+.skill-left .layui-tab .layui-tab-title li:nth-child(1){margin-left: 0}
 .skill-left .layui-tab-title .layui-this:after{height: 38px;border: none;}
 .skill-left .layui-tab-title li.layui-this{height: 35px;line-height: 35px;color: #fff;
-    background-color: #53acff;border-radius: 4px;}
-.skill-left .layui-tab-title li span{color: #53acff !important;}
-.skill-left .layui-tab-title li.layui-this span{color: #fffc00 !important;}
+    background-color: #53acff;}
+.skill-left .layui-tab-title li span{color: #0AA1FF !important;font-size: 13px}
+.skill-left .layui-tab-title li.layui-this span{color: #fff !important;}
 
-.skill-left>ul li.layui-this{color: white;background-color: #5258f3;}
-.skill-right{width: 35%;float: right;}
+.skill-left>ul li.layui-this{color: #0AA1FF;background-color: #fff;}
+.skill-right{width: 34%;float: right;}
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
 .enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100% !important;}

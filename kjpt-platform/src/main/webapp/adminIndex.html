@@ -92,26 +92,40 @@
 
 			<!-- 侧边菜单 -->
 			<div class="layui-side layui-side-menu layui-side-menu-div">
+				<div class="layadmin-flexible"><div></div></div>
 				<div class="layui-side-scroll">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-                    <li class="layadmin-flexible"><div></div></li>
+                    <!--<li class="layadmin-flexible"><div></div></li>-->
                            
 						<!-- 系统管理员 -->
 						<#if userName == 'systemadmin'>
-						<li class="layui-nav-item">
+						<li class="layui-nav-item layui-nav-itemed">
 							<a href="javascript:void(0);" title="科研平台">
-								<span>系统管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name"></span>
+									<span class="item-title">系统管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
-								<dd class="">
-									<a lay-href="/user/user_page_list"  lay-text="用户管理" data-functionbuttons="ALL">用户管理</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/user/user_page_list"  lay-text="用户管理" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">用户管理</span>
+										</div>
+									</a>
 								</dd>
-								<dd class="">
-									<a lay-href="/unit/unit_tree" lay-text="机构管理" data-functionbuttons="ALL">机构管理</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/unit/unit_tree" lay-text="机构管理" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">机构管理</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>
@@ -120,46 +134,87 @@
                               logType 日志类型：1登陆日志，2操作日志，3错误日志 
                               userType  用户类型：1普通用户，2系统管理员，3安全员，4审计员  -->
                         <#if userName == 'securityadmin'>
-						<li class="layui-nav-item">
+						<li class="layui-nav-item layui-nav-itemed">
 							<a href="javascript:void(0);" title="系统管理">
-								<span>系统管理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name"></span>
+									<span class="item-title">系统管理</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
-								<dd class="">
-									<a lay-href="/role/role_list" lay-text="角色管理"  data-functionbuttons="ALL">角色管理</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/role/role_list" lay-text="角色管理"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">角色管理</span>
+										</div>
+									</a>
 								</dd>
-								<dd class="">
-									<a lay-href="/post/post_function" lay-text="岗位授权"  data-functionbuttons="ALL">岗位授权</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/post/post_function" lay-text="岗位授权"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">岗位授权</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>
 						
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="日志查询">
-								<span>日志查询</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name"></span>
+									<span class="item-title">日志查询</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
-								<dd class="">
-									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志"  data-functionbuttons="ALL">管理员登陆日志</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">管理员登陆日志</span>
+										</div>
+									</a>
 								</dd>
-								<dd class="">
-									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志"  data-functionbuttons="ALL">管理员操作日志</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">管理员操作日志</span>
+										</div>
+									</a>
 								</dd>
 								
-								<dd class="">
-									<a lay-href="/syslog/to_list?logType=1&userType=1" lay-text="普通用户登陆日志"  data-functionbuttons="ALL">普通用户登陆日志</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/syslog/to_list?logType=1&userType=1" lay-text="普通用户登陆日志"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">普通用户登陆日志</span>
+										</div>
+									</a>
 								</dd>
-								<dd class="">
-									<a lay-href="/syslog/to_list?logType=2&userType=1" lay-text="普通用户操作日志"  data-functionbuttons="ALL">普通用户操作日志</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/syslog/to_list?logType=2&userType=1" lay-text="普通用户操作日志"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">普通用户操作日志</span>
+										</div>
+									</a>
 								</dd>
-								<dd class="">
-									<a lay-href="/syslog/to_list?logType=3&userType=1" lay-text="普通用户错误日志"  data-functionbuttons="ALL">普通用户错误日志</a>
+								<dd class="sub-nav-item">
+									<a lay-href="/syslog/to_list?logType=3&userType=1" lay-text="普通用户错误日志"  data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">普通用户错误日志</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						 </li>
@@ -257,25 +312,78 @@
         $(this).addClass("layui-this");
         $(this).addClass("layui-nav-itemed");
       });
-      
-      
-      $("#logout").on("click", function() {
-        layer.confirm('确定要退出登录吗？', {
-          title : "退出登录"
-        }, function(index) {
-          layer.close(index);
-          $.ajax({
-            type : 'post',
-            dataType : 'json',
-            async : false,
-            url : '/logout',
-            success : function(data) {
-              window.location.href = "/login";
-            },
-            error : function(e) { if (console && console.error) { console.error(e); } }
-          });
-        });
-      });
+        $("#nav li:nth-child(1) dl dd:nth-child(1) a").click()
+            $("#toUserInfo").on("click", function() {
+                // layer.open({
+                // 	title : "用户详情",
+                // 	skin : 'layui-layer-lan',
+                // 	shadeClose : true,
+                // 	type : 2,
+                // 	fixed : false,
+                // 	//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                // 	maxmin : false,
+                // 	//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                // 	area : [ '80%', '70%' ],
+                // 	content : "/user/user-dispaly?userId=${userInfo.userId}"
+                // });
+
+
+                //parent.layui.index.openTabsPage("/html/user/my_info.html", "用户信息");
+
+                top.layer.open({
+                    type: 2,
+                    title: '用户信息',
+                    area: ['800px', '80%'],
+                    content: '/html/user/my_info.html',
+                    btn: null
+                });
+
+
+            });
+            $("#logout").on("click", function() {
+                layer.confirm('确定要退出登录吗？', {
+                    title : "退出登录"
+                }, function(index) {
+                    layer.close(index);
+                    $.ajax({
+                        type : 'post',
+                        dataType : 'json',
+                        async : false,
+                        url : '/logout',
+                        success : function(data) {
+                            window.location.href = "/login";
+                            //window.location.href = "./SSO/GLO/Redirect";
+                        },
+                        error : function(e) {
+                            console.log(e);
+                        }
+                    });
+                });
+            });
+            $("#toUpdPass").on("click", function() {
+                // layer.open({
+                // 	title : "修改密码",
+                // 	skin : 'layui-layer-lan',
+                // 	shadeClose : true,
+                // 	type : 2,
+                // 	fixed : false,
+                // 	//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                // 	maxmin : false,
+                // 	//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                // 	area : [ '500px', '300px' ],
+                // 	content : "/user/upd-pass?userId=${userInfo.userId}"
+                // });
+
+                //parent.layui.index.openTabsPage("/html/user/change_password.html", "修改密码");
+
+                top.layer.open({
+                    type: 2,
+                    title: '修改密码',
+                    area: ['500px', '400px'],
+                    content: '/html/user/change_password.html',
+                    btn: null
+                });
+            });
 
       $("#nav li dl dd a").hover(function() {
         $(this).find("img").removeClass("layui-hide");
