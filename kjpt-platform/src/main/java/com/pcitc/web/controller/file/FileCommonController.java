@@ -58,7 +58,7 @@ public class FileCommonController extends RestBaseController {
 
 
     @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
-    @RequestMapping(value="/upload",method = RequestMethod.POST)
+    @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/html;charset=UTF-8")
     @ResponseBody
     public FileModel upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
         FileModel f = fileUtil.upload(file);
