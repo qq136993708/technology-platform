@@ -138,7 +138,7 @@ public class PoiExcelExportUitl<T> {
                         }
                     }*/
                     //如果是数字，靠右样式
-                    if(value.matches("\\d+(.\\d+)?"))
+                    if(value.matches("\\d+(.\\d+)?") && !value.contains("-"))
                     {
                     	
                         if (hm.get(cols[k]) == null || hm.get(cols[k]).equals("")) 

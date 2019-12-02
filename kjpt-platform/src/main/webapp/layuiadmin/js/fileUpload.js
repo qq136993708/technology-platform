@@ -221,9 +221,8 @@ function importFiles(config){
             accept: config.accept || 'file',
             callback: function(res) {
                 //上传完毕回调
-                console.log(res)
                 if (config.callback) {
-                    config.callback(res.data, 'import');
+                  config.callback(res, 'import');
                 }
             }
         });

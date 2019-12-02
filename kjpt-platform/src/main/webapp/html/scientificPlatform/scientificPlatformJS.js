@@ -138,13 +138,20 @@ layui.use(['form', 'table', 'layer'], function(){
   })
 
   // 导入
-  importFiles({
-    id: 'opations-btn',
-    url: '/kgjImport/1',
-    callback: function(res, type) {
-      
-    }
-  });
+  if (variable.level) {
+    importFiles({
+      id: 'opations-btn',
+      url: '/excelImport/kyptImp?pid=' + variable.level,
+      callback: function(res, type) {
+        if (res.code === '0') {
+          layer.msg('数据导入成功!', {icon: 1});
+          $('[lay-filter="formDemo"]').click();
+        } else {
+          layer.msg('数据导入失败', {icon: 2});
+        }
+      }
+    });
+  }
   
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });
