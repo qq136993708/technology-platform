@@ -100,11 +100,11 @@
                            
 						<!-- 系统管理员 -->
 						<#if userName == 'systemadmin'>
-						<li class="layui-nav-item">
+						<li class="layui-nav-item layui-nav-itemed">
 							<a href="javascript:void(0);" title="科研平台">
 								<div class="item-row-block">
 									<span class="icon_name"></span>
-									<span>系统管理</span>
+									<span class="item-title">系统管理</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
 									<span class="layui-nav-more"></span>
@@ -134,11 +134,11 @@
                               logType 日志类型：1登陆日志，2操作日志，3错误日志 
                               userType  用户类型：1普通用户，2系统管理员，3安全员，4审计员  -->
                         <#if userName == 'securityadmin'>
-						<li class="layui-nav-item">
+						<li class="layui-nav-item layui-nav-itemed">
 							<a href="javascript:void(0);" title="系统管理">
 								<div class="item-row-block">
 									<span class="icon_name"></span>
-									<span>系统管理</span>
+									<span class="item-title">系统管理</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
 									<span class="layui-nav-more"></span>
@@ -168,7 +168,7 @@
 							<a href="javascript:void(0);" title="日志查询">
 								<div class="item-row-block">
 									<span class="icon_name"></span>
-									<span>日志查询</span>
+									<span class="item-title">日志查询</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
 									<span class="layui-nav-more"></span>
@@ -312,7 +312,7 @@
         $(this).addClass("layui-this");
         $(this).addClass("layui-nav-itemed");
       });
-
+        $("#nav li:nth-child(1) dl dd:nth-child(1) a").click()
             $("#toUserInfo").on("click", function() {
                 // layer.open({
                 // 	title : "用户详情",
