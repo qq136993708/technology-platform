@@ -138,7 +138,7 @@ layui.use(['form', 'table', 'layer'], function(){
   })
 
   // 导入
-  if (variable.level) {
+  if (variable && variable.level) {
     importFiles({
       id: 'opations-btn',
       url: '/excelImport/kyptImp?pid=' + variable.level,
