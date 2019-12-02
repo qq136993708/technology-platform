@@ -1,24 +1,19 @@
 layui.use(['form', 'formSelects', 'laydate'], function(){
 	var form = layui.form;
-	var tipTitle = "";
   var variable = getQueryVariable();
   var reportTypeVal = +variable.reportType;
   switch(reportTypeVal){
     case 1:
         $('#configName').html("科技规划名称:");
-        tipTitle = "科技规划";
     break;
     case 2:
         $('#configName').html("工作要点名称:");
-        tipTitle = "工作要点";
     break;
     case 3:
         $('#configName').html("科技进度名称:");
-        tipTitle = "科技进度";
     break;
     case 4:
         $('#configName').html("年度总结名称:");
-        tipTitle = "年度总结";
     break;
   }
 
@@ -41,16 +36,16 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度
-    layui.laydate.render({elem: '#annualDate', type: 'month'});
+    layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
   } else if (variable.type === 'edit') {
     itemDataUrl = '/SciencePlan/load/' + variable.id;
     msgTitle = '编辑';
     // 年份月度
-    layui.laydate.render({elem: '#annualDate', type: 'month'});
+    layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
   }
 
   
-
+  
   httpModule({
     url: itemDataUrl,
     success: function(res) {
@@ -58,7 +53,6 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         var formData = res.data;
         if (formData.annual) {
           formData.annual = new Date(formData.annual).format('yyyy-MM');
-          formData.releaseTime = new Date(formData.annual).format('yyyy-MM');
         }
         if(formData.releaseTime){
           formData.releaseTime = new Date(formData.releaseTime).format('yyyy-MM-dd');
@@ -66,7 +60,6 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         form.val('formAddPlan', formData);
         form.render();
         $('#reportType').val(reportTypeVal);
-        console.log('formData',formData);
         if (formData.authenticateUtil) {
           layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
@@ -103,9 +96,12 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
 
   form.on('submit(formAddPlanBtn)', function(data) {
     var saveData = data.field;
-    
+    console.log('saveData',saveData.releaseTime);
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
+    }
+    if (saveData.releaseTime) {
+      saveData.releaseTime = new Date(saveData.releaseTime).getTime();
     }
     httpModule({
       url: '/SciencePlan/save',

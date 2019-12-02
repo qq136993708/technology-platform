@@ -23,6 +23,10 @@
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
 
+        <result column="RESEARCH_FIELD_text" jdbcType="VARCHAR" property="researchFieldText"/>
+
+
+
     </resultMap>
 
 
