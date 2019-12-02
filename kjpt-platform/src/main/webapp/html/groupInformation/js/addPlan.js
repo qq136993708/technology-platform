@@ -22,7 +22,7 @@ layui.use(['form','laydate'], function(){
   var billID = variable.id || '';
   var msgTitle = '添加';
   var readonlyFile = false; // 附件是否只读
-  layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
+  // layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
   
 
   if (variable.type === 'see') {
@@ -31,12 +31,12 @@ layui.use(['form','laydate'], function(){
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度
-    layui.laydate.render({elem: '#annualDate', type: 'month'});
+    layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
   } else if (variable.type === 'edit') {
     itemDataUrl = '/blocScientificPlan/load/' + variable.id;
     msgTitle = '编辑';
     // 年份月度
-    layui.laydate.render({elem: '#annualDate', type: 'month'});
+    layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
   }
 
   
@@ -92,7 +92,9 @@ layui.use(['form','laydate'], function(){
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }
-
+    if(saveData.pubdate){
+      saveData.pubdate = new Date(saveData.pubdate).getTime();
+    }
     httpModule({
       url: '/blocScientificPlan/save',
       data: saveData,

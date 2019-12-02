@@ -141,8 +141,12 @@ body > .layui-layout{
 }
 .view-title-layout > .layui-btn,
 .view-title-layout > button,
-.view-title-layout > .right > .ib-button,
 .view-title-layout > .ib-button{
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.view-title-layout > .right > .ib-button {
   display: inline-block;
   vertical-align: middle;
   margin-left: 10px;
