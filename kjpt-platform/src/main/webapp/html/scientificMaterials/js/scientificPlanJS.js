@@ -52,6 +52,10 @@ setSelectInput();
         $('#configName').html("年度总结名称:");
         tipTitle = "年度总结";
     break;
+    case 5:
+        $('#configName').html("研究报告名称:");
+        tipTitle = "研究报告";
+    break;
   }
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
