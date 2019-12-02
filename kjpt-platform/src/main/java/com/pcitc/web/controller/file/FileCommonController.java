@@ -1,6 +1,9 @@
 package com.pcitc.web.controller.file;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.FileModel;
+import com.pcitc.base.common.Result;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.FileUtil;
 import io.swagger.annotations.Api;
@@ -23,10 +26,10 @@ import java.util.List;
  * @author ty
  */
 
-@Controller
+@RestController
 @Api(value = "file-api", description = "文件")
 @RequestMapping(value="/file")
-public class FileCommonController extends RestBaseController {
+public class FileCommonController extends BaseController {
 
     /**
      * 查询平台列表
@@ -51,23 +54,29 @@ public class FileCommonController extends RestBaseController {
     @ApiOperation(value = "获取文件列表", notes = "获取文件列表")
     @RequestMapping(value="/query/{dataId}",method = RequestMethod.GET)
     @ResponseBody
-    public List<FileModel> query(@PathVariable(value = "dataId") String dataId){
+    public Result query(@PathVariable(value = "dataId") String dataId){
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(query+dataId, HttpMethod.GET, new HttpEntity(this.httpHeaders), List.class);
-        return responseEntity.getBody();
+        Result r = new Result();
+        r.setCode(Result.RESPONSE_SUCC_CODE);
+        r.setMessage(Result.RESPONSE_SUCC_MSG);
+        r.setData(responseEntity.getBody());
+        return r;
     }
 
 
     @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
-    @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/html;charset=UTF-8")
-    @ResponseBody
-    public FileModel upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
+    @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+    public String upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
         FileModel f = fileUtil.upload(file);
-        this.setBaseData(f);
         f.setCreateDate(new Date());
         f.setCreator(this.getUserProfile().getUserName());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<FileModel>(f,this.httpHeaders), (Class<Object>) null);
-        return f;
+        Result r = new Result();
+        r.setCode(Result.RESPONSE_SUCC_CODE);
+        r.setMessage(Result.RESPONSE_SUCC_MSG);
+        r.setData(f);
+        return JSONObject.toJSONString(r);
     }
 
     @ApiOperation(value = "文件下载", notes = "文件下载")

@@ -69,7 +69,12 @@ public class FileUtil {
     public FileModel upload(MultipartFile file) throws IllegalStateException, IOException
     {
         FileModel fm = new FileModel();
-        String fileName = file.getOriginalFilename();
+
+        String fileName = "";
+        String[] fileNames  =file.getOriginalFilename().split("\\\\");
+        if (fileNames.length > 1) {
+            fileName = fileNames[fileNames.length - 1];
+        }
         String id = UUID.randomUUID().toString().replace("-","");
         String  relativePath= "/"+DateUtil.format(new Date(),"yyyyMM");
 
@@ -94,15 +99,15 @@ public class FileUtil {
      *获取文件存储路径
      * @return
      */
-    private String getFilePath(String fileName){
+    private String getFilePath(String path){
         String dirPath = fileBasePath;
 
-        File file =new File(dirPath);
+        File file =new File(dirPath+path);
         if  (!file .exists()  && !file .isDirectory())
         {
             file.mkdirs();
         }
-        return dirPath+fileName;
+        return dirPath+path;
     }
 
     /**
