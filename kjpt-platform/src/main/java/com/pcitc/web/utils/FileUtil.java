@@ -71,10 +71,10 @@ public class FileUtil {
         FileModel fm = new FileModel();
         String fileName = file.getOriginalFilename();
         String id = UUID.randomUUID().toString().replace("-","");
-        String  relativePath= "/"+DateUtil.format(new Date(),"yyyyMM")+"/"+id+"."+fileName.split("\\.")[1];
+        String  relativePath= "/"+DateUtil.format(new Date(),"yyyyMM");
 
         fm.setId(id);
-        File targetFile = new File(getFilePath(relativePath));
+        File targetFile = new File(getFilePath(relativePath)+"/"+id+"."+fileName.split("\\.")[1]);
         if (targetFile.exists())
         {
             targetFile.delete();

@@ -201,7 +201,7 @@ function dialogError(data) {
 				var layerHtml = '<div class="http-error-content">';
 				layerHtml += '<div class="error-content">';
 				layerHtml += '<div class="error-title-text">错误提示</div><ul>';
-				layerHtml += '<li>'+ (data.message || data.msg || '服务器处理出错！') +'</li>';
+				layerHtml += '<li><span class="error-text">'+ (data.message || data.msg || '服务器处理出错！') +'</span></li>';
 				layerHtml += '</ul></div>';
 				layerHtml += '<div class="error-icon-block"><i class="layui-icon layui-icon-close"></i></div></div>';
 				return layerHtml;

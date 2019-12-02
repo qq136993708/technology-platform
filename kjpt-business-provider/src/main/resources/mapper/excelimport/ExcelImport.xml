@@ -29,7 +29,7 @@
 
     </insert>
 
-    <select id="handlerData" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <select id="handlerData" parameterType="java.util.Map" resultType="java.util.Map">
         call ${processName}(#{batchId},#{pid},#{currentDate},#{creatUser})
     </select>
 

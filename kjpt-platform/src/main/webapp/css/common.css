@@ -422,3 +422,102 @@ table tr td a.layui-table-link,
 table tr td a {
   text-decoration: underline !important;
 }
+
+
+.http-error-content {
+  position: relative;
+  padding: 30px 20px;
+  padding-bottom: 0;
+  text-align: center;
+  box-sizing: border-box;
+  height: 100%;
+}
+.http-error-content * {
+  box-sizing: border-box;
+}
+.http-error-content::after{
+  content: '';
+  display: block;
+  clear: both;
+  padding: 0;
+  font-size: 0;
+  margin: 0;
+}
+.http-error-content .error-icon-block{
+ width: 48px;
+ line-height: 30px;
+ color: #FF2626;
+ position: absolute;
+ left: 20px;
+ top: 30px;
+ text-align: left;
+}
+.http-error-content .error-icon-block > i {
+  display: inline-block;
+  vertical-align: top;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  border-radius: 15px;
+  border: 2px #FF2626 solid;
+  text-align: center;
+}
+.http-error-content .error-content{
+  height: 100%;
+  text-align: left;
+  margin-left: 48px;
+}
+.http-error-content .error-title-text{
+  font-size: 16px;
+  line-height: 24px;
+  color: #333;
+  font-weight: bold;
+}
+.http-error-content ul {
+  height: calc(100% - 24px);
+  padding-right: 30px;
+  overflow: auto;
+}
+.http-error-content li {
+  padding-top: 6px;
+  font-size: 0;
+}
+.http-error-content .error-text {
+  display: block;
+  white-space: normal;
+  line-height: 18px;
+  font-size: 14px;
+  color: #666;
+}
+.import-input {
+  position: relative;
+}
+.import-input .import-error-block{
+  height: calc(100% - 60px);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.import-error-block .http-error-content{
+  width: 560px;
+  padding-top: 0;
+  display: inline-block;
+  vertical-align: middle;
+  height: auto;
+}
+.import-error-block .error-icon-block {
+  top: 0;
+}
+.import-error-block .error-title-text{
+  line-height: 30px;
+  border-bottom: 1px #e8e8e8 solid;
+}
+.import-error-block ul{
+  padding-bottom: 10px;
+}
+.import-error-block .http-error-content  li{
+  padding-top: 24px;
+}
