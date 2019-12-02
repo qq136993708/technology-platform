@@ -100,7 +100,7 @@ public class FileUtil {
         File file =new File(dirPath);
         if  (!file .exists()  && !file .isDirectory())
         {
-            file .mkdir();
+            file.mkdirs();
         }
         return dirPath+fileName;
     }
