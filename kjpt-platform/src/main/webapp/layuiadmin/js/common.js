@@ -415,7 +415,6 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			form.data(filter, 'local', {arr: __dicData});
 		} else {
 			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
-				console.log(event, param);
 				form.data(filter, 'local', {arr: param.data});
 			});
 		}
