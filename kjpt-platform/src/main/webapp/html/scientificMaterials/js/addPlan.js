@@ -15,6 +15,9 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
     case 4:
         $('#configName').html("年度总结名称:");
     break;
+    case 5:
+        $('#configName').html("研究报告名称:");
+    break;
   }
 
   if(reportTypeVal !== 1){ //专业领域和专业类别是否隐藏
