@@ -203,12 +203,11 @@
           var fileString = "";
           if (tableData.length) {
             for (var i = 0; i < tableData.length; i++) {
-              fileString += tableData[i].id;
+              fileString = fileString + "," + tableData[i].id;
             }
           }
           console.log("fileString", fileString);
           $("[name=files]").val(fileString);
-          console.log(tableData, type);
         }
       })
     }
