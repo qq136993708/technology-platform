@@ -153,6 +153,9 @@
 .layui-col-btn .layui-form-item{
   margin-bottom: 0;
 }
+.layui-col-space20 .layui-form-item + .layui-form-item {
+  margin-top: 20px;
+}
 .layui-col-space0 .layui-form-item,
 .layui-form-item{
   margin-bottom: 20px;

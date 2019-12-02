@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+  <!-- 更多样式在此引入 -->
+</head>
+<body>
+<div class="layout-view-content min-label">
+  <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
+    <div class="layui-row layui-col-space20">
+      <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">成果名称：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="achName" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="company" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">完成情况：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">录入时间：</span></label>
+          <div class="layui-input-block font0">
+            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+              <input type="text" name="inputStart" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
+            </div>
+            <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+              <input type="text" name="inputEnd" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">备案状态：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">是否核心成果：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md8 layui-col-btn">
+        <div class="layui-form-item text-right">
+          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <span class="layui-fold-btn"></span>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="view-title-layout" id="opations-btn">
+    <button class="layui-btn border-blue openLayerPage" data-type="add">新增</button>
+    <button class="layui-btn border-blue openLayerPage" data-type="edit">编辑</button>
+    <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
+    <button class="layui-btn border-red" id="delItem">删除</button>
+    <button class="layui-btn border-blue" data-type="view">导出Excel</button>
+  </div>
+  
+  <table id="tableDemo"  lay-filter="tableDemo"></table>
+
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="record_listJS.js"></script>
+</body>
+</html>
