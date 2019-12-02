@@ -111,5 +111,37 @@ public class ExpertIndexController {
 		        request.setAttribute("setupYear", request.getParameter("setupYear"));
 		        return "/kjpt/out/out_projectList";
 		    }
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+			@RequestMapping(value = "/achieve/achieve_list")
+			public String achieve(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				return "/kjpt/achieve/achieve_list";
+			}
+		    
+			@RequestMapping(value = "/achieve/achieve_query")
+			public String achieve_query(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				return "/kjpt/achieve/achieve_query";
+			}
+			
+			
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
 
 }
