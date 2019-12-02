@@ -2,6 +2,9 @@ layui.use(['table', 'upload'], function(){
   var table = layui.table;
   var upload = layui.upload;
 
+  var errorText = '解析失败可能是因为文件内容中出现重复信息、文件格式不正确、地址不存在等。';
+
+
   function showTableData(res) {
     table.render({
       cols: [[ //表头
@@ -34,6 +37,7 @@ layui.use(['table', 'upload'], function(){
         $('.import-table-box:eq(0)').show();
         showTableData(res);
       } else {
+        $('#errorMessage').text(res.message || errorText);
         $('.import-error-block:eq(0)').show();
       }
     } else if (res.hasOwnProperty('success')) {
@@ -41,9 +45,11 @@ layui.use(['table', 'upload'], function(){
         $('.import-table-box:eq(0)').show();
         showTableData(res);
       } else {
+        $('#errorMessage').text(res.message || errorText);
         $('.import-error-block:eq(0)').show();
       }
     } else {
+      $('#errorMessage').text(res.message || errorText);
       $('.import-error-block:eq(0)').show();
     }
   }
@@ -51,7 +57,7 @@ layui.use(['table', 'upload'], function(){
   upload.render({
     elem: '#importData' //绑定元素
     ,accept: 'file'
-    ,url: '/file/upload' //上传接口
+    ,url: '/excelImport/kgjimp' //上传接口
     ,before: function(obj) {
       
     }
@@ -67,6 +73,11 @@ layui.use(['table', 'upload'], function(){
 
   $('#goBack').click(function() {
     $('.import-error-block:eq(0)').hide();
+    $('.layui-form-item:eq(0)').show();
+  })
+
+  $('#successBtn').click(function() {
+    $('.import-table-box:eq(0)').hide();
     $('.layui-form-item:eq(0)').show();
   })
 

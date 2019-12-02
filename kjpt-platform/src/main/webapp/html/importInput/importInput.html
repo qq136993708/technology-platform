@@ -14,12 +14,17 @@
 <div class="layout-view-content import-input">
   <div class="layui-form-item">
     <label class="layui-form-label auto"><span class="text">选择导入文件：</span></label>
-    <div class="layui-input-inline">
-      <button class="layui-btn border-blue" id="importData">选择文件</button>
+    <div class="layui-input-inline" style="width: auto;">
+      <button class="layui-btn layui-btn-normal" id="importData">选择文件</button>
     </div>
+    <div class="layui-input-inline"><button class="layui-btn border-blue" download-templet="kgjdr_templet">模版下载</button></div>
   </div>
 
   <div class="import-table-box" style="display: none;">
+    <!-- 页面标题排版 -->
+    <div class="view-title-layout view-pt0">
+      <button class="layui-btn layui-btn-normal" id="successBtn">完成</button>
+    </div>
     <table id="importTable"></table>
   </div>
 
@@ -29,7 +34,7 @@
         <div class="error-title-text">文件上传失败！</div>
         <ul>
           <li>
-            <span class="error-text">解析失败可能是因为文件内容中出现重复信息、文件格式不正确、地址不存在等。</span>
+            <span class="error-text" id="errorMessage"></span>
           </li>
           <li class="error-btn-box"><button class="layui-btn layui-btn-normal" id="goBack">返回</button></li>
         </ul>

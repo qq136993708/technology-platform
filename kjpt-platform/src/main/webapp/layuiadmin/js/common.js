@@ -313,7 +313,7 @@ function httpModule(config) {
 }
 /*关闭标签页*/
 function closeTabsPage(index){
-	var iframe=parent.$("#LAY_app_body div").eq(index+1).find("iframe")
+	var iframe=parent.$("#LAY_app_body div").eq(parseFloat(index)+1).find("iframe")
 	var iframeSrc=$(iframe).attr("src")
     $(iframe).attr('src',iframeSrc);
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;
@@ -415,7 +415,6 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			form.data(filter, 'local', {arr: __dicData});
 		} else {
 			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
-				console.log(event, param);
 				form.data(filter, 'local', {arr: param.data});
 			});
 		}

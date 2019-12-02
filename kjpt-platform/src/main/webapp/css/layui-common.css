@@ -168,6 +168,9 @@
   .layui-form-screen .form-col-ly4 {
     width: 33.33333333%;
   }
+  .layui-form-screen .form-col-ly4 .text-right{
+    text-align: left;
+  }
 }
 
 
