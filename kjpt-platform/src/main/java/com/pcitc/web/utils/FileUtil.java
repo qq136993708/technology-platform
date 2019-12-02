@@ -72,7 +72,7 @@ public class FileUtil {
 
         String fileName = "";
         String[] fileNames  =file.getOriginalFilename().split("\\\\");
-        if (fileNames.length > 1) {
+        if (fileNames.length > 0) {
             fileName = fileNames[fileNames.length - 1];
         }
         String id = UUID.randomUUID().toString().replace("-","");
