@@ -13,15 +13,15 @@ body{background: white;}
 #LAY-user-login,
 .layadmin-user-display-show{display: block !important;} 
 .layadmin-user-login{overflow:hidden;background: url("/layuiadmin/layui/images/login-bj.png") no-repeat 0 0 #144d99;background-size:100% 100%;}
-.user-login{position: absolute; right: 0; top: 100px;  box-sizing: border-box;width: 312px;
-  background: #fff;
+.user-login{position: absolute; right: 0; box-sizing: border-box;width: 312px;
+  background: #fff; top:50%; transform: translate(0, -50%);
 }
 .layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box;}
 #sub_button{
   background: #0AA1FF;
 }
-.user-login-box{width: 75%;position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;height: 100%;}
-.login-house{ width: 60%;position: absolute; left: 0px;}
+.user-login-box{width: 80%;position: absolute;left: 50%; top: 50%;transform: translate(-50%, -50%);}
+.login-house{ width: 55%;}
 .layadmin-user-login-box{padding: 20px 20px 0;}
 .layadmin-user-login-header{width: 95%;padding:6px 0;height: 70px;margin:30px auto 0;}
 .layadmin-user-login-header img{height:60px;vertical-align: middle;}
@@ -48,7 +48,7 @@ body{background: white;}
 
 .layadmin-user-jump-change{float: right;}
 
-.layadmin-user-login-footer{width: 95%;color: #ffffff;font-size: 12px;line-height: 22px;position: absolute;left: 0;bottom: 20px;right: 0;margin: auto;}
+.layadmin-user-login-footer{width: 95%;color: #ffffff;font-size: 12px;line-height: 22px;position: absolute;left: 0;bottom: 30px;right: 0;margin: auto;}
 .layadmin-user-login-footer .red{color: #e70819;}
 .layadmin-user-login-footer span{padding: 0 5px;}
 .layadmin-user-login-footer a{padding: 0 5px; color: rgba(0,0,0,.5);}
@@ -63,12 +63,12 @@ body{background: white;}
 .ladmin-user-login-theme ul li{display: inline-block; vertical-align: top; width: 64px; height: 43px; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; background-color: #f2f2f2;}
 .ladmin-user-login-theme ul li:hover{opacity: 0.9}
 @media screen and (max-width: 1920px) {
-  .user-login{top:120px !important;}
+  /* .user-login{top:120px !important;} */
   .layadmin-user-login{height: 937px;}
   .layadmin-user-login-body{height: 50%;}
 }
 @media screen and (max-width: 1600px) {
-  .user-login{top:120px !important;}
+  /* .user-login{top:120px !important;} */
   .layadmin-user-login{height: 702px;}
   .layadmin-user-login-body{height: 51.9%;}
 }
@@ -86,7 +86,7 @@ body{background: white;}
   .layadmin-user-login-body{height: 62.3%;}
 }
 @media screen and (max-width: 1366px) {
-  .user-login{top:96px !important;}
+  /* .user-login{top:96px !important;} */
   .layadmin-user-login{height: 625px;}
   .layadmin-user-login-body {height: 70%;}
 }

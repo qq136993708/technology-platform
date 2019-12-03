@@ -10,7 +10,7 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         $('#configName').html("工作要点名称:");
     break;
     case 3:
-        $('#configName').html("科技进度名称:");
+        $('#configName').html("科技进展名称:");
     break;
     case 4:
         $('#configName').html("年度总结名称:");
