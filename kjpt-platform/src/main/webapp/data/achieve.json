@@ -1,0 +1,19 @@
+{
+	"code": "0",
+	"data": {
+		"list": [
+			{"id":10000,"platformName":"user-0","sex":"女","personLiable":"城市-0","typeText":"签名-0","supportingInstitutionsText":255,"logins":24,"experience":82830700,"classify":"作家","researchFieldText":57},
+			{"id":10001,"platformName":"user-1","sex":"男","personLiable":"城市-1","typeText":"签名-1","supportingInstitutionsText":884,"logins":58,"experience":64928690,"classify":"词人","researchFieldText":27},
+			{"id":10002,"platformName":"user-2","sex":"女","personLiable":"城市-2","typeText":"签名-2","supportingInstitutionsText":650,"logins":77,"experience":6298078,"classify":"酱油","researchFieldText":31},
+			{"id":10003,"platformName":"user-3","sex":"女","personLiable":"城市-3","typeText":"签名-3","supportingInstitutionsText":362,"logins":157,"experience":37117017,"classify":"诗人","researchFieldText":68},
+			{"id":10004,"platformName":"user-4","sex":"男","personLiable":"城市-4","typeText":"签名-4","supportingInstitutionsText":807,"logins":51,"experience":76263262,"classify":"作家","researchFieldText":6},
+			{"id":10005,"platformName":"user-5","sex":"女","personLiable":"城市-5","typeText":"签名-5","supportingInstitutionsText":173,"logins":68,"experience":60344147,"classify":"作家","researchFieldText":87},
+			{"id":10006,"platformName":"user-6","sex":"女","personLiable":"城市-6","typeText":"签名-6","supportingInstitutionsText":982,"logins":37,"experience":57768166,"classify":"作家","researchFieldText":34},
+			{"id":10007,"platformName":"user-7","sex":"男","personLiable":"城市-7","typeText":"签名-7","supportingInstitutionsText":727,"logins":150,"experience":82030578,"classify":"作家","researchFieldText":28},
+			{"id":10008,"platformName":"user-8","sex":"男","personLiable":"城市-8","typeText":"签名-8","supportingInstitutionsText":951,"logins":133,"experience":16503371,"classify":"词人","researchFieldText":14}
+		],
+		"total": 20
+	},
+	"message": "success",
+	"success": true
+}

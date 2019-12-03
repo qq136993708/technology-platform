@@ -15,10 +15,9 @@
   <!-- 更多样式在此引入 -->
 </head>
 <body>
-<div class="layout-view-content">
+<div class="layout-view-content dialog">
 	<form class="layui-form" action="" lay-filter="formPlatform">
     <div class="layui-row layui-col-space20">
-
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">科技成果名称：</span></label>
@@ -63,12 +62,21 @@
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
-
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
             <input type="text" name="companyName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">集团内部已开展的科技成果转化工作情况：</span></label>
+          <div class="layui-input-block">
+            <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="min-height: 72px;"></textarea>
           </div>
         </div>
       </div>
@@ -84,37 +92,67 @@
       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <div class="layui-form-item">
           <div class="layui-input-block">
-            <button type="button" class="layui-btn border-blue">添加</button>
+            <button type="button" class="layui-btn border-blue" id="addTr">添加</button>
           </div>
         </div>
         <div class="layui-form-item" style="margin-top: 0;">
           <label class="layui-form-label label-required"><span class="text">科技成果完成团队情况（按贡献度排序）：</span></label>
           <div class="layui-input-block">
-            <table class="layui-table">
+            <table class="layui-table" id="achieveTable">
               <thead>
                 <tr>
-                  <th>序号</th>
-                  <th>姓名</th>
-                  <th>性别</th>
+                  <th width="80">序号</th>
+                  <th width="120">姓名</th>
+                  <th width="100">性别</th>
                   <th>所在单位</th>
                   <th>职务和贡献</th>
-                  <th>操作</th>
+                  <th width="100">操作</th>
                 </tr>
               </thead>
+              <tbody>
+                <tr class="layui-none">
+                  <td colspan="6"><div style="text-align: center">暂无数据,请添加！</div></td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
       </div>
-      
-  
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">科技成果完成单位意见：</span></label>
           <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <input type="text" name="companyName" lay-verify="required"
+                   placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">单位联系人和联系方式：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+                   placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options1">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">核心技术成果申请外部转化审批表：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-footer-btn">
+      <a class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">暂存</a>
+      <a class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交</a>
+      <a type="reset" class="layui-btn layui-btn-primary">关闭</a>
     </div>
   </form>
 
@@ -122,6 +160,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script src="applyJS.js"></script>
 <!-- 更多JS在此引入 -->
 </body>

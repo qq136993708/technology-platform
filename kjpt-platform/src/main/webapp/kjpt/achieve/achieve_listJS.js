@@ -8,7 +8,7 @@ layui.use(['table', 'form'], function() {
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/data/datalist.json' //数据接口
+        ,url: '/data/achieve.json' //数据接口
         ,cols: [[ //表头
           {type: 'checkbox', field: 'id'}
           ,{type: 'numbers', title: '序号', width: 80}
@@ -55,11 +55,11 @@ layui.use(['table', 'form'], function() {
   // 新增、编辑、查看
   $('.openLayerPage').on('click', function() {
     var optionType = $(this).data('type'),
-    dialogTitle = '新增',
+    dialogTitle = '新增申请',
     url = '/kjpt/achieve/apply.html?type=' + optionType;
 
     if (optionType === 'edit') {
-      dialogTitle = '编辑';
+      dialogTitle = '编辑申请';
     } else if (optionType === 'view') {
       dialogTitle = '查看';
     }
