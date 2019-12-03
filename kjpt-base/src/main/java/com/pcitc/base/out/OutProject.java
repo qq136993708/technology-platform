@@ -35,6 +35,11 @@ public class OutProject implements Serializable {
     private String techType;
     
     private String   techTypeIndex;
+
+    /**
+     * 项目类型翻译
+     */
+    private String projectTypeText;
     
     
 
@@ -101,5 +106,13 @@ public class OutProject implements Serializable {
 
     public void setTechType(String techType) {
         this.techType = techType;
+    }
+
+    public String getProjectTypeText() {
+        return projectTypeText;
+    }
+
+    public void setProjectTypeText(String projectTypeText) {
+        this.projectTypeText = projectTypeText;
     }
 }

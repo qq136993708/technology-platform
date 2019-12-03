@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+  <!-- 更多样式在此引入 -->
+</head>
+<body>
+<div class="layout-view-content">
+	<form class="layui-form" action="" lay-filter="formPlatform">
+
+    <div class="view-title-layout view-pt0">
+      <div class="text">科技成果基本信息</div>
+    </div>
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">是否成为集团公司核心技术成果：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果完成单位：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果转化状态：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">经费支持渠道：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">项目来源：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">知识产权情况：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果完成团队：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options1">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">知识产权状况或科技成果评价报告：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-title-layout">
+      <div class="text">成果受让单位情况</div>
+    </div>
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">单位基本信息：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">选择单位的方式和理由：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">对受让单位的尽职调查情况：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">选择单位的原因：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options2">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">尽职调查报告：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="view-title-layout">
+      <div class="text">成果转化价格确定</div>
+    </div>
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果转化方式：</span></label>
+          <div class="layui-input-block">
+            <input type="radio" name="transformType" value="01" title="技术转让">
+            <input type="radio" name="transformType" value="02" title="技术许可" checked>
+            <input type="radio" name="transformType" value="03" title="技术合作投资">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">定价原则和依据：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">定价方式（含价值评估）：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options3">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">公示及结果材料：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options4">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">合同（协议）文本：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options5">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">资产评估报告及评估备案表：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="view-title-layout">
+      <div class="text">本单位内部决策情况</div>
+    </div>
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">内部决策流程：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+            placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">决策事项和结果：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+            placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options6">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">内部决策会议纪要：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options7">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">单位内部科技成果转化规章制度：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="view-title-layout">
+      <div class="text">转化净收益及激励方案</div>
+    </div>
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">转化收入：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果核算及核算依据：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">项目全周期净收入计算：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">项目全周期激励方案及制定方案的原则和依据：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">激励额度：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">工资总额预算来源：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">激励人员名单：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">激励总和：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">激励分配方案：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6"></div>
+
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options8">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果核算（单位财务部门盖章）：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options9">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">净收入计算报告（单位财务部门盖章）：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options10">
+        <div class="view-title-layout disabled-box view-pt0">
+          <div class="right">
+            <button type="button" class="layui-btn border-blue">模版下载</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">激励方案报告：</span></label>
+          <div class="layui-input-block"><table></table></div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+      <div class="layui-form-item">
+        <div class="layui-input-block text-right">
+          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formTempSave">暂存</button>
+          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
+<script src="addRecordJS.js"></script>
+<!-- 更多JS在此引入 -->
+</body>
+</html>

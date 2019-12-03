@@ -10,6 +10,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="tech_type" jdbcType="VARCHAR" property="techType" />
     <result column="tech_type_index" jdbcType="VARCHAR" property="techTypeIndex" />
+    <result column="project_type_text" jdbcType="VARCHAR" property="projectTypeText" />
     
     
     
@@ -161,14 +162,15 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from out_project t <include refid="selectCondition" />    
+     select * from (select t.*,sd.name as project_type_text from out_project t left join sys_dictionary sd on t.project_type = sd.num_value and sd.parent_code='ROOT_KJPT_XMLX' <include refid="selectCondition" />
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
         ORDER BY  create_time desc
       </otherwise>
      </choose>
-     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+      ) e
    </select>
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
