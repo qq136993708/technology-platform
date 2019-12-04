@@ -200,15 +200,20 @@
           /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
             * type 触发变更的类型 目前只有 delete | upload
           */
+          console.log('tableData',tableData);
           var fileString = "";
+          var fileArray = [];
           if (tableData.length) {
             for (var i = 0; i < tableData.length; i++) {
-              fileString += tableData[i].id;
+              // fileString = fileString + "," + tableData[i].id;
+              if(tableData[i].id){
+                fileArray.push(tableData[i].id);
+              }
             }
           }
+          fileString = fileArray.join(",");
           console.log("fileString", fileString);
           $("[name=files]").val(fileString);
-          console.log(tableData, type);
         }
       })
     }

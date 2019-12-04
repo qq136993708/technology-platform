@@ -45,17 +45,21 @@ setSelectInput();
         tipTitle = "工作要点";
     break;
     case 3:
-        $('#configName').html("科技进度名称:");
-        tipTitle = "科技进度";
+        $('#configName').html("科技进展名称:");
+        tipTitle = "科技进展";
     break;
     case 4:
         $('#configName').html("年度总结名称:");
         tipTitle = "年度总结";
     break;
+    case 5:
+        $('#configName').html("研究报告名称:");
+        tipTitle = "研究报告";
+    break;
   }
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
-    {field: 'name', title: '科研规划名称', templet: function(d) {
+    {field: 'name', title: tipTitle + '名称', templet: function(d) {
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
     {field: 'nameText', title: '申报单位', sort: true },
