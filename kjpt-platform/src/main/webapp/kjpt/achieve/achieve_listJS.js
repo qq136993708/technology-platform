@@ -8,7 +8,7 @@ layui.use(['table', 'form'], function() {
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/data/achieve.json' //数据接口
+        ,url: '/achieve-api/query' //数据接口
         ,cols: [[ //表头
           {type: 'checkbox', field: 'id'}
           ,{type: 'numbers', title: '序号', width: 80}
