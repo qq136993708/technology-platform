@@ -2,7 +2,6 @@ package com.pcitc.web.controller.expert;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +34,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -93,6 +93,7 @@ public class ExpertController extends BaseController {
 	 */
 	private static final String getZjkBaseCount = "http://kjpt-zuul/stp-proxy/expert/getZjkBaseCount";
 	
+	private static final String WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/expert/start_activity/";
 	
 	
 	
@@ -150,7 +151,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "sex",            value = "性别",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalFieldIndex",       value = "技术索引",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -167,6 +169,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String education,
             @RequestParam(required = false) String technicalFieldIndex,
             @RequestParam(required = false) String technicalFieldName,
+            @RequestParam(required = false) String groupType,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -324,7 +327,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setPost(zjkBase.getPost());
 			oldZjkBase.setPersonnelNum(zjkBase.getPersonnelNum());
 			oldZjkBase.setUseStatus(zjkBase.getUseStatus());
-			
+			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setZjkAchievementJsonList(zjkBase.getZjkAchievementJsonList());
 			oldZjkBase.setZjkPatentJsonList(zjkBase.getZjkPatentJsonList());
 			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
@@ -635,32 +638,39 @@ public class ExpertController extends BaseController {
   	}
   	    
     
-	/*
-	 * @ApiOperation(value = "修改专家信息", notes = "修改专家信息")
-	 * 
-	 * @RequestMapping(method = RequestMethod.POST, value = "/expert-api/update")
-	 * public String updateExpert(HttpServletRequest request, HttpServletResponse
-	 * response) throws Exception {
-	 * 
-	 * 
-	 * Result resultsDate = new Result(); String id =
-	 * CommonUtil.getParameter(request, "id", ""); String name =
-	 * CommonUtil.getParameter(request, "name", ""); //根据ID获取详情
-	 * ResponseEntity<ZjkBase> responseEntity =
-	 * this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new
-	 * HttpEntity<Object>(this.httpHeaders), ZjkBase.class); int statusCode =
-	 * responseEntity.getStatusCodeValue(); if (statusCode == 200) { ZjkBase zjkBase
-	 * = responseEntity.getBody(); //修改相应信息 zjkBase.setName(name);
-	 * ResponseEntity<Integer> response_entity =
-	 * this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new
-	 * HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), Integer.class); int
-	 * status_code = response_entity.getStatusCodeValue(); Integer dataId =
-	 * response_entity.getBody(); // 返回结果代码 if (status_code == 200) { resultsDate =
-	 * new Result(true, RequestProcessStatusEnum.OK.getStatusDesc()); } else {
-	 * resultsDate = new Result(false, "修改专家信息失败"); } } JSONObject result =
-	 * JSONObject.parseObject(JSONObject.toJSONString(resultsDate)); return
-	 * result.toString(); }
-	 */
+	
+  	
+  	
+  	
+  	
+  	
+  	
+  	@RequestMapping(value = "/start_workflow")
+	public Object start_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);// 设置参数类型和编码
+		String id = CommonUtil.getParameter(request, "id", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		
+		ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		ZjkBase zjkBase = responseEntity.getBody();
+		
+		
+		System.out.println("============start_workflow_new userIds=" + userIds + " functionId=" + functionId + " id=" + id);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("id", id);
+		paramMap.put("functionId", functionId);
+		paramMap.put("processInstanceName", "专家上报->" + zjkBase.getName());
+		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.put("functionId", functionId);
+		paramMap.put("auditor", userIds);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
+		Result rs = this.restTemplate.exchange(WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+	}
     
     
     

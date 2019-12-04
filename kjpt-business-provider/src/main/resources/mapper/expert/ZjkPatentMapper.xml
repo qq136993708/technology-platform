@@ -198,6 +198,12 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM zjk_patent t <include refid="selectCondition"/>
     </select>
+    
+    
+    
+     <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from zjk_patent t <include refid="selectCondition" />
+     </select>
   
   
   

@@ -197,7 +197,9 @@
       SELECT count(*) FROM zjk_achievement t <include refid="selectCondition"/>
     </select>
   
-  
+   <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from zjk_achievement t <include refid="selectCondition" />
+     </select>
   
   
   <!-- 根据专家ID逻辑删除成果信息-->

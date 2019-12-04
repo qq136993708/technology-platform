@@ -74,8 +74,8 @@ public class TechFamilyController extends BaseController {
 		System.out.println("/tech-family/type/tech-type-tree==========" + request.getParameter("code"));
 		TechFamily techType = new TechFamily();
 		if (request.getParameter("code") == null || request.getParameter("code").equals("")) {
-			//techType.setLevelCode("2");
-			//techType.setTypeIndex("10");
+			techType.setLevelCode("2");
+			techType.setTypeIndex("10");
 		} else {
 			techType.setTypeIndex(request.getParameter("code"));
 		}
@@ -85,13 +85,8 @@ public class TechFamilyController extends BaseController {
 		List<TreeNode> treeNodes = responseEntity.getBody();
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(treeNodes));
 
-		//System.out.println(json.toJSONString());
 
-		//JSONObject treeJson = new JSONObject();
-
-		//treeJson = getChlidrenData(treeJson, json, "10", 1, "技术族");
-
-		//System.out.println("----"+treeJson.toString().replaceAll("\\\\", ""));
+		System.out.println("----"+json.toString());
 		return JSONUtils.toJSONString(treeNodes);
 	}
 

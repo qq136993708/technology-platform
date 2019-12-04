@@ -45,6 +45,11 @@
             and deleted != '1'
     </select>
 
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  * from kypt_project where 1=1 and platform_id = #{platformId}
+            and deleted != '1'
+    </select>
+
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
         insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user)
