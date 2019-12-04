@@ -46,8 +46,8 @@ public class AchieveRecordClient {
 
     @ApiOperation(value = "成果转换备案删除", notes = "成果转换备案删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable String id){
-         ars.delete(id);
+    public Integer delete(@PathVariable String id){
+         return ars.delete(id);
     }
 
 }

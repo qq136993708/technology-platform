@@ -2,6 +2,8 @@ package com.pcitc.base.achieve;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.math.BigDecimal;
+
 /**
  * 奖励表
  * @author ty
@@ -23,51 +25,51 @@ public class AchieveReward extends RecordModel {
     /**
      * 激励年份
      */
-    private String rewardYear;
+    private String rewardYear = "";
     /**
      * 转化收入
      */
-    private String transIncome;
+    private String transIncome = "";
     /**
      * 核算依据
      */
-    private String checkBasis;
+    private String checkBasis = "";
     /**
      * 全周期净收入计算
      */
-    private String incomeCalculation;
+    private String incomeCalculation = "";
     /**
      * 激励方案
      */
-    private String rewardRecord;
+    private String rewardRecord = "";
     /**
      * 激励额度
      */
-    private String rewardQuota;
+    private String rewardQuota = "";
     /**
      * 工资预算来源
      */
-    private String budgetSources;
+    private String budgetSources = "";
     /**
      * 激励人员名单
      */
-    private String budgetPerson;
+    private String budgetPerson = "";
     /**
      * 激励总和
      */
-    private String budgetAllMoney;
+    private BigDecimal budgetAllMoney = new BigDecimal("0");
     /**
      * 激励分配方案
      */
-    private String assignPlan;
+    private String assignPlan = "";
     /**
      * 净收入计算报告：材料
      */
-    private String incomeReportDoc;
+    private String incomeReportDoc = "";
     /**
      * 激励方案：材料
      */
-    private String assignPlanDoc;
+    private String assignPlanDoc = "";
 
     public String getId() {
         return id;
@@ -157,14 +159,6 @@ public class AchieveReward extends RecordModel {
         this.budgetPerson = budgetPerson;
     }
 
-    public String getBudgetAllMoney() {
-        return budgetAllMoney;
-    }
-
-    public void setBudgetAllMoney(String budgetAllMoney) {
-        this.budgetAllMoney = budgetAllMoney;
-    }
-
     public String getAssignPlan() {
         return assignPlan;
     }
@@ -187,5 +181,13 @@ public class AchieveReward extends RecordModel {
 
     public void setAssignPlanDoc(String assignPlanDoc) {
         this.assignPlanDoc = assignPlanDoc;
+    }
+
+    public BigDecimal getBudgetAllMoney() {
+        return budgetAllMoney;
+    }
+
+    public void setBudgetAllMoney(BigDecimal budgetAllMoney) {
+        this.budgetAllMoney = budgetAllMoney;
     }
 }

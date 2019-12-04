@@ -103,11 +103,11 @@ public class AchieveRecordController extends RestBaseController {
     @ApiOperation(value="保存")
     @RequestMapping(value = "/achieveRecord-api/save", method = RequestMethod.POST)
     @ResponseBody
-    public AchieveBase save(@RequestBody AchieveBase ab){
+    public AchieveRecord save(@RequestBody AchieveRecord ab){
         this.setBaseData(ab);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
-        return responseEntity.getBody();
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveRecord>(ab, this.httpHeaders), AchieveRecord.class);
+        return ab;
     }
 
     @ApiOperation(value="删除")
@@ -120,9 +120,9 @@ public class AchieveRecordController extends RestBaseController {
 
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/achieveRecord-api/newInit/{level}", method = RequestMethod.GET)
+    @RequestMapping(value = "/achieveRecord-api/newInit", method = RequestMethod.GET)
     @ResponseBody
-    public AchieveRecord newInit(@PathVariable String level) {
+    public AchieveRecord newInit() {
         AchieveRecord a = new AchieveRecord();
         a.setId(UUID.randomUUID().toString().replace("-",""));
         a.setCreateDate(new Date());

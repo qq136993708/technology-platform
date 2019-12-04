@@ -17,7 +17,7 @@
         <result column="reward_quota" jdbcType="VARCHAR" property="rewardQuota"/>
         <result column="budget_sources" jdbcType="VARCHAR" property="budgetSources"/>
         <result column="budget_person" jdbcType="VARCHAR" property="budgetPerson"/>
-        <result column="budget_all_money" jdbcType="VARCHAR" property="budgetAllMoney"/>
+        <result column="budget_all_money" jdbcType="FLOAT" property="budgetAllMoney"/>
         <result column="assign_plan" jdbcType="VARCHAR" property="assignPlan"/>
         <result column="reward_accounting_doc" jdbcType="VARCHAR" property="rewardAccountingDoc"/>
         <result column="income_report_doc" jdbcType="VARCHAR" property="incomeReportDoc"/>

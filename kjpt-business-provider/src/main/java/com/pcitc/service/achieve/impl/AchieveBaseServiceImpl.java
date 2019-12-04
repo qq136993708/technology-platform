@@ -6,6 +6,7 @@ import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveBaseMapper;
 import com.pcitc.service.achieve.AchieveBaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Service
 public class AchieveBaseServiceImpl implements AchieveBaseService {
 
+    @Autowired
     private AchieveBaseMapper abm;
 
     @Override

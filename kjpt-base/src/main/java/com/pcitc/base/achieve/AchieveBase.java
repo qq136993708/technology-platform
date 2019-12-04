@@ -17,35 +17,35 @@ public class AchieveBase extends RecordModel {
     /**
      * 成果名称
      */
-    private String achieveName;
+    private String achieveName="";
     /**
      * 技术方向类型(选技术族)
      */
-    private String techType;
+    private String techType="";
     /**
      * 技术方向类型(选技术族)关联名称
      */
-    private String techTypeText;
+    private String techTypeText="";
     /**
      * 完成单位名称
      */
-    private String finishUnitName;
+    private String finishUnitName="";
     /**
      * 完成时间
      */
-    private Date finishDate;
+    private Date finishDate = new Date();
     /**
      * 项目渠道
      */
-    private String projectChannel;
+    private String projectChannel="";
     /**
      * 成果简介
      */
-    private String brief;
+    private String brief="";
     /**
      * 转化方式（字典表）
      */
-    private String achieveTransType;
+    private String achieveTransType="";
     /**
      * 转化方式（字典表）关联名称
      */
@@ -53,15 +53,15 @@ public class AchieveBase extends RecordModel {
     /**
      * 联系人，联系方式
      */
-    private String contactInfo;
+    private String contactInfo="";
     /**
      * 单位意见
      */
-    private String unitAdvice;
+    private String unitAdvice="";
     /**
      * 审核状态：0草稿（或驳回），1审批中，2审核通过
      */
-    private String auditStatus;
+    private String auditStatus="";
     /**
      * 审核状态：0草稿（或驳回），1审批中，2审核通过 关联字段
      */
@@ -69,20 +69,25 @@ public class AchieveBase extends RecordModel {
     /**
      * 附件
      */
-    private String file_doc;
+    private String file_doc="";
     /**
      * 成果的团队情况（$和#号分隔）：姓名#性别#所在单位#职务$姓名#性别#所在单位#职务
      */
-    private String teamPerson;
+    private String teamPerson="";
     /**
      * 是否公示：1已公示，0未公示
      */
-    private String isPublic;
+    private String isPublic="";
 
     /**
      * 成果转化工作情况
      */
-    private String workInfo;
+    private String workInfo="";
+
+    /**
+     * 附件
+     */
+    private String fileDoc="";
 
 
 
@@ -228,5 +233,13 @@ public class AchieveBase extends RecordModel {
 
     public void setWorkInfo(String workInfo) {
         this.workInfo = workInfo;
+    }
+
+    public String getFileDoc() {
+        return fileDoc;
+    }
+
+    public void setFileDoc(String fileDoc) {
+        this.fileDoc = fileDoc;
     }
 }

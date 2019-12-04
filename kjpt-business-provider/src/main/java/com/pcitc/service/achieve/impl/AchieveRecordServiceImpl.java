@@ -6,6 +6,7 @@ import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveRecordMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +42,8 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     }
 
     @Override
-    public void delete(String id) {
-        arm.delete(id);
+    public Integer delete(String id) {
+        return arm.delete(id);
     }
 
     @Override

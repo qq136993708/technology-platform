@@ -83,7 +83,7 @@
 
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
-        insert into achieve_base
+        insert into achieve_base( <include refid="AchieveBase_Column_List" /> )
          values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
          #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo})
     </insert>

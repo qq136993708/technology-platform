@@ -119,9 +119,9 @@ public class AchieveBaseController extends RestBaseController {
 
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/achieve-api/newInit/{level}", method = RequestMethod.GET)
+    @RequestMapping(value = "/achieve-api/newInit", method = RequestMethod.GET)
     @ResponseBody
-    public AchieveBase newInit(@PathVariable String level) {
+    public AchieveBase newInit() {
         AchieveBase a = new AchieveBase();
         a.setId(UUID.randomUUID().toString().replace("-",""));
         a.setCreateDate(new Date());
