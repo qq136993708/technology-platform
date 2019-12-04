@@ -1,5 +1,5 @@
-layui.use(['jquery','table', 'form'], function() {
-    var $ = layui.jquery,form = layui.form;
+layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
+    var $ = layui.jquery,form = layui.form,formSelects=layui.formSelects,laydate=layui.laydate;
     var fileCols = [
         {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
         {title: '操作', templet: function(d) {
@@ -18,6 +18,26 @@ layui.use(['jquery','table', 'form'], function() {
             console.log(tableData, type);
         }
     });
+    laydate.render({
+        elem: '#awardingTimeStr'
+        ,trigger: 'click'
+    });
+    /*领域*/
+    httpModule({
+        url: "/techFamily-api/getTreeList",
+        type: 'GET',
+        async:false,
+        success: function(relData) {
+            console.log(relData)
+            relData.children.map(function (item,index) {
+                item.children.map(function (items,i) {
+                    delete items.children
+                })
+            })
+            formSelects.data('technicalField', 'local', { arr: relData.children });
+            formSelects.btns('technicalField', ['remove']);
+        }
+    });
     /*添加tr*/
     $("#addTr").click(function () {
         addTr('achieveTable')
@@ -25,9 +45,13 @@ layui.use(['jquery','table', 'form'], function() {
     })
     /*回显tr*/
     backfill('姓名#1#单位#职务$姓名#1#单位#职务','achieveTable')
-    form.on('submit(formSave)', function(data) {
-        var data=getTableData('achieveTable')
+    $("#formSave").click(function () {
+        console.log(form.val("formPlatform"))
     })
+    /*form.on('submit(formSave)', function(data) {
+        console.log(data)
+        var data=getTableData('achieveTable')
+    })*/
     form.on('submit(formDemo)', function(data) {
         getTableData('achieveTable')
     })
