@@ -120,8 +120,8 @@ public class ExpertController extends BaseController {
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("name", name);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
-    	param.setLimit(limit);
-    	param.setPage(page);
+    	param.setLimit(limit==null?10:limit);
+    	param.setPage(page==null?1:page);
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);

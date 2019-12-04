@@ -363,7 +363,7 @@ public class ExpertServiceImpl implements IExpertService {
 			String education=getTableParam(param,"education","");
 			String technicalFieldIndex=getTableParam(param,"technicalFieldIndex","");
 			String technicalFieldName=getTableParam(param,"technicalFieldName","");
-	    	
+			String groupType=getTableParam(param,"groupType","");
 			Map map=new HashMap();
 			map.put("name", name);
 			map.put("sourceType", sourceType);
@@ -375,8 +375,8 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("title", title);
 			map.put("technicalField", technicalField);
 			map.put("sex", sex);
+			map.put("groupType", groupType);
 			map.put("education", education);
-			
 			map.put("technicalFieldIndex", technicalFieldIndex);
 			map.put("technicalFieldName", technicalFieldName);
 			
