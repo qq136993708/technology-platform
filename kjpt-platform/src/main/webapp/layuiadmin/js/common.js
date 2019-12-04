@@ -374,7 +374,6 @@ function _commonLoadDic(dicKindCode, callback) {
 					var __dicData = null;
 					if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
 						__dicData = relData.children || [];
-						console.log('__dicData =>', __dicData);
 					} else {
 						if (!relData.data) {
 							__dicData = [];
