@@ -51,7 +51,13 @@ function setFileUpload(config) {
     configDataID = configOption.dataID, // 单据ID
     readonly = configOption.readonly, // 
     tableID = configOption.id + 'file-table-list',
-    $field = $((configOption.id.indexOf('#') === -1 ? ('#' + configOption.id) : configOption.id)),
+    $field = (function() {
+      if (typeof(configOption.id) === 'string') {
+        return $((configOption.id.indexOf('#') === -1 ? ('#' + configOption.id) : configOption.id));
+      } else if (typeof(configOption.id) === 'object') {
+        return configOption.id;
+      }
+    })(),
     addFile = $field.find('[filter="addFile"]').get(0),
     tableDemo = $field.find('table').get(0),
     tableCols = configOption.cols || [

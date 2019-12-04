@@ -8,7 +8,7 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   
@@ -31,8 +31,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">所属《核心成果目录》技术方向：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select>
+            <!--<input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">-->
           </div>
         </div>
       </div>
@@ -58,8 +59,10 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果完成时间：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <input type="text" name="awardingTimeStr"
+                   autocomplete="off" placeholder="请选择成果完成时间!" class="layui-input laydate-input" id="awardingTimeStr">
+            <!--<input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">-->
           </div>
         </div>
       </div>
@@ -67,8 +70,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <select name="applicationType" lay-filter="applicationType" dic-base-data="ROOT_KJPT_KJCG_NZHFS"></select>
+            <!--<input type="text" name="companyName" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">-->
           </div>
         </div>
       </div>
@@ -150,9 +154,9 @@
       </div>
     </div>
     <div class="dialog-footer-btn">
-      <a class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">暂存</a>
+      <a class="layui-btn layui-btn-normal" lay-filter="formSave" id="formSave">暂存</a>
       <a class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交</a>
-      <a type="reset" class="layui-btn layui-btn-primary">关闭</a>
+      <a class="layui-btn layui-btn-primary">关闭</a>
     </div>
   </form>
 

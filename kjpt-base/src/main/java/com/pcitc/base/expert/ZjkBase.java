@@ -149,8 +149,36 @@ public class ZjkBase  {
     private String zjkRewardJsonList;
     private String technicalFieldName="";
     private String technicalFieldIndex="";
+    //专家分组
+    private String groupType="";
+    private String groupTypeStr="";
+    private String auditStatus="";
     
+    
+    
+	public String getAuditStatus() {
+		return auditStatus;
+	}
 
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
+	}
+
+	public String getGroupTypeStr() {
+		return groupTypeStr;
+	}
+
+	public void setGroupTypeStr(String groupTypeStr) {
+		this.groupTypeStr = groupTypeStr;
+	}
 
 	public String getTechnicalFieldIndex() {
 		return technicalFieldIndex;

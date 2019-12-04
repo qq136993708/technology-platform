@@ -36,6 +36,18 @@ public class ExpertProviderClient {
 	@Autowired
     private IExpertService expertService; 
 	
+	
+	
+	
+	
+	
+	@ApiOperation(value="专家上报审批",notes="专家上报审批")
+	@RequestMapping(value = "/expert/start_activity/{id}", method = RequestMethod.POST)
+	public Result dealWorkFlow(@PathVariable("id") String id,@RequestBody Map map)throws Exception 
+	{
+		return expertService.dealWorkFlow(id,map);
+	}
+	
 
 	
 	/**===============================================专家===================================================*/

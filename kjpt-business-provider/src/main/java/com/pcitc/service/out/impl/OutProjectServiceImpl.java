@@ -17,7 +17,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.out.OutProject;
+import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.out.OutProjectMapper;
 import com.pcitc.service.out.IOutProjectService;
 @Service("outProjectService")
@@ -190,6 +192,53 @@ public class OutProjectServiceImpl implements IOutProjectService {
         obj.put("data", data);
         return obj;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{

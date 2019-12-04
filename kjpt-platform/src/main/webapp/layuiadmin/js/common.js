@@ -374,7 +374,6 @@ function _commonLoadDic(dicKindCode, callback) {
 					var __dicData = null;
 					if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
 						__dicData = relData.children || [];
-						console.log('__dicData =>', __dicData);
 					} else {
 						if (!relData.data) {
 							__dicData = [];
@@ -627,13 +626,20 @@ function setNotClassName(notClass) {
 function setFomeDisabled(filter, notClass) {
 	var formItems = $('form[lay-filter="'+ filter +'"]')[0];
 	$.each(formItems, function(i, item) {
-		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', true);
+		if ($(item).attr('placeholder')) {
+			$(item).attr('tips-text', $(item).attr('placeholder'));
+		}
+		$(item).not(setNotClassName(notClass) + ',.close-all-dialog')
+		.prop('disabled', true).attr('placeholder', '');
 	})
 }
 // 取消表单元素不可读取 disabled
 function setFomeUnDisabled(filter, notClass) {
 	var formItems = $('form[lay-filter="'+ filter +'"]')[0];
 	$.each(formItems, function(i, item) {
+		if ($(item).attr('tips-text')) {
+			$(item).attr('placeholder', $(item).attr('tips-text'));
+		}
 		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', false);
 	})
 }
@@ -750,7 +756,7 @@ function addTr(id) {
         '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
         '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
         '</tr>';
-    window.createElement({code:'ROOT_KJPT_XB',id:id,className:'sex',element:'option',index:index})
+    window.createElement({code:'ROOT_KJPT_XB',id: id,className:'sex',element:'option',index:index})
     $("#"+id+" tbody").append(trHtml)
 }
 function deleTr(id){

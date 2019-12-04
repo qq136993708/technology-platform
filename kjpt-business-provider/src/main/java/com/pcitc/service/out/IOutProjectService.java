@@ -40,5 +40,33 @@ public interface IOutProjectService {
 	public List getOutProjectList(Map map)throws Exception;
 	
 	public JSONObject getHotByTypeIndex(JSONObject obj)throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

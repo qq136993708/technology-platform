@@ -1,0 +1,28 @@
+.layui-table-view .layui-table {
+  min-width: 100%;
+}
+.layui-table thead th:last-child {
+  border-right: none;
+}
+.layui-table-view .layui-table-cell{
+  height: auto;
+}
+.layui-table-cell .options-list{
+  padding-bottom: 1px;
+  padding-top: 6px;
+}
+.options-list .link-text{
+  line-height: 18px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.hide-form-item {
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.hide-form-item.show {
+  overflow: visible;
+  visibility: visible;
+}
