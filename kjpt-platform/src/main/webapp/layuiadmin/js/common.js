@@ -669,9 +669,9 @@ function downloadExeclTemplet(name, type) {
 		window.open('/data/'+ fileName, '_blank');
 	}
 }
-
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
+	var form=layui.form;
 	if ($('.layui-form-screen').length) {
 		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
 			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选'),
@@ -689,7 +689,27 @@ layui.use(['form', 'formSelects'], function() {
 			}).closest('.layui-col-btn').addClass('form-col-ly4');
 		});
 	}
-
+    /*动态生成元素*/
+    window.createElement=function (param) {
+        httpModule({
+            url: "/sysDictionary-api/getChildsListByCode/"+param.code,
+            type: 'GET',
+            success: function(relData) {
+                if (relData.success === true) {
+                    relData.data.map(function(item){
+                        if(param.element=="option"){
+                            if(param.value==item.numValue){
+                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
+                            }else {
+                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"'>"+item.name+"</option>")
+                            }
+                        }
+                    });
+                    form.render()
+                }
+            }
+        });
+    }
 	// 关闭 top层 所有弹窗
 	$('.close-all-dialog').click(function() {
 		top.layer.closeAll();
@@ -714,4 +734,76 @@ layui.use(['form', 'formSelects'], function() {
 		}
 	})
 })
-  
+
+/*动态添加tr*/
+function addTr(id) {
+    var off=$("#"+id).find(".layui-none");
+    $(off).hide();
+    var index=$("#"+id+" tbody tr").length
+    var trHtml='<tr>' +
+        '<td>'+index+'</td>' +
+        '<td><input type="text"  placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
+        '<td><select name="sex" class="sex">' +
+        '<option value=""></option>' +
+        '</select></td>' +
+        '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
+        '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
+        '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
+        '</tr>';
+    window.createElement({code:'ROOT_KJPT_XB',id:id,className:'sex',element:'option',index:index})
+    $("#"+id+" tbody").append(trHtml)
+}
+function deleTr(id){
+    $(".deleTr").click(function () {
+        $(this).parents("tr").remove()
+        var tr=$("#"+id+" tbody tr")
+        $(tr).map(function (index, item) {
+            if($(this).attr("class")!="layui-none"){
+                $(this).find("td:nth-child(1)").html(index)
+            }
+
+        });
+    })
+}
+function backfill(data,id) {
+    var dataArr=data.split("$")
+    if(dataArr.length>0){
+        var off=$("#"+id).find(".layui-none");
+        $(off).hide();
+        dataArr.map(function (item, index) {
+			var itemArr=item.split("#")
+            var trHtml='<tr>' +
+                '<td>'+(index+1)+'</td>' +
+                '<td><input type="text" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
+                '<td><select name="sex" class="sex">' +
+                '<option value=""></option>' +
+                '</select></td>' +
+                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
+                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
+                '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
+                '</tr>';
+            window.createElement({code:'ROOT_KJPT_XB',id:id,className:'sex',element:'option',index:index+1,value:(itemArr[1]=='null' ? '': itemArr[1])})
+            $("#"+id+" tbody").append(trHtml)
+        })
+    }
+    deleTr(id)
+}
+/*获取数据*/
+function getTableData(id){
+    var tr=$("#"+id+" tbody tr")
+	var trStr=''
+    $(tr).map(function (index, item) {
+        if(index!==0){
+        	var tdOne=$(this).find("td:nth-child(2) input").val()
+            var tdTwo=$(this).find("td:nth-child(3) select option:selected").val()
+            var tdThree=$(this).find("td:nth-child(4) input").val()
+            var tdFour=$(this).find("td:nth-child(5) input").val()
+            if(tdOne==''){tdOne=null}
+            if(tdTwo==''){tdTwo=null}
+            if(tdThree==''){tdThree=null}
+            if(tdFour==''){tdFour=null}
+            trStr+=tdOne+"#"+tdTwo+"#"+tdThree+"#"+tdFour+"$"
+        }
+    })
+	return trStr.substring(0, trStr.length - 1);
+}
