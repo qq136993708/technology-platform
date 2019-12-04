@@ -106,7 +106,7 @@ layui.use(['table', 'form'], function() {
     top.layer.open({
       type: 2,
       title: dialogTitle,
-      area: ['960px', '520px'],
+      area: ['960px', '80%'],
       content: url,
       btn: null,
       end: function() {

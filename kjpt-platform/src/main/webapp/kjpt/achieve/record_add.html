@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="layout-view-content dialog min-label">
-	<form class="layui-form" action="" lay-filter="formPlatform">
+	<form class="layui-form" action="" lay-filter="newRecordFome">
 
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
@@ -71,8 +71,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <select name="applicationType" lay-verify="required"
+              dic-base-data="DIC_DEMO_DATA"
+              lay-filter="applicationType"></select>
           </div>
         </div>
       </div>
@@ -125,8 +126,8 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">未完成项目预计完成时间：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <input type="text" name="companyName" lay-verify="required" id="estimate"
+              placeholder="请填写..." autocomplete="off" class="laydate-input">
           </div>
         </div>
       </div>
@@ -134,8 +135,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">完成情况：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <select name="applicationType" lay-verify="required"
+              dic-base-data="DIC_DEMO_DATA"
+              lay-filter="applicationType"></select>
           </div>
         </div>
       </div>
@@ -147,6 +149,13 @@
       <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
       <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
     </div>
+
+    <input type="hidden" name="creator">
+    <input type="hidden" name="createDate">
+    <input type="hidden" name="updator">
+    <input type="hidden" name="updateDate">
+    <input type="hidden" name="deleted">
+    <input type="hidden" name="id">
   </form>
 
 </div>
