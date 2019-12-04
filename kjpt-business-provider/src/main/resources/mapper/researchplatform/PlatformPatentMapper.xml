@@ -44,6 +44,11 @@
             and deleted != '1'
     </select>
 
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  * from kypt_patent where 1=1 and platform_id = #{platformId}
+            and deleted != '1'
+    </select>
+
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformPatentModel">
         insert into kypt_patent(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user)

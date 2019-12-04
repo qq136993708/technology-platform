@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.achieve.AchieveBaseMapper">
+
+    <resultMap id="AchieveBaseMap" type="com.pcitc.base.achieve.AchieveBase">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="achieve_name" jdbcType="VARCHAR" property="achieveName"/>
+        <result column="tech_type" jdbcType="VARCHAR" property="techType"/>
+        <result column="finish_unit_name" jdbcType="VARCHAR" property="finishUnitName"/>
+        <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate"/>
+        <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
+        <result column="brief" jdbcType="VARCHAR" property="brief"/>
+        <result column="achieve_trans_type" jdbcType="VARCHAR" property="achieveTransType"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="contact_info" jdbcType="VARCHAR" property="contactInfo"/>
+        <result column="unit_advice" jdbcType="VARCHAR" property="unitAdvice"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="del_status" jdbcType="VARCHAR" property="deleted"/>
+        <result column="file_doc" jdbcType="VARCHAR" property="fileDoc"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
+        <result column="is_public" jdbcType="VARCHAR" property="deleted"/>
+        <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
+
+
+        <result column="tech_type_text" jdbcType="VARCHAR" property="techTypeText"/>
+        <result column="achieve_trans_type_text" jdbcType="VARCHAR" property="achieveTransTypeText"/>
+        <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
+    </resultMap>
+
+
+    <sql id="AchieveBase_Column_List">
+        id,
+        achieve_name,
+        tech_type,
+        finish_unit_name,
+        finish_date,
+        project_channel,
+        brief,
+        achieve_trans_type,
+        create_time,
+        contact_info,
+        unit_advice,
+        audit_status,
+        del_status,
+        file_doc,
+        create_user,
+        team_person,
+        is_public,
+        work_info
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
+        select  * from view_achieve_base where id = #{id} and del_status != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="AchieveBaseMap">
+        select  * from view_achieve_base where 1=1
+            and del_status != '1'
+        <include refid="selectByParam" />
+    </select>
+
+
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from achieve_reward where 1=1
+        and del_status != '1'
+        <include refid="selectByParam" />
+    </select>
+
+
+    <sql id="selectByParam">
+        <if test="achieveName != null and achieveName != '' " >
+            and achieve_name like CONCAT('%',#{achieveName},'%')
+        </if>
+        <if test="finishUnitName != null and finishUnitName != '' " >
+            and finish_unit_name = #{finishUnitName}
+        </if>
+        <if test="auditStatus != null and auditStatus != '' " >
+            and audit_status = #{auditStatus}
+        </if>
+    </sql>
+
+
+    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
+        insert into achieve_base
+         values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
+         #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
+        update achieve_base
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="achieveName != null and achieveName != '' " >
+                achieve_name = #{achieveName},
+            </if>
+            <if test="techType != null and techType != '' " >
+                tech_type = #{techType},
+            </if>
+            <if test="finishDate != null" >
+                finish_date = #{finishDate},
+            </if>
+            <if test="projectChannel != null and projectChannel != ''" >
+                project_channel = #{projectChannel},
+            </if>
+            <if test="brief != null and brief != ''" >
+                brief = #{brief},
+            </if>
+            <if test="achieveTransType != null and achieveTransType != ''" >
+                achieve_trans_type = #{achieveTransType},
+            </if>
+            <if test="contactInfo != null and contactInfo != ''" >
+                contact_info = #{contactInfo},
+            </if>
+            <if test="unitAdvice != null and unitAdvice != ''" >
+                unit_advice = #{unitAdvice},
+            </if>
+            <if test="auditStatus != null and auditStatus != ''" >
+                audit_status = #{auditStatus},
+            </if>
+            <if test="delStatus != null and delStatus != ''" >
+                del_status = #{delStatus},
+            </if>
+            <if test="fileDoc != null and fileDoc != ''" >
+                file_doc = #{fileDoc},
+            </if>
+            <if test="teamPerson != null " >
+                team_person = #{teamPerson},
+            </if>
+            <if test="isPublic != null and isPublic != ''" >
+                is_public = #{isPublic},
+            </if>
+            <if test="workInfo != null and workInfo != ''" >
+                work_info = #{workInfo}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update achieve_base set del_status = '1' where id = #{id}
+    </update>
+
+
+</mapper>
