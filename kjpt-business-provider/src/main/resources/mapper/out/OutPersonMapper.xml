@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.out.OutPersonMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.out.OutPerson">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="birth_year" jdbcType="VARCHAR" property="birthYear" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="belong_unit_name" jdbcType="VARCHAR" property="belongUnitName" />
+    <result column="belong_unit_id" jdbcType="VARCHAR" property="belongUnitId" />
+    <result column="tech_type" jdbcType="VARCHAR" property="techType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="tech_type_name" jdbcType="VARCHAR" property="techTypeName" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="contact_way" jdbcType="VARCHAR" property="contactWay" />
+    <result column="work_experience" jdbcType="VARCHAR" property="workExperience" />
+    <result column="post"  jdbcType="VARCHAR" property="post" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, tech_type, 
+    create_time, create_user, tech_type_name, id_card, email, contact_way, work_experience,post,title
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from out_person
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from out_person
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
+    insert into out_person (
+       id,sex, `name`, birth_year, 
+      education, belong_unit_name, belong_unit_id, 
+      tech_type, create_time, create_user, 
+      tech_type_name, id_card, email, 
+      contact_way, work_experience,post,title
+      )
+    values (
+    
+      #{id,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{birthYear,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{belongUnitName,jdbcType=VARCHAR}, #{belongUnitId,jdbcType=VARCHAR}, 
+      #{techType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{techTypeName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{contactWay,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
+    insert into out_person
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="birthYear != null">
+        birth_year,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="belongUnitName != null">
+        belong_unit_name,
+      </if>
+      <if test="belongUnitId != null">
+        belong_unit_id,
+      </if>
+      <if test="techType != null">
+        tech_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="techTypeName != null">
+        tech_type_name,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="contactWay != null">
+        contact_way,
+      </if>
+      <if test="workExperience != null">
+        work_experience,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+    
+    
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="birthYear != null">
+        #{birthYear,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnitName != null">
+        #{belongUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnitId != null">
+        #{belongUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="techType != null">
+        #{techType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="techTypeName != null">
+        #{techTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      
+    
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.out.OutPerson">
+    update out_person
+    <set>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="birthYear != null">
+        birth_year = #{birthYear,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnitName != null">
+        belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnitId != null">
+        belong_unit_id = #{belongUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="techType != null">
+        tech_type = #{techType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="techTypeName != null">
+        tech_type_name = #{techTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        contact_way = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        work_experience = #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+    
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.out.OutPerson">
+    update out_person
+    set sex = #{sex,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      birth_year = #{birthYear,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
+      belong_unit_id = #{belongUnitId,jdbcType=VARCHAR},
+      tech_type = #{techType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      tech_type_name = #{techTypeName,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      contact_way = #{contactWay,jdbcType=VARCHAR},
+      work_experience = #{workExperience,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	       <if test="name != null     and name  !='' ">                       AND t.project_name like CONCAT('%',#{name},'%')</if>
+	       <if test="belongUnitId != null       and belongUnitId !=''  ">     AND t.belong_unit_id = #{belongUnitId}</if>
+	       <if test="education != null          and education !=''  ">        AND t.education = #{education}</if>
+	       <if test="title != null              and title !=''  ">            AND t.title = #{title}</if>
+	       <if test="post != null               and post !=''  ">             AND t.post = #{post}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  out_person t <include refid="selectCondition" />
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+      ) e
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM out_person t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from out_person t <include refid="selectCondition" />
+     </select>
+  
+  
+</mapper>
