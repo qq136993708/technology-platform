@@ -250,7 +250,7 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
         delete d.lastLoginIp;
         delete d.lastLoginDate;
 		httpModule({
-			url: '/user/updateUserInfo',
+			url: '/user/updateCurrentUserInfo',
 			data: d,
             type: "POST",
             
