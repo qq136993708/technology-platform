@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
@@ -32,6 +33,7 @@ import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 
 
 @Service
@@ -49,6 +51,86 @@ public class ExpertServiceImpl implements IExpertService {
 	private ZjkRewardMapper zjkRewardMapper;
 	@Autowired
     private TechFamilyMapper techFamilyMapper;
+	@Autowired
+	private WorkflowRemoteClient workflowRemoteClient;
+	
+	
+	public Result dealWorkFlow(String id, Map map) throws Exception
+	{
+		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>>课题 上报 dealWorkFlow 参数: "+parmamss.toJSONString());
+		
+		ZjkBase zjkBase= zjkBaseMapper.selectByPrimaryKey(id);
+		String processInstanceName=(String)map.get("processInstanceName");
+		String authenticatedUserId=(String)map.get("authenticatedUserId");
+		String authenticatedUserName=(String)map.get("authenticatedUserName");
+		String functionId=(String)map.get("functionId");
+		String auditor=(String)map.get("auditor");
+		String specialAuditor0=(String)map.get("specialAuditor0");
+		
+		
+		// 调用审批流程，此处调用同时实现事务
+    	JSONObject flowJson = new JSONObject();
+    	// 业务主键id
+    	flowJson.put("businessId", id);
+    	flowJson.put("processInstanceName", processInstanceName);
+    	// 发起者信息
+    	flowJson.put("authenticatedUserId", authenticatedUserId);
+    	flowJson.put("authenticatedUserName", authenticatedUserName);
+		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+    	flowJson.put("functionId", functionId);
+    	// 待办业务详情、最终审批同意、最终审批不同意路径
+    	flowJson.put("auditDetailsPath", "/expert/get/" + id);
+    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/" + id);
+    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/" + id);
+
+    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
+    	// flowJson.put("flowProjectId", "");
+    	// flowJson.put("flowUnitId", "");
+    	
+    	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
+    	if (auditor!=null && !auditor.equals("")) 
+		{
+			String[] userIds_arr = auditor.split(",");
+			flowJson.put("auditor", Arrays.asList(userIds_arr));
+		}
+    	
+    	//flowJson.put("auditor", auditor);
+    	flowJson.put("specialAuditor0", specialAuditor0); 
+		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
+		// flowJson.put("money", 50); // 环节1需要用到
+		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
+		// flowJson.put("companyCode", "2006"); // 环节n需要用到
+    	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
+    	
+    	flowJson.put("signAuditRate", 1d); 
+    	
+    	// 远程调用
+    	System.out.println("=====远程调用开始");
+    	String str=workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+    	System.out.println("=====远程调用结束");
+		if("true".equals(str)) 
+		{
+			zjkBase.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+			zjkBaseMapper.updateByPrimaryKey(zjkBase);
+			return new Result(true,"操作成功!");
+		}else 
+		{
+			return new Result(false,"操作失败!");
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	     * 根据ID获取专家信息详情

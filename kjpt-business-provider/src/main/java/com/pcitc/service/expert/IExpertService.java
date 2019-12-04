@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
@@ -13,7 +14,7 @@ import com.pcitc.base.expert.ZjkReward;
 
 public interface IExpertService {
 	
-	
+	public Result dealWorkFlow(String id, Map map) throws Exception;
 	 /**
        * 根据ID获取专家信息详情
      */
