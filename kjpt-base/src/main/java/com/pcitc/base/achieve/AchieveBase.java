@@ -3,13 +3,14 @@ package com.pcitc.base.achieve;
 import com.pcitc.base.common.RecordModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 成果表
  * @author
  */
-public class AchieveBase extends RecordModel {
+public class AchieveBase extends RecordModel implements Serializable {
 
     /**
      * 数据主键
