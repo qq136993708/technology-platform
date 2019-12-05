@@ -668,7 +668,7 @@ function downloadExeclTemplet(name, type) {
 		var fileName = name;
 		if (type) {
 			fileName += '.'+type;
-		} else if (fileName.indexOf('.xlsx') === -1) {
+		} else if (fileName.indexOf('.xlsx') === -1 && fileName.indexOf('.xls') === -1) {
 			fileName += '.xlsx';
 		}
 
@@ -678,6 +678,19 @@ function downloadExeclTemplet(name, type) {
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
+
+	// 自定义表单校验规则
+	form.verify({
+		length: function(value, item) {
+			// <input type="text" lay-filter="length" length="20">
+			var lengthNumber = $(item).attr('length') || 10;
+			if ((''+value).length > lengthNumber) {
+				return '字符长度不能超过 '+ lengthNumber + '个';
+			}
+		}
+	})
+
+
 	if ($('.layui-form-screen').length) {
 		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
 			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选'),
@@ -749,7 +762,7 @@ function addTr(id) {
     var trHtml='<tr>' +
         '<td>'+index+'</td>' +
         '<td><input type="text"  placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-        '<td><select name="sex" class="sex">' +
+        '<td><select class="sex">' +
         '<option value=""></option>' +
         '</select></td>' +
         '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
@@ -781,7 +794,7 @@ function backfill(data,id) {
             var trHtml='<tr>' +
                 '<td>'+(index+1)+'</td>' +
                 '<td><input type="text" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-                '<td><select name="sex" class="sex">' +
+                '<td><select class="sex">' +
                 '<option value=""></option>' +
                 '</select></td>' +
                 '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +

@@ -27,6 +27,16 @@ function selectFileUpload(config) {
   });
 }
 
+function randomID() {
+  var id = 'fileTableList_' + (Math.random() + '').substring(2) +'_'+ (Math.random() + '').substring(2);
+  if (sessionStorage.getItem(id)) {
+    id = randomID();
+  } else {
+    sessionStorage.setItem(id, '1');
+  }
+  return id;
+}
+
 function setFileUpload(config) {
   var configOption = {
     id: '', // 作用域ID;
@@ -50,7 +60,7 @@ function setFileUpload(config) {
     fileListData = [], // 表格数据
     configDataID = configOption.dataID, // 单据ID
     readonly = configOption.readonly, // 
-    tableID = configOption.id + 'file-table-list',
+    tableID = randomID(), // 给表格生成不重复的随机ID
     $field = (function() {
       if (typeof(configOption.id) === 'string') {
         return $((configOption.id.indexOf('#') === -1 ? ('#' + configOption.id) : configOption.id));
