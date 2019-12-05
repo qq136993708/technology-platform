@@ -4,7 +4,7 @@
 <mapper namespace="com.pcitc.mapper.researchplatform.PlatformTreatiseMapper">
 
     <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformTreatiseModel">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="id" jdbcType="VARCHAR" property="id"/>
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
         <result column="thesis_title" jdbcType="VARCHAR" property="thesisTitle"/>
@@ -47,7 +47,7 @@
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  * from kypt_treatise where 1=1 and platform_id = #{platformId}
+        select  count(*) from kypt_treatise where 1=1 and platform_id = #{platformId}
             and deleted != '1'
     </select>
 

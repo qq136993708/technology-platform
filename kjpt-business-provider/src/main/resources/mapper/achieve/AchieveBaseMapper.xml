@@ -12,7 +12,7 @@
         <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
         <result column="brief" jdbcType="VARCHAR" property="brief"/>
         <result column="achieve_trans_type" jdbcType="VARCHAR" property="achieveTransType"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="contact_info" jdbcType="VARCHAR" property="contactInfo"/>
         <result column="unit_advice" jdbcType="VARCHAR" property="unitAdvice"/>
         <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
@@ -118,8 +118,8 @@
             <if test="auditStatus != null and auditStatus != ''" >
                 audit_status = #{auditStatus},
             </if>
-            <if test="delStatus != null and delStatus != ''" >
-                del_status = #{delStatus},
+            <if test="deleted != null and deleted != ''" >
+                del_status = #{deleted},
             </if>
             <if test="fileDoc != null and fileDoc != ''" >
                 file_doc = #{fileDoc},

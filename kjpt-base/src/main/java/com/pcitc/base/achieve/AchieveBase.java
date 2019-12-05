@@ -1,6 +1,7 @@
 package com.pcitc.base.achieve;
 
 import com.pcitc.base.common.RecordModel;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -33,6 +34,7 @@ public class AchieveBase extends RecordModel {
     /**
      * 完成时间
      */
+    @DateTimeFormat
     private Date finishDate = new Date();
     /**
      * 项目渠道

@@ -83,7 +83,7 @@ public class SciencePlanApiController extends RestBaseController {
             @RequestParam(required = false, value = "specialtyCategory") String specialtyCategory,
             @RequestParam(required = false, value = "releaseTime")@DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
             @RequestParam(required = false, value = "accessory") String accessory,
-            @RequestParam(required = false, value = "annual")@DateTimeFormat(pattern = "yyyy-MM-dd") Date annual,
+            @RequestParam(required = false, value = "annual")@DateTimeFormat(pattern = "yyyy-MM") Date annual,
             @RequestParam(required = false, value = "reportType") String reportType
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -124,8 +124,8 @@ public class SciencePlanApiController extends RestBaseController {
 //        if (annual != null) {
 //            this.setParam(condition, "annual", annual);
 //        }
-        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_SS))) {
-            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MM))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MM));
         }
         if (!StringUtils.isEmpty(reportType)) {
             this.setParam(condition, "reportType", reportType);
