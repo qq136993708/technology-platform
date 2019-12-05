@@ -16,7 +16,7 @@
 <body>
   <div class="layout-view-content min-label">
     <form class="layui-form layui-form-screen" action="" lay-filter="patentFormDemo">
-      <div class="layui-row layui-col-space20">
+      <div class="layui-row">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
@@ -109,7 +109,7 @@
  
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
             <div class="layui-form-item text-right"> 
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+                <button class="layui-btn layui-btn-normal margin24" lay-submit lay-filter="formDemo">查询</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 <span class="layui-fold-btn"></span>
             </div>
@@ -121,10 +121,12 @@
     </form>
   
     <div class="view-title-layout">
-      <button class="layui-btn border-blue" id="addItem">新增</button>
-      <button class="layui-btn border-blue" id="editItem">编辑</button>
-      <button class="layui-btn border-blue" id="viewItem">查看</button>
-      <button class="layui-btn border-red" id="delItem">删除</button>
+      <div class="right" id="rightBtn">
+        <button class="layui-btn border-blue" id="addItem">新增</button>
+        <button class="layui-btn border-blue margin12" id="editItem">编辑</button>
+        <button class="layui-btn border-blue margin12" id="viewItem">查看</button>
+        <button class="layui-btn border-red margin12" id="delItem">删除</button>
+      </div>
     </div>
     
     <table id="tableDemo"  lay-filter="tableDemo"></table>

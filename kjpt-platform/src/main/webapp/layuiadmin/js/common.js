@@ -798,8 +798,8 @@ function backfill(data,id) {
                 '<td><select class="sex">' +
                 '<option value=""></option>' +
                 '</select></td>' +
-                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
-                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
+                '<td><input type="text"  placeholder="请填写..." value="'+(itemArr[2]=='null' ? '': itemArr[2])+'" autocomplete="off" class="layui-input"></td>' +
+                '<td><input type="text"  placeholder="请填写..."   value="'+(itemArr[3]=='null' ? '': itemArr[3])+'" autocomplete="off" class="layui-input"></td>' +
                 '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
                 '</tr>';
             window.createElement({code:'ROOT_KJPT_XB',id:id,className:'sex',element:'option',index:index+1,value:(itemArr[1]=='null' ? '': itemArr[1])})

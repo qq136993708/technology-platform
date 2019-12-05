@@ -63,7 +63,7 @@
 
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  count(*) from achieve_reward where 1=1
+        select  count(*) from achieve_base where 1=1
         and del_status != '1'
         <include refid="selectByParam" />
     </select>

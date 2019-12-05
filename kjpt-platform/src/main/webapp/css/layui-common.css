@@ -152,6 +152,9 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+.margin24{
+  margin-left: 24px;
+}
 .layui-col-space20 .layui-form-item,
 .layui-col-btn .layui-form-item{
   margin-bottom: 0;
@@ -290,6 +293,7 @@
 .layui-table[lay-even] tr:nth-child(even) {
   background-color: #ECF0F4;
 }
+.layui-table tbody tr:hover{background: #f1f7fd;}
 .layui-table thead th {}
 
 .layui-tab-title.tab-btn-layout {
@@ -398,3 +402,9 @@
   padding: 0;
 }
 
+#rightBtn .margin12{
+  margin-left: 12px;
+}
+#rightBtn{
+  margin-top: 10px;
+}

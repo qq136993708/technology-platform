@@ -2,13 +2,14 @@ package com.pcitc.base.achieve;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * 奖励表
  * @author ty
  */
-public class AchieveReward extends RecordModel {
+public class AchieveReward extends RecordModel implements Serializable {
 
     /**
      * 数据主键

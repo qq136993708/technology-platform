@@ -21,6 +21,7 @@ public class DateUtil {
 	public static String FMT_YMDTHMS = "yyyy-MM-dd'T'HH:mm:ss";
 
 	public static String FMT_MM = "yyyyMM";
+	public static String FMT_MMM = "yyyy-MM";
 	public static String FMT_YYYY = "yyyy";
 	
 	public static String FMT_YYYY_DD = "yyyyMMdd";

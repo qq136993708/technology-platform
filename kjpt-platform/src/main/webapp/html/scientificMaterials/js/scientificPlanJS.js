@@ -127,7 +127,10 @@ setSelectInput();
 	  var dialogTitle = '添加';
 	  if (type === 'edit') {
 		  dialogTitle = '编辑'; 
-	  }
+    }
+    if(type === 'see'){
+      dialogTitle = '查看'; 
+    }
 	  
 	  // 打开弹窗
 	  top.layer.open({
