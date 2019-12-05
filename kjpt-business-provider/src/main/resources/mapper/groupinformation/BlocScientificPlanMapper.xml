@@ -82,63 +82,116 @@
 
   </insert>
 
+    <!--<select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+
+        <!--select * from bloc_scientific_plan where 1=1-->
+
+        <!--<if test="name != null and name != '' ">-->
+            <!--and `name` like CONCAT('%',#{name},'%')-->
+        <!--</if>-->
+        <!--<if test="publication != null and publication != '' ">-->
+            <!--and publication = #{publication}-->
+        <!--</if>-->
+
+        <!--<if test="annual != null and annual != ''">-->
+        <!--and annual  <![CDATA[ >= ]]> #{annual}-->
+        <!--</if>-->
+
+        <!--&lt;!&ndash;<if test="annual != null and annual != ''">&ndash;&gt;-->
+            <!--&lt;!&ndash;and substring (annual,1,7) = #{annual}&ndash;&gt;-->
+        <!--&lt;!&ndash;</if>&ndash;&gt;-->
+
+        <!--<if test="pubdate != null and pubdate != ''">-->
+            <!--and pubdate = #{pubdate}-->
+        <!--</if>-->
+        <!--<if test="accessory != null and accessory != ''">-->
+            <!--and accessory = #{accessory}-->
+        <!--</if>-->
+
+        <!--<if test="reportType != null and reportType != ''">-->
+            <!--and report_type = #{reportType}-->
+        <!--</if>-->
+        <!--and deleted != '1'-->
+    <!--</select>-->
+
+
+
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-
         select * from bloc_scientific_plan where 1=1
+        and deleted != '1'
+        <include refid="selectByParam" />
 
-        <if test="name != null and name != '' ">
+    </select>
+
+
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select count(*) from bloc_scientific_plan where 1=1
+        <include refid="selectByParam"/>
+    </select>
+
+    <sql id="selectByParam">
+
+        <if test="name != null  ">
             and `name` like CONCAT('%',#{name},'%')
         </if>
+
         <if test="publication != null and publication != '' ">
             and publication = #{publication}
         </if>
-        <if test="annual != null and annual != ''">
-            and annual  <![CDATA[ >= ]]> #{annual}
+
+        <if test="annual != null  ">
+            and substring(annual,1,7) = #{annual}
         </if>
-        <if test="pubdate != null and pubdate != ''">
+
+        <if test="pubdate != null ">
             and pubdate = #{pubdate}
         </if>
-        <if test="accessory != null and accessory != ''">
-            and accessory = #{accessory}
+
+        <if test=" accessory != null and  accessory != '' ">
+            and accessory = #{ accessory}
         </if>
+
 
         <if test="reportType != null and reportType != ''">
             and report_type = #{reportType}
         </if>
-        and deleted != '1'
-    </select>
+
+    </sql>
 
 
+    <!--<select id="query_COUNT" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+
+    <!--select * from bloc_scientific_plan where 1=1-->
+
+    <!--<if test="name != null and name != '' ">-->
+    <!--and `name` like CONCAT('%',#{name},'%')-->
+    <!--</if>-->
+    <!--<if test="publication != null and publication != '' ">-->
+    <!--and publication = #{publication}-->
+    <!--</if>-->
+
+    <!--&lt;!&ndash;<if test="annual != null and annual != ''">&ndash;&gt;-->
+    <!--&lt;!&ndash;and annual  <![CDATA[ >= ]]> #{annual}&ndash;&gt;-->
+    <!--&lt;!&ndash;</if>&ndash;&gt;-->
 
 
-    <select id="query_COUNT" parameterType="java.util.Map" resultMap="BaseResultMap">
-
-        select * from bloc_scientific_plan where 1=1
-
-        <if test="name != null and name != '' ">
-            and `name` like CONCAT('%',#{name},'%')
-        </if>
-        <if test="publication != null and publication != '' ">
-            and publication = #{publication}
-        </if>
-        <if test="annual != null and annual != ''">
-            and annual  <![CDATA[ >= ]]> #{annual}
-        </if>
-        <if test="pubdate != null and pubdate != ''">
-            and pubdate = #{pubdate}
-        </if>
-        <if test="accessory != null and accessory != ''">
-            and accessory = #{accessory}
-        </if>
-
-        <if test="reportType != null and reportType != ''">
-            and report_type = #{reportType}
-        </if>
-        and deleted != '1'
-    </select>
+    <!--<if test="annual != null and annual != ''">-->
+    <!--and substring (annual,1,7) = #{annual}-->
+    <!--</if>-->
 
 
+    <!--<if test="pubdate != null and pubdate != ''">-->
+    <!--and pubdate = #{pubdate}-->
+    <!--</if>-->
+    <!--<if test="accessory != null and accessory != ''">-->
+    <!--and accessory = #{accessory}-->
+    <!--</if>-->
 
+    <!--<if test="reportType != null and reportType != ''">-->
+    <!--and report_type = #{reportType}-->
+    <!--</if>-->
+    <!--and deleted != '1'-->
+    <!--</select>-->
 
 
     <update id="update" parameterType="com.pcitc.base.groupinformation.BlocScientificPlan">
@@ -147,7 +200,7 @@
 
         <trim prefix="SET" suffixOverrides=",">
 
---             and name != ''
+            -- and name != ''
 
             <if test="name != null  ">
                 name = #{name},
