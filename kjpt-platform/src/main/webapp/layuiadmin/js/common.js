@@ -678,6 +678,19 @@ function downloadExeclTemplet(name, type) {
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
+
+	// 自定义表单校验规则
+	form.verify({
+		length: function(value, item) {
+			// <input type="text" lay-filter="length" length="20">
+			var lengthNumber = $(item).attr('length') || 10;
+			if ((''+value).length > lengthNumber) {
+
+			}
+		}
+	})
+
+
 	if ($('.layui-form-screen').length) {
 		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
 			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选'),

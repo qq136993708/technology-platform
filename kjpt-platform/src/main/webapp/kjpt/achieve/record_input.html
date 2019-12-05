@@ -11,13 +11,15 @@
   <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  
+  <link rel="stylesheet" href="/css/achieveRecord.css">
   <!-- 更多样式在此引入 -->
 </head>
 <body>
-<div class="layout-view-content">
-	<form class="layui-form" action="" lay-filter="formPlatform">
+<div class="layout-view-content record_input_page">
+  <div id="edit_transfrom_maintain"></div>
 
+
+	<form class="layui-form" action="" lay-filter="RecordInputForm" id="RecordInputForm">
     <div class="view-title-layout view-pt0">
       <div class="text">科技成果基本信息</div>
     </div>
@@ -95,8 +97,8 @@
         </div>
       </div>
 
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options1">
-        <div class="view-title-layout disabled-box view-pt0">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -149,8 +151,8 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options2">
-        <div class="view-title-layout disabled-box view-pt0">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -196,8 +198,8 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options3">
-        <div class="view-title-layout disabled-box view-pt0">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -208,8 +210,8 @@
           <div class="layui-input-block"><table></table></div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options4">
-        <div class="view-title-layout disabled-box view-pt0">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -220,8 +222,8 @@
           <div class="layui-input-block"><table></table></div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options5">
-        <div class="view-title-layout disabled-box view-pt0">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -257,8 +259,8 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options6">
-        <div class="view-title-layout disabled-box view-pt0">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -270,7 +272,7 @@
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options7">
-        <div class="view-title-layout disabled-box view-pt0">
+        <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
             <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
@@ -284,21 +286,14 @@
 
     </div>
 
-    <div class="maintain_list">
-      
-    </div>
-
-
-    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-      <div class="layui-form-item">
-        <div class="layui-input-block text-right">
-          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formTempSave">暂存</button>
-          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
-          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-      </div>
+    <div class="view-page-submit-btn-box" id="all_page_submit">
+      <button class="layui-btn layui-btn-normal" lay-filter="formTempSave">暂存</button>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </form>
+
+  <div id="init_transfrom_maintain"></div>
 
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
