@@ -62,11 +62,6 @@
     </select>
 
 
-    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  count(*) from achieve_reward where 1=1
-        and del_status != '1'
-        <include refid="selectByParam" />
-    </select>
 
 
     <sql id="selectByParam">
