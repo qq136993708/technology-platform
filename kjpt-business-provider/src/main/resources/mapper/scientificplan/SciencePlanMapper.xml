@@ -137,7 +137,7 @@
             </if>
 
             <if test="annual != null  ">
-                and annual = #{annual}
+                and substring(annual,1,7) = #{annual}
             </if>
 
             <if test="reportType != null  and reportType != ''  ">
