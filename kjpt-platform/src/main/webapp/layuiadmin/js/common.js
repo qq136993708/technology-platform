@@ -14,9 +14,10 @@ if (!console) {
 }
 
 // 获取树项结构的字段 code
-var TREE_DICKIND_CODE = [
-	'ROOT_KJPT_YTDW' //依托单位
-];
+var TREE_DICKIND_CODE = {
+	ROOT_KJPT_YTDW: '/unit-api/getTreeList' //依托单位
+	,ROOT_KJPT_JSLY: '/techFamily-api/getTreeList' // 技术领域
+};
 
 // 对Date的扩展，将 Date 转化为指定格式的String   
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
@@ -350,8 +351,8 @@ function _getDicStore(key, type, callback) {
 function _commonLoadDic(dicKindCode, callback) {
 	if (dicKindCode && typeof(dicKindCode) !== 'object') {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
-		if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
-			httpUrl = '/unit-api/getTreeList';
+		if (TREE_DICKIND_CODE[dicKindCode]) {
+			httpUrl = TREE_DICKIND_CODE[dicKindCode];
 		}
 
 		httpModule({
@@ -366,13 +367,13 @@ function _commonLoadDic(dicKindCode, callback) {
 				} else if (relData.success) {
 					success = true;
 				}
-				if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+				if (TREE_DICKIND_CODE[dicKindCode]) {
 					success = true;
 				}
 
 				if (success) {
 					var __dicData = null;
-					if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+					if (TREE_DICKIND_CODE[dicKindCode]) {
 						__dicData = relData.children || [];
 					} else {
 						if (!relData.data) {

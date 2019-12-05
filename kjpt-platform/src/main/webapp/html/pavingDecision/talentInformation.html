@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+  <!-- 更多样式在此引入 -->
+</head>
+<body>
+<div class="layout-view-content min-label">
+  <form class="layui-form layui-form-screen" action="" lay-filter="pavingDecision">
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">性别：</span></label>
+          <div class="layui-input-block">
+            <select name="sex" placeholder="请选择">
+              <option value=""></option>
+              <option value="01">男</option>
+              <option value="02">女</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">学历：</span></label>
+          <div class="layui-input-block">
+            <select name="sex" placeholder="请选择" dic-base-data="ROOT_KJPT_XL"></select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">技术领域：</span></label>
+          <div class="layui-input-block">
+            <select name="jsly"  xm-select="jslyCode"
+              xm-select-skin="normal"  
+              dic-base-data="ROOT_KJPT_JSLY" placeholder="请选择">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">所在单位：</span></label>
+          <div class="layui-input-block">
+            <select name="countryGroup"  xm-select="countryGroup"
+              xm-select-skin="normal"  
+              dic-base-data="ROOT_KJPT_YTDW" placeholder="请选择">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">职称：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="" class="layui-input" />
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">职务：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="" class="layui-input" />
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">年龄范围：</span></label>
+          <div class="layui-input-block font0">
+            <div class="ib-block" style="width: calc(50% - 15px)">
+              <input type="text" name="" class="layui-input" />              
+            </div>
+            <div class="ib-block text-center font14" style="width: 30px;">至</div>
+            <div class="ib-block" style="width: calc(50% - 15px)">
+              <input type="text" name="" class="layui-input" />              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md8 layui-col-btn">
+        <div class="layui-form-item text-right">
+          <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="submitBtn">查询</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <span class="layui-fold-btn"></span>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="view-title-layout" id="opations-btn">
+    <div class="right">
+      <button class="layui-btn border-blue" id="importData">导出</button>
+    </div>
+  </div>
+
+  <div class="paving-table-layout">
+    <table id="pavingDecisionTable"></table>
+  </div>
+
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+// layui 使用说明 ----- 多个模块同时引用
+layui.use(['form', 'table', 'formSelects'], function(){
+  var form = layui.form,
+  table = layui.table,
+  formSelects = layui.formSelects,
+  tableLoading = true;
+
+  function queryTable(data) {
+    if (tableLoading) {
+      table.render({
+        elem: '#pavingDecisionTable'
+        ,url: '/platform-api/query' //数据接口
+        ,cols: [[ //表头
+          ,{field: 'platformName', title: '姓名'}
+          ,{field: 'supportingInstitutionsText', title: '性别', sort: true }
+          ,{field: 'personLiable', title: '年龄', sort: true}
+          ,{field: 'typeText', title: '学历'} 
+          ,{field: 'researchFieldText', title: '技术领域'}
+          ,{field: 'experience', title: '所在单位', sort: true}
+          ,{field: 'overallSituation', title: '职称', sort: true}
+          ,{field: 'researchFunds', title: '职务'}
+          ,{field: 'platformScoring', title: '工作经历', width: 94 , sort: true}
+          ,{field: 'researchFunds', title: '联系方式'}
+          ,{field: 'researchFunds', title: '邮箱'}
+          ,{field: 'researchFunds', title: '人物简介'}
+          ,{field: 'researchFunds', title: '人物成就'}
+          ,{field: 'researchFunds', title: '项目数量'}
+          ,{field: 'researchFunds', title: '成果数量'}
+          ,{field: 'researchFunds', title: '专利数量'}
+          ,{field: 'researchFunds', title: '奖励数量'}
+        ]],
+        parseData: function(res) {return layuiParseData(res);},
+        request: {
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+        },
+        page: true, //开启分页
+        limit: 10, // 每页数据条数,
+        limits: [5, 10, 15, 20], // 配置分页数据条数
+        where: data,
+        done: function() {
+          if (tableLoading) {
+            // 再次刷新表格放置表头与表体错位
+            tableLoading = false;
+            table.reload('pavingDecisionTable');
+          }
+        }
+      });
+    } else {
+      table.reload('pavingDecisionTable', {where: data});
+    }
+  }
+
+
+  form.on('submit(submitBtn)', function(data) {
+    var searchData = data.field;
+    // formSelects
+    queryTable(searchData);
+    return false;
+  })
+
+  // 首次触发查询
+  $('[lay-filter="submitBtn"]').click();
+
+
+  // 导出
+  $('#importData').click(function() {
+    var name = $('[name="platformName"]').val();
+    name ? name = name.trim() : name = '';
+    window.open('/platform-api/export?level=01&platformName=', '_blank');
+  })
+});
+</script>
+</body>
+</html>
