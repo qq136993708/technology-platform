@@ -102,6 +102,7 @@
         <include refid="selectByParam" />
 
     </select>
+
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select count(*) from science_plan where 1=1 <include refid="selectByParam" />
     </select>

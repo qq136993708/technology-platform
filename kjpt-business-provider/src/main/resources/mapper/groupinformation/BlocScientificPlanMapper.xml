@@ -141,7 +141,6 @@
 
 
 
-
     <update id="update" parameterType="com.pcitc.base.groupinformation.BlocScientificPlan">
 
         update bloc_scientific_plan
