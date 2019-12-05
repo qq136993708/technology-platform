@@ -1,5 +1,26 @@
 layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     var $ = layui.jquery,form = layui.form,formSelects=layui.formSelects,laydate=layui.laydate;
+    // 获取地址栏传递过来的参数
+    var variable = getQueryVariable(),id='';
+    /*判断id，回显*/
+    if(variable.id!=undefined){
+
+        /*回显tr*/
+        backfill('姓名#1#单位#职务$姓名#1#单位#职务','achieveTable')
+    }else {
+        httpModule({
+            url: "/achieve-api/newInit",
+            type: 'GET',
+            async:false,
+            success: function(relData) {
+                if(relData.code==0){
+                    id=relData.data.id
+                }
+                console.log(relData)
+            }
+        });
+
+    }
     var fileCols = [
         {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
         {title: '操作', templet: function(d) {
@@ -43,8 +64,6 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         addTr('achieveTable')
         deleTr('achieveTable')
     })
-    /*回显tr*/
-    backfill('姓名#1#单位#职务$姓名#1#单位#职务','achieveTable')
     $("#formSave").click(function () {
         var data=form.val("formPlatform"),techTypeText='',achieveTransTypeText=''
         delete data.file;
@@ -53,6 +72,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                 techTypeText+=item.name+','
             })
         }
+        data.id=id
         data.teamPerson=getTableData('achieveTable')
         data.techTypeText=techTypeText.substring(0,techTypeText.length-1)
         data.achieveTransTypeText=$(".achieveTransType option:selected").text()
@@ -74,6 +94,28 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         var data=getTableData('achieveTable')
     })*/
     form.on('submit(formDemo)', function(data) {
-        getTableData('achieveTable')
+        var techTypeText='',achieveTransTypeText=''
+        delete data.file;
+        if(formSelects.value('techType')){
+            formSelects.value('techType').map(function (item, index) {
+                techTypeText+=item.name+','
+            })
+        }
+        data.id=id
+        data.teamPerson=getTableData('achieveTable')
+        data.techTypeText=techTypeText.substring(0,techTypeText.length-1)
+        data.achieveTransTypeText=$(".achieveTransType option:selected").text()
+        console.log(data)
+        httpModule({
+            url: '/achieve-api/submit',
+            data: data,
+            type: "POST",
+            success: function(e) {
+                console.log(e)
+                /*if(e.success){
+                    layer.msg('保存成功!', {icon: 1});
+                }*/
+            }
+        });
     })
 })
