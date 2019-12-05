@@ -67,10 +67,6 @@ public class AchieveBase extends RecordModel {
      */
     private String auditStatusText;
     /**
-     * 附件
-     */
-    private String file_doc="";
-    /**
      * 成果的团队情况（$和#号分隔）：姓名#性别#所在单位#职务$姓名#性别#所在单位#职务
      */
     private String teamPerson="";
@@ -177,14 +173,6 @@ public class AchieveBase extends RecordModel {
 
     public void setAuditStatus(String auditStatus) {
         this.auditStatus = auditStatus;
-    }
-
-    public String getFile_doc() {
-        return file_doc;
-    }
-
-    public void setFile_doc(String file_doc) {
-        this.file_doc = file_doc;
     }
 
     public String getTeamPerson() {

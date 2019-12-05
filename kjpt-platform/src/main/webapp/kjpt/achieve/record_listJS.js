@@ -27,7 +27,7 @@ layui.use(['table', 'form'], function() {
           ,{field: 'experience', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list">';
             templet += '<span class="link-text recordDetails" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
-            templet += '<span class="link-text recordDetails" data-type="see" data-id="'+d.id+'">查看备案信息</span>';
+            templet += '<span class="link-text recordDetails" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             templet += '<span class="link-text recordDetails" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
             templet += '</div>';
             return templet;
