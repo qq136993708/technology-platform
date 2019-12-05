@@ -749,7 +749,7 @@ function addTr(id) {
     var trHtml='<tr>' +
         '<td>'+index+'</td>' +
         '<td><input type="text"  placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-        '<td><select name="sex" class="sex">' +
+        '<td><select class="sex">' +
         '<option value=""></option>' +
         '</select></td>' +
         '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
@@ -781,7 +781,7 @@ function backfill(data,id) {
             var trHtml='<tr>' +
                 '<td>'+(index+1)+'</td>' +
                 '<td><input type="text" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-                '<td><select name="sex" class="sex">' +
+                '<td><select class="sex">' +
                 '<option value=""></option>' +
                 '</select></td>' +
                 '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
