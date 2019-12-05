@@ -668,7 +668,7 @@ function downloadExeclTemplet(name, type) {
 		var fileName = name;
 		if (type) {
 			fileName += '.'+type;
-		} else if (fileName.indexOf('.xlsx') === -1) {
+		} else if (fileName.indexOf('.xlsx') === -1 && fileName.indexOf('.xls') === -1) {
 			fileName += '.xlsx';
 		}
 
@@ -685,7 +685,7 @@ layui.use(['form', 'formSelects'], function() {
 			// <input type="text" lay-filter="length" length="20">
 			var lengthNumber = $(item).attr('length') || 10;
 			if ((''+value).length > lengthNumber) {
-
+				return '字符长度不能超过 '+ lengthNumber + '个';
 			}
 		}
 	})

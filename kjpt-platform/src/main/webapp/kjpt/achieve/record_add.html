@@ -33,14 +33,12 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
             <div id="unCore" class="hide-form-item show">
-              <input type="text" name="companyName"
+              <input type="text" name="achieveName" lay-filter="achieveName" lay-verify="required"
                 placeholder="请填写..." autocomplete="off" class="layui-input">
             </div>
             <div id="core" class="hide-form-item">
-              <select name="applicationType" lay-filter="applicationType">
+              <select name="achieveId" lay-filter="achieveId">
                 <option value=""></option>
                 <option value="Y">是</option>
                 <option value="N">否</option>
@@ -71,7 +69,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
-            <select name="applicationType" lay-verify="required"
+            <select name="achieveTransType" lay-verify="required"
               dic-base-data="DIC_DEMO_DATA"
               lay-filter="applicationType"></select>
           </div>

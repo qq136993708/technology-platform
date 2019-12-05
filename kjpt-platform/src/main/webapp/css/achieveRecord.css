@@ -10,6 +10,7 @@
 }
 .layui-table-view .layui-table-cell{
   height: auto;
+  min-width: calc(100% - 5px);
 }
 .layui-table-cell .options-list{
   padding-bottom: 1px;
