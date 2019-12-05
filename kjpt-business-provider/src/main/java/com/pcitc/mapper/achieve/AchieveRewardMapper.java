@@ -14,4 +14,6 @@ public interface AchieveRewardMapper {
     void update(AchieveReward ab);
     void delete(String id);
     List<AchieveReward> query(Map param);
+    void updateRewardMoney(String aRecordId);
+    void updateCurrentYearMoney(String aRecordId);
 }

@@ -109,6 +109,16 @@ public class AchieveBaseController extends RestBaseController {
         return responseEntity.getBody();
     }
 
+    @ApiOperation(value="提交")
+    @RequestMapping(value = "/achieve-api/submit", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveBase submit(@RequestBody AchieveBase ab){
+        this.setBaseData(ab);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
+        return responseEntity.getBody();
+    }
+
     @ApiOperation(value="删除")
     @RequestMapping(value = "/achieve-api/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody

@@ -3,6 +3,7 @@ package com.pcitc.web.achieve;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
+import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.service.achieve.AchieveBaseService;
 import com.pcitc.service.achieve.AchieveRecordService;
 import io.swagger.annotations.Api;
@@ -31,8 +32,8 @@ public class AchieveRecordClient {
 
     @ApiOperation(value = "成果转换备案保存", notes = "成果转换备案保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public void save(@RequestBody AchieveRecord achieveRecord){
-         ars.save(achieveRecord);
+    public void save(@RequestBody AchieveSubmit as){
+         ars.save(as);
     }
 
 

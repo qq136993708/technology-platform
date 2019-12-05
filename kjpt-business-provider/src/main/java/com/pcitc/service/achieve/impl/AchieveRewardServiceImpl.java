@@ -8,6 +8,7 @@ import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRewardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(AchieveReward ab) {
         IsEmptyUtil.isEmpty(ab.getId());
         if(load(ab.getId()) ==null){
@@ -34,7 +36,9 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
         }
         else{
             arm.update(ab);
+
         }
+        arm.updateRewardMoney(ab.getAchieveId());
     }
 
     @Override

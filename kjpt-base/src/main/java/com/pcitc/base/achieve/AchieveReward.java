@@ -17,7 +17,7 @@ public class AchieveReward extends RecordModel {
     /**
      * 成果备案ID
      */
-    private String achieve_record_id;
+    private String achieveRecordId="";
     /**
      * 成果ID(非核心成果时为空)
      */
@@ -45,7 +45,7 @@ public class AchieveReward extends RecordModel {
     /**
      * 激励额度
      */
-    private String rewardQuota = "";
+    private BigDecimal rewardQuota = new BigDecimal("0");
     /**
      * 工资预算来源
      */
@@ -70,6 +70,14 @@ public class AchieveReward extends RecordModel {
      * 激励方案：材料
      */
     private String assignPlanDoc = "";
+    /**
+     * 成果核算：材料
+     */
+    private String rewardAccountingDoc = "";
+    /**
+     * 团队成员
+     */
+    private String teamPerson = "";
 
     public String getId() {
         return id;
@@ -77,14 +85,6 @@ public class AchieveReward extends RecordModel {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getAchieve_record_id() {
-        return achieve_record_id;
-    }
-
-    public void setAchieve_record_id(String achieve_record_id) {
-        this.achieve_record_id = achieve_record_id;
     }
 
     public String getAchieveId() {
@@ -135,14 +135,6 @@ public class AchieveReward extends RecordModel {
         this.rewardRecord = rewardRecord;
     }
 
-    public String getRewardQuota() {
-        return rewardQuota;
-    }
-
-    public void setRewardQuota(String rewardQuota) {
-        this.rewardQuota = rewardQuota;
-    }
-
     public String getBudgetSources() {
         return budgetSources;
     }
@@ -189,5 +181,37 @@ public class AchieveReward extends RecordModel {
 
     public void setBudgetAllMoney(BigDecimal budgetAllMoney) {
         this.budgetAllMoney = budgetAllMoney;
+    }
+
+    public String getAchieveRecordId() {
+        return achieveRecordId;
+    }
+
+    public void setAchieveRecordId(String achieveRecordId) {
+        this.achieveRecordId = achieveRecordId;
+    }
+
+    public BigDecimal getRewardQuota() {
+        return rewardQuota;
+    }
+
+    public void setRewardQuota(BigDecimal rewardQuota) {
+        this.rewardQuota = rewardQuota;
+    }
+
+    public String getRewardAccountingDoc() {
+        return rewardAccountingDoc;
+    }
+
+    public void setRewardAccountingDoc(String rewardAccountingDoc) {
+        this.rewardAccountingDoc = rewardAccountingDoc;
+    }
+
+    public String getTeamPerson() {
+        return teamPerson;
+    }
+
+    public void setTeamPerson(String teamPerson) {
+        this.teamPerson = teamPerson;
     }
 }

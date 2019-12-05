@@ -3,12 +3,15 @@ package com.pcitc.service.achieve.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveRecord;
+import com.pcitc.base.achieve.AchieveReward;
+import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveRecordMapper;
+import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -22,23 +25,36 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     @Autowired
     private AchieveRecordMapper arm;
 
+    @Autowired
+    private AchieveRewardMapper arw;
+
     @Override
     public AchieveRecord load(String id) {
         return arm.load(id);
     }
 
     @Override
-    public void save(AchieveRecord ab) {
+    @Transactional(rollbackFor = Exception.class)
+    public void save(AchieveSubmit as) {
 
-        IsEmptyUtil.isEmpty(ab.getId());
-        if(load(ab.getId()) ==null){
-            ab.setCreateDate(ab.getUpdateDate());
-            ab.setCreator(ab.getUpdator());
-            arm.add(ab);
+        AchieveRecord aRecord = as.getAchieveRecord();
+        AchieveReward aReward = as.getAchieveReward();
+        IsEmptyUtil.isEmpty(aRecord);
+        IsEmptyUtil.isEmpty(aReward);
+        if(load(aRecord.getId()) ==null){
+            aRecord.setCreateDate(as.getUpdateDate());
+            aRecord.setCreator(as.getUpdator());
+            arm.add(aRecord);
+
+            aReward.setCreateDate(as.getUpdateDate());
+            aReward.setCreator(as.getUpdator());
+            arw.add(aReward);
         }
         else{
-            arm.update(ab);
+            arm.update(aRecord);
+            arw.update(aReward);
         }
+        arw.updateRewardMoney(aRecord.getId());
     }
 
     @Override

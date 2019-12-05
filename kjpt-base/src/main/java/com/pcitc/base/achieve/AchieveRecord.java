@@ -17,7 +17,7 @@ public class AchieveRecord extends RecordModel {
     /**
      * 成果ID(如果是非成果类的，此项为空)
      */
-    private String achieveId;
+    private String achieveId="";
     /**
      * 成果名称
      */

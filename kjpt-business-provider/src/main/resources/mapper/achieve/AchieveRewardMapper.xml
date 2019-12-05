@@ -14,7 +14,7 @@
         <result column="check_basis" jdbcType="VARCHAR" property="checkBasis"/>
         <result column="income_calculation" jdbcType="VARCHAR" property="incomeCalculation"/>
         <result column="reward_record" jdbcType="VARCHAR" property="rewardRecord"/>
-        <result column="reward_quota" jdbcType="VARCHAR" property="rewardQuota"/>
+        <result column="reward_quota" jdbcType="FLOAT" property="rewardQuota"/>
         <result column="budget_sources" jdbcType="VARCHAR" property="budgetSources"/>
         <result column="budget_person" jdbcType="VARCHAR" property="budgetPerson"/>
         <result column="budget_all_money" jdbcType="FLOAT" property="budgetAllMoney"/>
@@ -124,5 +124,11 @@
             update achieve_reward set del_status = '1' where id = #{id}
     </update>
 
+    <update id="updateRewardMoney" parameterType="java.lang.String">
+        update achieve_record set reward_money = (select sum(reward_quota) from achieve_reward where achieve_record_id = #{aRecordId}) where id = #{achieve_id}
+    </update>
 
+    <update id="updateCurrentYearMoney" parameterType="java.lang.String">
+        update achieve_record set current_reward_money = (SELECR reward_quota FROM achieve_reward ORDER BY reward_year DESC LIMI 1)  where id = #{achieve_id}
+    </update>
 </mapper>
