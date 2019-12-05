@@ -45,8 +45,19 @@ layui.use(['table', 'form'], function() {
   $('#delItem').on('click', function() {
     // 获取被选中的行数据
     var activeData = table.checkStatus('tableDemo').data;
+    console.log(activeData)
     if (activeData.length) {
+        httpModule({
+            url: "/achieve-api/delete/"+activeData.id,
+            type: 'DELETE',
+            async:false,
+            success: function(relData) {
+              console.log(relData)
+                if(relData.code==0){
 
+                }
+            }
+        });
     } else {
       top.layer.msg('请选择需要删除的数据！');
     }
