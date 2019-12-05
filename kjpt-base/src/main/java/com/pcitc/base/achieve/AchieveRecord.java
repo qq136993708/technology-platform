@@ -2,6 +2,7 @@ package com.pcitc.base.achieve;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  *备案表
  * @author
  */
-public class AchieveRecord extends RecordModel {
+public class AchieveRecord extends RecordModel implements Serializable {
     /**
      * 数据主键
      */
