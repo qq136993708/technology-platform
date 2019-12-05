@@ -110,6 +110,9 @@ layui.use(['element', 'jquery'], function() {
             openType: config.openType
           })
         }
+        if (config.callback) {
+          config.callback(res);
+        }
       }
     })
   }
@@ -154,7 +157,12 @@ layui.use(['element', 'jquery'], function() {
     href: '/html/patent/view.html',
     hrefData: ['id'],
     title: '专利详情',
-    openType: 'layer'
+    openType: 'layer',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#patent_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
   })
 
   // 科技规划
@@ -165,7 +173,12 @@ layui.use(['element', 'jquery'], function() {
     data: { page: 1, limit: 10, reportType: 1},
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
-    title: '科技规划'
+    title: '科技规划',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#plan_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
   })
 
   // 工作要点
@@ -176,7 +189,12 @@ layui.use(['element', 'jquery'], function() {
     data: { page: 1, limit: 10, reportType: 2},
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
-    title: '工作要点'
+    title: '工作要点',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#work_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
   })
 
   // 科技进展动态
@@ -187,7 +205,12 @@ layui.use(['element', 'jquery'], function() {
     data: { page: 1, limit: 10, reportType: 3},
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
-    title: '科技进展动态'
+    title: '科技进展动态',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#progress_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
   })
 
   // 年度总结
@@ -198,7 +221,12 @@ layui.use(['element', 'jquery'], function() {
     data: { page: 1, limit: 10, reportType: 4},
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
-    title: '年度总结'
+    title: '年度总结',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#summary_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
   })
 
 });

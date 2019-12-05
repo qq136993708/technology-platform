@@ -128,6 +128,9 @@
   border-radius: 5px;
   font-size: 14px;
 }
+.layui-textarea {
+  min-height: 80px;
+}
 .layui-input {
   line-height: 28px;
 }
@@ -290,6 +293,7 @@
 .layui-table[lay-even] tr:nth-child(even) {
   background-color: #ECF0F4;
 }
+.layui-table tbody tr:hover{background: #f1f7fd;}
 .layui-table thead th {}
 
 .layui-tab-title.tab-btn-layout {

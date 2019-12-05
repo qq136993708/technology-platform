@@ -8,16 +8,16 @@ layui.use(['table', 'form'], function() {
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/data/achieve.json' //数据接口
+        ,url: '/achieve-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'checkbox', field: 'id'}
+          {type: 'radio', field: 'id'}
           ,{type: 'numbers', title: '序号', width: 80}
-          ,{field: 'platformName', title: '申请状态'}
-          ,{field: 'supportingInstitutionsText', title: '成果名称', sort: true }
-          ,{field: 'personLiable', title: '完成单位', sort: true}
-          ,{field: 'typeText', title: '科技成果介绍'} 
-          ,{field: 'researchFieldText', title: '成果完成时间'}
-          ,{field: 'experience', title: '拟转让方式', sort: true}
+          ,{field: 'auditStatusText', title: '申请状态'}
+          ,{field: 'achieveName', title: '成果名称', sort: true }
+          ,{field: 'finishUnitName', title: '完成单位', sort: true}
+          ,{field: 'brief', title: '科技成果介绍'}
+          ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
+          ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
         ]],
         parseData: function(res) {return layuiParseData(res, null, 3);},
         request: {
@@ -45,8 +45,19 @@ layui.use(['table', 'form'], function() {
   $('#delItem').on('click', function() {
     // 获取被选中的行数据
     var activeData = table.checkStatus('tableDemo').data;
+    console.log(activeData)
     if (activeData.length) {
+        httpModule({
+            url: "/achieve-api/delete/"+activeData.id,
+            type: 'DELETE',
+            async:false,
+            success: function(relData) {
+              console.log(relData)
+                if(relData.code==0){
 
+                }
+            }
+        });
     } else {
       top.layer.msg('请选择需要删除的数据！');
     }
@@ -56,8 +67,8 @@ layui.use(['table', 'form'], function() {
   $('.openLayerPage').on('click', function() {
     var optionType = $(this).data('type'),
     dialogTitle = '新增申请',
-    url = '/kjpt/achieve/apply.html?type=' + optionType;
-
+    url = '/kjpt/achieve/apply.html?type=' + optionType+"&index="+index;
+      var index=parent.$("#LAY_app_body div.layui-show").index()-1;
     if (optionType === 'edit') {
       dialogTitle = '编辑申请';
     } else if (optionType === 'view') {
@@ -68,7 +79,7 @@ layui.use(['table', 'form'], function() {
       var listData = table.checkStatus('tableDemo').data;
       if (listData.length) {
         if (listData.length === 1) {
-          url += '&id='+listData[0].id;
+          url += '&id='+listData[0].id+"&index="+index;
         } else {
           top.layer.msg('要'+dialogTitle+'的数据只能是单条！');
           return false;

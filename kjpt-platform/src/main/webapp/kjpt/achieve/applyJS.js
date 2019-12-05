@@ -1,5 +1,9 @@
-layui.use(['jquery','table', 'form'], function() {
-    var $ = layui.jquery,form = layui.form;
+layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
+    var $ = layui.jquery,form = layui.form,formSelects=layui.formSelects,laydate=layui.laydate;
+    // 获取地址栏传递过来的参数
+    var variable = getQueryVariable(),id='';
+    /*判断id，回显*/
+
     var fileCols = [
         {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
         {title: '操作', templet: function(d) {
@@ -18,95 +22,120 @@ layui.use(['jquery','table', 'form'], function() {
             console.log(tableData, type);
         }
     });
-    /*动态生成元素*/
-    function createElement(param) {
+    laydate.render({
+        elem: '#finishDate'
+        ,trigger: 'click'
+    });
+    /*领域*/
+    httpModule({
+        url: "/techFamily-api/getTreeList",
+        type: 'GET',
+        async:false,
+        success: function(relData) {
+            console.log(relData)
+            relData.children.map(function (item,index) {
+                item.children.map(function (items,i) {
+                    delete items.children
+                })
+            })
+            formSelects.data('techType', 'local', { arr: relData.children });
+            formSelects.btns('techType', ['remove']);
+        }
+    });
+    if(variable.id!=undefined){
+        id=variable.id
         httpModule({
-            url: "/sysDictionary-api/getChildsListByCode/"+param.code,
+            url: "/achieve-api/load/"+variable.id,
             type: 'GET',
+            async:false,
             success: function(relData) {
-                if (relData.success === true) {
-                    relData.data.map(function(item){
-                        if(param.element=="option"){
-                            if(param.value==item.numValue){
-                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
-                            }else {
-                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"'>"+item.name+"</option>")
-                            }
-                        }
-                    });
-                    form.render()
+                if(relData.code==0){
+                    /*回显tr*/
+                    relData.data.finishDate=dateFieldText(relData.data.finishDate)
+                    form.val('formPlatform', relData.data);
+                    formSelects.value('techType', relData.data.techType.split(','));
+                    backfill(relData.data.teamPerson,'achieveTable')
+                    console.log(relData)
                 }
             }
         });
+
+    }else {
+        httpModule({
+            url: "/achieve-api/newInit",
+            type: 'GET',
+            async:false,
+            success: function(relData) {
+                if(relData.code==0){
+                    id=relData.data.id
+                }
+                console.log(relData)
+            }
+        });
+
     }
-    var noTr='<tr class="layui-none">' +
-        '                  <td colspan="6"><div style="text-align: center">暂无数据,请添加！</div></td>' +
-        '                </tr>';
+    /*添加tr*/
     $("#addTr").click(function () {
-        var off=$("#achieveTable").find(".layui-none");
-        $(off).hide();
-        var index=$("#achieveTable tbody tr").length
-        var trHtml='<tr>' +
-                '<td>'+index+'</td>' +
-                '<td><input type="text"  placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-                '<td><select name="sex" class="sex">' +
-                    '<option value=""></option>' +
-                    '</select></td>' +
-                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
-                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
-                '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
-            '</tr>';
-        createElement({code:'ROOT_KJPT_XB',id:'achieveTable',className:'sex',element:'option',index:index})
-        $("#achieveTable tbody").append(trHtml)
-        deleTr()
+        addTr('achieveTable')
+        deleTr('achieveTable')
     })
-    function backfill() {
-        var obj=[{name:'1',sex:"1"},{name:'2',sex:"1"}]
-        if(obj.length>0){
-            var off=$("#achieveTable").find(".layui-none");
-            $(off).hide();
-            obj.map(function (item, index) {
-                var trHtml='<tr>' +
-                    '<td>'+(index+1)+'</td>' +
-                    '<td><input type="text" value="'+item.name+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-                    '<td><select name="sex" class="sex">' +
-                    '<option value=""></option>' +
-                    '</select></td>' +
-                    '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
-                    '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
-                    '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
-                    '</tr>';
-                createElement({code:'ROOT_KJPT_XB',id:'achieveTable',className:'sex',element:'option',index:index+1,value:item.sex})
-                $("#achieveTable tbody").append(trHtml)
+    $("#formSave").click(function () {
+        var data=form.val("formPlatform"),techTypeText='',achieveTransTypeText=''
+        delete data.file;
+        if(formSelects.value('techType')){
+            formSelects.value('techType').map(function (item, index) {
+                techTypeText+=item.name+','
             })
         }
-        deleTr()
-    }
-    backfill()
-    function deleTr(){
-        $(".deleTr").click(function () {
-            $(this).parents("tr").remove()
-            var tr=$("#achieveTable tbody tr")
-            $(tr).map(function (index, item) {
-                if($(this).attr("class")!="layui-none"){
-                    $(this).find("td:nth-child(1)").html(index)
+        data.id=id
+        data.teamPerson=getTableData('achieveTable')
+        data.techTypeText=techTypeText.substring(0,techTypeText.length-1)
+        data.achieveTransTypeText=$(".achieveTransType option:selected").text()
+        console.log(data)
+        httpModule({
+            url: '/achieve-api/save',
+            data: data,
+            type: "POST",
+            success: function(e) {
+                console.log(e)
+                if(e.code==0){
+                    layer.msg('保存成功!', {icon: 1});
+                    closeTabsPage(variable.index);
                 }
-
-            });
-        })
-    }
-    function getTableData(){
-        var tr=$("#achieveTable tbody tr")
-        $(tr).map(function (index, item) {
-            if(index!==0){
-                /*获取数据*/
             }
-        })
-    }
-    form.on('submit(formSave)', function(data) {
-        getTableData()
+        });
     })
+    /*form.on('submit(formSave)', function(data) {
+        console.log(data)
+        var data=getTableData('achieveTable')
+    })*/
     form.on('submit(formDemo)', function(data) {
-        getTableData()
+        var techTypeText='',achieveTransTypeText=''
+        delete data.file;
+        if(formSelects.value('techType')){
+            formSelects.value('techType').map(function (item, index) {
+                techTypeText+=item.name+','
+            })
+        }
+        data.id=id
+        data.teamPerson=getTableData('achieveTable')
+        data.techTypeText=techTypeText.substring(0,techTypeText.length-1)
+        data.achieveTransTypeText=$(".achieveTransType option:selected").text()
+        console.log(data)
+        httpModule({
+            url: '/achieve-api/submit',
+            data: data,
+            type: "POST",
+            success: function(e) {
+                console.log(e)
+                if(e.code==0){
+                    layer.msg('保存成功!', {icon: 1});
+                    closeTabsPage(variable.index);
+                }
+            }
+        });
+    })
+    $("#close").click(function () {
+        closeTabsPage(variable.index);
     })
 })

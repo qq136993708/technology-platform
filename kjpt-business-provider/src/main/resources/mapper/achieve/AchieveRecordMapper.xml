@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.achieve.AchieveRecordMapper">
+
+    <resultMap id="AchieveRecordMap" type="com.pcitc.base.achieve.AchieveRecord">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="achieve_id" jdbcType="VARCHAR" property="achieveId"/>
+        <result column="achieve_name" jdbcType="VARCHAR" property="achieveName"/>
+        <result column="achieve_type" jdbcType="VARCHAR" property="achieveType"/>
+        <result column="achieve_trans_type" jdbcType="VARCHAR" property="achieveTransType"/>
+        <result column="achieve_trans_status" jdbcType="VARCHAR" property="achieveTransStatus"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="del_status" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="achieve_info" jdbcType="VARCHAR" property="achieveInfo"/>
+        <result column="finish_unit_name" jdbcType="VARCHAR" property="finishUnitName"/>
+        <result column="income_money" jdbcType="FLOAT" property="incomeMoney"/>
+        <result column="trans_money" jdbcType="FLOAT" property="transMoney"/>
+        <result column="reward_money" jdbcType="FLOAT" property="rewardMoney"/>
+        <result column="current_reward_money" jdbcType="FLOAT" property="currentRewardMoney"/>
+        <result column="about_complete_time" jdbcType="TIMESTAMP" property="aboutCompleteTime"/>
+        <result column="about_complete_info" jdbcType="VARCHAR" property="aboutCompleteInfo"/>
+        <result column="achieve_tech_type" jdbcType="VARCHAR" property="achieveTechType"/>
+        <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
+        <result column="project_source" jdbcType="VARCHAR" property="projectSource"/>
+        <result column="project_source" jdbcType="VARCHAR" property="projectSource"/>
+        <result column="team_info" jdbcType="VARCHAR" property="teamInfo"/>
+        <result column="appraisal_doc" jdbcType="VARCHAR" property="appraisalDoc"/>
+        <result column="grant_unit_name" jdbcType="VARCHAR" property="grantUnitName"/>
+        <result column="grant_reason" jdbcType="VARCHAR" property="grantReason"/>
+        <result column="grant_choose_way" jdbcType="VARCHAR" property="grantChooseWay"/>
+        <result column="grant_doc" jdbcType="VARCHAR" property="grantDoc"/>
+        <result column="trans_price_basis" jdbcType="VARCHAR" property="transPriceBasis"/>
+        <result column="trans_price_way" jdbcType="VARCHAR" property="transPriceWay"/>
+        <result column="trans_public_doc" jdbcType="VARCHAR" property="transPublicDoc"/>
+        <result column="trans_contract_doc" jdbcType="VARCHAR" property="transContractDoc"/>
+        <result column="trans_assess_doc" jdbcType="VARCHAR" property="transAssessDoc"/>
+        <result column="decision_flow" jdbcType="VARCHAR" property="decisionFlow"/>
+        <result column="decision_result" jdbcType="VARCHAR" property="decisionResult"/>
+        <result column="decision_meeting_doc" jdbcType="VARCHAR" property="decisionMeetingDoc"/>
+        <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
+        <result column="intellectual_info" jdbcType="VARCHAR" property="intellectualInfo"/>
+        <result column="grant_invest" jdbcType="VARCHAR" property="grantInvest"/>
+        <result column="achieve_type_text" jdbcType="VARCHAR" property="achieveTypeText"/>
+        <result column="achieve_trans_type_text" jdbcType="VARCHAR" property="achieveTransTypeText"/>
+        <result column="achieve_trans_status_text" jdbcType="VARCHAR" property="achieveTransStatusText"/>
+        <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
+        <result column="achieve_tech_type_text" jdbcType="VARCHAR" property="achieveTechTypeText"/>
+    </resultMap>
+
+
+    <sql id="AchieveRecord_Column_List">
+        id,
+        achieve_id,
+        achieve_name,
+        achieve_type,
+        achieve_trans_type,
+        achieve_trans_status,
+        audit_status,
+        del_status,
+        create_time,
+        create_user,
+        achieve_info,
+        finish_unit_name,
+        income_money,
+        trans_money,
+        reward_money,
+        current_reward_money,
+        about_complete_time,
+        about_complete_info,
+        achieve_tech_type,
+        project_channel,
+        project_source,
+        team_info,
+        appraisal_doc,
+        grant_unit_name,
+        grant_reason,
+        grant_choose_way,
+        grant_doc,
+        trans_price_basis,
+        trans_price_way,
+        trans_public_doc,
+        trans_contract_doc,
+        trans_assess_doc,
+        decision_flow,
+        decision_result,
+        decision_meeting_doc,
+        decision_rule_doc,
+        team_person,
+        intellectual_info,
+        grant_invest
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="AchieveRecordMap">
+        select  * from view_achieve_record where id = #{id} and del_status != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="AchieveRecordMap">
+        select  * from view_achieve_record where 1=1
+            and del_status != '1'
+        <include refid="selectByParam" />
+    </select>
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from achieve_record where 1=1
+            and del_status != '1'
+        <include refid="selectByParam" />
+    </select>
+
+    <sql id="selectByParam">
+        <if test="achieveName != null and achieveName != '' " >
+            and achieve_name like CONCAT('%',#{achieveName},'%')
+        </if>
+        <if test="achieveType != null and achieveType != '' " >
+            and achieve_type = #{achieveType}
+        </if>
+        <if test="finishUnitName != null and finishUnitName != '' " >
+            and finish_unit_name = #{finishUnitName}
+        </if>
+    </sql>
+
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
+        insert into achieve_record ( <include refid="AchieveRecord_Column_List" /> )
+         values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
+         #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
+          ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
+        update achieve_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="achieveName != null and achieveName != '' " >
+                achieve_name = #{achieveName},
+            </if>
+            <if test="achieveType != null and achieveType != '' " >
+                achieve_type = #{achieveType},
+            </if>
+            <if test="achieveTransType != null and achieveTransType != ''" >
+                achieve_trans_type = #{achieveTransType},
+            </if>
+            <if test="achieveTransStatus != null and achieveTransStatus != ''" >
+                achieve_trans_status = #{achieveTransStatus},
+            </if>
+            <if test="auditStatus != null and auditStatus != ''" >
+                audit_status = #{auditStatus},
+            </if>
+            <if test="achieveInfo != null and achieveInfo != ''" >
+                achieve_info = #{achieveInfo},
+            </if>
+            <if test="finishUnitName != null and finishUnitName != ''" >
+                finish_unit_name = #{finishUnitName},
+            </if>
+            <if test="incomeMoney != null and incomeMoney != ''" >
+                income_money = #{incomeMoney},
+            </if>
+            <if test="transMoney != null and transMoney != ''" >
+                trans_money = #{transMoney},
+            </if>
+            <if test="rewardMoney != null and rewardMoney != ''" >
+                reward_money = #{rewardMoney},
+            </if>
+            <if test="currentRewardMoney != null and currentRewardMoney != ''" >
+                current_reward_money = #{currentRewardMoney},
+            </if>
+            <if test="aboutCompleteTime != null " >
+                about_complete_time = #{aboutCompleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="aboutCompleteInfo != null and aboutCompleteInfo != ''" >
+                aboutCompleteInfo = #{aboutCompleteInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="achieveTechType != null and achieveTechType != ''" >
+                achieve_tech_type = #{achieveTechType,jdbcType=VARCHAR},
+            </if>
+            <if test="projectChannel != null and projectChannel != ''" >
+                project_channel = #{projectChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSource != null and projectSource != ''" >
+                project_source = #{projectSource,jdbcType=VARCHAR},
+            </if>
+            <if test="intellectualInfo != null and intellectualInfo != ''" >
+                intellectual_info = #{intellectualInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="teamInfo != null and teamInfo != ''" >
+                team_info = #{teamInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="appraisalDoc != null and appraisalDoc != ''" >
+                appraisal_doc = #{appraisalDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="grantUnitName != null and grantUnitName != ''" >
+                grant_unit_name = #{grantUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="grantReason != null and grantReason != ''" >
+                grant_reason = #{grantReason,jdbcType=VARCHAR},
+            </if>
+            <if test="grantInvest != null and grantInvest != ''" >
+                grant_invest = #{grantInvest,jdbcType=VARCHAR},
+            </if>
+            <if test="grantChooseWay != null and grantChooseWay != ''" >
+                grant_choose_way = #{grantChooseWay,jdbcType=VARCHAR},
+            </if>
+            <if test="grantDoc != null and grantDoc != ''" >
+                grant_doc = #{grantDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="transPriceBasis != null and transPriceBasis != ''" >
+                trans_price_basis = #{transPriceBasis,jdbcType=VARCHAR},
+            </if>
+            <if test="transPriceWay != null and transPriceWay != ''" >
+                trans_price_way = #{transPriceWay,jdbcType=VARCHAR},
+            </if>
+            <if test="transPublicDoc != null and transPublicDoc != ''" >
+                trans_public_doc = #{transPublicDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="transContractDoc != null and transContractDoc != ''" >
+                trans_contract_doc = #{transContractDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="transAssessDoc != null and transAssessDoc != ''" >
+                trans_assess_doc = #{transAssessDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="decisionFlow != null and decisionFlow != ''" >
+                decision_flow = #{decisionFlow,jdbcType=VARCHAR},
+            </if>
+            <if test="decisionResult != null and decisionResult != ''" >
+                decision_result = #{decisionResult,jdbcType=VARCHAR},
+            </if>
+            <if test="decisionMeetingDoc != null and decisionMeetingDoc != ''" >
+                decision_meeting_doc = #{decisionMeetingDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="decisionRuleDoc != null and decisionRuleDoc != ''" >
+                decision_rule_doc = #{decisionRuleDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="teamPerson != null and teamPerson != ''" >
+                team_person = #{teamPerson,jdbcType=VARCHAR}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update achieve_record set del_status = '1' where id = #{id}
+    </update>
+
+</mapper>
