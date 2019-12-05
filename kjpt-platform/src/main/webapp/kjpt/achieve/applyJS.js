@@ -19,7 +19,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         }
     });
     laydate.render({
-        elem: '#awardingTimeStr'
+        elem: '#finishDate'
         ,trigger: 'click'
     });
     /*领域*/
@@ -34,8 +34,8 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                     delete items.children
                 })
             })
-            formSelects.data('technicalField', 'local', { arr: relData.children });
-            formSelects.btns('technicalField', ['remove']);
+            formSelects.data('techType', 'local', { arr: relData.children });
+            formSelects.btns('techType', ['remove']);
         }
     });
     /*添加tr*/
@@ -46,7 +46,28 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     /*回显tr*/
     backfill('姓名#1#单位#职务$姓名#1#单位#职务','achieveTable')
     $("#formSave").click(function () {
-        console.log(form.val("formPlatform"))
+        var data=form.val("formPlatform"),techTypeText='',achieveTransTypeText=''
+        delete data.file;
+        if(formSelects.value('techType')){
+            formSelects.value('techType').map(function (item, index) {
+                techTypeText+=item.name+','
+            })
+        }
+        data.teamPerson=getTableData('achieveTable')
+        data.techTypeText=techTypeText.substring(0,techTypeText.length-1)
+        data.achieveTransTypeText=$(".achieveTransType option:selected").text()
+        console.log(data)
+        httpModule({
+            url: '/achieve-api/save',
+            data: data,
+            type: "POST",
+            success: function(e) {
+                console.log(e)
+                /*if(e.success){
+                    layer.msg('保存成功!', {icon: 1});
+                }*/
+            }
+        });
     })
     /*form.on('submit(formSave)', function(data) {
         console.log(data)
