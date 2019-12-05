@@ -2,8 +2,8 @@ layui.use(['form','laydate'], function(){
 	var form = layui.form;
 	
   var variable = getQueryVariable();
-  var reportTypeVal = +variable.reportType;
-  switch(reportTypeVal){
+  var reportTypeVal = variable.reportType;
+  switch(+reportTypeVal){
     case 1:
         $('#configName').html("科技规划名称:");
     break;
@@ -28,6 +28,7 @@ layui.use(['form','laydate'], function(){
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
     itemDataUrl = '/blocScientificPlan/load/' + variable.id;
+    msgTitle = '查看';
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度

@@ -32,10 +32,11 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
   var readonlyFile = false; // 附件是否只读
   // layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
   
-
+  console.log('type',variable.type);
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
     itemDataUrl = '/SciencePlan/load/' + variable.id;
+    msgTitle = '查看';
     readonlyFile = true;
   } else if (variable.type === 'add') {
     // 年份月度

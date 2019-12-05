@@ -241,6 +241,7 @@ a.link-text:hover {
   top: 50%;
   margin-top: 0;
 }
+
 .layui-form[fold-panel="open"]  .layui-fold-btn::before{
   transform: rotate(45deg);
   -ms-transform: rotate(45deg);

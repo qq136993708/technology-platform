@@ -10,6 +10,11 @@
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/liMarquee.css">
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
+<style>
+	.layui-this{
+		font-weight: bold;
+	}
+</style>
 <script>
 var __base_dic_store = {
 	// 非树形结构数据样例
@@ -90,7 +95,7 @@ var __base_dic_store = {
 							<span class="user-name" title="${userInfo.userDisp!}">${userInfo.userDisp!}</span>
 							<span class="layui-nav-more"></span>
 						</a>
-						<div class="layui-hide information">
+						<div class="layui-hide information" id="btnGroups">
 							<dl class="layui-nav-child-dl">
 								
 								<dd>

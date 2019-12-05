@@ -4,6 +4,14 @@
   background-color: #F9F9F9;
   padding-bottom: 1px;
 }
+@font-face{
+  font-family:'FlamaLight';
+  src: url('/font/FlamaLight.ttf') format('truetype'),
+       url('/font/FlamaLight.woff') format('woff'),
+       url('/font/FlamaLight.eot'),
+       url('/font/FlamaLight.svg') format('svg');
+  font-weight: normal;
+}
 .home-header-layout{
   height: calc(18% - 12px);
   min-height: 120px;
@@ -68,9 +76,11 @@
   width: 100%;
 }
 .home-header-layout .title-cl-item {
+  
   padding-bottom: 12px;
 }
 .home-header-layout .number-cl-item .number{
+  font-family: 'FlamaLight';
   font-size: 36px;
   line-height: 30px;
   height: 30px;
@@ -108,13 +118,16 @@
 
 .home-middle-layout .oneItem{
   background-color: #0AA1FF;
-  background:linear-gradient(223deg,rgba(24,189,244,1) 0%,rgba(37,147,245,1) 100%);
+  background:url('/layuiadmin/layui/images/backlog.png') 0 0 no-repeat;
+  background-size: 100% 100%;
 }
 .home-middle-layout .twoItem{
-  background:rgba(14,198,205,1);
+  background:url('/layuiadmin/layui/images/summarize.png') 0 0 no-repeat;
+  background-size: 100% 100%;
 }
 .home-middle-layout .threeItem{
-  background:rgba(129,181,218,1);
+  background:url('/layuiadmin/layui/images/collect.png') 0 0 no-repeat;
+  background-size: 100% 100%;
 }
 .home-middle-layout .middle-title{
   line-height: 20px;
@@ -141,12 +154,16 @@
   margin: 16px 24px;
   text-align: center;
 }
+
+
 .home-middle-layout .oneItem .ib-block{
-  font-size: 96px;
+  font-family: 'FlamaLight';
+  font-size: 90px;
   line-height: 80px;
   height: 80px;
   cursor: pointer;
   color: #fff;
+
 }
 .home-middle-layout .twoItem .middle-content{
   height: calc(100% - 48px);
@@ -251,7 +268,7 @@
   color: #46484B;
   font-size: 14px;
   line-height: 14px;
-  font-weight: bold;
+  /* font-weight: bold; */
   display: inline-block;
   vertical-align: middle;
   margin-left: 10px;
