@@ -75,7 +75,7 @@ public class BlocScientificPlanController extends RestBaseController {
             @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String publication,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date annual,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") Date annual,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date pubdate,
             @RequestParam(required = false) String accessory,
             @RequestParam(required = false) String reportType
@@ -94,8 +94,8 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(publication)) {
             this.setParam(condition, "publication", publication);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_DD))) {
-            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_DD));
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MM))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MM));
         }
         if (!StringUtils.isEmpty(DateUtil.format(pubdate,DateUtil.FMT_DD))) {
             this.setParam(condition, "pubdate", DateUtil.format(pubdate,DateUtil.FMT_DD));
