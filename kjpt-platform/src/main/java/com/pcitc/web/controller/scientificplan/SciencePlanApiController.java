@@ -125,7 +125,7 @@ public class SciencePlanApiController extends RestBaseController {
 //            this.setParam(condition, "annual", annual);
 //        }
         if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MM))) {
-            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MM));
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MMM));
         }
         if (!StringUtils.isEmpty(reportType)) {
             this.setParam(condition, "reportType", reportType);

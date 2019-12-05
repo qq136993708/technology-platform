@@ -20,9 +20,6 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="annual" jdbcType="VARCHAR" property="annual"/>
-
-        <!--<result column="annual" jdbcType="TIMESTAMP" property="annual"/>-->
-
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
 
@@ -140,8 +137,7 @@
             </if>
 
             <if test="annual != null  ">
-                and annual = #{annual}
-
+                and substring(annual,1,7) = #{annual}
             </if>
 
             <if test="reportType != null  and reportType != ''  ">
