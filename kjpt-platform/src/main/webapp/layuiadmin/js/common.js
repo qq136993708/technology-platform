@@ -423,6 +423,7 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			selector.append('<option value=""></option>');
 		}
 		if (__dicData.length) {
+            selector.append(new Option('请选择', ('')));
 			$.each(__dicData, function(i, item){
 				selector.append(new Option(item.name, (item.numValue || item.value)));
 			});
@@ -676,6 +677,31 @@ function downloadExeclTemplet(name, type) {
 		window.open('/data/'+ fileName, '_blank');
 	}
 }
+
+// 添加数字换算单位
+function conversionNumber(data) {
+	var value = 0;
+	if (data >= 10000 && data < 100000000) {
+		value = (function() {
+			if ((data /10000)%1) {
+				return (data /10000).toFixed(1)+ '万';
+			} else {
+				return data /10000 + '万';
+			}
+		})();
+	} else if (data >= 100000000) {
+		value = (function() {
+			if ((data /100000000)%1) {
+				return (data /100000000).toFixed(1)+ '亿';
+			} else {
+				return data /100000000 + '亿';
+			}
+		})();
+	}
+
+	return value;
+}
+
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
@@ -785,16 +811,34 @@ function deleTr(id){
         });
     })
 }
-function backfill(data,id) {
+function backfill(data,id,type) {
+	var readonly='';
+    type=="view" ?  readonly='true': readonly='false'
+    console.log(readonly)
     var dataArr=data.split("$")
+
     if(dataArr.length>0){
         var off=$("#"+id).find(".layui-none");
         $(off).hide();
+        if(type=="view"){
+            dataArr.map(function (item, index) {
+                var itemArr=item.split("#")
+                var trHtml='<tr>' +
+                    '<td>'+(index+1)+'</td>' +
+                    '<td><input type="text" readonly="readonly" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
+                    '<td><input type="text" readonly="readonly" value="'+(itemArr[1]=='null' ? '': itemArr[1])+'" autocomplete="off" class="layui-input"></td>' +
+                    '<td><input type="text" readonly="readonly" placeholder="请填写..." value="'+(itemArr[2]=='null' ? '': itemArr[2])+'" autocomplete="off" class="layui-input"></td>' +
+                    '<td><input type="text" readonly="readonly" placeholder="请填写..."   value="'+(itemArr[3]=='null' ? '': itemArr[3])+'" autocomplete="off" class="layui-input"></td>' +
+                    '</tr>';
+                $("#"+id+" tbody").append(trHtml)
+            })
+			return false
+        }
         dataArr.map(function (item, index) {
 			var itemArr=item.split("#")
             var trHtml='<tr>' +
                 '<td>'+(index+1)+'</td>' +
-                '<td><input type="text" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
+                '<td><input type="text"  value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
                 '<td><select class="sex">' +
                 '<option value=""></option>' +
                 '</select></td>' +
