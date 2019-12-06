@@ -11,6 +11,6 @@ import java.util.Map;
 public interface AchieveRewardService {
     AchieveReward load(String id);
     void save(AchieveReward ab);
-    void delete(String id);
+    Integer delete(String id);
     PageInfo query(Map param);
 }

@@ -44,8 +44,8 @@ public class AchieveClient {
 
     @ApiOperation(value = "成果转换删除", notes = "成果转换删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable String id){
-         abs.delete(id);
+    public Integer delete(@PathVariable String id){
+         return abs.delete(id);
     }
 
 }

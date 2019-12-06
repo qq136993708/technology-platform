@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+  <!-- 更多样式在此引入 -->
+</head>
+<body>
+<div class="layout-view-content min-label">
+  <form class="layui-form layui-form-screen" action="" lay-filter="pavingDecision">
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">平台类型：</span></label>
+          <div class="layui-input-block">
+            <select name="platformName" placeholder="请输入"></select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">技术领域：</span></label>
+          <div class="layui-input-block">
+            <select name="researchField" dic-base-data="ROOT_KJPT_YJLY" placeholder="请选择"></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">依托单位：</span></label>
+          <div class="layui-input-block">
+            <select name="supportingInstitutions"
+              xm-select="supportingInstitutions"
+              xm-select-skin="normal"
+              xm-select-radio=""
+              dic-base-data="ROOT_KJPT_YTDW"
+              placeholder="请选择"></select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md4" form-label-item="level">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">平台得分：</span></label>
+          <div class="layui-input-block font0">
+            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+              <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+            <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+              <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md8 layui-col-btn">
+        <div class="layui-form-item text-right">
+          <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="submitBtn">查询</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <span class="layui-fold-btn"></span>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" name="level">
+  </form>
+
+  <div class="view-title-layout" id="opations-btn">
+    <div class="right">
+      <button class="layui-btn border-blue" id="importData">导出</button>
+    </div>
+  </div>
+
+  <div class="paving-table-layout">
+    <table id="pavingDecisionTable"></table>
+  </div>
+
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+// layui 使用说明 ----- 多个模块同时引用
+layui.use(['form', 'table', 'formSelects'], function(){
+  var form = layui.form,
+  table = layui.table,
+  formSelects = layui.formSelects,
+  tableLoading = true;
+
+  function queryTable(data) {
+    if (tableLoading) {
+      table.render({
+        elem: '#pavingDecisionTable'
+        ,url: '/platform-api/query' //数据接口
+        ,cols: [[ //表头
+          ,{field: 'platformName', title: '成果描述' }
+          ,{field: 'supportingInstitutionsText', title: '项目来源', sort: true }
+          ,{field: 'personLiable', title: '经费支持渠道', sort: true}
+          ,{field: 'typeText', title: '完成团队'} 
+          ,{field: 'researchFieldText', title: '完成单位'}
+          ,{field: 'experience', title: '知识产权情况', sort: true}
+          ,{field: 'overallSituation', title: '是否为集团公司核心技术成果', sort: true}
+          ,{field: 'researchFunds', title: '知识产权状况报告或科技成果评价'}
+          ,{field: 'platformScoring', title: '成果转换状态'}
+          ,{field: 'researchFunds', title: '单位基本信息'}
+          ,{field: 'researchFunds', title: '选择单位的方式'}
+          ,{field: 'researchFunds', title: '对受让单位的尽职调查情况'}
+          ,{field: 'researchFunds', title: '选择单位的理由'}
+          ,{field: 'researchFunds', title: '尽职调查报告'}
+          ,{field: 'platformName', title: '成果转换方式' }
+          ,{field: 'supportingInstitutionsText', title: '定价方式' }
+          ,{field: 'personLiable', title: '定价原则及依据' }
+          ,{field: 'typeText', title: '合同（协议）情况'} 
+          ,{field: 'researchFieldText', title: '公示情况'}
+          ,{field: 'experience', title: '公示及结果说明材料' }
+          ,{field: 'overallSituation', title: '合同（协议）文本' }
+          ,{field: 'researchFunds', title: '资产评价报告及评估备案表'}
+          ,{field: 'platformScoring', title: '单位内部决策流程'}
+          ,{field: 'researchFunds', title: '决策事项及结果'}
+          ,{field: 'researchFunds', title: '内部决策会议纪要'}
+          ,{field: 'researchFunds', title: '转化收入'}
+          ,{field: 'researchFunds', title: '成本核算及核算依据'}
+          ,{field: 'researchFunds', title: '项目全周期净收入计算'}
+          ,{field: 'platformName', title: '项目全周期激励方案及制定方案' }
+          ,{field: 'supportingInstitutionsText', title: '激励额度' }
+          ,{field: 'personLiable', title: '工资总额预算来源' }
+          ,{field: 'typeText', title: '激励人员名单'} 
+          ,{field: 'researchFieldText', title: '激励总额'}
+          ,{field: 'experience', title: '激励分配方案' }
+        ]],
+        parseData: function(res) {return layuiParseData(res);},
+        request: {
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+        },
+        page: true, //开启分页
+        limit: 10, // 每页数据条数,
+        limits: [5, 10, 15, 20], // 配置分页数据条数
+        where: data,
+        done: function() {
+          if (tableLoading) {
+            // 再次刷新表格放置表头与表体错位
+            tableLoading = false;
+            table.reload('pavingDecisionTable');
+          }
+        }
+      });
+    } else {
+      table.reload('pavingDecisionTable', {where: data});
+    }
+  }
+
+
+  form.on('submit(submitBtn)', function(data) {
+    var searchData = data.field;
+
+    queryTable(searchData);
+    return false;
+  })
+
+  // 首次触发查询
+  $('[lay-filter="submitBtn"]').click();
+
+  // 导出
+  $('#importData').click(function() {
+    var name = $('[name="platformName"]').val();
+    name ? name = name.trim() : name = '';
+    window.open('/platform-api/export?level=01&platformName=', '_blank');
+  })
+});
+</script>
+</body>
+</html>

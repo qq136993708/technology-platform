@@ -41,6 +41,8 @@
         <result column="decision_result" jdbcType="VARCHAR" property="decisionResult"/>
         <result column="decision_meeting_doc" jdbcType="VARCHAR" property="decisionMeetingDoc"/>
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
+        <result column="intellectual_info" jdbcType="VARCHAR" property="intellectualInfo"/>
+        <result column="grant_invest" jdbcType="VARCHAR" property="grantInvest"/>
         <result column="achieve_type_text" jdbcType="VARCHAR" property="achieveTypeText"/>
         <result column="achieve_trans_type_text" jdbcType="VARCHAR" property="achieveTransTypeText"/>
         <result column="achieve_trans_status_text" jdbcType="VARCHAR" property="achieveTransStatusText"/>
@@ -86,7 +88,9 @@
         decision_result,
         decision_meeting_doc,
         decision_rule_doc,
-        team_person
+        team_person,
+        intellectual_info,
+        grant_invest
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRecordMap">
@@ -117,11 +121,11 @@
     </sql>
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
-        insert into achieve_record
+        insert into achieve_record ( <include refid="AchieveRecord_Column_List" /> )
          values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
          #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
           ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
-          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson})
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">

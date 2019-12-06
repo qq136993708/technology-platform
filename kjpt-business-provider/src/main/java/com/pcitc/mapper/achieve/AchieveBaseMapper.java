@@ -10,8 +10,8 @@ import java.util.Map;
  */
 public interface AchieveBaseMapper {
     AchieveBase load(String id);
-    void add(AchieveBase ab);
-    void update(AchieveBase ab);
-    void delete(String id);
+    Integer add(AchieveBase ab);
+    Integer update(AchieveBase ab);
+    Integer delete(String id);
     List<AchieveBase> query(Map param);
 }

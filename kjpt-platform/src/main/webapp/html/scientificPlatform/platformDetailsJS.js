@@ -31,6 +31,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
         limit: 5, // 每页数据条数
+        limits: [5, 10, 15, 20], // 配置分页数据条数
         where: searchData,
         parseData: function(res) {
           if (config.url.indexOf('.json') > 0) {

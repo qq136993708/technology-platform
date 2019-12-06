@@ -77,15 +77,11 @@ public class PlatformMemberController extends RestBaseController {
     @RequestMapping(value = "/researchPlatformMember-api/export", method = RequestMethod.GET)
     @ResponseBody
     public void export(
-            @RequestParam(value = "platformId") String platformId,
-            @RequestParam(required = false,value = "role") String role
+            @RequestParam(value = "platformId") String platformId
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         if (!StringUtils.isEmpty(platformId)) {
             this.setParam(condition, "platformId", platformId);
-        }
-        if (!StringUtils.isEmpty(role)) {
-            this.setParam(condition, "role", role);
         }
         String[] headers = { "名称",  "出生年月",    "学历"  , "技术职称", "毕业院校", "所学专业", "岗位名称", "担任职务","工作单位"};
         String[] cols =    {"name","birth","educationText","technicalTitle","graduateSchool","majorStudied","postName","assumeOffice","workUnitText"};
@@ -102,7 +98,6 @@ public class PlatformMemberController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "platformId", value = "平台ID", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "role", value = "角色", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "baseIds", value = "人员ID数组", dataType = "string", paramType = "query")
 
     })
@@ -112,7 +107,6 @@ public class PlatformMemberController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId,
-            @RequestParam(required = false,value = "role") String role,
             @RequestParam(required = false,value = "baseIds") String baseIds
 
     ) {
@@ -128,9 +122,6 @@ public class PlatformMemberController extends RestBaseController {
             this.setParam(condition, "pageSize", pageSize);
         }
         this.setParam(condition,"platformId",platformId);
-        if (!StringUtils.isEmpty(role)) {
-            this.setParam(condition, "role", role);
-        }
         if (!StringUtils.isEmpty(baseIds)) {
             this.setParam(condition, "baseIds", baseIds.split(","));
         }

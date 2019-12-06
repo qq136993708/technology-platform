@@ -10,8 +10,8 @@ import java.util.Map;
  */
 public interface AchieveRecordMapper {
     AchieveRecord load(String id);
-    void add(AchieveRecord ab);
-    void update(AchieveRecord ab);
-    void delete(String id);
+    Integer add(AchieveRecord ab);
+    Integer update(AchieveRecord ab);
+    Integer delete(String id);
     List<AchieveRecord> query(Map param);
 }

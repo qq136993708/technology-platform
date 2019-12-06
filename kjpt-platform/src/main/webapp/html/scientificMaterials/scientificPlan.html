@@ -76,15 +76,13 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">发布日期：</span></label>
             <div class="layui-input-block">
-              <div class="layui-input-inline">
                 <input type="text" name="releaseTime" id="releaseTime" autocomplete="off" class="laydate-input">
-              </div>
             </div>
           </div>
         </div>
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn" id="btnGroup">
           <div class="layui-form-item text-right">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+            <button class="layui-btn layui-btn-normal margin24" lay-submit lay-filter="formDemo">查询</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             <span class="layui-fold-btn"></span>
           </div>
@@ -93,10 +91,12 @@
     </form>
   
     <div class="view-title-layout">
-      <button class="layui-btn border-blue" id="addItem">新增</button>
-      <button class="layui-btn border-blue" id="editItem">编辑</button>
-      <button class="layui-btn border-blue" id="seeItem">查看</button>
-      <button class="layui-btn border-red" id="delItem">删除</button>
+      <div class="right" id="rightBtn">
+        <button class="layui-btn border-blue" id="addItem">新增</button>
+        <button class="layui-btn border-blue margin12" id="editItem">编辑</button>
+        <button class="layui-btn border-blue margin12" id="seeItem">查看</button>
+        <button class="layui-btn border-red margin12" id="delItem">删除</button>
+      </div>
     </div>
     
     <table id="tableDemo"  lay-filter="tableDemo"></table>

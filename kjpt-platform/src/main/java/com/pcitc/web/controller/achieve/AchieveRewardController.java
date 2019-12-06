@@ -121,9 +121,9 @@ public class AchieveRewardController extends RestBaseController {
 
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/achieveReward-api/newInit/{level}", method = RequestMethod.GET)
+    @RequestMapping(value = "/achieveReward-api/newInit", method = RequestMethod.GET)
     @ResponseBody
-    public AchieveReward newInit(@PathVariable String level) {
+    public AchieveReward newInit() {
         AchieveReward a = new AchieveReward();
         a.setId(UUID.randomUUID().toString().replace("-",""));
         a.setCreateDate(new Date());

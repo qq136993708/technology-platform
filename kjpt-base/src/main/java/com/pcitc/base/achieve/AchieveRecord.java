@@ -2,6 +2,7 @@ package com.pcitc.base.achieve;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  *备案表
  * @author
  */
-public class AchieveRecord extends RecordModel {
+public class AchieveRecord extends RecordModel implements Serializable {
     /**
      * 数据主键
      */
@@ -17,15 +18,15 @@ public class AchieveRecord extends RecordModel {
     /**
      * 成果ID(如果是非成果类的，此项为空)
      */
-    private String achieveId;
+    private String achieveId="";
     /**
      * 成果名称
      */
-    private String achieveName;
+    private String achieveName="";
     /**
      * 成果类型：1核心，0非核心
      */
-    private String achieveType;
+    private String achieveType="";
     /**
      * 成果类型：1核心，0非核心 关联名称
      */
@@ -33,7 +34,7 @@ public class AchieveRecord extends RecordModel {
     /**
      * 成果转化方式（字典表）
      */
-    private String achieveTransType;
+    private String achieveTransType="";
     /**
      * 成果转化方式（字典表） 关联名称
      */
@@ -41,7 +42,7 @@ public class AchieveRecord extends RecordModel {
     /**
      * 成果转化状态（字典表）
      */
-    private String achieveTransStatus;
+    private String achieveTransStatus="";
     /**
      * 成果转化状态（字典表）关联名称
      */
@@ -49,7 +50,7 @@ public class AchieveRecord extends RecordModel {
     /**
      * 审核状态：0草稿（或驳回），1审批中，2审核通过
      */
-    private String auditStatus;
+    private String auditStatus="";
     /**
      * 审核状态：0草稿（或驳回），1审批中，2审核通过  关联名称
      */
@@ -57,39 +58,39 @@ public class AchieveRecord extends RecordModel {
     /**
      * 成果信息
      */
-    private String achieveInfo;
+    private String achieveInfo="";
     /**
      * 完成单位名称
      */
-    private String finishUnitName;
+    private String finishUnitName="";
     /**
      * 预计净收入
      */
-    private BigDecimal incomeMoney;
+    private BigDecimal incomeMoney = new BigDecimal("0");
     /**
      * 转化金额
      */
-    private BigDecimal transMoney;
+    private BigDecimal transMoney = new BigDecimal("0");
     /**
      * 总计激励金额
      */
-    private BigDecimal rewardMoney;
+    private BigDecimal rewardMoney = new BigDecimal("0");
     /**
      * 本年激励金额
      */
-    private BigDecimal currentRewardMoney;
+    private BigDecimal currentRewardMoney = new BigDecimal("0");
     /**
      * 未完成项目预计完成时间
      */
-    private Date aboutCompleteTime;
+    private Date aboutCompleteTime=new Date();
     /**
      * 未完成项目预计完成情况
      */
-    private String aboutCompleteInfo;
+    private String aboutCompleteInfo="";
     /**
      * 技术族类型（技术族）
      */
-    private String achieveTechType;
+    private String achieveTechType="";
     /**
      * 技术族类型（技术族）关联名称
      */
@@ -97,83 +98,83 @@ public class AchieveRecord extends RecordModel {
     /**
      * 渠道
      */
-    private String projectChannel;
+    private String projectChannel="";
     /**
      * 项目来源
      */
-    private String projectSource;
+    private String projectSource="";
     /**
      * 知识产权情况
      */
-    private String intellectualInfo;
+    private String intellectualInfo="";
     /**
      * 团队情况
      */
-    private String teamInfo;
+    private String teamInfo="";
     /**
      * 科技成果评价报告（文件上传）
      */
-    private String appraisalDoc;
+    private String appraisalDoc="";
     /**
      * 授拟-单位
      */
-    private String grantUnitName;
+    private String grantUnitName="";
     /**
      * 授拟-原因
      */
-    private String grantReason;
+    private String grantReason="";
     /**
      * 授拟-调查情况
      */
-    private String grantInvest;
+    private String grantInvest="";
     /**
      * 授拟-选择单位方式或理由
      */
-    private String grantChooseWay;
+    private String grantChooseWay="";
     /**
      * 授拟-（文件上传）：材料
      */
-    private String grantDoc;
+    private String grantDoc="";
     /**
      * 成果转化-定价原则及依据
      */
-    private String transPriceBasis;
+    private String transPriceBasis="";
     /**
      * 成果转化-定价方式
      */
-    private String transPriceWay;
+    private String transPriceWay="";
     /**
      * 公示结果：材料
      */
-    private String transPublicDoc;
+    private String transPublicDoc="";
     /**
      * 合同文本：材料
      */
-    private String transContractDoc;
+    private String transContractDoc="";
     /**
      * 评估报告：材料
      */
-    private String transAssessDoc;
+    private String transAssessDoc="";
     /**
      * 决策流程
      */
-    private String decisionFlow;
+    private String decisionFlow="";
     /**
      * 决策结果
      */
-    private String decisionResult;
+    private String decisionResult="";
     /**
      * 决策会议纪要：材料
      */
-    private String decisionMeetingDoc;
+    private String decisionMeetingDoc="";
     /**
      * 规章制度：材料
      */
-    private String decisionRuleDoc;
+    private String decisionRuleDoc="";
     /**
      * 团队成员
      */
-    private String teamPerson;
+    private String teamPerson="";
 
 
 

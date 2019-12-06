@@ -109,6 +109,16 @@ public class AchieveBaseController extends RestBaseController {
         return responseEntity.getBody();
     }
 
+    @ApiOperation(value="提交")
+    @RequestMapping(value = "/achieve-api/submit", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveBase submit(@RequestBody AchieveBase ab){
+        this.setBaseData(ab);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
+        return responseEntity.getBody();
+    }
+
     @ApiOperation(value="删除")
     @RequestMapping(value = "/achieve-api/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
@@ -119,9 +129,9 @@ public class AchieveBaseController extends RestBaseController {
 
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/achieve-api/newInit/{level}", method = RequestMethod.GET)
+    @RequestMapping(value = "/achieve-api/newInit", method = RequestMethod.GET)
     @ResponseBody
-    public AchieveBase newInit(@PathVariable String level) {
+    public AchieveBase newInit() {
         AchieveBase a = new AchieveBase();
         a.setId(UUID.randomUUID().toString().replace("-",""));
         a.setCreateDate(new Date());

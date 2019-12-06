@@ -17,13 +17,11 @@
         <result column="assume_office" jdbcType="VARCHAR" property="assumeOffice"/>
         <result column="work_unit" jdbcType="VARCHAR" property="workUnit"/>
         <result column="work_unit_text" jdbcType="VARCHAR" property="workUnitText"/>
-        <result column="role" jdbcType="VARCHAR" property="role"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
-		<result column="role_text" jdbcType="VARCHAR" property="roleText"/>
 		<result column="education_text" jdbcType="VARCHAR" property="educationText"/>
     </resultMap>
 
@@ -41,7 +39,6 @@
         post_name,
         assume_office,
         work_unit,
-        role,
         deleted,
         create_user,
         create_date,
@@ -55,9 +52,6 @@
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_member where 1=1 and platform_id = #{platformId}
-        <if test="role != null and role != '' " >
-            and role = #{role}
-        </if>
         <if test="baseIds !=null">
             and base_id in (
                 <foreach collection="baseIds"  index="index"  item="id"  separator=",">
@@ -70,8 +64,8 @@
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformMemberModel">
-        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,role,deleted,create_date,create_user,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{role},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
+        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,deleted,create_date,create_user,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
@@ -96,10 +90,7 @@
                 assume_office = #{assumeOffice},
             </if>
             <if test="workUnit != null and workUnit != ''" >
-                work_unit = #{workUnit},
-            </if>
-            <if test="role != null and role != ''" >
-                role = #{role},
+                work_unit = #{workUnit}
             </if>
         </trim>
         where id = #{id}
@@ -110,9 +101,9 @@
     </update>
 
     <insert id="batchSave" parameterType="java.util.List">
-        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,role,deleted,create_date,create_user,update_date,update_user) values
+        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,deleted,create_date,create_user,update_date,update_user) values
         <foreach collection="list" item="km" separator=",">
-            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.role},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator})
+            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator})
         </foreach>
     </insert>
 

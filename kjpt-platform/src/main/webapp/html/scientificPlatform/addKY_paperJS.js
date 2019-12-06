@@ -39,7 +39,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#thesisYear' });
+	laydate.render({ elem: '#thesisYear' ,trigger:'click'});
 	
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {

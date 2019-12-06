@@ -14,9 +14,10 @@ if (!console) {
 }
 
 // 获取树项结构的字段 code
-var TREE_DICKIND_CODE = [
-	'ROOT_KJPT_YTDW' //依托单位
-];
+var TREE_DICKIND_CODE = {
+	ROOT_KJPT_YTDW: '/unit-api/getTreeList' //依托单位
+	,ROOT_KJPT_JSLY: '/techFamily-api/getTreeList' // 技术领域
+};
 
 // 对Date的扩展，将 Date 转化为指定格式的String   
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
@@ -350,8 +351,8 @@ function _getDicStore(key, type, callback) {
 function _commonLoadDic(dicKindCode, callback) {
 	if (dicKindCode && typeof(dicKindCode) !== 'object') {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
-		if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
-			httpUrl = '/unit-api/getTreeList';
+		if (TREE_DICKIND_CODE[dicKindCode]) {
+			httpUrl = TREE_DICKIND_CODE[dicKindCode];
 		}
 
 		httpModule({
@@ -366,15 +367,14 @@ function _commonLoadDic(dicKindCode, callback) {
 				} else if (relData.success) {
 					success = true;
 				}
-				if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+				if (TREE_DICKIND_CODE[dicKindCode]) {
 					success = true;
 				}
 
 				if (success) {
 					var __dicData = null;
-					if (TREE_DICKIND_CODE.indexOf(dicKindCode) >= 0) {
+					if (TREE_DICKIND_CODE[dicKindCode]) {
 						__dicData = relData.children || [];
-						console.log('__dicData =>', __dicData);
 					} else {
 						if (!relData.data) {
 							__dicData = [];
@@ -627,13 +627,20 @@ function setNotClassName(notClass) {
 function setFomeDisabled(filter, notClass) {
 	var formItems = $('form[lay-filter="'+ filter +'"]')[0];
 	$.each(formItems, function(i, item) {
-		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', true);
+		if ($(item).attr('placeholder')) {
+			$(item).attr('tips-text', $(item).attr('placeholder'));
+		}
+		$(item).not(setNotClassName(notClass) + ',.close-all-dialog')
+		.prop('disabled', true).attr('placeholder', '');
 	})
 }
 // 取消表单元素不可读取 disabled
 function setFomeUnDisabled(filter, notClass) {
 	var formItems = $('form[lay-filter="'+ filter +'"]')[0];
 	$.each(formItems, function(i, item) {
+		if ($(item).attr('tips-text')) {
+			$(item).attr('placeholder', $(item).attr('tips-text'));
+		}
 		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', false);
 	})
 }
@@ -662,16 +669,54 @@ function downloadExeclTemplet(name, type) {
 		var fileName = name;
 		if (type) {
 			fileName += '.'+type;
-		} else if (fileName.indexOf('.xlsx') === -1) {
+		} else if (fileName.indexOf('.xlsx') === -1 && fileName.indexOf('.xls') === -1) {
 			fileName += '.xlsx';
 		}
 
 		window.open('/data/'+ fileName, '_blank');
 	}
 }
+
+// 添加数字换算单位
+function conversionNumber(data) {
+	var value = 0;
+	if (data >= 10000 && data < 100000000) {
+		value = (function() {
+			if ((data /10000)%1) {
+				return (data /10000).toFixed(1)+ '万';
+			} else {
+				return data /10000 + '万';
+			}
+		})();
+	} else if (data >= 100000000) {
+		value = (function() {
+			if ((data /100000000)%1) {
+				return (data /100000000).toFixed(1)+ '亿';
+			} else {
+				return data /100000000 + '亿';
+			}
+		})();
+	}
+
+	return value;
+}
+
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
+
+	// 自定义表单校验规则
+	form.verify({
+		length: function(value, item) {
+			// <input type="text" lay-filter="length" length="20">
+			var lengthNumber = $(item).attr('length') || 10;
+			if ((''+value).length > lengthNumber) {
+				return '字符长度不能超过 '+ lengthNumber + '个';
+			}
+		}
+	})
+
+
 	if ($('.layui-form-screen').length) {
 		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
 			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选'),
@@ -743,14 +788,14 @@ function addTr(id) {
     var trHtml='<tr>' +
         '<td>'+index+'</td>' +
         '<td><input type="text"  placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-        '<td><select name="sex" class="sex">' +
+        '<td><select class="sex">' +
         '<option value=""></option>' +
         '</select></td>' +
         '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
         '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
         '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
         '</tr>';
-    window.createElement({code:'ROOT_KJPT_XB',id:id,className:'sex',element:'option',index:index})
+    window.createElement({code:'ROOT_KJPT_XB',id: id,className:'sex',element:'option',index:index})
     $("#"+id+" tbody").append(trHtml)
 }
 function deleTr(id){
@@ -775,11 +820,11 @@ function backfill(data,id) {
             var trHtml='<tr>' +
                 '<td>'+(index+1)+'</td>' +
                 '<td><input type="text" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-                '<td><select name="sex" class="sex">' +
+                '<td><select class="sex">' +
                 '<option value=""></option>' +
                 '</select></td>' +
-                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
-                '<td><input type="text"  placeholder="请填写..." autocomplete="off" class="layui-input"></td>' +
+                '<td><input type="text"  placeholder="请填写..." value="'+(itemArr[2]=='null' ? '': itemArr[2])+'" autocomplete="off" class="layui-input"></td>' +
+                '<td><input type="text"  placeholder="请填写..."   value="'+(itemArr[3]=='null' ? '': itemArr[3])+'" autocomplete="off" class="layui-input"></td>' +
                 '<td><a style="color: #F44C4C;cursor: pointer;" class="deleTr">删除</a></td>' +
                 '</tr>';
             window.createElement({code:'ROOT_KJPT_XB',id:id,className:'sex',element:'option',index:index+1,value:(itemArr[1]=='null' ? '': itemArr[1])})

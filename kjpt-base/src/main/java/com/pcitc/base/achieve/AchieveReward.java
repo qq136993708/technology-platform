@@ -2,11 +2,14 @@ package com.pcitc.base.achieve;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 /**
  * 奖励表
  * @author ty
  */
-public class AchieveReward extends RecordModel {
+public class AchieveReward extends RecordModel implements Serializable {
 
     /**
      * 数据主键
@@ -15,7 +18,7 @@ public class AchieveReward extends RecordModel {
     /**
      * 成果备案ID
      */
-    private String achieve_record_id;
+    private String achieveRecordId="";
     /**
      * 成果ID(非核心成果时为空)
      */
@@ -23,51 +26,59 @@ public class AchieveReward extends RecordModel {
     /**
      * 激励年份
      */
-    private String rewardYear;
+    private String rewardYear = "";
     /**
      * 转化收入
      */
-    private String transIncome;
+    private String transIncome = "";
     /**
      * 核算依据
      */
-    private String checkBasis;
+    private String checkBasis = "";
     /**
      * 全周期净收入计算
      */
-    private String incomeCalculation;
+    private String incomeCalculation = "";
     /**
      * 激励方案
      */
-    private String rewardRecord;
+    private String rewardRecord = "";
     /**
      * 激励额度
      */
-    private String rewardQuota;
+    private BigDecimal rewardQuota = new BigDecimal("0");
     /**
      * 工资预算来源
      */
-    private String budgetSources;
+    private String budgetSources = "";
     /**
      * 激励人员名单
      */
-    private String budgetPerson;
+    private String budgetPerson = "";
     /**
      * 激励总和
      */
-    private String budgetAllMoney;
+    private BigDecimal budgetAllMoney = new BigDecimal("0");
     /**
      * 激励分配方案
      */
-    private String assignPlan;
+    private String assignPlan = "";
     /**
      * 净收入计算报告：材料
      */
-    private String incomeReportDoc;
+    private String incomeReportDoc = "";
     /**
      * 激励方案：材料
      */
-    private String assignPlanDoc;
+    private String assignPlanDoc = "";
+    /**
+     * 成果核算：材料
+     */
+    private String rewardAccountingDoc = "";
+    /**
+     * 团队成员
+     */
+    private String teamPerson = "";
 
     public String getId() {
         return id;
@@ -75,14 +86,6 @@ public class AchieveReward extends RecordModel {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getAchieve_record_id() {
-        return achieve_record_id;
-    }
-
-    public void setAchieve_record_id(String achieve_record_id) {
-        this.achieve_record_id = achieve_record_id;
     }
 
     public String getAchieveId() {
@@ -133,14 +136,6 @@ public class AchieveReward extends RecordModel {
         this.rewardRecord = rewardRecord;
     }
 
-    public String getRewardQuota() {
-        return rewardQuota;
-    }
-
-    public void setRewardQuota(String rewardQuota) {
-        this.rewardQuota = rewardQuota;
-    }
-
     public String getBudgetSources() {
         return budgetSources;
     }
@@ -155,14 +150,6 @@ public class AchieveReward extends RecordModel {
 
     public void setBudgetPerson(String budgetPerson) {
         this.budgetPerson = budgetPerson;
-    }
-
-    public String getBudgetAllMoney() {
-        return budgetAllMoney;
-    }
-
-    public void setBudgetAllMoney(String budgetAllMoney) {
-        this.budgetAllMoney = budgetAllMoney;
     }
 
     public String getAssignPlan() {
@@ -187,5 +174,45 @@ public class AchieveReward extends RecordModel {
 
     public void setAssignPlanDoc(String assignPlanDoc) {
         this.assignPlanDoc = assignPlanDoc;
+    }
+
+    public BigDecimal getBudgetAllMoney() {
+        return budgetAllMoney;
+    }
+
+    public void setBudgetAllMoney(BigDecimal budgetAllMoney) {
+        this.budgetAllMoney = budgetAllMoney;
+    }
+
+    public String getAchieveRecordId() {
+        return achieveRecordId;
+    }
+
+    public void setAchieveRecordId(String achieveRecordId) {
+        this.achieveRecordId = achieveRecordId;
+    }
+
+    public BigDecimal getRewardQuota() {
+        return rewardQuota;
+    }
+
+    public void setRewardQuota(BigDecimal rewardQuota) {
+        this.rewardQuota = rewardQuota;
+    }
+
+    public String getRewardAccountingDoc() {
+        return rewardAccountingDoc;
+    }
+
+    public void setRewardAccountingDoc(String rewardAccountingDoc) {
+        this.rewardAccountingDoc = rewardAccountingDoc;
+    }
+
+    public String getTeamPerson() {
+        return teamPerson;
+    }
+
+    public void setTeamPerson(String teamPerson) {
+        this.teamPerson = teamPerson;
     }
 }

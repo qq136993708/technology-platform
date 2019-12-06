@@ -1,8 +1,9 @@
 package com.pcitc.web.controller.achieve;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
+import com.pcitc.base.achieve.AchieveReward;
+import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +32,10 @@ public class AchieveRecordController extends RestBaseController {
      * 根据ID获取对象信息
      */
     private static final String load = "http://kjpt-zuul/stp-proxy/achieveRecord-api/load/";
+    /**
+     * 根据ID获取成果对象信息
+     */
+    private static final String loadAchieveBase = "http://kjpt-zuul/stp-proxy/achieve-api/load/";
     /**
      * 查询列表
      */
@@ -103,11 +107,11 @@ public class AchieveRecordController extends RestBaseController {
     @ApiOperation(value="保存")
     @RequestMapping(value = "/achieveRecord-api/save", method = RequestMethod.POST)
     @ResponseBody
-    public AchieveBase save(@RequestBody AchieveBase ab){
-        this.setBaseData(ab);
+    public AchieveSubmit save(@RequestBody AchieveSubmit as){
+        this.setBaseData(as);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
-        return responseEntity.getBody();
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+        return as;
     }
 
     @ApiOperation(value="删除")
@@ -120,13 +124,28 @@ public class AchieveRecordController extends RestBaseController {
 
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/achieveRecord-api/newInit/{level}", method = RequestMethod.GET)
+    @RequestMapping(value = "/achieveRecord-api/newInit", method = RequestMethod.GET)
     @ResponseBody
-    public AchieveRecord newInit(@PathVariable String level) {
+    public AchieveSubmit newInit() {
+
+     /*   ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(loadAchieveBase+achieveBaseId, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveBase.class);
+        AchieveBase ab = responseEntity.getBody();*/
+
+
+        AchieveSubmit as = new AchieveSubmit();
+
+
         AchieveRecord a = new AchieveRecord();
-        a.setId(UUID.randomUUID().toString().replace("-",""));
-        a.setCreateDate(new Date());
-        a.setCreator(this.getUserProfile().getUserName());
-        return a;
+        String achieveRecordId = UUID.randomUUID().toString().replace("-","");
+        a.setId(achieveRecordId);
+
+        String achieveRewardId = UUID.randomUUID().toString().replace("-","");
+        AchieveReward ar = new AchieveReward();
+        ar.setId(achieveRewardId);
+        ar.setAchieveRecordId(achieveRecordId);
+
+        as.setAchieveRecord(a);
+        as.setAchieveReward(ar);
+        return as;
     }
 }
