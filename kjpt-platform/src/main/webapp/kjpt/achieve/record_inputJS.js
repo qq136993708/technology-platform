@@ -11,7 +11,9 @@ layui.use(['table', 'form'], function() {
       templet += '</div>';
       return templet;
     }}
-  ]
+  ];
+
+  console.log(variable);
 
   // 添加 转化净收益及激励方案
   function addTransfromMaintain(data) {
@@ -89,6 +91,18 @@ layui.use(['table', 'form'], function() {
     })
   }
 
+
+  // 获取备案信息
+  httpModule({
+    url: '/achieveRecord-api/load/'+ variable.id,
+    success: function(res) {
+      console.log(res);
+      // teamPerson
+    }
+  });
+
+
+  // 绑定附件添加插件
   $('#RecordInputForm .file-filter-options').each(function(i, elem) {
     setFileUpload({
       id: $(this), // 附件上传作用域ID值 必传
