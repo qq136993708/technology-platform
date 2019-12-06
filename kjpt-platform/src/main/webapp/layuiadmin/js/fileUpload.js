@@ -27,16 +27,6 @@ function selectFileUpload(config) {
   });
 }
 
-function randomID() {
-  var id = 'fileTableList_' + (Math.random() + '').substring(2) +'_'+ (Math.random() + '').substring(2);
-  if (sessionStorage.getItem(id)) {
-    id = randomID();
-  } else {
-    sessionStorage.setItem(id, '1');
-  }
-  return id;
-}
-
 function setFileUpload(config) {
   var configOption = {
     id: '', // 作用域ID;
