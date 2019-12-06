@@ -4,12 +4,14 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
+import com.pcitc.base.achieve.AchieveSubmitView;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -108,6 +110,8 @@ public class AchieveRecordController extends RestBaseController {
     @RequestMapping(value = "/achieveRecord-api/save", method = RequestMethod.POST)
     @ResponseBody
     public AchieveSubmit save(@RequestBody AchieveSubmit as){
+        /*AchieveSubmit as = new AchieveSubmit();
+        BeanUtils.copyProperties(asv,as);*/
         this.setBaseData(as);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
@@ -138,11 +142,31 @@ public class AchieveRecordController extends RestBaseController {
         AchieveRecord a = new AchieveRecord();
         String achieveRecordId = UUID.randomUUID().toString().replace("-","");
         a.setId(achieveRecordId);
+        //授拟-（文件上传）：材料
+        a.setGrantDoc(UUID.randomUUID().toString().replace("-",""));
+        //科技成果评价报告（文件上传）
+        a.setAppraisalDoc(UUID.randomUUID().toString().replace("-",""));
+        //公示结果：材料
+        a.setTransContractDoc(UUID.randomUUID().toString().replace("-",""));
+        //评估报告：材料
+        a.setTransAssessDoc(UUID.randomUUID().toString().replace("-",""));
+        //决策会议纪要：材料
+        a.setDecisionMeetingDoc(UUID.randomUUID().toString().replace("-",""));
+        //规章制度：材料
+        a.setDecisionRuleDoc(UUID.randomUUID().toString().replace("-",""));
+
 
         String achieveRewardId = UUID.randomUUID().toString().replace("-","");
         AchieveReward ar = new AchieveReward();
         ar.setId(achieveRewardId);
         ar.setAchieveRecordId(achieveRecordId);
+
+        //成果核算：材料
+        ar.setRewardAccountingDoc(UUID.randomUUID().toString().replace("-",""));
+        //净收入计算报告：材料
+        ar.setAssignPlanDoc(UUID.randomUUID().toString().replace("-",""));
+        //净收入计算报告：材料
+        ar.setIncomeReportDoc(UUID.randomUUID().toString().replace("-",""));
 
         as.setAchieveRecord(a);
         as.setAchieveReward(ar);
