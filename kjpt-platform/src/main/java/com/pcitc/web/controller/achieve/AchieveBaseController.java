@@ -2,12 +2,14 @@ package com.pcitc.web.controller.achieve;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,8 +63,10 @@ public class AchieveBaseController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "auditStatus", value = "审核状态", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "finishUnitName", value = "成果持有单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "申请状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieve-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -71,7 +75,9 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
-            @RequestParam(required = false,value = "auditStatus") String auditStatus
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
+            @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -85,6 +91,13 @@ public class AchieveBaseController extends RestBaseController {
         }else {
             this.setParam(condition, "pageSize", pageSize);
         }
+        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "applicationDateEnd", DateUtil.format(endDate,DateUtil.FMT_SS));
+        }
+
         if (!StringUtils.isEmpty(achieveName)) {
             this.setParam(condition, "achieveName", achieveName);
         }
@@ -104,6 +117,7 @@ public class AchieveBaseController extends RestBaseController {
     @ResponseBody
     public AchieveBase save(@RequestBody AchieveBase ab){
         this.setBaseData(ab);
+        ab.setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
         return responseEntity.getBody();
@@ -114,6 +128,7 @@ public class AchieveBaseController extends RestBaseController {
     @ResponseBody
     public AchieveBase submit(@RequestBody AchieveBase ab){
         this.setBaseData(ab);
+        ab.setAuditStatus("1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
         return responseEntity.getBody();
