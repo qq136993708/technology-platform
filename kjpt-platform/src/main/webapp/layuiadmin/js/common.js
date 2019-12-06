@@ -677,6 +677,31 @@ function downloadExeclTemplet(name, type) {
 		window.open('/data/'+ fileName, '_blank');
 	}
 }
+
+// 添加数字换算单位
+function conversionNumber(data) {
+	var value = 0;
+	if (data >= 10000 && data < 100000000) {
+		value = (function() {
+			if ((data /10000)%1) {
+				return (data /10000).toFixed(1)+ '万';
+			} else {
+				return data /10000 + '万';
+			}
+		})();
+	} else if (data >= 100000000) {
+		value = (function() {
+			if ((data /100000000)%1) {
+				return (data /100000000).toFixed(1)+ '亿';
+			} else {
+				return data /100000000 + '亿';
+			}
+		})();
+	}
+
+	return value;
+}
+
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;

@@ -3,12 +3,14 @@ package com.pcitc.base.researchplatform;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.io.Serializable;
+
 /**
  * <p>平台成员</p>
  * <p>Table: kypt_member - 科研平台-成员</p>
  * @author ty
  */
-public class PlatformMemberModel extends RecordModel {
+public class PlatformMemberModel extends RecordModel implements Serializable {
 
     /**
      * 数据主键
@@ -60,11 +62,6 @@ public class PlatformMemberModel extends RecordModel {
      */
     private String workUnit="";
     private String workUnitText="";
-    /**
-     * 角色
-     */
-    private String role="";
-    private String roleText="";
 
     public String getPlatformId() {
         return platformId;
@@ -154,28 +151,12 @@ public class PlatformMemberModel extends RecordModel {
         this.workUnit = workUnit;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getRoleText() {
-        return roleText;
-    }
-
-    public void setRoleText(String roleText) {
-        this.roleText = roleText;
     }
 
     public String getEducationText() {

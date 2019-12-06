@@ -9,8 +9,9 @@ layui.use(['element', 'jquery'], function() {
     # unCompleted: 未完成;
     */
 
-    var titleValue = data.unCompleted + ' / '+ data.completed,
-    option = {
+    var titleValue = conversionNumber(data.completed);
+
+    var option = {
       title: {
         text: titleValue,
         top: 'center',
@@ -118,10 +119,10 @@ layui.use(['element', 'jquery'], function() {
   }
 
   var lastWeekChart = echarts.init(document.getElementById('lastWeek'));
-  lastWeekChart.setOption(getPieChartOption({completed: 8, unCompleted: 2, title: '上周工作完成情况'}));
+  lastWeekChart.setOption(getPieChartOption({completed: 108, unCompleted: 24, title: '上周工作完成情况'}));
 
   var thisWeekChart = echarts.init(document.getElementById('thisWeek'));
-  thisWeekChart.setOption(getPieChartOption({completed: 3, unCompleted: 17, title: '本周工作安排'}));
+  thisWeekChart.setOption(getPieChartOption({completed: 15000000, unCompleted: 300000, title: '本周工作安排'}));
 
   $(window).resize(function() {
     lastWeekChart.resize();
@@ -228,5 +229,23 @@ layui.use(['element', 'jquery'], function() {
       }
     }
   })
+
+  // 科研报告
+  getTabContentList({
+    id: '#scientific_tab_list',
+    name: 'name',
+    url: '/SciencePlan/query',
+    data: { page: 1, limit: 10, reportType: 5},
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '科研报告',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#summary_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  })
+
+  
 
 });
