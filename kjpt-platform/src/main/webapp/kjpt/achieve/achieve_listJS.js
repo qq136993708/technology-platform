@@ -91,6 +91,12 @@ layui.use(['table', 'form','laydate'], function() {
     }
   })
   
+  //流程
+  $('#flow').on('click', function() {
+	    var activeData = table.checkStatus('tableDemo').data;
+		dealFlow(activeData[0].id);
+  })
+  
   // 新增、编辑、查看
   $('.openLayerPage').on('click', function() {
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;

@@ -22,6 +22,7 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.workflow.Constants;
 import com.pcitc.service.expert.IExpertService;
 
 import io.swagger.annotations.Api;
@@ -39,16 +40,6 @@ public class ExpertProviderClient {
 	
 	
 	
-	
-	
-	@ApiOperation(value="专家上报审批",notes="专家上报审批")
-	@RequestMapping(value = "/expert/start_activity/{id}", method = RequestMethod.POST)
-	public Result dealWorkFlow(@PathVariable("id") String id,@RequestBody Map map)throws Exception 
-	{
-		return expertService.dealWorkFlow(id,map);
-	}
-	
-
 	
 	/**===============================================专家===================================================*/
 	

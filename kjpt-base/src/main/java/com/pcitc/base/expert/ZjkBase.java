@@ -155,7 +155,26 @@ public class ZjkBase  {
     private String auditStatus="";
     
     
+    private String createUnitId="";
+    private String createUnitName="";
     
+    
+	public String getCreateUnitId() {
+		return createUnitId;
+	}
+
+	public void setCreateUnitId(String createUnitId) {
+		this.createUnitId = createUnitId;
+	}
+
+	public String getCreateUnitName() {
+		return createUnitName;
+	}
+
+	public void setCreateUnitName(String createUnitName) {
+		this.createUnitName = createUnitName;
+	}
+
 	public String getAuditStatus() {
 		return auditStatus;
 	}
