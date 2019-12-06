@@ -449,7 +449,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		ProcessDefinition pd = repositoryService.getProcessDefinition(workflowVo.getProcessDefineId());
 		try {
 			System.out.println("pd.getDeploymentId()==="+pd.getDeploymentId());
-			repositoryService.deleteDeployment(pd.getDeploymentId());
+			repositoryService.deleteDeployment(pd.getDeploymentId(),true);
 			return new Result(true, workflowVo.getProcessDefineId(), "成功删除");
 		} catch (Exception e) {
 			return new Result(false, workflowVo.getProcessDefineId(), "删除失败，该流程定义已经关联了正在执行的流程");

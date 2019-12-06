@@ -1,11 +1,9 @@
 package com.pcitc.config;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
@@ -21,7 +19,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-
 import com.alibaba.druid.pool.DruidDataSource;
 import com.pcitc.listener.TaskAssignedListener;
 import com.pcitc.listener.TaskCompletedListener;
@@ -61,6 +58,10 @@ public class ActivitiConfig {
 		configuration.setDataSource(druidDataSource);
 		configuration.setTransactionManager(transactionManager);
 		configuration.setDatabaseType("mysql");
+		//false：false为默认值，设置为该值后，Activiti在启动时，会对比数据库表中保存的版本，如果版本不匹配时，将在启动时抛出异常。
+		//true：设置为该值后，Activiti会对数据库中所有的表进行更新，如果表不存在，则Activiti会自动创建。
+		//create-drop：Activiti启动时，会执行数据库表的创建操作，在Activiti关闭时，执行数据库表的删除操作。
+		//drop-create：Activiti启动时，执行数据库表的删除操作在Activiti关闭时，会执行数据库表的创建操作
 		configuration.setDatabaseSchemaUpdate("true");
 		configuration.setLabelFontName("SimSun");
 		configuration.setActivityFontName("SimSun");
@@ -77,6 +78,7 @@ public class ActivitiConfig {
         System.out.println("结束配置activiti的配置");
         return configuration;
 	}
+	
 	
 	@Bean
     public ProcessEngineFactoryBean processEngine() throws IOException {
