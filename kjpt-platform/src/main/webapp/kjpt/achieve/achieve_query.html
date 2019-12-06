@@ -55,7 +55,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">备案状态：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="company" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <select class="auditStatus" name="auditStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <select class="achieveTransType" name="achieveTransType" lay-filter="achieveTransType" dic-base-data="ROOT_KJPT_KJCG_NZHFS"></select>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,9 @@
         </div>
     </form>
     <div class="view-title-layout" id="opations-btn">
-        <button class="layui-btn border-blue openLayerPage">导出excel</button>
+        <div class="right">
+            <button class="layui-btn border-blue openLayerPage">导出excel</button>
+        </div>
     </div>
     <table id="tableDemo"  lay-filter="tableDemo"></table>
 
@@ -102,10 +104,10 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['table', 'form'], function() {
+    layui.use(['table', 'form','laydate'], function() {
         var table = layui.table;
         var form = layui.form;
-
+        var laydate = layui.laydate;
         var tableRender = false;
         function queryTable(searchData) {
             if (!tableRender) {
@@ -139,7 +141,32 @@
                 table.reload('tableDemo', {where: searchData});
             }
         }
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#inputStart'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
 
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#inputEnd'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
         // 监控表单提交事件
         form.on('submit(formSubmit)', function(data) {
             queryTable(data.field);

@@ -24,7 +24,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">成果名称：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="achName" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="company" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -70,7 +70,10 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">是否核心成果：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+            <select name="achieveType" lay-filter="achieveType">
+              <option value="1">是</option>
+              <option value="0" selected>否</option>
+            </select>
           </div>
         </div>
       </div>

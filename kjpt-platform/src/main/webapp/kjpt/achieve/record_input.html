@@ -28,7 +28,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="achieveName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -37,8 +37,10 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">是否成为集团公司核心技术成果：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <select name="achieveType" lay-verify="required" lay-filter="achieveType">
+              <option value="0">否</option>
+              <option value="1">是</option>
+            </select>
           </div>
         </div>
       </div>
@@ -46,7 +48,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果完成单位：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="finishUnitName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -55,8 +57,8 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果转化状态：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+            <select name="achieveTransStatus" lay-verify="required" placeholder="请选择"
+              dic-base-data="ROOT_KJPT_KJCG_CGZHZT"></select>
           </div>
         </div>
       </div>
@@ -73,7 +75,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">项目来源：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="projectSource" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -82,7 +84,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">知识产权情况：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="intellectualInfo" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -106,7 +108,10 @@
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">知识产权状况或科技成果评价报告：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="appraisalDoc" />
+            <table></table>
+          </div>
         </div>
       </div>
     </div>
@@ -174,9 +179,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果转化方式：</span></label>
           <div class="layui-input-block">
-            <input type="radio" name="transformType" value="01" title="技术转让">
-            <input type="radio" name="transformType" value="02" title="技术许可" checked>
-            <input type="radio" name="transformType" value="03" title="技术合作投资">
+            <input type="radio" name="achieveTransType" value="1" title="技术转让">
+            <input type="radio" name="achieveTransType" value="2" title="技术许可" checked>
+            <input type="radio" name="achieveTransType" value="3" title="技术合作投资">
           </div>
         </div>
       </div>
@@ -291,6 +296,9 @@
       <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
+
+    <input type="hidden" name="id">
+    <input type="hidden" name="achieveId">
   </form>
 
   <div id="init_transfrom_maintain"></div>
