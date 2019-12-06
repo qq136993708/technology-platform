@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface AchieveBaseService {
     AchieveBase load(String id);
-    void save(AchieveBase ab);
-    void delete(String id);
+    Integer save(AchieveBase ab);
+    Integer delete(String id);
     PageInfo query(Map param);
 }

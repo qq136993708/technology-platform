@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformLeaderMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformLeaderModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
+        <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="post" jdbcType="DECIMAL" property="post"/>
+        <result column="work_unit" jdbcType="VARCHAR" property="workUnit"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+		<result column="work_unit_text" jdbcType="VARCHAR" property="workUnitText"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        platform_id,
+        base_id,
+        name,
+        post,
+        work_unit,
+        major,
+        deleted,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  * from view_kypt_leader where id = #{id}
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  * from view_kypt_leader where 1=1 and platform_id = #{platformId}
+        <if test="baseIds !=null">
+            and base_id in (
+                <foreach collection="baseIds"  index="index"  item="id"  separator=",">
+                    #{id}
+                </foreach>
+            )
+        </if>
+    </select>
+
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from kypt_leader where 1=1
+        and deleted != '1'
+    </select>
+
+
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformLeaderModel">
+        insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{name},#{post},#{workUnit},#{major},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformLeaderModel">
+        update kypt_leader
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != '' " >
+                name = #{name},
+            </if>
+            <if test="post != null and post != '' " >
+                post = #{post},
+            </if>
+            <if test="workUnit != null and workUnit != ''" >
+                work_unit = #{workUnit},
+            </if>
+            <if test="major != null and major != ''" >
+                major = #{major}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update kypt_leader set deleted = '1' where id = #{id}
+    </update>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user) values
+        <foreach collection="list" item="km" separator=",">
+            (#{id},#{platformId},#{baseId},#{name},#{post},#{workUnit},#{major},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
+        </foreach>
+    </insert>
+
+</mapper>

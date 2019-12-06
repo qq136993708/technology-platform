@@ -3,12 +3,14 @@ package com.pcitc.base.researchplatform;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.io.Serializable;
+
 /**
  * <p>平台成员</p>
  * <p>Table: kypt_member - 科研平台-成员</p>
  * @author ty
  */
-public class PlatformMemberModel extends RecordModel {
+public class PlatformMemberModel extends RecordModel implements Serializable {
 
     /**
      * 数据主键

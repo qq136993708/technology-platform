@@ -27,23 +27,23 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
     }
 
     @Override
-    public void save(AchieveBase ab) {
+    public Integer save(AchieveBase ab) {
 
         IsEmptyUtil.isEmpty(ab.getId());
         if(load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());
-            abm.add(ab);
+            return abm.add(ab);
         }
         else{
-            abm.update(ab);
+            return abm.update(ab);
         }
 
     }
 
     @Override
-    public void delete(String id) {
-        abm.delete(id);
+    public Integer delete(String id) {
+        return abm.delete(id);
     }
 
     @Override
