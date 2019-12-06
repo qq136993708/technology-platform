@@ -238,7 +238,15 @@
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-            update achieve_record set del_status = '1' where id = #{id}
+            update achieve_record set del_status = '1'
+                <where>
+                    id in(
+                    <foreach collection="array"  item="id" index="index"  separator=",">
+                        #{id}
+                    </foreach>
+                    )
+                </where>
+                and audit_status in ('0','3')
     </update>
 
 </mapper>

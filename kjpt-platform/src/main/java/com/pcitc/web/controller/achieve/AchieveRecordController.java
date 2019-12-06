@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.achieve;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
@@ -108,19 +109,30 @@ public class AchieveRecordController extends RestBaseController {
     @RequestMapping(value = "/achieveRecord-api/save", method = RequestMethod.POST)
     @ResponseBody
     public AchieveSubmit save(@RequestBody AchieveSubmit as){
-        /*AchieveSubmit as = new AchieveSubmit();
-        BeanUtils.copyProperties(asv,as);*/
         this.setBaseData(as);
+        as.getAchieveRecord().setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
     }
 
+    @ApiOperation(value="提交")
+    @RequestMapping(value = "/achieveRecord-api/submit", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveSubmit submit(@RequestBody AchieveSubmit as){
+        this.setBaseData(as);
+        as.getAchieveRecord().setAuditStatus("1");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+        return as;
+    }
+
+
     @ApiOperation(value="删除")
     @RequestMapping(value = "/achieveRecord-api/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Integer delete(@PathVariable String id) {
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
+    public Integer delete(@PathVariable String ids) {
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+ids, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
 
