@@ -36,7 +36,6 @@ layui.use(['table', 'form','laydate'], function() {
     //开始日期
     var insStart = laydate.render({
         elem: '#inputStart'
-        ,min: 0
         ,done: function(value, date){
             //更新结束日期的最小日期
             insEnd.config.min = lay.extend({}, date, {
@@ -71,17 +70,22 @@ layui.use(['table', 'form','laydate'], function() {
     // 获取被选中的行数据
     var activeData = table.checkStatus('tableDemo').data;
     if (activeData.length) {
-        httpModule({
-            url: "/achieve-api/delete/"+activeData[0].id,
-            type: 'DELETE',
-            success: function(relData) {
-                if(relData.code==0){
-                    layer.msg('删除成功!', {icon: 1});
-                    top.layer.closeAll(); // 关闭弹窗
-                    queryTable('')
+        if(activeData[0].auditStatus==0||activeData[0].auditStatus==3){
+            httpModule({
+                url: "/achieve-api/delete/"+activeData[0].id,
+                type: 'DELETE',
+                success: function(relData) {
+                    if(relData.code==0){
+                        layer.msg('删除成功!', {icon: 1});
+                        top.layer.closeAll(); // 关闭弹窗
+                        queryTable('')
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            top.layer.msg('当前申请状态不能删除！');
+        }
+
     } else {
       top.layer.msg('请选择需要删除的数据！');
     }
