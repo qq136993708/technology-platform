@@ -48,15 +48,17 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
                 aReward.setCreateDate(as.getUpdateDate());
                 aReward.setCreator(as.getUpdator());
                 arw.add(aReward);
+                arw.updateRewardMoney(aRecord.getId());
             }
         }
         else{
             arm.update(aRecord);
             if(aReward != null) {
                 arw.update(aReward);
+                arw.updateRewardMoney(aRecord.getId());
             }
         }
-        arw.updateRewardMoney(aRecord.getId());
+
     }
 
     @Override
