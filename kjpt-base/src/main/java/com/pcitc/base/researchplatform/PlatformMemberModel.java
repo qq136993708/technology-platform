@@ -62,11 +62,6 @@ public class PlatformMemberModel extends RecordModel implements Serializable {
      */
     private String workUnit="";
     private String workUnitText="";
-    /**
-     * 角色
-     */
-    private String role="";
-    private String roleText="";
 
     public String getPlatformId() {
         return platformId;
@@ -156,28 +151,12 @@ public class PlatformMemberModel extends RecordModel implements Serializable {
         this.workUnit = workUnit;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getRoleText() {
-        return roleText;
-    }
-
-    public void setRoleText(String roleText) {
-        this.roleText = roleText;
     }
 
     public String getEducationText() {
