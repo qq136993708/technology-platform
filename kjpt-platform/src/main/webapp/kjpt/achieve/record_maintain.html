@@ -7,7 +7,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">转化收入：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="transIncome" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -16,7 +16,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">成果核算及核算依据：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="checkBasis" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -25,7 +25,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">项目全周期净收入计算：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="incomeCalculation" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">项目全周期激励方案及制定方案的原则和依据：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="rewardRecord" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -43,7 +43,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励额度：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="rewardQuota" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -52,7 +52,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">工资总额预算来源：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="budgetSources" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -61,7 +61,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励总和：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="budgetAllMoney" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -70,14 +70,14 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励分配方案：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="companyName" lay-verify="required"
+          <input type="text" name="assignPlan" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
     </div>
     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
       <div class="view-row-title">
-        <span class="link-text">+ 添加</span>
+        <span class="link-text dy-add-btn">+ 添加</span>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励人员名单：</span></label>
@@ -112,7 +112,10 @@
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">成果核算（单位财务部门盖章）：</span></label>
-        <div class="layui-input-block"><table></table></div>
+        <div class="layui-input-block">
+          <input type="hidden" name="rewardAccountingDoc">
+          <table></table>
+        </div>
       </div>
     </div>
     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
@@ -124,7 +127,10 @@
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">净收入计算报告（单位财务部门盖章）：</span></label>
-        <div class="layui-input-block"><table></table></div>
+        <div class="layui-input-block">
+          <input type="hidden" name="incomeReportDoc">
+          <table></table>
+        </div>
       </div>
     </div>
     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
@@ -136,7 +142,10 @@
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励方案报告：</span></label>
-        <div class="layui-input-block"><table></table></div>
+        <div class="layui-input-block">
+          <input type="hidden" name="assignPlanDoc">
+          <table></table>
+        </div>
       </div>
     </div>
   
@@ -148,5 +157,7 @@
 
   <input type="hidden" name="achieve_record_id">
   <input type="hidden" name="achieveId">
+  <input type="hidden" name="id">
+  <input type="hidden" name="rewardYear">
 
 </form>

@@ -43,6 +43,16 @@ if (!Date.prototype.format) {
 		return fmt;   
 	}
 }
+// 生产随机ID
+function randomID() {
+  var id = 'fileTableList_' + (Math.random() + '').substring(2) +'_'+ (Math.random() + '').substring(2);
+  if (sessionStorage.getItem(id)) {
+    id = randomID();
+  } else {
+    sessionStorage.setItem(id, '1');
+  }
+  return id;
+}
 
 // 获取地址参数
 function getQueryVariable(key) {

@@ -111,7 +111,6 @@ body > .layui-layout{
   font-size: 0;
   padding-top: 20px;
   padding-bottom: 16px;
-  text-align: right;
 }
 .view-title-layout::after{
   content: '';
@@ -151,6 +150,7 @@ body > .layui-layout{
   display: inline-block;
   vertical-align: middle;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .view-title-layout > .text,

@@ -24,9 +24,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">是否核心成果：</span></label>
           <div class="layui-input-block">
-            <select name="applicationType" lay-verify="required" lay-filter="applicationType">
-              <option value="Y">是</option>
-              <option value="N" selected>否</option>
+            <select name="achieveType" lay-verify="required" lay-filter="achieveType">
+              <option value="1">是</option>
+              <option value="0" selected>否</option>
             </select>
           </div>
         </div>
@@ -51,7 +51,8 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果基本情况：</span></label>
           <div class="layui-input-block">
-            <textarea type="text" name="companyName" lay-verify="required"
+            <textarea type="text" name="achieveInfo" lay-verify="required|length"
+              length="300"
               placeholder="请填写..." autocomplete="off" class="layui-textarea"></textarea>
           </div>
         </div>
@@ -60,7 +61,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="finishUnitName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -70,8 +71,8 @@
           <label class="layui-form-label label-required"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
             <select name="achieveTransType" lay-verify="required"
-              dic-base-data="DIC_DEMO_DATA"
-              lay-filter="applicationType"></select>
+              dic-base-data="ROOT_KJPT_KJCG_NZHFS"
+              lay-filter="achieveTransType"></select>
           </div>
         </div>
       </div>
@@ -79,7 +80,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">拟受让单位：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="grantUnitName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -88,7 +89,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">预计净收益（万元）：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="incomeMoney" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -97,7 +98,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">拟转化金额（万元）：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="transMoney" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -106,7 +107,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">本年激励额度（万元）：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="currentRewardMoney" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -115,7 +116,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">激励预计总额（万元）：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="rewardMoney" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -124,7 +125,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">未完成项目预计完成时间：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required" id="estimate"
+            <input type="text" name="aboutCompleteTime" lay-verify="required" id="estimate"
               placeholder="请填写..." autocomplete="off" class="laydate-input">
           </div>
         </div>
@@ -133,9 +134,11 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">完成情况：</span></label>
           <div class="layui-input-block">
-            <select name="applicationType" lay-verify="required"
-              dic-base-data="DIC_DEMO_DATA"
-              lay-filter="applicationType"></select>
+            <select name="aboutCompleteInfo" lay-verify="required"
+              dic-base-data=""
+              lay-filter="aboutCompleteInfo">
+              <option value="Y">是</option>
+              <option value="N">否</option></select>
           </div>
         </div>
       </div>
@@ -154,6 +157,7 @@
     <input type="hidden" name="updateDate">
     <input type="hidden" name="deleted">
     <input type="hidden" name="id">
+    <input type="hidden" name="auditStatus">
   </form>
 
 </div>
