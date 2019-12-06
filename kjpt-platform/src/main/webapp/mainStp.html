@@ -124,15 +124,15 @@
 			</div>
 			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
 				<div class="middle-item twoItem">
-					<div class="middle-title">工作总结</div>
+					<div class="middle-title">项目</div>
 					<div class="middle-content">
 						<div class="chart-item">
 							<div class="chart-box" id="lastWeek"></div>
-							<div class="chart-title">上周工作完成度</div>
+							<div class="chart-title">项目数量</div>
 						</div>
 						<div class="chart-item">
 							<div class="chart-box" id="thisWeek"></div>
-							<div class="chart-title">本周工作安排</div>
+							<div class="chart-title">项目经费</div>
 						</div>
 					</div>
 				</div>
@@ -157,46 +157,25 @@
 	<div class="home-footer-layout">
 		<div class="footer-item">
 			<div class="footer-item-title middle-block">
-				<div class="right"><a href="#" class="link-text">更多</a></div>
+				<!-- <div class="right"><a href="#" class="link-text">更多</a></div> -->
 				<div class="text">信息公示</div>
 			</div>
 			<div class="item-content">
 				<div class="layui-tab" lay-filter="tab-demo">
 					<ul class="layui-tab-title tab-home-layout">
-						<li class="layui-this">科技成果</li>
 						<li>成果转化</li>
-						<li>专利</li>
+						<li class="layui-this">专利</li>
 					</ul>
 					<div class="layui-tab-content">
-						<div class="layui-tab-item layui-show">
-							<ul class="details-list">
-								<li class="item-details">
-									<span class="date-text">[2019-07-23 14:20:58]</span>
-									<span class="details-text">关于项目（课题）合同（任务书）7月31日关闭上报功能的通知</span>
-								</li>
-								<li class="item-details">
-									<span class="date-text">[2019-07-23 14:20:58]</span>
-									<span class="details-text">关于2019年新开科研项目合同（任务书）上报相关事宜的通知</span>
-								</li>
-								<li class="item-details">
-									<span class="date-text">[2019-07-23 14:20:58]</span>
-									<span class="details-text">关于需求征集功能的使用说明</span>
-								</li>
-								<li class="item-details">
-									<span class="date-text">[2019-07-23 14:20:58]</span>
-									<span class="details-text">关于2019年年度合同及任务书5月31日之后停止上报的通知</span>
-								</li>
-							</ul>
-						</div>
-						<div class="layui-tab-item">成果转化</div>
-						<div class="layui-tab-item"><ul class="details-list" id="patent_tab_list"></ul></div>
+						<div class="layui-tab-item"><ul class="details-list" id="transform_tab_list"></ul></div>
+						<div class="layui-tab-item layui-show"><ul class="details-list" id="patent_tab_list"></ul></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="footer-item">
 			<div class="footer-item-title middle-block">
-				<div class="right"><a href="#" class="link-text">更多</a></div>
+				<!-- <div class="right"><a href="#" class="link-text">更多</a></div> -->
 				<div class="text">科技材料</div>
 			</div>
 			<div class="item-content">
@@ -206,6 +185,7 @@
 						<li>工作要点</li>
 						<li>科技进展动态</li>
 						<li>年终总结</li>
+						<li>科研报告</li>
 					</ul>
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
@@ -220,6 +200,9 @@
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="summary_tab_list"></ul>
+						</div>
+						<div class="layui-tab-item">
+							<ul class="details-list" id="scientific_tab_list"></ul>
 						</div>
 					</div>
 				</div>
