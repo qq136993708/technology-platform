@@ -95,9 +95,9 @@ html{ background-color: #F9F9F9; color: #666;}
 .layadmin-pagetabs,
 .layui-layout-admin .layui-body,
 .layui-layout-admin .layui-footer{left: 260px;}
-.layadmin-pagetabs{position: fixed; top: 100px; right: 0px; z-index: 999;}
+.layadmin-pagetabs{position: fixed; top: 92px; right: 0px; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 150px; bottom: 40px;right: 0px; margin: 0;}
+.layui-layout-admin .layui-body{top: 144px; bottom: 40px;right: 0px; margin: 0;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
@@ -368,8 +368,7 @@ html{ background-color: #F9F9F9; color: #666;}
     background:linear-gradient(49deg,rgba(0,109,223,1) 0%,rgba(10,161,255,1) 100%);
 }
 .layui-layout-admin .layui-header a,
-.layui-layout-admin .layui-header a cite{    color: rgba(255,255,255,0.9);
-    font-weight: bold;}
+.layui-layout-admin .layui-header a cite{    color: rgba(255,255,255,0.9);}
 .layui-layout-admin .layui-header a:hover{color: #fff; transform: none !important; }
 .layui-layout-admin .layui-header .layui-this a{color: #fff;}
 .layui-layout-admin .layui-header .layui-this dl dd a{ color: black !important;}

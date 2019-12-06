@@ -94,8 +94,8 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(publication)) {
             this.setParam(condition, "publication", publication);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MM))) {
-            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MM));
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MMM))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MMM));
         }
         if (!StringUtils.isEmpty(DateUtil.format(pubdate,DateUtil.FMT_DD))) {
             this.setParam(condition, "pubdate", DateUtil.format(pubdate,DateUtil.FMT_DD));
