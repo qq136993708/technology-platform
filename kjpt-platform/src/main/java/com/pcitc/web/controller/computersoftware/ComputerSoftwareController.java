@@ -73,13 +73,16 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "entryTime", value = "录入时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "file", value = "附件上传", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query")
+
+
+
     })
 
     @GetMapping(value = "/query")
     @ResponseBody
     public PageInfo query(
-
-
 
             @RequestParam(required = false) Integer pageNum,
             @RequestParam(required = false) Integer pageSize,
@@ -95,7 +98,9 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String entryPeople,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date entryTime,
             @RequestParam(required = false) String notes,
-            @RequestParam(required = false) String file
+            @RequestParam(required = false) String file,
+            @RequestParam(required = false) String technicalField,
+            @RequestParam(required = false) String technicalFieldValue
 
 
     ) {
@@ -143,6 +148,16 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(file)) {
             this.setParam(condition, "file", file);
         }
+
+        if (!StringUtils.isEmpty(technicalField)) {
+            this.setParam(condition, "technicalField", technicalField);
+        }
+
+        if (!StringUtils.isEmpty(technicalFieldValue)) {
+            this.setParam(condition, "technicalFieldValue", technicalFieldValue);
+        }
+
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
