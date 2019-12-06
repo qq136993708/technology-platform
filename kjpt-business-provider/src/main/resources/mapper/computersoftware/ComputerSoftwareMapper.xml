@@ -31,6 +31,14 @@
         <result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText"/>
 
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
+
+
+        <result column="technical_field" jdbcType="VARCHAR" property="technicalField"/>
+        <result column="technical_field_value" jdbcType="VARCHAR" property="technicalFieldValue"/>
+
+
+
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -52,7 +60,10 @@
       create_date,
       create_user,
       update_date,
-      update_user
+      update_user,
+      technical_field,
+      technical_field_value
+
 
   </sql>
 
@@ -85,7 +96,9 @@
       create_date,
       create_user,
       update_date,
-      update_user
+      update_user,
+      technical_field,
+      technical_field_value
       )
     values (
        #{id},
@@ -106,7 +119,9 @@
        #{createDate},
        #{creator},
        #{updateDate},
-       #{updator}
+       #{updator},
+       #{technicalField},
+       #{technicalFieldValue}
       )
   </insert>
 
@@ -170,6 +185,15 @@
             <!--<if test="updateDate != null">-->
             <!--update_date = #{updateDate}-->
             <!--</if>-->
+
+            <if test="technicalField != null and technicalField != ''">
+                technical_field = #{technicalField},
+            </if>
+
+            <if test="technicalFieldValue != null and technicalFieldValue != ''">
+                technical_field_value = #{technicalFieldValue}
+            </if>
+
 
         </trim>
         where id = #{id}
@@ -310,6 +334,14 @@
         </if>
         <if test="files != null and files != ''">
             and file = #{files}
+        </if>
+
+        <if test="technicalField != null and technicalField != ''">
+           and  technical_field = #{technicalField}
+        </if>
+
+        <if test="technicalFieldValue != null and technicalFieldValue != ''">
+            and technical_field_value = #{technicalFieldValue}
         </if>
 
     </sql>
