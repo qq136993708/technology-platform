@@ -9,6 +9,7 @@ import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveRecordMapper;
 import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
+import com.pcitc.service.file.FileCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,9 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 
     @Autowired
     private AchieveRewardMapper arw;
+
+    @Autowired
+    private FileCommonService fs;
 
     @Override
     public AchieveRecord load(String id) {
@@ -62,8 +66,9 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     }
 
     @Override
-    public Integer delete(String id) {
-        return arm.delete(id);
+    public Integer delete(String ids) {
+        String[] idArr = ids.split(",");
+        return arm.delete(idArr);
     }
 
     @Override

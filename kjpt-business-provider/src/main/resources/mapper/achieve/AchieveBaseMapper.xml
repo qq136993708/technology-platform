@@ -80,10 +80,10 @@
             and audit_status = #{auditStatus}
         </if>
         <if test="startDate != null and startDate != '' " >
-            and finish_date <![CDATA[>=]]> #{applicationDateEnd}
+            and finish_date <![CDATA[>=]]> #{startDate}
         </if>
         <if test="endDate != null and endDate != '' " >
-            and finish_date <![CDATA[<=]]> #{applicationDateEnd}
+            and finish_date <![CDATA[<=]]> #{endDate}
         </if>
     </sql>
 

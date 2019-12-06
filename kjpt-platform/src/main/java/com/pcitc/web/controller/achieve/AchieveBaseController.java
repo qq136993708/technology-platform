@@ -95,7 +95,7 @@ public class AchieveBaseController extends RestBaseController {
             this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "applicationDateEnd", DateUtil.format(endDate,DateUtil.FMT_SS));
+            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
         }
 
         if (!StringUtils.isEmpty(achieveName)) {
