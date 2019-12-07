@@ -29,9 +29,9 @@ layui.use(['form', 'table', 'layer'], function(){
           ,{field: 'platformName', title: '平台名称', templet: '#detailsTpl'}
           ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
           ,{field: 'personLiable', title: '主要负责人', sort: true}
-          ,{field: 'typeText', title: '平台类型'} 
+          ,{field: 'levelText', title: '平台类型'} 
           ,{field: 'researchFieldText', title: '研究领域'}
-          ,{field: 'experience', title: '主要项目', sort: true}
+          // ,{field: 'experience', title: '主要项目', sort: true}
           ,{field: 'overallSituation', title: '科研整体情况', sort: true}
           ,{field: 'researchFunds', title: '科研经费'}
           ,{field: 'platformScoring', title: '平台评分', width: 94 , sort: true}
