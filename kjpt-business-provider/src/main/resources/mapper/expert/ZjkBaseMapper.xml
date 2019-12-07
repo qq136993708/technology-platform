@@ -479,13 +479,13 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-   select * from  (<include refid="view_zjk_base" />)  t <include refid="selectCondition" />    
-     <choose>
+   select * from  view_zjk_base  t <include refid="selectCondition" />
+     <!--<choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_time desc
+        //ORDER BY  create_time desc
       </otherwise>
-     </choose>
+     </choose>-->
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
