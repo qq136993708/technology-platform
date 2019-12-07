@@ -50,6 +50,8 @@ public class UnitController extends BaseController {
 	
 	private static final String UNIT_LIST_ZTREE_DATA_BY_NAME = "http://kjpt-zuul/system-proxy/unit-provider/unit/ztree_unit_list_by_name";
 
+	private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
+
 	/**
 	 * @param request
 	 * @return
@@ -229,7 +231,7 @@ public class UnitController extends BaseController {
 	/**
 	 * 获取部门列表
 	 * 
-	 * @param param
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -261,6 +263,14 @@ public class UnitController extends BaseController {
 	@ResponseBody
 	public Object getUnitCodeByUnitName(@ModelAttribute("unit") SysUnit unit) {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(GET_UNIT_CODE, HttpMethod.POST, new HttpEntity<SysUnit>(unit, this.httpHeaders), String.class);
+		String rs = responseEntity.getBody();
+		return new Result(true, rs);
+	}
+
+	@RequestMapping(value = "/unit/get_unitId")
+	@ResponseBody
+	public Object getUnitIdByUnitName(@RequestParam(value="name", required=true) String name,HttpServletRequest request) {
+		ResponseEntity<String> responseEntity = restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<String>(name, this.httpHeaders), String.class);
 		String rs = responseEntity.getBody();
 		return new Result(true, rs);
 	}
