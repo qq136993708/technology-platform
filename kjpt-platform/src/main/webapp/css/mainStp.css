@@ -125,6 +125,7 @@
 }
 .home-header-layout .title-cl-item {
   padding-bottom: 12px;
+  margin-left: -4px;
 }
 .home-header-layout .number-cl-item .number{
   font-family: 'FlamaLight';

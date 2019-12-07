@@ -720,7 +720,7 @@ function commonItemInto(config) {
 		typeof(config.cols) !== 'object'
 		|| !config.cols.length
 	) {
-		return
+		return;
 	};
 
 
@@ -734,7 +734,7 @@ function commonItemInto(config) {
 	})(),
 	$itemBox = $itemScroll.find('.itemBlock:eq(0)');
 
-	for(var item of config.cols) {
+	$.each(config.cols, function(i, item) {
 		itemList += ('<li class="top-item middle-block">'+
 		'<div class="item-cell">'+
 			'<div class="title-cl-item">'+
@@ -745,7 +745,7 @@ function commonItemInto(config) {
 				'<span class="number" id="'+ item.id +'" num-label="'+ item.label +'">0</span><span class="text">'+ item.unit +'</span>'+
 			'</div>'+
 		'</div></li>');
-	};
+	});
 
 	$itemBox.html(itemList);
 
