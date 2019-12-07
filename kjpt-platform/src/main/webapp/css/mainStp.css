@@ -3,6 +3,7 @@
   min-height: 600px;
   background-color: #F9F9F9;
   padding-bottom: 1px;
+  min-width: 1366px;
 }
 @font-face{
   font-family:'FlamaLight';
@@ -76,7 +77,6 @@
   width: 100%;
 }
 .home-header-layout .title-cl-item {
-  
   padding-bottom: 12px;
 }
 .home-header-layout .number-cl-item .number{
@@ -87,6 +87,9 @@
   color: #383E45;
   display: inline-block;
   vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .home-header-layout .number-cl-item .text{
   font-size: 14px;
@@ -106,6 +109,7 @@
 }
 .home-middle-layout .middle-item {
   background-color: #fff;
+  position: relative;
   padding-top: 1px;
   height: 100%;
   margin-right: 10px;
@@ -117,17 +121,26 @@
 }
 
 .home-middle-layout .oneItem{
-  background-color: #0AA1FF;
-  background:url('/layuiadmin/layui/images/backlog.png') 0 0 no-repeat;
-  background-size: 100% 100%;
+  background: #0AA1FF;
+  background: linear-gradient(223deg,rgba(24,189,244,1) 0%,rgba(37,147,245,1) 100%);
 }
+.home-middle-layout .oneItem::before{
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/backlog.png') right bottom no-repeat;
+  background-size: auto 80%;
+}
+
 .home-middle-layout .twoItem{
-  background:url('/layuiadmin/layui/images/summarize.png') 0 0 no-repeat;
-  background-size: 100% 100%;
+  background:rgba(14,198,205,1);
 }
 .home-middle-layout .threeItem{
-  background:url('/layuiadmin/layui/images/collect.png') 0 0 no-repeat;
-  background-size: 100% 100%;
+  background:rgba(129,181,218,1);
 }
 .home-middle-layout .middle-title{
   line-height: 20px;
@@ -153,6 +166,7 @@
   height: calc(100% - 32px);
   margin: 16px 24px;
   text-align: center;
+  position: relative;
 }
 
 
@@ -167,7 +181,7 @@
 }
 .home-middle-layout .twoItem .middle-content{
   height: calc(100% - 48px);
-  margin: 32px 24px 16px 24px;
+  margin: 36px 24px 16px 24px;
 }
 .home-middle-layout  .chart-item {
   float: left;

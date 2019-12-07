@@ -42,8 +42,8 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
     }
 
     @Override
-    public void delete(String id) {
-        arm.delete(id);
+    public Integer delete(String id) {
+        return  arm.delete(id);
     }
 
     @Override

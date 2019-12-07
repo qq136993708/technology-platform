@@ -42,6 +42,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             formSelects.btns('techType', ['remove']);
         }
     });
+    console.log(variable.type)
     if(variable.id!=undefined){
         id=variable.id
         httpModule({
@@ -54,7 +55,10 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                     relData.data.finishDate=dateFieldText(relData.data.finishDate)
                     form.val('formPlatform', relData.data);
                     formSelects.value('techType', relData.data.techType.split(','));
-                    backfill(relData.data.teamPerson,'achieveTable')
+                    backfill(relData.data.teamPerson,'achieveTable',variable.type)
+                    if(variable.type=='view'){
+                        formSelects.disabled(); // 禁用所有多选下拉框
+                    }
                     console.log(relData)
                 }
             }

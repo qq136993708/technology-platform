@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public interface AchieveRewardMapper {
     AchieveReward load(String id);
-    void add(AchieveReward ab);
-    void update(AchieveReward ab);
-    void delete(String id);
+    Integer add(AchieveReward ab);
+    Integer update(AchieveReward ab);
+    Integer delete(String id);
     List<AchieveReward> query(Map param);
     void updateRewardMoney(String aRecordId);
     void updateCurrentYearMoney(String aRecordId);

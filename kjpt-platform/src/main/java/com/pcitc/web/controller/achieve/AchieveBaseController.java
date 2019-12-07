@@ -2,12 +2,20 @@ package com.pcitc.web.controller.achieve;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.system.SysPost;
+import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +24,12 @@ import org.springframework.http.HttpMethod;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>成果转换</p>
@@ -44,6 +56,11 @@ public class AchieveBaseController extends RestBaseController {
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieve-api/delete/";
 
+    /**
+     * 流程
+     */
+    private static final String WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/achieve/start_activity/";
+	
 
     @ApiOperation(value="读取")
     @RequestMapping(value = "/achieve-api/load/{id}", method = RequestMethod.GET)
@@ -61,8 +78,10 @@ public class AchieveBaseController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "auditStatus", value = "审核状态", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "finishUnitName", value = "成果持有单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "申请状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieve-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -71,7 +90,9 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
-            @RequestParam(required = false,value = "auditStatus") String auditStatus
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
+            @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -85,6 +106,13 @@ public class AchieveBaseController extends RestBaseController {
         }else {
             this.setParam(condition, "pageSize", pageSize);
         }
+        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        }
+
         if (!StringUtils.isEmpty(achieveName)) {
             this.setParam(condition, "achieveName", achieveName);
         }
@@ -104,6 +132,7 @@ public class AchieveBaseController extends RestBaseController {
     @ResponseBody
     public AchieveBase save(@RequestBody AchieveBase ab){
         this.setBaseData(ab);
+        ab.setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
         return responseEntity.getBody();
@@ -114,6 +143,7 @@ public class AchieveBaseController extends RestBaseController {
     @ResponseBody
     public AchieveBase submit(@RequestBody AchieveBase ab){
         this.setBaseData(ab);
+        ab.setAuditStatus("1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
         return responseEntity.getBody();
@@ -138,4 +168,83 @@ public class AchieveBaseController extends RestBaseController {
         a.setCreator(this.getUserProfile().getUserName());
         return a;
     }
+    
+    @ApiOperation(value="核心成果转化流程")
+    @RequestMapping(value = "/start_workflow")
+	public Object start_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String id = CommonUtil.getParameter(request, "id", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		System.out.println("============start_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
+		
+		
+		 ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveBase.class);
+		 AchieveBase achieveBase=  responseEntity.getBody();
+		
+		String branchFlag="0";
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("id", id);
+		paramMap.put("functionId", functionId);
+		paramMap.put("processInstanceName", "核心成果转化->"+achieveBase.getAchieveName());
+		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.put("auditor", userIds);
+		paramMap.put("branchFlag", branchFlag);
+		
+		
+		
+		//指定岗位
+		String specialAuditor1 = "";//xxx_核心成果转化-岗位代码
+		StringBuffer specialAuditor1_sb = new StringBuffer();
+		String unitIds=sysUserInfo.getUnitId();
+		System.out.println("============unitIds ="+unitIds+" applyUnitName="+sysUserInfo.getUnitName());
+		if(unitIds!=null && !unitIds.equals(""))
+		{
+			String arr[]=unitIds.split(",");
+			if(arr!=null && arr.length>0)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					 String unitId=arr[i];
+					
+					 List<SysPost> list = EquipmentUtils.getPostListByUnitId(unitId, restTemplate, httpHeaders);
+					 if(list!=null && list.size()>0)
+					 {
+						    for(int j=0;j<list.size();j++)
+							{
+						    	SysPost sysPost=list.get(j);
+						    	String postCode=sysPost.getPostCode();
+						    	String postName=sysPost.getPostName();
+						    	System.out.println("============ postName ="+ postName);
+						    	if(postName.contains("核心成果转化"))
+						    	{
+						    		specialAuditor1_sb.append(postCode).append("-");
+						    	}
+						    	
+							}
+					 }
+				}
+				
+			}
+			specialAuditor1=specialAuditor1_sb.toString();
+			if(!specialAuditor1.equals(""))
+			{
+				specialAuditor1= specialAuditor1.substring(0,specialAuditor1.length() - 1);
+			}
+			
+		}
+		paramMap.put("specialAuditor1", specialAuditor1);
+		System.out.println("============specialAuditor1 ="+specialAuditor1);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		//return null;
+		Result rs = this.restTemplate.exchange(WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+	}
+  	
+  	
+    
+    
+    
 }

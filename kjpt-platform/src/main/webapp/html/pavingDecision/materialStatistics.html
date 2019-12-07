@@ -8,7 +8,7 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   
@@ -75,22 +75,17 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   function queryTable(data) {
     if (tableLoading) {
-      tableLoading = false;
-
       table.render({
         elem: '#pavingDecisionTable'
         ,url: '/platform-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'radio', field: 'id'}
-          ,{field: 'platformName', title: '平台名称', templet: '#detailsTpl'}
-          ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
-          ,{field: 'personLiable', title: '主要负责人', sort: true}
-          ,{field: 'typeText', title: '平台类型'} 
-          ,{field: 'researchFieldText', title: '研究领域'}
-          ,{field: 'experience', title: '主要项目', sort: true}
-          ,{field: 'overallSituation', title: '科研整体情况', sort: true}
-          ,{field: 'researchFunds', title: '科研经费'}
-          ,{field: 'platformScoring', title: '平台评分', width: 94 , sort: true}
+          ,{field: 'platformName', title: '上报年度'}
+          ,{field: 'supportingInstitutionsText', title: '上报单位', sort: true }
+          ,{field: 'personLiable', title: '科技规划数量', sort: true}
+          ,{field: 'typeText', title: '工作要点数量'} 
+          ,{field: 'researchFieldText', title: '科技进展动态数量'}
+          ,{field: 'experience', title: '年度总结数量', sort: true}
+          ,{field: 'overallSituation', title: '研究报告数量', sort: true}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -100,13 +95,19 @@ layui.use(['form', 'table', 'formSelects'], function(){
         page: true, //开启分页
         limit: 10, // 每页数据条数,
         limits: [5, 10, 15, 20], // 配置分页数据条数
-        where: data
+        where: data,
+        done: function() {
+          if (tableLoading) {
+            // 再次刷新表格放置表头与表体错位
+            tableLoading = false;
+            table.reload('pavingDecisionTable');
+          }
+        }
       });
     } else {
-      table.reload('pavingDecisionTable', data);
+      table.reload('pavingDecisionTable', {where: data});
     }
   }
-
 
   form.on('submit(submitBtn)', function(data) {
     var searchData = data.field;
@@ -117,7 +118,6 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   // 首次触发查询
   $('[lay-filter="submitBtn"]').click();
-
 
   // 导出
   $('#importData').click(function() {

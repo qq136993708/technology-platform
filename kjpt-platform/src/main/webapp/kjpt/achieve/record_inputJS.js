@@ -1,6 +1,7 @@
 layui.use(['table', 'form'], function() {
   var form = layui.form,
   variable = getQueryVariable(),
+  groupTableId = '',
   fileCols = [
     {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
     {title: '操作', templet: function(d) {
@@ -10,7 +11,9 @@ layui.use(['table', 'form'], function() {
       templet += '</div>';
       return templet;
     }}
-  ]
+  ];
+
+  console.log(variable);
 
   // 添加 转化净收益及激励方案
   function addTransfromMaintain(data) {
@@ -50,15 +53,6 @@ layui.use(['table', 'form'], function() {
         $layoutItem.find('.dy-add-table').each(function(index, elem) {
           $(this).attr('id', 'achieveTable_' + index);
         })
-    
-    
-        /*添加tr*/
-        $("#addTr").click(function () {
-          addTr('achieveTable')
-          deleTr('achieveTable')
-        })
-        // /*回显tr*/
-        // backfill('姓名#1#单位#职务$姓名#1#单位#职务','achieveTable')
 
         // 更新表单渲染
         form.render();
@@ -73,15 +67,42 @@ layui.use(['table', 'form'], function() {
           $layoutItem.find('.view-page-submit-btn-box').hide();
         }
 
+        var $groupTable = $layoutItem.find('.dy-add-table:eq(0)');
         if (formFilter === 'newTransfrom') {
+           groupTableId = randomID(); // 动态生产随机ID
+           $groupTable.attr('id', groupTableId);
+
+           /*添加tr*/
+           $layoutItem.find('.dy-add-btn:eq(0)').click(function () {
+            addTr(groupTableId);
+            deleTr(groupTableId);
+          })
+
           httpModule({
             url: '/achieveReward-api/newInit'
           });
+        } else {
+          var tempTableId = randomID(); // 动态生产随机ID
+          $groupTable.attr('id', tempTableId);
+          // 回显团队成员
+          // backfill(relData.data.teamPerson, tempTableId);
         }
       })
     })
   }
 
+
+  // 获取备案信息
+  httpModule({
+    url: '/achieveRecord-api/load/'+ variable.id,
+    success: function(res) {
+      console.log(res);
+      // teamPerson
+    }
+  });
+
+
+  // 绑定附件添加插件
   $('#RecordInputForm .file-filter-options').each(function(i, elem) {
     setFileUpload({
       id: $(this), // 附件上传作用域ID值 必传
@@ -116,10 +137,12 @@ layui.use(['table', 'form'], function() {
   // 维护，新增 => 转化净收益及激励方案
   form.on('submit(editTranfromMaintain)', function() {
     console.log(' => ');
+    var teamPerson = getTableData(groupTableId);
   })
 
   // 暂存
   $('[lay-filter="formTempSave"]').on('click', function() {
+    var teamPerson = getTableData(groupTableId);
     console.log(form.val('RecordInputForm'), form.val('newTransfrom'));
   })
 })

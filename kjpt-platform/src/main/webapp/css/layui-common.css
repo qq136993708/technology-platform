@@ -293,7 +293,7 @@
 .layui-table[lay-even] tr:nth-child(even) {
   background-color: #ECF0F4;
 }
-.layui-table tbody tr:hover{background: #f1f7fd;}
+.layui-table tbody tr:hover,.layui-table-click{background: #f1f7fd;}
 .layui-table thead th {}
 
 .layui-tab-title.tab-btn-layout {

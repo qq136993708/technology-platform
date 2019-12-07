@@ -116,6 +116,7 @@
             queryData:function () {
                 /*查询*/
                 obj.tableList($("#name").val());
+                $("#exportData").attr("href","/expert-api/exput_excel?name="+$("#name").val())
             },
             reset:function () {
                 /*重置*/

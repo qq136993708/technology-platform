@@ -28,11 +28,12 @@ public class ExcelData2DbServiceImpl implements ExcelData2DbService {
         List dbColList = new ArrayList(Arrays.asList(eic.getDbColNameDb().split(",")));
         eic.setExcelColName(excelColList);
         eic.setDbColName(dbColList);
-        eic.getDbColName().add("batch_id");
+        //eic.getDbColName().add("batch_id");
 
         for (int i = 0; i < dataList.size(); i++) {
             List list = dataList.get(i);
             list.add(batchId);
+            list.add(i+1);
             eic.setDataList(list);
             em.excelData2Db(eic);
         }

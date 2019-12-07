@@ -166,6 +166,8 @@ public class EquipmentUtils {
 	
 	
 	
+	
+	
 
 	public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
