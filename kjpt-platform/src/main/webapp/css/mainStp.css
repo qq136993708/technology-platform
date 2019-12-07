@@ -34,7 +34,43 @@
 
 .home-header-layout .itemScroll-box{
   height: 100%;
+  padding-left: 16px;
+  padding-right: 10px;
 }
+.home-header-layout .itemBtn{
+  width: 32px;
+  height: 100%;
+  top: 0;
+  margin: 0;
+  left: 0;
+  opacity: 0;
+}
+.home-header-layout .itemBtn.right-btn{
+  left: auto;
+  right: 0;
+}
+.home-header-layout .itemBtn.active{
+  opacity: 1;
+}
+.itemScroll-box .itemBtn.active::before{
+  background-color: transparent;
+}
+.home-header-layout .itemBtn::before{
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  border: none;
+  margin-top: -9px;
+  left: 50%;
+  transform: rotate(0);
+  margin-left: -9px;
+  background: #fff url('../images/pull_left.png') center center no-repeat;
+  background-size: 100%;
+}
+.home-header-layout .itemBtn.right-btn::before{
+  background-image: url('../images/pull_left.png');
+}
+
 .home-header-layout .itemScroll::before {
   content: '';
   display: block;
@@ -47,7 +83,7 @@
   z-index: 2;
 }
 .home-header-layout li.top-item {
-  min-width: 170px;
+  min-width: 160px;
   position: relative;
 }
 .home-header-layout .top-item::after {

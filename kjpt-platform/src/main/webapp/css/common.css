@@ -344,6 +344,7 @@ dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
   top: 50%;
   margin-top: -12px;
   border-radius: 3px;
+  z-index: 3;
 }
 .itemScroll-box .itemBtn::before{
   content: '';

@@ -3,7 +3,7 @@ layui.use(['element', 'jquery'], function() {
 
   commonItemInto({
     elem: '#homeHeaderItem',
-    itemMinWidth: 170,
+    itemMinWidth: 164,
     cols: [
       { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个' }
       , {  title: '科研平台', iconName: 'icon002', id: '', label: 'kypt', unit: '家' }
