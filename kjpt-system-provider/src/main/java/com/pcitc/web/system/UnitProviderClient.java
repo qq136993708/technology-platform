@@ -369,8 +369,8 @@ public class UnitProviderClient
 		//return unitService.getUnitZTreeList(null);
 		return unitService.getUnitZTreeListByName(name);
 	}
-	
-	
+
+
 	
 	@ApiOperation(value="获取监理单位列表",notes="获取监理单位列表")
 	@RequestMapping(value = "/unit-provider/unit/control-unit-list")
@@ -411,6 +411,20 @@ public class UnitProviderClient
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(result));
 		return json;
 	}
-	
-	
+
+
+	/**
+	 *  获得组织机构树
+	 * @param name
+	 * @return
+	 */
+	@ApiOperation(value="获取单位ID",notes="根据机构信息，返回机构id")
+	@RequestMapping(value = "/unit-provider/unit/getUnitId_by_name",method = RequestMethod.POST)
+	public String getUnitIdByUnitName(@RequestBody(required=false) String name)
+	{
+		System.out.println("name............"+name);
+		//return unitService.getUnitZTreeList(null);
+		return unitService.getUnitIdByUnitName(name);
+	}
+
 }

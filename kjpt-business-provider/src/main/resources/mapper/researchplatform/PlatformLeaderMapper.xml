@@ -87,7 +87,7 @@
     <insert id="batchSave" parameterType="java.util.List">
         insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user) values
         <foreach collection="list" item="km" separator=",">
-            (#{id},#{platformId},#{baseId},#{name},#{post},#{workUnit},#{major},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
+            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.post},#{km.workUnit},#{km.major},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator})
         </foreach>
     </insert>
 

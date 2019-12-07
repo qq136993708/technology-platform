@@ -533,7 +533,21 @@ public class UnitServiceImpl implements UnitService {
 	{
 		return unitMapper.getAllList();
 	}
-	
+
+
+
+	/**
+	 * 根据机构名称查询机构id
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUnitIdByUnitName(String name)
+	{
+		return unitMapper.getUnitIdByUnitName(name);
+	}
+
+
 
 
 }
