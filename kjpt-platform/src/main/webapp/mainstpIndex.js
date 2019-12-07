@@ -1,6 +1,21 @@
 layui.use(['element', 'jquery'], function() {
   var $ = layui.jquery;
 
+  commonItemInto({
+    elem: '#homeHeaderItem',
+    itemMinWidth: 170,
+    cols: [
+      { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个' }
+      , {  title: '科研平台', iconName: 'icon002', id: '', label: 'kypt', unit: '家' }
+      , { title: '科技成果', iconName: 'icon003', id: '', label: 'kycg', unit: '个' }
+      , { title: '成果转化', iconName: 'icon007', id: '', label: '', unit: '个' }
+      , { title: '专利数量', iconName: 'icon010', id: '', label: 'patent', unit: '个' }
+      , { title: '核行业标准', iconName: 'icon008', id: '', label: '', unit: '个' }
+      , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' }
+      , { title: '经验反馈', iconName: 'icon006', id: '', label: '', unit: '条' }
+    ]
+  });
+
   // 饼图渲染
   function getPieChartOption(data) {
     /*
@@ -87,7 +102,7 @@ layui.use(['element', 'jquery'], function() {
               btn: null,
             });
           } else {
-            window.location.href = itemHref;
+            parent.layui.index.openTabsPage(itemHref, config.title + '('+ item[config.name] +')');
           }
         })  
       }
@@ -246,6 +261,10 @@ layui.use(['element', 'jquery'], function() {
     }
   })
 
-  
+  $('a.tab-more-link').click(function() {
+    var itemHref = $(this).attr('lay-href'),
+    title = $(this).attr('lay-text');
+    parent.layui.index.openTabsPage(itemHref, title);
+  })
 
 });

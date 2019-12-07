@@ -711,6 +711,110 @@ function conversionNumber(data) {
 	return value;
 }
 
+// 左右滚动效果
+function commonItemInto(config) {
+
+	if( !config ||
+		!config.elem ||
+		!config.cols ||
+		typeof(config.cols) !== 'object'
+		|| !config.cols.length
+	) {
+		return
+	};
+
+
+	var itemList = '',
+	$itemScroll = (function() {
+		if (typeof(config.elem) === 'object') {
+			return config.elem;
+		} else {
+			return $(config.elem);
+		}
+	})(),
+	$itemBox = $itemScroll.find('.itemBlock:eq(0)');
+
+	for(var item of config.cols) {
+		itemList += ('<li class="top-item middle-block">'+
+		'<div class="item-cell">'+
+			'<div class="title-cl-item">'+
+				'<span class="text-icon"><img src="/images/'+ item.iconName +'.png" alt=""></span>'+
+				'<span class="text-title">'+ item.title +'</span>'+
+			'</div>'+
+			'<div class="number-cl-item">'+
+				'<span class="number" id="'+ item.id +'" num-label="'+ item.label +'">0</span><span class="text">'+ item.unit +'</span>'+
+			'</div>'+
+		'</div></li>');
+	};
+
+	$itemBox.html(itemList);
+
+	var configItem = {
+		element: $itemScroll,
+		itemMinWidth: config.itemMinWidth || 76
+	},
+	resizeTime = null;
+
+	itemScrollBiullClick(configItem);
+
+	$(window).resize(function() {
+		if (resizeTime) {
+			clearTimeout(resizeTime);
+		}
+		resizeTime = setTimeout(function() {
+			itemScrollBiullClick(configItem);
+		}, 300)
+	})
+}
+function itemScrollBiullClick(config) {
+	var $element = config.element;
+		  $itemBox = $element.find('.itemBlock:eq(0)').removeAttr('style'),
+			maxWidth = $element.find('.itemScroll:eq(0)').outerWidth(),
+			$li = $itemBox.children('li').removeAttr('style'),
+			itemWidth = maxWidth / Math.floor(maxWidth / config.itemMinWidth),
+			leftNumber = 0;
+
+	if ($itemBox.outerWidth() < maxWidth) {
+		$element.find('.btnContent').hide();
+		itemWidth = maxWidth / $li.length;
+	} else {
+		$element.find('.btnContent').show();
+		$element.find('.itemBtn').removeClass('active').each(function() {
+			if ($(this).hasClass('right-btn')) {
+				$(this).addClass('active');
+			}
+		});
+	}
+
+	$element.find('.itemBtn').off('click').on('click', function(){
+		if($(this).hasClass('active') && !$itemBox.hasClass('animate')) {
+			$itemBox.addClass('animate');
+
+			if($(this).is('.left-btn')) {
+				leftNumber += maxWidth;
+				$(this).siblings('.right-btn').addClass('active');
+				if(leftNumber > 0 ) {
+					leftNumber = 0;
+					$(this).removeClass('active');
+				}
+			} else if($(this).is('.right-btn')) {
+				leftNumber -= maxWidth;
+				$(this).siblings('.left-btn').addClass('active');
+				if(Math.abs(leftNumber) > ($itemBox.outerWidth() - maxWidth) ) {
+					leftNumber = -($itemBox.outerWidth() - maxWidth)
+					$(this).removeClass('active');
+				}
+			}
+
+			$itemBox.animate({ 'left': leftNumber }, 500, function() {
+				$itemBox.removeClass('animate');
+			})
+		}
+	})
+
+	$li.css({ width: itemWidth });
+}
+
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;

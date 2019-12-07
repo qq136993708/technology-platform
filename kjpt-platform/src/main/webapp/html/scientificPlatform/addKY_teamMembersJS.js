@@ -8,9 +8,22 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/researchPlatformMember-api/newInit/' + data.platformId;
+		var httpUrl = '';
+		if (variable.item === 'character') {
+			// 领军人物
+			httpUrl = '/researchPlatformLeader-api/newInit/' + data.platformId;
+		} else {
+			// 团队成员
+			httpUrl = '/researchPlatformMember-api/newInit/' + data.platformId;
+		}
 		if (data.id) {
-			httpUrl = '/researchPlatformMember-api/load/' + data.id
+			if (variable.item === 'character') {
+				// 领军人物
+				httpUrl = '/researchPlatformLeader-api/load/' + data.id
+			} else {
+				// 团队成员
+				httpUrl = '/researchPlatformMember-api/load/' + data.id
+			}
 		}
 
 		httpModule({
@@ -23,16 +36,10 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 						formData.platformId = data.platformId;
 					}
 					formData.createDate = new Date(formData.createDate).format('yyyy-MM-dd');
-					if (variable) {
-						if (variable.item === 'member') {
-							// 添加成员
-							formData.role = '0';
-						} else if ( variable.item === 'character' ) {
-							// 添加领军人物
-							formData.role = '1';
-							if (formData.workUnit) {
-								layui.formSelects.value('workUnit', [formData.workUnit]);
-							}
+					if (variable && variable.item === 'character') {
+						// 添加领军人物 工作单位
+						if (formData.workUnit) {
+							layui.formSelects.value('workUnit', [formData.workUnit]);
 						}
 					}
 					form.val('formProject', formData);
@@ -90,80 +97,50 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 
 		table.render({
 		  elem: '#unInputTable' // 表格元素ID
-		  ,url: (function() {
-				if (variable.item === 'member') {
-					// 添加成员查询关联列表
-					return '/expert-api/list';
-				} else {
-					// 添加领军人物查询关联列表
-					return '/researchPlatformMember-api/query';
-				}
-			})()  //数据接口
+		  ,url: '/expert-api/list'  //数据接口
 			,page: true //开启分页
-			,method: (function() {
-				if (variable.item === 'member') {
-					// 添加成员查询关联列表
-					return 'POST';
-				} else {
-					// 添加领军人物查询关联列表
-					return 'GET';
-				}
-			})()
+			,method: 'POST'
 			,limit: 5
-		  ,where: (function() {
+			,limits: [5, 10] // 配置分页数据条数
+		  ,where: { name: searchData }
+		  ,cols: [(function() {
 				if (variable.item === 'member') {
-					// 添加成员查询关联列表
-					return { name: searchData };
+					return [ // 表头
+						{type: 'checkbox' } // 表格多选
+						,{field: 'name', title: '姓名' } // 模版配置列
+						,{field: 'birth', title: '出生年月' }
+						,{field: 'educationText', title: '学历' } 
+						,{field: 'assumeOffice', title: '担任职务'} 
+						,{field: 'graduateSchool', title: '学校名称' }
+						,{field: 'majorStudied', title: '所学专业'}
+					]
 				} else {
-					// 添加领军人物查询关联列表
-					return {
-						name: searchData,
-						platformId: variable.platformId,
-						role: '0'
-					};
+					return [ // 表头
+						{type: 'checkbox' } // 表格多选
+						,{field: 'name', title: '姓名' } // 模版配置列
+						,{field: 'post', title: '担任职务'}
+						,{field: 'workUnitText', title: '工作单位' }
+						,{field: 'major', title: '专业'}
+					]
 				}
-			})()  
-		  ,cols: [[ // 表头
-		    {type: 'checkbox' } // 表格多选
-		    ,{field: 'name', title: '姓名' } // 模版配置列
-		    ,{field: 'birth', title: '出生年月', hide: (variable.item === 'member' ? false : true) }
-		    ,{field: 'educationText', title: '学历', hide: (variable.item === 'member' ? false : true)} 
-				,{field: 'assumeOffice', title: '担任职务'}
-				,{field: 'workUnitText', title: '工作单位', hide: (variable.item === 'member' ? true : false)}
-				,{field: 'graduateSchool', title: '学校名称', hide: (variable.item === 'member' ? false : true)}
-				,{field: 'majorStudied', title: '所学专业'}
-				,{field: 'technicalTitle', title: '技术职称', hide: (variable.item === 'member' ? true : false)}
-				// ,{field: 'postName', title: '岗位名称', hide: (variable.item === 'member' ? false : true)}
-			]]
-			,request: (function() {
-				if (variable.item != 'member') {
-					return {
-						pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-						limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
-					}
-				} else {
-					return null;
-				}
-			})()
+			})()]
 		  ,parseData: function(res) {
-				if (variable.item != 'member') {
-					return layuiParseData(res)
-				} else {
-					var relData = {
-						code: res.code,
-						count: res.count,
-						msg: res.msg,
-						data: []
-					};
-					relData.data = $.map(res.data, function(item, i) {
+				var relData = {
+					code: res.code,
+					count: res.count,
+					msg: res.msg,
+					data: []
+				};
+				relData.data = $.map(res.data, function(item, i) {
+					if (variable.item === 'member') {
 						return {
 							"assumeOffice": item.post,
 							"baseId": item.id,
-							"birth": item.age,
+							"birth": (item.age ? item.age : ''),
 							"createDate": (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd'): ''),
-							"creator": item.creator,
-							"deleted": item.deleted,
-							"education": item.education,
+							"creator": (item.creator ? item.creator : ''),
+							"deleted": (item.deleted ? item.deleted : '0'),
+							"education": (item.education ? item.education : ''),
 							"educationText": item.educationStr,
 							"graduateSchool": '-',
 							"id": item.id,
@@ -171,17 +148,31 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 							"name": item.name,
 							"platformId": variable.platformId,
 							"postName": item.titleStr,
-							"role": (variable.item === 'member' ? '0' : '1'),
-							"roleText": '',
 							"technicalTitle": '-',
 							"updateDate": (item.updateTime ? new Date(item.updateTime).format('yyyy-MM-dd'): ''),
-							"updator": item.updator,
+							"updator": (item.updator ? item.updator : ''),
 							"workUnit": item.belongUnit,
 							"workUnitText": item.belongUnitStr
 						}
-					})
-					return relData;
-				}
+					} else {
+						return {
+							"post": item.post,
+							"baseId": item.id,
+							"createDate": (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd'): ''),
+							"creator": (item.creator ? item.creator : ''),
+							"deleted": (item.deleted ? item.deleted : '0'),
+							"id": item.id,
+							"major": '-',
+							"name": item.name,
+							"platformId": variable.platformId,
+							"updateDate": (item.updateTime ? new Date(item.updateTime).format('yyyy-MM-dd'): ''),
+							"updator": (item.updator ? item.updator : ''),
+							"workUnit": item.belongUnit,
+							"workUnitText": item.belongUnitStr
+						}
+					}
+				})
+				return relData;
 			}
 		});
 	}
@@ -196,7 +187,15 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 		// 手工录入提交
 		httpModule({
 			type: 'POST',
-			url: '/researchPlatformMember-api/save',
+			url: (function() {
+				if (variable.item === 'member') {
+					// 团队成员
+					return '/researchPlatformMember-api/save';
+				} else {
+					// 领军人物
+					return '/researchPlatformLeader-api/save';
+				}
+			})(),
 			data: data.field,
 			success: function(res) {
 				if (res.code === '0') {
@@ -216,17 +215,29 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	
 	// 提交项目
 	$('#projectSubmit').on('click', function(e) {
+		var $submitBtn = $(this),
+		submitIndex = layer.load(2);
+		$submitBtn.prop('disabled', true);
+
 		if (submitType === 'input') {
 			$('#InputSubmit').trigger('click');
 		} else if (submitType === 'unInput') {
 			var tableCheckedData = table.checkStatus('unInputTable').data,
 			saveData = false;
 			if (!tableCheckedData.length) {
-				layer.msg('您没有选择任何项目', {icon: 2});
-			} else if (variable.item === 'member') {
-				// 校验添加的成员是否已经添加过
+				layer.msg('您没有选择任何人物!');
+			} else {
+				// 校验添加的成员/领军人物是否已经添加过
 				httpModule({
-					url: '/researchPlatformMember-api/query',
+					url: (function() {
+						if (variable.item === 'member') {
+							// 校验团队成员地址
+							return '/researchPlatformMember-api/query';
+						} else {
+							// 校验领军人物地址
+							return '/researchPlatformLeader-api/query';
+						}
+					})(),
 					async: false, // 同步请求
 					data: {
 						pageNum: 1, pageSize: 10, platformId: variable.platformId,
@@ -247,8 +258,17 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 								var memberName = '';
 								$.each(res.data.list, function(i, item) {
 									memberName += '、“'+ item.name +'”'
-								})
-								$('#tips-dialog-content').html('<span class="text">新加成员'+ (memberName.substring(1)) +'已在团队中，请重新选择！</span>');
+								});
+								
+								if (variable.item === 'member') {
+									// 校验团队成员地址
+									memberName = '团队成员' + memberName.substring(1);
+								} else {
+									// 校验领军人物地址
+									memberName = '领军人物' + memberName.substring(1);
+								}
+
+								$('#tips-dialog-content').html('<span class="text">新加'+ memberName +'已存在，请重新选择！</span>');
 								layer.open({
 									type: 1,
 									title: '添加重复',
@@ -263,11 +283,11 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 						}
 					}
 				});
-			} else {
-				saveData = true;
 			}
 
 			if (!saveData) {
+				$submitBtn.prop('disabled', false);
+				layer.close(submitIndex);
 				return false;
 			}
 
@@ -276,23 +296,17 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 				type: 'POST',
 				url: (function() {
 					if (variable.item === 'member') {
+						// 导入团队成员
 						return '/researchPlatformMember-api/batchSave';
 					} else {
-						var roleMember = '/researchPlatformMember-api/updateMemberRole?ids=';
-						var ids = '';
-						$.each(tableCheckedData, function(i, item) {
-							ids += (','+item.id);
-						})
-						roleMember += (ids.substring(1) + '&role=1');
-						return roleMember;
+						// 导入领军人物
+						return  '/researchPlatformLeader-api/batchSave';
 					}
 				})(),
-				data: (function() {
-					if (variable.item === 'member') {
-						return tableCheckedData;
-					}
-				})(),
+				data: tableCheckedData,
 				success: function(res) {
+					$submitBtn.prop('disabled', false);
+					layer.close(submitIndex);
 					if (res.code === '0') {
 						setDialogData(res);
 						top.layer.closeAll();
@@ -303,6 +317,10 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 						}
 						layer.msg(msgTitle + '失败!', {icon: 2});
 					}
+				},
+				error: function() {
+					$submitBtn.prop('disabled', false);
+					layer.close(submitIndex);
 				}
 			});
 		}
