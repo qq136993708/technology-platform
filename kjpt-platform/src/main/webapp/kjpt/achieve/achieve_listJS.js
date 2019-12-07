@@ -64,7 +64,10 @@ layui.use(['table', 'form','laydate'], function() {
     return false;
   });
   $('[lay-filter="formSubmit"]').click();
+    $("#reset").click(function () {
 
+        queryTable('')
+    })
   // 删除申请
   $('#delItem').on('click', function() {
     // 获取被选中的行数据

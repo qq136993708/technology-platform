@@ -752,6 +752,10 @@
       <select id="getAllList" resultMap="BaseResultMap"  >
 	   SELECT * FROM  sys_unit t WHERE t.unit_delflag ='0'
      </select>
-     
+
+    <select id="getUnitIdByUnitName" parameterType="java.lang.String" resultType="String"  >
+	   SELECT unit_id FROM sys_unit t
+	   where t.unit_name = #{unitName,jdbcType=VARCHAR}
+     </select>
      
 </mapper>

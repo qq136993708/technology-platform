@@ -491,7 +491,6 @@ function transInputDic(input, dicKindCode) {
   
 }
 
-  
 function transFieldDic(dicKindCode, code) {
 
 	if (code == null) {
