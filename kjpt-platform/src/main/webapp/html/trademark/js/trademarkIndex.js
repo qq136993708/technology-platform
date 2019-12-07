@@ -149,7 +149,7 @@ layui.use(['form', 'laydate', 'table'], function () {
         if (itemRowData) {
             checkDilog(itemRowData.id);
         } else {
-            layer.msg('请选择需要编辑的商标！');
+            layer.msg('请选择需要查看的商标！');
         }
     })
 
@@ -173,7 +173,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                 });
             });
         } else {
-            layer.msg('请选择需要删除的平台！');
+            layer.msg('请选择需要删除的商标！');
         }
     })
 
