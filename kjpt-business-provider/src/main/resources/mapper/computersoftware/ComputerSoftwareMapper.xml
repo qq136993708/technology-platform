@@ -275,6 +275,7 @@
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select count(*) from computer_software where 1=1
+        and deleted != '1'
         <include refid="selectByParam"/>
     </select>
 
