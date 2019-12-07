@@ -63,7 +63,7 @@
     </select>
 
     <select id="getByRecordId" parameterType="java.lang.String" resultMap="AchieveRewardMap">
-        select  <include refid="AchieveReward_Column_List" />  from achieve_reward where 1=1 and achieve_id = #{aRecordId}
+        select  <include refid="AchieveReward_Column_List" />  from achieve_reward where 1=1 and achieve_record_id = #{aRecordId}
             and del_status != '1'
     </select>
 
