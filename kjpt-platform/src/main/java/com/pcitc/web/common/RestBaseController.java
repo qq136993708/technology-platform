@@ -21,6 +21,8 @@ public class RestBaseController extends BaseController{
     public void setBaseData(RecordModel rm){
         rm.setUpdateDate(new Date());
         rm.setUpdator(this.getUserProfile().getUserName());
+        rm.setCreateUnitName(this.getUserProfile().getUnitName());
+        rm.setCreateUnitId(this.getUserProfile().getUnitId());
         rm.setDeleted("0");
     }
 
@@ -33,7 +35,7 @@ public class RestBaseController extends BaseController{
         response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
         try {
             OutputStream os = response.getOutputStream();
-            PoiExcelExportUitl<ZjkBase> pee = new PoiExcelExportUitl<ZjkBase>(fileName, headers, cols, dataList,os);
+            PoiExcelExportUitl<Object> pee = new PoiExcelExportUitl<Object>(fileName, headers, cols, dataList,os);
             pee.exportExcel();
 
         } catch (Exception e)

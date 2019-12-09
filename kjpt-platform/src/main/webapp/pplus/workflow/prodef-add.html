@@ -57,7 +57,7 @@
 
 				</div>
 
-				<div class="layui-row">
+				<div class="layui-row layui-hide">
 
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
@@ -182,9 +182,9 @@
 					error : function(data) {//请求失败处理函数  
 					},
 					success : function(data) { //请求成功后处理函数。
-						parent.active.alertEvent();
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index);
+					    console.log(data)
+                        setDialogData(data); // 通知上层页面状态 - 弹窗中使用
+                        top.layer.closeAll(); // 关闭弹窗
 						return false;
 					}
 				});
@@ -219,7 +219,6 @@
 		$('#prodefIdPng').click(function() {
 			layer.open({
 				title : "<span>选择工作流</span>",
-				skin : 'layui-layer-lan',
 				shadeClose : true,
 				type : 2,
 				fixed : false,
@@ -244,7 +243,6 @@
 		$('#projectIdPng').click(function() {
 			layer.open({
 				title : "<span>选择项目</span>",
-				skin : 'layui-layer-lan',
 				shadeClose : true,
 				type : 2,
 				fixed : false,

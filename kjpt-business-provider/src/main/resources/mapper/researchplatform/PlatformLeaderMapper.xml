@@ -17,6 +17,8 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
 		<result column="work_unit_text" jdbcType="VARCHAR" property="workUnitText"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
     </resultMap>
 
 
@@ -32,7 +34,9 @@
         create_user,
         create_date,
         update_user,
-        update_date
+        update_date,
+        create_unit_id,
+        create_unit_name
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -48,17 +52,25 @@
                 </foreach>
             )
         </if>
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_leader where 1=1
         and deleted != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformLeaderModel">
-        insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{name},#{post},#{workUnit},#{major},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
+        insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user,create_unit_id,create_unit_name)
+         values(#{id},#{platformId},#{baseId},#{name},#{post},#{workUnit},#{major},#{deleted},#{createDate},#{creator},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformLeaderModel">
@@ -85,9 +97,9 @@
     </update>
 
     <insert id="batchSave" parameterType="java.util.List">
-        insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user) values
+        insert into kypt_leader(id,platform_id,base_id,name,post,work_unit,major,deleted,create_date,create_user,update_date,update_user,create_unit_id,create_unit_name) values
         <foreach collection="list" item="km" separator=",">
-            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.post},#{km.workUnit},#{km.major},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator})
+            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.post},#{km.workUnit},#{km.major},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator},#{ka.createUnitId},#{ka.createUnitName})
         </foreach>
     </insert>
 

@@ -18,6 +18,8 @@
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
     </resultMap>
 
 
@@ -33,7 +35,9 @@
         create_user,
         create_date,
         update_user,
-        update_date
+        update_date,
+        create_unit_id,
+        create_unit_name
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -43,17 +47,25 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_project where 1=1 and platform_id = #{platformId}
             and deleted != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_project where 1=1 and platform_id = #{platformId}
             and deleted != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
-        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{projectName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
+        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name)
+         values(#{id},#{platformId},#{baseId},#{projectName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
@@ -80,9 +92,9 @@
     </update>
 
     <insert id="batchSave" parameterType="java.util.List">
-        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user) values
+        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name) values
         <foreach collection="list" item="kp" separator=",">
-            (#{kp.id},#{kp.platformId},#{kp.baseId},#{kp.projectName},#{kp.majorType},#{kp.dutyInstitutions},#{kp.approvalYear},#{kp.deleted},#{kp.creator},#{kp.createDate},#{kp.updateDate},#{kp.updator})
+            (#{kp.id},#{kp.platformId},#{kp.baseId},#{kp.projectName},#{kp.majorType},#{kp.dutyInstitutions},#{kp.approvalYear},#{kp.deleted},#{kp.creator},#{kp.createDate},#{kp.updateDate},#{kp.updator},#{kp.createUnitId},#{kp.createUnitName})
         </foreach>
     </insert>
 

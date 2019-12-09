@@ -113,7 +113,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">成果核算（单位财务部门盖章）：</span></label>
         <div class="layui-input-block">
-          <input type="hidden" name="rewardAccountingDoc">
+          <input type="hidden" class="fileValue" name="rewardAccountingDoc">
           <table></table>
         </div>
       </div>
@@ -128,7 +128,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">净收入计算报告（单位财务部门盖章）：</span></label>
         <div class="layui-input-block">
-          <input type="hidden" name="incomeReportDoc">
+          <input type="hidden" class="fileValue" name="incomeReportDoc">
           <table></table>
         </div>
       </div>
@@ -143,21 +143,21 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励方案报告：</span></label>
         <div class="layui-input-block">
-          <input type="hidden" name="assignPlanDoc">
+          <input type="hidden" class="fileValue" name="assignPlanDoc">
           <table></table>
         </div>
       </div>
     </div>
   
     <div class="view-page-submit-btn-box">
-      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="editTranfromMaintain">提交</button>
+      <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="editTranfromMaintain">提交</button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
 
-  <input type="hidden" name="achieve_record_id">
+  <input type="hidden" name="achieveRecordId">
   <input type="hidden" name="achieveId">
   <input type="hidden" name="id">
   <input type="hidden" name="rewardYear">
-
+  <input type="hidden" name="createUnitId">
 </form>

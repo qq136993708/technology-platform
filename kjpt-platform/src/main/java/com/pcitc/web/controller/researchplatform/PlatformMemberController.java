@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -109,7 +110,7 @@ public class PlatformMemberController extends RestBaseController {
             @RequestParam(value = "platformId") String platformId,
             @RequestParam(required = false,value = "baseIds") String baseIds
 
-    ) {
+    ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -125,6 +126,11 @@ public class PlatformMemberController extends RestBaseController {
         if (!StringUtils.isEmpty(baseIds)) {
             this.setParam(condition, "baseIds", baseIds.split(","));
         }
+
+        //默认查询当前人所在机构下所有的科研平台成员
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

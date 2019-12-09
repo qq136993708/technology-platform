@@ -324,9 +324,11 @@
 								// 弹窗销毁时获取弹窗返回数据
 								var getData = getDialogData('dialog-data');
 								/!*判断成功刷新table*!/
-								if(getData){
+								if(getData.success){
 									table.reload('funTable',null);
-									renderTable();
+									renderTable('');
+								}else {
+                                    layer.msg(getData.message+'!');
 								}
 
 							}
