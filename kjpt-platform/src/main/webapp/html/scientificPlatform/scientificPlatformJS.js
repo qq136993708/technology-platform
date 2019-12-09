@@ -1,5 +1,5 @@
 //Demo
-layui.use(['form', 'table', 'layer'], function(){
+layui.use(['form', 'table', 'layer', 'formSelects'], function(){
   var form = layui.form;
   var $ = layui.$;
   var table = layui.table;
@@ -55,6 +55,11 @@ layui.use(['form', 'table', 'layer'], function(){
   }
 
   form.on('submit(formDemo)', function(data) {
+    data.field.researchField = '';
+    $.each(layui.formSelects.value('researchField'), function(i, item) {
+      data.field.researchField += ',' + item.value;
+    });
+    data.field.researchField = data.field.researchField.substring(1);
     queryTable(data.field);
     return false;
   });

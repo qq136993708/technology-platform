@@ -32,7 +32,12 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">研究领域：</span></label>
            <div class="layui-input-block">
-             <select name="researchField" lay-verify="required" dic-base-data="ROOT_KJPT_YJLY" placeholder="请选择"></select>
+             <select name="researchField"
+              xm-select="researchField" 
+              lay-verify="required"
+              xm-select-skin="normal"
+              dic-base-data="ROOT_KJPT_JSLY"
+              placeholder="请选择"></select>
            </div>
          </div>
        </div>
@@ -137,7 +142,7 @@
         </div>
        
        <div class="dialog-footer-btn">
-      		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
+      		<button class="layui-btn layui-btn-normal" type="button" lay-submit="" lay-filter="newSubmit">提交</button>
       		<button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
        </div>
      </div>
@@ -181,6 +186,13 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
           if (relData.data.supportingInstitutions) {
             layui.formSelects.value('supportingInstitutions', [relData.data.supportingInstitutions]);
           }
+          if (relData.data.researchField){
+            if (relData.data.researchField.indexOf(',') > 0) {
+              layui.formSelects.value('researchField', relData.data.researchField.split(','));
+            } else {
+              layui.formSelects.value('researchField', [relData.data.researchField]);
+            }
+          }
           if (relData.data.imgId) {
             setImagesUploadState({imgID: relData.data.imgId, id: '#imgFileUpload'});
           }
@@ -192,9 +204,21 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {
+    var saveData = data.field,
+    RFieldData = layui.formSelects.value('researchField');
+    saveData.researchField = '';
+    saveData.researchFieldText = '';
+
+    $.each(RFieldData, function(i, item) {
+      saveData.researchField += ',' + item.value;
+      saveData.researchFieldText += ',' + item.name; 
+    })
+    saveData.researchField = saveData.researchField.substring(1);
+    saveData.researchFieldText = saveData.researchFieldText.substring(1);
+
 		httpModule({
 			url: '/platform-api/save',
-			data: data.field,
+			data: saveData,
 			type: "POST",
 			success: function(e) {
 				setDialogData(e); // 通知上层页面状态 - 弹窗中使用
