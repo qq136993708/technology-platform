@@ -18,6 +18,7 @@
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 	<div class="formBox">
@@ -129,10 +130,11 @@
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
 
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-
+			// 获取地址栏传递过来的参数
+            var variable = getQueryVariable();
 			form.render(null, 'component-form-group');
-			$("#functionId").attr("value", parent.temFunctionId);
-			$("#functionName").attr("value", parent.temFunctionName);
+			$("#functionId").attr("value", variable.id);
+			$("#functionName").attr("value", decodeURI(variable.name));
 
 			//日期时间选择器
 			laydate.render({
