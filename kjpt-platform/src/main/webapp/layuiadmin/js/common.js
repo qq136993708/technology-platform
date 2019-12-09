@@ -984,3 +984,26 @@ function getTableData(id){
     })
 	return trStr.substring(0, trStr.length - 1);
 }
+
+// 设置菜单栏选中项
+function setNavMeunSelected(index) {
+	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5;
+	if (index || index === 0) {
+		var indexClass = index + '';
+		$('#layuiHeaderNav .header-nav-item').removeClass('layui-this').each(function(i, elem) {
+			if ($(this).hasClass(indexClass)) {
+				$(this).addClass('layui-this');
+				if (indexClass === 'home-item') {
+					$('#index_main_left_menu').children('ul').addClass('layui-hide');
+					$('#nav').removeClass('layui-hide');
+				} else {
+					$('#index_main_left_menu').children('ul').addClass('layui-hide');
+					$('#nav'+ $(this).children('a').attr('id')).removeClass('layui-hide');
+				}
+			}
+		})
+	} else {
+		$('#layuiHeaderNav').find('.header-nav-item').not('.home-item').removeClass('.layui-this');
+		$('#index_main_left_menu').children('ul').addClass('layui-hide').eq(0).removeClass('layui-hide');
+	}
+}

@@ -138,6 +138,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 144px;
 }
 .home-header-layout .number-cl-item .text{
   font-size: 14px;
