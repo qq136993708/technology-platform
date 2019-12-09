@@ -66,7 +66,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">经费支持渠道：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="projectChannel" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -93,8 +93,36 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果完成团队：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="teamInfo" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="view-row-title">
+          <span class="link-text dy-add-btn">+ 添加</span>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">科技成果完成团队情况（按贡献度排序）：</span></label>
+          <div class="layui-input-block">
+            <table class="layui-table dy-add-table" id="teamPersonList">
+              <thead>
+                <tr>
+                  <th width="80">序号</th>
+                  <th width="120">姓名</th>
+                  <th width="100">性别</th>
+                  <th>所在单位</th>
+                  <th>职务和贡献</th>
+                  <th width="100">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="layui-none">
+                  <td colspan="6"><div style="text-align: center">暂无数据,请添加！</div></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -103,7 +131,7 @@
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
@@ -124,7 +152,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">单位基本信息：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="grantUnitName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -133,7 +161,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">选择单位的方式和理由：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="grantChooseWay" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -142,7 +170,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">对受让单位的尽职调查情况：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="grantInvest" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -151,7 +179,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">选择单位的原因：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="grantReason" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -160,12 +188,15 @@
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">尽职调查报告：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="grantDoc">
+            <table></table>
+          </div>
         </div>
       </div>
 
@@ -189,7 +220,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">定价原则和依据：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="transPriceBasis" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -198,7 +229,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">定价方式（含价值评估）：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="transPriceWay" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -207,36 +238,42 @@
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">公示及结果材料：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="transPublicDoc">
+            <table></table></div>
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">合同（协议）文本：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="transContractDoc">
+            <table></table></div>
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">资产评估报告及评估备案表：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="transAssessDoc">
+            <table></table></div>
         </div>
       </div>
 
@@ -250,7 +287,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">内部决策流程：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="decisionFlow" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -259,7 +296,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">决策事项和结果：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="companyName" lay-verify="required"
+            <input type="text" name="decisionResult" lay-verify="required"
             placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -268,24 +305,28 @@
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">内部决策会议纪要：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="decisionMeetingDoc">
+            <table></table></div>
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options7">
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">单位内部科技成果转化规章制度：</span></label>
-          <div class="layui-input-block"><table></table></div>
+          <div class="layui-input-block">
+            <input type="hidden" name="decisionRuleDoc">
+            <table></table></div>
         </div>
       </div>
 

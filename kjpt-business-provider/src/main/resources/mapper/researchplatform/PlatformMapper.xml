@@ -78,7 +78,11 @@
             and person_liable = #{personLiable}
         </if>
         <if test="researchField != null and researchField != '' " >
-            and research_field = #{researchField}
+            and  exists (select 1 from tfm_type a join (
+            select type_index from tfm_type where status = 1 and FIND_IN_SET(type_code, #{researchField}) >0
+            ) b on a.type_index like CONCAT(b.type_index, '%')
+            where a.status = 1
+            and FIND_IN_SET(a.type_code, research_field) > 0)
         </if>
         <if test="platformScorinHigh != null and platformScorinHigh != '' " >
             and platform_scoring &lt;= #{platformScorinHigh}
@@ -94,9 +98,9 @@
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
-        overall_situation,platform_scoring,img_id,level,create_user,create_date,update_date,updator,deleted)
+        overall_situation,platform_scoring,img_id,level,create_user,create_date,update_date,updator,deleted,research_field_text)
          values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
-         #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
+         #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted},#{researchFieldText} )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -145,7 +149,10 @@
                 deleted = #{deleted,jdbcType=VARCHAR},
             </if>
             <if test="imgId != null and imgId != ''" >
-                img_id = #{imgId,jdbcType=VARCHAR}
+                img_id = #{imgId,jdbcType=VARCHAR},
+            </if>
+            <if test="researchFieldText != null and researchFieldText != ''" >
+                research_field_text = #{researchFieldText,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}

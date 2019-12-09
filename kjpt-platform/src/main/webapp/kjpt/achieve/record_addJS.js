@@ -3,7 +3,6 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
   laydate = layui.laydate,
   formSelects = layui.formSelects,
   itemInitApi = '/achieveRecord-api/newInit',
-  pageItemId = '',
   variable = getQueryVariable();
   
   console.log(variable);
@@ -19,21 +18,20 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
     url: itemInitApi,
     success: function(res) {
       if (res.code === '0' || res.success === true) {
+        var newData = res.data.achieveRecord || res.data;
+        if (variable.type === 'add' && !newData.auditStatus) {
+          newData.auditStatus = '0';
+        }
+        if (newData.aboutCompleteTime) {
+          newData.aboutCompleteTime = new Date(newData.aboutCompleteTime).format('yyyy-MM-dd')
+        }
+        form.val('newRecordFome', newData);
         if (variable.type === 'view') {
           setFomeDisabled('newRecordFome', '.disabled');
-          form.render('select');
         } else {
-          var newData = res.data.achieveRecord;
-          if (newData.aboutCompleteTime) {
-            newData.aboutCompleteTime = new Date(newData.aboutCompleteTime).format('yyyy-MM-dd')
-          }
-          pageItemId = res.data.id;
-          form.val('newRecordFome', newData);
           laydate.render({elem: '#estimate'})
-          form.render();
         }
-
-
+        form.render();
       }
     }
   });

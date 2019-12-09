@@ -5,6 +5,7 @@ import com.pcitc.base.common.RecordModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  *备案表
@@ -175,6 +176,8 @@ public class AchieveRecord extends RecordModel implements Serializable {
      * 团队成员
      */
     private String teamPerson="";
+
+    private List<AchieveReward> achieveRewards;
 
 
 
@@ -505,5 +508,13 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setTeamPerson(String teamPerson) {
         this.teamPerson = teamPerson;
+    }
+
+    public List<AchieveReward> getAchieveRewards() {
+        return achieveRewards;
+    }
+
+    public void setAchieveRewards(List<AchieveReward> achieveRewards) {
+        this.achieveRewards = achieveRewards;
     }
 }

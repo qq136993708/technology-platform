@@ -100,22 +100,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     // 领军人物
     addTableData({
       id: 'leadingFigure',
-      url: '/researchPlatformMember-api/query',
+      url: '/researchPlatformLeader-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
         ,{field: 'name', title: '姓名', templet: function(d) {
           if (d.baseId && d.baseId != '-') {
-            return '<a class="link-text" href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
+            return '<a class="link-text expert_list_link" lay-text="'+d.name+'" lay-href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
           } else {
             return d.name;
           }
         }}
-        ,{field: 'assumeOffice', title: '担任职务', sort: true }
-        ,{field: 'technicalTitle', title: '技术职称', sort: true}
+        ,{field: 'post', title: '担任职务', sort: true }
+        // ,{field: 'technicalTitle', title: '技术职称', sort: true}
         ,{field: 'workUnitText', title: '工作单位'} 
-        ,{field: 'majorStudied', title: '专业'}
-      ]],
-      where: {role: '1'}
+        ,{field: 'major', title: '专业'}
+      ]]
     });
     
     // 论文
@@ -140,7 +139,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {type: 'radio', field: 'id'}
         ,{field: 'name', title: '姓名', templet: function(d) {
           if (d.baseId && d.baseId != '-') {
-            return '<a class="link-text" href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
+            return '<a class="link-text expert_list_link" lay-text="'+d.name+'" lay-href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
           } else {
             return d.name;
           }
@@ -152,7 +151,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'majorStudied', title: '所学专业'}
         // ,{field: 'postName', title: '岗位名称'} 
       ]]
-      // ,where: {role: '0'}
     });
 
     // 主要成果
@@ -261,6 +259,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   })
   
   function deleteItem(deleteUrl, httpType) {
+    var loadIndex = layer.load(2);
     httpModule({
       url: deleteUrl,
       type: httpType,
@@ -271,50 +270,40 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         }  else {
           layer.msg('删除'+ tableFilterArr[activeTab].title + '失败!', {icon: 2});
         }
+        layer.close(loadIndex);
+      },
+      error: function(error) {
+        layer.close(loadIndex);
       }
     });
   }
 
-  // 编辑
+  // 删除
   $('.deleteItem').on('click', function(e) {
     var delItem = table.checkStatus(tableFilterArr[activeTab].tableId).data;
     if (delItem.length) {
-
-      if (activeTab == 4 && delItem[0].role === '1') {
-        // 团队成员
-        var url = '/researchPlatformMember-api/delete/' + delItem[0].id;
-        top.layer.confirm(delItem[0].name + '是领军人物，您确定要删除吗？',
-          {icon: 3, title:'删除提示'},
-          function(yl) {
-            top.layer.close(yl);
-            deleteItem(url, 'DELETE');
-          }
-        );
-      } else {
-        top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
-          top.layer.close(index);
-          // 科研项目
-          var deleteUrl = '/platformProject-api/delete/' + delItem[0].id,
-          httpType = 'DELETE';
-          if (activeTab == 2) {
-            // 领军人物
-            deleteUrl = '/researchPlatformMember-api/updateMemberRole?ids=' + delItem[0].id + '&role=0';
-            httpType = 'POST';
-          } else if (activeTab == 3) {
-            // 论文
-            deleteUrl = '/platformTreatise-api/delete/' + delItem[0].id;
-          } else if (activeTab == 4) {
-            deleteUrl = '/researchPlatformMember-api/delete/' + delItem[0].id;
-          } else if (activeTab == 5) {
-            // 成果
-            deleteUrl = '/researchPlatformAchievement-api/delete/' + delItem[0].id;
-          } else if (activeTab == 6) {
-            // 专利
-            deleteUrl = '/researchPlatformPatent-api/delete/' + delItem[0].id;
-          }
-          deleteItem(deleteUrl, httpType);
-        });
-      }
+      top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
+        top.layer.close(index);
+        // 科研项目
+        var deleteUrl = '/platformProject-api/delete/' + delItem[0].id, httpType = 'DELETE';
+        if (activeTab == 2) {
+          // 领军人物
+          deleteUrl = '/researchPlatformLeader-api/delete/' + delItem[0].id;
+        } else if (activeTab == 3) {
+          // 论文
+          deleteUrl = '/platformTreatise-api/delete/' + delItem[0].id;
+        } else if (activeTab == 4) {
+          // 团队成员
+          deleteUrl = '/researchPlatformMember-api/delete/' + delItem[0].id;
+        } else if (activeTab == 5) {
+          // 成果
+          deleteUrl = '/researchPlatformAchievement-api/delete/' + delItem[0].id;
+        } else if (activeTab == 6) {
+          // 专利
+          deleteUrl = '/researchPlatformPatent-api/delete/' + delItem[0].id;
+        }
+        deleteItem(deleteUrl, httpType);
+      });
     } else {
       layer.msg('请选择需要删除的数据！');
     }
@@ -348,11 +337,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         break;
       case '2':
         // 领军人物
-        importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id + '&role=1';
+        importUrl =  '/researchPlatformLeader-api/export?platformId='+ variable.id;
         break;
       case '3':
         // 论文
-        importUrl =  '/platformTreatise-api/export?platformId='+ variable.id + '&role=1';
+        importUrl =  '/platformTreatise-api/export?platformId='+ variable.id;
         break;
       case '4':
         // 成员
@@ -370,4 +359,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     window.open(importUrl, '_blank');
   })
   
+  $('[lay-filter="platformDetails"]').on('click', '.expert_list_link', function() {
+    var itemHref = $(this).attr('lay-href'),
+    title = $(this).attr('lay-text');
+    parent.layui.index.openTabsPage(itemHref, title);
+  })
+
 });

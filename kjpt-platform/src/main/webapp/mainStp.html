@@ -17,7 +17,18 @@
 <body>
 <div class="home-stp-layout">
 	<div class="home-header-layout">
-		<div class="top-item">
+		<div class="itemScroll-box" id="homeHeaderItem">
+			<div class="itemScroll">
+				<ul class="itemBlock"></ul>
+			</div>
+			<div class="btnContent">
+				<span class="left-btn itemBtn"></span>
+				<span class="right-btn itemBtn active"></span>
+			</div>
+		</div>
+
+
+		<!-- <div class="top-item">
 			<div class="item-cell">
 				<div class="title-cl-item">
 					<span class="text-icon"><img src="/images/icon011.png" alt=""></span>
@@ -111,7 +122,7 @@
 					<span class="number" num-label="">86</span><span class="text">条</span>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 	</div>
 	<div class="home-middle-layout">
@@ -167,8 +178,14 @@
 						<li class="layui-this">专利</li>
 					</ul>
 					<div class="layui-tab-content">
-						<div class="layui-tab-item"><ul class="details-list" id="transform_tab_list"></ul></div>
-						<div class="layui-tab-item layui-show"><ul class="details-list" id="patent_tab_list"></ul></div>
+						<div class="layui-tab-item">
+							<ul class="details-list" id="transform_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/achieve/achieve_query" lay-text="成果转化">查看更多>></a></div>
+						</div>
+						<div class="layui-tab-item layui-show">
+							<ul class="details-list" id="patent_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/patent/query.html" lay-text="专利管理">查看更多>></a></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -190,19 +207,23 @@
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
 							<ul class="details-list" id="plan_tab_list"></ul>
-							<!-- <div class="layui-tab-more-item"><a href="http://">更多</a></div> -->
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=1" lay-text="科技规划">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="work_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=2" lay-text="工作要点">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="progress_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=3" lay-text="科技进展动态">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="summary_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=4" lay-text="年终总结">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="scientific_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=5" lay-text="科研报告">查看更多>></a></div>
 						</div>
 					</div>
 				</div>

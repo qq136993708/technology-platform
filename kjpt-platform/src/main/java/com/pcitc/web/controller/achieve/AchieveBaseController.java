@@ -3,13 +3,11 @@ package com.pcitc.web.controller.achieve;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,19 +15,14 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpMethod;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * <p>成果转换</p>
@@ -170,8 +163,8 @@ public class AchieveBaseController extends RestBaseController {
     }
     
     @ApiOperation(value="核心成果转化流程")
-    @RequestMapping(value = "/start_workflow")
-	public Object start_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
+    @RequestMapping(value = "/start_workflow",method = RequestMethod.POST)
+	public Object start_workflow(HttpServletRequest request, HttpServletResponse response ) throws Exception
 	{
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
 		String id = CommonUtil.getParameter(request, "id", "");

@@ -142,7 +142,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
      if (itemRowData.length) {
      openDataDilog('see', itemRowData[0].id);
      } else {
-       layer.msg('请选择'+tipTitle+'！');
+       layer.msg('请选择需要查看的'+tipTitle+'！');
      }
   })
   // 编辑规划
@@ -152,7 +152,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	  if (itemRowData.length) {
 		openDataDilog('edit', itemRowData[0].id);
     } else {
-    	layer.msg('请选择'+tipTitle+'！');
+    	layer.msg('请选择需要编辑的'+tipTitle+'！');
     }
   })
   // 删除规划

@@ -88,6 +88,15 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     private  String unitNameText= "";
 
+    /**
+     * 技术领域
+     */
+    private String technicalField="";
+    /**
+     * 技术领域值
+     */
+    private String technicalFieldValue="";
+
 
     public String getId() {
         return id;
@@ -208,5 +217,22 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     public void setFiles(String files) {
         this.files = files;
+    }
+
+
+    public String getTechnicalField() {
+        return technicalField;
+    }
+
+    public void setTechnicalField(String technicalField) {
+        this.technicalField = technicalField;
+    }
+
+    public String getTechnicalFieldValue() {
+        return technicalFieldValue;
+    }
+
+    public void setTechnicalFieldValue(String technicalFieldValue) {
+        this.technicalFieldValue = technicalFieldValue;
     }
 }
