@@ -213,7 +213,7 @@ public class EquipmentUtils {
 	
 	
 	//根据机构ID查询机构下所有的信息
-	public static String getAllChildsByIUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	public static String getAllChildsByIUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
 		 StringBuffer sb=new StringBuffer();
 		 if(unitPath!=null)
