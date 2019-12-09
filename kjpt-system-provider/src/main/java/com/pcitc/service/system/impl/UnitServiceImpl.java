@@ -547,7 +547,16 @@ public class UnitServiceImpl implements UnitService {
 		return unitMapper.getUnitIdByUnitName(name);
 	}
 
-
-
+	
+	/**
+	 * 根据单位Path查询所有子机构
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public List<SysUnit> getAllChildsByIUnitPath(String unitPath)
+	{
+		return unitMapper.getAllChildsByIUnitPath(unitPath);
+	}
 
 }

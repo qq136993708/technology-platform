@@ -758,4 +758,11 @@
 	   where t.unit_name = #{unitName,jdbcType=VARCHAR}
      </select>
      
+     
+     
+     <select id="getAllChildsByIUnitPath" resultMap="BaseResultMap"  parameterType="string" >
+	    SELECT * FROM sys_unit t WHERE  t.`unit_path` LIKE  CONCAT(#{unitPath},'%')  AND t.unit_delflag ='0'
+     </select>
+     
+     
 </mapper>

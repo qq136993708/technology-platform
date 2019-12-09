@@ -426,5 +426,20 @@ public class UnitProviderClient
 		//return unitService.getUnitZTreeList(null);
 		return unitService.getUnitIdByUnitName(name);
 	}
+	
+	
+	
+	
+	
+
+
+    @ApiOperation(value="根据Path查询所有子机构",notes="根据Path查询所有子机构")
+	@RequestMapping(value = "/unit-provider/unit/getAllChildsByIUnitPath/{unitPath}", method = RequestMethod.POST)
+	public JSONArray getAllChildsByIUnitPath(@PathVariable(value = "unitPath", required = true) String unitPath) throws Exception
+	{
+		List<SysUnit> result= unitService.getAllChildsByIUnitPath(unitPath);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(result));
+		return json;
+	}
 
 }

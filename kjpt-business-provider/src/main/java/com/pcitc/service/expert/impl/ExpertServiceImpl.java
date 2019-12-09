@@ -372,6 +372,9 @@ public class ExpertServiceImpl implements IExpertService {
 			String technicalFieldIndex=getTableParam(param,"technicalFieldIndex","");
 			String technicalFieldName=getTableParam(param,"technicalFieldName","");
 			String groupType=getTableParam(param,"groupType","");
+			String childUnitIds=getTableParam(param,"childUnitIds","");
+			
+			
 			Map map=new HashMap();
 			map.put("name", name);
 			map.put("sourceType", sourceType);
@@ -387,6 +390,7 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("education", education);
 			map.put("technicalFieldIndex", technicalFieldIndex);
 			map.put("technicalFieldName", technicalFieldName);
+			map.put("childUnitIds", childUnitIds);
 			
 			List<ZjkBase> list = zjkBaseMapper.getList(map);
 			PageInfo<ZjkBase> pageInfo = new PageInfo<ZjkBase>(list);
