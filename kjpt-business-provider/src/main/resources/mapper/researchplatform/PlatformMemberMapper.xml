@@ -23,6 +23,8 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
 		<result column="education_text" jdbcType="VARCHAR" property="educationText"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
     </resultMap>
 
 
@@ -43,7 +45,9 @@
         create_user,
         create_date,
         update_user,
-        update_date
+        update_date,
+        create_unit_id,
+        create_unit_name
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -60,12 +64,16 @@
             )
         </if>
             and deleted != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformMemberModel">
-        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,deleted,create_date,create_user,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
+        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,deleted,create_date,create_user,update_date,update_user,create_unit_id,create_unit_name)
+         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{deleted},#{createDate},#{creator},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">

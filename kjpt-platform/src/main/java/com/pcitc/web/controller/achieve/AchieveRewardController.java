@@ -4,6 +4,7 @@ package com.pcitc.web.controller.achieve;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -75,7 +76,7 @@ public class AchieveRewardController extends RestBaseController {
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
             @RequestParam(required = false,value = "auditStatus") String auditStatus
 
-    ) {
+    ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -96,6 +97,11 @@ public class AchieveRewardController extends RestBaseController {
         if (!StringUtils.isEmpty(auditStatus)) {
             this.setParam(condition, "auditStatus", auditStatus);
         }
+
+        //默认查询当前人所在机构下所有的成果激励
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

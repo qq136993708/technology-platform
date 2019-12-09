@@ -5,18 +5,22 @@ import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -67,8 +71,14 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveType", value = "成果持有单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "audiStatus", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "grantUnitName", value = "成果受让单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveRecord-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -76,10 +86,16 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "achieveName") String achieveName,
+            @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
+            @RequestParam(required = false,value = "audiStatus") String audiStatus,
+            @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
             @RequestParam(required = false,value = "achieveType") String achieveType,
-            @RequestParam(required = false,value = "finishUnitName") String finishUnitName
+            @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
+            @RequestParam(required = false,value = "achieveTransType") String achieveTransType
 
-    ) {
+
+    ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -100,6 +116,27 @@ public class AchieveRecordController extends RestBaseController {
         if (!StringUtils.isEmpty(achieveType)) {
             this.setParam(condition, "achieveType", achieveType);
         }
+        if (!StringUtils.isEmpty(audiStatus)) {
+            this.setParam(condition, "audiStatus", audiStatus);
+        }
+        if (!StringUtils.isEmpty(grantUnitName)) {
+            this.setParam(condition, "grantUnitName", grantUnitName);
+        }
+        if (!StringUtils.isEmpty(achieveTransType)) {
+            this.setParam(condition, "achieveTransType", achieveTransType);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        }
+
+
+        //默认查询当前人所在机构下所有的成果备案
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

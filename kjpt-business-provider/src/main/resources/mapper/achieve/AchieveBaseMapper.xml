@@ -63,6 +63,10 @@
         select  * from view_achieve_base where 1=1
             and del_status != '1'
         <include refid="selectByParam" />
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
@@ -70,6 +74,10 @@
         select  count(*) from achieve_base where 1=1
         and del_status != '1'
         <include refid="selectByParam" />
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
