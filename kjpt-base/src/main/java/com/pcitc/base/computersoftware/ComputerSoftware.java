@@ -98,6 +98,12 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     private String technicalFieldValue="";
 
 
+    private String createUnitId="";
+    private String createUnitName="";
+
+
+
+
     public String getId() {
         return id;
     }
@@ -234,5 +240,24 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     public void setTechnicalFieldValue(String technicalFieldValue) {
         this.technicalFieldValue = technicalFieldValue;
+
+    }
+
+
+    public String getCreateUnitId() {
+        return createUnitId;
+    }
+
+    public void setCreateUnitId(String createUnitId) {
+        this.createUnitId = createUnitId;
+    }
+
+    public String getCreateUnitName() {
+        return createUnitName;
+    }
+
+
+    public void setCreateUnitName(String createUnitName) {
+        this.createUnitName = createUnitName;
     }
 }

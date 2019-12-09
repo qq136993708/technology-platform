@@ -34,11 +34,18 @@ public class SciencePlan extends RecordModel implements Serializable {
     private String researchFieldText = "";
 
 
+
+    private String createUnitId="";
+
+    private String createUnitName="";
+
+
     public SciencePlan() {
 
     }
 
-    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType, String researchFieldText) {
+    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText,
+                       String reportType, String researchFieldText, String createUnitId, String createUnitName) {
         this.id = id;
         this.name = name;
         this.authenticateUtil = authenticateUtil;
@@ -52,6 +59,8 @@ public class SciencePlan extends RecordModel implements Serializable {
         this.nameText = nameText;
         this.reportType = reportType;
         this.researchFieldText = researchFieldText;
+        this.createUnitId = createUnitId;
+        this.createUnitName = createUnitName;
     }
 
     public String getId() {
@@ -159,6 +168,25 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     public void setResearchFieldText(String researchFieldText) {
         this.researchFieldText = researchFieldText;
+    }
+
+
+    public String getCreateUnitId() {
+        return createUnitId;
+    }
+
+
+    public String getCreateUnitName() {
+        return createUnitName;
+    }
+
+
+    public void setCreateUnitId(String createUnitId) {
+        this.createUnitId = createUnitId;
+    }
+
+    public void setCreateUnitName(String createUnitName) {
+        this.createUnitName = createUnitName;
     }
 }
 
