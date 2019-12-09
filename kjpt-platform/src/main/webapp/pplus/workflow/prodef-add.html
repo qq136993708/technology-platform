@@ -32,7 +32,7 @@
 								<span class="must-fill">*</span>
 							</label>
 							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" id="functionName" name="functionName" lay-verify="required" type="text" disabled>
+								<input class="layui-input readOnlyBox" id="functionName" name="functionName" lay-verify="required" value="a" type="text" disabled>
 							</div>
 						</div>
 					</div>
@@ -60,7 +60,7 @@
 
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label">配置部门</label>
+							<label class="layui-form-label">配置1部门</label>
 							<div class="layui-input-block">
 								<div class="selectTreeBox">
 									<div id="unit" class="layui-form-select select-tree"></div>
@@ -169,6 +169,7 @@
 
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
+				console.log("----aa-"+JSON.stringify(data));
 				$.ajax({
 					type : 'POST',
 					url : "/workflow/function/prodef/save",

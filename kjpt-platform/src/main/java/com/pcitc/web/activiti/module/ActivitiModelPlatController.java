@@ -2,40 +2,44 @@ package com.pcitc.web.activiti.module;
 
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.system.SysUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
+
+import net.sf.jasperreports.repo.RepositoryService;
 
 /**
  * @author zhf 2017-04-18 工作流模型
  */
 @Controller
 public class ActivitiModelPlatController extends BaseController {
+	
+	
+	
 
 	private static final String DIR_PATH = "";
 	private static final String FILES_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/{id}";
@@ -133,7 +137,7 @@ public class ActivitiModelPlatController extends BaseController {
 	/**
 	 * @author zhf
 	 * @date 2018年4月20日 上午10:13:27 发布模型为流程定义
-	 */
+	*/
 	@RequestMapping(value = "/activiti-model/deploy/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "部署工作流模型")
@@ -147,6 +151,46 @@ public class ActivitiModelPlatController extends BaseController {
 		System.out.println("deployModel=====" + resultRes.getBody());
 		return resultRes.getBody();
 	}
+	 
+	
+	/*
+	 * @RequestMapping(value = "/activiti-model/deploy/{id}", method =
+	 * RequestMethod.POST)
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @OperationFilter(modelName = "系统管理", actionName = "部署工作流模型") public Result
+	 * deployModel(@PathVariable("id") String id, HttpServletRequest request) throws
+	 * Exception {
+	 * 
+	 * 
+	 * 
+	 * 
+	 * Result result=new Result(); result.setSuccess(true); //获取模型 RepositoryService
+	 * repositoryService = processEngine.getRepositoryService(); Model modelData =
+	 * repositoryService.getModel(id); byte[] bytes =
+	 * repositoryService.getModelEditorSource(modelData.getId()); if (bytes == null)
+	 * { result.setSuccess(false); result.setMessage("模型数据为空，请先设计流程并成功保存，再进行发布。");
+	 * return result ; } JsonNode modelNode = new ObjectMapper().readTree(bytes);
+	 * BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+	 * if(model.getProcesses().size()==0) { result.setSuccess(false);
+	 * result.setMessage("数据模型不符要求，请至少设计一条主线流程。"); return result ; } byte[]
+	 * bpmnBytes = new BpmnXMLConverter().convertToXML(model); //发布流程 String
+	 * processName = modelData.getName() + ".bpmn20.xml"; Deployment deployment =
+	 * repositoryService.createDeployment() .name(modelData.getName())
+	 * .addString(processName, new String(bpmnBytes, "UTF-8")) .deploy();
+	 * modelData.setDeploymentId(deployment.getId());
+	 * repositoryService.saveModel(modelData); return result;
+	 * 
+	 * 
+	 * 
+	 * WorkflowVo workflowVo = new WorkflowVo(); workflowVo.setModelId(id);
+	 * workflowVo.setRequestPath(request.getRealPath("/")); ResponseEntity<Result>
+	 * resultRes = this.restTemplate.exchange(MODEL_DEPLOY_URL, HttpMethod.POST, new
+	 * HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), Result.class);
+	 * System.out.println("deployModel=====" + resultRes.getBody()); return
+	 * resultRes.getBody(); }
+	 */
 
 	@RequestMapping(value = "/activiti-model/delete/{id}", method = RequestMethod.POST)
 	@ResponseBody

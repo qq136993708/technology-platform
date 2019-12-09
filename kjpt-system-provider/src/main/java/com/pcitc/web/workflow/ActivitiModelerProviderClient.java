@@ -1,20 +1,16 @@
 package com.pcitc.web.workflow;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipInputStream;
-
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamReader;
 
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
@@ -24,10 +20,8 @@ import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.DeploymentQuery;
 import org.activiti.engine.repository.Model;
-import org.activiti.engine.repository.ModelQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -39,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +50,9 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
 import com.pcitc.base.workflow.WorkflowVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Activity-system-API", description = "activiti基础功能流程相关的接口")
 @RestController
@@ -205,7 +203,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	@RequestMapping(value = "/modeler-provider/resource/image/path", method = RequestMethod.POST)
 	public String ossImagePath(@RequestBody WorkflowVo workflowVo) {
 		Model modelData = repositoryService.getModel(workflowVo.getModelId());
-		
+		String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
 		//String imagePath = OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/"+uploadPath+"activiti/"+modelData.getId()+".model.png";
 		//return imagePath;
 		return null;
@@ -257,7 +255,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		}
 		
 	}
-
+    /**
 	@ApiOperation(value = "部署model模型", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/model/deploy", method = RequestMethod.POST)
 	public Result deployModel(@RequestBody WorkflowVo workflowVo) throws Exception {
@@ -286,16 +284,17 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			System.out.println("53=====部署model模型"+modelData.getId());
 			System.out.println("52=====部署model模型"+xml);
 			System.out.println("52=====部署model模型"+image);
+			
 			String zipFileName = modelData.getId()+".bpmn20.model.zip";
-			//String zipPath = OSSUtil.generateZipFile(uploadPath+"activiti", zipFileName, xml, image);
-			//System.out.println("1zipPath======="+zipPath);
-			//InputStream inputStream = OSSUtil.getOssFileIS(zipPath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-			//ZipInputStream zipInputStream = new ZipInputStream(inputStream);
-			//System.out.println("2zipPath======="+zipInputStream);
+			String zipPath = OSSUtil.generateZipFile(uploadPath+"activiti", zipFileName, xml, image);
+			System.out.println("1zipPath======="+zipPath);
+			InputStream inputStream = OSSUtil.getOssFileIS(zipPath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
+			ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+			System.out.println("2zipPath======="+zipInputStream);
 			// 发布流程
 			// 使用addZipInputStream后可以预防flow连线文字丢失的问题
-			//DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(modelData.getName()).category(modelData.getCategory()).tenantId(modelData.getTenantId()).addZipInputStream(zipInputStream);
-			DeploymentBuilder deploymentBuilder =null;//自已添加
+			DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(modelData.getName()).category(modelData.getCategory()).tenantId(modelData.getTenantId()).addZipInputStream(zipInputStream);
+			
 			List<JsonNode> forms = modelNode.findValues("formkeydefinition");
 			for (JsonNode form : forms) {
 				String formName = form.textValue();
@@ -317,6 +316,64 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			return new Result(false, "部署失败", ex.getMessage());
 		}
 	}
+	
+	*/
+	
+	
+	@ApiOperation(value = "部署model模型", notes = "activiti系统接口")
+	@RequestMapping(value = "/modeler-provider/model/deploy", method = RequestMethod.POST)
+	public Result deployModel(@RequestBody WorkflowVo workflowVo) throws Exception {
+		
+		Result result=new Result();
+		result.setSuccess(true);
+		try {
+			//获取模型
+			Model modelData = repositoryService.getModel(workflowVo.getModelId());
+			byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
+			if (bytes == null) 
+			{
+				result.setSuccess(false);
+				result.setMessage("模型数据为空，请先设计流程并成功保存，再进行发布。");
+			    return result ;
+			}
+			JsonNode modelNode = new ObjectMapper().readTree(bytes);
+			BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+			if(model.getProcesses().size()==0)
+			{
+				result.setSuccess(false);
+				result.setMessage("数据模型不符要求，请至少设计一条主线流程。");
+			    return result ;
+			}
+			byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
+			//发布流程
+			String processName = modelData.getId() + ".bpmn20.xml";
+			String processName_png = modelData.getId() + ".bpmn20.png";
+			/*
+			 * String
+			 * resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
+			 * File file = new File(resourcePath,"tem/"+processName); InputStream fis = new
+			 * BufferedInputStream(new FileInputStream(resourcePath+"tem/"+processName));
+			 */
+			Deployment deployment = repositoryService.createDeployment()
+			        .name(modelData.getName())
+			     //   .addClasspathResource(processName)
+			      //  .addClasspathResource(processName_png)
+			        .addString(processName, new String(bpmnBytes, "UTF-8"))
+			        .deploy();
+      // 更新流程定义类别,替换掉页面的定义
+			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+			if (processDefinition!=null) repositoryService.setProcessDefinitionCategory(processDefinition.getId(), deployment.getCategory());
+					
+			modelData.setDeploymentId(deployment.getId());
+			repositoryService.saveModel(modelData);
+			return new Result(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "部署失败", e.getMessage());
+		}
+	}
+	
+	
 
 	@ApiOperation(value = "删除model模型", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/model/delete", method = RequestMethod.POST)
