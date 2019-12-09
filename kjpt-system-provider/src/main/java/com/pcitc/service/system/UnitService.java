@@ -186,4 +186,14 @@ public interface UnitService
 	 * @throws Exception
 	 */
 	public List<SysUnit> getAllList()throws Exception;
+
+	//getUnitIdByUnitName
+
+	/**
+	 * 查询单位id
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUnitIdByUnitName(String name);
 }

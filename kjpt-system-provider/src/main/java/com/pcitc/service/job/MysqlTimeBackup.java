@@ -10,7 +10,6 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.utils.OSSUtil;
 
 /**
  * mysql定时备份到oss
@@ -29,8 +28,8 @@ public class MysqlTimeBackup implements Job, Serializable {
 		if (mysqlFile.exists() && mysqlFile.length() > 0) {
 			// 判断是否存在这个文件，如果存在，上传到oss固定文件夹
 			String uuidFileName = UUID.randomUUID().toString().replace("-", "");
-			String path = OSSUtil.uploadFile(new File(backupFilePath), "backup/mysql", uuidFileName + ".zip");
-			System.out.println(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "备份文件保存路径到--====" + path);
+			//String path = OSSUtil.uploadFile(new File(backupFilePath), "backup/mysql", uuidFileName + ".zip");
+			System.out.println(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "备份文件保存路径到--====" );
 		} else {
 			System.out.println(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "备份文件不存在" );
 		}

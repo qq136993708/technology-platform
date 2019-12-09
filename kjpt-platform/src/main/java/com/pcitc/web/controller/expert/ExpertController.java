@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.web.controller.system.UnitController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -93,10 +94,8 @@ public class ExpertController extends BaseController {
 	 * 查询专家个数
 	 */
 	private static final String getZjkBaseCount = "http://kjpt-zuul/stp-proxy/expert/getZjkBaseCount";
-	
-	
-	
-	
+
+	private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
 	
 	/**
 	  * 获取专家（分页）
@@ -500,9 +499,9 @@ public class ExpertController extends BaseController {
   	{
   		
   		Result resultsDate = new Result();
-  	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+  	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,"所在单位",  "职称"  ,  "职务",  "联系方式"，"专业领域" };
 	    // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
-  		if (file.isEmpty()) 
+  		if (file.isEmpty())
   		{
   			resultsDate.setSuccess(false);
 		    resultsDate.setMessage("上传异常，请重试");
@@ -525,6 +524,8 @@ public class ExpertController extends BaseController {
 		  	            Object col_4 = lo.get(4);
 		  	            Object col_5 = lo.get(5);
 		  	            Object col_6 = lo.get(6);
+		  	            Object col_7 = lo.get(7);
+		  	            Object col_8 = lo.get(8);
 		  	            String aname=String.valueOf(lo.get(0));
 		  	            String agestr=String.valueOf(lo.get(3));
 		  	          
@@ -567,9 +568,10 @@ public class ExpertController extends BaseController {
 		  	  			obj.setIdCardNo(String.valueOf(lo.get(1)));
 		  	  			obj.setSex(sexStr);
 		  	  			obj.setAge(year.intValue()-count.intValue());
-		  	  			obj.setTitle(String.valueOf(lo.get(4)));
-		  	  			obj.setPost(String.valueOf(lo.get(5)));
-		  	  			obj.setContactWay(String.valueOf(lo.get(6)));
+		  	  			obj.setTitle(String.valueOf(lo.get(5)));
+		  	  			obj.setPost(String.valueOf(lo.get(6)));
+		  	  			obj.setContactWay(String.valueOf(lo.get(7)));
+		  	  			obj.setBelongUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
 		  	  			list.add(obj);
 		  	  		}
 		  	  		ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
