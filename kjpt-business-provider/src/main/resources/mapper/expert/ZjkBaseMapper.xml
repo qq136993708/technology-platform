@@ -444,6 +444,12 @@
 	     <if test="createUnitId != null          and createUnitId !=''  ">         AND t.create_unit_id = #{createUnitId}</if>
 	     <if test="createUnitName != null        and createUnitName !=''  ">       AND t.create_unit_name like CONCAT('%',#{createUnitName},'%')</if>
 	     <if test="technicalFieldIndex != null   and technicalFieldIndex !=''  ">  AND t.technical_field_index like CONCAT(#{technicalFieldIndex},'%')</if>
+	     <if test="childUnitIds != null          and childUnitIds !=''  ">     
+	           AND t.create_unit_id in 
+	           <foreach item="item"  collection="childUnitIds.split(’,’)"  open="(" separator="," close=")">
+			          #{item}
+			   </foreach>
+	     </if>
 	 </trim>
 	</sql>
 	

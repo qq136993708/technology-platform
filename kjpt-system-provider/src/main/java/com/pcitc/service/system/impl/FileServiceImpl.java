@@ -26,7 +26,6 @@ import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import com.pcitc.base.util.FileUtil;
 import com.pcitc.service.system.FileService;
-import com.pcitc.utils.OSSUtil;
 
 /**
  * @author:Administrator
@@ -45,32 +44,6 @@ public class FileServiceImpl implements FileService {
             return strReturn;
         } finally {
             return strReturn;
-        }
-    }
-
-    @Override
-    public String[] getFileLatAndLong(String filePath, String[] strType) {
-        Metadata metadata = null;
-        String[] strVals = new String[strType.length];
-        try {
-            metadata = JpegMetadataReader.readMetadata(OSSUtil.getOssFileIS(filePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]));
-            //Directory exif = metadata.getFirstDirectoryOfType(ExifDirectoryBase.class);
-            //String model = exif.getString(ExifDirectoryBase.TAG_DATETIME);
-            for (Directory directory : metadata.getDirectories()) {
-                for (Tag tag : directory.getTags()) {
-                    for (int i = 0; i < strType.length; i++) {
-                        if (strType[i].equals(tag.getTagName())) {
-                            strVals[i] = tag.getDescription();
-                        }
-                    }
-                }
-            }
-        } catch (JpegProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            return strVals;
         }
     }
 
@@ -164,59 +137,7 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    @Override
-    public void delFile(String filePath) {
-        try {
-        	OSSUtil.deleteOssFile(filePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-        } catch (Exception e) {
-            System.out.println("删除文件操作出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean isImage(String filePath) {
-        boolean valid = true;
-        try {
-            Image image = ImageIO.read(OSSUtil.getOssFileIS(filePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]));
-            if (image == null) {
-                valid = false;
-            }
-        } catch (IOException ex) {
-            valid = false;
-        } finally {
-            return valid;
-        }
-    }
-
-    @Override
-    public String generateZipFileZdy(String basePath, String zipFileName, String... fileNames) {
-        byte[] buffer = new byte[1024];
-        String strZipName = basePath + zipFileName;
-        try {
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(strZipName));
-            for (String fileName : fileNames) {
-                if (fileName == null || "".equals(fileName)) {
-                    continue;
-                }
-                InputStream fis = OSSUtil.getOssFileIS(fileName.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-                out.putNextEntry(new ZipEntry(fileName.split("/")[fileName.split("/").length - 1]));
-                int len;
-                //读入需要下载的文件的内容，打包到zip文件
-                while ((len = fis.read(buffer)) > 0) {
-                    out.write(buffer, 0, len);
-                }
-                out.closeEntry();
-                fis.close();
-            }
-            out.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        } finally {
-            return strZipName;
-        }
-    }
+   
 
     @Override
     public String getMD5ByInputStream(InputStream inStream) {
@@ -319,4 +240,28 @@ public class FileServiceImpl implements FileService {
         }
         return buffer;
     }
+
+	@Override
+	public String[] getFileLatAndLong(String filePath, String[] strType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delFile(String filePathAndName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isImage(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String generateZipFileZdy(String basePath, String zipFileName, String... fileNames) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

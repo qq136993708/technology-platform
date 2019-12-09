@@ -988,7 +988,9 @@ function getTableData(id){
     })
 	return trStr.substring(0, trStr.length - 1);
 }
+ 
 
+ 
 // 设置菜单栏选中项
 function setNavMeunSelected(index) {
 	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5 ...;
@@ -1011,3 +1013,39 @@ function setNavMeunSelected(index) {
 		$('#index_main_left_menu').children('ul').addClass('layui-hide').eq(0).removeClass('layui-hide');
 	}
 }
+
+
+//按钮权限封装
+function _getButtonRoles() {
+    var iframes = $(window.top.document).contents().find("IFRAME.layadmin-iframe");
+    var f = null;
+    for(var i=0;i<iframes.length;i++) {
+      if(iframes[i].contentWindow === window) {
+        f = iframes[i];
+        break;
+      }
+    }
+
+    if(f) { 
+      return $(f).attr('data-functionbuttons');
+    }else {
+      return null;
+    }
+
+  }
+
+  function _useButtonRoles() { 
+	var btnRoles = _getButtonRoles();
+    if(btnRoles) {
+      $("[button-role]").each(function(index, item) { 
+        var btn = $(item);
+        var role = ',' + btn.attr('button-role');
+        if(btnRoles.indexOf(role)<0) {
+          btn.css('display', 'none');
+        }
+      });
+        
+    }
+  }
+
+  _useButtonRoles();

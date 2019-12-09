@@ -22,12 +22,12 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">单位名称：</span></label>
           <div class="layui-input-block">
-            <select name="supportingInstitutions"
-              xm-select="supportingInstitutions"
-              xm-select-skin="normal"
-              xm-select-radio=""
-              dic-base-data="ROOT_KJPT_YTDW"
-              placeholder="请选择"></select>
+            <select name="unitName"
+                xm-select="supportingInstitutions"
+                xm-select-skin="normal"
+                xm-select-radio=""
+                dic-base-data="ROOT_KJPT_YTDW" 
+                placeholder="请选择"></select>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">登记号：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="" class="layui-input">
+            <input type="text" name="registerNumber" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">软件名称：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="" class="layui-input">
+            <input type="text" name="softwareName" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">著作权人：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="" class="layui-input">
+            <input type="text" name="copyrightOwner" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">版本号：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="" class="layui-input">
+            <input type="text" name="versionNumber" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -73,11 +73,11 @@
           <label class="layui-form-label"><span class="text">注册日期：</span></label>
           <div class="layui-input-block font0">
             <div class="layui-input-inline margin0" style="width: calc(50% - 10px)">
-              <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="laydate-input">
+              <input type="text" name="recordDateStart" id="recordDateStart" autocomplete="off" placeholder="请选择" class="laydate-input">
             </div>
             <span class="ib-block font14 text-center" style="width: 20px;">-</span>
             <div class="layui-input-inline margin0" style="width: calc(50% - 10px)">
-              <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="laydate-input">
+              <input type="text" name="recordDateEnd" id="recordDateEnd" autocomplete="off" placeholder="请选择" class="laydate-input">
             </div>
           </div>
         </div>
@@ -110,30 +110,27 @@
 <script src="/layuiadmin/js/common.js"></script>
 <script>
 // layui 使用说明 ----- 多个模块同时引用
-layui.use(['form', 'table', 'formSelects'], function(){
+layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
   var form = layui.form,
   table = layui.table,
   formSelects = layui.formSelects,
+  laydate = layui.laydate,
   tableLoading = true;
 
   function queryTable(data) {
     if (tableLoading) {
       table.render({
         elem: '#pavingDecisionTable'
-        ,url: '/platform-api/query' //数据接口
+        ,url: '/ComputerSoftware/query' //数据接口
         ,cols: [[ //表头
-          ,{field: 'platformName', title: '单位名称' }
-          ,{field: 'supportingInstitutionsText', title: '登记号' }
-          ,{field: 'personLiable', title: '软件名称' }
-          ,{field: 'typeText', title: '技术领域'} 
-          ,{field: 'researchFieldText', title: '著作权人'}
-          ,{field: 'experience', title: '版本号' }
-          ,{field: 'overallSituation', title: '登记日期' }
-          ,{field: 'researchFunds', title: '开发完成日期'}
-          ,{field: 'platformScoring', title: '软件简介' }
-          ,{field: 'researchFunds', title: '录入'}
-          ,{field: 'researchFunds', title: '录入时间'}
-          ,{field: 'researchFunds', title: '备注'}
+          ,{field: 'unitNameText', title: '单位名称' }
+          ,{field: 'registerNumber', title: '登记号' }
+          ,{field: 'softwareName', title: '软件名称' } 
+          ,{field: 'copyrightOwner', title: '著作权人'}
+          ,{field: 'versionNumber', title: '版本号' }
+          ,{field: 'recordDate', title: '登记日期', templet: function(d) {  return dateFieldText(d.recordDate);  }}  
+          ,{field: 'developFinishDate', title: '开发完成日期', templet: function(d) {  return dateFieldText(d.recordDate);  }}  
+          ,{field: 'softwareIntro', title: '软件简介' } 
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -174,6 +171,17 @@ layui.use(['form', 'table', 'formSelects'], function(){
     name ? name = name.trim() : name = '';
     window.open('/platform-api/export?level=01&platformName=', '_blank');
   })
+
+
+  
+  laydate.render({
+    elem: '#recordDateStart' //指定元素
+  });
+
+  laydate.render({
+    elem: '#recordDateEnd' //指定元素
+  });
+
 });
 </script>
 </body>
