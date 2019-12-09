@@ -76,6 +76,8 @@ public class SysLogController extends BaseController {
 		    @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
 			@ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
 			@ApiImplicitParam(name = "optDescribe", value = "操作描述", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "optResult", value = "操作结果", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "logName", value = "登陆名", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "logIp", value = "登陆IP", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
@@ -88,7 +90,9 @@ public class SysLogController extends BaseController {
 
 			@RequestParam(required = true) Integer page, 
 			@RequestParam(required = true) Integer limit,
-			@RequestParam(required = false) String optDescribe, 
+			@RequestParam(required = false) String optDescribe,
+			@RequestParam(required = false) String optResult,
+			@RequestParam(required = false) String logName,
 			@RequestParam(required = false) String logIp,
 			@RequestParam(required = false) String beginTime, 
 			@RequestParam(required = false) String endTime,
@@ -100,6 +104,8 @@ public class SysLogController extends BaseController {
 
 		LayuiTableParam param = new LayuiTableParam();
 		param.getParam().put("optDescribe", optDescribe);
+		param.getParam().put("optResult", optResult);
+		param.getParam().put("logName", logName);
 		param.getParam().put("logIp", logIp);
 		param.setLimit(limit);
 		param.setPage(page);
@@ -179,7 +185,7 @@ public class SysLogController extends BaseController {
 	   				for(int i=0;i<list.size();i++)
 	   				{
 	   					SysLog zjkBase= list.get(i);
-	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_YYYY));
+	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_SS));
 	   				}
 	   			}
 	   		}

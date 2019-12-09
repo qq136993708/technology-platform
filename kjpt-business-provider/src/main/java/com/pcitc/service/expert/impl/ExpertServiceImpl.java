@@ -392,9 +392,12 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("technicalFieldName", technicalFieldName);
 			map.put("childUnitIds", childUnitIds);
 			
+			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
+			
 			List<ZjkBase> list = zjkBaseMapper.getList(map);
 			PageInfo<ZjkBase> pageInfo = new PageInfo<ZjkBase>(list);
-			System.out.println(">>>>>>>>>专家查询分页结果 "+pageInfo.getList().size());
+			System.out.println(">>>>>>>>>专家查询分页结果:  "+pageInfo.getList().size());
 			
 			LayuiTableData data = new LayuiTableData();
 			data.setData(pageInfo.getList());
