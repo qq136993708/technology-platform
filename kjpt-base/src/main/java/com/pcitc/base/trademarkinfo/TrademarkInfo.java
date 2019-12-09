@@ -98,6 +98,16 @@ public class TrademarkInfo implements Serializable {
      */
     private String unitNameText;
 
+    /**
+     * 创建人ID
+     */
+    private String createUnitId;
+
+    /**
+     * 创建人名称
+     */
+    private String createUnitName;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -242,6 +252,22 @@ public class TrademarkInfo implements Serializable {
 
     public void setUnitNameText(String unitNameText) {
         this.unitNameText = unitNameText;
+    }
+
+    public String getCreateUnitId() {
+        return createUnitId;
+    }
+
+    public void setCreateUnitId(String createUnitId) {
+        this.createUnitId = createUnitId;
+    }
+
+    public String getCreateUnitName() {
+        return createUnitName;
+    }
+
+    public void setCreateUnitName(String createUnitName) {
+        this.createUnitName = createUnitName;
     }
 
     @Override

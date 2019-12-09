@@ -46,7 +46,8 @@
 	<result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText" />
 	<result column="technical_field_text" jdbcType="VARCHAR" property="technicalFieldText" />
     <result column="technical_field_index" jdbcType="VARCHAR" property="technicalFieldIndex" />
-
+    <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId" />
+    <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -112,7 +113,8 @@
     entry_date, application_cost, remark, summary, application_of_patent_transformation,
     major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor,
     assign_profit, file, creator, create_date, update_date, updator, deleted,country,application_of_patent_transformation_text,
-    patent_type_text,country_text,application_type_text,legal_status_text, unit_name_text, technical_field, technical_field_text,technical_field_index
+    patent_type_text,country_text,application_type_text,legal_status_text, unit_name_text, technical_field, technical_field_text,
+    technical_field_index,create_unit_id,create_unit_name
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -297,6 +299,12 @@
       <if test="technicalFieldIndex != null">
         technical_field_index,
       </if>
+      <if test="createUnitId != null">
+        create_unit_id,
+      </if>
+      <if test="createUnitName != null">
+        create_unit_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -409,6 +417,12 @@
       </if>
       <if test="technicalFieldIndex != null">
         #{technicalFieldIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitId != null">
+        #{createUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitName != null">
+        #{createUnitName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -718,7 +732,9 @@
       country = #{country,jdbcType=VARCHAR},
 	  technical_field = #{technicalField,jdbcType=VARCHAR},
 	  technical_field_text = #{technicalFieldText,jdbcType=VARCHAR},
-	  technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR}
+	  technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
+	  create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+	  create_unit_name = #{createUnitName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -764,6 +780,13 @@
     </if>
     <if test="technicalFieldIndex != null and technicalFieldIndex != '' " >
       AND technical_field_index like CONCAT(#{technicalFieldIndex},'%')
+    </if>
+
+    <if test="childUnitIds != null          and childUnitIds !=''  ">
+      AND create_unit_id in
+      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+        #{item}
+      </foreach>
     </if>
   </sql>
 </mapper>

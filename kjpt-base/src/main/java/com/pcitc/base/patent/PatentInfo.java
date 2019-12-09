@@ -230,6 +230,18 @@ public class PatentInfo implements Serializable {
      */
     private String applicationDateStr;
 
+    /**
+     * 创建人ID
+     */
+    private String createUnitId;
+
+    /**
+     * 创建人名称
+     */
+    private String createUnitName;
+
+
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -582,6 +594,22 @@ public class PatentInfo implements Serializable {
 
     public void setApplicationDateStr(String applicationDateStr) {
         this.applicationDateStr = applicationDateStr;
+    }
+
+    public String getCreateUnitId() {
+        return createUnitId;
+    }
+
+    public void setCreateUnitId(String createUnitId) {
+        this.createUnitId = createUnitId;
+    }
+
+    public String getCreateUnitName() {
+        return createUnitName;
+    }
+
+    public void setCreateUnitName(String createUnitName) {
+        this.createUnitName = createUnitName;
     }
 
     @Override

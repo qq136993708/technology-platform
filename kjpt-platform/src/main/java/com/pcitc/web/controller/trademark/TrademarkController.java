@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -107,6 +108,10 @@ public class TrademarkController extends RestBaseController {
         if (!StringUtils.isEmpty(applicant)) {
         this.setParam(condition, "applicant", applicant);
         }
+
+        //默认查询当前人所在机构及子机构的所有专家
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition, "childUnitIds", childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
