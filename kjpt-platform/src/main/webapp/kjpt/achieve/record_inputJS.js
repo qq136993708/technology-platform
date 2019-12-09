@@ -2,6 +2,8 @@ layui.use(['table', 'form'], function() {
   var form = layui.form,
   variable = getQueryVariable(),
   groupTableId = '',
+  fileData = {},
+  newTransfromFile = {},
   fileCols = [
     {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
     {title: '操作', templet: function(d) {
@@ -12,13 +14,12 @@ layui.use(['table', 'form'], function() {
       return templet;
     }}
   ];
-
   console.log(variable);
 
   // 添加 转化净收益及激励方案
-  function addTransfromMaintain(data) {
+  function addTransfromMaintain(data, auditStatus) {
     var wrapID = 'init_transfrom_maintain';
-    if (typeof(data) === 'object' && data.length) {
+    if (typeof(data) === 'object' && data.length && auditStatus != '0' && auditStatus != '3') {
       wrapID = 'edit_transfrom_maintain';
       $('#init_transfrom_maintain').empty();
       $('#all_page_submit').remove();
@@ -30,25 +31,13 @@ layui.use(['table', 'form'], function() {
       $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
     }
 
-    $('.maintain_list').each(function() {
+    $('.maintain_list').each(function(index, elem) {
       var $layoutItem = $(this),
+      htmlIndex = index,
       formFilter = $layoutItem.attr('filter');
 
       $layoutItem.load('record_maintain.html', function() {
         $layoutItem.find('.layui-form:eq(0)').attr('lay-filter', formFilter);
-
-        $layoutItem.find('.file-filter-options').each(function() {
-          var $this = $(this);
-          setFileUpload({
-            id: $this, // 附件上传作用域ID值 必传
-            dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
-            cols: fileCols,
-            callback: function (tableData, type) {
-              console.log(tableData, type);
-            }
-          });
-        })
-    
         // 添加人员
         $layoutItem.find('.dy-add-table').each(function(index, elem) {
           $(this).attr('id', 'achieveTable_' + index);
@@ -78,19 +67,107 @@ layui.use(['table', 'form'], function() {
             deleTr(groupTableId);
           })
 
-          httpModule({
-            url: '/achieveReward-api/newInit'
-          });
+          if (typeof(data) === 'object' && data.length === 1 && (auditStatus === '0' || auditStatus === '3')) {
+            // 草稿
+            form.val('newTransfrom', data[0]);
+            if ( data[0].teamPerson ) {
+              backfill(data[0].teamPerson, tempTableId);
+            }
+            form.render();
+          } else {
+            httpModule({
+              async: false, // 同步请求
+              url: '/achieveReward-api/newInit',
+              success: function(res) {
+                if (res.code === '0' || res.success === true) {
+                  form.val('newTransfrom', res.data);
+                }
+              }
+            });
+          }
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
           // 回显团队成员
-          // backfill(relData.data.teamPerson, tempTableId);
+          if ( data[htmlIndex].teamPerson ) {
+            backfill(data[htmlIndex].teamPerson, tempTableId);
+          }
         }
+
+        // 绑定附件上传功能
+        $layoutItem.find('.file-filter-options').each(function() {
+          var $this = $(this),
+          fileParId = $(this).find('.fileValue:eq(0)').val() || '';
+
+          if (fileParId) {
+            newTransfromFile[fileParId] = '';
+          }
+          setFileUpload({
+            id: $this, // 附件上传作用域ID值 必传
+            dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
+            cols: fileCols,
+            callback: function (tableData, type) {
+              if (!fileParId) return;
+              if (tableData && tableData.length) {
+                $.each(tableData, function(fi, valf) {
+                  newTransfromFile[fileParId] += ',' + valf.id;
+                })
+                newTransfromFile[fileParId] = newTransfromFile[fileParId].substring(1);
+              } else {
+                newTransfromFile[fileParId] = '';
+              }
+            }
+          });
+        })
       })
     })
   }
 
+  function getFileValue(data) {
+    var fileValue = {};
+    if (data.hasOwnProperty('appraisalDoc')) {
+      // 知识产权状况或科技成果评价报告：
+      fileValue[data.appraisalDoc] =  fileData[data.appraisalDoc] || '';
+    }
+    if (data.hasOwnProperty('grantDoc')) {
+      // 尽职调查报告：
+      fileValue[data.grantDoc] =  fileData[data.grantDoc] || '';
+    }
+    if (data.hasOwnProperty('transContractDoc')) {
+      // 合同（协议）文本：
+      fileValue[data.transContractDoc] =  fileData[data.transContractDoc] || '';
+    }
+    if (data.hasOwnProperty('transAssessDoc')) {
+      // 资产评估报告及评估备案表：
+      fileValue[data.transAssessDoc] =  fileData[data.transAssessDoc] || '';
+    }
+    if (data.hasOwnProperty('decisionMeetingDoc')) {
+      // 内部决策会议纪要：
+      fileValue[data.decisionMeetingDoc] =  fileData[data.decisionMeetingDoc] || '';
+    }
+    if (data.hasOwnProperty('decisionRuleDoc')) {
+      // 单位内部科技成果转化规章制度：
+      fileValue[data.decisionRuleDoc] =  fileData[data.decisionRuleDoc] || '';
+    }
+    if (data.hasOwnProperty('incomeReportDoc')) {
+      // 净收入计算报告（单位财务部门盖章）：
+      fileValue[data.incomeReportDoc] =  newTransfromFile[data.incomeReportDoc] || '';
+    }
+    if (data.hasOwnProperty('assignPlanDoc')) {
+      // 激励方案报告：
+      fileValue[data.assignPlanDoc] =  newTransfromFile[data.assignPlanDoc] || '';
+    }
+    if (data.hasOwnProperty('rewardAccountingDoc')) {
+      // 成果核算（单位财务部门盖章）：
+      fileValue[data.rewardAccountingDoc] =  newTransfromFile[data.rewardAccountingDoc] || '';
+    }
+  }
+
+  // 添加科技成果完成团队情况
+  $('#addTeamPersonList').click(function () {
+    addTr('teamPersonList');
+    deleTr('teamPersonList');
+  })
 
   // 获取备案信息
   httpModule({
@@ -98,39 +175,65 @@ layui.use(['table', 'form'], function() {
     success: function(res) {
       console.log(res);
       // teamPerson
+      if (res.code === '0' || res.success === true) {
+        var detailsData = res.data;
+        if (!detailsData.auditStatus) {
+          detailsData.auditStatus = '0';
+        } else {
+          detailsData.achieveTransStatus = detailsData.auditStatus;
+        }
+
+        form.val('RecordInputForm', detailsData);
+        setTargetNameValue({auditStatus: detailsData.auditStatus});
+
+        // 草稿、被驳回状态
+        if (detailsData.achieveRewards.length) {
+          addTransfromMaintain(detailsData.achieveRewards, detailsData.auditStatus);
+        } else {
+          addTransfromMaintain();
+        }
+
+        if ( detailsData.teamPerson ) {
+          // 激励人员名单
+          backfill(detailsData.teamPerson, 'teamPersonList');
+        }
+
+        // 绑定附件添加插件
+        $('#RecordInputForm .file-filter-options').each(function(i, elem) {
+          var fileParId = $(this).find('.fileValue:eq(0)').val() || '';
+          if (fileParId) {
+            fileData[fileParId] = '';
+          }
+          setFileUpload({
+            id: $(this), // 附件上传作用域ID值 必传
+            dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
+            cols: fileCols,
+            callback: function (tableData, type) {
+              if (!fileParId) return;
+              if (tableData && tableData.length) {
+                $.each(tableData, function(fi, valf) {
+                  fileData[fileParId] += ',' + valf.id;
+                })
+                fileData[fileParId] = fileData[fileParId].substring(1);
+              } else {
+                fileData[fileParId] = '';
+              }
+            }
+          });
+        })
+
+        if (variable.type === 'transfrom' || variable.type === 'view') {
+          // 维护
+          $('form[lay-filter="RecordInputForm"] .view-row-title').remove();
+          setFomeDisabled('RecordInputForm', '.disabled');
+        }
+      }
     }
   });
 
-
-  // 绑定附件添加插件
-  $('#RecordInputForm .file-filter-options').each(function(i, elem) {
-    setFileUpload({
-      id: $(this), // 附件上传作用域ID值 必传
-      dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
-      cols: fileCols,
-      callback: function (tableData, type) {
-        console.log(tableData, type);
-      }
-    });
-  })
-
-  if (variable.type === 'transfrom' || variable.type === 'view') {
-    // 维护
-    addTransfromMaintain([{a: 1}, {b: 3}]);
-
-    $('form[lay-filter="RecordInputForm"] .view-row-title').remove();
-    setFomeDisabled('RecordInputForm', '.disabled');
-  } else if (variable.type === 'input') {
-    // 新增备案
-    addTransfromMaintain();
-  }
-
-
   // 新建整体提交
-  form.on('submit(formSave)', function() {
+  form.on('submit(formSave)', function(data) {
     $('[lay-filter="editTranfromMaintain"]').click();
-
-
     return false;
   })
 
@@ -138,11 +241,62 @@ layui.use(['table', 'form'], function() {
   form.on('submit(editTranfromMaintain)', function() {
     console.log(' => ');
     var teamPerson = getTableData(groupTableId);
+    return false;
   })
 
   // 暂存
   $('[lay-filter="formTempSave"]').on('click', function() {
-    var teamPerson = getTableData(groupTableId);
-    console.log(form.val('RecordInputForm'), form.val('newTransfrom'));
+    var $this = $(this),
+    loadingIndex = top.layer.load(2),
+    teamPerson = getTableData(groupTableId), // 激励人员名单
+    achieveRewardData = form.val('newTransfrom'), // 激励信息;
+    achieveTeamPerson = getTableData('teamPersonList'), // 科技成果完成团队情况
+    achieveRecordData = form.val('RecordInputForm'); // 备案信息;
+
+    achieveRewardData.teamPerson = teamPerson;
+    achieveRecordData.teamPerson = achieveTeamPerson;
+
+    var ntFile = getFileValue(achieveRewardData), // 激励方案附件
+    arFile = getFileValue(achieveRecordData);  // 备案先挂附件
+
+    for (var key in ntFile) {
+      achieveRewardData[key] = ntFile[key]; 
+    }
+    achieveRewardData.achieveRecordId = achieveRecordData.id;
+
+    for (var key in arFile) {
+      achieveRecordData[key] = ntFile[key]; 
+    }
+    
+    var saveData = {
+      achieveRecord: achieveRecordData,
+      achieveReward: achieveRewardData,
+      creator: null,
+      createDate: new Date().getTime(),
+      updator: null,
+      updateDate: new Date().getTime(),
+      deleted: '0'
+    }
+
+    $this.prop('disabled', true);
+    httpModule({
+      url: '/achieveRecord-api/save',
+      type: 'POST',
+      data: saveData,
+      success: function(res) {
+        top.layer.close(loadingIndex);
+        $this.prop('disabled', false);
+        $(this).prop('disabled', true);
+        if (res.code === '0' || res.success) {
+
+        }
+      },
+      error: function() {
+        top.layer.close(loadingIndex);
+        $this.prop('disabled', false);
+      }
+    })
+
+    // console.log(form.val('RecordInputForm'), form.val('newTransfrom'));
   })
 })
