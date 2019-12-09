@@ -60,11 +60,19 @@
     <select id="query" parameterType="java.util.Map" resultMap="AchieveRewardMap">
         select  <include refid="AchieveReward_Column_List" />  from achieve_reward where 1=1
             and del_status != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="getByRecordId" parameterType="java.lang.String" resultMap="AchieveRewardMap">
         select  <include refid="AchieveReward_Column_List" />  from achieve_reward where 1=1 and achieve_record_id = #{aRecordId}
             and del_status != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 

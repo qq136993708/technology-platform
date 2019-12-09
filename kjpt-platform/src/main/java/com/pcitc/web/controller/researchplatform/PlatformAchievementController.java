@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -78,7 +79,7 @@ public class PlatformAchievementController extends RestBaseController {
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId
 
-    ) {
+    ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -91,6 +92,11 @@ public class PlatformAchievementController extends RestBaseController {
             this.setParam(condition, "pageSize", pageSize);
         }
         this.setParam(condition,"platformId",platformId);
+
+        //默认查询当前人所在机构下所有的科研平台成果
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
