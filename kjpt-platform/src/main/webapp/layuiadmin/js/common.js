@@ -987,7 +987,7 @@ function getTableData(id){
 
 // 设置菜单栏选中项
 function setNavMeunSelected(index) {
-	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5;
+	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5 ...;
 	if (index || index === 0) {
 		var indexClass = index + '';
 		$('#layuiHeaderNav .header-nav-item').removeClass('layui-this').each(function(i, elem) {
