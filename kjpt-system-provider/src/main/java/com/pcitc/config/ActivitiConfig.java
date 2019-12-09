@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
@@ -18,7 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.PlatformTransactionManager;
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.pcitc.listener.TaskAssignedListener;
 import com.pcitc.listener.TaskCompletedListener;
@@ -66,6 +71,9 @@ public class ActivitiConfig {
 		configuration.setLabelFontName("SimSun");
 		configuration.setActivityFontName("SimSun");
 		configuration.setAnnotationFontName("SimSun");
+	
+		// Resource[] resources = new PathMatchingResourcePatternResolver().getResources(ResourceLoader.CLASSPATH_URL_PREFIX + "processes/*.bpmn");
+		// configuration.setDeploymentResources(resources);  
 		
 		// 不使用activiti自动的三个表（ACT_ID_*），用三个视图表代替
 		configuration.setDbIdentityUsed(false);

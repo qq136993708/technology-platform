@@ -21,6 +21,8 @@
     <result column="commodity_category_text" jdbcType="VARCHAR" property="commodityCategoryText" />
     <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
     <result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText" />
+    <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId" />
+    <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,7 +85,7 @@
   <sql id="Base_Column_List">
     id, unit_name, commodity_category, application_number, effective_date, register_notice_date, 
     entry_person, trademark_name, applicant, register_date, law_status, remark, entry_date, 
-    file,deleted,commodity_category_text,legal_status_text,unit_name_text
+    file,deleted,commodity_category_text,legal_status_text,unit_name_text,create_unit_id,create_unit_name
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultMap="BaseResultMap">
     select
@@ -185,7 +187,13 @@
       </if>
       <if test="deleted != null">
        deleted,
-    </if>
+      </if>
+      <if test="createUnitId != null">
+        create_unit_id,
+      </if>
+      <if test="createUnitName != null">
+        create_unit_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -232,6 +240,12 @@
       </if>
       <if test="deleted != null">
         #{deleted,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitId != null">
+        #{createUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitName != null">
+        #{createUnitName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -370,7 +384,9 @@
       law_status = #{lawStatus,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=TIMESTAMP},
-      file = #{files,jdbcType=VARCHAR}
+      file = #{files,jdbcType=VARCHAR},
+      create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+	  create_unit_name = #{createUnitName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -402,6 +418,13 @@
     </if>
     <if test="registerDateEnd != null and registerDateEnd != '' " >
       and register_date &lt;= #{registerDateEnd}
+    </if>
+
+    <if test="childUnitIds != null          and childUnitIds !=''  ">
+      AND create_unit_id in
+      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+        #{item}
+      </foreach>
     </if>
   </sql>
 </mapper>

@@ -18,6 +18,7 @@
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 	<div class="formBox">
@@ -32,7 +33,7 @@
 								<span class="must-fill">*</span>
 							</label>
 							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" id="functionName" name="functionName" lay-verify="required" type="text" disabled>
+								<input class="layui-input readOnlyBox" id="functionName" name="functionName" lay-verify="required" value="a" type="text" disabled>
 							</div>
 						</div>
 					</div>
@@ -60,7 +61,7 @@
 
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label">配置部门</label>
+							<label class="layui-form-label">配置1部门</label>
 							<div class="layui-input-block">
 								<div class="selectTreeBox">
 									<div id="unit" class="layui-form-select select-tree"></div>
@@ -129,10 +130,11 @@
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
 
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-
+			// 获取地址栏传递过来的参数
+            var variable = getQueryVariable();
 			form.render(null, 'component-form-group');
-			$("#functionId").attr("value", parent.temFunctionId);
-			$("#functionName").attr("value", parent.temFunctionName);
+			$("#functionId").attr("value", variable.id);
+			$("#functionName").attr("value", decodeURI(variable.name));
 
 			//日期时间选择器
 			laydate.render({
@@ -169,6 +171,7 @@
 
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
+				console.log("----aa-"+JSON.stringify(data));
 				$.ajax({
 					type : 'POST',
 					url : "/workflow/function/prodef/save",

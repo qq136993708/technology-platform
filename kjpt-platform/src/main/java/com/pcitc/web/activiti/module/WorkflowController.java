@@ -275,12 +275,12 @@ public class WorkflowController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/workflow/function/add/{functionId}")
-	public String iniFunctionProcessDefine(@PathVariable("functionId") String functionId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/workflow/function/add")
+	public String iniFunctionProcessDefine( HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser sysUserInfo = getUserProfile();
-		System.out.println("1========/workflow/function/add=========" + functionId);
+		String functionId=CommonUtil.getParameter(request, "functionId", "");
 		request.setAttribute("userInfo", sysUserInfo);
-
+		request.setAttribute("functionId", functionId);
 		return "/pplus/workflow/prodef-add";
 	}
 
