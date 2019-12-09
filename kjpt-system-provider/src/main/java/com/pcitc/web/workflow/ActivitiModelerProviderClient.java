@@ -55,7 +55,6 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
 import com.pcitc.base.workflow.WorkflowVo;
-import com.pcitc.utils.OSSUtil;
 
 @Api(value = "Activity-system-API", description = "activiti基础功能流程相关的接口")
 @RestController
@@ -206,8 +205,10 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	@RequestMapping(value = "/modeler-provider/resource/image/path", method = RequestMethod.POST)
 	public String ossImagePath(@RequestBody WorkflowVo workflowVo) {
 		Model modelData = repositoryService.getModel(workflowVo.getModelId());
-		String imagePath = OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/"+uploadPath+"activiti/"+modelData.getId()+".model.png";
-		return imagePath;
+		
+		//String imagePath = OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/"+uploadPath+"activiti/"+modelData.getId()+".model.png";
+		//return imagePath;
+		return null;
 	}
 
 	@ApiOperation(value = "产生model资源，图形化准备", notes = "activiti系统接口")
@@ -232,7 +233,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				String fileName = modelData.getId()+".model.bpmn";
 				System.out.println("7xml=====部署model模型"+uploadPath+"activiti/"+fileName);
 				// 上传xml到oss服务器
-				OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
+				//OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
 
 				String realName = fileName.replaceAll("\\\\", "/");
 				System.out.println("8xml=====部署model模型"+realName);
@@ -246,14 +247,15 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				ByteArrayInputStream in = new ByteArrayInputStream(pngBytes);
 				// 上传image到oss服务器
 				System.out.println("31image=====部署model模型"+uploadPath+"activiti/"+fileName);
-				String imagePath = OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
-				System.out.println("4image=====部署model模型"+imagePath);
+				//String imagePath = OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
+				//System.out.println("4image=====部署model模型"+imagePath);
 				String realName = fileName.replaceAll("\\\\", "/");
 				return realName;
 			}
 		} catch (Exception e) {
 			return "";
 		}
+		
 	}
 
 	@ApiOperation(value = "部署model模型", notes = "activiti系统接口")
@@ -285,15 +287,15 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			System.out.println("52=====部署model模型"+xml);
 			System.out.println("52=====部署model模型"+image);
 			String zipFileName = modelData.getId()+".bpmn20.model.zip";
-			String zipPath = OSSUtil.generateZipFile(uploadPath+"activiti", zipFileName, xml, image);
-			System.out.println("1zipPath======="+zipPath);
-			InputStream inputStream = OSSUtil.getOssFileIS(zipPath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-			ZipInputStream zipInputStream = new ZipInputStream(inputStream);
-			System.out.println("2zipPath======="+zipInputStream);
+			//String zipPath = OSSUtil.generateZipFile(uploadPath+"activiti", zipFileName, xml, image);
+			//System.out.println("1zipPath======="+zipPath);
+			//InputStream inputStream = OSSUtil.getOssFileIS(zipPath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
+			//ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+			//System.out.println("2zipPath======="+zipInputStream);
 			// 发布流程
 			// 使用addZipInputStream后可以预防flow连线文字丢失的问题
-			DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(modelData.getName()).category(modelData.getCategory()).tenantId(modelData.getTenantId()).addZipInputStream(zipInputStream);
-
+			//DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(modelData.getName()).category(modelData.getCategory()).tenantId(modelData.getTenantId()).addZipInputStream(zipInputStream);
+			DeploymentBuilder deploymentBuilder =null;//自已添加
 			List<JsonNode> forms = modelNode.findValues("formkeydefinition");
 			for (JsonNode form : forms) {
 				String formName = form.textValue();

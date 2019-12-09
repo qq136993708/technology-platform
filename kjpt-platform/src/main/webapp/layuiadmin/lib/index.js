@@ -12,7 +12,6 @@ layui.extend({
   ,admin: 'lib/admin' //核心模块
   ,view: 'lib/view' //视图渲染模块
 }).define(['setter', 'admin'], function(exports){
-
   var selfRownum=parent.$(".selfRownum").val();
   var setter = layui.setter
   ,element = layui.element
@@ -165,6 +164,21 @@ layui.extend({
         $('#nav'+navId+ ' .layui-nav-item').removeClass('layui-nav-itemed');
         $('#nav'+navId).find('a[lay-href]').eq(0).click().closest('.layui-nav-item').addClass('layui-nav-itemed');
     }
+  })
+
+  var $LAYAPPTABS = $('#LAY_app_tabsheader');
+  $LAYAPPTABS.on('click', '.layui-tab-close', function(e) {
+    if ($LAYAPPTABS.children('li').length === 0) {
+        setNavMeunSelected();
+    }
+  })
+  $('#LAY_app_tabs').on('click', '[layadmin-event="closeThisTabs"]', function() {
+    if ($LAYAPPTABS.children('li').length === 0) {
+        setNavMeunSelected();
+    }
+  })
+  $('#LAY_app_tabs').on('click', '[layadmin-event="closeAllTabs"]', function() {
+    setNavMeunSelected();
   })
 
   $(".index-fixed li").click(function () {

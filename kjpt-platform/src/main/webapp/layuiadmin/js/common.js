@@ -206,7 +206,11 @@ function dialogError(data) {
 			shade: 0.1,
 			btn: ['关闭'],
 			yes: function(index) {
-				top.layer.close(index);
+				if (top.layer) {
+					top.layer.close(index);
+				} else {
+					window.layer(index);
+				}
 			},
 			content: (function() {
 				var layerHtml = '<div class="http-error-content">';
@@ -984,3 +988,64 @@ function getTableData(id){
     })
 	return trStr.substring(0, trStr.length - 1);
 }
+ 
+
+ 
+// 设置菜单栏选中项
+function setNavMeunSelected(index) {
+	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5 ...;
+	if (index || index === 0) {
+		var indexClass = index + '';
+		$('#layuiHeaderNav .header-nav-item').removeClass('layui-this').each(function(i, elem) {
+			if ($(this).hasClass(indexClass)) {
+				$(this).addClass('layui-this');
+				if (indexClass === 'home-item') {
+					$('#index_main_left_menu').children('ul').addClass('layui-hide');
+					$('#nav').removeClass('layui-hide');
+				} else {
+					$('#index_main_left_menu').children('ul').addClass('layui-hide');
+					$('#nav'+ $(this).children('a').attr('id')).removeClass('layui-hide');
+				}
+			}
+		})
+	} else {
+		$('#layuiHeaderNav').find('.header-nav-item').not('.home-item').removeClass('.layui-this');
+		$('#index_main_left_menu').children('ul').addClass('layui-hide').eq(0).removeClass('layui-hide');
+	}
+}
+
+
+//按钮权限封装
+function _getButtonRoles() {
+    var iframes = $(window.top.document).contents().find("IFRAME.layadmin-iframe");
+    var f = null;
+    for(var i=0;i<iframes.length;i++) {
+      if(iframes[i].contentWindow === window) {
+        f = iframes[i];
+        break;
+      }
+    }
+
+    if(f) { 
+      return $(f).attr('data-functionbuttons');
+    }else {
+      return null;
+    }
+
+  }
+
+  function _useButtonRoles() { 
+	var btnRoles = _getButtonRoles();
+    if(btnRoles) {
+      $("[button-role]").each(function(index, item) { 
+        var btn = $(item);
+        var role = ',' + btn.attr('button-role');
+        if(btnRoles.indexOf(role)<0) {
+          btn.css('display', 'none');
+        }
+      });
+        
+    }
+  }
+
+  _useButtonRoles();
