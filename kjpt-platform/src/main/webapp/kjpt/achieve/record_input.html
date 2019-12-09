@@ -57,8 +57,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果转化状态：</span></label>
           <div class="layui-input-block">
-            <select name="achieveTransStatus" lay-verify="required" placeholder="请选择"
-              dic-base-data="ROOT_KJPT_KJCG_CGZHZT"></select>
+            <span class="layui-input" diy-form-value="auditStatus" diy-dic-data="ROOT_UNIVERSAL_LCZT"></span>
+            <input type="hidden" name="auditStatus" lay-verify="required" />
+            <input type="hidden" name="achieveTransStatus" lay-verify="required" />
           </div>
         </div>
       </div>
@@ -101,7 +102,7 @@
 
       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <div class="view-row-title">
-          <span class="link-text dy-add-btn">+ 添加</span>
+          <span class="link-text dy-add-btn" id="addTeamPersonList">+ 添加</span>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">科技成果完成团队情况（按贡献度排序）：</span></label>
@@ -137,7 +138,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">知识产权状况或科技成果评价报告：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="appraisalDoc" />
+            <input type="hidden" class="fileValue" name="appraisalDoc" />
             <table></table>
           </div>
         </div>
@@ -194,7 +195,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">尽职调查报告：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="grantDoc">
+            <input type="hidden" class="fileValue" name="grantDoc">
             <table></table>
           </div>
         </div>
@@ -244,7 +245,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">公示及结果材料：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="transPublicDoc">
+            <input type="hidden" class="fileValue" name="transPublicDoc">
             <table></table></div>
         </div>
       </div>
@@ -258,7 +259,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">合同（协议）文本：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="transContractDoc">
+            <input type="hidden" class="fileValue" name="transContractDoc">
             <table></table></div>
         </div>
       </div>
@@ -272,7 +273,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">资产评估报告及评估备案表：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="transAssessDoc">
+            <input type="hidden" class="fileValue" name="transAssessDoc">
             <table></table></div>
         </div>
       </div>
@@ -311,11 +312,11 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">内部决策会议纪要：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="decisionMeetingDoc">
+            <input type="hidden" class="fileValue" name="decisionMeetingDoc">
             <table></table></div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="file-filter-options7">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
         <div class="view-title-layout view-row-title">
           <div class="right">
             <button type="button" class="layui-btn border-blue">模版下载</button>
@@ -325,7 +326,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">单位内部科技成果转化规章制度：</span></label>
           <div class="layui-input-block">
-            <input type="hidden" name="decisionRuleDoc">
+            <input type="hidden" class="fileValue" name="decisionRuleDoc">
             <table></table></div>
         </div>
       </div>
@@ -333,13 +334,14 @@
     </div>
 
     <div class="view-page-submit-btn-box" id="all_page_submit">
-      <button class="layui-btn layui-btn-normal" lay-filter="formTempSave">暂存</button>
-      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
+      <button class="layui-btn layui-btn-normal" type="button" lay-filter="formTempSave">暂存</button>
+      <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="formSave">提交</button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
 
     <input type="hidden" name="id">
     <input type="hidden" name="achieveId">
+    <input type="hidden" name="createUnitId">
   </form>
 
   <div id="init_transfrom_maintain"></div>
