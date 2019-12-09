@@ -63,10 +63,8 @@
                     <ul class="layui-tab-title">
                         <li class="layui-this">技术<span id="indexOutProjectInfoTableTfcCount" style="color: red"></span></li>
                         <li>项目<span id="indexOutProjectInfoTableIdCount" style="color: red"></span></li>
-                        <li>成果<span id="indexOutAppraisalTableIdCount" style="color: red"></span></li>
                         <li>专利<span id="indexOutPatentTableIdCount" style="color: red"></span></li>
                         <li>人员<span id="indexOutProjectInfoTableIdRyCount" style="color: red"></span></li>
-                        <li class="layui-hide">费用</li>
                     </ul>
 
                     <div class="layui-tab-content">
@@ -79,10 +77,7 @@
                         <div class="layui-tab-item">
                             <table id="indexOutProjectInfoTableId" class="layui-hide" lay-filter="indexOutProjectInfoTableIdEvent"></table>
                         </div>
-                        <div class="layui-tab-item">
-                            <table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
-                        </div>
                         <div class="layui-tab-item">
                             <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
                         </div>
@@ -91,12 +86,6 @@
                             <!--<div style="display:none;">-->
                             <!--</div>-->
                             <!--<div id="indexOutProjectInfoTableIdRyShow"></div>-->
-                        </div>
-                        <div class="layui-tab-item layui-hide">
-                            <div style="display:none;">
-                                <table id="indexOutProjectInfoTableIdFy" class="layui-hide" lay-filter="tableEvent"></table>
-                            </div>
-                            <div id="indexOutProjectInfoTableIdFyShow"></div>
                         </div>
                     </div>
                 </div>
@@ -375,7 +364,10 @@
                         field: "projectName",
                         title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
                     },
-
+                    {
+                        field: "projectTypeText",
+                        title: "项目类型", event: 'setActive', style: 'cursor: pointer;'
+                    },
                     {
                         field: "projectCycle",
                         title: "项目周期", event: 'setActive', style: 'cursor: pointer;'

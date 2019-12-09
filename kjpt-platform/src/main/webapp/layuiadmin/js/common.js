@@ -206,7 +206,11 @@ function dialogError(data) {
 			shade: 0.1,
 			btn: ['关闭'],
 			yes: function(index) {
-				top.layer.close(index);
+				if (top.layer) {
+					top.layer.close(index);
+				} else {
+					window.layer(index);
+				}
 			},
 			content: (function() {
 				var layerHtml = '<div class="http-error-content">';
