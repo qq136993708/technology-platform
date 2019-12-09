@@ -165,9 +165,15 @@ public interface SysUnitMapper {
 	 * @throws Exception
 	 */
 	public List<SysUnit> getAllList();
-	
-	
-	
+
+
+	/**
+	 * 根据单位名称查询单位id
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUnitIdByUnitName(String name);
 	
 	
 	  

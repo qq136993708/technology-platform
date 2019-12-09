@@ -22,11 +22,13 @@
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
         <result column="is_public" jdbcType="VARCHAR" property="deleted"/>
         <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
-
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
         <result column="tech_type_text" jdbcType="VARCHAR" property="techTypeText"/>
         <result column="achieve_trans_type_text" jdbcType="VARCHAR" property="achieveTransTypeText"/>
         <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
+
     </resultMap>
 
 
@@ -48,7 +50,9 @@
         create_user,
         team_person,
         is_public,
-        work_info
+        work_info,
+        create_unit_id,
+        create_unit_name
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
@@ -80,10 +84,10 @@
             and audit_status = #{auditStatus}
         </if>
         <if test="startDate != null and startDate != '' " >
-            and finish_date <![CDATA[>=]]> #{applicationDateEnd}
+            and finish_date <![CDATA[>=]]> #{startDate}
         </if>
         <if test="endDate != null and endDate != '' " >
-            and finish_date <![CDATA[<=]]> #{applicationDateEnd}
+            and finish_date <![CDATA[<=]]> #{endDate}
         </if>
     </sql>
 
@@ -91,7 +95,7 @@
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
         insert into achieve_base( <include refid="AchieveBase_Column_List" /> )
          values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
-         #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo})
+         #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName},#{createUnitId},#{createUnitName})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -137,7 +141,13 @@
                 is_public = #{isPublic},
             </if>
             <if test="workInfo != null and workInfo != ''" >
-                work_info = #{workInfo}
+                work_info = #{workInfo},
+            </if>
+            <if test="createUnitId != null and createUnitId != ''" >
+                create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUnitName != null and createUnitName != ''" >
+                create_unit_name = #{createUnitName,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}

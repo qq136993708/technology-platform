@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.web.controller.system.UnitController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -34,6 +35,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.system.SysPost;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -92,11 +94,8 @@ public class ExpertController extends BaseController {
 	 * 查询专家个数
 	 */
 	private static final String getZjkBaseCount = "http://kjpt-zuul/stp-proxy/expert/getZjkBaseCount";
-	
-	private static final String WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/expert/start_activity/";
-	
-	
-	
+
+	private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
 	
 	/**
 	  * 获取专家（分页）
@@ -290,7 +289,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息(外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 )", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form")
+        @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -333,6 +333,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
 			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
 			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
+			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -369,8 +370,9 @@ public class ExpertController extends BaseController {
 			
 			zjkBase.setUpdateTime(new Date());
 			zjkBase.setUpdateUser("");
-			
-			
+			zjkBase.setAuditStatus(Constant.AUDIT_STATUS_DRAFT);
+			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
+			zjkBase.setCreateUnitName(sysUserInfo.getUnitName());
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();
@@ -497,9 +499,9 @@ public class ExpertController extends BaseController {
   	{
   		
   		Result resultsDate = new Result();
-  	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+  	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,"所在单位",  "职称"  ,  "职务",  "联系方式"，"专业领域" };
 	    // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
-  		if (file.isEmpty()) 
+  		if (file.isEmpty())
   		{
   			resultsDate.setSuccess(false);
 		    resultsDate.setMessage("上传异常，请重试");
@@ -522,6 +524,8 @@ public class ExpertController extends BaseController {
 		  	            Object col_4 = lo.get(4);
 		  	            Object col_5 = lo.get(5);
 		  	            Object col_6 = lo.get(6);
+		  	            Object col_7 = lo.get(7);
+		  	            Object col_8 = lo.get(8);
 		  	            String aname=String.valueOf(lo.get(0));
 		  	            String agestr=String.valueOf(lo.get(3));
 		  	          
@@ -564,9 +568,10 @@ public class ExpertController extends BaseController {
 		  	  			obj.setIdCardNo(String.valueOf(lo.get(1)));
 		  	  			obj.setSex(sexStr);
 		  	  			obj.setAge(year.intValue()-count.intValue());
-		  	  			obj.setTitle(String.valueOf(lo.get(4)));
-		  	  			obj.setPost(String.valueOf(lo.get(5)));
-		  	  			obj.setContactWay(String.valueOf(lo.get(6)));
+		  	  			obj.setTitle(String.valueOf(lo.get(5)));
+		  	  			obj.setPost(String.valueOf(lo.get(6)));
+		  	  			obj.setContactWay(String.valueOf(lo.get(7)));
+		  	  			obj.setBelongUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
 		  	  			list.add(obj);
 		  	  		}
 		  	  		ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
@@ -645,33 +650,6 @@ public class ExpertController extends BaseController {
   	
   	
   	
-  	@RequestMapping(value = "/start_workflow")
-	public Object start_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);// 设置参数类型和编码
-		String id = CommonUtil.getParameter(request, "id", "");
-		String functionId = CommonUtil.getParameter(request, "functionId", "");
-		String userIds = CommonUtil.getParameter(request, "userIds", "");
-		
-		ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		ZjkBase zjkBase = responseEntity.getBody();
-		
-		
-		System.out.println("============start_workflow_new userIds=" + userIds + " functionId=" + functionId + " id=" + id);
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("id", id);
-		paramMap.put("functionId", functionId);
-		paramMap.put("processInstanceName", "专家上报->" + zjkBase.getName());
-		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
-		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
-		paramMap.put("functionId", functionId);
-		paramMap.put("auditor", userIds);
-		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
-		Result rs = this.restTemplate.exchange(WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
-		return rs;
-	}
-    
     
     
 

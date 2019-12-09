@@ -88,7 +88,7 @@ public class PlatformMemberController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformMemberModel.class);
-        String fileName = "科研平台成员表"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        String fileName = "科研平台成员表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
         this.exportExcel(headers,cols,fileName,list);
     }
 

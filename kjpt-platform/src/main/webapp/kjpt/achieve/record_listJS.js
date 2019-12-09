@@ -11,19 +11,21 @@ layui.use(['table', 'form'], function() {
         ,elem: '#tableDemo'
         ,url: '/achieveRecord-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'checkbox', field: 'id'}
+          {type: 'checkbox', field: 'id', width: 50}
           ,{type: 'numbers', title: '序号', width: 50}
-          ,{field: 'auditStatus', title: '备案状态', width: 80}
-          ,{field: 'achieveName', title: '成果名称' }
-          ,{field: 'finishUnitName', title: '成果持有单位' }
-          ,{field: 'grantUnitName', title: '拟受让单位'} 
-          ,{field: 'achieveType', title: '是否核心技术成果'}
-          ,{field: 'achieveTransType', title: '拟转化方式' }
-          ,{field: 'transMoney', title: '拟转化金额（万）' }
-          ,{field: 'rewardMoney', title: '激励预计总额（万）' }
-          ,{field: 'currentRewardMoney', title: '本年激励额度' }
-          ,{field: 'aboutCompleteInfo', title: '完成情况' }
-          ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100 }
+          ,{field: 'auditStatusText', title: '备案状态', width: 80}
+          ,{field: 'achieveName', title: '成果名称', width: 120 }
+          ,{field: 'finishUnitName', title: '成果持有单位', width: 120 }
+          ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
+          ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
+          ,{field: 'achieveTransTypeText', title: '拟转化方式', width: 120 }
+          ,{field: 'transMoney', title: '拟转化金额（万）', width: 100 }
+          ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100 }
+          ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100 }
+          ,{field: 'aboutCompleteInfo', title: '完成情况', width: 120 }
+          ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, templet: function(d) {
+            return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
+          }}
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list">';
             if (d.auditStatus == 0 || d.auditStatus == 3){
@@ -66,7 +68,35 @@ layui.use(['table', 'form'], function() {
     // 获取被选中的行数据
     var activeData = table.checkStatus('tableDemo').data;
     if (activeData.length) {
+      var itemID = '', deleteStatus = true;
+      $.each(activeData, function(i, item) {
+        itemID += ',' + item.id;
+        if (item.auditStatus == 1 || item.auditStatus == 2) {
+          deleteStatus = false;
+        }
+      })
 
+      if (!deleteStatus) {
+        top.layer.msg('审批中或审批通过的备案信息不能删除!');
+        return false;
+      }
+
+      itemID = itemID.substring(1);
+      top.layer.confirm('您确定要删除选中的备案信息吗？', {icon: 3, title:'提示'}, function(index) {
+        top.layer.close(index);
+        httpModule({
+          url: '/achieveRecord-api/delete/' + itemID,
+          type: 'DELETE',
+          success: function(res) {
+            if (res.code === '0') {
+              layer.msg('删除成功。', {icon: 1});
+              $('[lay-filter="formSubmit"]').click();
+            } else {
+              layer.msg('删除失败。', {icon: 2});
+            }
+          }
+        });
+      });
     } else {
       top.layer.msg('请选择需要删除的数据！');
     }
@@ -100,15 +130,15 @@ layui.use(['table', 'form'], function() {
           if (optionType === 'edit') {
             if (listData[0].auditStatus == 0 || listData[0].auditStatus == 2) {
               url += '&id='+listData[0].id;
-              return false;
             } else {
               top.layer.msg('审批中或审批通过的数据不能' + dialogTitle);
+              return false;
             }
           } else {
             url += '&id='+listData[0].id;
           }
         } else {
-          top.layer.msg('要'+dialogTitle+'的数据只能是单条！');
+          top.layer.msg('不能同时'+dialogTitle+'多条数据！');
           return false;
         }
       } else {
@@ -136,7 +166,6 @@ layui.use(['table', 'form'], function() {
         }
       }
     });
-
-
   })
+  
 })

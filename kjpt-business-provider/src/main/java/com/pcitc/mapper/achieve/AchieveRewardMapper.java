@@ -1,5 +1,6 @@
 package com.pcitc.mapper.achieve;
 
+import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface AchieveRewardMapper {
     List<AchieveReward> query(Map param);
     void updateRewardMoney(String aRecordId);
     void updateCurrentYearMoney(String aRecordId);
+
+    List<AchieveReward> getByRecordId(String aRecordId);
 }

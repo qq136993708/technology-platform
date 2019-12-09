@@ -9,6 +9,7 @@ import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveRecordMapper;
 import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
+import com.pcitc.service.file.FileCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +29,16 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     @Autowired
     private AchieveRewardMapper arw;
 
+    @Autowired
+    private FileCommonService fs;
+
     @Override
     public AchieveRecord load(String id) {
-        return arm.load(id);
+        AchieveRecord ar = arm.load(id);
+        ar.setAchieveRewards(arw.getByRecordId(id));
+        return ar;
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -40,7 +47,7 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         AchieveRecord aRecord = as.getAchieveRecord();
         AchieveReward aReward = as.getAchieveReward();
         IsEmptyUtil.isEmpty(aRecord);
-        if(load(aRecord.getId()) ==null){
+        if(arm.load(aRecord.getId()) ==null){
             aRecord.setCreateDate(as.getUpdateDate());
             aRecord.setCreator(as.getUpdator());
             arm.add(aRecord);
@@ -54,16 +61,19 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         else{
             arm.update(aRecord);
             if(aReward != null) {
-                arw.update(aReward);
-                arw.updateRewardMoney(aRecord.getId());
+                if(arw.load(aReward.getId())!=null){
+                    arw.add(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                };
             }
         }
 
     }
 
     @Override
-    public Integer delete(String id) {
-        return arm.delete(id);
+    public Integer delete(String ids) {
+        String[] idArr = ids.split(",");
+        return arm.delete(idArr);
     }
 
     @Override

@@ -8,7 +8,9 @@
  */
  *{font-family: "arial-black", "微软雅黑", "黑体"}
 html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
-
+.layui-layout-body{
+    min-width: 1280px;
+}
 html, body {
 	margin:0;
 	padding:0;

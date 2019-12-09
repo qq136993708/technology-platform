@@ -20,6 +20,11 @@ public class RecordModel implements Serializable {
 	private Date updateDate=new Date();
 	//删除标识
 	private String deleted = "0";
+	//创建人所在单位
+	private String createUnitId;
+
+	//创建人所在单位名称
+	private String createUnitName;
 
 	public String getUpdator() {
 		return updator;
@@ -56,10 +61,21 @@ public class RecordModel implements Serializable {
 	}
 
 
+	public String getCreateUnitId() {
+		return createUnitId;
+	}
 
+	public void setCreateUnitId(String createUnitId) {
+		this.createUnitId = createUnitId;
+	}
 
+	public String getCreateUnitName() {
+		return createUnitName;
+	}
 
-
+	public void setCreateUnitName(String createUnitName) {
+		this.createUnitName = createUnitName;
+	}
 
 	@Override
 	public String toString() {

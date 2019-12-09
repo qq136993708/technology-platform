@@ -12,6 +12,6 @@ public interface AchieveRecordMapper {
     AchieveRecord load(String id);
     Integer add(AchieveRecord ab);
     Integer update(AchieveRecord ab);
-    Integer delete(String id);
+    Integer delete(String[] ids);
     List<AchieveRecord> query(Map param);
 }

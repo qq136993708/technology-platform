@@ -85,7 +85,9 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台类型：</span></label>
            <div class="layui-input-block">
-             <select name="type" dic-base-data="ROOT_KJPT_PTLX" placeholder="请选择"></select>
+              <input type="hidden" name="level">
+              <input type="hidden" type="type">
+             <span class="layui-input" diy-form-value="level" diy-dic-data="ROOT_KJPT_PTJB"></span>
            </div>
          </div>
        </div>
@@ -145,7 +147,6 @@
      <input type="hidden" name="updateDate">
      <input type="hidden" name="updator">
      <input type="hidden" name="deleted">
-     <input type="hidden" name="level">
    </form>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -174,6 +175,7 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
         if (relData.code === '0') {
           // 给form表单赋初始值
           form.val('formPlatform', relData.data);
+          setTargetNameValue({level: relData.data.level});
           // 更新表单数据
           form.render();
           if (relData.data.supportingInstitutions) {

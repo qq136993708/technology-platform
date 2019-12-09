@@ -20,34 +20,34 @@
     <result column="contact_way" jdbcType="VARCHAR" property="contactWay" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
-    <result column="achievement" jdbcType="VARCHAR" property="achievement" />
-    <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="achievement"   jdbcType="VARCHAR" property="achievement" />
+    <result column="head_pic"      jdbcType="VARCHAR" property="headPic" />
+    <result column="create_time"   jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user"   jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time"   jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user"   jdbcType="VARCHAR" property="updateUser" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
-    <result column="use_status" jdbcType="VARCHAR" property="useStatus" />
+    <result column="use_status"    jdbcType="VARCHAR" property="useStatus" />
     <result column="use_status_str"       jdbcType="VARCHAR" property="useStatusStr" />
     <result column="belong_unit_str"      jdbcType="VARCHAR" property="belongUnitStr" />
     <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName" />
     <result column="education_str"        jdbcType="VARCHAR" property="educationStr" />
     <result column="sex_str"              jdbcType="VARCHAR" property="sexStr" />
     <result column="title_str"            jdbcType="VARCHAR" property="titleStr" />
-    <result column="technical_field_index"            jdbcType="VARCHAR" property="technicalFieldIndex" />
+    <result column="technical_field_index"     jdbcType="VARCHAR" property="technicalFieldIndex" />
     <result column="group_type"                jdbcType="VARCHAR" property="groupType" />
     <result column="group_type_str"            jdbcType="VARCHAR" property="groupTypeStr" />
-    <result column="audit_status"            jdbcType="VARCHAR" property="auditStatus" />
-    
-    
-    
+    <result column="audit_status"              jdbcType="VARCHAR" property="auditStatus" />
+    <result column="create_unit_id"            jdbcType="VARCHAR" property="createUnitId" />
+    <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
     achievement, head_pic, create_time, create_user, update_time, update_user, 
-    out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status
+    out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
+    create_unit_id,create_unit_name
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -62,7 +62,8 @@
       post, work_experience, contact_way, 
       email, brief, achievement, 
       head_pic, create_time, create_user, 
-      update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status
+      update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
+      audit_status,create_unit_id,create_unit_name
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -75,7 +76,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
       , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
       , #{technicalFieldIndex,jdbcType=VARCHAR} , #{groupType,jdbcType=VARCHAR}
-       , #{auditStatus,jdbcType=VARCHAR}
+       , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -172,6 +173,13 @@
       <if test="auditStatus != null">
         audit_status,
       </if>
+      <if test="createUnitId != null">
+        create_unit_id,
+      </if>
+      <if test="createUnitName != null">
+        create_unit_name,
+      </if>
+    
     
     
     </trim>
@@ -268,7 +276,14 @@
       <if test="auditStatus != null">
         #{auditStatus,jdbcType=VARCHAR},
       </if>  
+      <if test="createUnitId != null">
+        #{createUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitName != null">
+        #{createUnitName,jdbcType=VARCHAR},
+      </if>   
        
+    
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBase">
@@ -361,6 +376,12 @@
       <if test="auditStatus != null">
         audit_status = #{auditStatus,jdbcType=VARCHAR},
       </if> 
+      <if test="createUnitId != null">
+        create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+      </if> 
+      <if test="createUnitName != null">
+        create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+      </if> 
      
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -393,6 +414,8 @@
       update_user = #{updateUser,jdbcType=VARCHAR},
       technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
       use_status = #{useStatus,jdbcType=VARCHAR},
+      create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+      create_unit_name = #{createUnitName,jdbcType=VARCHAR},
       group_type = #{groupType,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
@@ -413,12 +436,14 @@
 	     <if test="title != null                 and title !=''  ">               AND t.title = #{title}</if>
 	     <if test="technicalField != null        and technicalField !=''  ">      AND FIND_IN_SET(#{technicalField},t.`technical_field`) </if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">          AND t.belong_unit = #{belongUnit}</if>
-	     <if test="technicalFieldName != null    and technicalFieldName  !='' ">  AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
-	     <if test="sex != null                   and sex !=''  ">                 AND t.sex = #{sex}</if>
-	     <if test="education != null             and education !=''  ">           AND t.education = #{education}</if>
-	     <if test="groupType != null             and groupType !=''  ">           AND t.group_type = #{groupType}</if>
-	     <if test="auditStatus != null           and auditStatus !=''  ">         AND t.audit_status = #{auditStatus}</if>
-	     <if test="technicalFieldIndex != null   and technicalFieldIndex !=''  "> AND t.technical_field_index like CONCAT(#{technicalFieldIndex},'%')</if>
+	     <if test="technicalFieldName != null    and technicalFieldName  !='' ">   AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
+	     <if test="sex != null                   and sex !=''  ">                  AND t.sex = #{sex}</if>
+	     <if test="education != null             and education !=''  ">            AND t.education = #{education}</if>
+	     <if test="groupType != null             and groupType !=''  ">            AND t.group_type = #{groupType}</if>
+	     <if test="auditStatus != null           and auditStatus !=''  ">          AND t.audit_status = #{auditStatus}</if>
+	     <if test="createUnitId != null          and createUnitId !=''  ">         AND t.create_unit_id = #{createUnitId}</if>
+	     <if test="createUnitName != null        and createUnitName !=''  ">       AND t.create_unit_name like CONCAT('%',#{createUnitName},'%')</if>
+	     <if test="technicalFieldIndex != null   and technicalFieldIndex !=''  ">  AND t.technical_field_index like CONCAT(#{technicalFieldIndex},'%')</if>
 	 </trim>
 	</sql>
 	
@@ -454,13 +479,13 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-   select * from  (<include refid="view_zjk_base" />)  t <include refid="selectCondition" />    
-     <choose>
+   select * from  view_zjk_base  t <include refid="selectCondition" />
+     <!--<choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_time desc
+        //ORDER BY  create_time desc
       </otherwise>
-     </choose>
+     </choose>-->
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
