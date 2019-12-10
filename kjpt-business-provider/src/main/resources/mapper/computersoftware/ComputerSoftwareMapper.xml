@@ -34,10 +34,6 @@
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
-
-
-
-
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -134,7 +130,6 @@
         update computer_software
         <trim prefix="SET" suffixOverrides=",">
 
-            -- and unitName != ''
             <if test="unitName != null ">
                 UNIT_NAME = #{unitName},
             </if>
@@ -291,6 +286,7 @@
     </select>
 
     <sql id="selectByParam">
+
         <if test="unitName != null and unitName != '' ">
             and UNIT_NAME like CONCAT('%',#{unitName},'%')
         </if>
@@ -355,7 +351,6 @@
         <if test="technicalFieldValue != null and technicalFieldValue != ''">
             and technical_field_value = #{technicalFieldValue}
         </if>
-
 
         <if test="createUnitId != null  and createUnitId != ''  ">
             and create_unit_id = #{createUnitId}

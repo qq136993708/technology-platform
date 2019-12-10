@@ -1,5 +1,7 @@
 package com.pcitc.base.trademarkinfo;
 
+import com.pcitc.base.common.RecordModel;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,7 +9,7 @@ import java.util.Date;
  * trademark_info
  * @author 
  */
-public class TrademarkInfo implements Serializable {
+public class TrademarkInfo extends RecordModel implements Serializable {
     /**
      * 主键id
      */

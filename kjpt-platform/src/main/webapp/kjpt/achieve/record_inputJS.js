@@ -40,12 +40,9 @@ layui.use(['table', 'form', 'layer'], function() {
       $layoutItem.load('record_maintain.html', function() {
         $layoutItem.find('.layui-form:eq(0)').attr('lay-filter', formFilter);
         // 添加人员
-        $layoutItem.find('.dy-add-table').each(function(index, elem) {
-          $(this).attr('id', 'achieveTable_' + index);
-        })
-
-        // 更新表单渲染
-        form.render();
+        // $layoutItem.find('.dy-add-table').each(function(index, elem) {
+        //   $(this).attr('id', 'achieveTable_' + index);
+        // })
 
         if (wrapID === 'edit_transfrom_maintain') {
           if (formFilter !== 'newTransfrom') {
@@ -57,6 +54,7 @@ layui.use(['table', 'form', 'layer'], function() {
           $layoutItem.find('.view-page-submit-btn-box').hide();
         }
 
+        // 添加人员
         var $groupTable = $layoutItem.find('.dy-add-table:eq(0)');
         if (formFilter === 'newTransfrom') {
            groupTableId = randomID(); // 动态生产随机ID
@@ -74,7 +72,6 @@ layui.use(['table', 'form', 'layer'], function() {
             if ( data[0].teamPerson ) {
               backfill(data[0].teamPerson, tempTableId);
             }
-            form.render();
           } else {
             httpModule({
               async: false, // 同步请求
@@ -120,6 +117,9 @@ layui.use(['table', 'form', 'layer'], function() {
             }
           });
         })
+
+        // 更新表单渲染
+        form.render();
       })
     })
   }
@@ -171,6 +171,8 @@ layui.use(['table', 'form', 'layer'], function() {
       fileTemp = newTransfromFile[data.rewardAccountingDoc] || '';
       fileValue.rewardAccountingDoc = ['成果核算（单位财务部门盖章）', fileTemp];
     }
+
+    return fileValue;
   }
 
   // 添加科技成果完成团队情况
@@ -256,20 +258,20 @@ layui.use(['table', 'form', 'layer'], function() {
     }
 
     // 判断备案信息相关附件是否为空
-    var fileValue = getFileValue(subFormData);
+    var fileValue = getFileValue(subFormData), newFileValue = {};
     for (var fileKey in fileValue) {
       if (!fileValue[fileKey][1]) {
         layer.msg(fileValue[fileKey][0] + '附件不能为空！', {icon: 2});
         subFormData = null;
         break;
       } else {
-        subFormData[fileKey] = fileValue[fileKey][1];
+        newFileValue[subFormData[fileKey]] = fileValue[fileKey][1];
       }
     }
     if (!subFormData) {
       return false;
     } else {
-      subFormData.files = JSON.stringify(fileValue);
+      subFormData.files = JSON.stringify(newFileValue);
     }
     $('[lay-filter="editTranfromMaintain"]').click();
     return false;
@@ -287,20 +289,20 @@ layui.use(['table', 'form', 'layer'], function() {
     }
 
     // 判断备案信息相关附件是否为空
-    var fileValue = getFileValue(transfromData);
+    var fileValue = getFileValue(transfromData), newFileValue = {};
     for (var fileKey in fileValue) {
       if (!fileValue[fileKey][1]) {
         layer.msg(fileValue[fileKey][0] + '附件不能为空！', {icon: 2});
         transfromData = null;
         break;
       } else {
-        transfromData[fileKey] = fileValue[fileKey][1];
+        newFileValue[transfromData[fileKey]] = fileValue[fileKey][1];
       }
     }
     if (!transfromData) {
       return false;
     } else {
-      transfromData.files = JSON.stringify(fileValue);
+      transfromData.files = JSON.stringify(newFileValue);
     }
 
     var baseUrl = '/achieveReward-api/save', allData = null;
@@ -348,30 +350,33 @@ layui.use(['table', 'form', 'layer'], function() {
 
   // 暂存
   $('[lay-filter="formTempSave"]').on('click', function() {
-    var $this = $(this),
-    loadingIndex = top.layer.load(2),
-    teamPerson = getTableData(groupTableId), // 激励人员名单
-    achieveRewardData = form.val('newTransfrom'), // 激励信息;
-    achieveTeamPerson = getTableData('teamPersonList'), // 科技成果完成团队情况
+    var achieveTeamPerson = getTableData('teamPersonList'), // 科技成果完成团队情况
     achieveRecordData = form.val('RecordInputForm'); // 备案信息;
+    arFile = getFileValue(achieveRecordData),  // 备案先挂附件
+    newArFile = {};
 
-    achieveRewardData.teamPerson = teamPerson;
-    achieveRecordData.teamPerson = achieveTeamPerson;
-
-    var ntFile = getFileValue(achieveRewardData), // 激励方案附件
-    arFile = getFileValue(achieveRecordData);  // 备案先挂附件
-
-    for (var key in ntFile) {
-      ntFile[key] = ntFile[key][1];
+    delete achieveRecordData.file;
+    for (var key in arFile) {
+      debugger
+      newArFile[achieveRecordData[key]] = arFile[key][1];
     }
-    achieveRewardData.files = JSON.stringify(ntFile);
+    achieveRecordData.files = JSON.stringify(newArFile);
+    achieveRecordData.teamPerson = achieveTeamPerson;
+    debugger
+
+
+    var achieveRewardData = form.val('newTransfrom'), // 激励信息
+    ntFile = getFileValue(achieveRewardData), // 激励方案附件
+    newNtFile = {},
+    teamPerson = getTableData(groupTableId); // 激励人员名单
+    delete achieveRewardData.file;
+    for (var key in ntFile) {
+      newNtFile[achieveRewardData[key]] = ntFile[key][1];
+    }
+    achieveRewardData.files = JSON.stringify(newNtFile);
+    achieveRewardData.teamPerson = teamPerson;
     achieveRewardData.achieveRecordId = achieveRecordData.id;
 
-    for (var key in arFile) {
-      arFile[key] = arFile[key][1]; 
-    }
-    achieveRecordData.files = JSON.stringify(arFile);
-    
     var saveData = {
       achieveRecord: achieveRecordData,
       achieveReward: achieveRewardData,
@@ -384,7 +389,7 @@ layui.use(['table', 'form', 'layer'], function() {
       createUnitName: ''
     }
 
-    $this.prop('disabled', true);
+    var $this = $(this).prop('disabled', true), loadingIndex = top.layer.load(2);
     httpModule({
       url: '/achieveRecord-api/save',
       type: 'POST',
@@ -392,7 +397,6 @@ layui.use(['table', 'form', 'layer'], function() {
       success: function(res) {
         top.layer.close(loadingIndex);
         $this.prop('disabled', false);
-        $(this).prop('disabled', true);
         if (res.code === '0' || res.success) {
 
         }

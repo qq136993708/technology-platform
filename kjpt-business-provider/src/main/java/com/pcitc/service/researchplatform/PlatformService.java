@@ -44,4 +44,14 @@ public interface PlatformService {
      */
     List excelImport(List dataList,String currentUser);
 
+
+
+    /**
+     * 查询科技材料统计表
+     * @param param
+     * @return
+     */
+    PageInfo scienceStatistics(Map param);
+
+
 }

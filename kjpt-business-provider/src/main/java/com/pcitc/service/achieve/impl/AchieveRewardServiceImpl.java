@@ -53,7 +53,7 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
         if(files != null) {
             JSONObject grantDoc = JSONObject.parseObject(files);
             for (String key : grantDoc.keySet()) {
-                fs.updateFileData(key, grantDoc.get(key) == null ? "" : grantDoc.get(key).toString());
+                fs.updateFileData(grantDoc.get(key) == null ? "" : grantDoc.get(key).toString(),key);
             }
         }
     }

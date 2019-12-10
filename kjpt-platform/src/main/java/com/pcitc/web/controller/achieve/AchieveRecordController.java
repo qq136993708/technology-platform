@@ -5,6 +5,9 @@ import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.system.SysPost;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -22,8 +25,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>成果转换备案</p>
@@ -57,6 +64,13 @@ public class AchieveRecordController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieveRecord-api/delete/";
+    
+    /**
+     * 流程
+     */
+    private static final String WORKFLOW_URL = "http://kjpt-zuul/stp-proxy/achieveRecord-api/task/start_activity/";
+    
+    
 
 
     @ApiOperation(value="读取")
@@ -250,4 +264,80 @@ public class AchieveRecordController extends RestBaseController {
         as.setAchieveReward(ar);
         return as;
     }
+    
+    
+    
+    
+    @ApiOperation(value="成果进展情况流程")
+    @RequestMapping(value = "/achieveRecord-api/start_workflow",method = RequestMethod.POST)
+	public Object start_workflow(HttpServletRequest request, HttpServletResponse response ) throws Exception
+	{
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String id = CommonUtil.getParameter(request, "id", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		System.out.println("============start_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
+		
+		
+		 ResponseEntity<AchieveRecord> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveRecord.class);
+		 AchieveRecord achieveBase=  responseEntity.getBody();
+		
+		String branchFlag="0";
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("id", id);
+		paramMap.put("functionId", functionId);
+		paramMap.put("processInstanceName", "成果进展情况->"+achieveBase.getAchieveName());
+		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.put("auditor", userIds);
+		paramMap.put("branchFlag", branchFlag);
+		
+		
+		
+		//指定岗位
+		String specialAuditor1 = "";//xxx_核心成果转化-岗位代码
+		StringBuffer specialAuditor1_sb = new StringBuffer();
+		String unitIds=sysUserInfo.getUnitId();
+		System.out.println("============unitIds ="+unitIds+" applyUnitName="+sysUserInfo.getUnitName());
+		if(unitIds!=null && !unitIds.equals(""))
+		{
+			String arr[]=unitIds.split(",");
+			if(arr!=null && arr.length>0)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					 String unitId=arr[i];
+					
+					 List<SysPost> list = EquipmentUtils.getPostListByUnitId(unitId, restTemplate, httpHeaders);
+					 if(list!=null && list.size()>0)
+					 {
+						    for(int j=0;j<list.size();j++)
+							{
+						    	SysPost sysPost=list.get(j);
+						    	String postCode=sysPost.getPostCode();
+						    	String postName=sysPost.getPostName();
+						    	System.out.println("============ postName ="+ postName);
+						    	if(postName.contains("核心成果转化"))
+						    	{
+						    		specialAuditor1_sb.append(postCode).append("-");
+						    	}
+						    	
+							}
+					 }
+				}
+				
+			}
+			specialAuditor1=specialAuditor1_sb.toString();
+			if(!specialAuditor1.equals(""))
+			{
+				specialAuditor1= specialAuditor1.substring(0,specialAuditor1.length() - 1);
+			}
+			
+		}
+		paramMap.put("specialAuditor1", specialAuditor1);
+		System.out.println("============specialAuditor1 ="+specialAuditor1);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		Result rs = this.restTemplate.exchange(WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+	}
 }

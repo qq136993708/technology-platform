@@ -41,4 +41,11 @@ public interface PlatformMapper {
 
     List handlerKyptInfoImport(String batchId);
 
+    /**
+     * 查询科技材料统计表
+     * @param param
+     * @return
+     */
+    List scienceStatistics(Map param);
+
 }
