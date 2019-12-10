@@ -132,6 +132,9 @@ public class AchieveRewardController extends RestBaseController {
     public AchieveReward newInit() {
         AchieveReward a = new AchieveReward();
         a.setId(UUID.randomUUID().toString().replace("-",""));
+        a.setAssignPlanDoc(UUID.randomUUID().toString().replace("-",""));
+        a.setIncomeReportDoc(UUID.randomUUID().toString().replace("-",""));
+        a.setRewardAccountingDoc(UUID.randomUUID().toString().replace("-",""));
         a.setCreateDate(new Date());
         a.setCreator(this.getUserProfile().getUserName());
         return a;
