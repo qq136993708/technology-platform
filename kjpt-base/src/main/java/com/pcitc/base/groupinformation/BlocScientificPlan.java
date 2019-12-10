@@ -50,9 +50,16 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
 
     private String nameText = "";
 
-
+    /**
+     * 创建单位id
+     */
     private String createUnitId = "";
+
+    /**
+     * 创建单位名称
+     */
     private String createUnitName = "";
+
 
 
     public BlocScientificPlan() {

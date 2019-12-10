@@ -25,7 +25,6 @@
         <result column="create_unit_id"  jdbcType="VARCHAR" property="createUnitId" />
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
 
-
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -43,6 +42,7 @@
         report_type,
         create_unit_id,
         create_unit_name
+
   </sql>
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from bloc_scientific_plan where id = #{id,jdbcType=VARCHAR} and deleted != '1'
@@ -70,6 +70,7 @@
        report_type,
        create_unit_id,
        create_unit_name
+
        )
     values (
       #{id},
@@ -86,41 +87,11 @@
       #{reportType},
       #{create_unit_id},
       #{create_unit_name}
+
       )
 
   </insert>
 
-    <!--<select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">-->
-
-        <!--select * from bloc_scientific_plan where 1=1-->
-
-        <!--<if test="name != null and name != '' ">-->
-            <!--and `name` like CONCAT('%',#{name},'%')-->
-        <!--</if>-->
-        <!--<if test="publication != null and publication != '' ">-->
-            <!--and publication = #{publication}-->
-        <!--</if>-->
-
-        <!--<if test="annual != null and annual != ''">-->
-        <!--and annual  <![CDATA[ >= ]]> #{annual}-->
-        <!--</if>-->
-
-        <!--&lt;!&ndash;<if test="annual != null and annual != ''">&ndash;&gt;-->
-            <!--&lt;!&ndash;and substring (annual,1,7) = #{annual}&ndash;&gt;-->
-        <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-        <!--<if test="pubdate != null and pubdate != ''">-->
-            <!--and pubdate = #{pubdate}-->
-        <!--</if>-->
-        <!--<if test="accessory != null and accessory != ''">-->
-            <!--and accessory = #{accessory}-->
-        <!--</if>-->
-
-        <!--<if test="reportType != null and reportType != ''">-->
-            <!--and report_type = #{reportType}-->
-        <!--</if>-->
-        <!--and deleted != '1'-->
-    <!--</select>-->
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -129,7 +100,6 @@
         <include refid="selectByParam" />
 
     </select>
-
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select count(*) from bloc_scientific_plan where 1=1
@@ -159,11 +129,9 @@
             and accessory = #{ accessory}
         </if>
 
-
         <if test="reportType != null and reportType != ''">
             and report_type = #{reportType}
         </if>
-
 
         <if test="createUnitId != null  and createUnitId != ''  ">
             and create_unit_id = #{createUnitId}
@@ -183,48 +151,11 @@
     </sql>
 
 
-    <!--<select id="query_COUNT" parameterType="java.util.Map" resultMap="BaseResultMap">-->
-
-    <!--select * from bloc_scientific_plan where 1=1-->
-
-    <!--<if test="name != null and name != '' ">-->
-    <!--and `name` like CONCAT('%',#{name},'%')-->
-    <!--</if>-->
-    <!--<if test="publication != null and publication != '' ">-->
-    <!--and publication = #{publication}-->
-    <!--</if>-->
-
-    <!--&lt;!&ndash;<if test="annual != null and annual != ''">&ndash;&gt;-->
-    <!--&lt;!&ndash;and annual  <![CDATA[ >= ]]> #{annual}&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-
-    <!--<if test="annual != null and annual != ''">-->
-    <!--and substring (annual,1,7) = #{annual}-->
-    <!--</if>-->
-
-
-    <!--<if test="pubdate != null and pubdate != ''">-->
-    <!--and pubdate = #{pubdate}-->
-    <!--</if>-->
-    <!--<if test="accessory != null and accessory != ''">-->
-    <!--and accessory = #{accessory}-->
-    <!--</if>-->
-
-    <!--<if test="reportType != null and reportType != ''">-->
-    <!--and report_type = #{reportType}-->
-    <!--</if>-->
-    <!--and deleted != '1'-->
-    <!--</select>-->
-
-
     <update id="update" parameterType="com.pcitc.base.groupinformation.BlocScientificPlan">
 
         update bloc_scientific_plan
 
         <trim prefix="SET" suffixOverrides=",">
-
-            -- and name != ''
 
             <if test="name != null  ">
                 name = #{name},
@@ -268,16 +199,6 @@
             <if test="createUnitName != null  and createUnitName != ''">
                 create_unit_name = #{createUnitName}
             </if>
-
-            <!--<if test="creator != null">-->
-            <!--create_user = #{creator,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="updateDate != null">-->
-            <!--update_date = #{updateDate,jdbcType=TIMESTAMP},-->
-            <!--</if>-->
-            <!--<if test="updator != null">-->
-            <!--update_user = #{updator,jdbcType=VARCHAR},-->
-            <!--</if>-->
 
         </trim>
 
