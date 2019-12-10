@@ -20,8 +20,10 @@
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
 
-
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
+
+        <result column="create_unit_id"            jdbcType="VARCHAR" property="createUnitId" />
+        <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
 
 
     </resultMap>
@@ -38,7 +40,9 @@
         create_user,
         update_date,
         update_user,
-        report_type
+        report_type,
+        create_unit_id,
+        create_unit_name
   </sql>
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from bloc_scientific_plan where id = #{id,jdbcType=VARCHAR} and deleted != '1'
@@ -63,7 +67,9 @@
        create_user,
        update_date,
        update_user,
-       report_type
+       report_type,
+       create_unit_id,
+       create_unit_name
        )
     values (
       #{id},
@@ -77,7 +83,9 @@
       #{creator},
       #{updateDate},
       #{updator},
-      #{reportType}
+      #{reportType},
+      #{ create_unit_id},
+      #{create_unit_name}
       )
 
   </insert>
@@ -113,7 +121,6 @@
         <!--</if>-->
         <!--and deleted != '1'-->
     <!--</select>-->
-
 
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -155,6 +162,22 @@
 
         <if test="reportType != null and reportType != ''">
             and report_type = #{reportType}
+        </if>
+
+
+        <if test="createUnitId != null  and createUnitId != ''  ">
+            and create_unit_id = #{createUnitId}
+        </if>
+
+        <if test="createUnitName != null  and createUnitName != ''  ">
+            and create_unit_name like CONCAT('%',#{createUnitName},'%')
+        </if>
+
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item" collection="childUnitIds.split(',')" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
     </sql>
@@ -236,7 +259,14 @@
             </if>
 
             <if test="reportType != null and reportType != ''">
-                report_type = #{reportType}
+                report_type = #{reportType},
+            </if>
+
+            <if test="createUnitId != null and createUnitId != '' ">
+                create_unit_id = #{createUnitId},
+            </if>
+            <if test="createUnitName != null  and createUnitName != ''">
+                create_unit_name = #{createUnitName}
             </if>
 
             <!--<if test="creator != null">-->
