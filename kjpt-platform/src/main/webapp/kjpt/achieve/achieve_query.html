@@ -23,7 +23,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">成果名称：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="achName" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="company" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="achieveType" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">成果受让单位：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="grantUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">完成情况：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="achName" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="audiStatus" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">备案状态：</span></label>
                     <div class="layui-input-block">
-                        <select class="auditStatus" name="auditStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
+                        <select class="auditStatus" name="audiStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
                     </div>
                 </div>
             </div>
@@ -72,11 +72,11 @@
                     <label class="layui-form-label"><span class="text">录入时间：</span></label>
                     <div class="layui-input-block font0">
                         <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                            <input type="text" name="inputStart" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
+                            <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
                         </div>
                         <span class="ib-block font14 text-center" style="width: 30px;">-</span>
                         <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                            <input type="text" name="inputEnd" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
+                            <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
                         </div>
                     </div>
                 </div>
@@ -114,20 +114,23 @@
                 tableRender = true;
                 table.render({
                     elem: '#tableDemo'
-                    ,url: '/data/achieve.json' //数据接口
+                    ,url: '/achieveRecord-api/query' //数据接口
                     ,cols: [[ //表头
                         {type: 'numbers', title: '序号', width: 80}
-                        ,{field: 'platformName', title: '备案状态'}
-                        ,{field: 'supportingInstitutionsText', title: '成果名称', sort: true }
+                        ,{field: 'auditStatusText', title: '备案状态'}
+                        ,{field: 'achieveName', title: '成果名称', sort: true }
                         ,{field: 'personLiable', title: '成果基本情况', sort: true}
-                        ,{field: 'typeText', title: '成果持有单位'}
-                        ,{field: 'researchFieldText', title: '拟受让单位'}
+                        ,{field: 'achieveType', title: '成果持有单位'}
+                        ,{field: 'grantUnitName', title: '拟受让单位'}
                         ,{field: 'experience', title: '是否核心技术成果', sort: true}
-                        ,{field: 'researchFieldText', title: '拟转让方式'}
+                        ,{field: 'achieveTransType', title: '拟转让方式'}
                         ,{field: 'experience', title: '完成情况', sort: true}
                         ,{field: 'experience', title: '未完成项目预计完成时间', sort: true}
                     ]],
-                    parseData: function(res) {return layuiParseData(res, null, 3);},
+                    parseData: function(res) {
+                        console.log(res)
+                        return layuiParseData(res, null, 3);
+                        },
                     request: {
                         pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                         limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize

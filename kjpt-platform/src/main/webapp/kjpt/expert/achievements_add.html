@@ -79,8 +79,9 @@
                     <div class="layui-form-item item">
                         <label class="layui-form-label label-required"><span class="text">成果类型:</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="achieveType"
-                                   placeholder="" autocomplete="off" class="layui-input achieveType">
+                            <select class="achieveType" name="achieveType" xm-select="achieveType" xm-select-skin="normal" xm-select-radio></select>
+                            <!--<input type="text" name="achieveType"
+                                   placeholder="" autocomplete="off" class="layui-input achieveType">-->
                         </div>
                     </div>
                 </div>
@@ -135,6 +136,24 @@
                 }
             });
         }
+        function achieveType(index) {
+            /*成果类别*/
+            $("#formPlatform>div").eq(index).find(".achieveType").attr("xm-select","achieveType"+index)
+            httpModule({
+                url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_CGLB",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function (item) {
+                            item.value=item.code
+                        })
+                        formSelects.data('achieveType'+index, 'local', { arr: relData.data });
+                        formSelects.btns('achieveType'+index, ['remove']);
+                    }
+                }
+            });
+        }
         /*申请年度*/
         function applyYear() {
             lay('.applyYear').each(function(){
@@ -168,6 +187,8 @@
                             achieveName.map(function (item, index) {
                                 itemHtml(index)
                                 getUnit(index)
+                                achieveType(index)
+                                formSelects.value('achieveType'+index, [item.achieveType]);
                                 $("#formPlatform>div").eq(index).find(".achieveName").val(item.achieveName)
                                 $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
                                 $("#formPlatform>div").eq(index).find(".applyUnit").val(item.applyUnit)
@@ -178,6 +199,7 @@
                             var index=$("#formPlatform>div").length
                             itemHtml(index)
                             getUnit(index)
+                            achieveType(index)
                         }
 
                     }
@@ -187,16 +209,20 @@
             var index=$("#formPlatform>div").length
             itemHtml(index)
             getUnit(index)
+            achieveType(index)
         }
         var $ = layui.$, active = {
             add:function(){
                 var index=$("#formPlatform>div").length
                 itemHtml(index)
                 getUnit(index)
+                achieveType(index)
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
+                    var achieveType=formSelects.value('achieveType'+index)[0].code
+                    var achieveTypeStr=formSelects.value('achieveType'+index)[0].name
                     var achieveName=$("#formPlatform>div").eq(index).find(".achieveName").val()
                     var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
                     var applyUnit=formSelects.value('applyUnit'+index)[0].value
@@ -210,7 +236,8 @@
                             applyYear:applyYear,
                             applyUnit:applyUnit,
                             achieveType:achieveType,
-                            outSystemId:''
+                            outSystemId:'',
+                            achieveTypeStr:achieveTypeStr
                         }
                         arr.push(data)
                     }
