@@ -586,11 +586,16 @@ layui.define('view', function(exports){
         $('.'+ TABS_REMOVE).remove();
         $("#LAY_app_tabsheader").css("left","0px")
       }
+
+          var $LAYAPPTABS = $('#LAY_app_tabsheader');
+          if ($LAYAPPTABS.children('li').length === 0) {
+              setNavMeunSelected();
+          }
     }
     
     //关闭全部标签页
     ,closeAllTabs: function(){
-      events.closeOtherTabs('all');
+          events.closeOtherTabs('all');
       //location.hash = '';
     }
     
