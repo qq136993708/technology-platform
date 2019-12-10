@@ -3,7 +3,6 @@ package com.pcitc.service.achieve.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
@@ -52,6 +51,10 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     }
 
 
+    /**
+     * 录入备案信息的保存
+     * @param as
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(AchieveSubmit as) {
@@ -88,6 +91,10 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 
     }
 
+    /**
+     * 备案的新增保存
+     * @param as
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void simpleSave(AchieveSubmit as) {
@@ -110,6 +117,7 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         else{
             arm.update(aRecord);
             if(aReward != null) {
+                //保存备案的激励信息
                 arw.add(aReward);
                 arw.updateRewardMoney(aRecord.getId());
             }

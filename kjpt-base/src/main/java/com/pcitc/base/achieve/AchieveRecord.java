@@ -183,7 +183,7 @@ public class AchieveRecord extends RecordModel implements Serializable {
     /**
      * 附件
      */
-    private String files;
+    private String files="";
 
 
 
