@@ -180,6 +180,12 @@ public class AchieveRecord extends RecordModel implements Serializable {
     private List<AchieveReward> achieveRewards;
 
 
+    /**
+     * 附件
+     */
+    private String files;
+
+
 
     public String getId() {
         return id;
@@ -516,5 +522,13 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setAchieveRewards(List<AchieveReward> achieveRewards) {
         this.achieveRewards = achieveRewards;
+    }
+
+    public String getFiles() {
+        return files;
+    }
+
+    public void setFiles(String files) {
+        this.files = files;
     }
 }

@@ -151,6 +151,7 @@ public class AchieveRecordController extends RestBaseController {
     @ResponseBody
     public AchieveSubmit save(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
+        setRecord(as);
         as.getAchieveRecord().setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
@@ -162,6 +163,7 @@ public class AchieveRecordController extends RestBaseController {
     @ResponseBody
     public AchieveSubmit simpleSave(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
+        setRecord(as);
         as.getAchieveRecord().setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
@@ -174,10 +176,22 @@ public class AchieveRecordController extends RestBaseController {
     @ResponseBody
     public AchieveSubmit submit(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
+        setRecord(as);
         as.getAchieveRecord().setAuditStatus("1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
+    }
+
+    private void setRecord(AchieveSubmit as){
+        if(as.getAchieveReward()!=null){
+            as.getAchieveReward().setCreator(as.getUpdator());
+            as.getAchieveReward().setUpdator(as.getUpdator());
+            as.getAchieveReward().setCreateDate(as.getUpdateDate());
+            as.getAchieveReward().setUpdateDate(as.getUpdateDate());
+            as.getAchieveReward().setCreateUnitId(this.getUserProfile().getUnitId());
+            as.getAchieveReward().setCreateUnitName(this.getUserProfile().getUnitName());
+        }
     }
 
 
