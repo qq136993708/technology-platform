@@ -59,6 +59,17 @@
 
     <select id="scienceStatistics" parameterType="java.util.Map">
         select * from view_science_plan_report
+        where 1=1
+        <if test="startYear != null and startYear != '' " >
+            and annualYaer <![CDATA[>=]]> #{startYear}
+        </if>
+        <if test="endYear != null and endYear != '' " >
+            and annualYaer <![CDATA[<=]]> #{endYear}
+        </if>
+        <if test="unitId != null and unitId != '' " >
+            and unitId = #{unitId}
+        </if>
+
     </select>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">

@@ -98,4 +98,14 @@ public class PlatformServiceImpl implements PlatformService {
         platformServiceMapper.excelData2MemoryDB(list);
         return platformServiceMapper.handlerKyptInfoImport(batchId);
     }
+
+    @Override
+    public PageInfo scienceStatistics(Map param) {
+        int pageNum = (int)param.get("pageNum");
+        int pageSize = (int)param.get("pageSize");
+        PageHelper.startPage(pageNum, pageSize);
+        List dataList = platformServiceMapper.scienceStatistics(param);
+        PageInfo pageInfo = new PageInfo(dataList);
+        return pageInfo;
+    }
 }
