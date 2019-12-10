@@ -109,9 +109,11 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     }
 
     private void handlerFile(String files){
-        JSONObject grantDoc =  JSONObject.parseObject(files);
-        for(String key:grantDoc.keySet()){
-            fs.updateFileData(key,grantDoc.get(key) == null?"":grantDoc.get(key).toString());
+        if(files != null){
+            JSONObject grantDoc =  JSONObject.parseObject(files);
+            for(String key:grantDoc.keySet()){
+                fs.updateFileData(key,grantDoc.get(key) == null?"":grantDoc.get(key).toString());
+            }
         }
     }
 
