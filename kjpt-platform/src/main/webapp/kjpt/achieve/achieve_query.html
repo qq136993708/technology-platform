@@ -31,7 +31,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="achieveType" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -119,13 +119,13 @@
                         {type: 'numbers', title: '序号', width: 80}
                         ,{field: 'auditStatusText', title: '备案状态'}
                         ,{field: 'achieveName', title: '成果名称', sort: true }
-                        ,{field: 'personLiable', title: '成果基本情况', sort: true}
-                        ,{field: 'achieveType', title: '成果持有单位'}
+                        ,{field: 'achieveInfo', title: '成果基本情况', sort: true}
+                        ,{field: 'finishUnitName', title: '成果持有单位'}
                         ,{field: 'grantUnitName', title: '拟受让单位'}
-                        ,{field: 'experience', title: '是否核心技术成果', sort: true}
-                        ,{field: 'achieveTransType', title: '拟转让方式'}
-                        ,{field: 'experience', title: '完成情况', sort: true}
-                        ,{field: 'experience', title: '未完成项目预计完成时间', sort: true}
+                        ,{field: 'achieveTypeText', title: '是否核心技术成果', sort: true}
+                        ,{field: 'achieveTransTypeText', title: '拟转让方式'}
+                        ,{field: 'aboutCompleteInfo', title: '完成情况', sort: true}
+                        ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', sort: true}
                     ]],
                     parseData: function(res) {
                         console.log(res)

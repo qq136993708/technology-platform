@@ -41,8 +41,8 @@
 				<button class="layui-btn border-blue" data-type="addEvent">新增</button>
 				<button class="layui-btn border-blue" data-type="editEvent">编辑</button>
 				<button class="layui-btn border-blue" data-type="deployEvent">部署</button>
-				<button class="layui-btn border-blue" data-type="exportEvent">导出</button>
-				<button class="layui-btn border-blue" data-type="importEvent">导入</button>
+				<button class="layui-btn border-blue layui-hide" data-type="exportEvent">导出</button>
+				<button class="layui-btn border-blue layui-hide" data-type="importEvent">导入</button>
 				<button class="layui-btn border-blue" data-type="detailEvent">详情</button>
 				<button class="layui-btn border-red" data-type="deleteEvent">删除</button>
 			</div>
@@ -296,9 +296,8 @@
 			//监听行双击事件
 			table.on('rowDouble(tableData)', function(obj) {
 				var temUrl = "/activiti-model/show/" + obj.data.id;
-				layer.open({
+				top.layer.open({
 					title : '详情',
-					skin : 'layui-layer-lan',
 					shadeClose : true,
 					type : 2,
 					fixed : false,
