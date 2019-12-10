@@ -80,6 +80,11 @@ public class AchieveReward extends RecordModel implements Serializable {
      */
     private String teamPerson = "";
 
+    /**
+     * 附件
+     */
+    private  String files="";
+
     public String getId() {
         return id;
     }
@@ -214,5 +219,13 @@ public class AchieveReward extends RecordModel implements Serializable {
 
     public void setTeamPerson(String teamPerson) {
         this.teamPerson = teamPerson;
+    }
+
+    public String getFiles() {
+        return files;
+    }
+
+    public void setFiles(String files) {
+        this.files = files;
     }
 }

@@ -5,12 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -55,7 +57,6 @@ public class SciencePlanApiController extends RestBaseController {
         return responseEntity.getBody();
     }
 
-
     @ApiOperation(value = "查询科技规划列表", notes = "查询科技规划列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
@@ -68,7 +69,11 @@ public class SciencePlanApiController extends RestBaseController {
             @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldName", value = "技术领域名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "string", paramType = "query")
 
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
@@ -84,9 +89,16 @@ public class SciencePlanApiController extends RestBaseController {
             @RequestParam(required = false, value = "releaseTime")@DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
             @RequestParam(required = false, value = "accessory") String accessory,
             @RequestParam(required = false, value = "annual")@DateTimeFormat(pattern = "yyyy-MM") Date annual,
-            @RequestParam(required = false, value = "reportType") String reportType
-    ) {
+            @RequestParam(required = false, value = "reportType") String reportType,
+            @RequestParam(required = false, value = "createUnitId") String createUnitId,
+            @RequestParam(required = false, value = "createUnitName") String createUnitName,
+            @RequestParam(required = false, value = "technicalFieldName") String technicalFieldName,
+            @RequestParam(required = false, value = "technicalFieldIndex") String technicalFieldIndex
+
+
+    ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         } else {
@@ -112,18 +124,14 @@ public class SciencePlanApiController extends RestBaseController {
         if (!StringUtils.isEmpty(specialtyCategory)) {
             this.setParam(condition, "specialtyCategory", specialtyCategory);
         }
-//        if (releaseTime!=null) {
-//            this.setParam(condition, "releaseTime", releaseTime);
-//        }
+
         if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
             this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(accessory)) {
             this.setParam(condition, "accessory", accessory);
         }
-//        if (annual != null) {
-//            this.setParam(condition, "annual", annual);
-//        }
+
         if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MMM))) {
             this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MMM));
         }
@@ -131,7 +139,25 @@ public class SciencePlanApiController extends RestBaseController {
             this.setParam(condition, "reportType", reportType);
         }
 
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
 
+        if (!StringUtils.isEmpty(createUnitName)) {
+            this.setParam(condition, "createUnitName", createUnitName);
+        }
+
+        if (!StringUtils.isEmpty(technicalFieldName)) {
+            this.setParam(condition, "technicalFieldName", technicalFieldName);
+        }
+
+        if (!StringUtils.isEmpty(technicalFieldIndex)) {
+            this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
+        }
+
+        //默认查询当前人所在机构及子机构的所有专家
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
 
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -173,6 +199,5 @@ public class SciencePlanApiController extends RestBaseController {
         p.setCreateDate(new Date());  // 创建时间
         p.setCreator(this.getUserProfile().getUserName());
         return p;
-
     }
 }

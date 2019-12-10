@@ -46,7 +46,7 @@
 				</button>
 
 				<button class="layui-btn border-blue" data-type="detailEvent">详情</button>
-				<button class="layui-btn border-blue" data-type="recallEvent">撤回</button>
+				<button class="layui-btn border-blue layui-hide" data-type="recallEvent">撤回</button>
 			</div>
 		</div>
 		<table id="doneTable" class="layui-hide" lay-filter="tableData"></table>
@@ -296,9 +296,8 @@
 			//监听行双击事件
 			table.on('rowDouble(tableData)', function(obj) {
 				var temUrl = "/task/process/" + obj.data.processInstanceId;
-				layer.open({
+				top.layer.open({
 					title : '详情',
-					skin : 'layui-layer-lan',
 					shadeClose : true,
 					type : 2,
 					fixed : false,

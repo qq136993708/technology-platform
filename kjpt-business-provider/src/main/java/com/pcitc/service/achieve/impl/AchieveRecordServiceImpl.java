@@ -3,19 +3,22 @@ package com.pcitc.service.achieve.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.JsonObject;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
+import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveRecordMapper;
 import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.file.FileCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,12 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 
     @Autowired
     private FileCommonService fs;
+    
+    @Autowired
+  	private WorkflowRemoteClient workflowRemoteClient;
+    
+    
+    
 
     @Override
     public AchieveRecord load(String id) {
@@ -42,6 +51,10 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     }
 
 
+    /**
+     * 录入备案信息的保存
+     * @param as
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(AchieveSubmit as) {
@@ -52,86 +65,71 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         if(arm.load(aRecord.getId()) ==null){
             aRecord.setCreateDate(as.getUpdateDate());
             aRecord.setCreator(as.getUpdator());
+            handlerFile(aRecord.getFiles());
             arm.add(aRecord);
-            uploadAchieveFile(aRecord);
 
             if(aReward != null){
                 aReward.setCreateDate(as.getUpdateDate());
                 aReward.setCreator(as.getUpdator());
+                aRecord.setCreateUnitName(as.getCreateUnitName());
+                aRecord.setCreateUnitId(as.getCreateUnitId());
+                handlerFile(aReward.getFiles());
                 arw.add(aReward);
-                uploadRewardFile(aReward);
+                //修改备案的总额
+                arw.updateRewardMoney(aRecord.getId());
+            }
+        }
+        else{
+            handlerFile(aRecord.getFiles());
+            arm.update(aRecord);
+            if(aReward != null) {
+                handlerFile(aReward.getFiles());
+                arw.add(aReward);
+                arw.updateRewardMoney(aRecord.getId());
+            }
+        }
+
+    }
+
+    /**
+     * 备案的新增保存
+     * @param as
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void simpleSave(AchieveSubmit as) {
+        AchieveRecord aRecord = as.getAchieveRecord();
+        AchieveReward aReward = as.getAchieveReward();
+        IsEmptyUtil.isEmpty(aRecord);
+        if(arm.load(aRecord.getId()) ==null){
+            aRecord.setCreateDate(as.getUpdateDate());
+            aRecord.setCreator(as.getUpdator());
+            aRecord.setCreateUnitName(as.getCreateUnitName());
+            aRecord.setCreateUnitId(as.getCreateUnitId());
+            arm.add(aRecord);
+
+            if(aReward != null){
+                arw.add(aReward);
                 //修改备案的总额
                 arw.updateRewardMoney(aRecord.getId());
             }
         }
         else{
             arm.update(aRecord);
-            uploadAchieveFile(aRecord);
             if(aReward != null) {
-                if(arw.load(aReward.getId())!=null){
-                    arw.add(aReward);
-                    uploadRewardFile(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                };
+                //保存备案的激励信息
+                arw.add(aReward);
+                arw.updateRewardMoney(aRecord.getId());
             }
         }
-
     }
 
-    public void uploadAchieveFile(AchieveRecord aRecord){
-        //授拟-（文件上传）：材料
-        JSONObject grantDoc =  JSONObject.parseObject(aRecord.getGrantDoc());
-        for(String key:grantDoc.keySet()){
-            fs.updateFileData(key,grantDoc.get(key) == null?"":grantDoc.get(key).toString());
-        }
-        //公示结果：材料
-        JSONObject transPublicDoc =  JSONObject.parseObject(aRecord.getTransPublicDoc());
-        for(String key:transPublicDoc.keySet()){
-            fs.updateFileData(key,transPublicDoc.get(key) == null?"":transPublicDoc.get(key).toString());
-        }
-        //合同文本：材料
-        JSONObject transContractDoc =  JSONObject.parseObject(aRecord.getTransContractDoc());
-        for(String key:transContractDoc.keySet()){
-            fs.updateFileData(key,transContractDoc.get(key) == null?"":transContractDoc.get(key).toString());
-        }
-        //评估报告：材料
-        JSONObject transAssessDoc =  JSONObject.parseObject(aRecord.getTransAssessDoc());
-        for(String key:transAssessDoc.keySet()){
-            fs.updateFileData(key,transAssessDoc.get(key) == null?"":transAssessDoc.get(key).toString());
-        }
-        //决策会议纪要：材料
-        JSONObject decisionMeetingDoc =  JSONObject.parseObject(aRecord.getDecisionMeetingDoc());
-        for(String key:decisionMeetingDoc.keySet()){
-            fs.updateFileData(key,decisionMeetingDoc.get(key) == null?"":decisionMeetingDoc.get(key).toString());
-        }
-        //规章制度：材料
-        JSONObject decisionRuleDoc =  JSONObject.parseObject(aRecord.getDecisionRuleDoc());
-        for(String key:decisionRuleDoc.keySet()){
-            fs.updateFileData(key,decisionRuleDoc.get(key) == null?"":decisionRuleDoc.get(key).toString());
-        }
-
-        //科技成果评价报告（文件上传）
-        JSONObject appraisalDoc =  JSONObject.parseObject(aRecord.getAppraisalDoc());
-        for(String key:appraisalDoc.keySet()){
-            fs.updateFileData(key,appraisalDoc.get(key) == null?"":appraisalDoc.get(key).toString());
-        }
-    }
-
-    public void uploadRewardFile(AchieveReward aReward){
-        //成果核算：材料
-        JSONObject rewardAccountingDoc =  JSONObject.parseObject(aReward.getRewardAccountingDoc());
-        for(String key:rewardAccountingDoc.keySet()){
-            fs.updateFileData(key,rewardAccountingDoc.get(key) == null?"":rewardAccountingDoc.get(key).toString());
-        }
-        //净收入计算报告：材料
-        JSONObject incomeReportDoc =  JSONObject.parseObject(aReward.getIncomeReportDoc());
-        for(String key:rewardAccountingDoc.keySet()){
-            fs.updateFileData(key,incomeReportDoc.get(key) == null?"":incomeReportDoc.get(key).toString());
-        }
-        //激励方案：材料
-        JSONObject assignPlanDoc =  JSONObject.parseObject(aReward.getAssignPlanDoc());
-        for(String key:assignPlanDoc.keySet()){
-            fs.updateFileData(key,assignPlanDoc.get(key) == null?"":assignPlanDoc.get(key).toString());
+    private void handlerFile(String files){
+        if(files != null){
+            JSONObject grantDoc =  JSONObject.parseObject(files);
+            for(String key:grantDoc.keySet()){
+                fs.updateFileData(grantDoc.get(key) == null?"":grantDoc.get(key).toString(),key);
+            }
         }
     }
 
@@ -150,4 +148,84 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
+    
+    @Override
+    public Integer saveAchieveRecord(AchieveRecord as)
+    {
+    	return arm.add(as);
+    }
+  
+    
+    
+    //流程
+		public Result dealWorkFlow(String id, Map map) throws Exception
+		{
+			
+			
+			JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>>流程 dealWorkFlow 参数: "+parmamss.toJSONString());
+			
+			AchieveRecord achieveBase= arm.load(id);
+			String processInstanceName=(String)map.get("processInstanceName");
+			String authenticatedUserId=(String)map.get("authenticatedUserId");
+			String authenticatedUserName=(String)map.get("authenticatedUserName");
+			String functionId=(String)map.get("functionId");
+			String auditor=(String)map.get("auditor");
+			
+			//指定岗位
+			String specialAuditor1=(String)map.get("specialAuditor1");
+			String branchFlag=(String)map.get("branchFlag");
+			
+			
+			
+			// 调用审批流程，此处调用同时实现事务
+	    	JSONObject flowJson = new JSONObject();
+	    	// 业务主键id
+	    	flowJson.put("businessId", id);
+	    	flowJson.put("processInstanceName", processInstanceName);
+	    	// 发起者信息
+	    	flowJson.put("authenticatedUserId", authenticatedUserId);
+	    	flowJson.put("authenticatedUserName", authenticatedUserName);
+			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+	    	flowJson.put("functionId", functionId);
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+	    	flowJson.put("auditDetailsPath", "/kjpt/achieve/record_input.html?type=view&id=" + id);
+	    	flowJson.put("auditAgreeMethod", "http://kjpt-zuul/stp-proxy/achieveRecord-api/task/agree/" + id);
+	    	flowJson.put("auditRejectMethod", "http://kjpt-zuul/stp-proxy/achieveRecord-api/task/reject/" + id);
+
+	    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
+	    	// flowJson.put("flowProjectId", "");
+	    	// flowJson.put("flowUnitId", "");
+	    	flowJson.put("branchFlag", branchFlag);
+	    	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
+	    	
+	    	
+	    	if (auditor!=null && !auditor.equals("")) 
+			{
+				String[] userIds_arr = auditor.split(",");
+				flowJson.put("auditor", Arrays.asList(userIds_arr));
+			}
+	    	
+	    	
+	    	
+	    	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
+	    	// flowJson.put("specialAuditor0", "ZBGL_KTY_CYDW");
+	    	flowJson.put("specialAuditor1", specialAuditor1);
+	    	flowJson.put("signAuditRate", 1d); 
+	    	
+	    	// 远程调用
+	    	System.out.println("=====远程调用开始");
+	    	String str=workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	System.out.println("=====远程调用结束");
+			if("true".equals(str)) 
+			{
+				achieveBase.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+				arm.update(achieveBase);
+				return new Result(true,"操作成功!");
+			}else 
+			{
+				return new Result(false,"操作失败!");
+			}
+		}
+    
 }

@@ -34,11 +34,34 @@ public class SciencePlan extends RecordModel implements Serializable {
     private String researchFieldText = "";
 
 
+    /**
+     * 创建单位id
+     */
+    private String createUnitId="";
+
+    /**
+     *创建单位名称
+     */
+    private String createUnitName="";
+
+
+    /**
+     *技术领域名称
+     */
+    private  String  technicalFieldName="";
+
+    /**
+     *技术领域索引
+     */
+    private  String  technicalFieldIndex="";
+
+
     public SciencePlan() {
 
     }
 
-    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType, String researchFieldText) {
+    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType, String researchFieldText, String createUnitId,
+                       String createUnitName, String technicalFieldIndex, String technicalFieldName) {
         this.id = id;
         this.name = name;
         this.authenticateUtil = authenticateUtil;
@@ -52,6 +75,10 @@ public class SciencePlan extends RecordModel implements Serializable {
         this.nameText = nameText;
         this.reportType = reportType;
         this.researchFieldText = researchFieldText;
+        this.createUnitId = createUnitId;
+        this.createUnitName = createUnitName;
+        this.technicalFieldIndex = technicalFieldIndex;
+        this.technicalFieldName = technicalFieldName;
     }
 
     public String getId() {
@@ -159,6 +186,41 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     public void setResearchFieldText(String researchFieldText) {
         this.researchFieldText = researchFieldText;
+    }
+
+
+    public String getCreateUnitId() {
+        return createUnitId;
+    }
+
+    public void setCreateUnitId(String createUnitId) {
+        this.createUnitId = createUnitId;
+    }
+
+
+    public String getCreateUnitName() {
+        return createUnitName;
+    }
+
+    public void setCreateUnitName(String createUnitName) {
+        this.createUnitName = createUnitName;
+    }
+
+
+    public String getTechnicalFieldIndex() {
+        return technicalFieldIndex;
+    }
+
+    public void setTechnicalFieldIndex(String technicalFieldIndex) {
+        this.technicalFieldIndex = technicalFieldIndex;
+    }
+
+    public String getTechnicalFieldName() {
+        return technicalFieldName;
+    }
+
+    public void setTechnicalFieldName(String technicalFieldName) {
+        this.technicalFieldName = technicalFieldName;
     }
 }
 

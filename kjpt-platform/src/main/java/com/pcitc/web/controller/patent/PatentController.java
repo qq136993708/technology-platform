@@ -47,6 +47,7 @@ public class PatentController extends RestBaseController {
     @RequestMapping(value = "/save",method=RequestMethod.POST)
     @ResponseBody
     public PatentInfo save(@RequestBody PatentInfo patentInfo) {
+        this.setBaseData(patentInfo);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PatentInfo> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<PatentInfo>(patentInfo, this.httpHeaders), PatentInfo.class);
         return responseEntity.getBody();

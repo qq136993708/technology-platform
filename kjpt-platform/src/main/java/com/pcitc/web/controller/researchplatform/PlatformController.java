@@ -49,6 +49,10 @@ public class PlatformController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
+    /**
+     * 科技材料统计表
+     */
+    private static final String scienceStatistics = "http://kjpt-zuul/stp-proxy/researchPlatform-api/scienceStatistics";
 
     private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount/";
 
@@ -177,6 +181,50 @@ public class PlatformController extends RestBaseController {
     @ResponseBody
     public List selectPaltinfoCount(@PathVariable String id) {
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="查询科技材料统计表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "startYear", value = "开始年份", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endYear", value = "结束年份", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "unitId", value = "单位ID", dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/scienceStatistics", method = RequestMethod.GET)
+    @ResponseBody
+    public PageInfo scienceStatistics(
+            @RequestParam(required = false,value = "pageNum") Integer pageNum,
+            @RequestParam(required = false,value = "pageSize") Integer pageSize,
+            @RequestParam(required = false,value = "startYear") String startYear,
+            @RequestParam(required = false,value = "endYear") String endYear,
+            @RequestParam(required = false,value = "unitId") String unitId
+    ) {
+
+        Map<String, Object> condition = new HashMap<>(6);
+        if (pageNum == null) {
+            this.setParam(condition, "pageNum", 1);
+        }else {
+            this.setParam(condition, "pageNum", pageNum);
+        }
+        if (pageSize == null) {
+            this.setParam(condition, "pageSize", 10);
+        }else {
+            this.setParam(condition, "pageSize", pageSize);
+        }
+        if (!StringUtils.isEmpty(startYear)) {
+            this.setParam(condition, "startYear", startYear);
+        }
+        if (!StringUtils.isEmpty(endYear)) {
+            this.setParam(condition, "endYear", endYear);
+        }
+        if (!StringUtils.isEmpty(unitId)) {
+            this.setParam(condition, "unitId", unitId);
+        }
+
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(scienceStatistics, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
     }
 

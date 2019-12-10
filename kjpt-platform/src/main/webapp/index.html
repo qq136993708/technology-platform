@@ -122,15 +122,17 @@ var __base_dic_store = {
 
 			<!-- 侧边菜单 -->
 			<div class="layui-side layui-side-menu layui-side-menu-div">
-					<div class="layadmin-flexible"><div></div></div>
+				<div class="layadmin-flexible"><div></div></div>
 				<div class="layui-side-scroll" id="index_main_left_menu">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
-						<li class="layui-nav-item"></#if> <a href="#" title="${grgzt.name}">
+						<li class="layui-nav-item"></#if> <a href="javascript:void(0);" title="${grgzt.name}">
 								<div class="item-row-block">
-									<span class="icon_name ${grgzt.icon}"></span>
+									<#if grgzt.name=='审批处理'><span class="icon_name spcl_icon"></span></#if>
+									<#if grgzt.name=='我的消息'><span class="icon_name wdxx_icon"></span></#if>
+									<!-- <span class="icon_name ${grgzt.icon}"></span> -->
 									<span class="item-title">${grgzt.name}</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
@@ -152,7 +154,7 @@ var __base_dic_store = {
 								</dd>
 								</#if> </#list>
 							</dl> </#list> </#if> <#if scList?exists>
-						<li class="layui-nav-item"><a href="#" title="我的收藏">
+						<li class="layui-nav-item"><a href="javascript:void(0);" title="我的收藏">
 								<div class="item-row-block">
 									<span class="icon_name collection"></span>
 									<span class="item-title">我的收藏</span>
@@ -350,7 +352,7 @@ var __base_dic_store = {
 					<#if upList?exists> <#list upList as p>
 					<ul class="layui-nav layui-nav-tree layui-hide"  lay-text="${p.name}" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
-						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
+						<li class="layui-nav-item layui-nav-itemed"><a href="javascript:void(0);" title="${s.name}">
 							<div class="item-row-block">
 								<span class="icon_name ${s.icon}"></span>
 								<span class="item-title">${s.name}</span>
@@ -390,7 +392,7 @@ var __base_dic_store = {
 								</dd>
 								</#if> </#list>
 							</dl></li> </#if> <#if openFlag!="0">
-						<li class="layui-nav-item"><a href="#" title="${s.name}">
+						<li class="layui-nav-item"><a href="javascript:void(0);" title="${s.name}">
 								<div class="item-row-block">
 									<span class="icon_name ${s.icon}"></span>
 									<span class="item-title">${s.name}</span>
@@ -458,19 +460,19 @@ var __base_dic_store = {
 				<div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
 				<div class="layui-icon layadmin-tabs-control layui-icon-down">
 					<ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
-						<li class="layui-nav-item" lay-unselect><a href="javascript:;"></a>
+						<li class="layui-nav-item" lay-unselect><a href="javascript:void(0);"></a>
 							<dl class="layui-nav-child layui-anim-fadein">
 								<dd layadmin-event="closeThisTabs">
-									<a href="javascript:;">关闭当前页</a>
+									<a href="javascript:void(0);">关闭当前页</a>
 								</dd>
 								<dd layadmin-event="closeOtherTabs">
-									<a href="javascript:;">关闭其它页</a>
+									<a href="javascript:void(0);">关闭其它页</a>
 								</dd>
 								<dd layadmin-event="closeAllTabs">
-									<a href="javascript:;">关闭全部页</a>
+									<a href="javascript:void(0);">关闭全部页</a>
 								</dd>
 								<dd layadmin-event="collection" id="collection">
-									<a id="collectFunction" href="javascript:void(0)">收藏/取消</a>
+									<a id="collectFunction" href="javascript:void(0);">收藏/取消</a>
 								</dd>
 							</dl></li>
 					</ul>
@@ -506,7 +508,9 @@ var __base_dic_store = {
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
 			index : 'lib/index' //主入口模块
-		}).use( [ 'index', 'jquery', "publicMethods" ], function() {
+		}).use( [ 'index', 'jquery', "publicMethods", "element"], function() {
+			var layuiElement = layui.element;
+
 
 			function setHeaderMoreItem(params) {
 				setTimeout(function (params) {
@@ -551,45 +555,6 @@ var __base_dic_store = {
 				}
 			});
 
-			// var navLeft = 36;
-			// $(".layui-header-nav ul.layui-layout-left li").each(function(i, val) {
-			// 	if (i > 4) {
-			// 		$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-			// 		$(val).remove();
-			// 	} else {
-			// 		navLeft += $(val).width() + 24;
-			// 	}
-			// });
-
-			// $(".seacrhBox img").click(function() {
-			// 	var val = $(".seacrhBox input").val();
-			// 	parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
-			// });
-			// $(document).keyup(function(event) {
-			// 	if (event.keyCode == 13) {
-			// 		var val = $(".seacrhBox input").val();
-			// 		parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
-			// 	}
-			// });
-			// $(".layui-header .layui-icon-prev").css("left", (navLeft - 10) + "px");
-			// if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
-			// 	$("#navPrev ul").append(headerNav);
-			// 	$("#navPrev ul span").remove();
-			// 	$("#navPrev ul li").each(function(i, val) {
-			// 		if (i < 5) {
-			// 			$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-			// 			$(val).remove();
-			// 		}
-			// 	});
-			// 	$(".layui-header .layui-icon-prev").on({
-			// 		mouseover : function() {
-			// 			$(".layui-layout-left").eq(1).removeClass("layui-hide");
-			// 		},
-			// 		mouseout : function() {
-			// 			$(".layui-layout-left").eq(1).toggleClass("layui-hide");
-			// 		}
-			// 	});
-			// }
 			$(".layui-header .layui-layout-left li a").on("click", function() {
 				var id = $(this).attr("id")
 				if ($(this).text() == "科研项目系统") {
@@ -865,6 +830,14 @@ var __base_dic_store = {
 				getNotReadMessageList();
 				getNotReadTaskList();
 			});
+
+			var $LAYAPPTABS = $('#LAY_app_tabsheader');
+			layuiElement.on('tabDelete(layadmin-layout-tabs)', function(data) {
+				if ($LAYAPPTABS.children('li').length === 0) {
+					setNavMeunSelected();
+				}
+			})
+
 		});
 		
 		

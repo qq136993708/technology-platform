@@ -40,6 +40,7 @@
         <result column="decision_flow" jdbcType="VARCHAR" property="decisionFlow"/>
         <result column="decision_result" jdbcType="VARCHAR" property="decisionResult"/>
         <result column="decision_meeting_doc" jdbcType="VARCHAR" property="decisionMeetingDoc"/>
+        <result column="decision_rule_doc" jdbcType="VARCHAR" property="decisionRuleDoc"/>
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
         <result column="intellectual_info" jdbcType="VARCHAR" property="intellectualInfo"/>
         <result column="grant_invest" jdbcType="VARCHAR" property="grantInvest"/>
@@ -195,7 +196,7 @@
                 about_complete_time = #{aboutCompleteTime,jdbcType=TIMESTAMP},
             </if>
             <if test="aboutCompleteInfo != null and aboutCompleteInfo != ''" >
-                aboutCompleteInfo = #{aboutCompleteInfo,jdbcType=VARCHAR},
+                about_complete_info = #{aboutCompleteInfo,jdbcType=VARCHAR},
             </if>
             <if test="achieveTechType != null and achieveTechType != ''" >
                 achieve_tech_type = #{achieveTechType,jdbcType=VARCHAR},

@@ -1,10 +1,11 @@
 //Demo
-layui.use(['form', 'table', 'layer', 'laydate'], function(){
+layui.use(['form', 'table', 'layer', 'laydate','formSelects'], function(){
   var form = layui.form;
   var $ = layui.$;
   var table = layui.table;
   var layer = layui.layer;
   var laydate = layui.laydate;
+  var formSelects=layui.formSelects;
 
   // var newTime = new Date(); //发布时间初始值
   // var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
@@ -20,11 +21,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 'GET',
       success: function(relData) {
         console.log('reldata',relData);
-        // if (relData.code === '0') {
-          $('[name=researchField]').attr('dic-base-data',relData.nodePath);
-        // } else {
-        //   layer.msg('网络异常', {icon: 2});
-        // }
+        relData.children.map(function (item,index) {
+        item.children.map(function (items,i) {
+            delete items.children
+        })
+      })
+      formSelects.data('researchField', 'local', { arr: relData.children });
+      formSelects.btns('researchField', ['remove']);
       }
     });
   }

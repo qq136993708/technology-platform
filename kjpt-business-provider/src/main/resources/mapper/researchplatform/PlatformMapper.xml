@@ -22,9 +22,11 @@
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="img_id" jdbcType="VARCHAR" property="imgId"/>
+        <result column="project_count" jdbcType="INTEGER" property="projectCount"/>
+        <result column="achievement_count" jdbcType="INTEGER" property="achievementCount"/>
+
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
-
 		<result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
         <result column="supporting_institutions_text" jdbcType="VARCHAR" property="supportingInstitutionsText"/>
 		<result column="platform_type_text" jdbcType="VARCHAR" property="typeText"/>
@@ -55,12 +57,29 @@
         create_unit_name
        </sql>
 
+    <select id="scienceStatistics" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from view_science_plan_report
+        where 1=1
+        <if test="startYear != null and startYear != '' " >
+            and annualYaer <![CDATA[>=]]> #{startYear}
+        </if>
+        <if test="endYear != null and endYear != '' " >
+            and annualYaer <![CDATA[<=]]> #{endYear}
+        </if>
+        <if test="unitId != null and unitId != '' " >
+            and unitId = #{unitId}
+        </if>
+
+    </select>
+
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
         select  * from view_kypt_info where id = #{id} and deleted != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  * from view_kypt_info where 1=1
+        select  t1.*,(SELECT count(*) FROM kypt_project  WHERE kypt_project.platform_id = t1.id ) AS project_count,
+        (SELECT count(*) FROM kypt_achievement  WHERE kypt_achievement.platform_id = t1.id ) AS achievement_count
+         from view_kypt_info t1 where 1=1
             and deleted != '1'
         AND create_unit_id in
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
@@ -222,5 +241,6 @@
     <select id="handlerKyptInfoImport" parameterType="java.lang.String" resultMap="BaseResultMap">
         call handler_kypt_import(#{batchId})
     </select>
+
 
 </mapper>

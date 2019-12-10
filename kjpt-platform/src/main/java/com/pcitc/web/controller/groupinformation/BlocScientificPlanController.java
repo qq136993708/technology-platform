@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,7 +27,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/blocScientificPlan")
 public class BlocScientificPlanController extends RestBaseController {
-
 
     /**
      * 根据ID获取对象信息
@@ -54,7 +54,6 @@ public class BlocScientificPlanController extends RestBaseController {
         return responseEntity.getBody();
     }
 
-
     @ApiOperation(value = "查询计算机软件列表", notes = "查询计算机软件列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
@@ -64,7 +63,9 @@ public class BlocScientificPlanController extends RestBaseController {
             @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "pubdate", value = "发布时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query")
 
     })
 
@@ -78,10 +79,11 @@ public class BlocScientificPlanController extends RestBaseController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") Date annual,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date pubdate,
             @RequestParam(required = false) String accessory,
-            @RequestParam(required = false) String reportType
+            @RequestParam(required = false) String reportType,
+            @RequestParam(required = false, value = "createUnitId") String createUnitId,
+            @RequestParam(required = false, value = "createUnitName") String createUnitName
 
     ) {
-
 
         Map<String, Object> condition = new HashMap<>(6);
 
@@ -106,13 +108,22 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(reportType)) {
             this.setParam(condition, "reportType", reportType);
         }
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
+        if (!StringUtils.isEmpty(createUnitName)) {
+            this.setParam(condition, "createUnitName", createUnitName);
+        }
+
+        //默认查询当前人所在机构及子机构的所有专家
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
 
     }
-
 
     @ApiOperation(value = "保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -121,13 +132,8 @@ public class BlocScientificPlanController extends RestBaseController {
         this.setBaseData(bsp);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<BlocScientificPlan> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<BlocScientificPlan>(bsp, this.httpHeaders), BlocScientificPlan.class);
-
-
-
-
         return responseEntity.getBody();
     }
-
 
     @ApiOperation(value = "删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
@@ -136,7 +142,6 @@ public class BlocScientificPlanController extends RestBaseController {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete + id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
-
 
     @ApiOperation(value = "初始化")
     @RequestMapping(value = "/newInit", method = RequestMethod.GET)
@@ -149,5 +154,4 @@ public class BlocScientificPlanController extends RestBaseController {
         p.setCreator(this.getUserProfile().getUserName());
         return p;
     }
-
 }

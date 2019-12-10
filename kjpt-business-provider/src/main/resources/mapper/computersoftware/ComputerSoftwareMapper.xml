@@ -22,22 +22,17 @@
         <!--<result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>-->
 
         <result column="file" jdbcType="VARCHAR" property="files"/>
-
         <result column="DELETED" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
-
         <result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText"/>
-
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
-
-
         <result column="technical_field" jdbcType="VARCHAR" property="technicalField"/>
         <result column="technical_field_value" jdbcType="VARCHAR" property="technicalFieldValue"/>
 
-
-
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
     </resultMap>
 
@@ -62,8 +57,9 @@
       update_date,
       update_user,
       technical_field,
-      technical_field_value
-
+      technical_field_value,
+      create_unit_id,
+      create_unit_name
 
   </sql>
 
@@ -98,7 +94,9 @@
       update_date,
       update_user,
       technical_field,
-      technical_field_value
+      technical_field_value,
+      create_unit_id,
+      create_unit_name
       )
     values (
        #{id},
@@ -121,7 +119,9 @@
        #{updateDate},
        #{updator},
        #{technicalField},
-       #{technicalFieldValue}
+       #{technicalFieldValue},
+       #{create_unit_id},
+       #{create_unit_name}
       )
   </insert>
 
@@ -130,7 +130,6 @@
         update computer_software
         <trim prefix="SET" suffixOverrides=",">
 
-            -- and unitName != ''
             <if test="unitName != null ">
                 UNIT_NAME = #{unitName},
             </if>
@@ -191,7 +190,14 @@
             </if>
 
             <if test="technicalFieldValue != null and technicalFieldValue != ''">
-                technical_field_value = #{technicalFieldValue}
+                technical_field_value = #{technicalFieldValue},
+            </if>
+
+            <if test="createUnitId != null and createUnitId != '' ">
+                create_unit_id = #{createUnitId},
+            </if>
+            <if test="createUnitName != null  and createUnitName != ''">
+                create_unit_name = #{createUnitName}
             </if>
 
 
@@ -280,6 +286,7 @@
     </select>
 
     <sql id="selectByParam">
+
         <if test="unitName != null and unitName != '' ">
             and UNIT_NAME like CONCAT('%',#{unitName},'%')
         </if>
@@ -344,6 +351,23 @@
         <if test="technicalFieldValue != null and technicalFieldValue != ''">
             and technical_field_value = #{technicalFieldValue}
         </if>
+
+        <if test="createUnitId != null  and createUnitId != ''  ">
+            and create_unit_id = #{createUnitId}
+        </if>
+
+        <if test="createUnitName != null  and createUnitName != ''  ">
+            and create_unit_name like CONCAT('%',#{createUnitName},'%')
+        </if>
+
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item" collection="childUnitIds.split(',')" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
 
     </sql>
 

@@ -134,6 +134,17 @@ public class ExpertIndexController {
 			}
 			
 			
+			
+			 
+			@RequestMapping(value = "/achieve/record_list")
+			public String record_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				return "/kjpt/achieve/record_list";
+			}
+			
+			
+			
+			
 		    
 		    
 		    

@@ -16,10 +16,10 @@
 </head>
 <body>
 <div class="layout-view-content min-label">
-  <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
+  <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom" id="form1" name="form1">
   <input  name="functionId"     id="functionId"      type="hidden">
   <input  name="userIds"        id="userIds"         type="hidden">
-  <input  name="id"         id="id"          type="hidden" >
+  <input  name="id"             id="id"          type="hidden" >
 
 
     <div class="layui-row layui-col-space20">
@@ -103,7 +103,8 @@ var postCodes = "";
 
 function dealFlow(id) 
 {
-	alert("id="+id+" functionId="+functionId);
+	 $('#id').val(id);
+	console.log("functionId="+functionId+" id="+id); 
 	var nunits="";
 	 var json = {functionId:functionId,branchFlag: "0"};
 	 $.ajax({
@@ -114,11 +115,13 @@ function dealFlow(id)
          //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
          success : function(data) 
          {
+        	console.log("audit-type\n"+JSON.stringify(data)); 
       	   if (data.code == 'role')
       	   {
           		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
           		// roleCodes，参数名必须一致，方便公共弹出页面调用
           		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+          		 console.log("roleCodes:\n"+roleCodes); 
           		  var temUrl="/task/deal/users/ini";
                   layer.open({
                       title:'选择审批人',
@@ -143,7 +146,7 @@ function dealFlow(id)
 	          		{
 	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
 	          		}
-          		console.log("隐藏的查询条件\n"+data.data);
+          		  console.log("隐藏的查询条件\n"+data.data);
           		   var temUrl="/task/deal/user/unit/ini";
                    layer.open({
                       title:'选择审批人',
@@ -180,10 +183,13 @@ function dealFlow(id)
 //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
 function handleTask(userIds) 
 {
-	$('#userIds').val(userIds);
+	 $('#userIds').val(userIds);
+	 console.log("userIds:\n"+userIds);
+	
+	  
 	var v_date=(new Date()).getTime();
-    var url="/sre_project_task/start_confirm_workflow?v_date="+v_date;
-    var backurl="/sre_project_task/apply_list?v_date="+v_date;
+    var url="/achieve-api/start_workflow?v_date="+v_date;
+    var backurl="/achieve/achieve_list?v_date="+v_date;
     ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
 }
 
@@ -213,12 +219,12 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	          {
 
 	        	  
-	        	          layer.alert( successMsg, 
+	        	          top.layer.alert( successMsg,
 	                      {icon: 1,closeBtn: 0 },
 	                      function () 
 	                      {
-	                    	  renderTable();
-	                    	      layer.closeAll();
+                              queryTable('');
+                              top.layer.closeAll(); // 关闭弹窗
 	                      });
 	        	  
 	          } else

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -74,9 +75,9 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "file", value = "附件上传", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query")
-
-
+            @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query")
 
     })
 
@@ -100,7 +101,9 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String notes,
             @RequestParam(required = false) String file,
             @RequestParam(required = false) String technicalField,
-            @RequestParam(required = false) String technicalFieldValue
+            @RequestParam(required = false) String technicalFieldValue,
+            @RequestParam(required = false, value = "createUnitId") String createUnitId,
+            @RequestParam(required = false, value = "createUnitName") String createUnitName
 
 
     ) {
@@ -156,6 +159,20 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(technicalFieldValue)) {
             this.setParam(condition, "technicalFieldValue", technicalFieldValue);
         }
+
+
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
+
+        if (!StringUtils.isEmpty(createUnitName)) {
+            this.setParam(condition, "createUnitName", createUnitName);
+        }
+
+        //默认查询当前人所在机构及子机构的所有专家
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
 
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

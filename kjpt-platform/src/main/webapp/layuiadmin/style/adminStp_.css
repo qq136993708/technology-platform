@@ -1097,15 +1097,62 @@ height: 100%;
 .layui-nav-item .item-row-block > .icon_name {
     width: 20px;
     height: 20px;
-    background: url('../../images/kjclsb.png') center center no-repeat;
+    background: url('../../images/kjclsb_icon.png') center center no-repeat;
     background-size: 116% 116%;
 }
 .layui-nav-item > a:hover .item-row-block > .icon_name{
-    background-image: url('../../images/kjclsb.png');
+    /* background-image: url('../../images/kjclsb_icon.png'); */
 }
 .layui-nav-item dd .item-row-block > .icon_name{
     opacity: 0;
 }
+
+.layui-nav-item .item-row-block > .spcl_icon{
+    /* 审批处理 */
+    background-image: url('../../images/spcl_icon.png');
+}
+.layui-nav-item .item-row-block > .wdxx_icon{
+    /* 我的消息 */
+    background-image: url('../../images/wdxx_icon.png');
+}
+.layui-nav-item .item-row-block > .zjgl_icon{
+    /* 专家管理 */
+    background-image: url('../../images/zjgl_icon.png');
+}
+.layui-nav-item .item-row-block > .kypt_icon{
+    /* 科研平台 */
+    background-image: url('../../images/kypt_icon.png');
+}
+.layui-nav-item .item-row-block > .kjclsb_icon{
+    /* 科技材料上报 */
+    background-image: url('../../images/kjclsb_icon.png');
+}
+.layui-nav-item .item-row-block > .jtxxfb_icon{
+    /* 集团信息发布 */
+    background-image: url('../../images/jtxxfb_icon.png');
+}
+.layui-nav-item .item-row-block > .zlgl_icon{
+    /* 专利 */
+    background-image: url('../../images/zlgl_icon.png');
+}
+.layui-nav-item .item-row-block > .sbgl_icon{
+    /* 商标 */
+    background-image: url('../../images/sbgl_icon.png');
+}
+.layui-nav-item .item-row-block > .jsjrj_icon{
+    /* 计算机软件 */
+    background-image: url('../../images/jsjrj_icon.png');
+}
+.layui-nav-item .item-row-block > .kgjdr_icon{
+    /* 科工局导入 */
+    background-image: url('../../images/kgjdr_icon.png');
+}
+.layui-nav-item .item-row-block > .cgzhgl_icon{
+    /* 成果转化管理 */
+    background-image: url('../../images/cgzhgl_icon.png');
+}
+
+
 .item-row-block > .item-title {
     width: calc(100% - 21px);
     overflow: hidden;
@@ -1200,7 +1247,7 @@ height: 100%;
 }
 .layadmin-side-shrink .layui-nav-item:hover > a .item-row-block > .icon_name,
 .layadmin-side-shrink .layui-nav-itemed > a .item-row-block > .icon_name{
-    background-image: url(../layui/images/wdzl-h.png);
+    /* background-image: url(../layui/images/wdzl-h.png); */
 }
 .layadmin-side-shrink .layui-nav-item .layui-nav-child{
     position: absolute;

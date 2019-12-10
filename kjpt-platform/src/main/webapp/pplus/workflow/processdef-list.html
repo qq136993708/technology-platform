@@ -288,9 +288,8 @@
 			//监听行双击事件
 			table.on('rowDouble(tableData)', function(obj) {
 				var temUrl = "/activiti-def/show/" + obj.data.id;
-				layer.open({
+				top.layer.open({
 					title : '详情',
-					skin : 'layui-layer-lan',
 					shadeClose : true,
 					type : 2,
 					fixed : false,
