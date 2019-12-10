@@ -52,7 +52,8 @@ public class AchieveBaseController extends RestBaseController {
     /**
      * 流程
      */
-    private static final String WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/achieve/start_activity/";
+    private static final String WORKFLOW_URL = "http://kjpt-zuul/stp-proxy/achieve-api/task/start_activity/";
+	
 	
 
     @ApiOperation(value="读取")
@@ -167,7 +168,7 @@ public class AchieveBaseController extends RestBaseController {
     }
     
     @ApiOperation(value="核心成果转化流程")
-    @RequestMapping(value = "/start_workflow",method = RequestMethod.POST)
+    @RequestMapping(value = "/achieve-api/start_workflow",method = RequestMethod.POST)
 	public Object start_workflow(HttpServletRequest request, HttpServletResponse response ) throws Exception
 	{
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
