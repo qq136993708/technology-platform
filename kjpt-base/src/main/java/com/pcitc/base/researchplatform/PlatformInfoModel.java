@@ -229,4 +229,20 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     public void setImgId(String imgId) {
         this.imgId = imgId;
     }
+
+    public Integer getProjectCount() {
+        return projectCount;
+    }
+
+    public void setProjectCount(Integer projectCount) {
+        this.projectCount = projectCount;
+    }
+
+    public Integer getAchieveCount() {
+        return achieveCount;
+    }
+
+    public void setAchieveCount(Integer achieveCount) {
+        this.achieveCount = achieveCount;
+    }
 }
