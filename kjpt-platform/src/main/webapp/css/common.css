@@ -63,7 +63,7 @@ body > .layui-layout{
 	width: 100%;
 	background-color: #fff;
 	border-top: 1px #e8e8e8 solid;
-	padding: 15px 40px 15px 20px;
+	padding: 10px 40px 10px 20px;
 	text-align: right;
 }
 .layout-view-content.label-dialog .layui-form-label,
@@ -109,7 +109,7 @@ body > .layui-layout{
 
 .view-title-layout {
   font-size: 0;
-  padding-top: 20px;
+  padding-top: 30px;
   padding-bottom: 16px;
 }
 .view-title-layout::after{
@@ -120,7 +120,8 @@ body > .layui-layout{
   margin: 0;
 }
 .view-title-layout.view-pt0 {
-  padding-top: 0;
+  padding-top: 8px;
+  padding-bottom: 12px;
 }
 .view-title-layout > .right {
   float: right;
@@ -251,7 +252,7 @@ a.link-text:hover {
 
 /* 下拉目录树 */
 .xm-select-parent .xm-input {
-  border-color: #aaa;
+  border-color: #D4D7D8;
   border-radius: 5px;
 }
 .xm-select-parent dl dd > i.icon-expand{

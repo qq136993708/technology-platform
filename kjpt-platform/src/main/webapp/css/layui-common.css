@@ -124,7 +124,7 @@
 }
 .layui-input, .layui-textarea{
   height: 30px;
-  border-color: #AAAAAA;
+  border-color: #D4D7D8;
   border-radius: 5px;
   font-size: 14px;
 }
@@ -194,7 +194,7 @@
   padding-left: 10px;
   height: 30px;
   font-size: 14px;
-  border:1px #aaa solid;
+  border:1px #D4D7D8 solid;
   border-radius: 5px;
   background: #fff url('../images/date.png') no-repeat;
   background-size: 16px 16px;
@@ -230,6 +230,7 @@
   background-color: #1890FF;
   border-color: #1890FF;
   color: #fff;
+  margin-left: 4px;
 }
 .layui-btn.border-blue {
   border-color: #1890FF;
@@ -402,13 +403,20 @@
   padding: 0;
 }
 
-#rightBtn .margin12{
+.layui-btn+.layui-btn{
   margin-left: 12px;
 }
-#rightBtn{
-  margin-top: 10px;
+
+.layui-layer-setwin{
+  top:17px !important;
 }
+<<<<<<< HEAD
+.layui-layer-title{
+  height: 50px !important;
+  line-height: 50px !important;
+=======
 .layui-form-checked[lay-skin=primary] i {
   border-color: #1890ff;
   background-color: #1890ff;
+>>>>>>> 6403481ec568eaedcc77e0a2988df861a53e6663
 }

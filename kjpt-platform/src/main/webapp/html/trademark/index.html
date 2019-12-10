@@ -16,7 +16,7 @@
 <body>
     <div class="layout-view-content min-label">
         <form class="layui-form layui-form-screen" action="" method="post" lay-filter="selectCondition">
-            <div class="layui-row">
+            <div class="layui-row layui-col-space20">
                 <div class="layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">注册商标名称:</span></label>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="layui-col-sm6 layui-col-md12 layui-col-btn">
                     <div class="layui-form-item text-right">
-                        <button class="layui-btn layui-btn-normal margin24" lay-submit lay-filter="formDemo">查询</button>
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
                         <button type="reset" class="layui-btn layui-btn-primary btn-left">重置</button>
                         <span class="layui-fold-btn"></span>
                     </div>
@@ -79,11 +79,11 @@
             </div>
         </form>
         <div class="view-title-layout">
-            <div class="right" id="rightBtn">
+            <div class="right">
                 <button class="layui-btn border-blue" id="addItem" lay-event="add" button-role="add">新增</button>
-                <button class="layui-btn border-blue margin12" id="editItem" lay-event="edit" button-role="edit">编辑</button>
-                <button class="layui-btn border-blue margin12" id="check" lay-event="detail">查看</button>
-                <button class="layui-btn border-red margin12" id="delItem" lay-event="del" button-role="delete">删除</button>
+                <button class="layui-btn border-blue" id="editItem" lay-event="edit" button-role="edit">编辑</button>
+                <button class="layui-btn border-blue" id="check" lay-event="detail">查看</button>
+                <button class="layui-btn border-red" id="delItem" lay-event="del" button-role="delete">删除</button>
             </div>
         </div>
         <table id="tableContent" lay-filter="tableContent"></table>
