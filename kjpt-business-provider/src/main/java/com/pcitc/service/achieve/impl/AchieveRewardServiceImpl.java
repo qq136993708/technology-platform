@@ -1,11 +1,13 @@
 package com.pcitc.service.achieve.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRewardService;
+import com.pcitc.service.file.FileCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,10 @@ import java.util.Map;
 public class AchieveRewardServiceImpl implements AchieveRewardService {
     @Autowired
     private AchieveRewardMapper arm;
+
+    @Autowired
+    private FileCommonService fs;
+
     @Override
     public AchieveReward load(String id) {
         return arm.load(id);
@@ -32,13 +38,22 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
         if(load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());
+            handlerFile(ab.getFiles());
             arm.add(ab);
         }
         else{
+            handlerFile(ab.getFiles());
             arm.update(ab);
 
         }
         arm.updateRewardMoney(ab.getAchieveId());
+    }
+
+    private void handlerFile(String files){
+        JSONObject grantDoc =  JSONObject.parseObject(files);
+        for(String key:grantDoc.keySet()){
+            fs.updateFileData(key,grantDoc.get(key) == null?"":grantDoc.get(key).toString());
+        }
     }
 
     @Override

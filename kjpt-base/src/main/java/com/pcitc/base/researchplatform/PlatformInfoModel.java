@@ -78,7 +78,7 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     /**
      * 平台成果数量
      */
-    private Integer achieveCount=0;
+    private Integer achievementCount=0;
 
     /**
      * 导入数据的批次标识
@@ -238,11 +238,11 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
         this.projectCount = projectCount;
     }
 
-    public Integer getAchieveCount() {
-        return achieveCount;
+    public Integer getAchievementCount() {
+        return achievementCount;
     }
 
-    public void setAchieveCount(Integer achieveCount) {
-        this.achieveCount = achieveCount;
+    public void setAchievementCount(Integer achievementCount) {
+        this.achievementCount = achievementCount;
     }
 }
