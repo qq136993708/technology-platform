@@ -42,6 +42,11 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             formSelects.btns('techType', ['remove']);
         }
     });
+    if(variable.type=='view'){
+        if(variable.flag==1){
+            $("#close").hide()
+        }
+    }
     console.log(variable.id)
     if(variable.id!=undefined){
         id=variable.id
