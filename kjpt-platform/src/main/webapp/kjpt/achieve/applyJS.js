@@ -42,7 +42,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             formSelects.btns('techType', ['remove']);
         }
     });
-    console.log(variable.type)
+    console.log(variable.id)
     if(variable.id!=undefined){
         id=variable.id
         httpModule({
@@ -83,22 +83,26 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         addTr('achieveTable')
         deleTr('achieveTable')
     })
-    $("#formSave").click(function () {
-        var data=form.val("formPlatform"),techTypeText='',achieveTransTypeText=''
-        delete data.file;
+    form.on('submit(formSave)', function(data) {
+        var techTypeText='',achieveTransTypeText=''
+        delete data.field.file;
         if(formSelects.value('techType')){
             formSelects.value('techType').map(function (item, index) {
                 techTypeText+=item.name+','
             })
         }
-        data.id=id
-        data.teamPerson=getTableData('achieveTable')
-        data.techTypeText=techTypeText.substring(0,techTypeText.length-1)
-        data.achieveTransTypeText=$(".achieveTransType option:selected").text()
-        console.log(data)
+        data.field.id=id
+        data.field.teamPerson=getTableData('achieveTable')
+        data.field.techTypeText=techTypeText.substring(0,techTypeText.length-1)
+        data.field.achieveTransTypeText=$(".achieveTransType option:selected").text()
+        if(getTableData('achieveTable')==''){
+            layer.msg('科技成果完成团队情况（按贡献度排序）为必填项不能为空！');
+            return false
+        }
+        console.log( data.field)
         httpModule({
             url: '/achieve-api/save',
-            data: data,
+            data:  data.field,
             type: "POST",
             success: function(e) {
                 console.log(e)

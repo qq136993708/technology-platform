@@ -1,6 +1,8 @@
 package com.pcitc.base.patent;
 
 
+import com.pcitc.base.common.RecordModel;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,7 +10,7 @@ import java.util.Date;
  * patent_info
  * @author
  */
-public class PatentInfo implements Serializable {
+public class PatentInfo extends RecordModel implements Serializable {
     /**
      * 主键id
      */

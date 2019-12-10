@@ -46,6 +46,7 @@ public class TrademarkController extends RestBaseController {
     @RequestMapping(value = "/save",method=RequestMethod.POST)
     @ResponseBody
     public TrademarkInfo save(@RequestBody TrademarkInfo trademarkInfo) {
+        this.setBaseData(trademarkInfo);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<TrademarkInfo> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<TrademarkInfo>(trademarkInfo, this.httpHeaders), TrademarkInfo.class);
         return responseEntity.getBody();

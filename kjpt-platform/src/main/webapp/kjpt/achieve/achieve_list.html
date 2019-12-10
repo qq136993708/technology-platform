@@ -219,12 +219,12 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	          {
 
 	        	  
-	        	          layer.alert( successMsg, 
+	        	          top.layer.alert( successMsg,
 	                      {icon: 1,closeBtn: 0 },
 	                      function () 
 	                      {
-	                    	  renderTable();
-	                    	      layer.closeAll();
+                              queryTable('');
+                              top.layer.closeAll(); // 关闭弹窗
 	                      });
 	        	  
 	          } else

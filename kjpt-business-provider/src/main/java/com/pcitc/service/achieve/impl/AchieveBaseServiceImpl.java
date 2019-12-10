@@ -102,9 +102,9 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
   			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
   	    	flowJson.put("functionId", functionId);
   	    	// 待办业务详情、最终审批同意、最终审批不同意路径
-  	    	flowJson.put("auditDetailsPath", "/achieve-api/load/" + id);
-  	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/achieve-api/task/agree/" + id);
-  	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/achieve-api/task/reject/" + id);
+  	    	flowJson.put("auditDetailsPath", "/kjpt/achieve/apply_view.html?type=view&flag=1&id=" + id);
+  	    	flowJson.put("auditAgreeMethod", "http://kjpt-zuul/stp-proxy/achieve-api/task/agree/" + id);
+  	    	flowJson.put("auditRejectMethod", "http://kjpt-zuul/stp-proxy/achieve-api/task/reject/" + id);
 
   	    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
   	    	// flowJson.put("flowProjectId", "");
