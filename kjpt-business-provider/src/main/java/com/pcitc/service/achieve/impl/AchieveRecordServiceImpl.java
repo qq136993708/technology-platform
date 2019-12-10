@@ -85,9 +85,11 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             if(aReward != null) {
                 if(arw.load(aReward.getId())==null){
                     //保存备案的激励信息
+                    handlerFile(aReward.getFiles());
                     arw.add(aReward);
                     arw.updateRewardMoney(aRecord.getId());
                 }else{
+                    handlerFile(aReward.getFiles());
                     arw.update(aReward);
                     arw.updateRewardMoney(aRecord.getId());
                 }
