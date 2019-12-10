@@ -84,7 +84,7 @@ public class PlatformClient {
     }
 
     @ApiOperation(value = "科技材料统计表", notes = "科技材料统计表")
-    @RequestMapping(value="/scienceStatistics",method =RequestMethod.GET)
+    @RequestMapping(value="/scienceStatistics",method =RequestMethod.POST)
     public PageInfo excelImport( @RequestBody Map param){
         return ps.scienceStatistics(param);
     }

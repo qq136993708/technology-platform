@@ -57,7 +57,7 @@
         create_unit_name
        </sql>
 
-    <select id="scienceStatistics" parameterType="java.util.Map">
+    <select id="scienceStatistics" parameterType="java.util.Map" resultType="java.util.Map">
         select * from view_science_plan_report
         where 1=1
         <if test="startYear != null and startYear != '' " >

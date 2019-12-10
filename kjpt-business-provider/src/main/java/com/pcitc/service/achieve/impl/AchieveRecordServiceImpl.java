@@ -80,17 +80,16 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             handlerFile(aRecord.getFiles());
             arm.update(aRecord);
             if(aReward != null) {
-                if(arw.load(aReward.getId())!=null){
-                    handlerFile(aReward.getFiles());
-                    arw.add(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                };
+                handlerFile(aReward.getFiles());
+                arw.add(aReward);
+                arw.updateRewardMoney(aRecord.getId());
             }
         }
 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void simpleSave(AchieveSubmit as) {
         AchieveRecord aRecord = as.getAchieveRecord();
         AchieveReward aReward = as.getAchieveReward();
@@ -111,10 +110,8 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         else{
             arm.update(aRecord);
             if(aReward != null) {
-                if(arw.load(aReward.getId())!=null){
-                    arw.add(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                };
+                arw.add(aReward);
+                arw.updateRewardMoney(aRecord.getId());
             }
         }
     }
