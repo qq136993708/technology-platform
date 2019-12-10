@@ -28,7 +28,6 @@ import java.util.UUID;
 @RequestMapping(value = "/blocScientificPlan")
 public class BlocScientificPlanController extends RestBaseController {
 
-
     /**
      * 根据ID获取对象信息
      */
@@ -54,7 +53,6 @@ public class BlocScientificPlanController extends RestBaseController {
         ResponseEntity<BlocScientificPlan> responseEntity = this.restTemplate.exchange(load + id, HttpMethod.GET, new HttpEntity(this.httpHeaders), BlocScientificPlan.class);
         return responseEntity.getBody();
     }
-
 
     @ApiOperation(value = "查询计算机软件列表", notes = "查询计算机软件列表")
     @ApiImplicitParams({
@@ -110,11 +108,9 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(reportType)) {
             this.setParam(condition, "reportType", reportType);
         }
-
         if (!StringUtils.isEmpty(createUnitId)) {
             this.setParam(condition, "createUnitId", createUnitId);
         }
-
         if (!StringUtils.isEmpty(createUnitName)) {
             this.setParam(condition, "createUnitName", createUnitName);
         }
@@ -123,13 +119,11 @@ public class BlocScientificPlanController extends RestBaseController {
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
-
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
 
     }
-
 
     @ApiOperation(value = "保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -138,13 +132,8 @@ public class BlocScientificPlanController extends RestBaseController {
         this.setBaseData(bsp);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<BlocScientificPlan> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<BlocScientificPlan>(bsp, this.httpHeaders), BlocScientificPlan.class);
-
-
-
-
         return responseEntity.getBody();
     }
-
 
     @ApiOperation(value = "删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
@@ -153,7 +142,6 @@ public class BlocScientificPlanController extends RestBaseController {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete + id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
-
 
     @ApiOperation(value = "初始化")
     @RequestMapping(value = "/newInit", method = RequestMethod.GET)
@@ -166,5 +154,4 @@ public class BlocScientificPlanController extends RestBaseController {
         p.setCreator(this.getUserProfile().getUserName());
         return p;
     }
-
 }

@@ -44,5 +44,4 @@ public class SciencePlanClient {
         return sciencePlanService.query(param);
     }
 
-
 }
