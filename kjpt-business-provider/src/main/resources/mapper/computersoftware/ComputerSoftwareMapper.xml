@@ -22,16 +22,12 @@
         <!--<result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>-->
 
         <result column="file" jdbcType="VARCHAR" property="files"/>
-
         <result column="DELETED" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
-
         <result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText"/>
-
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
-
         <result column="technical_field" jdbcType="VARCHAR" property="technicalField"/>
         <result column="technical_field_value" jdbcType="VARCHAR" property="technicalFieldValue"/>
 
@@ -128,7 +124,7 @@
        #{updator},
        #{technicalField},
        #{technicalFieldValue},
-       #{ create_unit_id},
+       #{create_unit_id},
        #{create_unit_name}
       )
   </insert>

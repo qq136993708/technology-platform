@@ -22,8 +22,8 @@
 
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
 
-        <result column="create_unit_id"            jdbcType="VARCHAR" property="createUnitId" />
-        <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
+        <result column="create_unit_id"  jdbcType="VARCHAR" property="createUnitId" />
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
 
 
     </resultMap>
@@ -84,7 +84,7 @@
       #{updateDate},
       #{updator},
       #{reportType},
-      #{ create_unit_id},
+      #{create_unit_id},
       #{create_unit_name}
       )
 
