@@ -146,12 +146,14 @@
       		<button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
        </div>
      </div>
-     <input type="hidden" name="id">
-     <input type="hidden" name="creator">
-     <input type="hidden" name="createDate">
-     <input type="hidden" name="updateDate">
-     <input type="hidden" name="updator">
-     <input type="hidden" name="deleted">
+     <input type="hidden" name="id"><!-- 平台ID -->
+     <input type="hidden" name="creator"><!-- 平台创建人 -->
+     <input type="hidden" name="createDate"><!-- 平台创建时间 -->
+     <input type="hidden" name="updateDate"><!-- 平台更新时间 -->
+     <input type="hidden" name="updator"><!-- 平台更新人 -->
+     <input type="hidden" name="deleted"><!-- 是否删除 默认为0 不删除 -->
+     <input type="hidden" name="createUnitId"><!-- 平台所属单位ID -->
+     <input type="hidden" name="createUnitName"><!-- 平台所属单位名称 -->
    </form>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>

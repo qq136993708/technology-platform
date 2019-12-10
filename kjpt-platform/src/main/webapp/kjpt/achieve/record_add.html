@@ -28,6 +28,7 @@
               <option value="1">是</option>
               <option value="0" selected>否</option>
             </select>
+            <input type="hidden" name="achieveTypeText">
           </div>
         </div>
         <div class="layui-form-item">
@@ -73,6 +74,7 @@
             <select name="achieveTransType" lay-verify="required"
               dic-base-data="ROOT_KJPT_KJCG_NZHFS"
               lay-filter="achieveTransType"></select>
+            <input type="hidden" name="achieveTransTypeText">
           </div>
         </div>
       </div>
@@ -144,20 +146,52 @@
       </div>
     </div>
 
-
-
     <div class="dialog-footer-btn">
       <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
       <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
     </div>
 
-    <input type="hidden" name="creator">
-    <input type="hidden" name="createDate">
-    <input type="hidden" name="updator">
-    <input type="hidden" name="updateDate">
-    <input type="hidden" name="deleted">
-    <input type="hidden" name="id">
-    <input type="hidden" name="auditStatus">
+    <input type="hidden" name="creator"><!-- 创建人 -->
+    <input type="hidden" name="createDate"><!-- 创建时间 -->
+    <input type="hidden" name="updator"><!-- 更新人 -->
+    <input type="hidden" name="updateDate"><!-- 更新时间 -->
+    <input type="hidden" name="deleted"> <!-- 是否删除键 -->
+    <input type="hidden" name="id"> <!-- 备案ID -->
+    <input type="hidden" name="auditStatus"><!-- 审批状态默认 0 -->
+    <input type="hidden" name="auditStatusText">
+    <input type="hidden" name="createUnitId"><!-- 所属单位ID -->
+    <input type="hidden" name="createUnitName"><!-- 所属单位名称 -->
+    <input type="hidden" name="achieveRewards"><!-- 备案信息——传空数据即可 -->
+
+    <!-- 初始保存必须字段可以是空值 -->
+    <input type="hidden" name="achieveTechType">
+    <input type="hidden" name="achieveTechTypeText">
+    <input type="hidden" name="achieveTransStatus">
+    <input type="hidden" name="achieveTransStatusText">
+    <input type="hidden" name="decisionFlow">
+    <input type="hidden" name="decisionResult">
+    <input type="hidden" name="grantChooseWay">
+    <input type="hidden" name="intellectualInfo">
+    <input type="hidden" name="projectChannel">
+    <input type="hidden" name="projectSource">
+    <input type="hidden" name="teamInfo">
+    <input type="hidden" name="grantInvest">
+    <input type="hidden" name="grantReason">
+    <input type="hidden" name="teamPerson">
+    <input type="hidden" name="transPriceBasis">
+    <input type="hidden" name="transPriceWay">
+
+
+    <!-- 附件存储ID -->
+    <div id="file-value-list">
+      <input type="hidden" name="appraisalDoc">
+      <input type="hidden" name="decisionMeetingDoc">
+      <input type="hidden" name="decisionRuleDoc">
+      <input type="hidden" name="grantDoc">
+      <input type="hidden" name="transAssessDoc">
+      <input type="hidden" name="transContractDoc">
+      <input type="hidden" name="transPublicDoc">
+    </div>
   </form>
 
 </div>
