@@ -36,6 +36,12 @@ public class AchieveRecordClient {
          ars.save(as);
     }
 
+    @ApiOperation(value = "成果转换备案简单保存", notes = "成果转换备案简单保存")
+    @RequestMapping(value = "/simpleSave", method = RequestMethod.POST)
+    public void simpleSave(@RequestBody AchieveSubmit as){
+         ars.simpleSave(as);
+    }
+
 
     @ApiOperation(value = "查询成果转换备案列表分页", notes = "查询成果转换备案列表分页")
     @RequestMapping(value = "/query", method = RequestMethod.POST)

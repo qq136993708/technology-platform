@@ -78,6 +78,36 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 
     }
 
+    @Override
+    public void simpleSave(AchieveSubmit as) {
+        AchieveRecord aRecord = as.getAchieveRecord();
+        AchieveReward aReward = as.getAchieveReward();
+        IsEmptyUtil.isEmpty(aRecord);
+        if(arm.load(aRecord.getId()) ==null){
+            aRecord.setCreateDate(as.getUpdateDate());
+            aRecord.setCreator(as.getUpdator());
+            arm.add(aRecord);
+
+            if(aReward != null){
+                aReward.setCreateDate(as.getUpdateDate());
+                aReward.setCreator(as.getUpdator());
+                arw.add(aReward);
+                //修改备案的总额
+                arw.updateRewardMoney(aRecord.getId());
+            }
+        }
+        else{
+            arm.update(aRecord);
+            uploadAchieveFile(aRecord);
+            if(aReward != null) {
+                if(arw.load(aReward.getId())!=null){
+                    arw.add(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                };
+            }
+        }
+    }
+
     public void uploadAchieveFile(AchieveRecord aRecord){
         //授拟-（文件上传）：材料
         JSONObject grantDoc =  JSONObject.parseObject(aRecord.getGrantDoc());

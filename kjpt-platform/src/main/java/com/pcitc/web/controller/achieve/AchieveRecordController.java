@@ -50,6 +50,10 @@ public class AchieveRecordController extends RestBaseController {
      */
     private static final String save = "http://kjpt-zuul/stp-proxy/achieveRecord-api/save";
     /**
+     * 简单保存
+     */
+    private static final String simpleSave = "http://kjpt-zuul/stp-proxy/achieveRecord-api/simpleSave";
+    /**
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieveRecord-api/delete/";
@@ -152,6 +156,18 @@ public class AchieveRecordController extends RestBaseController {
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
     }
+
+    @ApiOperation(value="简单保存")
+    @RequestMapping(value = "/achieveRecord-api/simpleSave", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveSubmit simpleSave(@RequestBody AchieveSubmit as){
+        this.setBaseData(as);
+        as.getAchieveRecord().setAuditStatus("0");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+        return as;
+    }
+
 
     @ApiOperation(value="提交")
     @RequestMapping(value = "/achieveRecord-api/submit", method = RequestMethod.POST)
