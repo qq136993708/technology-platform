@@ -45,7 +45,6 @@ public class BlocScientificPlanController extends RestBaseController {
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/blocScientificPlan-api/delete/";
 
-
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
