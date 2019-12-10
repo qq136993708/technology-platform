@@ -13,10 +13,15 @@
 	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 	<script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
-	<script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <style>
+        .margin108{
+            margin-left: 108px;
+        }
+    </style>
 </head>
 <body>
-	<div class="treeTableContainer layout-view-content">
+	<div class="treeTableContainer layout-view-content min-label">
 		<div class="treeBox">
            <!--加标题-->
            <div class="title-box">
@@ -29,21 +34,28 @@
 	    </div>
 	
 		<div class="treeTableBox">
-		    <div class="searchBox">
-		        <!--查询条件-->
-		        <label class="dateInput">
-		            <span>技术名称</span>
-		            <input type="text" name="typeName" placeholder="请输入技术名称" title="技术名称" autocomplete="off" class="form-control" id="typeName">
-		        </label>
-		        <!--按钮组-->
-		        <div class="btnGroup">
-		            <button class="layui-btn layui-btn-normal" data-type="searchEvent">查询</button>
-		            <button class="layui-btn layui-btn-primary" data-type="resetEvent">重置</button>
-		        </div>
+		    <div class="layui-row layui-col-space20">
+                <!--查询条件-->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label auto"><span class="text">技术名称：</span></label>
+                        <div class="layui-input-block margin108">
+                                <input type="text" name="typeName" placeholder="请输入技术名称" title="技术名称" autocomplete="off" class="layui-input" id="typeName">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <button class="layui-btn layui-btn-normal margin24" data-type="searchEvent">查询</button>
+                            <button class="layui-btn layui-btn-primary" data-type="resetEvent">重置</button>
+                        </div>
+                    </div>
+                </div>
 		    </div>
 			<div class="tableToolBox" id="userDiv">
 		        <div class="whiteLine"></div>
-		        <div  class="tableBtns">
+		        <div  class="tableBtns" id="rightBtn">
                     <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
                             data-type="templateDownload">
                         模板下载
@@ -52,7 +64,7 @@
                             data-type="dataExpert">数据导入
                     </button>-->
 		            <button class="layui-btn border-blue " data-type="addEvent">新增</button>
-		            <button class="layui-btn border-red" data-type="deleteEvent" >删除</button>
+		            <button class="layui-btn border-red margin12" data-type="deleteEvent" >删除</button>
 		        </div>
 		    </div>
 		    <table id="showTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -153,7 +165,7 @@
     });
 
 
-<!--表格js-->
+// <!--表格js-->
 	var table, active, laydate, laypage;
 	var messageInfo = '操作成功';
 	
