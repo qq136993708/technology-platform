@@ -82,7 +82,9 @@ layui.use(['table', 'form', 'layer'], function() {
               url: '/achieveReward-api/newInit',
               success: function(res) {
                 if (res.code === '0' || res.success === true) {
-                  form.val('newTransfrom', res.data);
+                  var newTransfromData =  res.data;
+                  newTransfromData.achieveRecordId = variable.id;
+                  form.val('newTransfrom', newTransfromData);
                 }
               }
             });
@@ -91,12 +93,17 @@ layui.use(['table', 'form', 'layer'], function() {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
 
+          var dataIndex = htmlIndex;
+          if (variable.type === 'transfrom') {
+            dataIndex = (dataIndex - 1);
+          }
+
           // 给当前激励方案赋值回显
-          form.val(formFilter, data[htmlIndex]);
+          form.val(formFilter, data[dataIndex]);
 
           // 回显团队成员
-          if ( data[htmlIndex].teamPerson ) {
-            backfill(data[htmlIndex].teamPerson, tempTableId, 'view');
+          if ( data[dataIndex].teamPerson ) {
+            backfill(data[dataIndex].teamPerson, tempTableId, 'view');
           }
         }
 
@@ -112,10 +119,12 @@ layui.use(['table', 'form', 'layer'], function() {
             id: $this, // 附件上传作用域ID值 必传
             dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
             cols: (function() {
+              console.log('formFilter =>', formFilter);
+
               if (formFilter === 'newTransfrom') {
-                return fileCols[1];
-              } else {
                 return fileCols[0];
+              } else {
+                return fileCols[1];
               }
             })(),
             callback: function (tableData, type) {
@@ -404,7 +413,6 @@ layui.use(['table', 'form', 'layer'], function() {
     }
     achieveRewardData.files = JSON.stringify(newNtFile);
     achieveRewardData.teamPerson = teamPerson;
-    achieveRewardData.achieveRecordId = achieveRecordData.id;
 
     var saveData = {
       achieveRecord: achieveRecordData,
