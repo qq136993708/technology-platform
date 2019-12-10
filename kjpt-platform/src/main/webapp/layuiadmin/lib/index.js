@@ -166,21 +166,6 @@ layui.extend({
     }
   })
 
-  var $LAYAPPTABS = $('#LAY_app_tabsheader');
-  $LAYAPPTABS.on('click', '.layui-tab-close', function(e) {
-    if ($LAYAPPTABS.children('li').length === 0) {
-        setNavMeunSelected();
-    }
-  })
-  $('#LAY_app_tabs').on('click', '[layadmin-event="closeThisTabs"]', function() {
-    if ($LAYAPPTABS.children('li').length === 0) {
-        setNavMeunSelected();
-    }
-  })
-  $('#LAY_app_tabs').on('click', '[layadmin-event="closeAllTabs"]', function() {
-    setNavMeunSelected();
-  })
-
   $(".index-fixed li").click(function () {
     $(this).addClass('layui-this');
     $("#mainIframe").attr('src', $("#mainIframe").attr('src'));

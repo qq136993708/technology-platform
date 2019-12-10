@@ -508,7 +508,9 @@ var __base_dic_store = {
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
 			index : 'lib/index' //主入口模块
-		}).use( [ 'index', 'jquery', "publicMethods" ], function() {
+		}).use( [ 'index', 'jquery', "publicMethods", "element"], function() {
+			var layuiElement = layui.element;
+
 
 			function setHeaderMoreItem(params) {
 				setTimeout(function (params) {
@@ -553,45 +555,6 @@ var __base_dic_store = {
 				}
 			});
 
-			// var navLeft = 36;
-			// $(".layui-header-nav ul.layui-layout-left li").each(function(i, val) {
-			// 	if (i > 4) {
-			// 		$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-			// 		$(val).remove();
-			// 	} else {
-			// 		navLeft += $(val).width() + 24;
-			// 	}
-			// });
-
-			// $(".seacrhBox img").click(function() {
-			// 	var val = $(".seacrhBox input").val();
-			// 	parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
-			// });
-			// $(document).keyup(function(event) {
-			// 	if (event.keyCode == 13) {
-			// 		var val = $(".seacrhBox input").val();
-			// 		parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
-			// 	}
-			// });
-			// $(".layui-header .layui-icon-prev").css("left", (navLeft - 10) + "px");
-			// if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
-			// 	$("#navPrev ul").append(headerNav);
-			// 	$("#navPrev ul span").remove();
-			// 	$("#navPrev ul li").each(function(i, val) {
-			// 		if (i < 5) {
-			// 			$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-			// 			$(val).remove();
-			// 		}
-			// 	});
-			// 	$(".layui-header .layui-icon-prev").on({
-			// 		mouseover : function() {
-			// 			$(".layui-layout-left").eq(1).removeClass("layui-hide");
-			// 		},
-			// 		mouseout : function() {
-			// 			$(".layui-layout-left").eq(1).toggleClass("layui-hide");
-			// 		}
-			// 	});
-			// }
 			$(".layui-header .layui-layout-left li a").on("click", function() {
 				var id = $(this).attr("id")
 				if ($(this).text() == "科研项目系统") {
@@ -867,6 +830,29 @@ var __base_dic_store = {
 				getNotReadMessageList();
 				getNotReadTaskList();
 			});
+
+			// 
+			layuiElement.on('tabDelete(layadmin-layout-tabs)', function(data) {
+				console.log(data);
+			})
+
+			var $LAYAPPTABS = $('#LAY_app_tabsheader');
+			$LAYAPPTABS.on('click', '.layui-tab-close', function(e) {
+				console.log('LAY_app_tabsheader =>');
+
+				if ($LAYAPPTABS.children('li').length === 0) {
+					setNavMeunSelected();
+				}
+			})
+			$('#LAY_app_tabs').on('click', '[layadmin-event="closeThisTabs"]', function() {
+				if ($LAYAPPTABS.children('li').length === 0) {
+						setNavMeunSelected();
+				}
+			})
+			$('#LAY_app_tabs').on('click', '[layadmin-event="closeAllTabs"]', function() {
+				setNavMeunSelected();
+			})
+
 		});
 		
 		
