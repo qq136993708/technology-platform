@@ -40,6 +40,7 @@
         <result column="decision_flow" jdbcType="VARCHAR" property="decisionFlow"/>
         <result column="decision_result" jdbcType="VARCHAR" property="decisionResult"/>
         <result column="decision_meeting_doc" jdbcType="VARCHAR" property="decisionMeetingDoc"/>
+        <result column="decision_rule_doc" jdbcType="VARCHAR" property="decisionRuleDoc"/>
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
         <result column="intellectual_info" jdbcType="VARCHAR" property="intellectualInfo"/>
         <result column="grant_invest" jdbcType="VARCHAR" property="grantInvest"/>
