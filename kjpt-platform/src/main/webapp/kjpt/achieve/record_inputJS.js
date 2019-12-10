@@ -70,7 +70,7 @@ layui.use(['table', 'form', 'layer'], function() {
             // 草稿
             form.val('newTransfrom', data[0]);
             if ( data[0].teamPerson ) {
-              backfill(data[0].teamPerson, tempTableId);
+              backfill(data[0].teamPerson, groupTableId);
             }
           } else {
             httpModule({
@@ -357,13 +357,10 @@ layui.use(['table', 'form', 'layer'], function() {
 
     delete achieveRecordData.file;
     for (var key in arFile) {
-      debugger
       newArFile[achieveRecordData[key]] = arFile[key][1];
     }
     achieveRecordData.files = JSON.stringify(newArFile);
     achieveRecordData.teamPerson = achieveTeamPerson;
-    debugger
-
 
     var achieveRewardData = form.val('newTransfrom'), // 激励信息
     ntFile = getFileValue(achieveRewardData), // 激励方案附件

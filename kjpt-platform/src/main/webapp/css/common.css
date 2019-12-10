@@ -596,3 +596,43 @@ table tr td a {
 .import-error-block .http-error-content  li{
   padding-top: 24px;
 }
+
+/* 图形图表样式布局 */
+.chart-layout {
+  height: 300px;
+  padding-top: 30px;
+  position: relative;
+}
+.chart-layout .chart-title-layout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  font-size: 0;
+}
+.chart-layout .chart-title-layout::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+  width: 0;
+}
+.chart-layout .chart-title-layout > .text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #46484B;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.chart-layout .chart-title-layout .right {
+  position: absolute;
+  right: 0;
+  top:0;
+  height: 100%;
+}
+.chart-layout .chart-block {
+  display: block;
+  height: 100%;
+}
