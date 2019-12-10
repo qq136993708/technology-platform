@@ -217,6 +217,8 @@ public class AchieveRecordController extends RestBaseController {
         a.setDecisionMeetingDoc(UUID.randomUUID().toString().replace("-",""));
         //规章制度：材料
         a.setDecisionRuleDoc(UUID.randomUUID().toString().replace("-",""));
+        //公示结果：材料
+        a.setTransPublicDoc(UUID.randomUUID().toString().replace("-",""));
 
 
         String achieveRewardId = UUID.randomUUID().toString().replace("-","");
