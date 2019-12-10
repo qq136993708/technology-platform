@@ -1,5 +1,6 @@
-layui.use(['table', 'form'], function() {
+layui.use(['table', 'form', 'layer'], function() {
   var form = layui.form,
+  layer = layui.layer,
   variable = getQueryVariable(),
   groupTableId = '',
   fileData = {},
@@ -124,42 +125,51 @@ layui.use(['table', 'form'], function() {
   }
 
   function getFileValue(data) {
-    var fileValue = {};
+    var fileValue = {}, fileTemp = '';
     if (data.hasOwnProperty('appraisalDoc')) {
       // 知识产权状况或科技成果评价报告：
-      fileValue[data.appraisalDoc] =  fileData[data.appraisalDoc] || '';
+      fileTemp = fileData[data.appraisalDoc] || '';
+      fileValue.appraisalDoc = ['知识产权状况或科技成果评价报告', fileTemp];
     }
     if (data.hasOwnProperty('grantDoc')) {
       // 尽职调查报告：
-      fileValue[data.grantDoc] =  fileData[data.grantDoc] || '';
+      fileTemp = fileData[data.grantDoc] || '';
+      fileValue.grantDoc = ['尽职调查报告', fileTemp];
     }
     if (data.hasOwnProperty('transContractDoc')) {
       // 合同（协议）文本：
-      fileValue[data.transContractDoc] =  fileData[data.transContractDoc] || '';
+      fileTemp = fileData[data.transContractDoc] || '';
+      fileValue.transContractDoc = ['合同（协议）文本', fileTemp];
     }
     if (data.hasOwnProperty('transAssessDoc')) {
       // 资产评估报告及评估备案表：
-      fileValue[data.transAssessDoc] =  fileData[data.transAssessDoc] || '';
+      fileTemp = fileData[data.transAssessDoc] || '';
+      fileValue.transAssessDoc =  ['资产评估报告及评估备案表', fileTemp];
     }
     if (data.hasOwnProperty('decisionMeetingDoc')) {
       // 内部决策会议纪要：
-      fileValue[data.decisionMeetingDoc] =  fileData[data.decisionMeetingDoc] || '';
+      fileTemp = fileData[data.decisionMeetingDoc] || '';
+      fileValue.decisionMeetingDoc =  ['内部决策会议纪要', fileTemp];
     }
     if (data.hasOwnProperty('decisionRuleDoc')) {
       // 单位内部科技成果转化规章制度：
-      fileValue[data.decisionRuleDoc] =  fileData[data.decisionRuleDoc] || '';
+      fileTemp = fileData[data.decisionRuleDoc] || '';
+      fileValue.decisionRuleDoc =  ['单位内部科技成果转化规章制度', fileTemp];
     }
     if (data.hasOwnProperty('incomeReportDoc')) {
       // 净收入计算报告（单位财务部门盖章）：
-      fileValue[data.incomeReportDoc] =  newTransfromFile[data.incomeReportDoc] || '';
+      fileTemp = newTransfromFile[data.incomeReportDoc] || '';
+      fileValue.incomeReportDoc =  ['净收入计算报告（单位财务部门盖章）', fileTemp];
     }
     if (data.hasOwnProperty('assignPlanDoc')) {
       // 激励方案报告：
-      fileValue[data.assignPlanDoc] =  newTransfromFile[data.assignPlanDoc] || '';
+      fileTemp = newTransfromFile[data.assignPlanDoc] || '';
+      fileValue.assignPlanDoc =  ['激励方案报告', fileTemp];
     }
     if (data.hasOwnProperty('rewardAccountingDoc')) {
       // 成果核算（单位财务部门盖章）：
-      fileValue[data.rewardAccountingDoc] =  newTransfromFile[data.rewardAccountingDoc] || '';
+      fileTemp = newTransfromFile[data.rewardAccountingDoc] || '';
+      fileValue.rewardAccountingDoc = ['成果核算（单位财务部门盖章）', fileTemp];
     }
   }
 
@@ -232,15 +242,107 @@ layui.use(['table', 'form'], function() {
   });
 
   // 新建整体提交
+  var subFormData = null;
   form.on('submit(formSave)', function(data) {
+    subFormData = data.field;
+    
+    var achieveTeamPerson = getTableData('teamPersonList'); // 科技成果完成团队情况
+    if (!achieveTeamPerson) {
+      layer.msg('激励人员名单不能为空！', {icon: 2});
+      subFormData = null;
+      return false;
+    } else {
+      subFormData.teamPerson = achieveTeamPerson;
+    }
+
+    // 判断备案信息相关附件是否为空
+    var fileValue = getFileValue(subFormData);
+    for (var fileKey in fileValue) {
+      if (!fileValue[fileKey][1]) {
+        layer.msg(fileValue[fileKey][0] + '附件不能为空！', {icon: 2});
+        subFormData = null;
+        break;
+      } else {
+        subFormData[fileKey] = fileValue[fileKey][1];
+      }
+    }
+    if (!subFormData) {
+      return false;
+    } else {
+      subFormData.files = JSON.stringify(fileValue);
+    }
     $('[lay-filter="editTranfromMaintain"]').click();
     return false;
   })
 
   // 维护，新增 => 转化净收益及激励方案
-  form.on('submit(editTranfromMaintain)', function() {
-    console.log(' => ');
-    var teamPerson = getTableData(groupTableId);
+  form.on('submit(editTranfromMaintain)', function(data) {
+    var teamPerson = getTableData(groupTableId),
+    transfromData = data.field;
+    if (!teamPerson) {
+      layer.msg('科技成果完成团队情况不能为空！', {icon: 2});
+      return false;
+    } else {
+      transfromData.teamPerson = teamPerson;
+    }
+
+    // 判断备案信息相关附件是否为空
+    var fileValue = getFileValue(transfromData);
+    for (var fileKey in fileValue) {
+      if (!fileValue[fileKey][1]) {
+        layer.msg(fileValue[fileKey][0] + '附件不能为空！', {icon: 2});
+        transfromData = null;
+        break;
+      } else {
+        transfromData[fileKey] = fileValue[fileKey][1];
+      }
+    }
+    if (!transfromData) {
+      return false;
+    } else {
+      transfromData.files = JSON.stringify(fileValue);
+    }
+
+    var baseUrl = '/achieveReward-api/save', allData = null;
+    if (variable.type === 'input') {
+      // 备案信息录入
+      baseUrl = '/achieveRecord-api/submit';
+      allData = {
+        creator: null,
+        createDate: new Date().getTime(),
+        updator: null,
+        updateDate: new Date().getTime(),
+        deleted: '0',
+        createUnitId: '',
+        createUnitName: '',
+        achieveRecord: subFormData,
+        achieveReward: transfromData
+      };
+    } else {
+      // 奖励方案维护
+      allData = transfromData;
+    }
+    
+    // 发起http请求
+    var submitIndex = top.layer.load(2);
+    $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
+    httpModule({
+      url: baseUrl,
+      type: 'POST',
+      data: allData,
+      success: function(res) {
+        top.layer.close(submitIndex);
+        $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
+        if (res.code === '0' || res.success === true) {
+
+        }
+      },
+      error: function(err) {
+        top.layer.close(submitIndex);
+        $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
+      }
+    });
+
     return false;
   })
 
@@ -260,13 +362,15 @@ layui.use(['table', 'form'], function() {
     arFile = getFileValue(achieveRecordData);  // 备案先挂附件
 
     for (var key in ntFile) {
-      achieveRewardData[key] = ntFile[key]; 
+      ntFile[key] = ntFile[key][1];
     }
+    achieveRewardData.files = JSON.stringify(ntFile);
     achieveRewardData.achieveRecordId = achieveRecordData.id;
 
     for (var key in arFile) {
-      achieveRecordData[key] = ntFile[key]; 
+      arFile[key] = arFile[key][1]; 
     }
+    achieveRecordData.files = JSON.stringify(arFile);
     
     var saveData = {
       achieveRecord: achieveRecordData,
@@ -275,7 +379,9 @@ layui.use(['table', 'form'], function() {
       createDate: new Date().getTime(),
       updator: null,
       updateDate: new Date().getTime(),
-      deleted: '0'
+      deleted: '0',
+      createUnitId: '',
+      createUnitName: ''
     }
 
     $this.prop('disabled', true);
