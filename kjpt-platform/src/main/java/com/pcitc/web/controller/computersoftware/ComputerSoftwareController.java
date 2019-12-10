@@ -79,9 +79,6 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query")
 
-
-
-
     })
 
     @GetMapping(value = "/query")

@@ -26,7 +26,6 @@
         <result column="RESEARCH_FIELD_text" jdbcType="VARCHAR" property="researchFieldText"/>
 
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
-
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
     </resultMap>
@@ -82,7 +81,6 @@
        report_type,
        create_unit_id,
        create_unit_name
-
       )
     values (
         #{id},
@@ -100,7 +98,7 @@
         #{updator},
         #{annual},
         #{reportType},
-        #{ create_unit_id},
+        #{create_unit_id},
         #{create_unit_name}
       )
   </insert>
@@ -162,7 +160,7 @@
         </if>
 
         <if test="createUnitName != null  and createUnitName != ''  ">
-            and create_unit_namelike CONCAT('%',#{createUnitName},'%')
+            and create_unit_name like CONCAT('%',#{createUnitName},'%')
         </if>
 
         <if test="childUnitIds != null          and childUnitIds !=''  ">
