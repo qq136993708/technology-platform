@@ -79,7 +79,7 @@
 			
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="save" >提交</button>
+					<a  class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="save" >提交</a>
 					<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">关闭</button>
 				</div>
 			</div>
@@ -160,7 +160,8 @@
 
 			/* 监听提交 */
 			//form.on('submit(form-submit)', function(data) {
-				$("#save").click(function() {
+			$("#save").click(function() {
+			    console.log(111)
 				if ($('#auditRemarks').val() == "") {
 					layer.msg('请输入审批意见');
 					return false;
