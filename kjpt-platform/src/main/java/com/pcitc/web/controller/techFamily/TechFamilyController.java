@@ -48,7 +48,7 @@ public class TechFamilyController extends BaseController {
 	private static final String TECH_TYPE_DELETE = "http://kjpt-zuul/stp-proxy/tech-family-provider/type-delete";
 	
 	
-	private static final String GET_OUT_PROJECT_COUNT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list-count/";
+	private static final String GET_OUT_PROJECT_COUNT = "http://kjpt-zuul/system-proxy/out-provider/get-project-list-count/";
 
 	@RequestMapping(value = "/tech-family/type/tree-list/ini")
 	public String iniTechFamilyType(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -87,7 +87,7 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
             @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
 
-    ) {
+    ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -115,6 +115,10 @@ public class AchieveBaseController extends RestBaseController {
         if (!StringUtils.isEmpty(auditStatus)) {
             this.setParam(condition, "auditStatus", auditStatus);
         }
+        //默认查询当前人所在机构下所有的成果
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

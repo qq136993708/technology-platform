@@ -356,13 +356,11 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			 */
 			Deployment deployment = repositoryService.createDeployment()
 			        .name(modelData.getName())
-			     //   .addClasspathResource(processName)
-			      //  .addClasspathResource(processName_png)
 			        .addString(processName, new String(bpmnBytes, "UTF-8"))
 			        .deploy();
-      // 更新流程定义类别,替换掉页面的定义
-			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
-			if (processDefinition!=null) repositoryService.setProcessDefinitionCategory(processDefinition.getId(), deployment.getCategory());
+           // 更新流程定义类别,替换掉页面的定义
+		//	ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+			//if (processDefinition!=null) repositoryService.setProcessDefinitionCategory(processDefinition.getId(), deployment.getCategory());
 					
 			modelData.setDeploymentId(deployment.getId());
 			repositoryService.saveModel(modelData);
