@@ -76,16 +76,17 @@
 				</div>
 			</div>
 			<!--在添加另一个页面的html，所有业务的详情页面-->
-			<div id="ifrID">
-				<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
-			</div>
+			
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">提交</button>
+					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="save" >提交</button>
 					<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">关闭</button>
 				</div>
 			</div>
 		</form>
+		<div id="ifrID">
+				<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
+	    </div>
 	</div>
 </div>
 	<script>
@@ -152,9 +153,14 @@
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			});
+			
+			
+			
+			
 
 			/* 监听提交 */
-			form.on('submit(form-submit)', function(data) {
+			//form.on('submit(form-submit)', function(data) {
+				$("#save").click(function() {
 				if ($('#auditRemarks').val() == "") {
 					layer.msg('请输入审批意见');
 					return false;
