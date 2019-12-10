@@ -87,7 +87,6 @@ public class BlocScientificPlanController extends RestBaseController {
 
     ) {
 
-
         Map<String, Object> condition = new HashMap<>(6);
 
         this.setParam(condition, "pageNum", pageNum);
@@ -111,7 +110,6 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(reportType)) {
             this.setParam(condition, "reportType", reportType);
         }
-
 
         if (!StringUtils.isEmpty(createUnitId)) {
             this.setParam(condition, "createUnitId", createUnitId);

@@ -223,4 +223,5 @@
         call handler_kypt_import(#{batchId})
     </select>
 
+
 </mapper>

@@ -12,6 +12,7 @@ import java.util.Map;
 public interface AchieveRecordService {
     AchieveRecord load(String id);
     void save(AchieveSubmit as);
+    void simpleSave(AchieveSubmit as);
     Integer delete(String ids);
     PageInfo query(Map param);
 }

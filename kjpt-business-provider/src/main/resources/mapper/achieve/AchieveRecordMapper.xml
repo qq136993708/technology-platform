@@ -195,7 +195,7 @@
                 about_complete_time = #{aboutCompleteTime,jdbcType=TIMESTAMP},
             </if>
             <if test="aboutCompleteInfo != null and aboutCompleteInfo != ''" >
-                aboutCompleteInfo = #{aboutCompleteInfo,jdbcType=VARCHAR},
+                about_complete_info = #{aboutCompleteInfo,jdbcType=VARCHAR},
             </if>
             <if test="achieveTechType != null and achieveTechType != ''" >
                 achieve_tech_type = #{achieveTechType,jdbcType=VARCHAR},

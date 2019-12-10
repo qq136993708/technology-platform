@@ -50,6 +50,10 @@ public class AchieveRecordController extends RestBaseController {
      */
     private static final String save = "http://kjpt-zuul/stp-proxy/achieveRecord-api/save";
     /**
+     * 简单保存
+     */
+    private static final String simpleSave = "http://kjpt-zuul/stp-proxy/achieveRecord-api/simpleSave";
+    /**
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieveRecord-api/delete/";
@@ -147,21 +151,47 @@ public class AchieveRecordController extends RestBaseController {
     @ResponseBody
     public AchieveSubmit save(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
+        setRecord(as);
         as.getAchieveRecord().setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
     }
 
+    @ApiOperation(value="简单保存")
+    @RequestMapping(value = "/achieveRecord-api/simpleSave", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveSubmit simpleSave(@RequestBody AchieveSubmit as){
+        this.setBaseData(as);
+        setRecord(as);
+        as.getAchieveRecord().setAuditStatus("0");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+        return as;
+    }
+
+
     @ApiOperation(value="提交")
     @RequestMapping(value = "/achieveRecord-api/submit", method = RequestMethod.POST)
     @ResponseBody
     public AchieveSubmit submit(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
+        setRecord(as);
         as.getAchieveRecord().setAuditStatus("1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
+    }
+
+    private void setRecord(AchieveSubmit as){
+        if(as.getAchieveReward()!=null){
+            as.getAchieveReward().setCreator(as.getUpdator());
+            as.getAchieveReward().setUpdator(as.getUpdator());
+            as.getAchieveReward().setCreateDate(as.getUpdateDate());
+            as.getAchieveReward().setUpdateDate(as.getUpdateDate());
+            as.getAchieveReward().setCreateUnitId(this.getUserProfile().getUnitId());
+            as.getAchieveReward().setCreateUnitName(this.getUserProfile().getUnitName());
+        }
     }
 
 
@@ -201,6 +231,8 @@ public class AchieveRecordController extends RestBaseController {
         a.setDecisionMeetingDoc(UUID.randomUUID().toString().replace("-",""));
         //规章制度：材料
         a.setDecisionRuleDoc(UUID.randomUUID().toString().replace("-",""));
+        //公示结果：材料
+        a.setTransPublicDoc(UUID.randomUUID().toString().replace("-",""));
 
 
         String achieveRewardId = UUID.randomUUID().toString().replace("-","");
