@@ -41,16 +41,19 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
     var saveData = {
       achieveRecord: data.field,
       achieveReward: null,
+      createUnitId: '',
+      createUnitName: '',
       creator: null,
       createDate: new Date().getTime(),
       updator: null,
       updateDate: new Date().getTime(),
       deleted: '0'
     }
-    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime()
+    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
+    saveData.achieveRecord.achieveRewards = [];
 
     httpModule({
-      url: '/achieveRecord-api/save',
+      url: '/achieveRecord-api/simpleSave',
       data: saveData,
       type: 'POST',
       success: function(res) {
@@ -69,8 +72,4 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
 
     return false;
   })
-
-  
-
-
 })

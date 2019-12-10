@@ -71,6 +71,16 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     private String imgId="";
 
     /**
+     * 平台项目数量
+     */
+    private Integer projectCount=0;
+
+    /**
+     * 平台成果数量
+     */
+    private Integer achieveCount=0;
+
+    /**
      * 导入数据的批次标识
      */
     @JsonInclude
@@ -218,5 +228,21 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
 
     public void setImgId(String imgId) {
         this.imgId = imgId;
+    }
+
+    public Integer getProjectCount() {
+        return projectCount;
+    }
+
+    public void setProjectCount(Integer projectCount) {
+        this.projectCount = projectCount;
+    }
+
+    public Integer getAchieveCount() {
+        return achieveCount;
+    }
+
+    public void setAchieveCount(Integer achieveCount) {
+        this.achieveCount = achieveCount;
     }
 }

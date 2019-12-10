@@ -76,8 +76,7 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "achieveType", value = "成果持有单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "audiStatus", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "audiStatus", value = "备案状态", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
@@ -196,7 +195,7 @@ public class AchieveRecordController extends RestBaseController {
 
 
     @ApiOperation(value="删除")
-    @RequestMapping(value = "/achieveRecord-api/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/achieveRecord-api/delete/{ids}", method = RequestMethod.DELETE)
     @ResponseBody
     public Integer delete(@PathVariable String ids) {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+ids, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
