@@ -3,7 +3,7 @@ layui.use(['table', 'form','laydate'], function() {
   var form = layui.form;
   var laydate = layui.laydate;
   var tableRender = false;
-  function queryTable(searchData) {
+   window.queryTable=function(searchData) {
     if (!tableRender) {
       tableRender = true;
       table.render({
@@ -19,7 +19,10 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
           ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
         ]],
-        parseData: function(res) {return layuiParseData(res, null, 3);},
+        parseData: function(res) {
+            console.log(res)
+            return layuiParseData(res, null, 15);
+            },
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -113,11 +116,18 @@ layui.use(['table', 'form','laydate'], function() {
         url = '/kjpt/achieve/apply_view.html?type=' + optionType+"&index="+index;
     }
 
-    if (optionType !== 'add') {
+    if (optionType == 'edit') {
       var listData = table.checkStatus('tableDemo').data;
       if (listData.length) {
         if (listData.length === 1) {
-          url += '&id='+listData[0].id+"&index="+index;
+            if(listData[0].auditStatus==0||listData[0].auditStatus==3){
+                url += '&id='+listData[0].id+"&index="+index;
+                parent.layui.index.openTabsPage(url, dialogTitle + '申请');
+            }else {
+                top.layer.msg('当前申请状态不能编辑！');
+                return false;
+            }
+
         } else {
           top.layer.msg('要'+dialogTitle+'的数据只能是单条！');
           return false;
@@ -126,7 +136,13 @@ layui.use(['table', 'form','laydate'], function() {
         top.layer.msg('请选择要'+dialogTitle+'的数据！');
         return false;
       }
+    }else if (optionType == 'view') {
+        var listData = table.checkStatus('tableDemo').data;
+        url += '&id='+listData[0].id+"&index="+index;
+        parent.layui.index.openTabsPage(url, dialogTitle + '申请');
+        return false
+    }else {
+        parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }
-    parent.layui.index.openTabsPage(url, dialogTitle + '申请');
   })
 })
