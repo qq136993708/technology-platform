@@ -22,6 +22,8 @@
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="img_id" jdbcType="VARCHAR" property="imgId"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
 		<result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
         <result column="supporting_institutions_text" jdbcType="VARCHAR" property="supportingInstitutionsText"/>
@@ -48,7 +50,9 @@
         create_date,
         update_date,
         updator,
-        deleted
+        deleted,
+        create_unit_id,
+        create_unit_name
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -58,12 +62,20 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_info where 1=1
             and deleted != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
         <include refid="selectByParam" />
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_info where 1=1
             and deleted != '1'
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
         <include refid="selectByParam" />
     </select>
 
@@ -98,9 +110,9 @@
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
-        overall_situation,platform_scoring,img_id,level,create_user,create_date,update_date,updator,deleted,research_field_text)
+        overall_situation,platform_scoring,img_id,level,create_user,create_date,update_date,updator,deleted,research_field_text,create_unit_id,create_unit_name)
          values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
-         #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted},#{researchFieldText} )
+         #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted},#{researchFieldText},#{createUnitId},#{createUnitName} )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -210,5 +222,6 @@
     <select id="handlerKyptInfoImport" parameterType="java.lang.String" resultMap="BaseResultMap">
         call handler_kypt_import(#{batchId})
     </select>
+
 
 </mapper>

@@ -105,11 +105,19 @@
         select  * from view_achieve_record where 1=1
             and del_status != '1'
         <include refid="selectByParam" />
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from achieve_record where 1=1
             and del_status != '1'
         <include refid="selectByParam" />
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <sql id="selectByParam">
@@ -121,6 +129,21 @@
         </if>
         <if test="finishUnitName != null and finishUnitName != '' " >
             and finish_unit_name = #{finishUnitName}
+        </if>
+        <if test="auditStatus != null and auditStatus != '' " >
+            and audit_status = #{auditStatus}
+        </if>
+        <if test="grantUnitName != null and grantUnitName != '' " >
+            and grant_unit_name = #{grantUnitName}
+        </if>
+        <if test="achieveTransType != null and achieveTransType != '' " >
+            and achieve_trans_type = #{achieveTransType}
+        </if>
+        <if test="startDate != null and startDate != '' " >
+            and create_time <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="endDate != null and endDate != '' " >
+            and create_time <![CDATA[<=]]> #{endDate}
         </if>
     </sql>
 
@@ -172,7 +195,7 @@
                 about_complete_time = #{aboutCompleteTime,jdbcType=TIMESTAMP},
             </if>
             <if test="aboutCompleteInfo != null and aboutCompleteInfo != ''" >
-                aboutCompleteInfo = #{aboutCompleteInfo,jdbcType=VARCHAR},
+                about_complete_info = #{aboutCompleteInfo,jdbcType=VARCHAR},
             </if>
             <if test="achieveTechType != null and achieveTechType != ''" >
                 achieve_tech_type = #{achieveTechType,jdbcType=VARCHAR},

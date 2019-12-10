@@ -1,5 +1,6 @@
 package com.pcitc.service.achieve.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveRecord;
@@ -50,11 +51,49 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         if(arm.load(aRecord.getId()) ==null){
             aRecord.setCreateDate(as.getUpdateDate());
             aRecord.setCreator(as.getUpdator());
+            handlerFile(aRecord.getFiles());
             arm.add(aRecord);
+
             if(aReward != null){
                 aReward.setCreateDate(as.getUpdateDate());
                 aReward.setCreator(as.getUpdator());
+                aRecord.setCreateUnitName(as.getCreateUnitName());
+                aRecord.setCreateUnitId(as.getCreateUnitId());
+                handlerFile(aReward.getFiles());
                 arw.add(aReward);
+                //修改备案的总额
+                arw.updateRewardMoney(aRecord.getId());
+            }
+        }
+        else{
+            handlerFile(aRecord.getFiles());
+            arm.update(aRecord);
+            if(aReward != null) {
+                if(arw.load(aReward.getId())!=null){
+                    handlerFile(aReward.getFiles());
+                    arw.add(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                };
+            }
+        }
+
+    }
+
+    @Override
+    public void simpleSave(AchieveSubmit as) {
+        AchieveRecord aRecord = as.getAchieveRecord();
+        AchieveReward aReward = as.getAchieveReward();
+        IsEmptyUtil.isEmpty(aRecord);
+        if(arm.load(aRecord.getId()) ==null){
+            aRecord.setCreateDate(as.getUpdateDate());
+            aRecord.setCreator(as.getUpdator());
+            aRecord.setCreateUnitName(as.getCreateUnitName());
+            aRecord.setCreateUnitId(as.getCreateUnitId());
+            arm.add(aRecord);
+
+            if(aReward != null){
+                arw.add(aReward);
+                //修改备案的总额
                 arw.updateRewardMoney(aRecord.getId());
             }
         }
@@ -67,7 +106,13 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
                 };
             }
         }
+    }
 
+    private void handlerFile(String files){
+        JSONObject grantDoc =  JSONObject.parseObject(files);
+        for(String key:grantDoc.keySet()){
+            fs.updateFileData(key,grantDoc.get(key) == null?"":grantDoc.get(key).toString());
+        }
     }
 
     @Override
