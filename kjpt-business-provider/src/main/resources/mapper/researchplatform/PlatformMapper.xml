@@ -22,9 +22,11 @@
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="img_id" jdbcType="VARCHAR" property="imgId"/>
+        <result column="project_count" jdbcType="INTEGER" property="projectCount"/>
+        <result column="achieve_count" jdbcType="INTEGER" property="achieveCount"/>
+
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
-
 		<result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
         <result column="supporting_institutions_text" jdbcType="VARCHAR" property="supportingInstitutionsText"/>
 		<result column="platform_type_text" jdbcType="VARCHAR" property="typeText"/>
