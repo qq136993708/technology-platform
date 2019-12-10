@@ -928,7 +928,7 @@ function deleTr(id){
         });
     })
 }
-function backfill(data,id,type) {
+function backfill(data, id, type) {
 	var readonly='';
     type=="view" ?  readonly='true': readonly='false'
     console.log(readonly)
@@ -938,6 +938,7 @@ function backfill(data,id,type) {
         var off=$("#"+id).find(".layui-none");
         $(off).hide();
         if(type=="view"){
+					$("#"+id+" thead tr th:eq(5)").hide();
             dataArr.map(function (item, index) {
                 var itemArr=item.split("#")
                 var trHtml='<tr>' +
