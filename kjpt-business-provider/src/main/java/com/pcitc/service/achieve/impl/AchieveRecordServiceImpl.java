@@ -83,9 +83,14 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             handlerFile(aRecord.getFiles());
             arm.update(aRecord);
             if(aReward != null) {
-                handlerFile(aReward.getFiles());
-                arw.add(aReward);
-                arw.updateRewardMoney(aRecord.getId());
+                if(arw.load(aReward.getId())==null){
+                    //保存备案的激励信息
+                    arw.add(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                }else{
+                    arw.update(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                }
             }
         }
 
@@ -109,17 +114,22 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             arm.add(aRecord);
 
             if(aReward != null){
+                //保存备案的激励信息
                 arw.add(aReward);
-                //修改备案的总额
                 arw.updateRewardMoney(aRecord.getId());
             }
         }
         else{
             arm.update(aRecord);
             if(aReward != null) {
-                //保存备案的激励信息
-                arw.add(aReward);
-                arw.updateRewardMoney(aRecord.getId());
+                if(arw.load(aReward.getId())==null){
+                    //保存备案的激励信息
+                    arw.add(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                }else{
+                    arw.update(aReward);
+                    arw.updateRewardMoney(aRecord.getId());
+                }
             }
         }
     }
