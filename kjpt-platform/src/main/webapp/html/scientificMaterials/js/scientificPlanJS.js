@@ -14,6 +14,22 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var params = getQueryVariable();
   var reportType = +params.reportType;
 
+  function getDicData(){
+    httpModule({
+      url: '/techFamily-api/getTreeList',
+      type: 'GET',
+      success: function(relData) {
+        console.log('reldata',relData);
+        // if (relData.code === '0') {
+          $('[name=researchField]').attr('dic-base-data',relData.nodePath);
+        // } else {
+        //   layer.msg('网络异常', {icon: 2});
+        // }
+      }
+    });
+  }
+  getDicData();
+
   function setSelectInput(){ //js动态设置条件过滤布局
     var len;
     if(reportType == 1){
