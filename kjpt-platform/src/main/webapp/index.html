@@ -831,26 +831,11 @@ var __base_dic_store = {
 				getNotReadTaskList();
 			});
 
-			// 
-			layuiElement.on('tabDelete(layadmin-layout-tabs)', function(data) {
-				console.log(data);
-			})
-
 			var $LAYAPPTABS = $('#LAY_app_tabsheader');
-			$LAYAPPTABS.on('click', '.layui-tab-close', function(e) {
-				console.log('LAY_app_tabsheader =>');
-
+			layuiElement.on('tabDelete(layadmin-layout-tabs)', function(data) {
 				if ($LAYAPPTABS.children('li').length === 0) {
 					setNavMeunSelected();
 				}
-			})
-			$('#LAY_app_tabs').on('click', '[layadmin-event="closeThisTabs"]', function() {
-				if ($LAYAPPTABS.children('li').length === 0) {
-						setNavMeunSelected();
-				}
-			})
-			$('#LAY_app_tabs').on('click', '[layadmin-event="closeAllTabs"]', function() {
-				setNavMeunSelected();
 			})
 
 		});

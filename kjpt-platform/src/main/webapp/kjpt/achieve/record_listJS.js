@@ -3,7 +3,7 @@ layui.use(['table', 'form'], function() {
   var form = layui.form;
 
   var tableRender = false;
-  function queryTable(searchData) {
+   window.queryTable=function(searchData) {
     if (!tableRender) {
       tableRender = true;
       table.render({
@@ -111,6 +111,14 @@ layui.use(['table', 'form'], function() {
     parent.layui.index.openTabsPage(url, dialogTitle + '申请');
   })
 
+  
+  		  //流程
+  $('#flow').on('click', function() {
+	    var activeData = table.checkStatus('tableDemo').data;
+		dealFlow(activeData[0].id);
+  })
+  
+  
   // 新增、编辑、查看
   $('.openLayerPage').on('click', function() {
     var optionType = $(this).data('type'),
