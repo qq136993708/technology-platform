@@ -221,4 +221,12 @@ public class PostProviderClient {
 		
 		return posts;
 	}
+	
+	
+	@ApiOperation(value = "根据ID列表检索岗位", notes = "根据ID列表检索岗位，返回LIST")
+	@RequestMapping(value = "/post-provider/post/get_posts_by_list_ids", method = RequestMethod.POST)
+	public List<SysPost> getTechFamilyListByCodes(@RequestBody List<String> list)throws Exception{
+		return postService.findSysPostByList(list);
+	}
+	
 }

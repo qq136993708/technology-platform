@@ -22,6 +22,9 @@ public interface UserService {
 	public SysUser currentUserInfo(String userId);
 
 	public Integer updateUser(SysUser user);
+	
+	
+	
 
 	public int deleteUser(String userId);
 	
@@ -120,5 +123,16 @@ public interface UserService {
 	
 	public	List getList(Map map)throws Exception;
 	public  Long getCount(Map map)throws Exception;
-
+	
+	
+	
+	
+	
+	public Integer updateSysUser(SysUser user)throws Exception;
+	public Integer insertSysUser(SysUser user)throws Exception;
+	public Integer updateSysUserPost(SysUser user)throws Exception;
+	public Integer updateSysUserRole(SysUser user)throws Exception;
+	public Integer updateUserBase(SysUser user)throws Exception;
+	
+	
 }

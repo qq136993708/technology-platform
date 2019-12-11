@@ -98,7 +98,18 @@ public class SysUser {
 	private String secretLevel;
 	
 	private String unifyIdentityId;
+	
+	private String  userNameKey;
+	
     
+
+	public String getUserNameKey() {
+		return userNameKey;
+	}
+
+	public void setUserNameKey(String userNameKey) {
+		this.userNameKey = userNameKey;
+	}
 
 	public String getUnifyIdentityId() {
 		return unifyIdentityId;
