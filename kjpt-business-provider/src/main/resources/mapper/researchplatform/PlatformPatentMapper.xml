@@ -145,7 +145,7 @@
         create_date,update_date,
         update_user,create_unit_id,
         create_unit_name,
-        secret-level
+        secret_level
         ) values
         <foreach collection="list" item="kp" separator=",">
             (#{id},#{platformId},

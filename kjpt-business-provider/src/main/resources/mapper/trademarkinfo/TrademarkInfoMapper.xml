@@ -86,20 +86,26 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_name, commodity_category,
+     id,
+     unit_name,
+     commodity_category,
      application_number,
      effective_date,
-      register_notice_date,
-    entry_person, trademark_name,
-     applicant, register_date,
-     law_status, remark, entry_date,
-    file,deleted,
-    commodity_category_text,
-    legal_status_text,
-    unit_name_text,
-    create_unit_id,
-    create_unit_name,
-    secret_level
+     register_notice_date,
+     entry_person,
+     trademark_name,
+     applicant,
+     register_date,
+     law_status,
+     remark,
+     entry_date,
+     file,deleted,
+     commodity_category_text,
+     legal_status_text,
+     unit_name_text,
+     create_unit_id,
+     create_unit_name,
+     secret_level
 
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultMap="BaseResultMap">
@@ -130,43 +136,54 @@
     from view_trademark_info
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     update trademark_info set deleted = '1'
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+
   <delete id="deleteByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample">
     delete from trademark_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
   <insert id="insert" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into trademark_info (unit_name, commodity_category, application_number, 
-      effective_date, register_notice_date, 
-      entry_person, trademark_name, applicant, 
-      register_date, law_status, remark, 
-      entry_date, file,
-      secret_level
+    insert into trademark_info (
+    unit_name,
+    commodity_category,
+    application_number,
+    effective_date,
+    register_notice_date,
+    entry_person,
+    trademark_name,
+    applicant,
+    register_date,
+    law_status, remark,
+    entry_date,
+    file,
+    secret_level
 
     )
-    values (#{unitName,jdbcType=VARCHAR},
+    values (
+    #{unitName,jdbcType=VARCHAR},
     #{commodityCategory,jdbcType=VARCHAR},
     #{applicationNumber,jdbcType=VARCHAR},
-      #{effectiveDate,jdbcType=TIMESTAMP},
+    #{effectiveDate,jdbcType=TIMESTAMP},
     #{registerNoticeDate,jdbcType=TIMESTAMP},
-      #{entryPerson,jdbcType=VARCHAR},
+    #{entryPerson,jdbcType=VARCHAR},
     #{trademarkName,jdbcType=VARCHAR},
     #{applicant,jdbcType=VARCHAR},
-      #{registerDate,jdbcType=TIMESTAMP},
+    #{registerDate,jdbcType=TIMESTAMP},
     #{lawStatus,jdbcType=VARCHAR},
     #{remark,jdbcType=VARCHAR},
-      #{entryDate,jdbcType=TIMESTAMP},
+    #{entryDate,jdbcType=TIMESTAMP},
     #{file,jdbcType=VARCHAR},
     #{secretLevel,jdbcType=VARCHAR}
-
     )
 
   </insert>
@@ -226,12 +243,8 @@
       </if>
 
       <if test="secretLevel != null">
-        secret-level,
+        secret_level
       </if>
-
-
-
-
 
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -288,19 +301,19 @@
       </if>
 
       <if test="secretLevel != null">
-        #{secretLevel,jdbcType=VARCHAR},
+        #{secretLevel,jdbcType=VARCHAR}
       </if>
-
-
 
     </trim>
   </insert>
+
   <select id="countByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultType="java.lang.Long">
     select count(*) from trademark_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+
   <update id="updateByExampleSelective" parameterType="map">
     update trademark_info
     <set>
@@ -353,7 +366,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update trademark_info
-    set id = #{record.id,jdbcType=VARCHAR},
+    set
+      id = #{record.id,jdbcType=VARCHAR},
       unit_name = #{record.unitName,jdbcType=VARCHAR},
       commodity_category = #{record.commodityCategory,jdbcType=VARCHAR},
       application_number = #{record.applicationNumber,jdbcType=VARCHAR},
@@ -367,11 +381,12 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       entry_date = #{record.entryDate,jdbcType=TIMESTAMP},
       file = #{record.file,jdbcType=VARCHAR},
-     secretLevel = #{record.secretLevel,jdbcType=VARCHAR}
+      secretLevel = #{record.secretLevel,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
     update trademark_info
     <set>
@@ -414,6 +429,7 @@
       <if test="files != null">
         file = #{files,jdbcType=VARCHAR},
       </if>
+
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -434,7 +450,7 @@
       file = #{files,jdbcType=VARCHAR},
       create_unit_id = #{createUnitId,jdbcType=VARCHAR},
 	  create_unit_name = #{createUnitName,jdbcType=VARCHAR},
-	  secret-level #{secretLevel,jdbcType=VARCHAR}
+	  secret_level =  #{secretLevel,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
