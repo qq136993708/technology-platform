@@ -252,7 +252,7 @@ public class SysUserApiController extends BaseController{
 
     @ApiOperation(value = "修改岗位信息", notes = "修改岗位信息")
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userPost",     value = "用户岗位编码（多个逗号分开）", dataType = "string", paramType = "form",required=true)
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserPost")
@@ -284,7 +284,7 @@ public class SysUserApiController extends BaseController{
     
     @ApiOperation(value = "修改角色信息", notes = "修改角色信息")
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userRole",     value = "用户角色编码（多个逗号分开）", dataType = "string", paramType = "form",required=true)
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserRole")
@@ -316,7 +316,7 @@ public class SysUserApiController extends BaseController{
 	
     @ApiOperation(value = "修改密级信息", notes = "修改密级信息")
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "userId",          value = "主键", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "userId",          value = "主键", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "secretLevel",     value = "用户密级", dataType = "string", paramType = "form",required=true),
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserSecretLevel")
@@ -343,6 +343,9 @@ public class SysUserApiController extends BaseController{
     
     
     @ApiOperation(value = "根据机构ID获取所属的所有岗位", notes = "根据机构ID获取所属的所有岗位")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "unitId",           value = "机构ID", dataType = "string", paramType = "query",required=true)
+    })
 	@RequestMapping(value = "/post-api/getPostListByUnitId", method = RequestMethod.GET)
 	public String getPostListByUnitId(@RequestParam(value = "unitId", required = true) String unitId) throws Exception {
 		
