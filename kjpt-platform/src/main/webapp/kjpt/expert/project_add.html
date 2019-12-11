@@ -201,6 +201,7 @@
                     var setupYeat=$("#formPlatform>div").eq(index).find(".setupYeat").val()
                     var chargeUnit=formSelects.value('chargeUnit'+index)[0].value
                     var researchTarget=$("#formPlatform>div").eq(index).find(".researchTarget").val()
+                    var flag = "";
                     if(projectName=='' || chargeUnit=='' || researchTarget=='' || setupYeat==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
@@ -210,7 +211,8 @@
                             setupYeat:setupYeat,
                             chargeUnit:chargeUnit,
                             researchTarget:researchTarget,
-                            outSystemId:''
+                            outSystemId:'',
+                            flag:flag
                         }
                         arr.push(data)
                     }

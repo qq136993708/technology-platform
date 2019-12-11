@@ -15,15 +15,15 @@
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
     <result column="achieve_type_str" jdbcType="VARCHAR" property="achieveTypeStr" />
     <result column="apply_unit_str" jdbcType="VARCHAR" property="applyUnitStr" />
-    
-    
+
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
     
     
      
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, achieve_name, apply_year, apply_unit, achieve_type, 
-    create_time, out_system_id
+    create_time, out_system_id,flag
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -33,13 +33,14 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
     insert into zjk_achievement (id,expert_id, source_type, del_status, 
       achieve_name, apply_year, apply_unit, 
-      achieve_type, create_time, out_system_id
+      achieve_type, create_time, out_system_id,flag
       )
     values (
       #{id,jdbcType=VARCHAR},
       #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
       #{achieveName,jdbcType=VARCHAR}, #{applyYear,jdbcType=VARCHAR}, #{applyUnit,jdbcType=VARCHAR}, 
-      #{achieveType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR}
+      #{achieveType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
+      #{flag,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
@@ -72,6 +73,9 @@
       <if test="outSystemId != null">
         out_system_id,
       </if>
+      <if test="flag != null">
+        flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="expertId != null">
@@ -100,6 +104,9 @@
       </if>
       <if test="outSystemId != null">
         #{outSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,6 +140,9 @@
       <if test="outSystemId != null">
         out_system_id = #{outSystemId,jdbcType=VARCHAR},
       </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -146,7 +156,8 @@
       apply_unit = #{applyUnit,jdbcType=VARCHAR},
       achieve_type = #{achieveType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+      out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

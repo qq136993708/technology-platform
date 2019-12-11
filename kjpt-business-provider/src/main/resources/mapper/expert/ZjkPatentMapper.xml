@@ -16,13 +16,12 @@
     <result column="out_system_id"       jdbcType="VARCHAR" property="outSystemId" />
     <result column="patent_type_str"     jdbcType="VARCHAR" property="patentTypeStr" />
     <result column="get_patent_time_str" jdbcType="VARCHAR" property="getPatentTimeStr" />
-    
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, patent_name, patent_type, `describe`, get_patent_time, 
-    create_time, 
-    out_system_id
+    create_time, out_system_id,flag
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -32,12 +31,13 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
     insert into zjk_patent (id,expert_id, source_type, del_status, 
       patent_name, patent_type, `describe`, 
-      get_patent_time, create_time, out_system_id)
+      get_patent_time, create_time, out_system_id,flag)
     values (
       #{id,jdbcType=VARCHAR},
       #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
       #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
-      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR})
+      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
+      #{flag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
     insert into zjk_patent
@@ -72,6 +72,9 @@
       <if test="outSystemId != null">
         out_system_id,
       </if>
+      <if test="flag != null">
+        flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -105,6 +108,9 @@
       </if>
       <if test="outSystemId != null">
         #{outSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -141,6 +147,9 @@
       <if test="outSystemId != null">
         out_system_id = #{outSystemId,jdbcType=VARCHAR},
       </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -154,7 +163,8 @@
       `describe` = #{describe,jdbcType=VARCHAR},
       get_patent_time = #{getPatentTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+      out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
