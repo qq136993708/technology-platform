@@ -825,7 +825,6 @@ function closeCurrentDialog() {
 	top.layer.close(currentIndex);
 }
 
-
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
