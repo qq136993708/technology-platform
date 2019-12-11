@@ -11,8 +11,6 @@ import com.pcitc.base.system.SysUserExample;
 public interface SysUserMapper {
 	int countByExample(SysUserExample example);
 
-	int deleteByExample(SysUserExample example);
-
 	int deleteByPrimaryKey(String userId);
 
 	int insert(SysUser record);
@@ -26,11 +24,6 @@ public interface SysUserMapper {
 	//根据用户id查询当前信息-new
 	SysUser currentUserInfo(String userId);
 
-	int updateByExampleSelective(@Param("record") SysUser record, @Param("example") SysUserExample example);
-
-	int updateByExample(@Param("record") SysUser record, @Param("example") SysUserExample example);
-
-	int updateByPrimaryKeySelective(SysUser record);
 
 	int updateByPrimaryKey(SysUser record);
 
@@ -53,5 +46,9 @@ public interface SysUserMapper {
 	public List<SysUser> selectUserDetail(Map<String, Object> paramMap);
 
 	List<SysUser> getSysUserListByUserUnit(SysUser vo);
+	
+	
+	public	List getList(Map map);
+	public  Long getCount(Map map);
 
 }

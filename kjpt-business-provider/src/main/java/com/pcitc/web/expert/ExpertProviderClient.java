@@ -254,9 +254,6 @@ public class ExpertProviderClient {
 	
 	
 	
-	
-	
-	
 
 
 	@ApiOperation(value = "获取专家专利（分页）", notes = "获取专家专利（分页）")
@@ -306,10 +303,6 @@ public class ExpertProviderClient {
 		logger.info("===============================get ZjkPatent id "+id+"===========");
 		return expertService.selectZjkPatent(id);
 	}
-	
-	
-	
-	
 	
 	
 	

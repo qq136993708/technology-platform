@@ -1,9 +1,11 @@
 package com.pcitc.service.system.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.pcitc.base.system.*;
-import com.pcitc.mapper.system.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -17,10 +19,31 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.system.SysCollect;
+import com.pcitc.base.system.SysCollectExample;
 import com.pcitc.base.system.SysCollectExample.Criteria;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysRole;
+import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserExample;
+import com.pcitc.base.system.SysUserPost;
+import com.pcitc.base.system.SysUserPostExample;
+import com.pcitc.base.system.SysUserRole;
+import com.pcitc.base.system.SysUserRoleExample;
+import com.pcitc.base.system.SysUserUnit;
+import com.pcitc.base.system.SysUserUnitExample;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DataTableInfo;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.mapper.system.SysCollectMapper;
+import com.pcitc.mapper.system.SysFunctionMapper;
+import com.pcitc.mapper.system.SysRoleMapper;
+import com.pcitc.mapper.system.SysUserMapper;
+import com.pcitc.mapper.system.SysUserPostMapper;
+import com.pcitc.mapper.system.SysUserPropertyMapper;
+import com.pcitc.mapper.system.SysUserRoleMapper;
+import com.pcitc.mapper.system.SysUserUnitMapper;
 import com.pcitc.service.system.UserService;
 
 //@CachePut 是先执行方法，然后把返回值保存或更新到缓存中
@@ -712,5 +735,70 @@ public class UserServiceImpl implements UserService {
 	public List<SysUser> selectByExample(SysUserExample example) {
 		return userMapper.selectByExample(example);
 	}
+	
+	
+	public LayuiTableData getSysUserPage(LayuiTableParam param)throws Exception
+	{
+		
+	        //每页显示条数
+			int pageSize = param.getLimit();
+			//从第多少条开始
+			int pageStart = (param.getPage()-1)*pageSize;
+			//当前是第几页
+			int pageNum = pageStart/pageSize + 1;
+			// 1、设置分页信息，包括当前页数和每页显示的总计数
+			PageHelper.startPage(pageNum, pageSize);
+			
+			
+			     
+			     
+			String userPhone=CommonUtil.getTableParam(param,"userPhone","");
+			String userPost=CommonUtil.getTableParam(param,"userPost","");
+			String userPassword=CommonUtil.getTableParam(param,"userPassword","");
+			String userRole=CommonUtil.getTableParam(param,"userRole","");
+			String secretLevel=CommonUtil.getTableParam(param,"secretLevel","");
+			String unifyIdentityId=CommonUtil.getTableParam(param,"unifyIdentityId","");
+			String userUnit=CommonUtil.getTableParam(param,"userUnit","");
+			String userFlag=CommonUtil.getTableParam(param,"userFlag","");
+			String userName=CommonUtil.getTableParam(param,"userName","");
+			
+			
+			Map map=new HashMap();
+			map.put("userName", userName);
+			map.put("userFlag", userFlag);
+			map.put("userUnit", userUnit);
+			map.put("unifyIdentityId", unifyIdentityId);
+			map.put("secretLevel", secretLevel);
+			map.put("userRole", userRole);
+			map.put("userPassword", userPassword);
+			map.put("userPost", userPost);
+			map.put("userPhone", userPhone);
+			
+			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());
+			
+			List<SysUser> list = userMapper.getList(map);
+			PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
+			System.out.println(">>>>>>>>>用户查询分页结果:  "+pageInfo.getList().size());
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+	}
+	
+	
+	public	List getList(Map map)throws Exception
+	{
+		return userMapper.getList(map);
+	}
+	public  Long getCount(Map map)throws Exception
+	{
+		return userMapper.getCount(map);
+	}
+	
+	
+	
 
 }
