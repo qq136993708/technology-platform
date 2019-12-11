@@ -294,7 +294,7 @@
 						layer.msg('请点击选择一行数据');
 					} else {
                         var index=parent.$("#LAY_app_body div.layui-show").index()-1;
-						var temUrl = "/task/pending/deal/?id=" + selectRowData.id+"&index="+index;
+						var temUrl = "/task/pending/deal?id=" + selectRowData.id+"&index="+index;
 						updateFlag = false;
                         parent.layui.index.openTabsPage(temUrl, '任务处理');
 						/*layer.open({
