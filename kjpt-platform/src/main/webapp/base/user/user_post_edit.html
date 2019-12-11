@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <!-- 多选下拉框样式，根据需求添加 -->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        .layui-form-item{margin-top: 20px;}
+        .layui-add-button .layui-button{width: 60px;display:inline-block;height: 30px;line-height: 30px;
+            background: #fff;border: 1px solid #AAAAAA;color: #0AA1FF;cursor: pointer;margin-left: 10px;}
+        .expert-ul {display: inline-block;border: none;width: 100%;height: auto;overflow: hidden}
+        .expert-ul li{height: 30px;line-height: 30px;background-color: #e6f7ff;color: #1890ff;margin-left: 10px;
+            float: left;margin-bottom: 10px;}
+        .expert-ul li.expert-li-last{background: none;margin: 0;padding: 0;height: 31px;line-height: 31px;}
+        .img-view-block{height: 90px;}
+    </style>
+</head>
+<body class="">
+<div class="layout-view-content dialog">
+    <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">岗位选择:</span></label>
+                    <div class="layui-input-block">
+                        <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-footer-btn">
+            <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
+            <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+    layui.use(['form'], function() {
+
+    })
+</script>
+</body>
+</html>
