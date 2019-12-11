@@ -104,6 +104,17 @@ public class SysUser {
 	private String  userUnitName;
 	
 	
+	private String  secretLevelStr;
+	
+	
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
 
 	public String getUserUnitName() {
 		return userUnitName;

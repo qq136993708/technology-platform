@@ -38,6 +38,9 @@
 		<result column="user_unit_name"      property="userUnitName" jdbcType="VARCHAR" />
 		<result column="unit_name"      property="unitName" jdbcType="VARCHAR" />
 		<result column="post_name"   property="postName" jdbcType="VARCHAR" />
+		<result column="secret_level_str"   property="secretLevelStr" jdbcType="VARCHAR" />
+		
+		
 		
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -536,7 +539,13 @@
 	 </trim>
 	</sql>
 	<sql id="view_user">
-	     SELECT t3.*,t2.`unit_name` FROM  sys_user  t3  LEFT JOIN sys_unit t2 ON t3.`user_unit`=t2.`unit_id`
+	       SELECT t3.* ,
+	  ( 
+	         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_YHMJ'
+	          AND t2.`num_value`=t3.`secret_level`
+	      ) secret_level_str
+	   
+	  FROM  sys_user  t3 
 	</sql>
 	
     <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
