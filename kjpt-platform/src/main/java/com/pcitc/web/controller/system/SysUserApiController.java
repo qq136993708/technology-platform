@@ -171,7 +171,8 @@ public class SysUserApiController extends BaseController{
     @ApiImplicitParam(name = "userName",        value = "登录名（账号）", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userDisp",        value = "用户姓名", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "unifyIdentityId", value = "统一身份ID", dataType = "string", paramType = "form",required=true),
-    @ApiImplicitParam(name = "userUnit",        value = "用户所属机构", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "userUnit",        value = "用户所属机构ID", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "unitName",        value = "用户所属机构名称", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userComment",     value = "描述", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMail",        value = "用户邮箱", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMobile",      value = "用户手机号", dataType = "string", paramType = "form"),
@@ -193,7 +194,7 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserDisp(sysUser.getUserDisp());
 			oldSysUser.setUserUnit(sysUser.getUserUnit());
-			
+			oldSysUser.setUnitName(sysUser.getUnitName());
 			oldSysUser.setUserPhone(sysUser.getUserPhone());
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
@@ -253,7 +254,8 @@ public class SysUserApiController extends BaseController{
     @ApiOperation(value = "修改岗位信息", notes = "修改岗位信息")
     @ApiImplicitParams({
     @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form",required=true),
-    @ApiImplicitParam(name = "userPost",     value = "用户岗位编码（多个逗号分开）", dataType = "string", paramType = "form",required=true)
+    @ApiImplicitParam(name = "userPost",     value = "用户岗位编码（多个逗号分开）", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "postName",     value = "用户岗位名称（多个逗号分开）", dataType = "string", paramType = "form")
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserPost")
 	public String updatePost(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -110,7 +110,7 @@
 		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
 		login_error_number,
 		login_check_code, user_config1, user_config2, user_config3, user_config4,
-		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name
+		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,unit_name
 	</sql>
 	
 	
@@ -157,7 +157,7 @@
 		user_level, user_delflag, user_relation,
 		user_extend, user_comment, is_domain,
 		login_error_number, login_check_code, user_config1,
-		user_config2, user_config3, user_config4,secret_level,unify_identity_id,post_name
+		user_config2, user_config3, user_config4,secret_level,unify_identity_id,post_name,unit_name
 		)
 		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
 		#{userPassword,jdbcType=VARCHAR},
@@ -173,7 +173,8 @@
 		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}, #{userConfig1,jdbcType=VARCHAR},
 		#{userConfig2,jdbcType=VARCHAR}, #{userConfig3,jdbcType=VARCHAR},
 		#{userConfig4,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
-		,#{postName,jdbcType=VARCHAR}
+		,#{postName,jdbcType=VARCHAR},#{unitName,jdbcType=VARCHAR}
+		
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.pcitc.base.system.SysUser">
@@ -269,6 +270,14 @@
 			<if test="postName != null">
 				post_name,
 			</if>
+			<if test="unitName != null">
+				unit_name,
+			</if>
+			
+			
+			
+			
+			
 			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -362,6 +371,11 @@
 			<if test="postName != null">
 				#{postName,jdbcType=VARCHAR},
 			</if>
+			<if test="unitName != null">
+				#{unitName,jdbcType=VARCHAR},
+			</if>
+			
+			
 			
 			
 		</trim>
@@ -403,6 +417,7 @@
 		user_config1 = #{userConfig1,jdbcType=VARCHAR},
 		user_config2 = #{userConfig2,jdbcType=VARCHAR},
 		user_config3 = #{userConfig3,jdbcType=VARCHAR},
+		unit_name = #{unitName,jdbcType=VARCHAR},
 		user_config4 = #{userConfig4,jdbcType=VARCHAR},
 		secret_level = #{secretLevel,jdbcType=VARCHAR},
 		unify_identity_id = #{unifyIdentityId,jdbcType=VARCHAR},
@@ -516,6 +531,7 @@
 	     AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or t.user_name = #{userName} )
 	     </if>
 	     <if test="postName != null          and postName !=''  ">         AND t.post_name like CONCAT('%',#{postName},'%') </if>
+	     <if test="unitName != null          and unitName !=''  ">         AND t.unit_name like CONCAT('%',#{unitName},'%') </if>
 	 </trim>
 	</sql>
 	<sql id="view_user">

@@ -832,6 +832,7 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		oluser.setUserPost(user.getUserPost());
+		oluser.setPostName(user.getPostName());
 		return userMapper.updateByPrimaryKey(oluser);
 	}
 	
