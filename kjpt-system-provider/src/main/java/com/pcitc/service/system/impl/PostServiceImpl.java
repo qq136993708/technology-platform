@@ -336,4 +336,16 @@ public class PostServiceImpl implements PostService
 		c.andPostIdIn(new ArrayList<String>(ids));
 		return postMapper.selectByExample(example);
 	}
+	
+	
+	public List<SysPost> findSysPostByList(List list) 
+	{
+		SysPostExample example = new SysPostExample();
+		SysPostExample.Criteria c = example.createCriteria();
+		
+		c.andPostDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andPostIdIn(list);
+		return postMapper.selectByExample(example);
+	}
+	
 }

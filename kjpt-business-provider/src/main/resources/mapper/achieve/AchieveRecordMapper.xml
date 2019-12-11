@@ -140,6 +140,9 @@
         <if test="achieveTransType != null and achieveTransType != '' " >
             and achieve_trans_type = #{achieveTransType}
         </if>
+        <if test="aboutCompleteInfo != null and aboutCompleteInfo != '' " >
+            and about_complete_info = #{aboutCompleteInfo}
+        </if>
         <if test="startDate != null and startDate != '' " >
             and create_time <![CDATA[>=]]> #{startDate}
         </if>

@@ -95,10 +95,21 @@ public class SysUser {
 	private String nameBigPin;
 	private String nameSmallPin;
 	private String nameBigFirstPin;
-	private String secretLevel;
+	private String secretLevel = "1";
 	
 	private String unifyIdentityId;
+	
+	private String  userNameKey;
+	
     
+
+	public String getUserNameKey() {
+		return userNameKey;
+	}
+
+	public void setUserNameKey(String userNameKey) {
+		this.userNameKey = userNameKey;
+	}
 
 	public String getUnifyIdentityId() {
 		return unifyIdentityId;
