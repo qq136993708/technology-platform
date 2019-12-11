@@ -501,6 +501,7 @@
 	     <if test="userFlag != null          and userFlag !=''  ">         AND t.user_flag = #{userFlag}</if>
 	     <if test="userPost != null          and userPost !=''  ">         AND t.user_post = #{userPost}</if>
 	     <if test="userRole != null          and userRole !=''  ">         AND t.user_role = #{userRole}</if>
+	     <if test="userMail != null          and userMail !=''  ">         AND t.user_mail = #{userMail}</if>
 	     <if test="userName != null          and userName !=''  ">         AND t.user_name = #{userName}</if>
 	     <if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
 	     <if test="userDisp != null          and userDisp !=''  ">         AND t.user_disp like CONCAT('%',#{userDisp},'%') </if>

@@ -175,9 +175,7 @@ public class SysUserApiController extends BaseController{
     @ApiImplicitParam(name = "userComment",     value = "描述", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMail",        value = "用户邮箱", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMobile",      value = "用户手机号", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userPhone",       value = "用户传真", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userPost",        value = "用户岗位编码", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userRole",        value = "用户角色", dataType = "string", paramType = "form")
+    @ApiImplicitParam(name = "userPhone",       value = "用户传真", dataType = "string", paramType = "form")
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/save")
 	public String saveExpert(@RequestBody  SysUser sysUser,HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -195,8 +193,7 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserDisp(sysUser.getUserDisp());
 			oldSysUser.setUserUnit(sysUser.getUserUnit());
-			oldSysUser.setUserRole(sysUser.getUserRole());
-			oldSysUser.setUserPost(sysUser.getUserPost());
+			
 			oldSysUser.setUserPhone(sysUser.getUserPhone());
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
@@ -221,6 +218,9 @@ public class SysUserApiController extends BaseController{
 			}else if (!unique.get(1)) 
 			{
 				resultsDate = new Result(false, "邮箱不能重复");
+			}else if (!unique.get(2)) 
+			{
+				resultsDate = new Result(false, "统一身份ID不能重复");
 			}else
 			{
 				sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
