@@ -100,7 +100,8 @@ public class PlatformController extends RestBaseController {
             @ApiImplicitParam(name = "researchField", value = "科研经费", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "level", value = "平台级别", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "platformScorinHigh", value = "平台评分区间高", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "platformScorinLow", value = "平台评分区间低", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "platformScorinLow", value = "平台评分区间低", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/platform-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -113,7 +114,8 @@ public class PlatformController extends RestBaseController {
             @RequestParam(required = false,value = "researchField") String researchField,
             @RequestParam(value = "level") String level,
             @RequestParam(required = false,value = "platformScorinHigh") String platformScorinHigh,
-            @RequestParam(required = false,value = "platformScorinLow") String platformScorinLow
+            @RequestParam(required = false,value = "platformScorinLow") String platformScorinLow,
+            @RequestParam(value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
@@ -148,6 +150,12 @@ public class PlatformController extends RestBaseController {
         if (!StringUtils.isEmpty(level)) {
             this.setParam(condition, "level", level);
         }
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+
 
         //默认查询当前人所在机构下所有的科研平台
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);

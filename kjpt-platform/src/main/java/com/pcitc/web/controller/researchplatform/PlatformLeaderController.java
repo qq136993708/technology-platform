@@ -90,7 +90,9 @@ public class PlatformLeaderController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "platformId", value = "平台ID", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "baseIds", value = "人员ID数组", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "baseIds", value = "人员ID数组", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+
 
     })
     @RequestMapping(value = "/researchPlatformLeader-api/query", method = RequestMethod.GET)
@@ -99,7 +101,9 @@ public class PlatformLeaderController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId,
-            @RequestParam(required = false,value = "baseIds") String baseIds
+            @RequestParam(required = false,value = "baseIds") String baseIds,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
+
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
@@ -117,6 +121,14 @@ public class PlatformLeaderController extends RestBaseController {
         if (!StringUtils.isEmpty(baseIds)) {
             this.setParam(condition, "baseIds", baseIds.split(","));
         }
+
+        if (secretLevel != null) {
+            this.setParam(condition, "secretLevel", secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+
+
+
         //默认查询当前人所在机构下所有的科研平台领军人物
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);

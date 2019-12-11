@@ -101,9 +101,17 @@ public class SysUser {
 	
 	private String  userNameKey;
 	private String  postName;
+	private String  userUnitName;
 	
 	
-	
+
+	public String getUserUnitName() {
+		return userUnitName;
+	}
+
+	public void setUserUnitName(String userUnitName) {
+		this.userUnitName = userUnitName;
+	}
 
 	public String getPostName() {
 		return postName;

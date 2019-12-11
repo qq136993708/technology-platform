@@ -34,6 +34,8 @@
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -59,7 +61,8 @@
       technical_field,
       technical_field_value,
       create_unit_id,
-      create_unit_name
+      create_unit_name,
+      secret_level
 
   </sql>
 
@@ -96,7 +99,8 @@
       technical_field,
       technical_field_value,
       create_unit_id,
-      create_unit_name
+      create_unit_name,
+      secret_level
       )
     values (
        #{id},
@@ -121,7 +125,8 @@
        #{technicalField},
        #{technicalFieldValue},
        #{create_unit_id},
-       #{create_unit_name}
+       #{create_unit_name},
+       #{secretLevel}
       )
   </insert>
 
@@ -188,6 +193,12 @@
             <if test="createUnitName != null  and createUnitName != ''">
                 create_unit_name = #{createUnitName}
             </if>
+
+            <if test="secretLevel != null  and secretLevel != ''">
+                secret_level = #{secretLevel}
+            </if>
+
+
         </trim>
         where id = #{id}
     </update>
@@ -199,6 +210,16 @@
         and deleted != '1'
         <include refid="selectByParam"/>
 
+
+        <!--<foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
 
@@ -206,6 +227,12 @@
         select count(*) from computer_software where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <sql id="selectByParam">
@@ -276,6 +303,11 @@
             <foreach item="item" collection="childUnitIds.split(',')" open="(" separator="," close=")">
                 #{item}
             </foreach>
+        </if>
+
+
+        <if test="secretLevel != null and secretLevel != ''" >
+            secret_level = #{secretLevel}
         </if>
 
     </sql>

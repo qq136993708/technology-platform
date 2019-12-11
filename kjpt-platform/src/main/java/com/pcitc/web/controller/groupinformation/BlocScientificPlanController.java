@@ -64,7 +64,8 @@ public class BlocScientificPlanController extends RestBaseController {
             @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
 
     })
 
@@ -80,7 +81,9 @@ public class BlocScientificPlanController extends RestBaseController {
             @RequestParam(required = false) String accessory,
             @RequestParam(required = false) String reportType,
             @RequestParam(required = false, value = "createUnitId") String createUnitId,
-            @RequestParam(required = false, value = "createUnitName") String createUnitName
+            @RequestParam(required = false, value = "createUnitName") String createUnitName,
+
+            @RequestParam(required = false, value = "secretLevel") String secretLevel
 
     ) {
 
@@ -113,6 +116,13 @@ public class BlocScientificPlanController extends RestBaseController {
         if (!StringUtils.isEmpty(createUnitName)) {
             this.setParam(condition, "createUnitName", createUnitName);
         }
+
+        if (secretLevel != null) {
+            this.setParam(condition, "secretLevel", secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+
+
 
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
