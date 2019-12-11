@@ -26,7 +26,7 @@ public class RecordModel implements Serializable {
 	//创建人所在单位名称
 	private String createUnitName;
 
-	//秘籍
+	//密级
 	private String secretLevel;
 
 	public String getSecretLevel() {

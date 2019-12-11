@@ -76,11 +76,9 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label">域用户<span class="must-fill"></span></label>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>统一身份认证ID<span class="must-fill"></span></label>
 							<div class="layui-input-block">
-								<select name="isDomain" id="isDomain" lay-verify="required"  lay-filter="isDomain">
-									<option value="">请选择</option>
-								</select>
+								<input type="text" class="layui-input" name="unifyIdentityId" lay-verify="required" placeholder="请输入统一身份认证ID" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -99,13 +97,10 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							  <label class="layui-form-label"><span class="must-fill">*</span>所属岗位</label>
-							  <div class="layui-input-block">
-								  <div class="selectTreeBox">
-									<div id="userPost" class="layui-form-select select-tree"></div>
-									<input type="text" class="layui-input" lay-verify="" id="userPost" name="userPost">
-								  </div>
-							  </div>
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>邮箱</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" lay-verify="email|required" id="userMail" name="userMail" placeholder="请输入邮箱">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -122,11 +117,9 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label"><span class="must-fill">*</span>所属角色</label>
+							<label for="" class="layui-form-label">座机号<span class="must-fill"></span></label>
 							<div class="layui-input-block">
-								<div class="selectTreeBox">
-									<div id="userRole" class="layui-form-select select-tree"></div>
-								</div>
+								<input type="text" class="layui-input" id="userPhone" lay-verify="userPhone" name="userPhone" placeholder="请输入座机号">
 							</div>
 						</div>
 					</div>
@@ -140,33 +133,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">座机号<span class="must-fill"></span></label>
-							<div class="layui-input-block">
-								<input type="text" class="layui-input" id="userPhone" lay-verify="userPhone" name="userPhone" placeholder="请输入座机号">
-							</div>
-						</div>
-					</div>
+
 				</div>
-				<div class="layui-row">
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label"><span class="must-fill">*</span>邮箱</label>
-							<div class="layui-input-block">
-								<input type="text" class="layui-input" lay-verify="email|required" id="userMail" name="userMail" placeholder="请输入邮箱">
-							</div>
-						</div>
-					</div>
-					<!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">用户签章</label>
-							<div class="layui-input-block">
-								<input type="text" class="layui-input" id="userSign" name="userSign">
-							</div>
-						</div>
-					</div> -->
-				</div>
+
 			</div>
 			<div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
 				<div class="layui-form-item layui-row">
@@ -480,24 +449,35 @@
 					unitText += ","+unitList[index];
 				});
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
-				data.field.userPost = $("#userPostValue").val();
-				data.field.userRole = $("#userRoleValue").val();
-
-				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
-					if(dt.success){
+				console.log(data.field)
+                httpModule({
+                    url: '/user-api/save',
+                    data: data.field,
+                    type: "POST",
+                    success: function(e) {
+                        console.log(e)
+                        if(e.success){
+                            layer.msg('保存成功!', {icon: 1});
+                            setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+                            top.layer.closeAll(); // 关闭弹窗
+                        }
+                    }
+                });
+                /*ajaxPost("/user-api/save", data.field, function(dt, status) {
+                    if(dt.success){
                         setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
-						top.layer.closeAll(); // 关闭弹窗
-				       	/*parent.layui.table.reload('userTable',null);
-				       	parent.renderfunc();//隐藏全选按钮
-				       	var index = parent.layer.getFrameIndex(window.name);
-				       	parent.layer.close(index);*/
-					}else{
-						parent.layer.alert(dt.message, {
-							title : '信息'
-						});
-						return;
-					}
-				});
+                        top.layer.closeAll(); // 关闭弹窗
+                           /!*parent.layui.table.reload('userTable',null);
+                           parent.renderfunc();//隐藏全选按钮
+                           var index = parent.layer.getFrameIndex(window.name);
+                           parent.layer.close(index);*!/
+                    }else{
+                        parent.layer.alert(dt.message, {
+                            title : '信息'
+                        });
+                        return;
+                    }
+                });*/
 				return false;
 			});
 			$("#cancel").click(function() {

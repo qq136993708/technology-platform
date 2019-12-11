@@ -25,6 +25,8 @@
 		<result column="education_text" jdbcType="VARCHAR" property="educationText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     </resultMap>
 
 
@@ -47,7 +49,8 @@
         update_user,
         update_date,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -62,18 +65,65 @@
                     #{id}
                 </foreach>
             )
+
         </if>
             and deleted != '1'
         AND create_unit_id in
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformMemberModel">
-        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,deleted,create_date,create_user,update_date,update_user,create_unit_id,create_unit_name)
-         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{deleted},#{createDate},#{creator},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
+        insert into kypt_member(
+        id,platform_id,
+        base_id,name,
+        birth,
+        education,
+        technical_title,
+        graduate_school,
+        major_studied,
+        post_name,
+        assume_office,
+        work_unit,
+        deleted,
+        create_date,
+        create_user,
+        update_date,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level
+        )
+         values(
+         #{id},
+         #{platformId},
+         #{baseId},
+         #{name},
+         #{birth},
+         #{education},
+         #{technicalTitle},
+         #{graduateSchool},
+         #{majorStudied},
+         #{postName},
+         #{assumeOffice},
+         #{workUnit},
+         #{deleted},
+         #{createDate},
+         #{creator},
+         #{updateDate},
+         #{updator},
+         #{createUnitId},
+         #{createUnitName},
+         #{secretLevel}
+         )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
@@ -100,6 +150,11 @@
             <if test="workUnit != null and workUnit != ''" >
                 work_unit = #{workUnit}
             </if>
+
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel}
+            </if>
+
         </trim>
         where id = #{id}
     </update>
@@ -109,9 +164,36 @@
     </update>
 
     <insert id="batchSave" parameterType="java.util.List">
-        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,deleted,create_date,create_user,update_date,update_user) values
+        insert into kypt_member(
+        id,platform_id,
+        base_id,name,birth,
+        education,technical_title,
+        graduate_school,
+        major_studied,
+        post_name,assume_office,
+        work_unit,deleted,
+        create_date,create_user,
+        update_date,update_user,
+        secret_level
+        ) values
         <foreach collection="list" item="km" separator=",">
-            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.deleted},#{km.createDate},#{km.creator},#{km.updateDate},#{km.updator})
+            (#{km.id},
+            #{km.platformId},
+            #{km.baseId},#{km.name},
+            #{km.birth},#{km.education},
+            #{km.technicalTitle},
+            #{km.graduateSchool},
+            #{km.majorStudied},
+            #{km.postName},
+            #{km.assumeOffice},
+            #{km.workUnit},
+            #{km.deleted},
+            #{km.createDate},
+            #{km.creator},
+            #{km.updateDate},
+            #{km.updator},
+            #{secretLevel}
+            )
         </foreach>
     </insert>
 

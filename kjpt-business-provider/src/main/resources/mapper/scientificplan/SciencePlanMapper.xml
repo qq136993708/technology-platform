@@ -31,6 +31,9 @@
         <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName"/>
         <result column="technical_field_index" jdbcType="VARCHAR" property="technicalFieldIndex"/>
 
+
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -52,7 +55,8 @@
      create_unit_id,
      create_unit_name,
      technical_field_name,
-     technical_field_index
+     technical_field_index,
+     secret_level
 
   </sql>
 
@@ -84,7 +88,8 @@
        create_unit_id,
        create_unit_name,
        technical_field_name,
-       technical_field_index
+       technical_field_index,
+       secret_level
       )
     values (
         #{id},
@@ -105,7 +110,8 @@
         #{create_unit_id},
         #{create_unit_name},
         #{technical_field_name},
-        #{technical_field_index}
+        #{technical_field_index},
+        #{secretLevel}
       )
   </insert>
 
@@ -113,12 +119,25 @@
         select * from view_science_plan where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select count(*) from science_plan where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
+
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <sql id="selectByParam">
@@ -179,6 +198,11 @@
 
         <if test="technicalFieldIndex != null  and technicalFieldIndex != ''  ">
             and technical_field_index = #{technicalFieldIndex}
+        </if>
+
+
+        <if test="secretLevel != null and secretLevel != ''" >
+            secret_level = #{secretLevel}
         </if>
 
     </sql>
@@ -247,6 +271,11 @@
 
             <if test="technicalFieldIndex != null  and technicalFieldIndex != ''  ">
                 technical_field_index = #{technicalFieldIndex}
+            </if>
+
+
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel}
             </if>
 
         </trim>

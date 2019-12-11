@@ -25,6 +25,8 @@
         <result column="create_unit_id"  jdbcType="VARCHAR" property="createUnitId" />
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
 
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -41,7 +43,8 @@
         update_user,
         report_type,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
 
   </sql>
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -69,7 +72,8 @@
        update_user,
        report_type,
        create_unit_id,
-       create_unit_name
+       create_unit_name,
+       secret_level
 
        )
     values (
@@ -86,7 +90,8 @@
       #{updator},
       #{reportType},
       #{create_unit_id},
-      #{create_unit_name}
+      #{create_unit_name},
+      #{secretLevel}
 
       )
 
@@ -99,12 +104,31 @@
         and deleted != '1'
         <include refid="selectByParam" />
 
+
+        <!--<foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
+
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select count(*) from bloc_scientific_plan where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
+
+
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <sql id="selectByParam">
@@ -146,6 +170,11 @@
             <foreach item="item" collection="childUnitIds.split(',')" open="(" separator="," close=")">
                 #{item}
             </foreach>
+        </if>
+
+
+        <if test="secretLevel != null and secretLevel != ''" >
+            secret_level = #{secretLevel}
         </if>
 
     </sql>
@@ -198,6 +227,10 @@
             </if>
             <if test="createUnitName != null  and createUnitName != ''">
                 create_unit_name = #{createUnitName}
+            </if>
+
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel}
             </if>
 
         </trim>
