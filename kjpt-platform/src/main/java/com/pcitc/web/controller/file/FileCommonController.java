@@ -8,16 +8,19 @@ import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.FileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 
@@ -47,9 +50,28 @@ public class FileCommonController extends BaseController {
      * 下载
      */
     private static final String downLoad = "http://kjpt-zuul/stp-proxy/file/downLoad/";
+    /**
+     * 获取pdf页码
+     */
+    private static final String getPdfPageCount = "http://10.102.111.142:8099/preview/localPageCount?fileName=%s&filePath=%s";
+    //http://10.102.111.142:8099/preview/local?fileName=1&filePath=1
+
+    /**
+     * 预览
+     */
+    private static final String getPrepareContent = "http://10.102.111.142:8099/preview/local?fileName=%s&filePath=%s&page=%s";
 
     @Autowired
     private FileUtil fileUtil;
+
+    @Value("${baseFilePath}")
+    private String fileBasePath;
+    @Value("${prepareServerUserName}")
+    private String prepareServerUserName;
+    @Value("${prepareServerPassword}")
+    private String prepareServerPassword;
+
+
 
     @ApiOperation(value = "获取文件列表", notes = "获取文件列表")
     @RequestMapping(value="/query/{dataId}",method = RequestMethod.GET)
@@ -89,11 +111,71 @@ public class FileCommonController extends BaseController {
     @ApiOperation(value = "图片展示", notes = "图片展示")
     @RequestMapping(value="/imgFile/{fileId}",method = RequestMethod.GET)
     public void imgFile(@PathVariable String fileId){
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.addAuth();
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
-        fileUtil.responseFile(responseEntity.getBody(),false,this.getCurrentResponse());
+        FileModel f = responseEntity.getBody();
+        f.getFileName();
+        f.getFilePath();
+        ResponseEntity<Integer> getCount = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity(this.httpHeaders), Integer.class);
+        //return getCount.getBody();
     }
 
+
+    @ApiOperation(value = "获取预览word的pdf的总页码", notes = "获取预览word的pdf的总页码")
+    @RequestMapping(value="/getPdfPageCount/{fileId}",method = RequestMethod.GET)
+    public Integer getPdfpageCount(@PathVariable String fileId) {
+        ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
+        FileModel f = responseEntity.getBody();
+        RestTemplate template = new RestTemplate();
+        addAuth();
+        ResponseEntity<Integer> getCount = template.exchange(String.format(getPdfPageCount,f.getFileName(),getFilePath(f.getFilePath())), HttpMethod.GET, new HttpEntity(this.httpHeaders), Integer.class);
+        return getCount.getBody();
+    }
+
+    private  void addAuth(){
+        String auth = prepareServerUserName + ":" + prepareServerPassword;
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("US-ASCII")));
+        String authHeader = "Basic " + new String(encodedAuth);
+        this.httpHeaders.set("Authorization", authHeader);
+    }
+
+    private  HttpHeaders getAuth(){
+        HttpHeaders httpHeader = new HttpHeaders();
+        String auth = prepareServerUserName + ":" + prepareServerPassword;
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("US-ASCII")));
+        String authHeader = "Basic " + new String(encodedAuth);
+        httpHeader.set("Authorization", authHeader);
+        return httpHeader;
+    }
+
+
+    @ApiOperation(value = "获取预览内容", notes = "获取预览内容")
+    @RequestMapping(value="/getPdfPageContent/{fileId}/{pageNum}",method = RequestMethod.GET)
+    public void getPrepareContent(@PathVariable String fileId,@PathVariable Integer pageNum) {
+        ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
+        FileModel f = responseEntity.getBody();
+        RestTemplate template = new RestTemplate();
+        addAuth();
+        ResponseEntity<String> filePath = template.exchange(String.format(getPrepareContent,f.getFileName(),getFilePath(f.getFilePath()),pageNum), HttpMethod.GET, new HttpEntity(this.httpHeaders), String.class);
+        FileUtil.prepare(new File(filePath.getBody()),this.getCurrentResponse(),"image/jpeg");
+    }
+
+    /**
+     *获取文件存储路径
+     * @return
+     */
+    private String getFilePath(String path){
+        String dirPath = fileBasePath;
+
+        File file =new File(dirPath+path);
+        if  (!file .exists()  && !file .isDirectory())
+            {
+            file.mkdirs();
+        }
+        return dirPath+path;
+    }
 
 
 }

@@ -11,7 +11,7 @@ layui.use(['table', 'form'], function() {
         ,elem: '#tableDemo'
         ,url: '/achieveRecord-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'checkbox', field: 'id', width: 50}
+          {type: 'checkbox', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
           ,{field: 'auditStatusText', title: '备案状态', width: 80}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
@@ -27,7 +27,7 @@ layui.use(['table', 'form'], function() {
             return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           }}
           ,{field: '', title: '操作', width: '100', templet: function(d) {
-            var templet = '<div class="options-list">';
+            var templet = '<div class="options-list middle-block"><div class="ib-block">';
             if (d.auditStatus == 0 || d.auditStatus == 3){
               templet += '<span class="link-text recordDetails" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
             }
@@ -37,9 +37,9 @@ layui.use(['table', 'form'], function() {
             if (d.auditStatus == 2){
               templet += '<span class="link-text recordDetails" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
             }
-            templet += '</div>';
+            templet += '</div></div>';
             return templet;
-          }}
+          }, fixed: 'right'}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

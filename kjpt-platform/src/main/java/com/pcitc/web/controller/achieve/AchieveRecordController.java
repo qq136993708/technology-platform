@@ -95,7 +95,8 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "grantUnitName", value = "成果受让单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "aboutCompleteInfo", value = "完成情况", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveRecord-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -109,7 +110,8 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
             @RequestParam(required = false,value = "achieveType") String achieveType,
             @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
-            @RequestParam(required = false,value = "achieveTransType") String achieveTransType
+            @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
+            @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo
 
 
     ) throws Exception {
@@ -141,6 +143,9 @@ public class AchieveRecordController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(achieveTransType)) {
             this.setParam(condition, "achieveTransType", achieveTransType);
+        }
+        if (!StringUtils.isEmpty(aboutCompleteInfo)) {
+            this.setParam(condition, "aboutCompleteInfo", aboutCompleteInfo);
         }
         if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
             this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));

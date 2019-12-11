@@ -95,7 +95,7 @@ public class SysUser {
 	private String nameBigPin;
 	private String nameSmallPin;
 	private String nameBigFirstPin;
-	private String secretLevel;
+	private String secretLevel = "1";
 	
 	private String unifyIdentityId;
 	
