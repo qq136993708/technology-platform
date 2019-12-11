@@ -1,7 +1,5 @@
 package com.pcitc.mapper.scientificplan;
 
-import com.pcitc.base.scientificplan.WorkPoint;
-
 import java.util.List;
 import java.util.Map;
 

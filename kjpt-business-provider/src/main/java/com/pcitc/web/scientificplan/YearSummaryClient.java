@@ -2,7 +2,6 @@ package com.pcitc.web.scientificplan;
 
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.scientificplan.YearSummary;
 import com.pcitc.service.scientificplan.YearSummaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

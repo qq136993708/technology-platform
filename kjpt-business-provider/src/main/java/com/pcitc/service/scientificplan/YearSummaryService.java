@@ -1,7 +1,6 @@
 package com.pcitc.service.scientificplan;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.scientificplan.YearSummary;
 
 import java.util.Map;
 

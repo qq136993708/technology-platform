@@ -2,7 +2,6 @@ package com.pcitc.web.scientificplan;
 
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.scientificplan.WorkPoint;
 import com.pcitc.service.scientificplan.WorkPointService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
