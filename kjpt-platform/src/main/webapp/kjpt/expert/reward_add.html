@@ -205,6 +205,7 @@
                     var awardingTimeStr=$("#formPlatform>div").eq(index).find(".awardingTimeStr").val()
                     var notes=$("#formPlatform>div").eq(index).find(".notes").val()
                     var awardingUnit=$("#formPlatform>div").eq(index).find(".awardingUnit").val()
+                    var flag = '';
                     if(rewarkLevel=='' || notes=='' || awardingUnit=='' || awardingTimeStr==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
@@ -215,7 +216,8 @@
                             awardingTimeStr:awardingTimeStr,
                             notes:notes,
                             awardingUnit:awardingUnit,
-                            outSystemId:''
+                            outSystemId:'',
+                            flag:flag
                         }
                         arr.push(data)
                     }

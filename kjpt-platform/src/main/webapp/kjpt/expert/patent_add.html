@@ -204,6 +204,7 @@
                     var getPatentTimeStr=$("#formPlatform>div").eq(index).find(".getPatentTimeStr").val()
                     var patentType=formSelects.value('patentType'+index)[0].code
                     var describe=$("#formPlatform>div").eq(index).find(".describe").val()
+                    var flag = "";
                     if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
@@ -213,7 +214,8 @@
                             getPatentTimeStr:getPatentTimeStr,
                             patentType:patentType,
                             describe:describe,
-                            outSystemId:''
+                            outSystemId:'',
+                            flag:flag
                         }
                         arr.push(data)
                     }

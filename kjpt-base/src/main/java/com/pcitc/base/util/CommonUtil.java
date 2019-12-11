@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.FileResult;
 import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysDictionary;
@@ -261,7 +262,16 @@ public class CommonUtil {
 		}
 	}
 
-
+	public static String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
 
 
 }

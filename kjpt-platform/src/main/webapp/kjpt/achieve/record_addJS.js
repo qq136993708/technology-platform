@@ -5,6 +5,29 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
   itemInitApi = '/achieveRecord-api/newInit',
   variable = getQueryVariable();
   
+  function openCorAchieveDialog() {
+    // 打开弹窗
+    top.layer.open({
+      type: 2,
+      title: '选择核心成果',
+      area: ['720px', '480px'],
+      content: '/kjpt/achieve/coreAchieve.html',
+      btn: null,
+      end: function() {
+        var value = getDialogData('dialog-data');
+        if (value) {
+          console.log('achieveValue => ', value);
+          form.val('newRecordFome', {
+            achieveName: value.achieveName,
+            achieveId: value.id,
+            achieveTransType: value.achieveTransType,
+            finishUnitName: value.finishUnitName
+          })
+        }
+      }
+    });
+  }
+
   console.log(variable);
   if (variable.type === 'view') {
     $('[lay-submit]').remove();
@@ -13,6 +36,10 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
     itemInitApi = '/achieveRecord-api/load/' + variable.id
   }
 
+  $('#selectAchieve').on('click', '.selectIcon', function() {
+    openCorAchieveDialog();
+  })
+  
 
   httpModule({
     url: itemInitApi,
@@ -21,6 +48,9 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
         var newData = res.data.achieveRecord || res.data;
         if (variable.type === 'add' && !newData.auditStatus) {
           newData.auditStatus = '0';
+        }
+        if (!newData.achieveType && newData.achieveType !== 0) {
+          newData.achieveType = '0';
         }
         if (newData.aboutCompleteTime) {
           newData.aboutCompleteTime = new Date(newData.aboutCompleteTime).format('yyyy-MM-dd')
@@ -32,6 +62,26 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
           laydate.render({elem: '#estimate'})
         }
         form.render();
+
+        // 监听是否为核心成果
+        if (variable.type != 'view') {
+          form.on('select(achieveType)', function(data) {
+            if (data.value == '1') {
+              $('#selectAchieve').addClass('let-input-search')
+              .find('.search-icon').addClass('selectIcon').show();
+              $('[name="achieveTransType"]').prop('disabled', true);
+              $('[name="finishUnitName"], [name="achieveName"]').attr({ readonly: 'readonly', placeholder: '请选择核心成果' });
+            } else {
+              $('#selectAchieve').removeClass('let-input-search')
+              .find('.search-icon').removeClass('selectIcon').hide();
+              $('[name="achieveTransType"]').prop('disabled', false);
+              $('[name="finishUnitName"], [name="achieveName"]').removeAttr('readonly').attr({placeholder: '请填写...' });
+            }
+            // 选项变化时清空数据
+            form.val('newRecordFome', {achieveName: '', achieveId: ''})
+            form.render('select');
+          })
+        }
       }
     }
   });
@@ -72,4 +122,5 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
 
     return false;
   })
+
 })

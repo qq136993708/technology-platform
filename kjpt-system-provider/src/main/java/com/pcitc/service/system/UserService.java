@@ -115,5 +115,10 @@ public interface UserService {
 	 */
 	public List<SysUser> selectByExample(SysUserExample example);
 	public List<SysUser> getSysUserList(Map map);
+	
+	public LayuiTableData getSysUserPage(LayuiTableParam param)throws Exception;
+	
+	public	List getList(Map map)throws Exception;
+	public  Long getCount(Map map)throws Exception;
 
 }

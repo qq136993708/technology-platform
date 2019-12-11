@@ -95,7 +95,26 @@ public class SysUser {
 	private String nameBigPin;
 	private String nameSmallPin;
 	private String nameBigFirstPin;
+	private String secretLevel;
+	
+	private String unifyIdentityId;
+    
 
+	public String getUnifyIdentityId() {
+		return unifyIdentityId;
+	}
+
+	public void setUnifyIdentityId(String unifyIdentityId) {
+		this.unifyIdentityId = unifyIdentityId;
+	}
+
+	public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
 
 	public String getUserKindText() {
 		return userKindText;

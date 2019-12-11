@@ -250,6 +250,22 @@ public class UserProviderClient {
 		return jsonArray;
 	}
 	
+
+	@ApiOperation(value = "获取用户（分页）", notes = "获取用户（分页）")
+	@RequestMapping(value = "/user-provider/page", method = RequestMethod.POST)
+	public LayuiTableData getSysUserPage(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return userService.getSysUserPage(param) ;
+	}
 	
+	
+	@ApiOperation(value = "获取用户列表", notes = "获取用户列表")
+	@RequestMapping(value = "/user-provider/list", method = RequestMethod.POST)
+	public JSONArray list(@RequestBody Map param)throws Exception
+	{
+		List list=userService.getList(param);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
 	
 }

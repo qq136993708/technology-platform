@@ -227,6 +227,7 @@
                     var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
                     var applyUnit=formSelects.value('applyUnit'+index)[0].value
                     var achieveType=$("#formPlatform>div").eq(index).find(".achieveType").val()
+                    var flag = "";
                     if(achieveName=='' || applyUnit=='' || achieveType==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
@@ -235,9 +236,10 @@
                             achieveName:achieveName,
                             applyYear:applyYear,
                             applyUnit:applyUnit,
-                            achieveType:achieveType,
+                            achieveType:'',
                             outSystemId:'',
-                            achieveTypeStr:achieveTypeStr
+                            achieveTypeStr:achieveTypeStr,
+                            flag:flag
                         }
                         arr.push(data)
                     }
