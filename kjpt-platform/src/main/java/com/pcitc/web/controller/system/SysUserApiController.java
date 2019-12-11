@@ -171,13 +171,12 @@ public class SysUserApiController extends BaseController{
     @ApiImplicitParam(name = "userName",        value = "登录名（账号）", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userDisp",        value = "用户姓名", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "unifyIdentityId", value = "统一身份ID", dataType = "string", paramType = "form",required=true),
-    @ApiImplicitParam(name = "userUnit",        value = "用户所属机构", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "userUnit",        value = "用户所属机构ID", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "unitName",        value = "用户所属机构名称", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userComment",     value = "描述", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMail",        value = "用户邮箱", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMobile",      value = "用户手机号", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userPhone",       value = "用户传真", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userPost",        value = "用户岗位编码", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userRole",        value = "用户角色", dataType = "string", paramType = "form")
+    @ApiImplicitParam(name = "userPhone",       value = "用户传真", dataType = "string", paramType = "form")
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/save")
 	public String saveExpert(@RequestBody  SysUser sysUser,HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -195,8 +194,7 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserDisp(sysUser.getUserDisp());
 			oldSysUser.setUserUnit(sysUser.getUserUnit());
-			oldSysUser.setUserRole(sysUser.getUserRole());
-			oldSysUser.setUserPost(sysUser.getUserPost());
+			oldSysUser.setUnitName(sysUser.getUnitName());
 			oldSysUser.setUserPhone(sysUser.getUserPhone());
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
@@ -221,6 +219,9 @@ public class SysUserApiController extends BaseController{
 			}else if (!unique.get(1)) 
 			{
 				resultsDate = new Result(false, "邮箱不能重复");
+			}else if (!unique.get(2)) 
+			{
+				resultsDate = new Result(false, "统一身份ID不能重复");
 			}else
 			{
 				sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
@@ -252,8 +253,9 @@ public class SysUserApiController extends BaseController{
 
     @ApiOperation(value = "修改岗位信息", notes = "修改岗位信息")
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "userPost",     value = "用户岗位编码（多个逗号分开）", dataType = "string", paramType = "form",required=true)
+    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "userPost",     value = "用户岗位编码（多个逗号分开）", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "postName",     value = "用户岗位名称（多个逗号分开）", dataType = "string", paramType = "form")
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserPost")
 	public String updatePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -261,10 +263,14 @@ public class SysUserApiController extends BaseController{
     	Result resultsDate = new Result();
 		String userId=CommonUtil.getParameter(request, "userId", "");
 		String userPost=CommonUtil.getParameter(request, "userPost", "");
+		String postName=CommonUtil.getParameter(request, "postName", "");
+		
+		
 	    System.out.println(">>>>>>>>>> 参数userPost: "+userPost);
 		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 		SysUser oldSysUser = se.getBody();
 		oldSysUser.setUserPost(userPost);
+		oldSysUser.setPostName(postName);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_POST_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		Integer dataId = responseEntity.getBody();
@@ -284,7 +290,7 @@ public class SysUserApiController extends BaseController{
     
     @ApiOperation(value = "修改角色信息", notes = "修改角色信息")
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userRole",     value = "用户角色编码（多个逗号分开）", dataType = "string", paramType = "form",required=true)
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserRole")
@@ -316,7 +322,7 @@ public class SysUserApiController extends BaseController{
 	
     @ApiOperation(value = "修改密级信息", notes = "修改密级信息")
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "userId",          value = "主键", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "userId",          value = "主键", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "secretLevel",     value = "用户密级", dataType = "string", paramType = "form",required=true),
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserSecretLevel")
@@ -343,6 +349,9 @@ public class SysUserApiController extends BaseController{
     
     
     @ApiOperation(value = "根据机构ID获取所属的所有岗位", notes = "根据机构ID获取所属的所有岗位")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "unitId",           value = "机构ID", dataType = "string", paramType = "query",required=true)
+    })
 	@RequestMapping(value = "/post-api/getPostListByUnitId", method = RequestMethod.GET)
 	public String getPostListByUnitId(@RequestParam(value = "unitId", required = true) String unitId) throws Exception {
 		

@@ -147,7 +147,12 @@ public class TokenInterUtils {
 					sysLog.setUserId(userId);
 					sysLog.setRequestType(request.getMethod());
 					sysLog.setUnitId(userInfo.getUnitId());
-					sysLog.setUnitName(userInfo.getUnitName());
+					String unitName="";
+					if(userInfo.getUnitName()!=null)
+					{
+						unitName=userInfo.getUnitName();
+					}
+					sysLog.setUnitName(unitName);
 					sysLog.setOptDescribe(optDescribe);
 					JSONObject sysLogstr = JSONObject.parseObject(JSONObject.toJSONString(sysLog));
 					System.out.println(">>>>>>>>>>>>>>>>>>>>sysLog信息"+sysLogstr.toString());
@@ -224,7 +229,12 @@ public class TokenInterUtils {
 						sysLog.setUserId(userId);
 						sysLog.setRequestType(request.getMethod());
 						sysLog.setUnitId(userInfo.getUnitId());
-						sysLog.setUnitName(userInfo.getUnitName());
+						String unitName="";
+						if(userInfo.getUnitName()!=null)
+						{
+							unitName=userInfo.getUnitName();
+						}
+						sysLog.setUnitName(unitName);
 						sysLog.setOptDescribe(optDescribe);
 						JSONObject sysLogstr = JSONObject.parseObject(JSONObject.toJSONString(sysLog));
 						System.out.println(">>>>>>>>>>>>>>>>>>>>sysLog信息"+sysLogstr.toString());

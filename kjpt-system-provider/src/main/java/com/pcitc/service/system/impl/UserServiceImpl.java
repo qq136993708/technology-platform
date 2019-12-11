@@ -274,36 +274,43 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Boolean> userValidate(SysUser user) {
+	public List<Boolean> userValidate(SysUser user) 
+	{
 		// 验证用户名是否重复
 		boolean checkUserName = true;
-		// boolean checkMobile = true;
+	    boolean checkunifyIdentityId = true;
 		boolean checkMail = true;
-		SysUserExample example = new SysUserExample();
-		example.createCriteria().andUserNameEqualTo(user.getUserName());
-		List<SysUser> users = userMapper.selectByExample(example);
+		
+		
+		Map map=new HashMap();
+		map.put("userName", user.getUserName());
+		map.put("userDelflag", 0);
+		List<SysUser> users =userMapper.getList(map);
 		if (users.size() != 0 && !users.get(0).getUserId().equals(user.getUserId())) {
 			checkUserName = false;
 		}
 		// 验证手机号不能重复
-		/*
-		 * example = new SysUserExample();
-		 * example.createCriteria().andUserMobileEqualTo(user.getUserMobile());
-		 * users = userMapper.selectByExample(example); if(users.size() != 0 &&
-		 * !users.get(0).getUserId().equals(user.getUserId())){ checkMobile =
-		 * false; }
-		 */
+		
+		Map map3=new HashMap();
+		map3.put("unifyIdentityId", user.getUnifyIdentityId());
+		map3.put("userDelflag", 0);
+		List<SysUser> list2 =userMapper.getList(map3);
+		if (list2.size() != 0 && !list2.get(0).getUserId().equals(user.getUserId())) {
+			checkunifyIdentityId = false;
+		}
+		
 		// 验证邮箱名
-		example = new SysUserExample();
-		example.createCriteria().andUserMailEqualTo(user.getUserMail());
-		users = userMapper.selectByExample(example);
-		if (users.size() != 0 && !users.get(0).getUserId().equals(user.getUserId())) {
+		Map map2=new HashMap();
+		map2.put("userMail", user.getUserName());
+		map2.put("userDelflag", 0);
+		List<SysUser> list =userMapper.getList(map2);
+		if (list.size() != 0 && !list.get(0).getUserId().equals(user.getUserId())) {
 			checkMail = false;
 		}
 		List<Boolean> rs = new ArrayList<Boolean>();
 		rs.add(checkUserName);
-		// rs.add(checkMobile);
 		rs.add(checkMail);
+		rs.add(checkunifyIdentityId);
 		return rs;
 	}
 
@@ -825,6 +832,7 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		oluser.setUserPost(user.getUserPost());
+		oluser.setPostName(user.getPostName());
 		return userMapper.updateByPrimaryKey(oluser);
 	}
 	
