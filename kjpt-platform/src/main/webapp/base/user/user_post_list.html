@@ -68,15 +68,15 @@
                     ,url: '/user-api/query' //数据接口
                     ,cols: [[ //表头
                         {type: 'numbers', title: '序号', width: 80}
-                        ,{field: 'auditStatusText', title: '登录名称'}
-                        ,{field: 'achieveName', title: '展示名称', sort: true }
-                        ,{field: 'grantUnitName', title: '所属机构'}
+                        ,{field: 'userName', title: '登录名称'}
+                        ,{field: 'userDisp', title: '展示名称', sort: true }
+                        ,{field: 'postName', title: '所属机构'}
                         ,{field: 'achieveTypeText', title: '所属岗位', sort: true}
                         ,{field: 'userMail', title: '邮箱'}
-                        ,{field: 'aboutCompleteInfo', title: '座机号', sort: true}
-                        ,{field: 'aboutCompleteTime', title: '手机号', sort: true}
+                        ,{field: 'userPhone', title: '座机号', sort: true}
+                        ,{field: 'userMobile', title: '手机号', sort: true}
                         ,{title: '操作', templet: function(d) {
-                            var html='<a id="'+d.id+'" class="distribution link-text recordDetails">分配</a>'
+                            var html='<a id="'+d.userId+'" class="distribution link-text recordDetails">分配</a>'
                             return html
                         }}
                     ]],
@@ -89,11 +89,12 @@
                     limit: 15, // 每页数据条数,
                     limits: [5, 10, 15, 20], // 配置分页数据条数
                     done:function(res){
+                        console.log(res)
                         $(".distribution").click(function () {
                             top.layer.open({
                                 type: 2,
                                 title: "岗位分配",
-                                content: "/base/user/user_post_edit.html?id="+'2222', // 全局弹窗页面地址
+                                content: "/base/user/user_post_edit.html?id="+$(this).attr("id"), // 全局弹窗页面地址
                                 btn: null,
                                 area: ['50%', '60%'],
                                 end: function(lay, index) {

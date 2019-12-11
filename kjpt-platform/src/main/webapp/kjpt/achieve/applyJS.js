@@ -47,7 +47,6 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         httpModule({
             url: "/achieve-api/load/"+variable.id,
             type: 'GET',
-            async:false,
             success: function(relData) {
                 if(relData.code==0){
                     /*回显tr*/
