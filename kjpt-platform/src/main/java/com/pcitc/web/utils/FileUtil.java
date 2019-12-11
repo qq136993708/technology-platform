@@ -280,6 +280,36 @@ public class FileUtil {
     }
 
     /**
+     * 响应客户端文件下载请求
+     * @param file
+     * @param res
+     */
+    public static void prepare(File file,HttpServletResponse res,String contentType)
+    {
+
+        OutputStream out = null;
+        InputStream in = null;
+        try
+        {
+            res.setContentType(contentType);
+            out = res.getOutputStream();
+            in = new FileInputStream(file);
+
+            byte[] b = new byte[1000];
+            int len;
+            while ((len = in.read(b)) > 0)
+            {
+                out.write(b, 0, len);
+            }
+            out.flush();
+            closeIO(in);
+            closeIO(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 响应附件
      * @param f
      * @param isAttachment
