@@ -12,16 +12,17 @@
 
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-
+<link rel="stylesheet" href="/css/form.css">
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
-<div class="layer-box">
+<div class="layer-box" style="padding-bottom: 0">
 	<div class="formBox">
 		<form class="layui-form" id="task-form" action="" lay-filter="dealTaskForm layui-container">
-			<div class="tableToolBox">
-				<div class="tableBtns">
+			<div class="tableToolBox" style="margin-top: 0">
+				<div class="tableBtns" style="height: 10px">
 					<div class="tableTitle">审批信息</div>
 				</div>
 			</div>
@@ -77,10 +78,10 @@
 			</div>
 			<!--在添加另一个页面的html，所有业务的详情页面-->
 			
-			<div class="form-bottom">
+			<div class="form-bottom" style="padding: 10px 0;">
 				<div class="form-bottom-btns">
-					<a  class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="save" >提交</a>
-					<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">关闭</button>
+					<a  class="layui-btn layui-btn-normal"  id="save" >提交</a>
+					<button id="cancel" type="button" class="layui-btn layui-btn-primary">关闭</button>
 				</div>
 			</div>
 		</form>
@@ -100,7 +101,7 @@
 			base : '../../../../' //静态资源所在路径
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-
+            var variable = getQueryVariable()
 			form.render(null, 'dealTaskForm');
 
 			//延迟加载，加载后计算业务详情页面的高度
@@ -150,8 +151,7 @@
 			});
 
 			$("#cancel").click(function() {
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
+                closeTabsPage(variable.index);
 			});
 			
 			
@@ -288,9 +288,10 @@
 				},
 				success : function(data) { //请求成功后处理函数。
 					// 刷新表格
-					parent.active.alertEvent();
+					/*parent.active.alertEvent();
 					var index = parent.layer.getFrameIndex(window.name);
-					parent.layer.close(index);
+					parent.layer.close(index);*/
+                    closeTabsPage(variable.index);
 					return false;
 				}
 			});
@@ -314,7 +315,7 @@
                 $("#detailsInfo").css("height", iframeHeight+20);
             }else {
                 var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
-                $("#detailsInfo").css("height", iframeHeight + 300);
+                $("#detailsInfo").css("height", iframeHeight + 335);
             }
         };
 	</script>
