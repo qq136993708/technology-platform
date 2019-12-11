@@ -73,7 +73,8 @@ public class SciencePlanApiController extends RestBaseController {
             @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldName", value = "技术领域名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
 
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
@@ -93,7 +94,8 @@ public class SciencePlanApiController extends RestBaseController {
             @RequestParam(required = false, value = "createUnitId") String createUnitId,
             @RequestParam(required = false, value = "createUnitName") String createUnitName,
             @RequestParam(required = false, value = "technicalFieldName") String technicalFieldName,
-            @RequestParam(required = false, value = "technicalFieldIndex") String technicalFieldIndex
+            @RequestParam(required = false, value = "technicalFieldIndex") String technicalFieldIndex,
+            @RequestParam(required = false, value = "secretLevel") String secretLevel
 
 
     ) throws Exception {
@@ -154,6 +156,12 @@ public class SciencePlanApiController extends RestBaseController {
         if (!StringUtils.isEmpty(technicalFieldIndex)) {
             this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
         }
+
+
+        if (secretLevel != null) {
+            this.setParam(condition, "secretLevel", secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
 
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
