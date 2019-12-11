@@ -36,6 +36,7 @@
 		<result column="secret_level"        property="secretLevel"     jdbcType="VARCHAR" />
 		<result column="unify_identity_id"   property="unifyIdentityId" jdbcType="VARCHAR" />
 		<result column="unit_name"   property="unitName" jdbcType="VARCHAR" />
+		<result column="post_name"   property="postName" jdbcType="VARCHAR" />
 		
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -109,8 +110,11 @@
 		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
 		login_error_number,
 		login_check_code, user_config1, user_config2, user_config3, user_config4,
-		user_login_ip,user_login_date,secret_level,unify_identity_id
+		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name
 	</sql>
+	
+	
+	
 
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.pcitc.base.system.SysUserExample">
@@ -128,13 +132,7 @@
 			order by ${orderByClause}
 		</if>
 	</select>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
-		select
-		<include refid="Base_Column_List" />
-		from sys_user
-		where user_id = #{userId,jdbcType=VARCHAR}
-	</select>
+	
 
 	<!--根据用户id查询当前信息-new-->
 	<select id="currentUserInfo" resultMap="BaseResultMap"
@@ -159,7 +157,7 @@
 		user_level, user_delflag, user_relation,
 		user_extend, user_comment, is_domain,
 		login_error_number, login_check_code, user_config1,
-		user_config2, user_config3, user_config4,secret_level,unify_identity_id
+		user_config2, user_config3, user_config4,secret_level,unify_identity_id,post_name
 		)
 		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
 		#{userPassword,jdbcType=VARCHAR},
@@ -175,6 +173,7 @@
 		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}, #{userConfig1,jdbcType=VARCHAR},
 		#{userConfig2,jdbcType=VARCHAR}, #{userConfig3,jdbcType=VARCHAR},
 		#{userConfig4,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
+		,#{postName,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.pcitc.base.system.SysUser">
@@ -267,6 +266,10 @@
 			<if test="unifyIdentityId != null">
 				unify_identity_id,
 			</if>
+			<if test="postName != null">
+				post_name,
+			</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userId != null">
@@ -356,6 +359,9 @@
 			<if test="unifyIdentityId != null">
 				#{unifyIdentityId,jdbcType=VARCHAR},
 			</if>
+			<if test="postName != null">
+				#{postName,jdbcType=VARCHAR},
+			</if>
 			
 			
 		</trim>
@@ -374,6 +380,7 @@
 		set user_name = #{userName,jdbcType=VARCHAR},
 		user_password = #{userPassword,jdbcType=VARCHAR},
 		user_disp = #{userDisp,jdbcType=VARCHAR},
+		post_name = #{postName,jdbcType=VARCHAR},
 		user_kind = #{userKind,jdbcType=VARCHAR},
 		user_flag = #{userFlag,jdbcType=VARCHAR},
 		user_unit = #{userUnit,jdbcType=VARCHAR},
@@ -508,6 +515,7 @@
 	     <if test="userNameKey != null       and userNameKey !=''  ">    
 	     AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or t.user_name = #{userName} )
 	     </if>
+	     <if test="postName != null          and postName !=''  ">         AND t.post_name like CONCAT('%',#{postName},'%') </if>
 	 </trim>
 	</sql>
 	<sql id="view_user">
@@ -526,6 +534,18 @@
      <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from sys_user t <include refid="selectCondition" />
      </select>
+     
+     
+     
+     <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from (<include refid="view_user" />) t
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	
    
 	
 </mapper>

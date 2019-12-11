@@ -100,8 +100,18 @@ public class SysUser {
 	private String unifyIdentityId;
 	
 	private String  userNameKey;
+	private String  postName;
 	
-    
+	
+	
+
+	public String getPostName() {
+		return postName;
+	}
+
+	public void setPostName(String postName) {
+		this.postName = postName;
+	}
 
 	public String getUserNameKey() {
 		return userNameKey;
