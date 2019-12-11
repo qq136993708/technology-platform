@@ -74,8 +74,11 @@ public class ZjkReward implements Serializable {
      * 外系统ID
      */
     private String outSystemId;
-    
-    
+
+    /*
+     * 录入/导入标识
+     * */
+    private String  flag = "";
     
 
     private static final long serialVersionUID = 1L;
@@ -167,7 +170,14 @@ public class ZjkReward implements Serializable {
 	public void setAwardingTimeStr(String awardingTimeStr) {
 		this.awardingTimeStr = awardingTimeStr;
 	}
-    
-    
-    
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+
 }
