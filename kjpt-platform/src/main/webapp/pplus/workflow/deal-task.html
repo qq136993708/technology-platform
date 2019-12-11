@@ -97,11 +97,12 @@
 		var roleCodes = "";
 		var unitCodes = "";
 		var postCodes = "";
+        var variable = getQueryVariable()
 		layui.config({
 			base : '../../../../' //静态资源所在路径
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-            var variable = getQueryVariable()
+
 			form.render(null, 'dealTaskForm');
 
 			//延迟加载，加载后计算业务详情页面的高度
@@ -173,7 +174,7 @@
 					// 判断是否需要弹出选择框
 					$.ajax({
 						type : 'POST',
-						url : "/task/auditor/flag/" + taskId,
+						url : "/task/auditor/flag/" + variable.taskId,
 						data : null,
 						headers : {
 							'Content-Type' : 'application/json',
@@ -183,7 +184,8 @@
 							$("#submitBtn").attr("disabled", "true");
 							$("#cancel").attr("disabled", "true");
 						},
-						error : function(data) {//请求失败处理函数  
+						error : function(data) {//请求失败处理函数
+						    console.log(data)
 							layer.msg("操作失败!", {
 								time : 2000,
 								icon : 2
@@ -274,7 +276,7 @@
 			console.log("parent="+parent.active);
 			$.ajax({
 				type : 'POST',
-				url : "/task/complete/" + taskId,
+				url : "/task/complete/" + variable.taskId,
 				data : JSON.stringify(datas),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
