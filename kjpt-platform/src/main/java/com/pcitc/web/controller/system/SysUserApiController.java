@@ -1,11 +1,16 @@
 package com.pcitc.web.controller.system;
 
+import java.util.Date;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +20,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -41,7 +50,7 @@ public class SysUserApiController extends BaseController{
 	 */
 	public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/update";
 	
-	
+	public static final String GET_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/getUser/";
 	
 	
 	
@@ -57,8 +66,8 @@ public class SysUserApiController extends BaseController{
         @ApiImplicitParam(name = "secretLevel",    value = "用户密级",    dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "unifyIdentityId",value = "统一身份ID",  dataType = "string", paramType = "query")
     })
-    @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
-	public String queryExpertPage(
+    @RequestMapping(value = "/user-api/query", method = RequestMethod.POST)
+	public String queryUserPage(
 			
 			@RequestParam(required = true) Integer page,
             @RequestParam(required = true) Integer limit,
@@ -82,12 +91,6 @@ public class SysUserApiController extends BaseController{
     	param.getParam().put("unifyIdentityId", unifyIdentityId);
     	param.getParam().put("userRole", userRole);
     	
-    	//默认查询当前人所在机构及子机构的所有用户
-    	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-    	param.getParam().put("childUnitIds", childUnitIds);
-    	
-    	
-    	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(USER_LIST_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
@@ -102,8 +105,36 @@ public class SysUserApiController extends BaseController{
 	
 	
 	
-	
-	
+	 /**
+	  *根据ID获取用户信息详情
+	 */
+    @ApiOperation(value = "根据ID获取用户信息详情", notes = "根据ID获取用户信息详情")
+	@RequestMapping(value = "/user-api/get/{id}", method = RequestMethod.GET)
+	public String getSysUser(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   	Result resultsDate = new Result();
+   	ResponseEntity<SysUser> responseEntity = this.restTemplate.exchange(GET_USER_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		SysUser sysUser = responseEntity.getBody();
+		logger.info("============远程返回  statusCode " + statusCode);
+		if (statusCode == 200) {
+			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
+			resultsDate.setData(sysUser);
+		} else {
+			resultsDate = new Result(false, "根据ID获取用户信息详情失败");
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+	}
+   
+   
+   
+ 
+   
+   
+
+   
+       
+   
 	
 	
 	
