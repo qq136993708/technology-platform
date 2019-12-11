@@ -85,7 +85,7 @@
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                 <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
                     <span class="layui-fold-btn"></span>
                 </div>
             </div>
@@ -147,6 +147,9 @@
                 table.reload('tableDemo', {where: searchData});
             }
         }
+        $("#reset").click(function () {
+            queryTable('')
+        })
         //开始日期
         var insStart = laydate.render({
             elem: '#inputStart'
