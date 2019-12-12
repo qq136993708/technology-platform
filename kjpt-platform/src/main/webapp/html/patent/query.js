@@ -30,6 +30,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'countryText', title: '国别组织'}
           ,{field: 'agency', title: '代理机构', sort: true}
           ,{field: 'legalStatusText', title: '法律状态', sort: true}
+          ,{field: 'secretLevelText', title: '密级', sort: true} 
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

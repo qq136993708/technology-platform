@@ -59,6 +59,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             title: '注册公告日',
                             templet:'#registerNoticeDate'
                         },
+                        ,{field: 'secretLevelText', title: '密级', sort: true} 
                     ]
                 ],
                 page: true, //开启分页

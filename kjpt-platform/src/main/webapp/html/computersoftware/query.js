@@ -26,7 +26,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'versionNumber', title: '版本号', sort: true}
           ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {
             return dateFieldText(d.recordDate);
-          }} 
+          }}
+          ,{field: 'secretLevelText', title: '密级', sort: true} 
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
