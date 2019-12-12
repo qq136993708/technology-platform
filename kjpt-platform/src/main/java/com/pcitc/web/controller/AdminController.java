@@ -122,7 +122,7 @@ public class AdminController extends BaseController {
             int ret = sid.SSO_VerifyTicket(licenseKey, ticket);
             if (ret != MessageConstants.SECURITY_SERVICE_SUCCESS) {
                 // 验证失败
-                String error = sid.getError();
+                return null;
             } else {
                 // 验证成功
                 String unifyIdentityId = sid.getPassport();
