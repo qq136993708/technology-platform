@@ -20,7 +20,6 @@ layui.use(['form', 'table', 'layer', 'laydate','formSelects'], function(){
       url: '/techFamily-api/getTreeList',
       type: 'GET',
       success: function(relData) {
-        console.log('reldata',relData);
         relData.children.map(function (item,index) {
         item.children.map(function (items,i) {
             delete items.children
@@ -40,7 +39,6 @@ layui.use(['form', 'table', 'layer', 'laydate','formSelects'], function(){
     }else{
       len = ($("#selectRows").children(".layui-col-md4").length - 3) % 3;
     }
-    console.log('len',len);
     switch(len){
       case 0:
         $('#btnGroup').removeClass('layui-col-md4');
