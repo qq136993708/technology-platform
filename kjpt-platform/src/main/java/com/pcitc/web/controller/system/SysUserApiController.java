@@ -124,6 +124,9 @@ public class SysUserApiController extends BaseController{
     	param.getParam().put("unifyIdentityId", unifyIdentityId);
     	param.getParam().put("userRole", userRole);
     	
+    	param.getParam().put("userDelflag", 0);
+    	
+    	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(USER_LIST_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
