@@ -105,7 +105,7 @@ function getChartOption(config) {
   };
   return option;
 }
-
+// 饼图环图配置
 function getPieChartOption(config) {
   var option = {
     title: (function() {
@@ -141,7 +141,7 @@ function getPieChartOption(config) {
       show: true,
       orient: 'vertical',
       left: 30,
-      top: 'center',
+      top: 20,
       itemWidth: 12,
       itemHeight: 12,
       padding: 0,
@@ -167,4 +167,65 @@ function getPieChartOption(config) {
     color: config.color || '#0AA1FF'
   };
   return option;
+}
+// 报表初始化
+var kyptCharts = {
+  chart: {},
+  getChartOption: function (config) {
+    if (config.type === 'bar' || config.type === 'line') {
+      return getChartOption(config);
+    } else if (config.type === 'pie') {
+      return getPieChartOption(config);
+    }
+  },
+  render: function (config) {
+    var _this = this;
+
+    if (!config.id || !config.type) {
+      top.layer.alert('[kyptCharts]图表类型与ID不能为空！')
+      return null;
+    } else {
+      _this.chart[config.id] = {
+        config: {}
+      };
+      for (var key in config) {
+        _this.chart[config.id].config[key] = config[key];
+      }
+    };
+
+    var elem = document.getElementById(config.id),
+    chartDemo = echarts.init(elem),
+    chartOption = _this.getChartOption(config);
+
+    // 渲染图表
+    chartDemo.setOption(chartOption);
+  
+    // 窗口大小变化时，更新图表渲染
+    $(window).resize(function() {
+      chartDemo.resize();
+    })
+  
+    // 回调函数，返回图表对象
+    if (config.callback) {
+      config.callback(chartDemo);
+    }
+
+    _this.chart[config.id].chart = chartDemo;
+  },
+  reload: function(id, config) {
+    if (!id) {
+      return null;
+    } else {
+      var _this = this;
+
+      if (!config) {
+        _this.chart[id].chart.resize();
+      } else if (typeof(config) === 'object') {
+        for (var key in config) {
+          _this.chart[id].config[key] = config[key];
+          _this.chart[id].chart.setOption(_this.getChartOption(_this.chart[id].config));
+        }
+      }
+    }
+  }
 }

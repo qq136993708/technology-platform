@@ -76,7 +76,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			{
 				System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
+				if (!request.getRequestURI().contains("/sso") &&!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					return false;
 				}
@@ -126,7 +126,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			} else {
 				System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
+				if (!request.getRequestURI().contains("/sso")&&!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					return false;
 				}

@@ -158,7 +158,40 @@ public class ZjkBase  {
     private String createUnitId="";
     private String createUnitName="";
     
+   
+    private String secretLevel="";
+    private String userSecretLevel;
+    private String secretLevelStr;
     
+    
+    
+    
+    
+    
+	public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
+	public String getUserSecretLevel() {
+		return userSecretLevel;
+	}
+
+	public void setUserSecretLevel(String userSecretLevel) {
+		this.userSecretLevel = userSecretLevel;
+	}
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
 	public String getCreateUnitId() {
 		return createUnitId;
 	}
