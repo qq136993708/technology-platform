@@ -46,7 +46,22 @@
 		<input type="hidden" name="userId" id="userId">
 		<input type="hidden" name="userExtend" id="userExtend">
 		<div class="layui-row">
-			<div class="layui-col-xs10 layui-col-sm10 layui-col-md10">
+			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<label for="" class="layui-form-label">头像</label>
+						<div class="layui-input-block">
+							<div class="img-view-block middle-block" style="height:120px;margin-bottom: 15px" id="imgFileUpload">
+								<img src="" alt="请选择图片上传" />
+								<div class="file-img-btn" label="imgUpload">
+									<span class="btn-icon"></span>
+									<span class="btn-text">点击此区域上传图片</span>
+								</div>
+								<span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
@@ -107,24 +122,12 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label"><span class="must-fill">*</span>用户类型</label>
-							<div class="layui-input-block">
-								<select name="userKind" id="userKind" lay-verify="userKind"  lay-filter="userKind">
-									<option value="">请选择</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
 							<label for="" class="layui-form-label">座机号<span class="must-fill"></span></label>
 							<div class="layui-input-block">
 								<input type="text" class="layui-input" id="userPhone" lay-verify="userPhone" name="userPhone" placeholder="请输入座机号">
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">手机号<span class="must-fill"></span></label>
@@ -133,14 +136,12 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
-			<div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
+			<!--<div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
 				<div class="layui-form-item layui-row">
-				 
-					<div class="layui-input-block" style="margin-left: 20px; width:155px"> 
+
+					<div class="layui-input-block" style="margin-left: 20px; width:155px">
 							<div class="img-view-block middle-block" style="height:180px;" id="imgFileUpload">
 							  <img src="" alt="请选择图片上传" />
 							  <div class="file-img-btn" label="imgUpload">
@@ -149,13 +150,13 @@
 							  </div>
 							  <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
 							</div>
-						  </div>
+					</div>
 
 				</div>
 				<div class="layui-form-item layui-row">
 					<label for="" class="layui-form-label" style="width: 200px; margin-left: 20px; text-align: left;">照片(尺寸:2.5cm*3.5cm)<span class="must-fill">*</span></label>
 				</div>
-			</div>
+			</div>-->
 		</div>
 
 		<div class="layui-form-item">
@@ -181,7 +182,7 @@
 </div>
 <script type="text/javascript">
 	var zNodes,form,roleMap={},unitMap={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
-	var unitList = [],postList = [];
+	var unitList = [],postList = [],userUnitName='';
 	var userId = "${userId?default(0)}";
 
 	setImagesUpload({
@@ -448,6 +449,7 @@
 				$.each(unitList,function(index,dt){
 					unitText += ","+unitList[index];
 				});
+                data.field.userUnitName=userUnitName
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
 				console.log(data.field)
                 httpModule({
@@ -510,6 +512,7 @@
 				unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
 			}
 		});
+        userUnitName=unitNames.join()
 		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
 		inintPostSelectTree(unitListNodes);
 	}
