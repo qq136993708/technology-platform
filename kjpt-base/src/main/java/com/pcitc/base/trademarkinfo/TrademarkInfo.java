@@ -110,6 +110,11 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      */
     private String createUnitName;
 
+    /**
+     * 信息密级翻译
+     */
+    private String secretLevelText;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {

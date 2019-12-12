@@ -242,6 +242,10 @@ public class PatentInfo extends RecordModel implements Serializable {
      */
     private String createUnitName;
 
+    /**
+     * 信息密级翻译
+     */
+    private String secretLevelText;
 
 
     private static final long serialVersionUID = 1L;
@@ -612,6 +616,14 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public void setCreateUnitName(String createUnitName) {
         this.createUnitName = createUnitName;
+    }
+
+    public String getSecretLevelText() {
+        return secretLevelText;
+    }
+
+    public void setSecretLevelText(String secretLevelText) {
+        this.secretLevelText = secretLevelText;
     }
 
     @Override
