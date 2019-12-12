@@ -54,7 +54,7 @@
 	        //渲染
 	        table.render({
 	            elem: '#userTable',
-	            url: '/user/user-list',
+	            url: '/user-api/query',
 	            limit : param.selfRownum,
 	            method:"POST",
 	            where: where,
@@ -70,14 +70,18 @@
 	            },
 	            cols: [[
 	            	 {type:'checkbox',event: 'changeEvents',width : 55}
-	            	,{title:'序号', type:'numbers',width : 55}
-	                ,{field:'userName',   title:'登录名称',	width: '8%',  style:'cursor: pointer;'}
-	                ,{field:'userDisp',   title:'显示名称',    width: '8%',  style:'cursor: pointer;'}
-	                ,{field:'userUnitDisp',title:'所属机构',	width: '15%',  style:'cursor: pointer;'}
-	                ,{field:'userPostDisp',   title:'所属岗位',	width: '15%',  style:'cursor: pointer;'}
-	                ,{field:'userMail',   title:'邮箱',	    width: '12%',  style:'cursor: pointer;'}
-	                ,{field:'userPhone',  title:'座机号',     width: '10%',  style:'cursor: pointer;'}
-	                ,{field:'userMobile', title:'手机号',  style:'cursor: pointer;'}
+                    ,{type: 'numbers', title: '序号', width: 80}
+                    ,{field: 'userName', title: '登录名称'}
+                    ,{field: 'userDisp', title: '展示名称', sort: true }
+                    ,{field: 'userUnitName', title: '所属机构'}
+                    ,{field: 'postName', title: '所属岗位', sort: true}
+                    ,{field: 'userMail', title: '邮箱'}
+                    ,{field: 'unifyIdentityId', title: '统一身份认证ID'}
+                    ,{field: 'secretLevelStr', title: '密级', templet: function(d) {
+                            if(d.secretLevelStr==''){return "-" }else {return d.secretLevelStr}
+                        }}
+                    ,{field: 'userPhone', title: '座机号', sort: true}
+                    ,{field: 'userMobile', title: '手机号', sort: true}
 	            ]],
 	            done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
@@ -97,11 +101,11 @@
 	        }
 	        renderfunc();
 		}
-        renderTable({param: {
-         	"userName":$("#userName").val(),
-         	"userKind":$("#userKind").val(),
-           	"userUnit":$("#userUnit").val()
-         	}
+        renderTable({
+                "userNameKey":$("#userNameKey").val(),
+                "unifyIdentityId":$("#unifyIdentityId").val(),
+                "userUnit":$("#userUnit").val()
+
          });
 		
         //监听表格复选框选择
@@ -112,11 +116,11 @@
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
                 console.log("点击了查询按钮");
-                renderTable({param: {
-                	"userName":$("#userName").val(),
-                	"userKind":$("#userKind").val(),
-                  	"userUnit":$("#userUnit").val()
-                	}
+                renderTable({
+                    "userNameKey":$("#userNameKey").val(),
+                    "unifyIdentityId":$("#unifyIdentityId").val(),
+                    "userUnit":$("#userUnit").val()
+
                 });
                 /* table.reload('userTable', {
                     where: {param: {"userName":$("#userName").val()}}
@@ -124,8 +128,8 @@
             }
             ,resetEvent: function() { 
             	//点击重置按钮
-                $("#userName").val("");
-                $("#userKind").val("");
+                $("#userNameKey").val("");
+                $("#unifyIdentityId").val("");
       			//组织结构
                 /*$("#userUnitShow").val("");
                 $("#userUnitValue").val("");*/
@@ -133,11 +137,11 @@
                 $("#unitName").val("");
                 $("#userUnit").val("");
 
-                renderTable({param: {
-                	"userName":$("#userName").val(),
-                	"userKind":$("#userKind").val(),
-                  	"userUnit":$("#userUnit").val()
-                	}
+                renderTable({
+                    "userNameKey":$("#userNameKey").val(),
+                    "unifyIdentityId":$("#unifyIdentityId").val(),
+                    "userUnit":$("#userUnit").val()
+
                 });
             }
             ,addEvent: function(){ 
@@ -205,12 +209,12 @@
 	                userIds.push(selectRowData.userId);
 	                publicMethods.ajaxPost("/user/delete-users", {"userIds":JSON.stringify(userIds)}, function (data) {
 	                     if (data.success) {
-	                         renderTable({param: {
-	                         	"userName":$("#userName").val(),
-	                         	"userKind":$("#userKind").val(),
-	                           	"userUnit":$("#userUnit").val()
-	                         	}
-	                         });
+	                         renderTable({
+                                 "userNameKey":$("#userNameKey").val(),
+                                 "unifyIdentityId":$("#unifyIdentityId").val(),
+                                 "userUnit":$("#userUnit").val()
+
+                             });
                              top.layer.closeAll(); // 关闭弹窗
 	                    	 //table.reload("userTable");
 	                     } else {
@@ -230,12 +234,12 @@
 					var userIds = [];
 					publicMethods.ajaxPost("/user/resetPassword-users", {"userId":selectRowData.userId}, function (data) {
 	                     if (data.success) {
-	                         renderTable({param: {
-		                         	"userName":$("#userName").val(),
-		                         	"userKind":$("#userKind").val(),
-		                           	"userUnit":$("#userUnit").val()
-		                         	}
-		                         });
+	                         renderTable({
+                                 "userNameKey":$("#userNameKey").val(),
+                                 "unifyIdentityId":$("#unifyIdentityId").val(),
+                                 "userUnit":$("#userUnit").val()
+
+                             });
 	                    	 //table.reload("userTable");
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
@@ -332,11 +336,11 @@
         		});
         		$("#userUnit").val(unitIds);
         		$("#unitName").val(names);
-        		renderTable({param: {
-                  	"userName":$("#userName").val(),
-                  	"userKind":$("#userKind").val(),
+        		renderTable({
+                    "userNameKey":$("#userNameKey").val(),
+                    "unifyIdentityId":$("#unifyIdentityId").val(),
                     "userUnit":$("#userUnit").val()
-                  	}
+
                 });
         	}
             $("#unitName").on("click", function() {
@@ -351,14 +355,12 @@
 <div class="searchBox">
     <label class="dateInput">
         <span>用户名称</span>
-        <input type="text" name="userName" id="userName" placeholder="请输入登录名称或显示名称" autocomplete="off" class="form-control">
+        <input type="text" name="userNameKey" id="userNameKey" placeholder="请输入登录名称或显示名称" autocomplete="off" class="form-control">
     </label>
-    <!--<label class="dateInput">
-        <span>用户类型</span>
-		<select name="userKind" id="userKind"  lay-filter="userKind" class="form-control">
-            <option value="">请选择</option>
-        </select>
-    </label>-->
+    <label class="dateInput">
+        <span>统一身份认证ID</span>
+        <input type="text" name="unifyIdentityId" id="unifyIdentityId" placeholder="请输入登录名称或显示名称" autocomplete="off" class="form-control">
+    </label>
     <label class="dateInput">
         <span>组织机构</span>
         <div class="layui-input-block" style="display:inline-table; margin-left:0px; min-height:24px;">
