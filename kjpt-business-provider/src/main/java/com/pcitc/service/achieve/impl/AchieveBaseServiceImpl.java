@@ -12,6 +12,7 @@ import com.pcitc.mapper.achieve.AchieveBaseMapper;
 import com.pcitc.service.achieve.AchieveBaseService;
 import com.pcitc.service.feign.WorkflowRemoteClient;
 
+import com.pcitc.service.file.FileCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
 
     @Autowired
     private AchieveBaseMapper abm;
+
+	@Autowired
+	private FileCommonService fs;
     
     
     @Autowired
@@ -46,9 +50,11 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
         if(load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());
+			fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
             return abm.add(ab);
         }
         else{
+			fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
             return abm.update(ab);
         }
 

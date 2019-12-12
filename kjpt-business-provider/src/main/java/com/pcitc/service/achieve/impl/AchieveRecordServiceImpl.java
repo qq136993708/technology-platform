@@ -46,6 +46,9 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     @Override
     public AchieveRecord load(String id) {
         AchieveRecord ar = arm.load(id);
+        if(ar == null){
+            return null;
+        }
         ar.setAchieveRewards(arw.getByRecordId(id));
         return ar;
     }
@@ -85,7 +88,7 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 
     private void saveReward(AchieveReward ab) {
         IsEmptyUtil.isEmpty(ab.getId());
-        if(load(ab.getId()) ==null){
+        if(arw.load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());
             handlerFile(ab.getFiles(),ab.getSecretLevel());
