@@ -33,7 +33,7 @@ public class SciencePlanServiceImpl implements SciencePlanService {
     public SciencePlan save(SciencePlan sciencePlan) {
         IsEmptyUtil.isEmpty(sciencePlan.getId());
 
-        fileCommonService.updateFileData(sciencePlan.getAccessory(),sciencePlan.getId());
+        fileCommonService.updateFileData(sciencePlan.getAccessory(),sciencePlan.getId(),sciencePlan.getSecretLevel());
 
         if (load(sciencePlan.getId()) == null) {
             sciencePlan.setCreateDate(sciencePlan.getUpdateDate());

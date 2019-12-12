@@ -3,6 +3,7 @@ package com.pcitc.web.controller.file;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.FileModel;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.FileUtil;
@@ -87,18 +88,74 @@ public class FileCommonController extends BaseController {
 
 
     @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
-    @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-    public String upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
-        FileModel f = fileUtil.upload(file);
-        f.setCreateDate(new Date());
-        f.setCreator(this.getUserProfile().getUserName());
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<FileModel>(f,this.httpHeaders), (Class<Object>) null);
-        Result r = new Result();
-        r.setCode(Result.RESPONSE_SUCC_CODE);
-        r.setMessage(Result.RESPONSE_SUCC_MSG);
-        r.setData(f);
-        return JSONObject.toJSONString(r);
+    @RequestMapping(value="/upload/{secretLevel}",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+    public String upload(@RequestParam(value = "file") MultipartFile file,@PathVariable String secretLevel){
+
+        try {
+            String fileSecretLevel = checkSecretLevel(secretLevel,file.getOriginalFilename());
+            FileModel f = fileUtil.upload(file);
+            f.setCreateDate(new Date());
+            f.setCreator(this.getUserProfile().getUserName());
+            f.setSecretLevel(fileSecretLevel);
+            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<FileModel>(f,this.httpHeaders), (Class<Object>) null);
+            Result r = new Result();
+            r.setCode(Result.RESPONSE_SUCC_CODE);
+            r.setMessage(Result.RESPONSE_SUCC_MSG);
+            r.setData(f);
+            return JSONObject.toJSONString(r);
+        }catch (Exception e){
+            Result r1 = new Result();
+            r1.setCode("-1");
+            r1.setMessage(e.getMessage());
+            r1.setSuccess(false);
+            return JSONObject.toJSONString(r1);
+        }
+
+    }
+
+    /**
+     * 校验文件密级
+     * @param secretLevel
+     * @param fileName
+     * @return
+     */
+    private String checkSecretLevel(String secretLevel,String fileName){
+        //如果是0的话就不进行校验
+        if("0".equals(secretLevel)){
+            return "1";
+        }else{
+            String fileLevel = checkFileName(fileName);
+            if(fileLevel == null){
+                throw new SysException("文件名不符合密级要求！");
+            }
+            if(Integer.valueOf(fileLevel)>Integer.valueOf(secretLevel)){
+                throw new SysException("文件密级和单据密级不符！");
+            }
+            return fileLevel;
+        }
+
+    }
+
+    private static final String FILE_TYPE_4 = "[机密]";
+    private static final String FILE_TYPE_3 = "[秘密]";
+    private static final String FILE_TYPE_2 = "[内部]";
+    private static final String FILE_TYPE_1 = "[公开]";
+    private String checkFileName(String fileName){
+
+        if(fileName.startsWith(FILE_TYPE_4)){
+            return "4";
+        }
+        if(fileName.startsWith(FILE_TYPE_3)){
+            return "3";
+        }
+        if(fileName.startsWith(FILE_TYPE_2)){
+            return "2";
+        }
+        if(fileName.startsWith(FILE_TYPE_1)){
+            return "1";
+        }
+        return null;
     }
 
     @ApiOperation(value = "文件下载", notes = "文件下载")
@@ -108,7 +165,7 @@ public class FileCommonController extends BaseController {
         fileUtil.responseFile(responseEntity.getBody(),true,this.getCurrentResponse());
     }
 
-    @ApiOperation(value = "图片展示", notes = "图片展示")
+    @ApiOperation(value = "预览附件图片展示", notes = "预览附件图片展示")
     @RequestMapping(value="/imgFile/{fileId}",method = RequestMethod.GET)
     public void imgFile(@PathVariable String fileId){
         this.addAuth();
