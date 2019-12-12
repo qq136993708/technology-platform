@@ -4,9 +4,22 @@ function selectFileUpload(config) {
   config.upload.render({
     elem: config.elem //绑定元素
     ,accept: config.accept || 'file'
-    ,url:config.url ||  '/file/upload' //上传接口
+    ,url:config.url ||  '/file/upload' //上传接口 
+    ,data: {
+      secretLevel: function() {
+        //设定密级，从config.secretLevel中获得，允许使用函数来传递动态值
+        if(typeof(config.secretLevel) === 'function'){
+          return config.secretLevel();
+        } else if(typeof(config.secretLevel) === 'string') {
+          return config.secretLevel
+        } else {
+          return null;
+        }
+      }
+    }
     ,before: function(obj) {
       layerLoadIndex = top.layer.load();
+      return true;
     }
     ,done: function(res){
       top.layer.close(layerLoadIndex);
@@ -130,6 +143,7 @@ function setFileUpload(config) {
       elem: addFile,
       upload: layui.upload,
       accept: configOption.accept || 'file',
+      secretLevel : config.secretLevel,
       callback: function(res) {
         //上传完毕回调
         if (res.code === '0') {
@@ -166,6 +180,7 @@ function setImagesUpload(config) {
       elem: fileBtn,
       upload: layui.upload,
       accept: 'images',
+      secretLevel: '0',
       callback: function(res) {
         //上传完毕回调
         if (res.code === '0') {

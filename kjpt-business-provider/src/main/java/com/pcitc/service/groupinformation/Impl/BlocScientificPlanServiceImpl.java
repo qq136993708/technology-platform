@@ -35,7 +35,7 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
         IsEmptyUtil.isEmpty(blocScientificPlan.getId());
 
 
-        fileCommonService.updateFileData(blocScientificPlan.getAccessory(), blocScientificPlan.getId());
+        fileCommonService.updateFileData(blocScientificPlan.getAccessory(), blocScientificPlan.getId(),blocScientificPlan.getSecretLevel());
 
 
         if (load(blocScientificPlan.getId()) == null) {

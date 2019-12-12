@@ -62,6 +62,10 @@ var billDataID = 'b1fde50390b64ab1ad872728dbd1df08';
 setFileUpload({
   id: 'file-filter-options', // 附件上传作用域ID值 必传
   dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
+  secretLevel : function() {
+    //用于设定密级，可以是函数或者字符串，如果不检查密级，设定'0'
+  },
+  readonly: false,  //设定是否允许上传，删除文件，默认false，=true则只显示列表和下载
   callback: function (tableData, type) {
     /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
       * type 触发变更的类型 目前只有 delete | upload
@@ -125,6 +129,7 @@ layui.use(['element', 'form', 'table', 'upload'], function(){
   setFileUpload({
     id: 'file-filter-options',
     dataID: billID,
+    secretLevel : '1',
     callback: function (tableData, type) {
       console.log(tableData);
     }

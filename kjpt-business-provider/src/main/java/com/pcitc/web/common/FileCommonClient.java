@@ -31,10 +31,10 @@ public class FileCommonClient {
          fileCommonService.save(fm);
     }
 
-    @RequestMapping(value="/file/updateFileData/{dataId}",method = RequestMethod.POST)
+    /*@RequestMapping(value="/file/updateFileData/{dataId}",method = RequestMethod.POST)
     public void updateFileData(@PathVariable String dataId,@RequestParam String fileds){
         fileCommonService.updateFileData(fileds,dataId);
-    }
+    }*/
 
     @RequestMapping(value="/file/downLoad/{id}",method = RequestMethod.GET)
     public FileModel downLoad(@PathVariable String id){

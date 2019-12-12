@@ -42,7 +42,7 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
         }else{
             trademarkInfoMapper.insertSelective(trademarkInfo);
         }
-        fileCommonService.updateFileData(trademarkInfo.getFiles(),trademarkInfo.getId());
+        fileCommonService.updateFileData(trademarkInfo.getFiles(),trademarkInfo.getId(),trademarkInfo.getSecretLevel());
         return trademarkInfo;
     }
 

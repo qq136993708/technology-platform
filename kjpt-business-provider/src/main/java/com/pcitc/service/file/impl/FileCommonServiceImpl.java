@@ -1,6 +1,7 @@
 package com.pcitc.service.file.impl;
 
 import com.pcitc.base.common.FileModel;
+import com.pcitc.base.exception.SysException;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.file.FileCommonMapper;
 import com.pcitc.service.file.FileCommonService;
@@ -33,8 +34,12 @@ public class FileCommonServiceImpl implements FileCommonService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFileData(String fileIds, String dataId) {
+    public void updateFileData(String fileIds, String dataId,String baseSsecretLevel) {
         String[] fileArr = fileIds.split(",");
+        //检查附件的密级有没有大于当前数据的密级的
+        if(fcm.checkSecretLevel(baseSsecretLevel,fileArr)>0){
+            throw new SysException("附件与当前数据的密级不符，请检查！");
+        }
         fcm.delete(dataId);
         fcm.updateSetDataID(dataId,fileArr);
     }
