@@ -148,9 +148,9 @@ public class TokenInterUtils {
 					sysLog.setRequestType(request.getMethod());
 					sysLog.setUnitId(userInfo.getUnitId());
 					String unitName="";
-					if(userInfo.getUnitName()!=null)
+					if(userInfo.getUserUnitName()!=null)
 					{
-						unitName=userInfo.getUnitName();
+						unitName=userInfo.getUserUnitName();
 					}
 					sysLog.setUnitName(unitName);
 					sysLog.setOptDescribe(optDescribe);
@@ -230,9 +230,9 @@ public class TokenInterUtils {
 						sysLog.setRequestType(request.getMethod());
 						sysLog.setUnitId(userInfo.getUnitId());
 						String unitName="";
-						if(userInfo.getUnitName()!=null)
+						if(userInfo.getUserUnitName()!=null)
 						{
-							unitName=userInfo.getUnitName();
+							unitName=userInfo.getUserUnitName();
 						}
 						sysLog.setUnitName(unitName);
 						sysLog.setOptDescribe(optDescribe);
