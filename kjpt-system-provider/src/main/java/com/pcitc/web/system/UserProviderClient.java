@@ -124,6 +124,12 @@ public class UserProviderClient {
 	public SysUser selectUserDetailsByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserDetailsByUserId(userId);
 	}
+
+	@ApiOperation(value = "根据唯一标识查询用户信息")
+	@RequestMapping(value = "/user-provider/user/user-identityid",method = RequestMethod.POST)
+	public SysUser selectUserByIdentityId(@RequestBody SysUser sysUser) {
+		return userService.selectUserByIdentityId(sysUser.getUnifyIdentityId());
+	}
 	/**
 	 * 当前角色下的所有用户
 	 * @param jsonStr

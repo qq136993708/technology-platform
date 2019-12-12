@@ -18,9 +18,6 @@
         <result column="ENTRY_PEOPLE" jdbcType="VARCHAR" property="entryPeople"/>
         <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime"/>
         <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
-
-        <!--<result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>-->
-
         <result column="file" jdbcType="VARCHAR" property="files"/>
         <result column="DELETED" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
@@ -30,10 +27,8 @@
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="technical_field" jdbcType="VARCHAR" property="technicalField"/>
         <result column="technical_field_value" jdbcType="VARCHAR" property="technicalFieldValue"/>
-
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
-
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
 
     </resultMap>
@@ -124,8 +119,8 @@
        #{updator},
        #{technicalField},
        #{technicalFieldValue},
-       #{create_unit_id},
-       #{create_unit_name},
+       #{createUnitId},
+       #{createUnitName},
        #{secretLevel}
       )
   </insert>
@@ -258,7 +253,6 @@
             and VERSION_NUMBER = #{versionNumber}
         </if>
 
-
         <if test="recordDate != null and recordDate != '' ">
             and RECORD_DATE = #{recordDate}
         </if>
@@ -304,7 +298,6 @@
                 #{item}
             </foreach>
         </if>
-
 
         <if test="secretLevel != null and secretLevel != ''" >
             secret_level = #{secretLevel}

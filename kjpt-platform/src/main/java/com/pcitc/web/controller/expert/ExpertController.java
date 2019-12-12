@@ -122,6 +122,14 @@ public class ExpertController extends BaseController {
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
+    	
+    	//默认查询小于等于用户密级的专家
+    	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
+    	//默认查询当前人所在机构及子机构的所有专家
+    	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+    	param.getParam().put("childUnitIds", childUnitIds);
+    	
+    	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);
@@ -133,7 +141,6 @@ public class ExpertController extends BaseController {
 		logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
-    
     
     
     
@@ -151,6 +158,7 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "education",      value = "学历",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalFieldIndex",       value = "技术索引",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "secretLevel",               value = "信息密级",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
@@ -168,6 +176,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String education,
             @RequestParam(required = false) String technicalFieldIndex,
             @RequestParam(required = false) String technicalFieldName,
+            @RequestParam(required = false) String secretLevel,
             @RequestParam(required = false) String groupType,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
@@ -185,7 +194,10 @@ public class ExpertController extends BaseController {
     	param.getParam().put("technicalField", technicalField);
     	param.getParam().put("sex", sex);
     	param.getParam().put("education", education);
+    	param.getParam().put("secretLevel", secretLevel);
     	
+    	//默认查询小于等于用户密级的专家
+    	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
     	//默认查询当前人所在机构及子机构的所有专家
     	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
     	param.getParam().put("childUnitIds", childUnitIds);
@@ -296,7 +308,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form")
+        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -340,7 +353,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
 			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
-			
+			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();

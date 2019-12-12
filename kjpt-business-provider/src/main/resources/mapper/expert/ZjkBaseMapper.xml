@@ -40,6 +40,11 @@
     <result column="audit_status"              jdbcType="VARCHAR" property="auditStatus" />
     <result column="create_unit_id"            jdbcType="VARCHAR" property="createUnitId" />
     <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
+    <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+    <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+    
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List">
@@ -47,7 +52,7 @@
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
     achievement, head_pic, create_time, create_user, update_time, update_user, 
     out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
-    create_unit_id,create_unit_name
+    create_unit_id,create_unit_name,secret_level
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -63,7 +68,7 @@
       email, brief, achievement, 
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
-      audit_status,create_unit_id,create_unit_name
+      audit_status,create_unit_id,create_unit_name,secret_level
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -77,6 +82,7 @@
       , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
       , #{technicalFieldIndex,jdbcType=VARCHAR} , #{groupType,jdbcType=VARCHAR}
        , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
+        , #{secretLevel,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -179,8 +185,10 @@
       <if test="createUnitName != null">
         create_unit_name,
       </if>
-    
-    
+    <if test="secretLevel != null">
+        secret_level,
+      </if>
+   
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -282,6 +290,12 @@
       <if test="createUnitName != null">
         #{createUnitName,jdbcType=VARCHAR},
       </if>   
+      
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if> 
+      
+      
        
     
     </trim>
@@ -382,7 +396,10 @@
       <if test="createUnitName != null">
         create_unit_name = #{createUnitName,jdbcType=VARCHAR},
       </if> 
-     
+      <if test="secretLevel != null">
+        secret_level = #{secretLevel,jdbcType=VARCHAR},
+      </if> 
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -407,6 +424,7 @@
       brief = #{brief,jdbcType=VARCHAR},
       achievement = #{achievement,jdbcType=VARCHAR},
       head_pic = #{headPic,jdbcType=VARCHAR},
+      secret_level = #{secretLevel,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=VARCHAR},
       technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
@@ -450,6 +468,12 @@
 			          #{item}
 			   </foreach>
 	     </if>
+	     <if test="secretLevel != null and secretLevel !=''  ">        
+	        AND t.secret_level = #{secretLevel}
+	     </if>
+	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	        AND t.secret_level &lt;= #{userSecretLevel}
+	     </if>
 	 </trim>
 	</sql>
 	
@@ -476,6 +500,11 @@
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
           AND t2.num_value =t1.`title`
       )  title_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
       ,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZJFZ'

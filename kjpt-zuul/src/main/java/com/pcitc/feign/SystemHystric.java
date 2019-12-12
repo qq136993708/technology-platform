@@ -24,6 +24,12 @@ public class SystemHystric implements SystemRemoteClient {
 	}
 
 	@Override
+	public SysUser selectUserByIdentityId(SysUser sysUser) {
+		System.out.println("sorry，访问selectUserByIdentityId错误，请调整。返回null");
+		return null;
+	}
+
+	@Override
 	public SysUser selectUserByUserName(String username) {
 		System.out.println("sorry，访问selectUserByUserId错误，请调整。返回null");
 		return null;

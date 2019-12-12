@@ -151,6 +151,12 @@
 		delete from sys_user
 		where user_id = #{userId,jdbcType=VARCHAR}
 	</delete>
+
+	<!--根据用户唯一标识查询用户信息-->
+	<select id="selectUserByIdentityId" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select * from sys_user where unify_identity_id = #{unifyIdentityId,jdbcType=VARCHAR}
+	</select>
 	
 	<insert id="insert" parameterType="com.pcitc.base.system.SysUser">
 		insert into sys_user (user_id, user_name, user_password,

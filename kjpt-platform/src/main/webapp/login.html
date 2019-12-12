@@ -9,6 +9,29 @@
     <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico?aa=a" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/login.css" media="all">
+    <style>
+        .attestationLogin{
+            display: none;
+        }
+        .skipType{
+            display: block;
+            padding: 0px 20px 20px;
+            color: #0AA1FF;
+            cursor: pointer;
+        }
+        .layadmin-user-login-body .paddingNull{
+            padding-bottom: 0px;
+        }
+        .attestationLogin .layadmin-user-login-box{
+            position: relative;
+        }
+        .attestationLogin .layadmin-user-login-box .paddingNull{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+    </style>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script>
     layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
@@ -86,7 +109,18 @@
 				}
 	        });
 	        var bodyHeight=$(document).height();
-	        $(".layadmin-user-login").height(bodyHeight);
+            $(".layadmin-user-login").height(bodyHeight);
+            
+            $('.skipType').click(function(){ //登录切换
+                console.log($(this).attr('type'));
+                if($(this).attr('type') == 'attestationLogin'){
+                    $('.attestationLogin').css('display','block');
+                    $('.defaultLogin').css('display','none');
+                }else{
+                    $('.attestationLogin').css('display','none');
+                    $('.defaultLogin').css('display','block');
+                }
+            })
     });
 </script>
 </head>
@@ -100,7 +134,7 @@
         <div class="layadmin-user-login-body">
             <div class="user-login-box">
                 <img class="login-house" src="/layuiadmin/layui/images/login-house.png" alt="">
-                <div class="user-login">
+                <div class="user-login defaultLogin">
                     <h2 style="color: #1d2d3d;font-size: 18px;padding:20px 20px 0;">用户登录</h2>
                     <div class="layadmin-user-login-box layui-form">
                         <div class="layui-form-item" style="position: relative">
@@ -127,10 +161,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item paddingNull">
                             <button id="sub_button" type="button" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登录</button>
                         </div>
                     </div>
+                    <span class="skipType" type='attestationLogin'>认证登录</span>
+                </div>
+                <div class="user-login attestationLogin">
+                    <h2 style="color: #1d2d3d;font-size: 18px;padding:20px 20px 0;">认证登录</h2>
+                    <div class="layadmin-user-login-box layui-form">
+                        <div class="layui-form-item paddingNull">
+                            <button id="attestation_button" type="button" class="layui-btn layui-btn-fluid"> <a href="${ssoOortlUrl}">认证登录</a></button>
+                        </div>
+                    </div>
+                    <span class="skipType" type='defaultLogin'>用户登录</span>
                 </div>
             </div>
         </div>

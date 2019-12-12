@@ -258,19 +258,16 @@ public class SysUserApiController extends BaseController{
     @ApiImplicitParam(name = "postName",     value = "用户岗位名称（多个逗号分开）", dataType = "string", paramType = "form")
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserPost")
-	public String updatePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String updatePost(@RequestBody  SysUser sysUser,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
     	Result resultsDate = new Result();
-		String userId=CommonUtil.getParameter(request, "userId", "");
-		String userPost=CommonUtil.getParameter(request, "userPost", "");
-		String postName=CommonUtil.getParameter(request, "postName", "");
 		
 		
-	    System.out.println(">>>>>>>>>> 参数userPost: "+userPost);
-		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
+	    System.out.println(">>>>>>>>>> 参数userPost: "+sysUser.getUserPost());
+		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + sysUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 		SysUser oldSysUser = se.getBody();
-		oldSysUser.setUserPost(userPost);
-		oldSysUser.setPostName(postName);
+		oldSysUser.setUserPost(sysUser.getUserPost());
+		oldSysUser.setPostName(sysUser.getPostName());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_POST_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		Integer dataId = responseEntity.getBody();

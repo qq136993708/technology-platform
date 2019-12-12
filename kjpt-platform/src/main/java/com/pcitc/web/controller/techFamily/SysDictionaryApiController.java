@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.techFamily;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -41,6 +40,31 @@ public class SysDictionaryApiController extends BaseController {
 	private static final String UNIT_LIST_ZTREE_DATA = "http://kjpt-zuul/system-proxy/unit-provider/unit/getAllList";
 	
 	private static final String GET_SUBS_DICTIONARY_LIST = "http://kjpt-zuul/system-proxy/dictionary-provider/getAllList";
+	
+	
+	
+	@ApiOperation(value = "查小于用户级别的信息密级列表", notes = "查小于用户级别的信息密级列表")
+	@RequestMapping(value="/sysDictionary-api/getLessThanUserSecretDicList",method = RequestMethod.GET)
+    public String getListLowSecretLevel(HttpServletRequest request)
+	{
+		List<SysDictionary> reslut= new ArrayList();
+		Result resultsDate = new Result();
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_KJPT_XXMJ", restTemplate, httpHeaders);
+		String userLevel=sysUserInfo.getSecretLevel();
+	    for(int i=0;i<list.size();i++)
+	    {
+		  SysDictionary sd=list.get(i);
+		  String lvelstr= sd.getNumValue();
+		  if((Integer.valueOf(lvelstr).intValue()) <= (Integer.valueOf(userLevel).intValue())) 
+		  {
+			  reslut.add(sd);
+		  }
+	    }
+	    resultsDate.setData(reslut);
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+    }
+	
 	
 	
 	
