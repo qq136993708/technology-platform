@@ -72,7 +72,7 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
 
     })
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -90,7 +90,7 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor,
             @RequestParam(required = false) String technicalFieldIndex,
-            @RequestParam(required = false, value = "secretLevel") String secretLevel
+            @RequestParam(required = false) String secretLevel
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
