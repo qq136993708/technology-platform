@@ -94,6 +94,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'dutyInstitutionsText', title: '负责单位', sort: true}
         // ,{field: 'majorTypeText', title: '专业类型'} 
         ,{field: 'approvalYear', title: '立项年度'}
+        ,{field: 'secretLevelText', title: '密级', sort: true} 
       ]]
     });
 
@@ -128,6 +129,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '发表时间'}
+        ,{field: 'secretLevelText', title: '密级', sort: true} 
       ]]
     });
 
@@ -164,6 +166,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'applicantUnitText', title: '申请单位', sort: true}
         ,{field: 'achievementTypeText', title: '成果类型'} 
         ,{field: 'applicantYear', title: '申请年度'}
+        ,{field: 'secretLevelText', title: '密级', sort: true} 
       ]]
     });
 
@@ -180,6 +183,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
           return dateFieldText(d.applicationDate);
         }} 
         ,{field: 'remark', title: '描述'}
+        ,{field: 'secretLevelText', title: '密级', sort: true} 
       ]]
     });
   }
