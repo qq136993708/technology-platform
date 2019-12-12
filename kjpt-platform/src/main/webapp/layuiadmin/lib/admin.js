@@ -586,11 +586,6 @@ layui.define('view', function(exports){
         $('.'+ TABS_REMOVE).remove();
         $("#LAY_app_tabsheader").css("left","0px")
       }
-
-          var $LAYAPPTABS = $('#LAY_app_tabsheader');
-          if ($LAYAPPTABS.children('li').length === 0) {
-              setNavMeunSelected();
-          }
     }
     
     //关闭全部标签页
@@ -656,6 +651,7 @@ layui.define('view', function(exports){
   //监听 tab 组件切换，同步 index
   element.on('tab('+ FILTER_TAB_TBAS +')', function(data){
     admin.tabsPage.index = data.index;
+    console.log('iframeIndex =>', data.index);
   });
   
   //监听选项卡切换，改变菜单状态
@@ -730,6 +726,9 @@ layui.define('view', function(exports){
       layer.close(elem.data('index'));
     };
     admin.tabsPage.type = 'nav';
+
+    console.log(elem);
+
   });
   
   //监听选项卡的更多操作
@@ -771,6 +770,20 @@ layui.define('view', function(exports){
     
     //移除resize事件
     admin.delResize();
+
+    // 设置导航参照选中效果
+    var $LAYAPPTABS = $('#LAY_app_tabsheader');
+    if ($LAYAPPTABS.children('li').length === 0) {
+      setNavMeunSelected();
+    } else {
+      var layID = othis.attr('lay-id');
+      if (layID.indexOf('/html/scientificPlatform/') == 0 || layID.indexOf('/kjpt/expert/') == 0) {
+        // 科研能力
+        setNavMeunSelected(1);
+        return;
+      }
+    }
+
   });
   var code ;
   //页面跳转
