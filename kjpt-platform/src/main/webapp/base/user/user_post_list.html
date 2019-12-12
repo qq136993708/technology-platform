@@ -100,6 +100,11 @@
                                 end: function(lay, index) {
                                     // 弹窗销毁时获取弹窗返回数据
                                     var getData=getDialogData('dialog-data');
+                                    if(getData){
+                                        if(getData.success){
+                                            queryTable('')
+                                        }
+                                    }
                                 }
                             });
                         })
