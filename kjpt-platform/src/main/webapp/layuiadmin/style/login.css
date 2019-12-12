@@ -22,7 +22,7 @@ body{background: white;}
 }
 .user-login-box{width: 80%;position: absolute;left: 50%; top: 50%;transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);}
 .login-house{ width: 65%;}
-.layadmin-user-login-box{padding: 20px 20px 0;}
+.layadmin-user-login-box{padding: 20px 20px 0;height: 194px;}
 .layadmin-user-login-header{width: 95%;height: 70px;margin:30px auto 0;}
 .layadmin-user-login-header img{height:60px;vertical-align: middle;}
 .engineering-header{background: url("/layuiadmin/layui/images/engineering-login-logo.png") left 16px no-repeat;}
@@ -41,6 +41,19 @@ body{background: white;}
 .user-login-shadow{position: absolute;right: 0;bottom: -29px;background: url("/layuiadmin/layui/images/login-shadow.png") no-repeat;
   width: 312px;height: 28px;}
 .user-login-shadow img{}
+#attestation_button{
+  background: #0AA1FF;
+
+}
+#attestation_button a{
+  color: #fff;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.attestationLogin .paddingNull{
+  width: 272px;
+}
 .layadmin-user-login-other{position: relative; font-size: 0; line-height: 38px; padding-top: 20px;}
 .layadmin-user-login-other>*{display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 14px;}
 .layadmin-user-login-other .layui-icon{position: relative; top: 2px; font-size: 26px;}
