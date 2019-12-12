@@ -17,6 +17,7 @@ if (!console) {
 var TREE_DICKIND_CODE = {
 	ROOT_KJPT_YTDW: '/unit-api/getTreeList' //依托单位
 	,ROOT_KJPT_JSLY: '/techFamily-api/getTreeList' // 技术领域
+
 };
 
 // 对Date的扩展，将 Date 转化为指定格式的String   
@@ -365,6 +366,10 @@ function _getDicStore(key, type, callback) {
 function _commonLoadDic(dicKindCode, callback) {
 	if (dicKindCode && typeof(dicKindCode) !== 'object') {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
+		if(dicKindCode === 'ROOT_KJPT_XXMJ') {
+			httpUrl = '/sysDictionary-api/getLessThanUserSecretDicList'  //信息密级
+		} 
+
 		if (TREE_DICKIND_CODE[dicKindCode]) {
 			httpUrl = TREE_DICKIND_CODE[dicKindCode];
 		}

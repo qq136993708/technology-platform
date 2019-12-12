@@ -37,6 +37,29 @@
 	<!-- 手动录入 -->
 	<div class="input-layout-box">
 		<form class="layui-form" action="" lay-filter="formProject">
+
+				<div class="layui-row layui-col-space20">
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+							  <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+							  <div class="layui-input-block">
+								<select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+								</select>
+							  </div>
+							</div>
+						</div>  
+					  
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+								<label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>  
+							</div>
+						</div>
+							 
+					</div>
+			  
+					<div class="secret-level-line"></div>
+					
 			<div class="layui-row layui-col-space20">
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
