@@ -124,6 +124,12 @@ public class UserProviderClient {
 	public SysUser selectUserDetailsByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserDetailsByUserId(userId);
 	}
+
+	@ApiOperation(value = "根据唯一标识查询用户信息")
+	@RequestMapping(value = "/user-provider/user/user-identityid",method = RequestMethod.POST)
+	public SysUser selectUserByIdentityId(@RequestBody SysUser sysUser) {
+		return userService.selectUserByIdentityId(sysUser.getUnifyIdentityId());
+	}
 	/**
 	 * 当前角色下的所有用户
 	 * @param jsonStr
@@ -267,5 +273,50 @@ public class UserProviderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
+	
+	
+	
+	
+	@ApiOperation(value="更新用户基本信息",notes="更新用户信息，如果组织机构有变化，则同时更新这些信息。")
+	@RequestMapping(value = "/user-provider/update_user", method = RequestMethod.POST)
+	public Integer update_User(@RequestBody SysUser user)throws Exception {
+		logger.info("update user.... "+JSON.toJSONString(user));
+		return userService.updateSysUser(user);
+	}
+
+	
+	@ApiOperation(value="添加用户",notes="保存数据到持久化结构中，同时保存用户组织机构信息。")
+	@RequestMapping(value = "/user-provider/add_user", method = RequestMethod.POST)
+	public Integer save_UserInfo(@RequestBody SysUser user) throws Exception{
+		logger.info("add user....");
+		return userService.insertSysUser(user);
+	}
+	
+	
+	@ApiOperation(value="更新用户岗位信息",notes="更新用户岗位信息")
+	@RequestMapping(value = "/user-provider/update_user_post", method = RequestMethod.POST)
+	public Integer update_user_post(@RequestBody SysUser user) throws Exception{
+		logger.info("update user.... "+JSON.toJSONString(user));
+		return userService.updateSysUserPost(user);
+	}
+	
+	
+	@ApiOperation(value="更新用户角色信息",notes="更新用户角色信息")
+	@RequestMapping(value = "/user-provider/update_user_role", method = RequestMethod.POST)
+	public Integer update_user_role(@RequestBody SysUser user) throws Exception{
+		logger.info("update user.... "+JSON.toJSONString(user));
+		return userService.updateSysUserRole(user);
+	}
+	
+
+	@ApiOperation(value="更新用户密级信息",notes="更新用户密级信息")
+	@RequestMapping(value = "/user-provider/updateSecretLevel", method = RequestMethod.POST)
+	public Integer updateSecretLevel(@RequestBody SysUser user) throws Exception{
+		logger.info("update user.... "+JSON.toJSONString(user));
+		return userService.updateUserBase(user);
+	}
+	
+	
+	
 	
 }

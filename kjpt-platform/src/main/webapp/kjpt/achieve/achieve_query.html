@@ -85,7 +85,7 @@
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                 <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
                     <span class="layui-fold-btn"></span>
                 </div>
             </div>
@@ -125,12 +125,15 @@
                         ,{field: 'achieveTypeText', title: '是否核心技术成果', sort: true}
                         ,{field: 'achieveTransTypeText', title: '拟转让方式'}
                         ,{field: 'aboutCompleteInfo', title: '完成情况', sort: true}
-                        ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', sort: true}
+                        ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', sort: true, templet: function(d) {
+                            if (d.aboutCompleteTime) {
+                                return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
+                            } else {
+                                return '-';
+                            }
+                        }}
                     ]],
-                    parseData: function(res) {
-                        console.log(res)
-                        return layuiParseData(res, null, 15);
-                        },
+                    parseData: function(res) {return layuiParseData(res); },
                     request: {
                         pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                         limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -144,6 +147,9 @@
                 table.reload('tableDemo', {where: searchData});
             }
         }
+        $("#reset").click(function () {
+            queryTable('')
+        })
         //开始日期
         var insStart = laydate.render({
             elem: '#inputStart'

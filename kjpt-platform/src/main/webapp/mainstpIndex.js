@@ -166,6 +166,22 @@ layui.use(['element', 'jquery'], function() {
 
   // 专利列表
   getTabContentList({
+    id: '#transform_tab_list',
+    url: '/achieveRecord-api/query',
+    data: { page: 1, limit: 10 },
+    name: 'achieveName',
+    href: '',
+    hrefData: ['id'],
+    title: '专利详情',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#transform_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  })
+
+  // 专利列表
+  getTabContentList({
     id: '#patent_tab_list',
     url: '/patentController/query',
     data: { page: 1, limit: 10 },

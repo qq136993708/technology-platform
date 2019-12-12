@@ -84,4 +84,12 @@
         </foreach>
     </update>
 
+    <select id="checkSecretLevel" resultType="java.lang.Integer">
+        select count(*) from file where id in
+        <foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and secret_level <![CDATA[>]]> #{baseSsecretLevel}
+    </select>
+
 </mapper>

@@ -22,6 +22,9 @@ public interface UserService {
 	public SysUser currentUserInfo(String userId);
 
 	public Integer updateUser(SysUser user);
+	
+	
+	
 
 	public int deleteUser(String userId);
 	
@@ -59,7 +62,14 @@ public interface UserService {
 	 * @return
 	 */
 	public List<Boolean> userValidate(SysUser user);
-	
+
+	/**
+	 * 根据唯一标识查询用户信息
+	 *
+	 * @return
+	 */
+	public SysUser selectUserByIdentityId(String unifyIdentityId);
+
 	/** 
 	* @author zhf
 	* @date 2018年5月17日 上午9:30:34 
@@ -120,5 +130,16 @@ public interface UserService {
 	
 	public	List getList(Map map)throws Exception;
 	public  Long getCount(Map map)throws Exception;
-
+	
+	
+	
+	
+	
+	public Integer updateSysUser(SysUser user)throws Exception;
+	public Integer insertSysUser(SysUser user)throws Exception;
+	public Integer updateSysUserPost(SysUser user)throws Exception;
+	public Integer updateSysUserRole(SysUser user)throws Exception;
+	public Integer updateUserBase(SysUser user)throws Exception;
+	
+	
 }

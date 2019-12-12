@@ -819,6 +819,12 @@ function itemScrollBiullClick(config) {
 	$li.css({ width: itemWidth });
 }
 
+// 关闭当前弹窗
+function closeCurrentDialog() {
+	var currentIndex = top.layer.getFrameIndex(window.name);
+	top.layer.close(currentIndex);
+}
+
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
@@ -877,6 +883,10 @@ layui.use(['form', 'formSelects'], function() {
 	$('.close-all-dialog').click(function() {
 		top.layer.closeAll();
 	})
+	// 关闭当前弹窗；即关闭本身;
+	$('.close-current-dialog').click(function(e) {
+		closeCurrentDialog();
+	});
 
 	// 自动渲染下拉框
 	$('select[dic-base-data]').each(function() {

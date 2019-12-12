@@ -65,37 +65,38 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         if(arm.load(aRecord.getId()) ==null){
             aRecord.setCreateDate(as.getUpdateDate());
             aRecord.setCreator(as.getUpdator());
-            handlerFile(aRecord.getFiles());
+            handlerFile(aRecord.getFiles(),aRecord.getSecretLevel());
             arm.add(aRecord);
-
-            if(aReward != null){
-                aReward.setCreateDate(as.getUpdateDate());
-                aReward.setCreator(as.getUpdator());
-                aRecord.setCreateUnitName(as.getCreateUnitName());
-                aRecord.setCreateUnitId(as.getCreateUnitId());
-                handlerFile(aReward.getFiles());
-                arw.add(aReward);
-                //修改备案的总额
-                arw.updateRewardMoney(aRecord.getId());
-            }
         }
         else{
-            handlerFile(aRecord.getFiles());
+            handlerFile(aRecord.getFiles(),aRecord.getSecretLevel());
             arm.update(aRecord);
-            if(aReward != null) {
-                if(arw.load(aReward.getId())==null){
-                    //保存备案的激励信息
-                    handlerFile(aReward.getFiles());
-                    arw.add(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                }else{
-                    handlerFile(aReward.getFiles());
-                    arw.update(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                }
-            }
         }
 
+        if(aReward != null){
+            aReward.setCreateDate(as.getUpdateDate());
+            aReward.setCreator(as.getUpdator());
+            aRecord.setCreateUnitName(as.getCreateUnitName());
+            aRecord.setCreateUnitId(as.getCreateUnitId());
+            saveReward(aReward);
+        }
+
+    }
+
+    private void saveReward(AchieveReward ab) {
+        IsEmptyUtil.isEmpty(ab.getId());
+        if(load(ab.getId()) ==null){
+            ab.setCreateDate(ab.getUpdateDate());
+            ab.setCreator(ab.getUpdator());
+            handlerFile(ab.getFiles(),ab.getSecretLevel());
+            arw.add(ab);
+        }
+        else{
+            handlerFile(ab.getFiles(),ab.getSecretLevel());
+            arw.update(ab);
+
+        }
+        arw.updateRewardMoney(ab.getAchieveId());
     }
 
     /**
@@ -114,33 +115,36 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             aRecord.setCreateUnitName(as.getCreateUnitName());
             aRecord.setCreateUnitId(as.getCreateUnitId());
             arm.add(aRecord);
-
-            if(aReward != null){
-                //保存备案的激励信息
-                arw.add(aReward);
-                arw.updateRewardMoney(aRecord.getId());
-            }
         }
         else{
             arm.update(aRecord);
-            if(aReward != null) {
-                if(arw.load(aReward.getId())==null){
-                    //保存备案的激励信息
-                    arw.add(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                }else{
-                    arw.update(aReward);
-                    arw.updateRewardMoney(aRecord.getId());
-                }
-            }
+        }
+        if(aReward != null){
+            aRecord.setCreateUnitName(as.getCreateUnitName());
+            aRecord.setCreateUnitId(as.getCreateUnitId());
+            simpleSaveReward(aReward);
         }
     }
 
-    private void handlerFile(String files){
+    private void simpleSaveReward(AchieveReward ab) {
+        IsEmptyUtil.isEmpty(ab.getId());
+        if(load(ab.getId()) ==null){
+            ab.setCreateDate(ab.getUpdateDate());
+            ab.setCreator(ab.getUpdator());
+            arw.add(ab);
+        }
+        else{
+            arw.update(ab);
+
+        }
+        arw.updateRewardMoney(ab.getAchieveId());
+    }
+
+    private void handlerFile(String files,String secretLevel){
         if(files != null){
             JSONObject grantDoc =  JSONObject.parseObject(files);
             for(String key:grantDoc.keySet()){
-                fs.updateFileData(grantDoc.get(key) == null?"":grantDoc.get(key).toString(),key);
+                fs.updateFileData(grantDoc.get(key) == null?"":grantDoc.get(key).toString(),key,secretLevel);
             }
         }
     }

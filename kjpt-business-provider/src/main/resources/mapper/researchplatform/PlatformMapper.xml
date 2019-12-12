@@ -30,7 +30,9 @@
 		<result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
         <result column="supporting_institutions_text" jdbcType="VARCHAR" property="supportingInstitutionsText"/>
 		<result column="platform_type_text" jdbcType="VARCHAR" property="typeText"/>
-		<result column="level_text" jdbcType="VARCHAR" property="levelText"/>	
+		<result column="level_text" jdbcType="VARCHAR" property="levelText"/>
+
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     </resultMap>
 
 
@@ -54,7 +56,8 @@
         updator,
         deleted,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
        </sql>
 
     <select id="scienceStatistics" parameterType="java.util.Map" resultType="java.util.Map">
@@ -86,6 +89,13 @@
             #{item}
         </foreach>
         <include refid="selectByParam" />
+
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
@@ -96,6 +106,13 @@
             #{item}
         </foreach>
         <include refid="selectByParam" />
+
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <sql id="selectByParam">
@@ -124,14 +141,57 @@
         <if test="level != null and level != '' " >
             and level = #{level,jdbcType=VARCHAR}
         </if>
+
+
+        <if test="secretLevel != null and secretLevel != ''" >
+            secret_level = #{secretLevel}
+        </if>
     </sql>
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
-        insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
-        overall_situation,platform_scoring,img_id,level,create_user,create_date,update_date,updator,deleted,research_field_text,create_unit_id,create_unit_name)
-         values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
-         #{imgId},#{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted},#{researchFieldText},#{createUnitId},#{createUnitName} )
+        insert into kypt_info(
+        id,
+        platform_name,
+        research_field,
+        supporting_institutions,
+        research_funds,
+        platform_introduction,
+        person_liable,
+        platform_type,
+        team_Introduction,
+        overall_situation,
+        platform_scoring,
+        img_id,level,
+        create_user,
+        create_date,
+        update_date,
+        updator,deleted,
+        research_field_text,
+        create_unit_id,
+        create_unit_name,
+        secret_level
+        )
+         values(
+         #{id},#{platformName},
+         #{researchField},
+         #{supportingInstitutions},
+         #{researchFunds},
+         #{platformIntroduction},
+         #{personLiable},#{type},
+         #{teamIntroduction},
+         #{overallSituation},
+         #{platformScoring},
+         #{imgId},#{level},
+         #{creator},#{createDate},
+         #{updateDate},
+         #{updator},#{deleted},
+         #{researchFieldText},
+         #{createUnitId},
+         #{createUnitName},
+         #{secretLevel}
+
+          )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -185,6 +245,11 @@
             <if test="researchFieldText != null and researchFieldText != ''" >
                 research_field_text = #{researchFieldText,jdbcType=VARCHAR}
             </if>
+
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel}
+            </if>
+
         </trim>
         where id = #{id}
     </update>

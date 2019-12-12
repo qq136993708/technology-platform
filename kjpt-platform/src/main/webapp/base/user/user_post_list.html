@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <!-- 多选下拉框样式，根据需求添加 -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+
+    <!-- 更多样式在此引入 -->
+</head>
+<body>
+<div class="layout-view-content min-label">
+    <form class="layui-form" action="" lay-filter="achTransfrom">
+        <div class="layui-row layui-col-space20">
+            <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">用户名称：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="userNameKey" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">所在单位：</span></label>
+                    <div class="layui-input-block">
+                        <select name="userUnit" xm-select="userUnit" xm-select-skin="normal" xm-select-radio></select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="view-title-layout" id="opations-btn">
+        <div class="right">
+            <button class="layui-btn border-blue openLayerPage">导出</button>
+        </div>
+    </div>
+    <table id="tableDemo"  lay-filter="tableDemo"></table>
+
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+    layui.use(['table', 'form','formSelects'], function() {
+        var table = layui.table;
+        var form = layui.form;
+        var formSelects = layui.formSelects;
+        var tableRender = false;
+        function queryTable(searchData) {
+            if (!tableRender) {
+                tableRender = true;
+                table.render({
+                    elem: '#tableDemo'
+                    ,url: '/user-api/query' //数据接口
+                    ,cols: [[ //表头
+                        {type: 'numbers', title: '序号', width: 80}
+                        ,{field: 'userName', title: '登录名称'}
+                        ,{field: 'userDisp', title: '展示名称', sort: true }
+                        ,{field: 'userUnitName ', title: '所属机构'}
+                        ,{field: 'postName', title: '所属岗位', sort: true}
+                        ,{field: 'userMail', title: '邮箱'}
+                        ,{field: 'userPhone', title: '座机号', sort: true}
+                        ,{field: 'userMobile', title: '手机号', sort: true}
+                        ,{title: '操作', templet: function(d) {
+                            var html='<a id="'+d.userId+'" class="distribution link-text recordDetails">分配</a>'
+                            return html
+                        }}
+                    ]],
+                    method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                    request: {
+                        page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+                        limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                    },
+                    page: true, //开启分页
+                    limit: 15, // 每页数据条数,
+                    limits: [5, 10, 15, 20], // 配置分页数据条数
+                    done:function(res){
+                        console.log(res)
+                        $(".distribution").click(function () {
+                            top.layer.open({
+                                type: 2,
+                                title: "岗位分配",
+                                content: "/base/user/user_post_edit.html?id="+$(this).attr("id"), // 全局弹窗页面地址
+                                btn: null,
+                                area: ['50%', '60%'],
+                                end: function(lay, index) {
+                                    // 弹窗销毁时获取弹窗返回数据
+                                    var getData=getDialogData('dialog-data');
+                                }
+                            });
+                        })
+                    },
+                    where: searchData
+                });
+            } else {
+                table.reload('tableDemo', {where: searchData});
+            }
+        }
+        $("#reset").click(function () {
+            queryTable('')
+        })
+        // 监控表单提交事件
+        form.on('submit(formSubmit)', function(data) {
+            queryTable(data.field);
+            return false;
+        });
+        $('[lay-filter="formSubmit"]').click();
+        /*组织结构*/
+        httpModule({
+            url: "/unit-api/getTreeList",
+            type: 'GET',
+            success: function(relData) {
+                formSelects.data('userUnit', 'local', { arr: [relData] });
+                formSelects.btns('userUnit', ['remove']);
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,10 +1,7 @@
 package com.pcitc.feign;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUser;
@@ -43,6 +40,14 @@ public interface SystemRemoteClient {
 	*/
 	@RequestMapping(value = "/user-provider/user/user-details/{userId}", method = RequestMethod.GET)
 	public SysUser selectUserDetailsByUserId(@PathVariable(value = "userId", required = true) String userId);
+
+	/**
+	 * @author zhf
+	 * @date 2018年5月17日 下午1:51:15
+	 * 包含user基本信息、菜单信息
+	 */
+	@RequestMapping(value = "/user-provider/user/user-identityid",method = RequestMethod.POST)
+	public SysUser selectUserByIdentityId(@RequestBody SysUser sysUser);
 	
 	/** 
 	* @author zhf

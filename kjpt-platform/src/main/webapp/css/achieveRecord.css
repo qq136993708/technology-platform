@@ -5,16 +5,21 @@
 .layui-table-view .layui-table {
   min-width: 100%;
 }
+#record_list_table .layui-table-view .layui-table td {
+  padding: 0;
+}
 .layui-table thead th:last-child {
   border-right: none;
 }
 .layui-table-view .layui-table-cell{
-  height: auto;
   min-width: calc(100% - 5px);
+  height: 40px;
+  line-height: 40px;
+  white-space: nowrap;
 }
 .layui-table-cell .options-list{
-  padding-bottom: 1px;
-  padding-top: 6px;
+  height: 40px;
+  font-size: 0;
 }
 .maintain_list > .view-title-layout,
 .record_input_page form > .view-title-layout {
@@ -43,11 +48,14 @@
   width: 100%;
   border-top: 2px #D4D7D8 dashed;
 }
-
 .options-list .link-text{
+  height: 18px;
   line-height: 18px;
   display: block;
-  margin-bottom: 5px;
+  font-size: 12px;
+}
+.options-list .link-text:last-child{
+  margin-right: 0;
 }
 .layui-col-xs12 .view-row-title{
   padding-top: 10px;
@@ -66,15 +74,4 @@
   text-align: right;
   border-top: 1px #e8e8e8 solid;
   box-shadow: 0 1px 7px -1px rgba(0,0,0, .1);
-}
-
-
-.hide-form-item {
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-}
-.hide-form-item.show {
-  overflow: visible;
-  visibility: visible;
 }

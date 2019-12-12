@@ -19,6 +19,8 @@
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     </resultMap>
 
 
@@ -36,7 +38,8 @@
         update_user,
         update_date,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -50,6 +53,13 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
@@ -59,12 +69,50 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformPatentModel">
-        insert into kypt_patent(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name)
-         values(#{id},#{platformId},#{baseId},#{patentName},#{patentType},#{applicationDate},#{remark},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
+        insert into kypt_patent(
+        id,
+        platform_id,
+        base_id,
+        patent_name,
+        patent_type,
+        application_date,
+        remark,
+        deleted,
+        create_user,
+        create_date,
+        update_date,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level
+        )
+         values(
+         #{id},
+         #{platformId},
+         #{baseId},
+         #{patentName},
+         #{patentType},
+         #{applicationDate},
+         #{remark},
+         #{deleted},
+         #{creator},
+         #{createDate},
+         #{updateDate},
+         #{updator},
+         #{createUnitId},
+         #{createUnitName},
+         #{secretLevel}
+         )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformPatentModel">
@@ -76,6 +124,10 @@
             <if test="patentType != null and patentType != '' " >
                 patent_type = #{patentType},
             </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel}
+            </if>
+
         </trim>
         where id = #{id}
     </update>
@@ -85,9 +137,26 @@
     </update>
 
     <insert id="batchSave" parameterType="java.util.List">
-        insert into kypt_patent(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name) values
+        insert into kypt_patent(
+        id,platform_id,base_id,
+        patent_name,patent_type,
+        application_date,remark,
+        deleted,create_user,
+        create_date,update_date,
+        update_user,create_unit_id,
+        create_unit_name,
+        secret_level
+        ) values
         <foreach collection="list" item="kp" separator=",">
-            (#{id},#{platformId},#{baseId},#{patentName},#{patentType},#{applicationDate},#{remark},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
+            (#{id},#{platformId},
+            #{baseId},#{patentName},
+            #{patentType},#{applicationDate},
+            #{remark},#{deleted},#{creator},
+            #{createDate},#{updateDate},
+            #{updator},#{createUnitId},
+            #{createUnitName},
+            #{secretLevel}
+            )
         </foreach>
     </insert>
 

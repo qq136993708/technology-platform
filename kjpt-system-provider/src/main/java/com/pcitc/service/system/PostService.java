@@ -114,5 +114,10 @@ public interface PostService
 	 * @return
 	 */
 	List<SysPost> findSysPostByIds(Set<String> ids);
+	List<SysPost> findSysPostByList(List list);
+	
+	
+	
+	
 	
 }

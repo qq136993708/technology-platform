@@ -26,6 +26,17 @@ public class RecordModel implements Serializable {
 	//创建人所在单位名称
 	private String createUnitName;
 
+	//密级
+	private String secretLevel;
+
+	public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
 	public String getUpdator() {
 		return updator;
 	}

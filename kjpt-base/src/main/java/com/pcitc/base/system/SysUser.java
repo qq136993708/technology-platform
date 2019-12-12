@@ -95,10 +95,50 @@ public class SysUser {
 	private String nameBigPin;
 	private String nameSmallPin;
 	private String nameBigFirstPin;
-	private String secretLevel;
+	private String secretLevel = "1";
 	
 	private String unifyIdentityId;
-    
+	
+	private String  userNameKey;
+	private String  postName;
+	private String  userUnitName;
+	
+	
+	private String  secretLevelStr;
+	
+	
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
+	public String getUserUnitName() {
+		return userUnitName;
+	}
+
+	public void setUserUnitName(String userUnitName) {
+		this.userUnitName = userUnitName;
+	}
+
+	public String getPostName() {
+		return postName;
+	}
+
+	public void setPostName(String postName) {
+		this.postName = postName;
+	}
+
+	public String getUserNameKey() {
+		return userNameKey;
+	}
+
+	public void setUserNameKey(String userNameKey) {
+		this.userNameKey = userNameKey;
+	}
 
 	public String getUnifyIdentityId() {
 		return unifyIdentityId;

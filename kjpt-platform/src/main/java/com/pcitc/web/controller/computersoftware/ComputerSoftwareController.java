@@ -77,7 +77,9 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+
 
     })
 
@@ -103,7 +105,8 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String technicalField,
             @RequestParam(required = false) String technicalFieldValue,
             @RequestParam(required = false, value = "createUnitId") String createUnitId,
-            @RequestParam(required = false, value = "createUnitName") String createUnitName
+            @RequestParam(required = false, value = "createUnitName") String createUnitName,
+            @RequestParam(required = false, value = "secretLevel") String secretLevel
 
 
     ) {
@@ -130,8 +133,8 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(versionNumber)) {
             this.setParam(condition, "versionNumber", versionNumber);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(recordDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "recordDate", DateUtil.format(recordDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(recordDate, DateUtil.FMT_SS))) {
+            this.setParam(condition, "recordDate", DateUtil.format(recordDate, DateUtil.FMT_SS));
         }
         if (developFinishDate != null) {
             this.setParam(condition, "developFinishDate", developFinishDate);
@@ -167,12 +170,18 @@ public class ComputerSoftwareController extends RestBaseController {
 
         if (!StringUtils.isEmpty(createUnitName)) {
             this.setParam(condition, "createUnitName", createUnitName);
+
         }
 
-        //默认查询当前人所在机构及子机构的所有专家
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        if (secretLevel != null) {
+            this.setParam(condition, "secretLevel", secretLevel);
+        }
+        this.setParam(condition, "userSecretLevel", this.getUserProfile().getSecretLevel());
 
+
+        //默认查询当前人所在机构及子机构的所有专家
+        String childUnitIds = EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition, "childUnitIds", childUnitIds);
 
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

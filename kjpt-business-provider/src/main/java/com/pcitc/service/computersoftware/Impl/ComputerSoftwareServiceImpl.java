@@ -33,7 +33,7 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
     public ComputerSoftware save(ComputerSoftware computerSoftware) {
         IsEmptyUtil.isEmpty(computerSoftware.getId());
 
-        fileCommonService.updateFileData(computerSoftware.getFiles(),computerSoftware.getId());
+        fileCommonService.updateFileData(computerSoftware.getFiles(),computerSoftware.getId(),computerSoftware.getSecretLevel());
 
         if (load(computerSoftware.getId()) == null) {
             computerSoftware.setCreateDate(computerSoftware.getUpdateDate());

@@ -84,6 +84,18 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByPrimaryKey(userId);
 	}
 
+	/**
+	 * 功能描述 根据用户唯一标识查询用户信息
+	 *
+	 * @return com.pcitc.base.system.SysUser
+	 * @author t-chengjia.chen
+	 * @date 2019/12/11
+	 */
+	@Override
+	public SysUser selectUserByIdentityId(String unifyIdentityId) {
+		return userMapper.selectUserByIdentityId(unifyIdentityId);
+	}
+
 	//根据用户id查询当前信息-new
 	@Override
 	public SysUser currentUserInfo(String userId) {
@@ -158,7 +170,8 @@ public class UserServiceImpl implements UserService {
 		SysUser newuser = (SysUser) MyBeanUtils.createBean(SysUser.class);
 		MyBeanUtils.copyPropertiesIgnoreNull(user, newuser);
 		// 处理岗位、角色、权限(如果有变化 先删除后保存)
-		this.updateRoleUnitPost(newuser);
+		//this.updateRoleUnitPost(newuser);
+		updateUserUnit(user);
 		return userMapper.insert(newuser);
 	}
 
@@ -273,36 +286,43 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Boolean> userValidate(SysUser user) {
+	public List<Boolean> userValidate(SysUser user) 
+	{
 		// 验证用户名是否重复
 		boolean checkUserName = true;
-		// boolean checkMobile = true;
+	    boolean checkunifyIdentityId = true;
 		boolean checkMail = true;
-		SysUserExample example = new SysUserExample();
-		example.createCriteria().andUserNameEqualTo(user.getUserName());
-		List<SysUser> users = userMapper.selectByExample(example);
+		
+		
+		Map map=new HashMap();
+		map.put("userName", user.getUserName());
+		map.put("userDelflag", 0);
+		List<SysUser> users =userMapper.getList(map);
 		if (users.size() != 0 && !users.get(0).getUserId().equals(user.getUserId())) {
 			checkUserName = false;
 		}
 		// 验证手机号不能重复
-		/*
-		 * example = new SysUserExample();
-		 * example.createCriteria().andUserMobileEqualTo(user.getUserMobile());
-		 * users = userMapper.selectByExample(example); if(users.size() != 0 &&
-		 * !users.get(0).getUserId().equals(user.getUserId())){ checkMobile =
-		 * false; }
-		 */
+		
+		Map map3=new HashMap();
+		map3.put("unifyIdentityId", user.getUnifyIdentityId());
+		map3.put("userDelflag", 0);
+		List<SysUser> list2 =userMapper.getList(map3);
+		if (list2.size() != 0 && !list2.get(0).getUserId().equals(user.getUserId())) {
+			checkunifyIdentityId = false;
+		}
+		
 		// 验证邮箱名
-		example = new SysUserExample();
-		example.createCriteria().andUserMailEqualTo(user.getUserMail());
-		users = userMapper.selectByExample(example);
-		if (users.size() != 0 && !users.get(0).getUserId().equals(user.getUserId())) {
+		Map map2=new HashMap();
+		map2.put("userMail", user.getUserName());
+		map2.put("userDelflag", 0);
+		List<SysUser> list =userMapper.getList(map2);
+		if (list.size() != 0 && !list.get(0).getUserId().equals(user.getUserId())) {
 			checkMail = false;
 		}
 		List<Boolean> rs = new ArrayList<Boolean>();
 		rs.add(checkUserName);
-		// rs.add(checkMobile);
 		rs.add(checkMail);
+		rs.add(checkunifyIdentityId);
 		return rs;
 	}
 
@@ -748,9 +768,6 @@ public class UserServiceImpl implements UserService {
 			int pageNum = pageStart/pageSize + 1;
 			// 1、设置分页信息，包括当前页数和每页显示的总计数
 			PageHelper.startPage(pageNum, pageSize);
-			
-			
-			     
 			     
 			String userPhone=CommonUtil.getTableParam(param,"userPhone","");
 			String userPost=CommonUtil.getTableParam(param,"userPost","");
@@ -761,7 +778,6 @@ public class UserServiceImpl implements UserService {
 			String userUnit=CommonUtil.getTableParam(param,"userUnit","");
 			String userFlag=CommonUtil.getTableParam(param,"userFlag","");
 			String userName=CommonUtil.getTableParam(param,"userName","");
-			
 			
 			Map map=new HashMap();
 			map.put("userName", userName);
@@ -799,6 +815,56 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
+	public Integer updateSysUser(SysUser user)throws Exception
+	{
+		SysUser oluser = userMapper.selectByPrimaryKey(user.getUserId());
+		if (oluser != null) {
+			
+			// 处理组织机构（如果有变化 先删除后保存）
+			if (user.getUserUnit() != null && !user.getUserUnit().equals(oluser.getUserUnit())) 
+			{
+				this.updateUserUnit(user);
+			}
+		}
+		return userMapper.updateByPrimaryKey(user);
+	}
+	public Integer insertSysUser(SysUser user)throws Exception
+	{
+		updateUserUnit(user);
+		return userMapper.insert(user);
+	}
 	
-
+	public Integer updateSysUserPost(SysUser user)throws Exception
+	{
+		SysUser oluser = userMapper.selectByPrimaryKey(user.getUserId());
+		if (oluser != null) 
+		{
+			if (user.getUserPost() != null && !user.getUserPost().equals(oluser.getUserPost())) {
+				this.updateUserPost(user);
+			}
+		}
+		oluser.setUserPost(user.getUserPost());
+		oluser.setPostName(user.getPostName());
+		return userMapper.updateByPrimaryKey(oluser);
+	}
+	
+	public Integer updateSysUserRole(SysUser user)throws Exception
+	{
+		SysUser oluser = userMapper.selectByPrimaryKey(user.getUserId());
+		if (oluser != null) {
+			
+			if (user.getUserRole() != null && !user.getUserRole().equals(oluser.getUserRole())) {
+				updateUserRole(user);
+			}
+		}
+		
+		oluser.setUserRole(user.getUserRole());
+		return userMapper.updateByPrimaryKey(oluser);
+	}
+	
+	public Integer updateUserBase(SysUser user)throws Exception
+	{
+		return userMapper.updateByPrimaryKey(user);
+	}
+	
 }

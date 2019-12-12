@@ -71,7 +71,9 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query")
+
     })
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
     @ResponseBody
@@ -87,7 +89,8 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String patentName,
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor,
-            @RequestParam(required = false) String technicalFieldIndex
+            @RequestParam(required = false) String technicalFieldIndex,
+            @RequestParam(required = false, value = "secretLevel") String secretLevel
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -131,6 +134,12 @@ public class PatentController extends RestBaseController {
         if (!StringUtils.isEmpty(technicalFieldIndex)) {
             this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
         }
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+
 
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);

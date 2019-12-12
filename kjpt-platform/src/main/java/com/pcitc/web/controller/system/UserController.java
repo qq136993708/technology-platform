@@ -94,6 +94,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public Object userInsert(@ModelAttribute("user") SysUser user, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 检查用户名是否可用
+		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(user));
+		System.out.println(">>>>>>>>>> 用户参数: "+parma.toJSONString());
 		ResponseEntity<List> checkStatus = this.restTemplate.exchange(USER_UNIQUE_CHECK_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), List.class);
 		List<Boolean> unique = checkStatus.getBody();
 		if (!unique.get(0)) {
