@@ -180,13 +180,18 @@ public class FileCommonController extends BaseController {
 
     @ApiOperation(value = "获取预览word的pdf的总页码", notes = "获取预览word的pdf的总页码")
     @RequestMapping(value="/getPdfPageCount/{fileId}",method = RequestMethod.GET)
-    public Integer getPdfpageCount(@PathVariable String fileId) {
+    @ResponseBody
+    public Result getPdfpageCount(@PathVariable String fileId) {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         FileModel f = responseEntity.getBody();
         RestTemplate template = new RestTemplate();
         addAuth();
         ResponseEntity<Integer> getCount = template.exchange(String.format(getPdfPageCount,f.getFileName(),getFilePath(f.getFilePath())), HttpMethod.GET, new HttpEntity(this.httpHeaders), Integer.class);
-        return getCount.getBody();
+        Result r = new Result();
+        r.setCode(Result.RESPONSE_SUCC_CODE);
+        r.setMessage(Result.RESPONSE_SUCC_MSG);
+        r.setData(getCount.getBody());
+        return r;
     }
 
     private  void addAuth(){

@@ -12,7 +12,13 @@ layui.use(['table', 'form','laydate'], function() {
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
           ,{type: 'numbers', title: '序号', width: 80}
-          ,{field: 'auditStatusText', title: '申请状态'}
+          ,{field: 'auditStatusText', title: '申请状态',templet:function(d) {
+              if(d.auditStatus!=0){
+                  return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
+              }else {
+                  return d.auditStatusText
+              }
+                  }}
           ,{field: 'achieveName', title: '成果名称', sort: true }
           ,{field: 'finishUnitName', title: '完成单位', sort: true}
           ,{field: 'brief', title: '科技成果介绍'}
@@ -28,6 +34,20 @@ layui.use(['table', 'form','laydate'], function() {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
+          done:function(){
+              $(".view").click(function () {
+                  var temUrl = "/task/process_bussinessId/" + $(this).attr("id");
+                  top.layer.open({
+                      title : '详情',
+                      shadeClose : true,
+                      type : 2,
+                      fixed : false,
+                      maxmin : true,
+                      area : [ '70%', '90%' ],
+                      content : temUrl
+                  });
+              })
+          },
         page: true, //开启分页
         limit: 10, // 每页数据条数,
         limits: [5, 10, 15, 20], // 配置分页数据条数
@@ -62,6 +82,7 @@ layui.use(['table', 'form','laydate'], function() {
             });
         }
     });
+
   // 监控表单提交事件
   form.on('submit(formSubmit)', function(data) {
     queryTable(data.field);
