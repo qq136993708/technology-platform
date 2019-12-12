@@ -83,6 +83,9 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
     id: 'addPlanFile',
     dataID: billID,
     readonly: readonlyFile,
+    secretLevel : function() {
+      return $("#secretLevel").val();
+    },
     callback: function (tableData, type) {
       if (tableData) {
         var fileIds = '';

@@ -180,6 +180,7 @@ function setImagesUpload(config) {
       elem: fileBtn,
       upload: layui.upload,
       accept: 'images',
+      secretLevel: '0',
       callback: function(res) {
         //上传完毕回调
         if (res.code === '0') {

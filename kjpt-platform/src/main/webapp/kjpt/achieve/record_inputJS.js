@@ -118,6 +118,9 @@ layui.use(['table', 'form', 'layer'], function() {
           setFileUpload({
             id: $this, // 附件上传作用域ID值 必传
             dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
+            secretLevel : function() {
+              return $("#secretLevel").val();
+            },
             cols: (function() {
               console.log('formFilter =>', formFilter);
 
@@ -247,6 +250,9 @@ layui.use(['table', 'form', 'layer'], function() {
           setFileUpload({
             id: $(this), // 附件上传作用域ID值 必传
             dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
+            secretLevel : function() {
+              return $("#secretLevel").val();
+            },
             cols: (function() {
               if (variable.type === 'view' || variable.type === 'transfrom') {
                 return fileCols[1];
