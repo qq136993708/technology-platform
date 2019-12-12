@@ -96,7 +96,7 @@ public class PlatformPatentController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId,
-            @RequestParam(value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
@@ -168,6 +168,8 @@ public class PlatformPatentController extends RestBaseController {
             p.setCreator(this.getUserProfile().getUserName());
             p.setId(UUID.randomUUID().toString().replace("-",""));
             p.setDeleted("0");
+            p.setCreateUnitId(this.getUserProfile().getUnitId());
+            p.setCreateUnitName(this.getUserProfile().getUnitName());
         });
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);

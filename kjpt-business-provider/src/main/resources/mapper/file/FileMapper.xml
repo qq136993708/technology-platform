@@ -16,6 +16,8 @@
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
     </resultMap>
 
 
@@ -34,11 +36,11 @@
        </sql>
 
     <select id="query" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from file where data_id = #{dataId} and deleted != '1'
+        select * from view_file where data_id = #{dataId} and deleted != '1'
     </select>
 
     <select id="downLoad" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from file where id = #{id} and deleted != '1'
+        select * from view_file where id = #{id} and deleted != '1'
     </select>
 
     <insert id="save" parameterType="com.pcitc.base.common.FileModel">
@@ -50,6 +52,7 @@
             file_size,
             file_path,
             type,
+            secret_level,
             deleted,
             create_user,
             create_date,
@@ -63,6 +66,7 @@
             #{fileSize},
             #{filePath},
             #{type},
+            #{secretLevel},
             #{deleted},
             #{creator},
             #{createDate},
