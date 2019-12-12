@@ -102,8 +102,10 @@
 
         )
          values(
-         #{id},#{platformId},
-         #{baseId},#{thesisTitle},
+         #{id},
+         #{platformId},
+         #{baseId},
+         #{thesisTitle},
          #{thesisLevel},
          #{journalTitle},
          #{thesisAuthor},

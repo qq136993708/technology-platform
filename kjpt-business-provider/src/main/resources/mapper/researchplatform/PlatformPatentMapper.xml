@@ -138,22 +138,36 @@
 
     <insert id="batchSave" parameterType="java.util.List">
         insert into kypt_patent(
-        id,platform_id,base_id,
-        patent_name,patent_type,
-        application_date,remark,
-        deleted,create_user,
-        create_date,update_date,
-        update_user,create_unit_id,
+        id,
+        platform_id,
+        base_id,
+        patent_name,
+        patent_type,
+        application_date,
+        remark,
+        deleted,
+        create_user,
+        create_date,
+        update_date,
+        update_user,
+        create_unit_id,
         create_unit_name,
         secret_level
         ) values
         <foreach collection="list" item="kp" separator=",">
-            (#{id},#{platformId},
-            #{baseId},#{patentName},
-            #{patentType},#{applicationDate},
-            #{remark},#{deleted},#{creator},
-            #{createDate},#{updateDate},
-            #{updator},#{createUnitId},
+            (#{id},
+            #{platformId},
+            #{baseId},
+            #{patentName},
+            #{patentType},
+            #{applicationDate},
+            #{remark},
+            #{deleted},
+            #{creator},
+            #{createDate},
+            #{updateDate},
+            #{updator},
+            #{createUnitId},
             #{createUnitName},
             #{secretLevel}
             )
