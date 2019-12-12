@@ -51,6 +51,8 @@
         <result column="achieve_tech_type_text" jdbcType="VARCHAR" property="achieveTechTypeText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
     </resultMap>
 
 
@@ -95,7 +97,8 @@
         intellectual_info,
         grant_invest,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRecordMap">
@@ -110,6 +113,10 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from achieve_record where 1=1
@@ -119,6 +126,10 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
     <sql id="selectByParam">
@@ -156,7 +167,7 @@
          values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
          #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
           ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
-          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{createUnitId},#{createUnitName})
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{createUnitId},#{createUnitName},#{secretLevel})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -268,7 +279,10 @@
                 create_unit_id = #{createUnitId,jdbcType=VARCHAR},
             </if>
             <if test="createUnitName != null and createUnitName != ''" >
-                create_unit_name = #{createUnitName,jdbcType=VARCHAR}
+                create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}
