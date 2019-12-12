@@ -119,8 +119,8 @@
        #{updator},
        #{technicalField},
        #{technicalFieldValue},
-       #{create_unit_id},
-       #{create_unit_name},
+       #{createUnitId},
+       #{createUnitName},
        #{secretLevel}
       )
   </insert>

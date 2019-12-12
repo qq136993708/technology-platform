@@ -109,7 +109,6 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false, value = "secretLevel") String secretLevel
 
 
-
     ) {
         Map<String, Object> condition = new HashMap<>(6);
 
@@ -134,8 +133,8 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(versionNumber)) {
             this.setParam(condition, "versionNumber", versionNumber);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(recordDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "recordDate", DateUtil.format(recordDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(recordDate, DateUtil.FMT_SS))) {
+            this.setParam(condition, "recordDate", DateUtil.format(recordDate, DateUtil.FMT_SS));
         }
         if (developFinishDate != null) {
             this.setParam(condition, "developFinishDate", developFinishDate);
@@ -177,13 +176,12 @@ public class ComputerSoftwareController extends RestBaseController {
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+        this.setParam(condition, "userSecretLevel", this.getUserProfile().getSecretLevel());
 
 
         //默认查询当前人所在机构及子机构的所有专家
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
-
+        String childUnitIds = EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition, "childUnitIds", childUnitIds);
 
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

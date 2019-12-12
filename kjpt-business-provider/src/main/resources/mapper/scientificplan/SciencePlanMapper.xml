@@ -102,10 +102,10 @@
         #{updator},
         #{annual},
         #{reportType},
-        #{create_unit_id},
-        #{create_unit_name},
-        #{technical_field_name},
-        #{technical_field_index},
+        #{createUnitId},
+        #{createUnitName},
+        #{technicalFieldName},
+        #{technicalFieldIndex},
         #{secretLevel}
       )
   </insert>
