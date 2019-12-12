@@ -19,12 +19,9 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
-
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
-
         <result column="create_unit_id"  jdbcType="VARCHAR" property="createUnitId" />
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
-
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
 
     </resultMap>
@@ -122,8 +119,6 @@
         and deleted != '1'
         <include refid="selectByParam"/>
 
-
-
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
@@ -171,7 +166,6 @@
                 #{item}
             </foreach>
         </if>
-
 
         <if test="secretLevel != null and secretLevel != ''" >
             secret_level = #{secretLevel}
