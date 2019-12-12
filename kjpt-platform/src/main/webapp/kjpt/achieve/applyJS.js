@@ -83,6 +83,9 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         dataID: variable.id, // 用来查找当前单据下绑定的附件，没有则不查找
         cols: fileCols,
         readonly: readonlyFile,
+        secretLevel : function() {
+            return $("#secretLevel").val();
+          },
         callback: function (tableData, type) {
             if(tableData.length>0){
                 fileDoc=''

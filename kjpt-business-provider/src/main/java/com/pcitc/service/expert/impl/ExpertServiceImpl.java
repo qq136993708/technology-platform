@@ -374,6 +374,13 @@ public class ExpertServiceImpl implements IExpertService {
 			String groupType=getTableParam(param,"groupType","");
 			String childUnitIds=getTableParam(param,"childUnitIds","");
 			
+			String secretLevel=getTableParam(param,"secretLevel","");
+			String userSecretLevel=getTableParam(param,"userSecretLevel","");
+			String createUnitId=getTableParam(param,"createUnitId","");
+			String createUnitName=getTableParam(param,"createUnitName","");
+			
+		    
+		    
 			
 			Map map=new HashMap();
 			map.put("name", name);
@@ -391,6 +398,11 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("technicalFieldIndex", technicalFieldIndex);
 			map.put("technicalFieldName", technicalFieldName);
 			map.put("childUnitIds", childUnitIds);
+			
+			map.put("secretLevel", secretLevel);
+			map.put("userSecretLevel", userSecretLevel);
+			map.put("createUnitId", createUnitId);
+			map.put("createUnitName", createUnitName);
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
