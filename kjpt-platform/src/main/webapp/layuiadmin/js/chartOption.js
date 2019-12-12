@@ -21,10 +21,16 @@ var kyptCharts = {
 
     // 渲染图表
     chartDemo.setOption(chartOption);
-  
+    
     // 窗口大小变化时，更新图表渲染
+    var chartTime = null;
     $(window).resize(function() {
-      chartDemo.resize();
+      if (chartTime) {
+        clearTimeout(chartTime);
+      }
+      chartTime = setTimeout(function() {
+        chartDemo.resize();
+      }, 180);
     })
   
     // 回调函数，返回图表对象
@@ -82,10 +88,10 @@ var kyptCharts = {
     var option = {
       grid: (function() {
         var gridItem = {
-          left: 60,
-          right: 100,
-          bottom: 20,
-          top: 76,
+          left: 10,
+          right: 10,
+          bottom: 24,
+          top: 24,
           containLabel: true
         };
         if (config.grid) {
@@ -98,7 +104,7 @@ var kyptCharts = {
       legend: (function() {
         var lenendItem = {
           show: true,
-          left: 60,
+          left: 10,
           top: 10,
           itemWidth: 12,
           itemHeight: 12,
@@ -155,6 +161,11 @@ var kyptCharts = {
       series: seriesData,
       color: config.color || '#0AA1FF'
     };
+
+    if (option.legend && option.legend.show) {
+      option.grid.top = 72;
+    }
+
     return option;
   },
   getPieChartOption: function(config) {
@@ -192,7 +203,7 @@ var kyptCharts = {
       legend: {
         show: true,
         orient: 'vertical',
-        left: 30,
+        left: 10,
         top: 20,
         itemWidth: 12,
         itemHeight: 12,
