@@ -104,6 +104,9 @@ setSelectInput();
     cols = cols.concat(additional);
   }
 
+  cols = cols.concat(
+    [{field: 'secretLevelText', title: '密级', sort: true} ]
+  );
 
 
   //表格渲染

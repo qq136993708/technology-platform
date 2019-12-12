@@ -28,6 +28,7 @@
         <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName"/>
         <result column="technical_field_index" jdbcType="VARCHAR" property="technicalFieldIndex"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
 
     </resultMap>
 

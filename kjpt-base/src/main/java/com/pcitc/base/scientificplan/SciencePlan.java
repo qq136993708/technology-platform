@@ -56,12 +56,15 @@ public class SciencePlan extends RecordModel implements Serializable {
     private  String  technicalFieldIndex="";
 
 
+    private  String secretLevelText="";
+
+
     public SciencePlan() {
 
     }
 
-    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType, String researchFieldText, String createUnitId,
-                       String createUnitName, String technicalFieldIndex, String technicalFieldName) {
+    public SciencePlan(String id, String name, String authenticateUtil, String researchField, String professionalField, String specialtyCategory, Date releaseTime, String authenticateUitlText, Date annual, String accessory, String nameText, String reportType, String researchFieldText, String createUnitId, String createUnitName,
+                       String technicalFieldName, String technicalFieldIndex, String secretLevelText) {
         this.id = id;
         this.name = name;
         this.authenticateUtil = authenticateUtil;
@@ -77,8 +80,9 @@ public class SciencePlan extends RecordModel implements Serializable {
         this.researchFieldText = researchFieldText;
         this.createUnitId = createUnitId;
         this.createUnitName = createUnitName;
-        this.technicalFieldIndex = technicalFieldIndex;
         this.technicalFieldName = technicalFieldName;
+        this.technicalFieldIndex = technicalFieldIndex;
+        this.secretLevelText = secretLevelText;
     }
 
     public String getId() {
@@ -221,6 +225,15 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     public void setTechnicalFieldName(String technicalFieldName) {
         this.technicalFieldName = technicalFieldName;
+    }
+
+
+    public String getSecretLevelText() {
+        return secretLevelText;
+    }
+
+    public void setSecretLevelText(String secretLevelText) {
+        this.secretLevelText = secretLevelText;
     }
 }
 

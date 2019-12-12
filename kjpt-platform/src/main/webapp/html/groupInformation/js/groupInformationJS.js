@@ -63,6 +63,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
        var times = new Date(d.annual);
        return times.getFullYear() + '-' + (times.getMonth()+1);
     }}
+    ,{field: 'secretLevelText', title: '密级', sort: true} 
     
   ]
 
