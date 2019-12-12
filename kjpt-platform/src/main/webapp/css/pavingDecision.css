@@ -1,0 +1,16 @@
+.projectAnalysis {
+  padding-top: 20px;
+}
+.projectAnalysis .chart-title-layout{
+  padding-left: 30px;
+}
+.projectAnalysis .projectMonth{
+  padding-top: 72px;
+}
+.projectAnalysis .left-date-block{
+  position: absolute;
+  left: 30px;
+  margin-top: 10px;
+  top: 100%;
+  z-index: 9;
+}

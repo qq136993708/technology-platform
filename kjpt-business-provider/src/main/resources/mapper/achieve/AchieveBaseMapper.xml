@@ -67,6 +67,7 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        order by create_time desc
     </select>
 
 

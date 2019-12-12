@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: prod
+
+server:
+  port: 8099
+
+logging:
+  config: classpath:logback-spring.xml
+  path: ./log
+  level:
+    root: info
+
+jodconverter:
+  local:
+    enabled: true
+    office-home: C:/Program Files/LibreOffice 5
+    portNumbers: 8100
+    maxTasksPerProcess: 10
+

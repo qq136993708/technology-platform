@@ -60,9 +60,11 @@ public class ZjkAchievement implements Serializable {
      * 外系统ID
      */
     private String outSystemId="";
-    
-    
-    
+
+    /*
+    * 录入/导入标识
+    * */
+    private String  flag = "";
 
     public String getApplyUnitStr() {
 		return applyUnitStr;
@@ -160,5 +162,13 @@ public class ZjkAchievement implements Serializable {
 
     public void setOutSystemId(String outSystemId) {
         this.outSystemId = outSystemId;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

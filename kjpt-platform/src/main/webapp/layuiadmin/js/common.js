@@ -819,6 +819,12 @@ function itemScrollBiullClick(config) {
 	$li.css({ width: itemWidth });
 }
 
+// 关闭当前弹窗
+function closeCurrentDialog() {
+	var currentIndex = top.layer.getFrameIndex(window.name);
+	top.layer.close(currentIndex);
+}
+
 // 渲染字典
 layui.use(['form', 'formSelects'], function() {
 	var form=layui.form;
@@ -877,6 +883,10 @@ layui.use(['form', 'formSelects'], function() {
 	$('.close-all-dialog').click(function() {
 		top.layer.closeAll();
 	})
+	// 关闭当前弹窗；即关闭本身;
+	$('.close-current-dialog').click(function(e) {
+		closeCurrentDialog();
+	});
 
 	// 自动渲染下拉框
 	$('select[dic-base-data]').each(function() {
@@ -928,7 +938,7 @@ function deleTr(id){
         });
     })
 }
-function backfill(data,id,type) {
+function backfill(data, id, type) {
 	var readonly='';
     type=="view" ?  readonly='true': readonly='false'
     console.log(readonly)
@@ -938,6 +948,7 @@ function backfill(data,id,type) {
         var off=$("#"+id).find(".layui-none");
         $(off).hide();
         if(type=="view"){
+					$("#"+id+" thead tr th:eq(5)").hide();
             dataArr.map(function (item, index) {
                 var itemArr=item.split("#")
                 var trHtml='<tr>' +

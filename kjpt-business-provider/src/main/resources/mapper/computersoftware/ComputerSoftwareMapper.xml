@@ -34,6 +34,8 @@
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -59,7 +61,8 @@
       technical_field,
       technical_field_value,
       create_unit_id,
-      create_unit_name
+      create_unit_name,
+      secret_level
 
   </sql>
 
@@ -96,7 +99,8 @@
       technical_field,
       technical_field_value,
       create_unit_id,
-      create_unit_name
+      create_unit_name,
+      secret_level
       )
     values (
        #{id},
@@ -121,7 +125,8 @@
        #{technicalField},
        #{technicalFieldValue},
        #{create_unit_id},
-       #{create_unit_name}
+       #{create_unit_name},
+       #{secretLevel}
       )
   </insert>
 
@@ -174,17 +179,6 @@
                 file = #{files},
             </if>
 
-            <!--<if test="deleted != null and deleted != ''">-->
-            <!--deleted = #{deleted,jdbcType=VARCHAR},-->
-            <!--</if>-->
-
-            <!--<if test="updator != null and updator != ''">-->
-            <!--create_user = #{updator,jdbcType=VARCHAR},-->
-            <!--</if>-->
-            <!--<if test="updateDate != null">-->
-            <!--update_date = #{updateDate}-->
-            <!--</if>-->
-
             <if test="technicalField != null and technicalField != ''">
                 technical_field = #{technicalField},
             </if>
@@ -200,81 +194,31 @@
                 create_unit_name = #{createUnitName}
             </if>
 
+            <if test="secretLevel != null  and secretLevel != ''">
+                secret_level = #{secretLevel}
+            </if>
+
 
         </trim>
         where id = #{id}
     </update>
 
 
-    <!--<select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">-->
-
-    <!--select * from view_computer_software where 1=1-->
-
-    <!--<if test="unitName != null and unitName != '' ">-->
-    <!--and UNIT_NAME like CONCAT('%',#{unitName},'%')-->
-    <!--</if>-->
-    <!--<if test="registerNumber != null and registerNumber != ''">-->
-    <!--and REGISTER_NUMBER = #{registerNumber}-->
-    <!--</if>-->
-    <!--<if test="softwareName != null and softwareName != ''">-->
-    <!--and SOFTWARE_NAME = #{softwareName}-->
-    <!--</if>-->
-
-    <!--<if test="softwareIntroduce != null and softwareIntroduce != ''">-->
-    <!--and SOFTWARE_INTRODUCE = #{softwareIntroduce}-->
-    <!--</if>-->
-
-    <!--<if test="copyrightOwner != null and copyrightOwner != ''">-->
-    <!--and COPYRIGHT_OWNER = #{copyrightOwner}-->
-    <!--</if>-->
-    <!--<if test="versionNumber != null and versionNumber != ''">-->
-    <!--and VERSION_NUMBER = #{versionNumber}-->
-    <!--</if>-->
-
-
-    <!--<if test="recordDate != null and recordDate != '' ">-->
-    <!--and RECORD_DATE = #{recordDate}-->
-    <!--</if>-->
-
-    <!--&lt;!&ndash;<if test="recordDate != null ">&ndash;&gt;-->
-    <!--&lt;!&ndash;and RECORD_DATE = #{recordDate}&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-
-    <!--&lt;!&ndash;<if test="recordDateStart != null ">&ndash;&gt;-->
-    <!--&lt;!&ndash;and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-    <!--&lt;!&ndash;<if test="recordDateEnd != null  ">&ndash;&gt;-->
-    <!--&lt;!&ndash;and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-    <!--<if test="developFinishDate != null  and developFinishDate != '' ">-->
-    <!--and DEVELOP_FINISH_DATE = #{developFinishDate}-->
-    <!--</if>-->
-    <!--<if test="softwareIntro != null and softwareIntro != ''">-->
-    <!--and SOFTWARE_INTRO = #{softwareIntro}-->
-    <!--</if>-->
-    <!--<if test="entryPeople != null and entryPeople != ''">-->
-    <!--and ENTRY_PEOPLE = #{entryPeople}-->
-    <!--</if>-->
-    <!--<if test="entryTime != null and entryTime != '' ">-->
-    <!--and ENTRY_TIME = #{entryTime}-->
-    <!--</if>-->
-    <!--<if test="notes != null and notes != ''">-->
-    <!--and NOTES = #{notes}-->
-    <!--</if>-->
-    <!--<if test="files != null and files != ''">-->
-    <!--and file = #{files}-->
-    <!--</if>-->
-
-    <!--and deleted != '1'-->
-    <!--</select>-->
-
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select * from view_computer_software where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
+
+
+        <!--<foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
 
     </select>
 
@@ -283,6 +227,12 @@
         select count(*) from computer_software where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <sql id="selectByParam">
@@ -312,18 +262,6 @@
         <if test="recordDate != null and recordDate != '' ">
             and RECORD_DATE = #{recordDate}
         </if>
-
-        <!--<if test="recordDate != null ">-->
-        <!--and RECORD_DATE = #{recordDate}-->
-        <!--</if>-->
-
-
-        <!--<if test="recordDateStart != null ">-->
-        <!--and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')-->
-        <!--</if>-->
-        <!--<if test="recordDateEnd != null  ">-->
-        <!--and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')-->
-        <!--</if>-->
 
         <if test="developFinishDate != null  and developFinishDate != '' ">
             and DEVELOP_FINISH_DATE = #{developFinishDate}
@@ -368,72 +306,10 @@
         </if>
 
 
+        <if test="secretLevel != null and secretLevel != ''" >
+            secret_level = #{secretLevel}
+        </if>
 
     </sql>
-
-
-    <!--<select id="query_COUNT" parameterType="java.util.Map" resultMap="BaseResultMap">-->
-
-    <!--select * from computer_software where 1=1-->
-
-    <!--<if test="unitName != null and unitName != '' ">-->
-    <!--and UNIT_NAME like CONCAT('%',#{unitName},'%')-->
-    <!--</if>-->
-    <!--<if test="registerNumber != null and registerNumber != ''">-->
-    <!--and REGISTER_NUMBER = #{registerNumber}-->
-    <!--</if>-->
-    <!--<if test="softwareName != null and softwareName != ''">-->
-    <!--and SOFTWARE_NAME = #{softwareName}-->
-    <!--</if>-->
-
-    <!--<if test="softwareIntroduce != null and softwareIntroduce != ''">-->
-    <!--and SOFTWARE_INTRODUCE = #{softwareIntroduce}-->
-    <!--</if>-->
-
-    <!--<if test="copyrightOwner != null and copyrightOwner != ''">-->
-    <!--and COPYRIGHT_OWNER = #{copyrightOwner}-->
-    <!--</if>-->
-    <!--<if test="versionNumber != null and versionNumber != ''">-->
-    <!--and VERSION_NUMBER = #{versionNumber}-->
-    <!--</if>-->
-
-
-    <!--<if test="recordDate != null and recordDate != '' ">-->
-    <!--and RECORD_DATE = #{recordDate}-->
-    <!--</if>-->
-
-    <!--&lt;!&ndash;<if test="recordDate != null ">&ndash;&gt;-->
-    <!--&lt;!&ndash;and RECORD_DATE = #{recordDate}&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-
-    <!--&lt;!&ndash;<if test="recordDateStart != null ">&ndash;&gt;-->
-    <!--&lt;!&ndash;and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-    <!--&lt;!&ndash;<if test="recordDateEnd != null  ">&ndash;&gt;-->
-    <!--&lt;!&ndash;and DATE_FORMAT(`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')&ndash;&gt;-->
-    <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-    <!--<if test="developFinishDate != null  and developFinishDate != '' ">-->
-    <!--and DEVELOP_FINISH_DATE = #{developFinishDate}-->
-    <!--</if>-->
-    <!--<if test="softwareIntro != null and softwareIntro != ''">-->
-    <!--and SOFTWARE_INTRO = #{softwareIntro}-->
-    <!--</if>-->
-    <!--<if test="entryPeople != null and entryPeople != ''">-->
-    <!--and ENTRY_PEOPLE = #{entryPeople}-->
-    <!--</if>-->
-    <!--<if test="entryTime != null and entryTime != '' ">-->
-    <!--and ENTRY_TIME = #{entryTime}-->
-    <!--</if>-->
-    <!--<if test="notes != null and notes != ''">-->
-    <!--and NOTES = #{notes}-->
-    <!--</if>-->
-    <!--<if test="files != null and files != ''">-->
-    <!--and file = #{files}-->
-    <!--</if>-->
-    <!--and deleted != '1'-->
-    <!--</select>-->
-
 
 </mapper>

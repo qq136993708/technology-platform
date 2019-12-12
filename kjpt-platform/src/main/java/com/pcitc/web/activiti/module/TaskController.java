@@ -32,6 +32,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.ActivityVo;
@@ -287,8 +288,11 @@ public class TaskController extends BaseController {
 	 * @author zhf
 	 * @date 2018年5月11日 上午11:28:43 初始化处理任务界面
 	 */
-	@RequestMapping(value = "/task/pending/deal/{taskId}")
-	public String iniDealTask(@PathVariable("taskId") String taskId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/task/pending/deal")
+	public String iniDealTask( HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String taskId=CommonUtil.getParameter(request, "taskId", "");
+		
 		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1=====iniDealTask====" + taskId);
 

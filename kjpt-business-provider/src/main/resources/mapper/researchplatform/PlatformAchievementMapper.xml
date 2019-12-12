@@ -20,6 +20,7 @@
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     </resultMap>
 
 
@@ -37,7 +38,8 @@
         update_user,
         update_date,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -51,6 +53,11 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+         and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
@@ -60,13 +67,17 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformTreatiseModel">
-        insert into kypt_achievement(id,platform_id,base_id,achievement_name,achievement_type,applicant_unit,applicant_year,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name)
-         values(#{id},#{platformId},#{baseId},#{achievementName},#{achievementType},#{applicantUnit},#{applicantYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName})
+        insert into kypt_achievement(id,platform_id,base_id,achievement_name,achievement_type,applicant_unit,applicant_year,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name,secret_level)
+         values(#{id},#{platformId},#{baseId},#{achievementName},#{achievementType},#{applicantUnit},#{applicantYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName},#{secretLevel})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
@@ -83,6 +94,9 @@
             </if>
             <if test="applicantYear != null and applicantYear != ''" >
                 applicant_year = #{applicantYear},
+            </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel}
             </if>
         </trim>
         where id = #{id}

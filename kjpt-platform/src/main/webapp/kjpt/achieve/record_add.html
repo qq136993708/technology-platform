@@ -33,18 +33,13 @@
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
-          <div class="layui-input-block">
-            <div id="unCore" class="hide-form-item show">
-              <input type="text" name="achieveName" lay-filter="achieveName" lay-verify="required"
-                placeholder="请填写..." autocomplete="off" class="layui-input">
-            </div>
-            <div id="core" class="hide-form-item">
-              <select name="achieveId" lay-filter="achieveId">
-                <option value=""></option>
-                <option value="Y">是</option>
-                <option value="N">否</option>
-              </select>
-            </div>
+          <div class="layui-input-block" id="selectAchieve">
+            <input type="text" name="achieveName" lay-filter="achieveName" lay-verify="required"
+            placeholder="请填写..." autocomplete="off" class="layui-input">
+            <input type="hidden" name="achieveId" lay-filter="achieveId">
+            <span class="search-icon selectIcon" style="display: none;">
+              <i class="layui-icon layui-icon-search"></i> 
+            </span>
           </div>
         </div>
       </div>

@@ -12,16 +12,17 @@
 
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-
+<link rel="stylesheet" href="/css/form.css">
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
-<div class="layer-box">
+<div class="layer-box" style="padding-bottom: 0">
 	<div class="formBox">
 		<form class="layui-form" id="task-form" action="" lay-filter="dealTaskForm layui-container">
-			<div class="tableToolBox">
-				<div class="tableBtns">
+			<div class="tableToolBox" style="margin-top: 0">
+				<div class="tableBtns" style="height: 10px">
 					<div class="tableTitle">审批信息</div>
 				</div>
 			</div>
@@ -77,10 +78,10 @@
 			</div>
 			<!--在添加另一个页面的html，所有业务的详情页面-->
 			
-			<div class="form-bottom">
+			<div class="form-bottom" style="padding: 10px 0;">
 				<div class="form-bottom-btns">
-					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="save" >提交</button>
-					<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">关闭</button>
+					<a  class="layui-btn layui-btn-normal"  id="save" >提交</a>
+					<button id="cancel" type="button" class="layui-btn layui-btn-primary">关闭</button>
 				</div>
 			</div>
 		</form>
@@ -96,6 +97,7 @@
 		var roleCodes = "";
 		var unitCodes = "";
 		var postCodes = "";
+        var variable = getQueryVariable()
 		layui.config({
 			base : '../../../../' //静态资源所在路径
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
@@ -150,8 +152,7 @@
 			});
 
 			$("#cancel").click(function() {
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
+                closeTabsPage(variable.index);
 			});
 			
 			
@@ -160,7 +161,8 @@
 
 			/* 监听提交 */
 			//form.on('submit(form-submit)', function(data) {
-				$("#save").click(function() {
+			$("#save").click(function() {
+			    console.log(111)
 				if ($('#auditRemarks').val() == "") {
 					layer.msg('请输入审批意见');
 					return false;
@@ -172,7 +174,7 @@
 					// 判断是否需要弹出选择框
 					$.ajax({
 						type : 'POST',
-						url : "/task/auditor/flag/" + taskId,
+						url : "/task/auditor/flag/" + variable.taskId,
 						data : null,
 						headers : {
 							'Content-Type' : 'application/json',
@@ -182,7 +184,8 @@
 							$("#submitBtn").attr("disabled", "true");
 							$("#cancel").attr("disabled", "true");
 						},
-						error : function(data) {//请求失败处理函数  
+						error : function(data) {//请求失败处理函数
+						    console.log(data)
 							layer.msg("操作失败!", {
 								time : 2000,
 								icon : 2
@@ -273,7 +276,7 @@
 			console.log("parent="+parent.active);
 			$.ajax({
 				type : 'POST',
-				url : "/task/complete/" + taskId,
+				url : "/task/complete/" + variable.taskId,
 				data : JSON.stringify(datas),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
@@ -287,9 +290,10 @@
 				},
 				success : function(data) { //请求成功后处理函数。
 					// 刷新表格
-					parent.active.alertEvent();
+					/*parent.active.alertEvent();
 					var index = parent.layer.getFrameIndex(window.name);
-					parent.layer.close(index);
+					parent.layer.close(index);*/
+                    closeTabsPage(variable.index);
 					return false;
 				}
 			});
@@ -313,7 +317,7 @@
                 $("#detailsInfo").css("height", iframeHeight+20);
             }else {
                 var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
-                $("#detailsInfo").css("height", iframeHeight + 300);
+                $("#detailsInfo").css("height", iframeHeight + 335);
             }
         };
 	</script>

@@ -59,7 +59,11 @@ public class ZjkProject implements Serializable {
     private String outSystemId;
     
     private String  chargeUnitStr;
-    
+
+    /*
+     * 录入/导入标识
+     * */
+    private String  flag = "";
     
 
     public String getChargeUnitStr() {
@@ -150,6 +154,14 @@ public class ZjkProject implements Serializable {
 
     public void setOutSystemId(String outSystemId) {
         this.outSystemId = outSystemId;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
     @Override

@@ -14,7 +14,7 @@
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
     <result column="rewark_level_str" jdbcType="VARCHAR" property="rewarkLevelStr" />
     <result column="awarding_time_str" jdbcType="VARCHAR" property="awardingTimeStr" />
-    
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
     
     
     
@@ -22,7 +22,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, del_status, source_type, rewark_level, notes, awarding_unit, awarding_time, 
-    create_time, out_system_id
+    create_time, out_system_id,flag
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -33,13 +33,14 @@
     insert into zjk_reward (
       id,expert_id, del_status, source_type, 
       rewark_level, notes, awarding_unit, 
-      awarding_time, create_time, out_system_id
+      awarding_time, create_time, out_system_id,flag
       )
     values (
       #{id,jdbcType=VARCHAR},
       #{expertId,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, 
       #{rewarkLevel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{awardingUnit,jdbcType=VARCHAR}, 
-      #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR}
+      #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+      #{outSystemId,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
@@ -74,7 +75,10 @@
         create_time,
       </if>
       <if test="outSystemId != null">
-        out_system_id,
+      out_system_id,
+      </if>
+      <if test="flag != null">
+        flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -107,6 +111,9 @@
       </if>
       <if test="outSystemId != null">
         #{outSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -143,6 +150,9 @@
       <if test="outSystemId != null">
         out_system_id = #{outSystemId,jdbcType=VARCHAR},
       </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -156,7 +166,8 @@
       awarding_unit = #{awardingUnit,jdbcType=VARCHAR},
       awarding_time = #{awardingTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+      out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

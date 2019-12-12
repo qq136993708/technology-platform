@@ -14,13 +14,13 @@
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
     
     <result column="charge_unit_str" jdbcType="VARCHAR" property="chargeUnitStr" />
-    
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
     
     
   </resultMap>
   <sql id="Base_Column_List">
     id,  expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
-    del_status, source_type, out_system_id
+    del_status, source_type, out_system_id,flag
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -30,13 +30,14 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
     insert into zjk_project (id,expert_id, project_name, charge_unit, 
       research_target, setup_yeat, create_time, 
-      del_status, source_type, out_system_id
+      del_status, source_type, out_system_id,flag
       )
     values (
       #{id,jdbcType=VARCHAR}, 
       #{expertId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{chargeUnit,jdbcType=VARCHAR}, 
       #{researchTarget,jdbcType=VARCHAR}, #{setupYeat,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
+      #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR},
+      #{flag,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
@@ -71,7 +72,10 @@
         source_type,
       </if>
       <if test="outSystemId != null">
-        out_system_id,
+      out_system_id,
+      </if>
+      <if test="flag != null">
+        flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -105,6 +109,9 @@
       </if>
       <if test="outSystemId != null">
         #{outSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -142,6 +149,9 @@
       <if test="outSystemId != null">
         out_system_id = #{outSystemId,jdbcType=VARCHAR},
       </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -155,7 +165,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       del_status = #{delStatus,jdbcType=VARCHAR},
       source_type = #{sourceType,jdbcType=VARCHAR},
-      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+      out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

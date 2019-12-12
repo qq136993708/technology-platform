@@ -5,15 +5,24 @@ layui.use(['table', 'form', 'layer'], function() {
   groupTableId = '',
   fileData = {},
   newTransfromFile = {},
-  fileCols = [
+  fileCols = [[
     {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
     {title: '操作', templet: function(d) {
       var templet = '<div class="file-options">';
-        templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
-        templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
+      templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
+      templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
       templet += '</div>';
       return templet;
     }}
+  ], [
+    {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
+    {title: '操作', templet: function(d) {
+      var templet = '<div class="file-options">';
+      templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
+      templet += '</div>';
+      return templet;
+    }}
+  ]
   ];
   console.log(variable);
 
@@ -39,11 +48,6 @@ layui.use(['table', 'form', 'layer'], function() {
 
       $layoutItem.load('record_maintain.html', function() {
         $layoutItem.find('.layui-form:eq(0)').attr('lay-filter', formFilter);
-        // 添加人员
-        // $layoutItem.find('.dy-add-table').each(function(index, elem) {
-        //   $(this).attr('id', 'achieveTable_' + index);
-        // })
-
         if (wrapID === 'edit_transfrom_maintain') {
           if (formFilter !== 'newTransfrom') {
             // 删除当前区域提交按钮
@@ -78,7 +82,9 @@ layui.use(['table', 'form', 'layer'], function() {
               url: '/achieveReward-api/newInit',
               success: function(res) {
                 if (res.code === '0' || res.success === true) {
-                  form.val('newTransfrom', res.data);
+                  var newTransfromData =  res.data;
+                  newTransfromData.achieveRecordId = variable.id;
+                  form.val('newTransfrom', newTransfromData);
                 }
               }
             });
@@ -86,9 +92,18 @@ layui.use(['table', 'form', 'layer'], function() {
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
+
+          var dataIndex = htmlIndex;
+          if (variable.type === 'transfrom') {
+            dataIndex = (dataIndex - 1);
+          }
+
+          // 给当前激励方案赋值回显
+          form.val(formFilter, data[dataIndex]);
+
           // 回显团队成员
-          if ( data[htmlIndex].teamPerson ) {
-            backfill(data[htmlIndex].teamPerson, tempTableId);
+          if ( data[dataIndex].teamPerson ) {
+            backfill(data[dataIndex].teamPerson, tempTableId, 'view');
           }
         }
 
@@ -103,7 +118,15 @@ layui.use(['table', 'form', 'layer'], function() {
           setFileUpload({
             id: $this, // 附件上传作用域ID值 必传
             dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
-            cols: fileCols,
+            cols: (function() {
+              console.log('formFilter =>', formFilter);
+
+              if (formFilter === 'newTransfrom') {
+                return fileCols[0];
+              } else {
+                return fileCols[1];
+              }
+            })(),
             callback: function (tableData, type) {
               if (!fileParId) return;
               if (tableData && tableData.length) {
@@ -124,6 +147,7 @@ layui.use(['table', 'form', 'layer'], function() {
     })
   }
 
+  // 获取附件详情
   function getFileValue(data) {
     var fileValue = {}, fileTemp = '';
     if (data.hasOwnProperty('appraisalDoc')) {
@@ -207,7 +231,11 @@ layui.use(['table', 'form', 'layer'], function() {
 
         if ( detailsData.teamPerson ) {
           // 激励人员名单
-          backfill(detailsData.teamPerson, 'teamPersonList');
+          var viewValue = null;
+          if (variable.type === 'view' || variable.type === 'transfrom') {
+            viewValue = 'view';
+          }
+          backfill(detailsData.teamPerson, 'teamPersonList', viewValue);
         }
 
         // 绑定附件添加插件
@@ -219,7 +247,13 @@ layui.use(['table', 'form', 'layer'], function() {
           setFileUpload({
             id: $(this), // 附件上传作用域ID值 必传
             dataID: fileParId, // 用来查找当前单据下绑定的附件，没有则不查找
-            cols: fileCols,
+            cols: (function() {
+              if (variable.type === 'view' || variable.type === 'transfrom') {
+                return fileCols[1];
+              } else {
+                return fileCols[0];
+              }
+            })(),
             callback: function (tableData, type) {
               if (!fileParId) return;
               if (tableData && tableData.length) {
@@ -280,7 +314,8 @@ layui.use(['table', 'form', 'layer'], function() {
   // 维护，新增 => 转化净收益及激励方案
   form.on('submit(editTranfromMaintain)', function(data) {
     var teamPerson = getTableData(groupTableId),
-    transfromData = data.field;
+    transfromData = data.field,
+    tipsTitle = '备案信息提交审批';
     if (!teamPerson) {
       layer.msg('科技成果完成团队情况不能为空！', {icon: 2});
       return false;
@@ -323,6 +358,7 @@ layui.use(['table', 'form', 'layer'], function() {
     } else {
       // 奖励方案维护
       allData = transfromData;
+      tipsTitle = '转化收益维护提交';
     }
     
     // 发起http请求
@@ -336,7 +372,12 @@ layui.use(['table', 'form', 'layer'], function() {
         top.layer.close(submitIndex);
         $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
         if (res.code === '0' || res.success === true) {
+          top.layer.msg(tipsTitle + '成功。', {icon: 1});
 
+          // 提交成功刷新页面为读取状态；
+          window.location.href = window.location.pathname+ '?id='+variable.id+'&type=view';
+        } else {
+          top.layer.msg(tipsTitle + '失败！', {icon: 2});
         }
       },
       error: function(err) {
@@ -372,7 +413,6 @@ layui.use(['table', 'form', 'layer'], function() {
     }
     achieveRewardData.files = JSON.stringify(newNtFile);
     achieveRewardData.teamPerson = teamPerson;
-    achieveRewardData.achieveRecordId = achieveRecordData.id;
 
     var saveData = {
       achieveRecord: achieveRecordData,
@@ -395,7 +435,8 @@ layui.use(['table', 'form', 'layer'], function() {
         top.layer.close(loadingIndex);
         $this.prop('disabled', false);
         if (res.code === '0' || res.success) {
-
+          top.layer.msg('备案信息暂存成功！', {icon: 1});
+          window.location.reload();
         }
       },
       error: function() {

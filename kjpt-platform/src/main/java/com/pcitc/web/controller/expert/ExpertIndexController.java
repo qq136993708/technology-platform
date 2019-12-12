@@ -146,8 +146,18 @@ public class ExpertIndexController {
 			
 			
 		    
-		    
-		    
+			@RequestMapping(value = "/user_secret_list")
+			public String user_secret_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				return "/base/user/user_secret_list";
+			}
+			
+			
+			@RequestMapping(value = "/user_post_list")
+			public String user_post_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				return "/base/user/user_post_list";
+			}
 		    
 		    
 		    

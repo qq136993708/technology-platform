@@ -38,7 +38,10 @@ public class ZjkPatent implements Serializable {
      */
     private String patentType="";
     private String  patentTypeStr;
-    
+    /*
+     * 录入/导入标识
+     * */
+    private String  flag = "";
     
 
     public String getPatentTypeStr() {
@@ -228,8 +231,13 @@ public class ZjkPatent implements Serializable {
 	public void setGetPatentTimeStr(String getPatentTimeStr) {
 		this.getPatentTimeStr = getPatentTimeStr;
 	}
-    
-    
-    
-    
+
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 }

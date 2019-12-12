@@ -66,7 +66,8 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "registerDateEnd", value = "注册日期结束", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "trademarkName", value = "注册商标名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "lawStatus", value = "法律状态", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query")
     })
 
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -78,7 +79,8 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date registerDateEnd,
                         @RequestParam(required = false) String trademarkName,
                         @RequestParam(required = false) String lawStatus,
-                        @RequestParam(required = false) String applicant
+                        @RequestParam(required = false) String applicant,
+                          @RequestParam(value = "secretLevel") String secretLevel
     ){
         Map<String, Object> condition = new HashMap<>(6);
             if (pageNum == null) {
@@ -109,6 +111,11 @@ public class TrademarkController extends RestBaseController {
         if (!StringUtils.isEmpty(applicant)) {
         this.setParam(condition, "applicant", applicant);
         }
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
 
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
