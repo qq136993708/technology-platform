@@ -143,8 +143,11 @@ public class PlatformTreatiseController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         for(PlatformTreatiseModel p : pmList ){
             this.setBaseData(p);
+            p.setDeleted("0");
             p.setCreateDate(new Date());
             p.setCreator(this.getUserProfile().getUserName());
+            p.setCreateUnitId(this.getUserProfile().getUnitId());
+            p.setCreateUnitName(this.getUserProfile().getUnitName());
         }
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();
