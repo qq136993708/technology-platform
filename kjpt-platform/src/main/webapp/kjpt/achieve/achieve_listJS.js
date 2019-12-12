@@ -101,7 +101,12 @@ layui.use(['table', 'form','laydate'], function() {
   //流程
   $('#flow').on('click', function() {
 	    var activeData = table.checkStatus('tableDemo').data;
-		dealFlow(activeData[0].id);
+      if(activeData[0].auditStatus==0||activeData[0].auditStatus==3){
+          dealFlow(activeData[0].id);
+      }else {
+          top.layer.msg('当前申请状态不能上报！');
+          return false;
+      }
   })
   
   // 新增、编辑、查看
