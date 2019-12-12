@@ -308,7 +308,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form")
+        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -352,7 +353,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
 			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
-			
+			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
