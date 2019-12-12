@@ -135,7 +135,7 @@
                 work_unit = #{workUnit},
             </if>
             <if test="major != null and major != ''" >
-                major = #{major}
+                major = #{major},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >

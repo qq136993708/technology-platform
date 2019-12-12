@@ -80,7 +80,7 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String trademarkName,
                         @RequestParam(required = false) String lawStatus,
                         @RequestParam(required = false) String applicant,
-                          @RequestParam(value = "secretLevel") String secretLevel
+                          @RequestParam(required = false,value = "secretLevel") String secretLevel
     ){
         Map<String, Object> condition = new HashMap<>(6);
             if (pageNum == null) {
