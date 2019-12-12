@@ -63,20 +63,20 @@ layui.config({
         }
     });
     /*查询密级*/
-    httpModule({
-        url: "/sysDictionary-api/getLessThanUserSecretDicList",
-        type: 'GET',
-        async:false,
-        success: function(relData) {
-            console.log(relData.data)
-            if(relData.success){
-                relData.data.map(function (item, index) {
-                    $("#secretLevel").append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
-                })
-                form.render()
-            }
-        }
-    });
+    // httpModule({
+    //     url: "/sysDictionary-api/getLessThanUserSecretDicList",
+    //     type: 'GET',
+    //     async:false,
+    //     success: function(relData) {
+    //         console.log(relData.data)
+    //         if(relData.success){
+    //             relData.data.map(function (item, index) {
+    //                 $("#secretLevel").append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+    //             })
+    //             form.render()
+    //         }
+    //     }
+    // });
     /*所在单位*/
     httpModule({
         url: "/unit-api/getTreeList",

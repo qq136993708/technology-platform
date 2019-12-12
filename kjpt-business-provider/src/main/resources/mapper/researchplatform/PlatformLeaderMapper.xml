@@ -57,22 +57,11 @@
                 </foreach>
             )
         </if>
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
-
-
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  count(*) from kypt_leader where 1=1
+        select  count(*) from kypt_leader where 1=1 and platform_id = #{platformId}
         and deleted != '1'
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
-
     </select>
 
 
@@ -166,8 +155,8 @@
             #{km.creator},
             #{km.updateDate},
             #{km.updator},
-            #{ka.createUnitId},
-            #{ka.createUnitName},
+            #{km.createUnitId},
+            #{km.createUnitName},
             #{km.secretLevel}
 
             )
