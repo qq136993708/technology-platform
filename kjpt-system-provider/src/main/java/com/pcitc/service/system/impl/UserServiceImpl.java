@@ -84,6 +84,18 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByPrimaryKey(userId);
 	}
 
+	/**
+	 * 功能描述 根据用户唯一标识查询用户信息
+	 *
+	 * @return com.pcitc.base.system.SysUser
+	 * @author t-chengjia.chen
+	 * @date 2019/12/11
+	 */
+	@Override
+	public SysUser selectUserByIdentityId(String unifyIdentityId) {
+		return userMapper.selectUserByIdentityId(unifyIdentityId);
+	}
+
 	//根据用户id查询当前信息-new
 	@Override
 	public SysUser currentUserInfo(String userId) {
