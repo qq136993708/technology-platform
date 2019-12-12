@@ -17,6 +17,9 @@
 <body>
 <div class="layout-view-content min-label">
     <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
+
+        
+
         <div class="layui-row layui-col-space20">
             <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
@@ -117,6 +120,7 @@
                         ,{field: 'typeText', title: '科技成果介绍'}
                         ,{field: 'researchFieldText', title: '成果完成时间'}
                         ,{field: 'experience', title: '拟转让方式', sort: true}
+                        ,{field: 'secretLevelText', title: '密级', sort: true} 
                     ]],
                     parseData: function(res) {return layuiParseData(res, null, 3);},
                     request: {
