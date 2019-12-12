@@ -148,7 +148,7 @@
                 assume_office = #{assumeOffice},
             </if>
             <if test="workUnit != null and workUnit != ''" >
-                work_unit = #{workUnit}
+                work_unit = #{workUnit},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >
