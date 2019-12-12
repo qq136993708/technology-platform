@@ -1,7 +1,6 @@
 package com.pcitc.web.controller.scientificplan;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.scientificplan.ScienceEvolveDynamic;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
