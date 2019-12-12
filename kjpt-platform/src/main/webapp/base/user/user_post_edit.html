@@ -30,7 +30,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">岗位选择:</span></label>
                     <div class="layui-input-block">
-                        <select name="userUnit" xm-select="userUnit" id="userUnit" xm-select-skin="normal">
+                        <select name="userPost" xm-select="userPost" id="userPost" xm-select-skin="normal">
 
                         </select>
                     </div>
@@ -40,7 +40,7 @@
 
         <div class="dialog-footer-btn">
             <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
-            <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+            <a class="layui-btn layui-btn-primary" data-type="close" id="close">关闭</a>
         </div>
     </form>
 </div>
@@ -55,20 +55,21 @@
         httpModule({
             url: "/user-api/get/"+variable.id,
             type: 'GET',
-            async:false,
-            success: function(relData) {
-                if(relData.success){
+            success: function(relDataForm) {
+                console.log(relDataForm)
+                if(relDataForm.success){
                     httpModule({
-                        url: "/post-api/getPostListByUnitId?unitId="+relData.data.userUnit,
+                        url: "/post-api/getPostListByUnitId?unitId="+relDataForm.data.userUnit,
                         type: 'GET',
                         async:false,
                         success: function(relData) {
                             console.log(relData)
                             if(relData.success){
                                 relData.data.map(function (item,index) {
-                                    $("#userUnit").append("<option value='"+item.postId+"' name='"+item.postId+"'>"+item.postName+"</option>")
+                                    $("#userPost").append("<option value='"+item.postId+"' name='"+item.postId+"'>"+item.postName+"</option>")
                                 })
-                                formSelects.render('userUnit');
+                                formSelects.render('userPost');
+                                formSelects.value('userPost', [relDataForm.data.userPost]);
                             }
                         }
                     });
@@ -84,11 +85,16 @@
                 type: "POST",
                 success: function(e) {
                     console.log(e)
-                    if(e.code==0){
+                    if(e.success){
                         layer.msg('保存成功!', {icon: 1});
+                        setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+                        top.layer.closeAll(); // 关闭弹窗
                     }
                 }
             });
+        })
+        $("#close").click(function () {
+            top.layer.closeAll(); // 关闭弹窗
         })
     })
 </script>

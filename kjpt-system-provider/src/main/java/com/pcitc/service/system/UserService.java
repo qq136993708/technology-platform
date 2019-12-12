@@ -62,7 +62,14 @@ public interface UserService {
 	 * @return
 	 */
 	public List<Boolean> userValidate(SysUser user);
-	
+
+	/**
+	 * 根据唯一标识查询用户信息
+	 *
+	 * @return
+	 */
+	public SysUser selectUserByIdentityId(String unifyIdentityId);
+
 	/** 
 	* @author zhf
 	* @date 2018年5月17日 上午9:30:34 

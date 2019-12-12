@@ -84,6 +84,18 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByPrimaryKey(userId);
 	}
 
+	/**
+	 * 功能描述 根据用户唯一标识查询用户信息
+	 *
+	 * @return com.pcitc.base.system.SysUser
+	 * @author t-chengjia.chen
+	 * @date 2019/12/11
+	 */
+	@Override
+	public SysUser selectUserByIdentityId(String unifyIdentityId) {
+		return userMapper.selectUserByIdentityId(unifyIdentityId);
+	}
+
 	//根据用户id查询当前信息-new
 	@Override
 	public SysUser currentUserInfo(String userId) {
@@ -767,6 +779,16 @@ public class UserServiceImpl implements UserService {
 			String userFlag=CommonUtil.getTableParam(param,"userFlag","");
 			String userName=CommonUtil.getTableParam(param,"userName","");
 			
+			String userNameKey=CommonUtil.getTableParam(param,"userNameKey","");
+			String userUnitName=CommonUtil.getTableParam(param,"userUnitName","");
+			String postName=CommonUtil.getTableParam(param,"postName","");
+			String userMail=CommonUtil.getTableParam(param,"userMail","");
+			Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
+			
+			
+			
+			
+			
 			Map map=new HashMap();
 			map.put("userName", userName);
 			map.put("userFlag", userFlag);
@@ -777,6 +799,12 @@ public class UserServiceImpl implements UserService {
 			map.put("userPassword", userPassword);
 			map.put("userPost", userPost);
 			map.put("userPhone", userPhone);
+			
+			map.put("userNameKey", userNameKey);
+			map.put("userUnitName", userUnitName);
+			map.put("postName", postName);
+			map.put("userMail", userMail);
+			map.put("userDelflag", userDelflag);
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());

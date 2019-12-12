@@ -38,22 +38,22 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
         if(load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());
-            handlerFile(ab.getFiles());
+            handlerFile(ab.getFiles(),ab.getSecretLevel());
             arm.add(ab);
         }
         else{
-            handlerFile(ab.getFiles());
+            handlerFile(ab.getFiles(),ab.getSecretLevel());
             arm.update(ab);
 
         }
         arm.updateRewardMoney(ab.getAchieveId());
     }
 
-    private void handlerFile(String files){
+    private void handlerFile(String files,String secretLevel){
         if(files != null) {
             JSONObject grantDoc = JSONObject.parseObject(files);
             for (String key : grantDoc.keySet()) {
-                fs.updateFileData(grantDoc.get(key) == null ? "" : grantDoc.get(key).toString(),key);
+                fs.updateFileData(grantDoc.get(key) == null ? "" : grantDoc.get(key).toString(),key,secretLevel);
             }
         }
     }

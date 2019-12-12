@@ -19,6 +19,28 @@
 <body class="">
   <div class="layout-view-content dialog">
     <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                  <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+                  <div class="layui-input-block">
+                    <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+                    </select>
+                  </div>
+                </div>
+            </div>  
+          
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+                    <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>  
+                </div>
+            </div>
+                 
+        </div>
+  
+      <div class="secret-level-line"></div>
+      
       <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
             <div class="layui-form-item">
@@ -196,6 +218,9 @@
       setFileUpload({
         id: 'file-filter-options', // 附件上传作用域ID值 必传
         dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
+        secretLevel : function() {
+              return $("#secretLevel").val();
+            },
         callback: function (tableData, type) {
           /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
             * type 触发变更的类型 目前只有 delete | upload

@@ -11,10 +11,6 @@ function getProjectData(data, key, value) {
 
 layui.use(['laydate'], function() {
   var laydate = layui.laydate,
-  projectYearChart = echarts.init(document.getElementById('addProjectYear')), // 新增项目数量年度趋势分析
-  projectMonthChart = echarts.init(document.getElementById('addProjectMonth')), // 新增项目数量年度趋势分析
-  typeRatioChart = echarts.init(document.getElementById('projectTypeRatio')), // 项目计划投资按项目类型占比分析 
-  agenciesRatioChart = echarts.init(document.getElementById('projectAgenciesRatio')), // 项目投资计划按机构占比分析 
   keyData = [
     { name: '核能开发', valueKey: 'nuclearEnergyDev'},
     { name: '集中开发', valueKey: 'focusDev'},
@@ -48,7 +44,9 @@ layui.use(['laydate'], function() {
   ];
   
   // 渲染新增项目数量年度趋势分析表
-  projectYearChart.setOption(getChartOption({
+  kyptCharts.render({
+    id: 'addProjectYear',
+    type: 'bar',
     itemName: 'labelName',
     series: [
       { name: '2019', valueKey: 'value2019'},
@@ -69,9 +67,9 @@ layui.use(['laydate'], function() {
       return chartData;
     })(),
     color: ['#0AA1FF', '#5DAC4A', '#FCBD3B']
-  }));
+  })
 
-
+  // 渲染新增项目数量月度趋势分析表
   function loadMonthChart(date) {
     var time = date || '2019',
     chartData = [];
@@ -83,19 +81,23 @@ layui.use(['laydate'], function() {
       })
     }
 
-    projectMonthChart.setOption(getChartOption({
-      itemName: 'name',
-      legend: { show: false },
-      grid: { top: 24 },
-      series: [
-        { name: '月度分析', valueKey: 'value'},
-      ],
-      data: chartData,
-      color: '#FCBD3B'
-    }));
+    if (!date) {
+      kyptCharts.render({
+        id: 'addProjectMonth',
+        type: 'bar',
+        itemName: 'name',
+        legend: { show: false },
+        grid: { top: 24 },
+        series: [
+          { name: '月度分析', valueKey: 'value'},
+        ],
+        data: chartData,
+        color: '#FCBD3B'
+      })
+    } else {
+      kyptCharts.reload('addProjectMonth', {data: chartData});
+    }
   }
-
-  // 渲染新增项目数量月度趋势分析表
   loadMonthChart();
   laydate.render({
     elem: '#projectMonth',
@@ -106,6 +108,7 @@ layui.use(['laydate'], function() {
     }
   });
 
+  // 项目计划投资按项目类型占比分析
   function loadTypeRatioChart(date) {
     var chartData = [], itemName = ['国防技术基础', '国防基础', '集中开发', '核能开发'];
     for (var i = 0; i < itemName.length; i++) {
@@ -114,14 +117,19 @@ layui.use(['laydate'], function() {
       });
     }
 
-    typeRatioChart.setOption(getPieChartOption({
-      title: ' 项目计划投资按项目类型占比分析',
-      series: chartData,
-      color: ['#FFDF29', '#2370A3', '#009186', '#9EBE4A']
-    }));
+    if (!date) {
+      kyptCharts.render({
+        id: 'projectTypeRatio',
+        type: 'pie',
+        title: ' 项目计划投资按项目类型占比分析',
+        series: chartData,
+        color: ['#FFDF29', '#2370A3', '#009186', '#9EBE4A']
+      });
+    } else {
+      kyptCharts.reload('projectTypeRatio', {series: chartData});
+    }
   }
   loadTypeRatioChart();
-
   laydate.render({
     elem: '#TypeRatioDate',
     type: 'month',
@@ -131,8 +139,7 @@ layui.use(['laydate'], function() {
     }
   });
 
-  // 
-
+  // 项目投资计划按机构占比分析
   function loadagenciesRatioChart(date) {
     var chartData = [], itemName = [
       '中核院',
@@ -150,14 +157,19 @@ layui.use(['laydate'], function() {
       });
     }
 
-    agenciesRatioChart.setOption(getPieChartOption({
-      title: ' 项目投资计划按机构占比分析',
-      series: chartData,
-      color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
-    }));
+    if (!date) {
+      kyptCharts.render({
+        id: 'projectAgenciesRatio',
+        type: 'pie',
+        title: ' 项目投资计划按机构占比分析',
+        series: chartData,
+        color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
+      });
+    } else {
+      kyptCharts.reload('projectAgenciesRatio', {series: chartData})
+    }
   }
   loadagenciesRatioChart();
-
   laydate.render({
     elem: '#AgenciesRatioDate',
     type: 'month',

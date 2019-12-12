@@ -26,6 +26,7 @@ layui.use(['table', 'form'], function() {
           ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, templet: function(d) {
             return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           }}
+          ,{field: 'secretLevelText', title: '密级', sort: true} 
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
             if (d.auditStatus == 0 || d.auditStatus == 3){
@@ -112,10 +113,20 @@ layui.use(['table', 'form'], function() {
   })
 
   
-  		  //流程
+  //流程
   $('#flow').on('click', function() {
-	    var activeData = table.checkStatus('tableDemo').data;
-		dealFlow(activeData[0].id);
+    var activeData = table.checkStatus('tableDemo').data;
+    if (activeData.length > 1) {
+      top.layer.msg('不能同时上报多个单据！');
+    } else if (activeData.length === 1) {
+      if (activeData[0].auditStatus === '0' || activeData[0].auditStatus === '3') {
+        dealFlow(activeData[0].id);
+      } else {
+        top.layer.msg('审批中、审批通过的单据不能上报！');
+      }
+    } else {
+      top.layer.msg('请选择需要上报的单据！');
+    }
   })
   
   

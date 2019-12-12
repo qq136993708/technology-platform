@@ -273,5 +273,27 @@ public class CommonUtil {
 		return resault;
 	}
 
+	public static Integer getTableParamInt(LayuiTableParam param,String paramName,Integer no)
+	{
+		Integer resault=null;
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(Integer)object;
+		}
+				
+		if(resault==null )
+		{
+			return no;
+		}else
+		{
+			return Integer.valueOf(resault);
+		}
+		
+	}
+	
+	
+	
+	
 
 }

@@ -152,7 +152,9 @@ layui.extend({
       param = JSON.stringify(param)
       window.localStorage.setItem("param",param);
       var child = $("#"+parent.$(".layui-body .layui-show .layadmin-iframe").eq(0).attr("id"))[0].contentWindow;
-      child.getParam();
+      if (child.hasOwnProperty('getParam')) {
+          child.getParam();
+      }
   });
 
   var $layuiHeaderNav = $('#layuiHeaderNav');

@@ -21,6 +21,7 @@
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
     </resultMap>
 
 
@@ -56,11 +57,6 @@
                 </foreach>
             )
         </if>
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
@@ -72,11 +68,6 @@
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_leader where 1=1
         and deleted != '1'
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
@@ -135,7 +126,7 @@
                 work_unit = #{workUnit},
             </if>
             <if test="major != null and major != ''" >
-                major = #{major}
+                major = #{major},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >

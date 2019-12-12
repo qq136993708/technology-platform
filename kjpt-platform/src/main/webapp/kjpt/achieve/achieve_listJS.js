@@ -18,6 +18,7 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'brief', title: '科技成果介绍'}
           ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
           ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
+          ,{field: 'secretLevelText', title: '密级', sort: true} 
         ]],
         parseData: function(res) {
             console.log(res)
@@ -100,7 +101,12 @@ layui.use(['table', 'form','laydate'], function() {
   //流程
   $('#flow').on('click', function() {
 	    var activeData = table.checkStatus('tableDemo').data;
-		dealFlow(activeData[0].id);
+      if(activeData[0].auditStatus==0||activeData[0].auditStatus==3){
+          dealFlow(activeData[0].id);
+      }else {
+          top.layer.msg('当前申请状态不能上报！');
+          return false;
+      }
   })
   
   // 新增、编辑、查看

@@ -27,6 +27,7 @@
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
     </resultMap>
 
 
@@ -68,11 +69,6 @@
 
         </if>
             and deleted != '1'
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
@@ -148,7 +144,7 @@
                 assume_office = #{assumeOffice},
             </if>
             <if test="workUnit != null and workUnit != ''" >
-                work_unit = #{workUnit}
+                work_unit = #{workUnit},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >

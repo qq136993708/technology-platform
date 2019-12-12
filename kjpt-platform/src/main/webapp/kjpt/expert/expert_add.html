@@ -14,17 +14,39 @@
     <style>
         .layui-form-item{margin-top: 20px;}
         .layui-add-button .layui-button{width: 60px;display:inline-block;height: 30px;line-height: 30px;
-            background: #fff;border: 1px solid #AAAAAA;color: #0AA1FF;cursor: pointer;margin-left: 10px;}
+            background: #fff;border: 0;color: #0AA1FF;cursor: pointer;margin-left: 10px;
+            background: url("/images/add.png") no-repeat 0px 7px;    background-size: 14px;}
+        .layui-add-button .layui-button:hover{border: 0 !important;box-shadow: none !important;}
         .expert-ul {display: inline-block;border: none;width: 100%;height: auto;overflow: hidden}
         .expert-ul li{height: 30px;line-height: 30px;background-color: #e6f7ff;color: #1890ff;margin-left: 10px;
         float: left;margin-bottom: 10px;}
         .expert-ul li.expert-li-last{background: none;margin: 0;padding: 0;height: 31px;line-height: 31px;}
         .img-view-block{height: 90px;}
+        .layui-input-text{ padding-left: 14px; color: #B1B1B2;line-height: 30px;font-size: 14px}
     </style>
 </head>
 <body class="">
 <div class="layout-view-content dialog">
     <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="dense">
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label label-required"><span class="text">姓名:</span></label>
+                        <div class="layui-input-block">
+                            <select name="secretLevel" id="secretLevel" lay-verify="required"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <div class="layui-input-text">
+                            通过设置密级给信息加密，不同密级的用户有不同密级的信息权限！
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="layui-row layui-col-space20">
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                 <!--姓名-->

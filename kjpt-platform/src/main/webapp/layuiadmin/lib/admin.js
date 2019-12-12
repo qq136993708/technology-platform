@@ -586,11 +586,6 @@ layui.define('view', function(exports){
         $('.'+ TABS_REMOVE).remove();
         $("#LAY_app_tabsheader").css("left","0px")
       }
-
-          var $LAYAPPTABS = $('#LAY_app_tabsheader');
-          if ($LAYAPPTABS.children('li').length === 0) {
-              setNavMeunSelected();
-          }
     }
     
     //关闭全部标签页
@@ -771,6 +766,15 @@ layui.define('view', function(exports){
     
     //移除resize事件
     admin.delResize();
+
+    // 设置导航参照选中效果
+    var $LAYAPPTABS = $('#LAY_app_tabsheader');
+    if ($LAYAPPTABS.children('li').length === 0) {
+      setNavMeunSelected();
+    } else {
+      setNavMeunSelected(othis);
+    }
+
   });
   var code ;
   //页面跳转

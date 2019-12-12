@@ -33,6 +33,7 @@
 		<result column="level_text" jdbcType="VARCHAR" property="levelText"/>
 
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
     </resultMap>
 
 
@@ -107,6 +108,11 @@
         </foreach>
         <include refid="selectByParam" />
 
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="selectByParam" />
 
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
@@ -243,7 +249,7 @@
                 img_id = #{imgId,jdbcType=VARCHAR},
             </if>
             <if test="researchFieldText != null and researchFieldText != ''" >
-                research_field_text = #{researchFieldText,jdbcType=VARCHAR}
+                research_field_text = #{researchFieldText,jdbcType=VARCHAR},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >

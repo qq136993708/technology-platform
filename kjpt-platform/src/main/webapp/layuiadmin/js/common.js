@@ -17,6 +17,7 @@ if (!console) {
 var TREE_DICKIND_CODE = {
 	ROOT_KJPT_YTDW: '/unit-api/getTreeList' //依托单位
 	,ROOT_KJPT_JSLY: '/techFamily-api/getTreeList' // 技术领域
+
 };
 
 // 对Date的扩展，将 Date 转化为指定格式的String   
@@ -365,6 +366,10 @@ function _getDicStore(key, type, callback) {
 function _commonLoadDic(dicKindCode, callback) {
 	if (dicKindCode && typeof(dicKindCode) !== 'object') {
 		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
+		if(dicKindCode === 'ROOT_KJPT_XXMJ') {
+			httpUrl = '/sysDictionary-api/getLessThanUserSecretDicList'  //信息密级
+		} 
+
 		if (TREE_DICKIND_CODE[dicKindCode]) {
 			httpUrl = TREE_DICKIND_CODE[dicKindCode];
 		}
@@ -1005,24 +1010,49 @@ function getTableData(id){
 // 设置菜单栏选中项
 function setNavMeunSelected(index) {
 	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5 ...;
-	if (index || index === 0) {
-		var indexClass = index + '';
-		$('#layuiHeaderNav .header-nav-item').removeClass('layui-this').each(function(i, elem) {
-			if ($(this).hasClass(indexClass)) {
-				$(this).addClass('layui-this');
-				if (indexClass === 'home-item') {
-					$('#index_main_left_menu').children('ul').addClass('layui-hide');
-					$('#nav').removeClass('layui-hide');
-				} else {
-					$('#index_main_left_menu').children('ul').addClass('layui-hide');
-					$('#nav'+ $(this).children('a').attr('id')).removeClass('layui-hide');
-				}
+	var indexClass = null;
+	if (typeof(index) === 'object') {
+		layHref = index.attr('lay-id');
+		var navItem = top.$('#index_main_left_menu').find('[lay-href="'+ layHref +'"]').filter(function() {
+			if (!$(this).closest('#dlCollect').length && $(this).data('id')) {
+				return $(this);
 			}
-		})
+		});
+	
+		if (navItem.length === 1) {
+			var meunId = navItem.closest('ul').attr('id');
+			if (meunId !== 'nav') {
+				indexClass = top.$('#up'+ meunId.substring(3)).attr('nav-index') || 'home-item';
+			} else {
+				indexClass = 'home-item';
+			}
+			navItem.closest('ul').find('dd, li').removeClass('layui-this layui-nav-itemed')
+			navItem.parent('dd').addClass('layui-this').closest('li').addClass('layui-nav-itemed');
+		} else {
+			indexClass = 'home-item';
+		}
 	} else {
-		$('#layuiHeaderNav').find('.header-nav-item').not('.home-item').removeClass('.layui-this');
-		$('#index_main_left_menu').children('ul').addClass('layui-hide').eq(0).removeClass('layui-hide');
+		indexClass = (function() {
+			if (index || index === 0) {
+				return index + '';
+			} else {
+				return 'home-item';
+			}
+		})();
 	}
+
+	top.$('#layuiHeaderNav .header-nav-item').removeClass('layui-this').each(function(i, elem) {
+		if ($(this).hasClass(indexClass)) {
+			$(this).addClass('layui-this');
+			if (indexClass === 'home-item') {
+				top.$('#index_main_left_menu').children('ul').addClass('layui-hide');
+				top.$('#nav').removeClass('layui-hide');
+			} else {
+				top.$('#index_main_left_menu').children('ul').addClass('layui-hide');
+				top.$('#nav'+ $(this).children('a').attr('id')).removeClass('layui-hide');
+			}
+		}
+	})
 }
 
 

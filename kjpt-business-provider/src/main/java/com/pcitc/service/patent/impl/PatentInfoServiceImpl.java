@@ -40,7 +40,7 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         }else{
             patentInfoMapper.insertSelective(patentInfo);
         }
-        fileCommonService.updateFileData(patentInfo.getFiles(),patentInfo.getId());
+        fileCommonService.updateFileData(patentInfo.getFiles(),patentInfo.getId(),patentInfo.getSecretLevel());
         return patentInfo;
     }
 

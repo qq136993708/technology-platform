@@ -25,7 +25,7 @@
     <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
 
     <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
-
+    <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -105,8 +105,8 @@
      unit_name_text,
      create_unit_id,
      create_unit_name,
-     secret_level
-
+     secret_level,
+     secret_level_text
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultMap="BaseResultMap">
     select

@@ -16,6 +16,9 @@ $(function() {
       $('#filesItem').addClass('middle-block').css('height', 60).empty().html(fileHtml);
     } else {
       $('#filesItem').empty().html(fileHtml);
+      setTimeout(function() {
+        $('#filesItem .seeFile:eq(0)').click();
+      }, 60);
     }
   }
 

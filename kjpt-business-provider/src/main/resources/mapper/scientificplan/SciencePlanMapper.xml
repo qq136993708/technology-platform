@@ -22,17 +22,13 @@
         <result column="annual" jdbcType="VARCHAR" property="annual"/>
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
-
         <result column="RESEARCH_FIELD_text" jdbcType="VARCHAR" property="researchFieldText"/>
-
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
-
         <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName"/>
         <result column="technical_field_index" jdbcType="VARCHAR" property="technicalFieldIndex"/>
-
-
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
 
     </resultMap>
 
@@ -107,10 +103,10 @@
         #{updator},
         #{annual},
         #{reportType},
-        #{create_unit_id},
-        #{create_unit_name},
-        #{technical_field_name},
-        #{technical_field_index},
+        #{createUnitId},
+        #{createUnitName},
+        #{technicalFieldName},
+        #{technicalFieldIndex},
         #{secretLevel}
       )
   </insert>
@@ -200,7 +196,6 @@
             and technical_field_index = #{technicalFieldIndex}
         </if>
 
-
         <if test="secretLevel != null and secretLevel != ''" >
             secret_level = #{secretLevel}
         </if>
@@ -270,9 +265,8 @@
             </if>
 
             <if test="technicalFieldIndex != null  and technicalFieldIndex != ''  ">
-                technical_field_index = #{technicalFieldIndex}
+                technical_field_index = #{technicalFieldIndex},
             </if>
-
 
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel}

@@ -9,20 +9,20 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
  
 
     /*领域*/
-    httpModule({
-      url: "/techFamily-api/getTreeList",
-      type: 'GET',
-      async: false,  
-      success: function(relData) {
-          relData.children.map(function (item,index) {
-              item.children.map(function (items,i) {
-                  delete items.children
-              })
-          })
-          formSelects.data('technicalField', 'local', { arr: relData.children });
-          formSelects.btns('technicalField', ['remove']);
-      }
-  });
+  //   httpModule({
+  //     url: "/techFamily-api/getTreeList",
+  //     type: 'GET',
+  //     async: false,  
+  //     success: function(relData) {
+  //         relData.children.map(function (item,index) {
+  //             item.children.map(function (items,i) {
+  //                 delete items.children
+  //             })
+  //         })
+  //         formSelects.data('technicalField', 'local', { arr: relData.children });
+  //         formSelects.btns('technicalField', ['remove']);
+  //     }
+  // });
 
 
   function getItemInitData(item) {
@@ -63,6 +63,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
             readonly : file_readonly,
+            secretLevel : function() {
+              return $("#secretLevel").val();
+            },
             callback: function (tableData, type) {
               /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
                 * type 触发变更的类型 目前只有 delete | upload

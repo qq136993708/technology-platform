@@ -24,4 +24,6 @@ public interface FileCommonMapper {
     void delete(String dataId);
 
     void updateSetDataID(@Param("dataId") String dataId,@Param("array") String[] fileds);
+
+    Integer checkSecretLevel(@Param("baseSsecretLevel") String baseSsecretLevel,@Param("array") String[] fileds);
 }
