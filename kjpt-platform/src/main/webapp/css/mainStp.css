@@ -117,7 +117,7 @@
   vertical-align: top;
   line-height: 30px;
   max-width: calc(100% - 38px);
-  font-size: 14px;
+  font-size: 15px;
   margin-left: 8px;
 }
 .home-header-layout .top-item .text-icon img {
@@ -197,7 +197,7 @@
   padding-top: 16px;
   left: 34px;
   top: 0;
-  font-size: 14px;
+  font-size: 15px;
   color: #fff;
   opacity: .9;
 }
@@ -291,7 +291,7 @@
 }
 .home-middle-layout .work-list .link-work{
   display: block;
-  border: 1px #fff solid;
+  border: 1px rgba(255,255,255,.5) solid;
   height: 32px;
   line-height: 32px;
   font-size: 14px;
@@ -329,8 +329,8 @@
 }
 .footer-item-title > .text {
   color: #46484B;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: 15px;
+  line-height: 15px;
   /* font-weight: bold; */
   display: inline-block;
   vertical-align: middle;

@@ -1,7 +1,8 @@
-layui.use(['form', 'formSelects', 'laydate'], function(){
+layui.use(['form', 'formSelects', 'laydate',], function(){
 	var form = layui.form;
   var variable = getQueryVariable();
   var reportTypeVal = +variable.reportType;
+  var formSelects=layui.formSelects;
   switch(reportTypeVal){
     case 1:
         $('#configName').html("科技规划名称:");
@@ -25,7 +26,23 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
     $('#professionalType').css("display","none");
   }
 
-
+  function getDicData(){
+    httpModule({
+      url: '/techFamily-api/getTreeList',
+      type: 'GET',
+      success: function(relData) {
+        console.log('reldata',relData);
+        relData.children.map(function (item,index) {
+        item.children.map(function (items,i) {
+            delete items.children
+        })
+      })
+      formSelects.data('researchField', 'local', { arr: relData.children });
+      formSelects.btns('researchField', ['remove']);
+      }
+    });
+  }
+  getDicData();
   var itemDataUrl = '/SciencePlan/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
@@ -66,6 +83,9 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         $('#reportType').val(reportTypeVal);
         if (formData.authenticateUtil) {
           layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+        }
+        if (formData.researchField) {
+          layui.formSelects.value('researchField', [formData.researchField]);
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');

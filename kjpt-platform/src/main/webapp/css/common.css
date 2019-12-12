@@ -51,7 +51,7 @@ body > .layui-layout{
   min-height: auto;
 }
 .layout-view-content.dialog{
-  padding: 20px 30px;
+  padding: 20px 30px 20px 30px;
 	min-height: auto;
 	height: calc(100% - 61px);
 	overflow: auto;
@@ -110,7 +110,7 @@ body > .layui-layout{
 .view-title-layout {
   font-size: 0;
   padding-top: 30px;
-  padding-bottom: 16px;
+  padding-bottom: 12px;
 }
 .view-title-layout::after{
   content: '';
