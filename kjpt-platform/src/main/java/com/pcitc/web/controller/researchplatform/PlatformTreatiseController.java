@@ -96,7 +96,7 @@ public class PlatformTreatiseController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId,
-            @RequestParam(value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
@@ -143,8 +143,11 @@ public class PlatformTreatiseController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         for(PlatformTreatiseModel p : pmList ){
             this.setBaseData(p);
+            p.setDeleted("0");
             p.setCreateDate(new Date());
             p.setCreator(this.getUserProfile().getUserName());
+            p.setCreateUnitId(this.getUserProfile().getUnitId());
+            p.setCreateUnitName(this.getUserProfile().getUnitName());
         }
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();

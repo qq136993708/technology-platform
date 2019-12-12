@@ -186,7 +186,7 @@
                 create_unit_id = #{createUnitId},
             </if>
             <if test="createUnitName != null  and createUnitName != ''">
-                create_unit_name = #{createUnitName}
+                create_unit_name = #{createUnitName},
             </if>
 
             <if test="secretLevel != null  and secretLevel != ''">

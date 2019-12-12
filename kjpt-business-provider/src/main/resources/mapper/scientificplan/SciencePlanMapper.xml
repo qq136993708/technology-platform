@@ -264,7 +264,7 @@
             </if>
 
             <if test="technicalFieldIndex != null  and technicalFieldIndex != ''  ">
-                technical_field_index = #{technicalFieldIndex}
+                technical_field_index = #{technicalFieldIndex},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >

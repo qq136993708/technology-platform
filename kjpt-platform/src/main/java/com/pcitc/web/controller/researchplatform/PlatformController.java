@@ -115,7 +115,7 @@ public class PlatformController extends RestBaseController {
             @RequestParam(value = "level") String level,
             @RequestParam(required = false,value = "platformScorinHigh") String platformScorinHigh,
             @RequestParam(required = false,value = "platformScorinLow") String platformScorinLow,
-            @RequestParam(value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
