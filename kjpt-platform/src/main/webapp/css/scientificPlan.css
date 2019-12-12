@@ -51,13 +51,15 @@
   margin-left: 24px;
 }
 .file-preview {
-  padding: 0 24px;
   padding-top: 16px;
+  min-height: 500px;
+  position: relative;
 }
 .preview-title > .text {
   font-size: 28px;
   line-height: 28px;
-  padding: 24px 0 16px 0;
+  padding: 24px;
+  padding-bottom: 16px;
 }
 .preview-title .preview-label {
   font-size: 14px;

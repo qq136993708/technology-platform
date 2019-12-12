@@ -783,6 +783,11 @@ public class UserServiceImpl implements UserService {
 			String userUnitName=CommonUtil.getTableParam(param,"userUnitName","");
 			String postName=CommonUtil.getTableParam(param,"postName","");
 			String userMail=CommonUtil.getTableParam(param,"userMail","");
+			Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
+			
+			
+			
+			
 			
 			Map map=new HashMap();
 			map.put("userName", userName);
@@ -799,7 +804,7 @@ public class UserServiceImpl implements UserService {
 			map.put("userUnitName", userUnitName);
 			map.put("postName", postName);
 			map.put("userMail", userMail);
-		     
+			map.put("userDelflag", userDelflag);
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());

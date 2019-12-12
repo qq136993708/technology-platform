@@ -494,6 +494,7 @@ public class PatentInfo extends RecordModel implements Serializable {
         return updateDate;
     }
 
+    @Override
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }

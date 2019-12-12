@@ -527,7 +527,8 @@
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="userPhone != null         and userPhone !=''  ">        AND t.user_phone = #{userPhone}</if>
 	     <if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
-	     <if test="secretLevel != null       and userRole !=''  ">         AND t.secret_level = #{secretLevel}</if>
+	     <if test="secretLevel != null       and secretLevel !=''  ">         AND t.secret_level = #{secretLevel}</if>
+	     <if test="userDelflag != null       ">         AND t.user_delflag = #{userDelflag}</if>
 	     <if test="unifyIdentityId != null   and unifyIdentityId !=''  ">  AND t.unify_identity_id = #{unifyIdentityId}</if>
 	     <if test="userUnit != null          and userUnit !=''  ">         AND t.user_unit = #{userUnit}</if>
 	     <if test="userFlag != null          and userFlag !=''  ">         AND t.user_flag = #{userFlag}</if>
@@ -538,7 +539,7 @@
 	     <if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
 	     <if test="userDisp != null          and userDisp !=''  ">         AND t.user_disp like CONCAT('%',#{userDisp},'%') </if>
 	     <if test="userNameKey != null       and userNameKey !=''  ">    
-	     AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or t.user_name = #{userName} )
+	     AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or   t.user_name like CONCAT('%',#{userNameKey},'%')  )
 	     </if>
 	     <if test="postName != null          and postName !=''  ">         AND t.post_name like CONCAT('%',#{postName},'%') </if>
 	     <if test="userUnitName != null          and userUnitName !=''  ">         AND t.user_unit_name like CONCAT('%',#{userUnitName},'%') </if>

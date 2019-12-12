@@ -106,6 +106,7 @@
 								  <div class="selectTreeBox">
 									<!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
 									<input type="text" class="layui-input" lay-verify="" id="userUnit" name="userUnit">
+									  <input type="text" class="layui-input layui-hide" lay-verify="" id="userUnitName" name="userUnitName">
 								  </div>
 							  </div>
 						 </div>
@@ -182,7 +183,7 @@
 </div>
 <script type="text/javascript">
 	var zNodes,form,roleMap={},unitMap={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
-	var unitList = [],postList = [],userUnitName='';
+	var unitList = [],postList = [];
 	var userId = "${userId?default(0)}";
 
 	setImagesUpload({
@@ -449,7 +450,6 @@
 				$.each(unitList,function(index,dt){
 					unitText += ","+unitList[index];
 				});
-                data.field.userUnitName=userUnitName
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
 				console.log(data.field)
                 httpModule({
@@ -512,8 +512,8 @@
 				unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
 			}
 		});
-        userUnitName=unitNames.join()
 		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
+        $("#userUnitName").val(unitNames.join());
 		inintPostSelectTree(unitListNodes);
 	}
 	$("#userUnit").on("click", function() {
