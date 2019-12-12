@@ -29,6 +29,17 @@ public class RecordModel implements Serializable {
 	//密级
 	private String secretLevel;
 
+	//密级字典
+	private String secretLevelText;
+
+	public String getSecretLevelText() {
+		return secretLevelText;
+	}
+
+	public void setSecretLevelText(String secretLevelText) {
+		this.secretLevelText = secretLevelText;
+	}
+
 	public String getSecretLevel() {
 		return secretLevel;
 	}

@@ -96,7 +96,7 @@ public class PlatformTreatiseController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId,
-            @RequestParam(value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);

@@ -18,15 +18,6 @@ public class FileModel extends RecordModel implements Serializable {
     private String filePath;
     private String type;
     private byte[] fileData;
-    private String secretLevelText;
-
-    public String getSecretLevelText() {
-        return secretLevelText;
-    }
-
-    public void setSecretLevelText(String secretLevelText) {
-        this.secretLevelText = secretLevelText;
-    }
 
     public String getId() {
         return id;

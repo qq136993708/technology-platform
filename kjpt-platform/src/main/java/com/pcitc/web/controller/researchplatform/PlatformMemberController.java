@@ -110,7 +110,7 @@ public class PlatformMemberController extends RestBaseController {
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(value = "platformId") String platformId,
             @RequestParam(required = false,value = "baseIds") String baseIds,
-            @RequestParam(value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
