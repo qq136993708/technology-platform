@@ -153,7 +153,7 @@
             #{kp.updateDate},#{kp.updator},
             #{kp.createUnitId},
             #{kp.createUnitName},
-            #{kp.secret_level}
+            #{kp.secretLevel}
 
             )
         </foreach>

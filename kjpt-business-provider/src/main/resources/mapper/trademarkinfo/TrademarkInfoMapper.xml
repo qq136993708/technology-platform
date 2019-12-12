@@ -503,5 +503,12 @@
         #{item}
       </foreach>
     </if>
+
+    <if test="secretLevel != null and secretLevel != '' " >
+      and secret_level = #{secretLevel}
+    </if>
+    and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
+
   </sql>
 </mapper>

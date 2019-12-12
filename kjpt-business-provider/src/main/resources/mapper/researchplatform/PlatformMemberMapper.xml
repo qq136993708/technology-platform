@@ -192,7 +192,7 @@
             #{km.creator},
             #{km.updateDate},
             #{km.updator},
-            #{secretLevel}
+            #{km.secretLevel}
             )
         </foreach>
     </insert>
