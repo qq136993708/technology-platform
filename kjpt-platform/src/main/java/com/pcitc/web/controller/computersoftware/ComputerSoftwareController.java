@@ -74,7 +74,7 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "entryTime", value = "录入时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "file", value = "附件上传", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalField", value = "技术领域id", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),

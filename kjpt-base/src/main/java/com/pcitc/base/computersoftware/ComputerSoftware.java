@@ -103,6 +103,8 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
 
 
+    private  String secretLevelText="";
+
 
     public String getId() {
         return id;
@@ -243,7 +245,6 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     }
 
-
     public String getCreateUnitId() {
         return createUnitId;
     }
@@ -259,5 +260,14 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     public void setCreateUnitName(String createUnitName) {
         this.createUnitName = createUnitName;
+    }
+
+
+    public String getSecretLevelText() {
+        return secretLevelText;
+    }
+
+    public void setSecretLevelText(String secretLevelText) {
+        this.secretLevelText = secretLevelText;
     }
 }
