@@ -61,12 +61,18 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
     private String createUnitName = "";
 
 
+    /**
+     * 密级
+     */
+    private  String secretLevelText="";
+
+
 
     public BlocScientificPlan() {
     }
 
-    public BlocScientificPlan(String id, String name, String publication, Date annual, Date pubdate, String accessory,
-                              String reportType, String nameText, String createUnitId, String createUnitName) {
+    public BlocScientificPlan(String id, String name, String publication, Date annual, Date pubdate, String accessory, String reportType,
+                              String nameText, String createUnitId, String createUnitName, String secretLevelText) {
         this.id = id;
         this.name = name;
         this.publication = publication;
@@ -77,6 +83,7 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
         this.nameText = nameText;
         this.createUnitId = createUnitId;
         this.createUnitName = createUnitName;
+        this.secretLevelText = secretLevelText;
     }
 
     public String getId() {
@@ -162,5 +169,14 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
 
     public void setCreateUnitName(String createUnitName) {
         this.createUnitName = createUnitName;
+    }
+
+
+    public String getSecretLevelText() {
+        return secretLevelText;
+    }
+
+    public void setSecretLevelText(String secretLevelText) {
+        this.secretLevelText = secretLevelText;
     }
 }
