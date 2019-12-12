@@ -52,7 +52,7 @@ var __base_dic_store = {
 					</ul>
 					<ul class="layui-nav layui-layout-left" id="showItemNav">
 						<#if upList?exists> <#list upList as p>
-						<li class="header-nav-item ${p_index}" id="up${p.id}"><a href="javascript:;" id="${p.id}">${p.name}</a></li>
+						<li class="header-nav-item ${p_index}" nav-index="${p_index}" id="up${p.id}"><a href="javascript:;" id="${p.id}">${p.name}</a></li>
 						</#list> </#if>
 					</ul>
 					<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide" id="navPrev">
