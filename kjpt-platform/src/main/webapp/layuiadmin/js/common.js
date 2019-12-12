@@ -1013,7 +1013,12 @@ function setNavMeunSelected(index) {
 	var indexClass = null;
 	if (typeof(index) === 'object') {
 		layHref = index.attr('lay-id');
-		var navItem = top.$('#index_main_left_menu').find('[lay-href="'+ layHref +'"]');
+		var navItem = top.$('#index_main_left_menu').find('[lay-href="'+ layHref +'"]').filter(function() {
+			if (!$(this).closest('#dlCollect').length && $(this).data('id')) {
+				return $(this);
+			}
+		});
+	
 		if (navItem.length === 1) {
 			var meunId = navItem.closest('ul').attr('id');
 			if (meunId !== 'nav') {
@@ -1021,11 +1026,19 @@ function setNavMeunSelected(index) {
 			} else {
 				indexClass = 'home-item';
 			}
+			navItem.closest('ul').find('dd, li').removeClass('layui-this layui-nav-itemed')
+			navItem.parent('dd').addClass('layui-this').closest('li').addClass('layui-nav-itemed');
 		} else {
-			indexClass = (index || 'home-item') + '';
+			indexClass = 'home-item';
 		}
 	} else {
-		indexClass = (index || 'home-item') + '';
+		indexClass = (function() {
+			if (index || index === 0) {
+				return index + '';
+			} else {
+				return 'home-item';
+			}
+		})();
 	}
 
 	top.$('#layuiHeaderNav .header-nav-item').removeClass('layui-this').each(function(i, elem) {
