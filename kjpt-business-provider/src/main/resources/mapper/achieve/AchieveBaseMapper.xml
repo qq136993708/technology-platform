@@ -28,6 +28,8 @@
         <result column="tech_type_text" jdbcType="VARCHAR" property="techTypeText"/>
         <result column="achieve_trans_type_text" jdbcType="VARCHAR" property="achieveTransTypeText"/>
         <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
 
     </resultMap>
 
@@ -52,7 +54,8 @@
         is_public,
         work_info,
         create_unit_id,
-        create_unit_name
+        create_unit_name,
+        secret_level
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
@@ -67,6 +70,10 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
         order by create_time desc
     </select>
 
@@ -79,6 +86,10 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
 
@@ -104,7 +115,7 @@
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
         insert into achieve_base( <include refid="AchieveBase_Column_List" /> )
          values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
-         #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName})
+         #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -156,7 +167,10 @@
                 create_unit_id = #{createUnitId,jdbcType=VARCHAR},
             </if>
             <if test="createUnitName != null and createUnitName != ''" >
-                create_unit_name = #{createUnitName,jdbcType=VARCHAR}
+                create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}
