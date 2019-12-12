@@ -32,6 +32,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.MyBeanUtils;
@@ -60,6 +61,7 @@ public class TaskController extends BaseController {
 	private static final String COMPLETE_TASK_URL = "http://kjpt-zuul/system-proxy/task-provider/task/complete";
 	// 事例任务列表
 	private static final String INSTANCE_TASK_PAGE_URL = "http://kjpt-zuul/system-proxy/task-provider/task/process/list/";
+	private static final String getInstanceIdByBussinessId = "http://kjpt-zuul/system-proxy/task-provider/task/getInstanceIdByBussinessId/";
 
 	// 获取审批人是自动配置，还是选择的标识
 	private static final String AUDIT_FLAG_URL = "http://kjpt-zuul/system-proxy/task-provider/task/audit/flag/";
@@ -447,6 +449,17 @@ public class TaskController extends BaseController {
 	public String processShow(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process-show";
 	}
+	
+	@RequestMapping(value = "/task/process_bussinessId/{bussinessId}", method = RequestMethod.GET)
+	public String process_BussinessId(@PathVariable("bussinessId") String bussinessId, HttpServletRequest request) {
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(getInstanceIdByBussinessId + bussinessId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		JSONObject jSONObject = responseEntity.getBody();
+		String instanceId=(String)jSONObject.get("instanceId");
+		request.setAttribute("instanceId", instanceId);
+		return "/pplus/workflow/process-show";
+	}
+	
 
 	@RequestMapping(value = "/kjptmobile/process_mobile/{instanceId}", method = RequestMethod.GET)
 	public String process_mobile(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
@@ -489,6 +502,10 @@ public class TaskController extends BaseController {
 		System.out.println("2====processList====" + jsonObj.toString());
 		return jsonObj.toString();
 	}
+	
+	
+	
+	
 
 	/**
 	 * 显示流程的列表
