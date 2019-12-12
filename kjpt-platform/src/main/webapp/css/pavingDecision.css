@@ -4,6 +4,11 @@
 .projectAnalysis .chart-title-layout{
   padding-left: 30px;
 }
+@media screen and (min-width: 1300px) {
+  .projectAnalysis .chart-title-layout .right {
+    right: 90px;
+  }
+}
 .projectAnalysis .projectMonth{
   padding-top: 72px;
 }
