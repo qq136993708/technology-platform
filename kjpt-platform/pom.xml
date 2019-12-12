@@ -215,6 +215,67 @@
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 		</dependency>
 
+
+
+
+		<!--单点登录jar-->
+		<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>3des</artifactId>
+			<version>2.2</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/3des.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>commons</artifactId>
+			<version>1.1</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/commons-logging-1.1.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/dom4j-1.6.1.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>security-plugin</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/eetrust-plug.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>security-crypto</artifactId>
+			<version>2.2</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/eetrust-security-crypto-2.2.jar</systemPath>
+		</dependency>
+
+
+		<!--<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>security-plugin</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/eetrust-plug.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eetrust</groupId>
+			<artifactId>security-crypto</artifactId>
+			<version>2.2</version>
+			<scope>system</scope>
+			<systemPath> ${project.basedir}/lib/eetrust-security-crypto-2.2.jar</systemPath>
+		</dependency>-->
+
 	</dependencies>
 
 	<build>

@@ -21,6 +21,8 @@ public interface SysUserMapper {
 
 	SysUser selectByPrimaryKey(String userId);
 
+	SysUser selectUserByIdentityId(String unifyIdentityId);
+
 	//根据用户id查询当前信息-new
 	SysUser currentUserInfo(String userId);
 
