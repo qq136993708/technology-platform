@@ -172,12 +172,15 @@
                         var patentName=JSON.parse(relData.data.zjkPatentJsonList)
                         if(patentName.length>0){
                             patentName.map(function (item, index) {
-                                itemHtml(index)
-                                patentType(index)
-                                $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
-                                $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
-                                formSelects.value('patentType'+index,[item.patentType])
-                                $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
+                                if(item.flag){
+                                    itemHtml(index)
+                                    patentType(index)
+                                    $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
+                                    $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
+                                    formSelects.value('patentType'+index,[item.patentType])
+                                    $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
+                                }
+
                             })
                         }else {
                             var index=$("#formPlatform>div").length
@@ -206,7 +209,7 @@
                     var getPatentTimeStr=$("#formPlatform>div").eq(index).find(".getPatentTimeStr").val()
                     var patentType=formSelects.value('patentType'+index)[0].code
                     var describe=$("#formPlatform>div").eq(index).find(".describe").val()
-                    var flag = "";
+                    var flag = true;
                     if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return

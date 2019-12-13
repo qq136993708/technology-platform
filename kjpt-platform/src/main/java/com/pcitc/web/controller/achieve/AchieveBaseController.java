@@ -48,12 +48,16 @@ public class AchieveBaseController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieve-api/delete/";
+    /**
+     * 删除
+     */
+    private static final String updatePublic = "http://kjpt-zuul/stp-proxy/achieve-api/updatePublic";
 
     /**
      * 流程
      */
     private static final String WORKFLOW_URL = "http://kjpt-zuul/stp-proxy/achieve-api/task/start_activity/";
-	
+
 	
 
     @ApiOperation(value="读取")
@@ -76,7 +80,8 @@ public class AchieveBaseController extends RestBaseController {
             @ApiImplicitParam(name = "auditStatus", value = "申请状态", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "isPublic", value = "是否公示", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieve-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -88,9 +93,9 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "auditStatus") String auditStatus,
             @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
             @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
-            @RequestParam(required = false,value = "secretLevel") String secretLevel
-
-    ) throws Exception {
+            @RequestParam(required = false,value = "secretLevel") String secretLevel,
+            @RequestParam(required = false,value = "isPublic") String isPublic
+    ){
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -122,6 +127,10 @@ public class AchieveBaseController extends RestBaseController {
 
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
+        }
+
+        if(isPublic != null){
+            this.setParam(condition,"isPublic",isPublic);
         }
         this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
 
@@ -171,10 +180,36 @@ public class AchieveBaseController extends RestBaseController {
     public AchieveBase newInit() {
         AchieveBase a = new AchieveBase();
         a.setId(UUID.randomUUID().toString().replace("-",""));
+        a.setIsPublic("0");
         a.setCreateDate(new Date());
         a.setCreator(this.getUserProfile().getUserName());
         return a;
     }
+    @ApiOperation(value="已公示")
+    @RequestMapping(value = "/achieve-api/public/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer handlerPublic(@PathVariable String id) {
+            Map param = new HashMap();
+            param.put("id",id);
+            param.put("status","1");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="公示结束")
+    @RequestMapping(value = "/achieve-api/publicEnd/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer publicEnd(@PathVariable String id) {
+        Map param = new HashMap();
+        param.put("id",id);
+        param.put("status","2");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
+    }
+
+
     
     @ApiOperation(value="核心成果转化流程")
     @RequestMapping(value = "/achieve-api/start_workflow",method = RequestMethod.POST)

@@ -112,10 +112,10 @@
 						<!-- 系统管理员 -->
 						<#if userName == 'systemadmin'>
 						<li class="layui-nav-item layui-nav-itemed">
-							<a href="javascript:void(0);" title="科研平台">
+							<a href="javascript:void(0);" title="基础配置">
 								<div class="item-row-block">
-									<span class="icon_name"></span>
-									<span class="item-title">系统管理</span>
+									<span class="icon_name sy_base_icon"></span>
+									<span class="item-title">基础配置</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
 									<span class="layui-nav-more"></span>
@@ -138,6 +138,14 @@
 										</div>
 									</a>
 								</dd>
+								<dd class="sub-nav-item">
+									<a lay-href="/function/toFuntionList" lay-text="菜单管理" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">菜单管理</span>
+										</div>
+									</a>
+								</dd>
 							</dl>    
 						</li>
 						
@@ -145,7 +153,7 @@
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="工作流设置">
 								<div class="item-row-block">
-									<span class="icon_name"></span>
+									<span class="icon_name sy_gzlsz_icon"></span>
 									<span class="item-title">工作流设置</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
@@ -186,7 +194,7 @@
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="系统设置">
 								<div class="item-row-block">
-									<span class="icon_name"></span>
+									<span class="icon_name sy_xtsz_icon"></span>
 									<span class="item-title">系统设置</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
@@ -202,23 +210,15 @@
 										</div>
 									</a>
 								</dd>
-								<dd class="sub-nav-item">
-									<a lay-href="/sysNotice/sysNotice_list" lay-text="公告管理"  data-functionbuttons="ALL">
-										<div class="item-row-block">
-											<span class="icon_name"></span>
-											<span class="item-title">公告管理</span>
-										</div>
-									</a>
-								</dd>
 								
-								<dd class="sub-nav-item">
+								<!-- <dd class="sub-nav-item">
 									<a lay-href="/sysJob/sysJob_list" lay-text="定时任务管理"  data-functionbuttons="ALL">
 										<div class="item-row-block">
 											<span class="icon_name"></span>
 											<span class="item-title">定时任务管理</span>
 										</div>
 									</a>
-								</dd>
+								</dd> -->
 							</dl>    
 						 </li>
 						 
@@ -231,10 +231,10 @@
                               userType  用户类型：1普通用户，2系统管理员，3安全员，4审计员  -->
                         <#if userName == 'securityadmin'>
 						<li class="layui-nav-item layui-nav-itemed">
-							<a href="javascript:void(0);" title="系统管理">
+							<a href="javascript:void(0);" title="安全配置">
 								<div class="item-row-block">
-									<span class="icon_name"></span>
-									<span class="item-title">系统管理</span>
+									<span class="icon_name sy_base_icon"></span>
+									<span class="item-title">安全配置</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
 									<span class="layui-nav-more"></span>
@@ -282,7 +282,7 @@
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="日志查询">
 								<div class="item-row-block">
-									<span class="icon_name"></span>
+									<span class="icon_name sy_log_icon"></span>
 									<span class="item-title">日志查询</span>
 									<span class="arrow"></span>
 									<i class="fa fa-angle-left pull-right"></i>
@@ -339,23 +339,46 @@
 						<#if userName == 'auditadmin'>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="日志查询">
-								<span>日志查询</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name sy_log_icon"></span>
+									<span class="item-title">日志查询</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志" data-functionbuttons="ALL">管理员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">管理员登陆日志</span>
+										</div>
+									</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志" data-functionbuttons="ALL">管理员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">管理员操作日志</span>
+										</div>
+									</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=1&userType=3" lay-text="安全员登陆日志" data-functionbuttons="ALL">安全员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=3" lay-text="安全员登陆日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">安全员登陆日志</span>
+										</div>
+									</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=2&userType=4" lay-text="安全员操作日志" data-functionbuttons="ALL">安全员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=4" lay-text="安全员操作日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">安全员操作日志</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>

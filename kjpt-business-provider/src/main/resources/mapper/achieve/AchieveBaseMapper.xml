@@ -103,6 +103,9 @@
         <if test="auditStatus != null and auditStatus != '' " >
             and audit_status = #{auditStatus}
         </if>
+        <if test="isPublic != null and isPublic != '' " >
+            and is_public = #{isPublic}
+        </if>
         <if test="startDate != null and startDate != '' " >
             and finish_date <![CDATA[>=]]> #{startDate}
         </if>
@@ -178,6 +181,10 @@
 
     <update id="delete" parameterType="java.lang.String">
             update achieve_base set del_status = '1' where id = #{id}
+    </update>
+
+    <update id="updatePublicStatus" parameterType="java.util.Map">
+        update achieve_base set is_public = #{status} where id = #{id}
     </update>
 
 

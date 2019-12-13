@@ -15,4 +15,6 @@ public interface AchieveBaseService {
     Integer delete(String id);
     PageInfo query(Map param);
     public Result dealWorkFlow(String id, Map map) throws Exception;
+
+    public Integer updatePublicStatus(Map map);
 }

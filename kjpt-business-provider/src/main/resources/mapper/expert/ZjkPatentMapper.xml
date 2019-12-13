@@ -18,10 +18,15 @@
     <result column="get_patent_time_str" jdbcType="VARCHAR" property="getPatentTimeStr" />
     <result column="flag" jdbcType="VARCHAR" property="flag" />
     
+    
+     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, patent_name, patent_type, `describe`, get_patent_time, 
-    create_time, out_system_id,flag
+    create_time, out_system_id,flag,secret_level
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -29,15 +34,21 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
-    insert into zjk_patent (id,expert_id, source_type, del_status, 
+    insert into zjk_patent 
+     (
+     
+      id,expert_id, source_type, del_status, 
       patent_name, patent_type, `describe`, 
-      get_patent_time, create_time, out_system_id,flag)
+      get_patent_time, create_time, out_system_id,flag,secret_level
+      )
     values (
-      #{id,jdbcType=VARCHAR},
-      #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
-      #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
-      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
-      #{flag,jdbcType=VARCHAR})
+	      #{id,jdbcType=VARCHAR},
+	      #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
+	      #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+	      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
+	      #{flag,jdbcType=VARCHAR}, #{secretLevel,jdbcType=VARCHAR}
+      
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
     insert into zjk_patent
@@ -75,6 +86,12 @@
       <if test="flag != null">
         flag,
       </if>
+       <if test="secretLevel != null">
+        secret_level,
+      </if>
+      
+      
+       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -112,6 +129,11 @@
       <if test="flag != null">
         #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      
+       
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkPatent">
@@ -150,6 +172,15 @@
       <if test="flag != null">
         flag = #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        secret_level = #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+       
+       
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -158,6 +189,7 @@
     set expert_id = #{expertId,jdbcType=VARCHAR},
       source_type = #{sourceType,jdbcType=VARCHAR},
       del_status = #{delStatus,jdbcType=VARCHAR},
+      secret_level = #{secretLevel,jdbcType=VARCHAR},
       patent_name = #{patentName,jdbcType=VARCHAR},
       patent_type = #{patentType,jdbcType=VARCHAR},
       `describe` = #{describe,jdbcType=VARCHAR},
@@ -178,6 +210,11 @@
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
           AND t2.`code`=t1.`patent_type`
       ) patent_type_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
      FROM zjk_patent t1
 	</sql>
 	
@@ -190,7 +227,7 @@
 	     <if test="delStatus != null       and delStatus !=''  ">         AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null     and outSystemId !=''  ">       AND t.out_system_id = #{outSystemId}</if>
 	     <if test="expertId != null        and expertId !=''  ">          AND t.expert_id = #{expertId}</if>
-	
+	      <if test="secretLevel != null        and secretLevel !=''  ">          AND t.secret_level = #{secretLevel}</if>
 	 </trim>
 	</sql>
 	

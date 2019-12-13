@@ -187,15 +187,17 @@
                         var achieveName = JSON.parse(relData.data.zjkAchievementJsonList)
                         if(achieveName.length>0){
                             achieveName.map(function (item, index) {
-                                itemHtml(index)
-                                getUnit(index)
-                                achieveType(index)
-                                formSelects.value('achieveType'+index, [item.achieveType]);
-                                $("#formPlatform>div").eq(index).find(".achieveName").val(item.achieveName)
-                                $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
-                                $("#formPlatform>div").eq(index).find(".applyUnit").val(item.applyUnit)
-                                formSelects.value('applyUnit'+index,[item.applyUnit])
-                                $("#formPlatform>div").eq(index).find(".achieveType").val(item.achieveType)
+                                if(item.flag){
+                                    itemHtml(index)
+                                    getUnit(index)
+                                    achieveType(index)
+                                    formSelects.value('achieveType'+index, [item.achieveType]);
+                                    $("#formPlatform>div").eq(index).find(".achieveName").val(item.achieveName)
+                                    $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
+                                    $("#formPlatform>div").eq(index).find(".applyUnit").val(item.applyUnit)
+                                    formSelects.value('applyUnit'+index,[item.applyUnit])
+                                    $("#formPlatform>div").eq(index).find(".achieveType").val(item.achieveType)
+                                }
                             })
                         }else {
                             var index=$("#formPlatform>div").length
@@ -229,7 +231,7 @@
                     var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
                     var applyUnit=formSelects.value('applyUnit'+index)[0].value
                     var achieveType=$("#formPlatform>div").eq(index).find(".achieveType").val()
-                    var flag = "";
+                    var flag = true;
                     if(achieveName=='' || applyUnit=='' || achieveType==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return

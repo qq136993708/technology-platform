@@ -50,7 +50,14 @@ public class AchieveClient {
     public Integer delete(@PathVariable String id){
          return abs.delete(id);
     }
-    
+
+
+    @ApiOperation(value = "修改公示状态", notes = "修改公示状态")
+    @RequestMapping(value = "/updatePublic", method = RequestMethod.POST)
+    public Integer updatePublicStatus(@RequestBody(required = false) Map param){
+         return abs.updatePublicStatus(param);
+    }
+
     
     
     

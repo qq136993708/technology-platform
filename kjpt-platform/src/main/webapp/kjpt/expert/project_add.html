@@ -68,6 +68,12 @@
                                    autocomplete="off" placeholder="请选择立项年度!" class="layui-input laydate-input ">
                         </div>
                     </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">负责单位:</span></label>
+                        <div class="layui-input-block">
+                            <select class="secretLevel" name="secretLevel" xm-select="secretLevel" xm-select-skin="normal" xm-select-radio></select>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item item">
@@ -138,6 +144,22 @@
                     formSelects.btns('chargeUnit'+index, ['remove']);
                 }
             });
+            /*查询密级*/
+            $("#formPlatform>div").eq(index).find(".secretLevel").attr("xm-select","secretLevel"+index)
+            httpModule({
+                url: "/sysDictionary-api/getLessThanUserSecretDicList",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function (item) {
+                            item.value=item.code
+                        })
+                        formSelects.data('secretLevel'+index, 'local', { arr: relData.data });
+                        formSelects.btns('secretLevel'+index, ['remove']);
+                    }
+                }
+            });
         }
         /*立项年度*/
         function setupYeat() {
@@ -169,12 +191,16 @@
                         var projectName=JSON.parse(relData.data.zjkProjectJsonList)
                         if(projectName.length>0){
                             projectName.map(function (item, index) {
-                                itemHtml(index)
-                                getUnit(index)
-                                $("#formPlatform>div").eq(index).find(".projectName").val(item.projectName)
-                                $("#formPlatform>div").eq(index).find(".setupYeat").val(item.setupYeat)
-                                formSelects.value('chargeUnit'+index, [item.chargeUnit]);
-                                $("#formPlatform>div").eq(index).find(".researchTarget").val(item.researchTarget)
+                                if(item.flag){
+                                    itemHtml(index)
+                                    getUnit(index)
+                                    $("#formPlatform>div").eq(index).find(".projectName").val(item.projectName)
+                                    $("#formPlatform>div").eq(index).find(".setupYeat").val(item.setupYeat)
+                                    formSelects.value('chargeUnit'+index, [item.chargeUnit]);
+                                    formSelects.value('secretLevel'+index, [item.secretLevel]);
+                                    $("#formPlatform>div").eq(index).find(".researchTarget").val(item.researchTarget)
+                                }
+
                             })
                         }else {
                             var index=$("#formPlatform>div").length
@@ -203,8 +229,9 @@
                     var setupYeat=$("#formPlatform>div").eq(index).find(".setupYeat").val()
                     var chargeUnit=formSelects.value('chargeUnit'+index)[0].value
                     var researchTarget=$("#formPlatform>div").eq(index).find(".researchTarget").val()
-                    var flag = "";
-                    if(projectName=='' || chargeUnit=='' || researchTarget=='' || setupYeat==''){
+                    var secretLevel=formSelects.value('secretLevel'+index)[0].value
+                    var flag = true;
+                    if(projectName=='' || chargeUnit=='' || researchTarget=='' || setupYeat=='' || secretLevel==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
                     }else {
@@ -214,6 +241,7 @@
                             chargeUnit:chargeUnit,
                             researchTarget:researchTarget,
                             outSystemId:'',
+                            secretLevel:secretLevel,
                             flag:flag
                         }
                         arr.push(data)

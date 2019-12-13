@@ -42,7 +42,7 @@
     <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-    
+   
     
     
     
@@ -537,7 +537,7 @@
   
    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select   *
-    from (<include refid="view_zjk_base" />)  t
+    from view_zjk_base
     where id = #{id,jdbcType=VARCHAR}
    </select>
   
