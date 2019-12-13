@@ -11,7 +11,7 @@
     width: 100%;
     background-color: #fff;
     border-top: 1px #e8e8e8 solid;
-    padding: 15px 40px 15px 20px;
+    padding: 10px 40px 10px 20px;
     text-align: right;
     box-sizing: border-box;
 }
@@ -72,4 +72,8 @@
 .tableToolBoxF{
     height: 30px;
     margin: 10px 0 5px;
+}
+.layui-layer-setwin a{
+    width: 12px;
+    height: 12px;
 }

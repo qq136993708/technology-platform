@@ -298,9 +298,29 @@ html{ background-color: #F9F9F9; color: #666;}
     height: 100%; text-align: center; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; box-sizing: border-box; border-left: 1px solid #f6f6f6;}
 .layadmin-pagetabs .layadmin-tabs-control:hover{background-color: #f6f6f6;}
 .layadmin-pagetabs .layui-icon-prev{right: 80px; border-left: 1px solid #f6f6f6; border-right: none;}
-.layui-icon-prev:before{content: url("/layuiadmin/layui/images/icon-left.png");}
+.layui-icon-prev:before{
+    /* content: url("/layuiadmin/layui/images/icon-left.png"); */
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 10px;
+    background: url(/layuiadmin/layui/images/icon-left.png) center center no-repeat;
+    background-size: 100% 100%;
+}
 
-.layui-icon-next:before{content: url("/layuiadmin/layui/images/icon-right.png");}
+.layui-icon-next:before{
+    /* content: url("/layuiadmin/layui/images/icon-right.png"); */
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 10px;
+    background: url(/layuiadmin/layui/images/icon-right.png) center center no-repeat;
+    background-size: 100% 100%;
+}
+
+.layui-icon-down:before{
+    font-size: 13px;
+}
 .layui-header-div{height: 50px;overflow: hidden;left: 230px;top: 50px;position: absolute;}
 .layui-header-div .layui-nav .layui-nav-item a{padding: 0 20px 0 0;width: auto;transition: none;-webkit-transition: none;}
 .layui-header-div .layui-nav .layui-nav-item a{height: 34px !important;line-height: 34px !important;margin-top: 8px !important;}
@@ -880,7 +900,8 @@ html{ background-color: #F9F9F9; color: #666;}
 	overflow: hidden;
 }
 .layui-layer-iframe .layui-layer-title{
-	border-radius: 3px 3px 0 0 !important;
+    border-radius: 3px 3px 0 0 !important;
+    background-color: #E0E7EE;
 }
 /* 弹窗关闭图标样式  */
 .layui-layer-setwin .layui-layer-close1{
