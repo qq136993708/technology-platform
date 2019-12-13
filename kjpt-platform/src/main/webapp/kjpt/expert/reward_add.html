@@ -172,12 +172,15 @@
                         var rewardName=JSON.parse(relData.data.zjkRewardJsonList)
                         if(rewardName.length>0){
                             rewardName.map(function (item, index) {
-                                itemHtml(index)
-                                rewarkLevel(index)
-                                formSelects.value('rewarkLevel'+index, [item.rewarkLevel]);
-                                $("#formPlatform>div").eq(index).find(".awardingTimeStr").val(item.awardingTimeStr)
-                                $("#formPlatform>div").eq(index).find(".notes").val(item.notes)
-                                $("#formPlatform>div").eq(index).find(".awardingUnit").val(item.awardingUnit)
+                                if(item.flag){
+                                    itemHtml(index)
+                                    rewarkLevel(index)
+                                    formSelects.value('rewarkLevel'+index, [item.rewarkLevel]);
+                                    $("#formPlatform>div").eq(index).find(".awardingTimeStr").val(item.awardingTimeStr)
+                                    $("#formPlatform>div").eq(index).find(".notes").val(item.notes)
+                                    $("#formPlatform>div").eq(index).find(".awardingUnit").val(item.awardingUnit)
+                                }
+
                             })
                         }else {
                             var index=$("#formPlatform>div").length
@@ -207,7 +210,7 @@
                     var awardingTimeStr=$("#formPlatform>div").eq(index).find(".awardingTimeStr").val()
                     var notes=$("#formPlatform>div").eq(index).find(".notes").val()
                     var awardingUnit=$("#formPlatform>div").eq(index).find(".awardingUnit").val()
-                    var flag = '';
+                    var flag =true;
                     if(rewarkLevel=='' || notes=='' || awardingUnit=='' || awardingTimeStr==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return

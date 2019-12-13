@@ -339,23 +339,46 @@
 						<#if userName == 'auditadmin'>
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="日志查询">
-								<span>日志查询</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-								<span class="layui-nav-more"></span>
+								<div class="item-row-block">
+									<span class="icon_name"></span>
+									<span class="item-title">日志查询</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+									<span class="layui-nav-more"></span>
+								</div>
 							</a>  
 							<dl class="layui-nav-child">
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志" data-functionbuttons="ALL">管理员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=2" lay-text="管理员登陆日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">管理员登陆日志</span>
+										</div>
+									</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志" data-functionbuttons="ALL">管理员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=2" lay-text="管理员操作日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">管理员操作日志</span>
+										</div>
+									</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=1&userType=3" lay-text="安全员登陆日志" data-functionbuttons="ALL">安全员登陆日志</a>
+									<a lay-href="/syslog/to_list?logType=1&userType=3" lay-text="安全员登陆日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">安全员登陆日志</span>
+										</div>
+									</a>
 								</dd>
 								<dd class="">
-									<a lay-href="/syslog/to_list?logType=2&userType=4" lay-text="安全员操作日志" data-functionbuttons="ALL">安全员操作日志</a>
+									<a lay-href="/syslog/to_list?logType=2&userType=4" lay-text="安全员操作日志" data-functionbuttons="ALL">
+										<div class="item-row-block">
+											<span class="icon_name"></span>
+											<span class="item-title">安全员操作日志</span>
+										</div>
+									</a>
 								</dd>
 							</dl>    
 						</li>

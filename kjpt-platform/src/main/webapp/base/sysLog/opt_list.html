@@ -21,47 +21,44 @@
     </style>
 </head>
 <body>
-<div class="layout-view-content dialog">
-    <div class="layui-row layui-col-space20" style="position: relative;">
-        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-            <div class="search-left layui-col-md10">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">操作名称:</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" name="optDescribe" id="optDescribe" placeholder="请输入操作名称" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">操作IP:</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" name="logIp" id="logIp" placeholder="请输入操作IP" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <label class="layui-form-label"><span class="text">日期范围:</span></label>
-                    <div class="layui-float-left">
-                        <input type="text" name="beginTime" id="beginTime" autocomplete="off" placeholder="请选择" class="laydate-input" lay-key="1">
-                    </div>
-                    <span class="origin layui-float-left">至</span>
-                    <div class="layui-float-left">
-                        <input type="text" name="endTime" id="endTime" autocomplete="off" placeholder="请选择" class="laydate-input" lay-key="2">
+<div class="layout-view-content dialog min-label">
+    <form class="layui-form layui-form-screen" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row layui-col-space20" >
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">操作名称:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="optDescribe" id="optDescribe" placeholder="请输入操作名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
-            <div class="search-right layui-col-md2">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">操作IP:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="logIp" id="logIp" placeholder="请输入操作IP" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                <label class="layui-form-label"><span class="text">日期范围:</span></label>
+                <div class="layui-float-left">
+                    <input type="text" name="beginTime" id="beginTime" autocomplete="off" placeholder="请选择" class="laydate-input" lay-key="1">
+                </div>
+                <span class="origin layui-float-left">至</span>
+                <div class="layui-float-left">
+                    <input type="text" name="endTime" id="endTime" autocomplete="off" placeholder="请选择" class="laydate-input" lay-key="2">
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
                     <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
+                    <span class="layui-fold-btn"></span>
                 </div>
             </div>
-        </form>
-
-    </div>
-    
+        </div>
+    </form>
     <div class="view-title-layout">
         <div class="right">
             <a href="#" class="layui-btn border-blue" id="exportData" data-type="exportData">导出</a>
