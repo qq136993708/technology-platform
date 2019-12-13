@@ -15,14 +15,15 @@
     <result column="rewark_level_str" jdbcType="VARCHAR" property="rewarkLevelStr" />
     <result column="awarding_time_str" jdbcType="VARCHAR" property="awardingTimeStr" />
     <result column="flag" jdbcType="VARCHAR" property="flag" />
-    
+      <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
     
     
     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, del_status, source_type, rewark_level, notes, awarding_unit, awarding_time, 
-    create_time, out_system_id,flag
+    create_time, out_system_id,flag,secret_level
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -40,7 +41,7 @@
       #{expertId,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, 
       #{rewarkLevel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{awardingUnit,jdbcType=VARCHAR}, 
       #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
-      #{outSystemId,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR}
+      #{outSystemId,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
@@ -80,6 +81,9 @@
       <if test="flag != null">
         flag,
       </if>
+       <if test="secretLevel != null">
+        secret_level,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,6 +119,9 @@
       <if test="flag != null">
         #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkReward">
@@ -153,6 +160,10 @@
       <if test="flag != null">
         flag = #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        secret_level = #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -163,6 +174,7 @@
       source_type = #{sourceType,jdbcType=VARCHAR},
       rewark_level = #{rewarkLevel,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
+      secret_level = #{secretLevel,jdbcType=VARCHAR},
       awarding_unit = #{awardingUnit,jdbcType=VARCHAR},
       awarding_time = #{awardingTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -177,6 +189,11 @@
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_JLJB'
           AND t2.`code`=t1.`rewark_level`
       ) rewark_level_str
+       ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
      FROM zjk_reward t1
 	</sql>
    
