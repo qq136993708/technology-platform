@@ -168,13 +168,8 @@ public class FileCommonController extends BaseController {
     @ApiOperation(value = "预览附件图片展示", notes = "预览附件图片展示")
     @RequestMapping(value="/imgFile/{fileId}",method = RequestMethod.GET)
     public void imgFile(@PathVariable String fileId){
-        this.addAuth();
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
-        FileModel f = responseEntity.getBody();
-        f.getFileName();
-        f.getFilePath();
-        ResponseEntity<Integer> getCount = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity(this.httpHeaders), Integer.class);
-        //return getCount.getBody();
+        fileUtil.responseFile(responseEntity.getBody(),false,this.getCurrentResponse());
     }
 
 
@@ -200,16 +195,6 @@ public class FileCommonController extends BaseController {
                 auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
         this.httpHeaders.set("Authorization", authHeader);
-    }
-
-    private  HttpHeaders getAuth(){
-        HttpHeaders httpHeader = new HttpHeaders();
-        String auth = prepareServerUserName + ":" + prepareServerPassword;
-        byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        httpHeader.set("Authorization", authHeader);
-        return httpHeader;
     }
 
 

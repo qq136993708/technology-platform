@@ -103,6 +103,9 @@
         <if test="auditStatus != null and auditStatus != '' " >
             and audit_status = #{auditStatus}
         </if>
+        <if test="isPublic != null and isPublic != '' " >
+            and is_public = #{isPublic}
+        </if>
         <if test="startDate != null and startDate != '' " >
             and finish_date <![CDATA[>=]]> #{startDate}
         </if>

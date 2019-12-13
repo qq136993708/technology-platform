@@ -1154,6 +1154,42 @@ height: 100%;
     /* 成果转化管理 */
     background-image: url('../../images/cgzhgl_icon.png');
 }
+.layui-nav-item .item-row-block > .fzjc_kjcl_icon{
+    /* 辅助决策-科技材料 */
+    background-image: url('../../images/fzjc_kjcl_icon.png');
+}
+.layui-nav-item .item-row-block > .fzjc_kjrc_icon{
+    /* 辅助决策-科技人才 */
+    background-image: url('../../images/fzjc_kjrc_icon.png');
+}
+.layui-nav-item .item-row-block > .fzjc_kyxm_icon{
+    /* 辅助决策-科研项目 */
+    background-image: url('../../images/fzjc_kyxm_icon.png');
+}
+.layui-nav-item .item-row-block > .fzjc_kjcg_icon{
+    /* 辅助决策-科研项目 */
+    background-image: url('../../images/fzjc_kjcg_icon.png');
+}
+.layui-nav-item .item-row-block > .fzjc_zscq_icon{
+    /* 辅助决策-知识产权 */
+    background-image: url('../../images/fzjc_zscq_icon.png');
+}
+.layui-nav-item .item-row-block > .sy_base_icon{
+    /* 系统-基础配置 */
+    background-image: url('../../images/sy_base_icon.png');
+}
+.layui-nav-item .item-row-block > .sy_gzlsz_icon{
+    /* 系统-工作流管理 */
+    background-image: url('../../images/sy_gzlsz_icon.png');
+}
+.layui-nav-item .item-row-block > .sy_xtsz_icon{
+    /* 系统-系统设置 */
+    background-image: url('../../images/sy_xtsz_icon.png');
+}
+.layui-nav-item .item-row-block > .sy_log_icon{
+    /* 系统-日志 */
+    background-image: url('../../images/sy_log_icon.png');
+}
 
 
 .item-row-block > .item-title {
