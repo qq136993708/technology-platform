@@ -65,8 +65,30 @@ public class ZjkProject implements Serializable {
      * */
     private String  flag = "";
     
+    private String secretLevel="";
+    private String secretLevelStr="";
+    
+    
+    
+    
 
-    public String getChargeUnitStr() {
+    public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
+	public String getChargeUnitStr() {
 		return chargeUnitStr;
 	}
 

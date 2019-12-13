@@ -96,7 +96,8 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "grantUnitName", value = "成果受让单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "aboutCompleteInfo", value = "完成情况", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "aboutCompleteInfo", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveRecord-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -111,7 +112,8 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "achieveType") String achieveType,
             @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
             @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
-            @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo
+            @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
 
     ) throws Exception {
@@ -154,6 +156,11 @@ public class AchieveRecordController extends RestBaseController {
             this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
         }
 
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);

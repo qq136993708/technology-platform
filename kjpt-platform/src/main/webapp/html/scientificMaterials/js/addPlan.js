@@ -1,7 +1,8 @@
-layui.use(['form', 'formSelects', 'laydate'], function(){
+layui.use(['form', 'formSelects', 'laydate',], function(){
 	var form = layui.form;
   var variable = getQueryVariable();
   var reportTypeVal = +variable.reportType;
+  var formSelects=layui.formSelects;
   switch(reportTypeVal){
     case 1:
         $('#configName').html("科技规划名称:");
@@ -24,15 +25,13 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
     $('#professionalField').css("display","none");
     $('#professionalType').css("display","none");
   }
-
-
+  
   var itemDataUrl = '/SciencePlan/newInit';
   var billID = variable.id || '';
   var msgTitle = '添加';
   var readonlyFile = false; // 附件是否只读
   // layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
   
-  console.log('type',variable.type);
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
     itemDataUrl = '/SciencePlan/load/' + variable.id;
@@ -49,7 +48,6 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
   }
 
   
-  
   httpModule({
     url: itemDataUrl,
     success: function(res) {
@@ -65,14 +63,18 @@ layui.use(['form', 'formSelects', 'laydate'], function(){
         form.render();
         $('#reportType').val(reportTypeVal);
         if (formData.authenticateUtil) {
-          layui.formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+          formSelects.value('authenticateUtil', [formData.authenticateUtil]);
+        }
+
+        if (formData.researchField) {
+          formSelects.value('researchField', formData.researchField.split(','));
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
-          layui.form.render('select');
+          form.render('select');
           $('#reportType').val(reportTypeVal);
-          layui.formSelects.disabled();
+          formSelects.disabled();
         }
       }
     }

@@ -16,11 +16,12 @@
     <result column="charge_unit_str" jdbcType="VARCHAR" property="chargeUnitStr" />
     <result column="flag" jdbcType="VARCHAR" property="flag" />
     
-    
+      <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
   </resultMap>
   <sql id="Base_Column_List">
     id,  expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
-    del_status, source_type, out_system_id,flag
+    del_status, source_type, out_system_id,flag,secret_level
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -37,7 +38,7 @@
       #{expertId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{chargeUnit,jdbcType=VARCHAR}, 
       #{researchTarget,jdbcType=VARCHAR}, #{setupYeat,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR},
-      #{flag,jdbcType=VARCHAR}
+      #{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
@@ -77,6 +78,9 @@
       <if test="flag != null">
         flag,
       </if>
+       <if test="secretLevel != null">
+        secret_level,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -113,6 +117,9 @@
       <if test="flag != null">
         #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkProject">
@@ -152,6 +159,9 @@
       <if test="flag != null">
         flag = #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        secret_level = #{secretLevel,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -162,6 +172,7 @@
       charge_unit = #{chargeUnit,jdbcType=VARCHAR},
       research_target = #{researchTarget,jdbcType=VARCHAR},
       setup_yeat = #{setupYeat,jdbcType=VARCHAR},
+      secret_level = #{secretLevel,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       del_status = #{delStatus,jdbcType=VARCHAR},
       source_type = #{sourceType,jdbcType=VARCHAR},
@@ -179,6 +190,11 @@
       ( 
          SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`charge_unit`
       ) charge_unit_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
      FROM zjk_project t1
 	</sql>
    

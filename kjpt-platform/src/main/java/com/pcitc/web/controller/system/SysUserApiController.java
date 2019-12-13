@@ -175,7 +175,7 @@ public class SysUserApiController extends BaseController{
     @ApiImplicitParam(name = "userDisp",        value = "用户姓名", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "unifyIdentityId", value = "统一身份ID", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userUnit",        value = "用户所属机构ID", dataType = "string", paramType = "form",required=true),
-    @ApiImplicitParam(name = "userUnitName",        value = "用户所属机构名称", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "userUnitName",    value = "用户所属机构名称", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userComment",     value = "描述", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMail",        value = "用户邮箱", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMobile",      value = "用户手机号", dataType = "string", paramType = "form"),

@@ -42,7 +42,7 @@
     <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-    
+   
     
     
     

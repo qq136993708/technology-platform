@@ -75,7 +75,8 @@ public class AchieveBaseController extends RestBaseController {
             @ApiImplicitParam(name = "finishUnitName", value = "成果持有单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "auditStatus", value = "申请状态", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieve-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -86,7 +87,8 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
             @RequestParam(required = false,value = "auditStatus") String auditStatus,
             @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
-            @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
+            @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
@@ -116,6 +118,13 @@ public class AchieveBaseController extends RestBaseController {
         if (!StringUtils.isEmpty(auditStatus)) {
             this.setParam(condition, "auditStatus", auditStatus);
         }
+
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+
         //默认查询当前人所在机构下所有的成果
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);

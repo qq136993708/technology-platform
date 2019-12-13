@@ -9,20 +9,20 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
  
 
     /*领域*/
-    httpModule({
-      url: "/techFamily-api/getTreeList",
-      type: 'GET',
-      async: false,  
-      success: function(relData) {
-          relData.children.map(function (item,index) {
-              item.children.map(function (items,i) {
-                  delete items.children
-              })
-          })
-          formSelects.data('technicalField', 'local', { arr: relData.children });
-          formSelects.btns('technicalField', ['remove']);
-      }
-  });
+  //   httpModule({
+  //     url: "/techFamily-api/getTreeList",
+  //     type: 'GET',
+  //     async: false,  
+  //     success: function(relData) {
+  //         relData.children.map(function (item,index) {
+  //             item.children.map(function (items,i) {
+  //                 delete items.children
+  //             })
+  //         })
+  //         formSelects.data('technicalField', 'local', { arr: relData.children });
+  //         formSelects.btns('technicalField', ['remove']);
+  //     }
+  // });
 
 
   function getItemInitData(item) {

@@ -65,8 +65,28 @@ public class ZjkAchievement implements Serializable {
     * 录入/导入标识
     * */
     private String  flag = "";
+    
+    private String secretLevel="";
+    private String secretLevelStr="";
+    
 
-    public String getApplyUnitStr() {
+    public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
+	public String getApplyUnitStr() {
 		return applyUnitStr;
 	}
 

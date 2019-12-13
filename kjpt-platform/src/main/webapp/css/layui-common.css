@@ -410,13 +410,11 @@
 .layui-layer-setwin{
   top:17px !important;
 }
-<<<<<<< HEAD
 .layui-layer-title{
   height: 50px !important;
   line-height: 50px !important;
-=======
+}
 .layui-form-checked[lay-skin=primary] i {
   border-color: #1890ff;
   background-color: #1890ff;
->>>>>>> 6403481ec568eaedcc77e0a2988df861a53e6663
 }

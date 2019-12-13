@@ -32,13 +32,6 @@ public class RecordModel implements Serializable {
 	//密级字典
 	private String secretLevelText;
 
-	public String getSecretLevelText() {
-		return secretLevelText;
-	}
-
-	public void setSecretLevelText(String secretLevelText) {
-		this.secretLevelText = secretLevelText;
-	}
 
 	public String getSecretLevel() {
 		return secretLevel;
@@ -99,11 +92,11 @@ public class RecordModel implements Serializable {
 		this.createUnitName = createUnitName;
 	}
 
-	@Override
-	public String toString() {
-		return "RecordModel [creator=" + creator + ", updator=" + updator + ", createDate=" + createDate
-				+ ", updateDate=" + updateDate + ", deleted=" + deleted + "]";
+	public String getSecretLevelText() {
+		return secretLevelText;
 	}
 
-
+	public void setSecretLevelText(String secretLevelText) {
+		this.secretLevelText = secretLevelText;
+	}
 }
