@@ -58,8 +58,7 @@
 .preview-title > .text {
   font-size: 28px;
   line-height: 28px;
-  padding: 24px;
-  padding-bottom: 16px;
+  padding: 12px 24px 16px;
 }
 .preview-title .preview-label {
   font-size: 14px;
@@ -72,5 +71,29 @@
   float: right;
 }
 .file-preview .preview-content {
+  text-align: center;
+  font-size: 0;
+}
+.file-preview .preview-content > img {
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 18px;
+}
+.file-view-page{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding-bottom: 8px;
   padding-top: 16px;
+  text-align:center;
+  background-color: #fff;
+  box-shadow: 0 0 7px -1px rgba(0, 0, 0, 0.03);
+}
+.file-view-page .layui-laypage {
+  margin:0
+}
+.file-view-page .layui-laypage a,
+.file-view-page .layui-laypage span {
+  margin-bottom: 0
 }
