@@ -58,7 +58,7 @@ var kyptCharts = {
   },
   getLBOption: function(config) {
     // 获取直角坐标系配置
-    var seriesData = [], legendData = [], categoryData = [];
+    var seriesData = [], legendData = [], categoryData = [], _this = this;
   
     $.each(config.series, function(index, item) {
       legendData.push(item.name);
@@ -67,10 +67,11 @@ var kyptCharts = {
       $.each(config.data, function(index, subItem) {
         itemData.push(subItem[item.valueKey])
       })
-      seriesData.push({
+
+      var seriesItem = {
         name: item.name,
         data: itemData,
-        type: 'bar',
+        type: item.type || config.type,
         barWidth: 28,
         label: {
           show: true,
@@ -78,7 +79,12 @@ var kyptCharts = {
           color: '#46484B',
           fontSize: 12
         }
-      });
+      };
+
+      if (item.yIndex || item.yIndex === 0) {
+        seriesItem.yAxisIndex = item.yIndex;
+      }
+      seriesData.push(seriesItem);
     })
   
     $.each(config.data, function(i, item) {
@@ -142,22 +148,37 @@ var kyptCharts = {
           color: '#46484B'
         }
       },
-      yAxis: {
-        type: 'value',
-        axisLine: {show: false},
-        axisTick: {show: false},
-        axisLabel: {
-          show: true,
-          color: '#ABB0BB',
-          fontSize: 12
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: '#DBE0E2'
+      yAxis: (function() {
+        var yAxis = [], valueAxis = {
+          type: 'value',
+          axisLine: {show: false},
+          axisTick: {show: false},
+          axisLabel: {
+            show: true,
+            color: '#ABB0BB',
+            fontSize: 12
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: '#DBE0E2'
+            }
           }
+        };
+  
+        if (config.yAxis && typeof(config.yAxis) === 'object' && config.yAxis.length) {
+          $.each(config.yAxis, function(i, valItem) {
+            var newValueAxis = _this.transformData(valueAxis);
+            if (valItem && typeof(valItem) === 'object') {
+              newValueAxis = _this.transformData(valItem);
+            }
+            yAxis.push(newValueAxis);
+          })
+        } else {
+          yAxis.push(valueAxis);
         }
-      },
+        return yAxis;
+      })(),
       series: seriesData,
       color: config.color || '#0AA1FF'
     };
@@ -245,6 +266,34 @@ var kyptCharts = {
     } else if (config.type === 'pie') {
       return _this.getPieChartOption(config);
     }
+  },
+  transformData(data) {
+    var valueData = null, _this = this;
+    if (data && typeof(data) === 'object') {
+      if (data.length || data.length === 0) {
+        valueData = [];
+        for (var i = 0; i < data.length; i++) {
+          if (typeof(data[i]) !== 'object') {
+            valueData[i] = data[i];
+          } else {
+            valueData[i] = _this.transformData(data[i]);
+          }
+        }
+      } else {
+        valueData = {};
+        for (var key in data) {
+          if (typeof(data[key]) !== 'object') {
+            valueData[key] = data[key];
+          } else {
+            valueData[key] = _this.transformData(data[key]);
+          }
+        }
+      }
+    } else if (data) {
+      valueData = data;
+    }
+
+    return valueData;
   },
   chart: {}
 }

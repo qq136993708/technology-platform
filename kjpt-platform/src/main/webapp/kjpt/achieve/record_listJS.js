@@ -30,13 +30,13 @@ layui.use(['table', 'form'], function() {
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
             if (d.auditStatus == 0 || d.auditStatus == 3){
-              templet += '<span class="link-text recordDetails" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
+              templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
             }
             if (d.auditStatus == 1 || d.auditStatus == 2){
-              templet += '<span class="link-text recordDetails" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
+              templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
             if (d.auditStatus == 2){
-              templet += '<span class="link-text recordDetails" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
+              templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
             }
             templet += '</div></div>';
             return templet;
@@ -107,8 +107,12 @@ layui.use(['table', 'form'], function() {
   $('#record_list_table').on('click', '.recordDetails', function(e) {
     var optionType = $(this).data('type'),
     dialogTitle =  $(this).text().trim(),
-    id = $(this).data('id');
+    id = $(this).data('id'),
+    auditStatus = $(this).data('auditstatus');
     url = '/kjpt/achieve/record_input.html?type=' + optionType + '&id='+ id;
+    if (functionId && auditStatus !== 0 && auditStatus !== '0') {
+      url += '&functionId=' + functionId;
+    }
     parent.layui.index.openTabsPage(url, dialogTitle + '申请');
   })
 

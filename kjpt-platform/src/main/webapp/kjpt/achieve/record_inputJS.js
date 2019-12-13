@@ -1,6 +1,7 @@
 layui.use(['table', 'form', 'layer'], function() {
   var form = layui.form,
   layer = layui.layer,
+  table = layui.table,
   variable = getQueryVariable(),
   groupTableId = '',
   fileData = {},
@@ -453,4 +454,50 @@ layui.use(['table', 'form', 'layer'], function() {
 
     // console.log(form.val('RecordInputForm'), form.val('newTransfrom'));
   })
+
+  // 查询审批记录
+  if (variable.functionId) {
+    $('#approvalRecord_layout').show();
+    //渲染
+    table.render({
+      url: '/task/process/list/' + variable.functionId
+      ,elem: '#approvalRecord'
+      ,method : "POST"
+      ,cols : [[
+        { title : '序号', type : 'numbers', width : 45 }, {
+          field : 'activityState',
+          title : '状态',
+          style : 'cursor: pointer;',
+          align : 'center'
+        }, {
+          field : 'activityName',
+          title : '任务节点名称',
+          width : '15%',
+          style : 'cursor: pointer;'
+        }, {
+          field : 'taskName',
+          title : '任务名称',
+          width : '20%',
+          style : 'cursor: pointer;'
+        }, {
+          field : 'assigneeName',
+          title : '处理人',
+          width : '15%',
+          style : 'cursor: pointer;'
+        }, {
+          field : 'endTime',
+          title : '处理时间',
+          width : '20%',
+          style : 'cursor: pointer;',
+          templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
+          align : 'center'
+        }, {
+          field : 'suggestion',
+          title : '处理意见'
+        }
+      ]]
+    })
+  } else {
+    $('#approvalRecord_layout').hide();
+  }
 })
