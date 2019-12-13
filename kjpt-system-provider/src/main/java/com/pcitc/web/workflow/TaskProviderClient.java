@@ -1652,6 +1652,25 @@ public class TaskProviderClient {
 		retJson.put("list", voList);
 		return retJson;
 	}
+	
+	
+	
+	@ApiOperation(value = "根据业务Id查某个实例的任务列表", notes = "根据业务Id查某个实例的任务列表，返回总数和list的json对象")
+	@RequestMapping(value = "/task-provider/task/getInstanceIdByBussinessId/{bussinessId}", method = RequestMethod.GET)
+	public JSONObject getInstanceIdByBussinessId(@PathVariable("bussinessId") String bussinessId) 
+	{
+		HistoricProcessInstance hpi = historyService.createHistoricProcessInstanceQuery()//对应历史的流程实例表
+				.processInstanceBusinessKey(bussinessId)//使用BusinessKey字段查询
+				.singleResult();
+		////流程实例ID
+		String instanceId = hpi.getId();
+		JSONObject retJson = new JSONObject();
+		// 封装需要返回的分页实体
+		retJson.put("instanceId", instanceId);
+		return retJson;
+	}
+
+	
 
 	/**
 	 * @author zhf

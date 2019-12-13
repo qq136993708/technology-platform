@@ -17,7 +17,8 @@
     <result column="apply_unit_str" jdbcType="VARCHAR" property="applyUnitStr" />
 
     <result column="flag" jdbcType="VARCHAR" property="flag" />
-    
+      <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
     
      
   </resultMap>
@@ -33,14 +34,14 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
     insert into zjk_achievement (id,expert_id, source_type, del_status, 
       achieve_name, apply_year, apply_unit, 
-      achieve_type, create_time, out_system_id,flag
+      achieve_type, create_time, out_system_id,flag,secret_level
       )
     values (
       #{id,jdbcType=VARCHAR},
       #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
       #{achieveName,jdbcType=VARCHAR}, #{applyYear,jdbcType=VARCHAR}, #{applyUnit,jdbcType=VARCHAR}, 
       #{achieveType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
-      #{flag,jdbcType=VARCHAR}
+      #{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
@@ -76,6 +77,13 @@
       <if test="flag != null">
         flag,
       </if>
+      
+     
+      
+      
+      <if test="secretLevel != null">
+        secret_level,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="expertId != null">
@@ -108,6 +116,9 @@
       <if test="flag != null">
         #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkAchievement">
@@ -143,6 +154,10 @@
       <if test="flag != null">
         flag = #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="secretLevel != null">
+        secret_level = #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -150,6 +165,7 @@
     update zjk_achievement
     set expert_id = #{expertId,jdbcType=VARCHAR},
       source_type = #{sourceType,jdbcType=VARCHAR},
+      secret_level = #{secretLevel,jdbcType=VARCHAR},
       del_status = #{delStatus,jdbcType=VARCHAR},
       achieve_name = #{achieveName,jdbcType=VARCHAR},
       apply_year = #{applyYear,jdbcType=VARCHAR},
@@ -175,6 +191,11 @@
       ( 
          SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`apply_unit`
       ) apply_unit_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
      FROM zjk_achievement t1
 	</sql>
 	

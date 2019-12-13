@@ -80,8 +80,33 @@ public class ZjkReward implements Serializable {
      * */
     private String  flag = "";
     
+    
+    private String secretLevel="";
+    private String secretLevelStr="";
+    
+    
+    
+    
+    
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;

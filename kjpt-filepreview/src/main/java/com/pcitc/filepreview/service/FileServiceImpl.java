@@ -84,7 +84,10 @@ public class FileServiceImpl implements FileService {
     private File getProViewPdf(String fileName, String filePath) throws Exception {
 
         DocumentFormat inputType = this.getInputFileType(fileName);
-        if(inputType == null) {
+
+        if(inputType == DefaultDocumentFormatRegistry.PDF) {
+            return new File(filePath);
+        } else if(inputType == null) {
             throw new RuntimeException("无法预览该文件，文件类型不支持");
         }
 
@@ -128,6 +131,8 @@ public class FileServiceImpl implements FileService {
             return DefaultDocumentFormatRegistry.DOCX;
         } else if("DOC".equals(ext)) {
             return DefaultDocumentFormatRegistry.DOC;
+        } else if("PDF".equals(ext)) {
+            return DefaultDocumentFormatRegistry.PDF;
         } else {
             return  null;
         }
