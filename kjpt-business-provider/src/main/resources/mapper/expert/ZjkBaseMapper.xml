@@ -537,7 +537,7 @@
   
    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select   *
-    from (<include refid="view_zjk_base" />)  t
+    from view_zjk_base
     where id = #{id,jdbcType=VARCHAR}
    </select>
   
