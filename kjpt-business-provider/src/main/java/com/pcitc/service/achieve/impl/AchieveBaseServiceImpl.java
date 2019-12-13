@@ -146,12 +146,11 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
   				return new Result(false,"操作失败!");
   			}
   		}
-  		
-  	
-    
-    
-    
-    
-    
-    
+
+	@Override
+	public Integer updatePublicStatus(Map map) {
+		return abm.updatePublicStatus(map);
+	}
+
+
 }

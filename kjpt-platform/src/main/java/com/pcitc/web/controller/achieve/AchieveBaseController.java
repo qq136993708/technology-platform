@@ -48,12 +48,16 @@ public class AchieveBaseController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieve-api/delete/";
+    /**
+     * 删除
+     */
+    private static final String updatePublic = "http://kjpt-zuul/stp-proxy/achieve-api/updatePublic";
 
     /**
      * 流程
      */
     private static final String WORKFLOW_URL = "http://kjpt-zuul/stp-proxy/achieve-api/task/start_activity/";
-	
+
 	
 
     @ApiOperation(value="读取")
@@ -91,8 +95,7 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
             @RequestParam(required = false,value = "secretLevel") String secretLevel,
             @RequestParam(required = false,value = "isPublic") String isPublic
-
-    ) throws Exception {
+    ){
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -182,10 +185,28 @@ public class AchieveBaseController extends RestBaseController {
         a.setCreator(this.getUserProfile().getUserName());
         return a;
     }
-    @ApiOperation(value="公式")
-    @RequestMapping(value = "/achieve-api/public", method = RequestMethod.POST)
+    @ApiOperation(value="已公示")
+    @RequestMapping(value = "/achieve-api/public/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public void handlerPublic() {
+    public Integer handlerPublic(@PathVariable String id) {
+            Map param = new HashMap();
+            param.put("id",id);
+            param.put("status","1");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="公示结束")
+    @RequestMapping(value = "/achieve-api/publicEnd/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer publicEnd(@PathVariable String id) {
+        Map param = new HashMap();
+        param.put("id",id);
+        param.put("status","2");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
     }
 
 

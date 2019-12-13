@@ -14,4 +14,5 @@ public interface AchieveBaseMapper {
     Integer update(AchieveBase ab);
     Integer delete(String id);
     List<AchieveBase> query(Map param);
+    Integer updatePublicStatus(Map param);
 }
