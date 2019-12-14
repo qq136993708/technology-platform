@@ -141,5 +141,7 @@ public interface UserService {
 	public Integer updateSysUserRole(SysUser user)throws Exception;
 	public Integer updateUserBase(SysUser user)throws Exception;
 	
+	public SysUser getUserByUserNameAndPassword(String userName,String password);
+	
 	
 }

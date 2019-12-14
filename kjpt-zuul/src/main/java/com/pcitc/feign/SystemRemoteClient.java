@@ -57,4 +57,9 @@ public interface SystemRemoteClient {
 	@RequestMapping(value = "/user-provider/user/details", method = RequestMethod.POST)
 	public JSONObject selectUserDetail(@RequestParam(value="jsonStr", required=false) String jsonStr);
 	
+	
+	@RequestMapping(value = "/user-provider/getUserByUserNameAndPassword",method = RequestMethod.POST)
+	public SysUser getUserByUserNameAndPassword(@RequestBody SysUser sysUser);
+	
+	
 }

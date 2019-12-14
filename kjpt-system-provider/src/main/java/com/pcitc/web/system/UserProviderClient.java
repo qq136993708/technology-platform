@@ -203,6 +203,16 @@ public class UserProviderClient {
 	
 	
 	
+	@ApiOperation(value = "根据用户名和密码查询")
+	@RequestMapping(value = "/user-provider/getUserByUserNameAndPassword",method = RequestMethod.POST)
+	public SysUser getUserByUserNameAndPassword(@RequestBody SysUser sysUser) {
+		return userService.getUserByUserNameAndPassword(sysUser.getUserName(),sysUser.getUserPassword());
+	}
+	
+	
+	
+	
+	
 	@ApiOperation(value = "查看用户列表")
 	@RequestMapping(value = "/user-provider/user/querySysUserListByPage",method = RequestMethod.POST)
 	public LayuiTableData querySysUserListByPage(@RequestBody LayuiTableParam param) {

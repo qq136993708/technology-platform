@@ -71,14 +71,21 @@ public class AuthServiceImpl implements AuthService {
 		reJson.put("userName", username);
 		reJson.put("userPassword", password);
 		
-		JSONObject json = systemRemoteClient.selectUserDetail(reJson.toString());
-		List<SysUser> userList = JSONArray.parseArray(json.getJSONArray("list").toString(), SysUser.class);
+		/*
+		 * JSONObject json = systemRemoteClient.selectUserDetail(reJson.toString());
+		 * 
+		 * List<SysUser> userList =
+		 * JSONArray.parseArray(json.getJSONArray("list").toString(), SysUser.class);
+		 * 
+		 * if (userList == null || userList.size() != 1) { return null; }
+		 * System.out.println("3-----------zuul--login---"+userList);
+		 */
+		SysUser temp =new SysUser();
+		temp.setUserName(username);
+		temp.setUserPassword(password);
+		SysUser user = systemRemoteClient.getUserByUserNameAndPassword(temp);
 		
-		if (userList == null || userList.size() != 1) {
-			return null;
-		}
-		System.out.println("3-----------zuul--login---"+userList);
-		return jwtTokenUtil.generateToken(userList.get(0));
+		return jwtTokenUtil.generateToken(user);
 	}
 
 	@Override

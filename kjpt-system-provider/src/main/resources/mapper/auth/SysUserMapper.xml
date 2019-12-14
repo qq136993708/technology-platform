@@ -507,6 +507,14 @@
 		order by user_disp desc 
 	</select>
 	
+	<select id="getUserByUserNameAndPassword" resultMap="BaseResultMap" parameterType="java.util.Map">
+	SELECT t.*,t2.`unit_path`,t2.`unit_code`,t2.`unit_name` ,t2.`unit_id` FROM 
+	(
+	  SELECT * FROM sys_user t WHERE t.`user_name`=#{userName} AND t.`user_password`=#{userPassword} and user_delflag = #{userDelflag} 
+	) t  LEFT JOIN sys_unit t2 ON t.user_unit=t2.`unit_id` 
+	</select>
+	
+	
   <select id="getSysUserListByUserUnit" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List" />
