@@ -35,6 +35,7 @@ import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.PageCommon;
 
 @Api(value = "user-api", description = "用户信息")
@@ -50,7 +51,7 @@ public class UserController extends BaseController {
 	private static final String USER_GET_IN_ROLE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-in-role";
 	private static final String USER_GET_NOT_ROLE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-not-role";
 	private static final String USER_ADD_URL = "http://kjpt-zuul/system-proxy/user-provider/user/add-user";
-	private static final String USER_UPDATE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/update-user";
+	//private static final String USER_UPDATE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/update-user";
 	private static final String USER_PAGE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/users-page";
 	private static final String USER_LIST_PAGE_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-list";
 	private static final String USER_DEL_URL = "http://kjpt-zuul/system-proxy/user-provider/user/delete-user/";
@@ -60,8 +61,7 @@ public class UserController extends BaseController {
 	private static final String GET_SYS_USER_LIST_BY_UNIT = "http://kjpt-zuul/system-proxy/user-provider/user/getSysUserListByUserUnitPage/";
 
 
-	// private static final String USER_GET_BY_UNIT =
-	// "http://kjpt-zuul/system-proxy/user-provider/user/get-user-by-unit";
+	
 	private static final String USER_DELUSERS = "http://kjpt-zuul/system-proxy/user-provider/user/delete-users";
 	// 组织机构查询（回写）
 	private static final String UNIT_LIST = "http://kjpt-zuul/system-proxy/unit-provider/unit-list";
@@ -88,12 +88,11 @@ public class UserController extends BaseController {
 		user.setUserPassword(null);
 		return user;
 	}
-
+   /**
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/user/user-saveorupdate", method = RequestMethod.POST)
 	@ResponseBody
 	public Object userInsert(@ModelAttribute("user") SysUser user, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 检查用户名是否可用
 		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(user));
 		System.out.println(">>>>>>>>>> 用户参数: "+parma.toJSONString());
 		ResponseEntity<List> checkStatus = this.restTemplate.exchange(USER_UNIQUE_CHECK_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), List.class);
@@ -104,11 +103,9 @@ public class UserController extends BaseController {
 		if (!unique.get(1)) {
 			return new Result(false, "邮箱不能重复！");
 		}
-		// 如果更改密码
 		if (!StringUtils.isBlank(user.getUserPassword())) {
 			user.setUserPassword(MD5Util.MD5Encode(user.getUserPassword()));
 		}
-		//System.out.println(JSON.toJSONString(user));
 		ResponseEntity<Integer> status = null;
 		if (StringUtils.isBlank(user.getUserId())) {
 			user.setUserId(IdUtil.createIdByTime());
@@ -123,18 +120,17 @@ public class UserController extends BaseController {
 			return new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 		}
 	}
+	*/
 
 	@RequestMapping(value = "/user/resetPassword-users", method = RequestMethod.POST)
 	@ResponseBody
 	public Object userResetPassword(@RequestParam(value = "userId", required = false) String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 如果更改密码
-		SysUser sysUser = new SysUser();
+		
+		SysUser sysUser=EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
 		sysUser.setUserPassword(MD5Util.MD5Encode("000000"));// 默认密码6个0
-		ResponseEntity<Integer> status = null;
-		sysUser.setUserId(userId);
-		// sysUser.setUserDelflag(DelFlagEnum.STATUS_NORMAL.getCode());
-		status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
+		Integer count=EquipmentUtils.updateSysUser(sysUser, restTemplate, httpHeaders);
+		if (count<=0) {
 			return new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 		} else {
 			return new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
@@ -209,65 +205,7 @@ public class UserController extends BaseController {
 			}
 		}
 		dataObject.put("data", array);
-
 		return dataObject;
-		/*writebackField = "userUnit"; // 回写字段
-		DataTableInfoVo tableInfo = new DataTableInfoVo();
-		tableInfo.setiDisplayLength(1000);
-		String resultUnit = this.restTemplate.exchange(UNIT_LIST, HttpMethod.POST, new HttpEntity<DataTableInfoVo>(tableInfo, this.httpHeaders), String.class).getBody();
-		JSONObject retUnitJson = (JSONObject) JSON.parse(resultUnit);
-		com.alibaba.fastjson.JSONArray retUnitArray = retUnitJson.getJSONArray("list");
-		com.alibaba.fastjson.JSONArray dataArray = dataObject.getJSONArray("data");
-		for (int i = 0; i < dataArray.size(); i++) {
-			JSONObject jsonObject = dataArray.getJSONObject(i);
-			String wirtebackId = jsonObject.getString(writebackField);
-			String[] wirtebackIds = wirtebackId.split(",");
-			String wirtebackValue = "";
-			for (int j = 0; j < wirtebackIds.length; j++) {
-				String id = wirtebackIds[j];
-				for (int k = 0; k < retUnitArray.size(); k++) {
-					JSONObject unitObject = retUnitArray.getJSONObject(k);
-					String unitId = unitObject.getString("unitId"); // 单位ID
-					if (id.equals(unitId)) {
-						String unitName = unitObject.getString("unitName"); // 单位名称
-						wirtebackValue += unitName + ",";
-						break;
-					}
-				}
-			}
-			if (wirtebackValue.length() > 0) {
-				wirtebackValue = wirtebackValue.substring(0, wirtebackValue.length() - 1);
-			}
-			jsonObject.put(writebackField + "Disp", wirtebackValue);
-		}*/
-		// 岗位
-		/*List<?> rs = this.restTemplate.exchange(GET_POST_LIST, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), List.class).getBody();
-		com.alibaba.fastjson.JSONArray retPostArray = (com.alibaba.fastjson.JSONArray) JSON.parse(JSONObject.toJSON(rs).toString());
-		writebackField = "userPost"; // 回写字段
-		for (int i = 0; i < dataArray.size(); i++) {
-			JSONObject jsonObject = dataArray.getJSONObject(i);
-			String wirtebackId = jsonObject.getString(writebackField);
-			String[] wirtebackIds = wirtebackId.split(",");
-			String wirtebackValue = "";
-			for (int j = 0; j < wirtebackIds.length; j++) {
-				String id = wirtebackIds[j];
-				for (int k = 0; k < retPostArray.size(); k++) {
-					JSONObject postObject = retPostArray.getJSONObject(k);
-					String postId = postObject.getString("postId"); // 岗位ID
-					if (id.equals(postId)) {
-						String postName = postObject.getString("postName"); // 岗位名称
-						wirtebackValue += postName + ",";
-						break;
-					}
-				}
-			}
-			if (wirtebackValue.length() > 0) {
-				wirtebackValue = wirtebackValue.substring(0, wirtebackValue.length() - 1);
-			}
-			jsonObject.put(writebackField + "Disp", wirtebackValue);
-		}
-		System.out.println(dataObject.toString());
-		return dataObject.toString();*/
 	}
 
 	/**
@@ -435,8 +373,8 @@ public class UserController extends BaseController {
 			return new Result(false, "原始密码错误！");
 		}
 		user.setUserPassword(MD5Util.MD5Encode(newPass));
-		ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
+		Integer count=EquipmentUtils.updateSysUser(user, restTemplate, httpHeaders);
+		if (count<=0) {
 			return new Result(false, "密码更改失败，请联系管理员！");
 		} else {
 			return new Result(true, "密码修改成功！");
@@ -468,8 +406,8 @@ public class UserController extends BaseController {
 			// 密码验证的正则表达式:由数字和字母组成，并且要同时含有数字和字母，且长度要在8-16位之间。
 			Pattern pattern = Pattern.compile("^(?:([a-z])|([A-Z])|([0-9])|(.)){8,}|(.)+$");
 			if (pattern.matcher(newPass).matches()){
-				ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
-				if (status.getBody() == 0) {
+				Integer count=	EquipmentUtils.updateSysUser(user, restTemplate, httpHeaders);
+				if (count<=0) {
 					return new Result(false, "密码更改失败，请联系管理员！");
 				} else {
 					return new Result(true, "密码修改成功！");
@@ -494,19 +432,15 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user/updateCurrentUserInfo", method = RequestMethod.POST)
     @ResponseBody
     public Object updateUserInfo(@RequestBody SysUser user) throws IOException {
-		SysUser sysUserInfo = getUserProfile();
-    	SysUser u = super.getUserProfile();
-    	if(!u.getUserId().equals(user.getUserId())) {
-			return new Result(false, "当前用户无修改权限！");
-		}
+		
         // 获取个人原有信息 S
-		u = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-        if (u == null) {
-            return new Result(false, "用户不存在！");
-        }
-
-        ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
-        if (status.getBody() == 0) {
+    	SysUser	sysUser = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+    	sysUser.setUserMail(user.getUserMail());
+    	sysUser.setUserMobile(user.getUserMobile());
+    	sysUser.setUserPhone(user.getUserPhone());
+    	sysUser.setUserComment(user.getUserComment());
+        Integer count=   EquipmentUtils.updateSysUser(sysUser, restTemplate, httpHeaders);
+        if (count<=0) {
             return new Result(false, "个人设置失败！");
         } else {
             return new Result(true, "个人设置成功！");
@@ -547,8 +481,8 @@ public class UserController extends BaseController {
 		JSONObject reJson = JSONObject.parseObject(params);
 		//System.out.println("===updateSelfConfig---"+reJson.getString("userConfig1"));
 		user.setUserConfig1(reJson.getString("userConfig1"));
-		ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
+		Integer count=	EquipmentUtils.updateSysUser(user, restTemplate, httpHeaders);
+		if (count<=0) {
 			return new Result(false, "个人设置失败！");
 		} else {
 			return new Result(true, "个人设置成功！");
@@ -565,9 +499,8 @@ public class UserController extends BaseController {
 			return new Result(false, "用户不存在！");
 		}
 		user.setUserExtend(userExtend);// 只更新头像
-		//System.out.println("userExtenduserExtenduserExtenduserExtend" + userExtend);
-		ResponseEntity<Integer> status = this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
+		Integer count=	EquipmentUtils.updateSysUser(user, restTemplate, httpHeaders);
+		if (count<=0) {
 			return new Result(false, "密码更改失败，请联系管理员！");
 		} else {
 			return new Result(true, "密码修改成功！");
