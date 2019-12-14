@@ -638,32 +638,7 @@ public class UserServiceImpl implements UserService {
 
 		List<SysUser> list = userMapper.selectUserDetail(paramMap);
 
-		/*
-		 * List<String> instituteNameList = new ArrayList<String>();
-		 * List<String> instituteCodeList = new ArrayList<String>(); // 本人管理的研究院
-		 * for (int i = 0; i < list.size(); i++) { SysUser su = list.get(i);
-		 * SysUserProperty sup =
-		 * sysUserPropertyMapper.getDataIdByUserIdAndDataType(su.getUserId(),
-		 * "G0DSM"); if (sup != null) { if (sup.getDataId() != null &&
-		 * sup.getDataId().contains("1120")) { instituteNameList.add("勘探院");
-		 * instituteCodeList.add("1120,1123,1124,1127"); } if (sup.getDataId()
-		 * != null && sup.getDataId().contains("1130")) {
-		 * instituteNameList.add("物探院"); instituteCodeList.add("1130"); } if
-		 * (sup.getDataId() != null && sup.getDataId().contains("4360")) {
-		 * instituteNameList.add("工程院"); instituteCodeList.add("4360"); } if
-		 * (sup.getDataId() != null && sup.getDataId().contains("1020")) {
-		 * instituteNameList.add("石科院"); instituteCodeList.add("1020"); } if
-		 * (sup.getDataId() != null && sup.getDataId().contains("1060")) {
-		 * instituteNameList.add("大连院"); instituteCodeList.add("1060,1061"); }
-		 * if (sup.getDataId() != null && sup.getDataId().contains("1040")) {
-		 * instituteNameList.add("北化院"); instituteCodeList.add("1040,1041"); }
-		 * if (sup.getDataId() != null && sup.getDataId().contains("1080")) {
-		 * instituteNameList.add("上海院"); instituteCodeList.add("1080"); } if
-		 * (sup.getDataId() != null && sup.getDataId().contains("1100")) {
-		 * instituteNameList.add("安工院"); instituteCodeList.add("1100,1101"); } }
-		 * su.setInstituteCodes(instituteCodeList);
-		 * su.setInstituteNames(instituteNameList); }
-		 */
+		
 
 		JSONObject retJson = new JSONObject();
 		retJson.put("list", list);
@@ -882,5 +857,12 @@ public class UserServiceImpl implements UserService {
 	{
 		return userMapper.updateByPrimaryKey(user);
 	}
-	
+	public SysUser getUserByUserNameAndPassword(String userName,String userPassword)
+	{
+		Map map=new HashMap();
+		map.put("userName", userName);
+		map.put("userPassword", userPassword);
+		map.put("userDelflag", 0);
+		return userMapper.getUserByUserNameAndPassword(map);
+	}
 }

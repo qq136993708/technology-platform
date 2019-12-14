@@ -69,8 +69,9 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function(){
 
 
   function openDataDilog(value, ID) {
-	  var dialogTitle = '添加平台';
-	  if (ID === 'edit') {
+	  var dialogTitle = '新增平台';
+      console.log(ID)
+	  if (ID !== undefined) {
 		  dialogTitle = '编辑平台'; 
 	  }
 	  
