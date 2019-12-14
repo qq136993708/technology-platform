@@ -464,7 +464,7 @@
 
 
     <if test="userSecretLevel != null and userSecretLevel !=''  ">
-      AND secret_level
+      AND secret_level in
       <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
         #{item}
       </foreach>
@@ -482,7 +482,7 @@
       and secret_level = #{secretLevel}
     </if>
     <if test="userSecretLevel != null and userSecretLevel !=''  ">
-      AND secret_level
+      AND secret_level in
       <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
         #{item}
       </foreach>

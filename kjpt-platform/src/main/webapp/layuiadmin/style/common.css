@@ -709,3 +709,12 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     .layui-q>.layui-tab-title .search-number{
         right: 30px;top: 18px;}
 }
+.secret-level-helper {
+    color: #B1B1B2;
+}
+.secret-level-line {
+    border-top: dashed 1px #D4D7D8;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    margin-left: 10px;
+}

@@ -5,33 +5,40 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<!-- <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all"> -->
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/layui-common.css">
 <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 
 <body>
-	<div class="searchBox">
+	<div class="layout-view-content min-label">
 		<!--查询条件-->
-		<label class="dateInput">
-			<span>消息标题</span>
-			<input type="text" id="messageTitle" name="messageTitle" placeholder="请输入消息标题" title="消息标题" class="form-control">
-		</label>
-		<!--按钮组-->
-		<div class="btnGroup">
-			<button class="layui-btn layui-btn-sm fontColor-default btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		<div class="layui-row layui-col-space20">
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="text">消息标题:</span></label>
+					<div class="layui-input-block">
+						<input type="text" id="messageTitle" name="messageTitle" placeholder="请输入消息标题" title="消息标题" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+				<div class="layui-form-item">
+					<button class="layui-btn layui-btn-normal" id="queryData" data-type="searchEvent">查询</button>
+					<button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="resetEvent">重置</button>
+				</div>
+			</div>
 		</div>
-	</div>
-
-	<div class="tableBox">
-		<div class="tableToolBox">
-			<div class="whiteLine"></div>
-			<div class="tableBtns">
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
+		<div class="view-title-layout">
+			<div class="right" id="rightBtn">
+				<button class="layui-btn border-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
 			</div>
 		</div>
 		<table id="showTable" class="layui-hide" lay-filter="tableData"></table>
 	</div>
+
+	
 
 
 	<!--表格数据操作js-->
@@ -57,7 +64,7 @@
 					},
 					limit : param.selfRownum,
 					id : 'showTable',
-					height : commonDislodgeTable(),
+					// height : commonDislodgeTable(),
 					page : {
 						groups : 5,
 						limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -125,17 +132,13 @@
 					if (typeof (selectRowData.dataId) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						//var temUrl = "/task/message/details";
-						var temUrl = "/message/sys_message_detail?messageId="+selectRowData.dataId;
-						layer.open({
-							title : '详情',
-							skin : 'layui-layer-lan',
-							shadeClose : true,
-							type : 2,
-							fixed : false,
-							maxmin : true,
-							area : [ '70%', '90%' ],
-							content : temUrl
+						top.layer.open({
+							type: 2,
+							title: '详情',
+							area: ['880px', '70%'],
+							content: "/message/sys_message_detail?messageId="+selectRowData.dataId,
+							btn: null,
+							end: function() {}
 						});
 					}
 				}
