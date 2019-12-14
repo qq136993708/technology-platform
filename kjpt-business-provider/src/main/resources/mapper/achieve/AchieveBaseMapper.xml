@@ -17,7 +17,8 @@
         <result column="unit_advice" jdbcType="VARCHAR" property="unitAdvice"/>
         <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
         <result column="del_status" jdbcType="VARCHAR" property="deleted"/>
-        <result column="file_doc" jdbcType="VARCHAR" property="fileDoc"/>
+        <result column="approval_doc" jdbcType="VARCHAR" property="approvalDoc"/>
+        <result column="public_doc" jdbcType="VARCHAR" property="publicDoc"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
         <result column="is_public" jdbcType="VARCHAR" property="deleted"/>
@@ -48,7 +49,8 @@
         unit_advice,
         audit_status,
         del_status,
-        file_doc,
+        approval_doc,
+        public_doc,
         create_user,
         team_person,
         is_public,
@@ -118,7 +120,7 @@
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
         insert into achieve_base( <include refid="AchieveBase_Column_List" /> )
          values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
-         #{auditStatus},#{deleted},#{fileDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel})
+         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
