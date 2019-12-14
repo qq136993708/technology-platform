@@ -60,13 +60,18 @@
                 <span>中核集团用户</span>
             </div>
         </div>
-        <div class="projects disNone">
+        <div class="projects two_nav_item disNone">
             <div class="project_btn projectActive" id="projects_mainPage"><span>首页</span></div>
             <div class="project_btn" id="projects_jiancPage"><span>检 查</span></div>
             <div class="project_btn" id="projects_fengxPage"><span>风 险</span></div>
             <div class="project_btn" id="projects_touzPage"><span>投 资</span></div>
             <div class="project_btn" id="projects_jzjcgPage"><span>进展及成果</span></div>
             <div class="project_btn" id="projects_xmqdPage"><span>项目清单</span></div>
+        </div>
+        <div class="achievements two_nav_item disNone">
+            <div class="project_btn projectActive" data-type="appraisal"><span>成果鉴定</span></div>
+            <div class="project_btn" data-type="award"><span>成果报奖</span></div>
+            <div class="project_btn" data-type="transform"><span>成果转化</span></div>
         </div>
         <div id="content" class="content">
             <iframe id="mainframe" src="front/main.html" class="" data-id="" name="iframe0" width="100%" scrolling="no" frameborder="0" seamless=""></iframe>
@@ -116,6 +121,16 @@
                     $("#mainframe").attr("src", "front/project.html");
                     $(this).siblings().removeClass("btnactive");
                     $(this).addClass("btnactive");
+                }
+                // 成果信息
+                if($(this).attr("id") == "cgxxPage" ){
+                    $(this).addClass("btnactive").siblings().removeClass("btnactive");
+                    $(".loading-container").removeClass("loading-inactive");
+                    $('.two_nav_item').addClass('disNone').filter(function() {
+                        if ($(this).hasClass('achievements')) {
+                            return $(this);
+                        }
+                    }).removeClass('disNone');
                 }
             });	
             /**项目*/

@@ -1,0 +1,25 @@
+.layout-view-content{
+  background-color: #001e38;
+  padding: 1rem;
+  height: 100%;
+}
+.chart-layout.jscWeb {
+  height: 100%;
+}
+.achieve_appraisal .top-chart-layout,
+.achieve_appraisal .bottom-chart-layout {
+  height: 50%;
+  min-height: 300px;
+  font-size: 0;
+}
+.achieve_appraisal .chart-item-layout{
+  display: inline-block;
+  vertical-align: top;
+  width: 26%;
+  height: 100%;
+}
+
+.achieve_appraisal .appraisal_one {
+  width: 48%;
+  padding-right: 2rem;
+}
