@@ -651,3 +651,10 @@ table tr td a {
 .dense{
   border-bottom: 1px dotted  #ccc; 
 }
+
+.layui-form-select .layui-edge{
+  border-width: 5px;
+}
+.xm-select-parent .xm-select-sj{
+border-width: 5px;
+}
