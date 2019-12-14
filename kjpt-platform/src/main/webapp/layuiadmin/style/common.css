@@ -718,3 +718,10 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     margin-top: 30px;
     margin-left: 10px;
 }
+.layui-layer-setwin .layui-layer-close1 {
+    background: url(../../images/dialog-close.png) no-repeat center center !important;
+    background-size: 100% 100% !important;
+    opacity: .7;
+    width: 12px;
+    height: 12px;
+}
