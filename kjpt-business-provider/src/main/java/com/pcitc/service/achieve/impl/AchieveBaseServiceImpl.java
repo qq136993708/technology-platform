@@ -50,15 +50,27 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
         if(load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());
-			fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
+			//fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
+			handlerFile(ab.getFileDoc(),ab.getSecretLevel());
             return abm.add(ab);
         }
         else{
-			fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
+			//fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
+			handlerFile(ab.getFileDoc(),ab.getSecretLevel());
             return abm.update(ab);
         }
 
     }
+
+
+	private void handlerFile(String files,String secretLevel){
+		if(files != null){
+			JSONObject fileDoc =  JSONObject.parseObject(files);
+			for(String key:fileDoc.keySet()){
+				fs.updateFileData(fileDoc.get(key) == null?"":fileDoc.get(key).toString(),key,secretLevel);
+			}
+		}
+	}
 
     @Override
     public Integer delete(String id) {

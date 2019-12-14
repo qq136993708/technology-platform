@@ -21,7 +21,7 @@ public class RestBaseController extends BaseController{
     public void setBaseData(RecordModel rm){
         rm.setUpdateDate(new Date());
         rm.setUpdator(this.getUserProfile().getUserName());
-        rm.setCreateUnitName(this.getUserProfile().getUnitName());
+        rm.setCreateUnitName(this.getUserProfile().getUserUnitName());
         rm.setCreateUnitId(this.getUserProfile().getUnitId());
         rm.setDeleted("0");
     }
