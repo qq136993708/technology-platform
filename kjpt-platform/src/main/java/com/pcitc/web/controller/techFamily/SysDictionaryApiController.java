@@ -51,10 +51,12 @@ public class SysDictionaryApiController extends BaseController {
 		Result resultsDate = new Result();
 		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_KJPT_XXMJ", restTemplate, httpHeaders);
 		String userLevel=sysUserInfo.getSecretLevel();
+		System.out.println("用户级别:"+userLevel);	
 	    for(int i=0;i<list.size();i++)
 	    {
 		  SysDictionary sd=list.get(i);
 		  String lvelstr= sd.getNumValue();
+		  System.out.println("信息级别:"+lvelstr);	
 		  if((Integer.valueOf(lvelstr).intValue()) <= (Integer.valueOf(userLevel).intValue())) 
 		  {
 			  reslut.add(sd);
@@ -62,6 +64,7 @@ public class SysDictionaryApiController extends BaseController {
 	    }
 	    resultsDate.setData(reslut);
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		System.out.println("查小于用户级别的信息密级列表数:"+result.toString());	
 		return result.toString();
     }
 	

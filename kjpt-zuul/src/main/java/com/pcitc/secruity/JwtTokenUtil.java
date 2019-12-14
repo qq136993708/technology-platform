@@ -36,6 +36,8 @@ public class JwtTokenUtil implements Serializable {
 	private static final String CLAIM_KEY_POSTID = "postId";
 	private static final String CLAIM_KEY_LEVEL = "userLevel";
 	private static final String CLAIM_KEY_POSITION = "userPosition"; // 职务
+	private static final String CLAIM_KEY_SECRET_LEVEL = "secretLevel";
+	private static final String CLAIM_KEY_USER_UNIT_NAME = "userUnitName";
 	//private static final String CLAIM_KEY_FUNCTIONLIST = "functionList";
 
 	@Value("${jwt.secret}")
@@ -112,19 +114,20 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_USERID, user.getUserId());
 		claims.put(CLAIM_KEY_ROLELIST, user.getRoles());
 		claims.put(CLAIM_KEY_USERDISP, user.getUserDisp());
-		claims.put(CLAIM_KEY_UNITNAME, user.getUnitName());
+		claims.put(CLAIM_KEY_UNITNAME, user.getUserUnitName());
 		claims.put(CLAIM_KEY_UNITCODE, user.getUnitCode());
 		claims.put(CLAIM_KEY_UNITID, user.getUnitId());
 		claims.put(CLAIM_KEY_UNITPATH, user.getUnitPath());
 		//claims.put(CLAIM_KEY_CREATED, new Date());
 		claims.put(CLAIM_KEY_EMAIL, user.getUserMail());
+		claims.put(CLAIM_KEY_SECRET_LEVEL, user.getSecretLevel());
 		
 		//claims.put(INSTITUTE_CODE, user.getInstituteCodes());
 		//claims.put(INSTITUTE_NAME, user.getInstituteNames());
 		claims.put(CLAIM_KEY_POSTID, user.getUserPost());
 		claims.put(CLAIM_KEY_LEVEL, user.getUserLevel());
 		claims.put(CLAIM_KEY_POSITION, user.getUserConfig2());
-		// claims.put(CLAIM_KEY_FUNCTIONLIST, user.getFunList());
+		claims.put(CLAIM_KEY_USER_UNIT_NAME, user.getUserUnitName());
 		///System.out.println("142==---====generateToken------" + user.getFunList().size());
 		System.out.println("******************"+JSON.toJSON(claims).toString());
 		return generateToken(claims);
