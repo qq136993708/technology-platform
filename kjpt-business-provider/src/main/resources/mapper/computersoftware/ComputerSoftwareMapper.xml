@@ -216,7 +216,13 @@
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
+        <if test="userSecretLevel != null and userSecretLevel !=''  ">
+            AND secret_level
+            <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
 
     </select>
 
@@ -229,7 +235,16 @@
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+--         and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
+
+        <if test="userSecretLevel != null and userSecretLevel !=''  ">
+            AND secret_level
+            <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
 
     </select>
 

@@ -44,7 +44,8 @@ public class EquipmentUtils {
 	
 	
      private static final String GET_USERPROPERTY = "http://kjpt-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
-     private static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
+     public static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
+     public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
      
@@ -150,7 +151,7 @@ public class EquipmentUtils {
 		
 	}
 	
-	
+	//获取用户信息
 	public static SysUser getSysUser(String userId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
 		
@@ -163,6 +164,20 @@ public class EquipmentUtils {
 		}
 		return sysUser;
 	}
+	
+	//修改用户基本信息
+	public static  Integer updateSysUser(SysUser user,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		        Integer dataId = 0;
+	    	    ResponseEntity<Integer> responseEntity =restTemplate.exchange(UPDATE_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, httpHeaders), Integer.class);
+	    		int statusCode = responseEntity.getStatusCodeValue();
+	    		if (statusCode == 200)
+	    		{
+	    			dataId = responseEntity.getBody();
+	    		}
+	    		return dataId;
+	 }
 	
 	
 	
@@ -284,7 +299,8 @@ public class EquipmentUtils {
 	
 	
 	
-	
+	    
+	  
 	
 	
 	//生成8位随机数

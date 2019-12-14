@@ -472,10 +472,7 @@
 	        AND t.secret_level = #{secretLevel}
 	     </if>
 	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	        AND t.secret_level  in 
-	           <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-			          #{item}
-			   </foreach>
+	         AND t.secret_level &lt;= #{userSecretLevel}
 	     </if>
 	 </trim>
 	</sql>

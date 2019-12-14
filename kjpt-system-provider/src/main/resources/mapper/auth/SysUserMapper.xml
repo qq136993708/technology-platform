@@ -541,13 +541,13 @@
 	     <if test="userNameKey != null       and userNameKey !=''  ">    
 	     AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or   t.user_name like CONCAT('%',#{userNameKey},'%')  )
 	     </if>
-	     <if test="postName != null          and postName !=''  ">         AND t.post_name like CONCAT('%',#{postName},'%') </if>
+	     <if test="postName != null              and postName !=''  ">             AND t.post_name like CONCAT('%',#{postName},'%') </if>
 	     <if test="userUnitName != null          and userUnitName !=''  ">         AND t.user_unit_name like CONCAT('%',#{userUnitName},'%') </if>
 	 </trim>
 	</sql>
 	<sql id="view_user">
-	       SELECT t3.* ,
-	  ( 
+	      SELECT t3.* ,
+	      ( 
 	         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_YHMJ'
 	          AND t2.`num_value`=t3.`secret_level`
 	      ) secret_level_str
@@ -570,12 +570,8 @@
      
      
      
-     <select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
-		select
-		<include refid="Base_Column_List" />
-		from (<include refid="view_user" />) t
-		where user_id = #{userId,jdbcType=VARCHAR}
+     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * from (<include refid="view_user" />) t 	where user_id = #{userId,jdbcType=VARCHAR}
 	</select>
 	
 	

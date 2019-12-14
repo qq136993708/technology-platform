@@ -15,6 +15,7 @@ import com.pcitc.base.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
@@ -32,6 +34,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
@@ -53,7 +56,6 @@ public class AdminController extends BaseController {
     private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
     private static final String USER_IDENTITY_ID = "http://kjpt-zuul/system-proxy/user-provider/user/user-identityid/";
     private static final String GET_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/get-user-byname/";
-    private static final String UPD_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/update-user";
 
     // 已办任务数
     private static final String DONE_TASK_COUNT = "http://kjpt-zuul/system-proxy/task-provider/done-task-count";
@@ -232,14 +234,7 @@ public class AdminController extends BaseController {
             httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
             // 获取的token有问题(用户名或密码不正确) 返回登录
             if (retJson == null || retJson.get("token") == null) {
-                Integer errorNumber = 0;
-                ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO + username, HttpMethod.GET, entity, SysUser.class);
-                SysUser rsUser = rsEntity.getBody();
-                if (rsUser != null) {
-                    errorNumber = rsUser.getLoginErrorNumber() == null ? 1 : rsUser.getLoginErrorNumber() + 1;
-                    rsUser.setLoginErrorNumber(errorNumber);
-                    this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, this.httpHeaders), Integer.class);
-                }
+            	Integer errorNumber=setErrorNumber(username);
                 // 登录错误次数
                 Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
                 loginCookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
@@ -283,10 +278,12 @@ public class AdminController extends BaseController {
             request.setAttribute("scList", scList);
 
             // 重置登录次数
-            if (userDetails.getLoginErrorNumber() != null && userDetails.getLoginErrorNumber() > 0) {
-                userDetails.setLoginErrorNumber(0);
-                this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userDetails, this.httpHeaders), Integer.class);
-            }
+			/*
+			 * if (userDetails.getLoginErrorNumber() != null &&
+			 * userDetails.getLoginErrorNumber() > 0) { userDetails.setLoginErrorNumber(0);
+			 * this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new
+			 * HttpEntity<SysUser>(userDetails, this.httpHeaders), Integer.class); }
+			 */
 
             request.setAttribute("funList", funList);
             request.setAttribute("grgztList", grgztList);
@@ -308,21 +305,8 @@ public class AdminController extends BaseController {
 				SessionShare.getSessionIdSave().remove(userName);
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			}*/
-
-
-            SysUser userIpAndDate = new SysUser();
-            userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(request));
-            userIpAndDate.setUserId(tokenUser.getUserId());
-
-            //存储登录时间
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
-            userIpAndDate.setLastLoginDate(date);
-
-            this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userIpAndDate, this.httpHeaders), Integer.class);
-
+            setLastLogin(tokenUser.getUserId());
             request.setAttribute("userId", userDetails.getUserId());
-
             if (username.equals(Constant.LOG_SYSTEMADMIN) || username.equals(Constant.LOG_SECURITYADMIN) || username.equals(Constant.LOG_AUDITADMIN)) {
                 request.setAttribute("userName", username);
                 return "/adminIndex";
@@ -588,54 +572,38 @@ public class AdminController extends BaseController {
             return new Result(false, "操作失败,只能收藏系统级功能菜单!");
         }
     }
+    
+    
 
-    @RequestMapping(value = "/common-login")
-    @ResponseBody
-    @OperationFilter(modelName = "系统管理", actionName = "登录操作")
-    public Object pcitcIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("common-login....");
-        // 模拟登录时的用户Id密码
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-        requestBody.add("username", username);
-        requestBody.add("password", MD5Util.MD5Encode(password));
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-
-        System.out.println("login token:" + retJson.get("token"));
-
-        if (retJson == null || retJson.get("token") == null) {
-            // 获取的token有问题(用户名或密码不正确)
-            Integer errorNumber = 0;
-            ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO + username, HttpMethod.GET, entity, SysUser.class);
-            SysUser rsUser = rsEntity.getBody();
-            if (rsUser != null) {
-                errorNumber = rsUser.getLoginErrorNumber() == null ? 1 : rsUser.getLoginErrorNumber() + 1;
-                rsUser.setLoginErrorNumber(errorNumber);
-                this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, this.httpHeaders), Integer.class);
-            }
-            return new Result(false, errorNumber);
-        } else {
-            // 重置登录次数
-            ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO + username, HttpMethod.GET, entity, SysUser.class);
-            SysUser rsUser = rsEntity.getBody();
-            if (rsUser.getLoginErrorNumber() != null && rsUser.getLoginErrorNumber() > 0) {
-                rsUser.setLoginErrorNumber(0);
-                this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, this.httpHeaders), Integer.class);
-            }
-        }
-
-        Cookie cookie = new Cookie("token", retJson.getString("token"));
-        cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return new Result(true, retJson.get("token"));
-    }
+    
+    
+    
+   public void setLastLogin(String  userId)throws Exception 
+   {
+	   SysUser userIpAndDate= EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
+       userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(request));
+       //存储登录时间
+       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+       String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+       userIpAndDate.setLastLoginDate(date);
+       EquipmentUtils.updateSysUser(userIpAndDate, restTemplate, httpHeaders);
+   }
+    
+   public Integer setErrorNumber(String  userId)throws Exception 
+   {
+	      Integer  errorNumber =0;
+	   
+	       SysUser rsUser= EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
+	       if(rsUser!=null)
+	       {
+	    	   errorNumber = rsUser.getLoginErrorNumber() == null ? 1 : rsUser.getLoginErrorNumber() + 1;
+		       rsUser.setLoginErrorNumber(errorNumber);
+		       EquipmentUtils.updateSysUser(rsUser, restTemplate, httpHeaders);
+	       }
+	       return errorNumber;
+   }
+	
+  
 
 
 }
