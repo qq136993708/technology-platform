@@ -69,7 +69,7 @@
                                     $("#userPost").append("<option value='"+item.postId+"' name='"+item.postId+"'>"+item.postName+"</option>")
                                 })
                                 formSelects.render('userPost');
-                                formSelects.value('userPost', [relDataForm.data.userPost]);
+                                formSelects.value('userPost', relDataForm.data.userPost.split(","));
                             }
                         }
                     });

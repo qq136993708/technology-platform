@@ -51,9 +51,16 @@
   margin-left: 24px;
 }
 .file-preview {
-  padding-top: 16px;
   min-height: 500px;
   position: relative;
+}
+.file-preview .preview-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 16px;
+  width: 100%;
+  z-index: 3;
 }
 .preview-title > .text {
   font-size: 28px;
@@ -73,6 +80,7 @@
 .file-preview .preview-content {
   text-align: center;
   font-size: 0;
+  margin: 0 -18px;
 }
 .file-preview .preview-content > img {
   max-width: 100%;

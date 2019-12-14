@@ -44,7 +44,8 @@ public class EquipmentUtils {
 	
 	
      private static final String GET_USERPROPERTY = "http://kjpt-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
-     private static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
+     public static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
+     public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
      
@@ -150,7 +151,7 @@ public class EquipmentUtils {
 		
 	}
 	
-	
+	//获取用户信息
 	public static SysUser getSysUser(String userId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
 		
@@ -163,6 +164,20 @@ public class EquipmentUtils {
 		}
 		return sysUser;
 	}
+	
+	//修改用户基本信息
+	public static  Integer updateSysUser(SysUser user,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		        Integer dataId = 0;
+	    	    ResponseEntity<Integer> responseEntity =restTemplate.exchange(UPDATE_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(user, httpHeaders), Integer.class);
+	    		int statusCode = responseEntity.getStatusCodeValue();
+	    		if (statusCode == 200)
+	    		{
+	    			dataId = responseEntity.getBody();
+	    		}
+	    		return dataId;
+	 }
 	
 	
 	
@@ -212,6 +227,47 @@ public class EquipmentUtils {
 	}
 	
 	
+	
+	public static  String getInfoLevelsByUserSecretLevel(String userSecretLevel)
+	    {
+	    	//核心->绝密
+	    	//重要->机密
+	    	//一般->秘密
+	    	//非密->内部
+	    	
+	    	StringBuffer sb=new StringBuffer();
+	    	if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_CORE))//用户 -核心、重要、一般、非密,//信息--机密、秘密、内部 公开
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_HEIGHT).append(",")
+	    		  .append(Constant.INFO_SECRET_LEVEL_SECRET).append(",")
+	    		  .append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+	    		  .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}else if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_IMPORTANT))
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_HEIGHT).append(",")
+		  		  .append(Constant.INFO_SECRET_LEVEL_SECRET).append(",")
+		  		  .append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+		  		  .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}
+	    	else if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_JUST))
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_SECRET).append(",")
+	  		    .append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+	  		    .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}
+	    	else if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_NOT))
+	    	{
+	    		  sb.append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+		  		    .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}else
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+	  		    .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}
+	    	return sb.toString();
+	    }
+	 
+	
 	//根据机构ID查询机构下所有的信息
 	public static String getAllChildsByIUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
@@ -243,7 +299,8 @@ public class EquipmentUtils {
 	
 	
 	
-	
+	    
+	  
 	
 	
 	//生成8位随机数

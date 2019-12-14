@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>中核集团科技管理平台</title>
+    <link rel="stylesheet" href="common/css/base.css">
+    <link rel="stylesheet" href="common/css/common.css">
+    <link rel="stylesheet" href="./control/animate/animate.css">
+</head>
+<body class="animated  fadeIn">
+    <!-- loding 
+    <div class="loading-container">
+            <div class="loading-progress">
+                <div class="loaders">
+                    <div class="loader">
+                        <div class="loader-inner ball-spin-fade-loader">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    <div id="wrapper">
+        <!-- 头部 -->
+        <div id="header">
+            <div class="header_left">
+                <div class="left_tab">
+                    <div class="location tab_button transL btnactive" id="mainPage"><span>首页</span></div>
+                    <div class="location tab_button transL" id="projectPage"><span>项 目</span></div>
+                    <div class="location tab_button transL" id="zscqPage"><span>知识产权</span></div>
+                    <div class="location tab_button transL" id="cgxxPage"><span>成果信息</span></div>
+                </div>
+            </div>
+            <div class="header_main">
+                <div class="logo_text">
+                    <span class="text_cn">中核集团科技管理平台</span>
+                </div>
+            </div>
+            <div class="header_right">
+                <div class="right_tab">
+                    <div class="location tab_button transR btnactive"><span>科技人才</span></div>
+                    <div class="location tab_button transR"><span>科研平台</span></div>
+                    <div class="location tab_button transR"><span>质量与经验反馈</span></div>
+                </div>
+            </div>
+            <div class="header_date">
+                <span>截止到：</span>
+                <span id="formatDate">2019年5月23日  10:20:36 </span>
+            </div>
+            <div class="header_user">
+                <span>中核集团用户</span>
+            </div>
+        </div>
+        <div class="projects two_nav_item disNone">
+            <div class="project_btn projectActive" id="projects_mainPage"><span>首页</span></div>
+            <div class="project_btn" id="projects_jiancPage"><span>检 查</span></div>
+            <div class="project_btn" id="projects_fengxPage"><span>风 险</span></div>
+            <div class="project_btn" id="projects_touzPage"><span>投 资</span></div>
+            <div class="project_btn" id="projects_jzjcgPage"><span>进展及成果</span></div>
+            <div class="project_btn" id="projects_xmqdPage"><span>项目清单</span></div>
+        </div>
+        <div class="achievements two_nav_item disNone">
+            <div class="project_btn projectActive" data-type="appraisal"><span>成果鉴定</span></div>
+            <div class="project_btn" data-type="award"><span>成果报奖</span></div>
+            <div class="project_btn" data-type="transform"><span>成果转化</span></div>
+        </div>
+        <div id="content" class="content">
+            <iframe id="mainframe" src="front/main.html" class="" data-id="" name="iframe0" width="100%" scrolling="no" frameborder="0" seamless=""></iframe>
+        </div>
+    </div>
+    <script src="common/js/jquery-1.10.1.min.js"></script>
+    <script src="common/js/autofont.js"></script>
+    <script >
+        function setHeight(){
+			var e=document.documentElement.clientHeight||document.body.clientHeight;
+			var headerH= $("#header").outerHeight();
+            console.log(e);
+            console.log(headerH);
+            
+            document.getElementById("content").style.height=e-headerH+'px';
+            document.getElementById("mainframe").style.height=e-headerH+'px';
+		}
+        window.onload=window.onresize = function(){
+            setHeight();
+            autofont();
+        }
+        $(window).load(function() {
+		    setTimeout(function() {
+		        $(".loading-container").addClass("loading-inactive");
+		    }, 0)
+		});
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // 点击一级主菜单
+            $(".left_tab div").click(function () {
+                //首页
+                if($(this).attr("id") == "mainPage" ){
+                    $(".loading-container").removeClass("loading-inactive");
+                    $(".projects").addClass("disNone");
+                    $(".content").removeClass("proIfra");
+                    $("#mainframe").attr("src", "front/main.html");
+                    $(this).siblings().removeClass("btnactive");
+                    $(this).addClass("btnactive");
+                }
+                //项目
+                if($(this).attr("id") == "projectPage" ){
+                    $(".loading-container").removeClass("loading-inactive");
+                    $(".projects").removeClass("disNone");
+                    $(".content").addClass("proIfra");
+                    
+                    $("#mainframe").attr("src", "front/project.html");
+                    $(this).siblings().removeClass("btnactive");
+                    $(this).addClass("btnactive");
+                }
+                // 成果信息
+                if($(this).attr("id") == "cgxxPage" ){
+                    $(this).addClass("btnactive").siblings().removeClass("btnactive");
+                    $(".loading-container").removeClass("loading-inactive");
+                    $('.two_nav_item').addClass('disNone').filter(function() {
+                        if ($(this).hasClass('achievements')) {
+                            return $(this);
+                        }
+                    }).removeClass('disNone');
+                }
+            });	
+            /**项目*/
+            $(".projects div").click(function () {
+                //首页
+                if($(this).attr("id") == "projects_mainPage" ){
+                    $("#mainframe").attr("src", "front/project.html");
+                    $(this).siblings().removeClass("projectActive");
+                    $(this).addClass("projectActive");
+                }
+                //检查
+                if($(this).attr("id") == "projects_jiancPage" ){
+                    $("#mainframe").attr("src", "front/project_check.html");
+                    $(this).siblings().removeClass("projectActive");
+                    $(this).addClass("projectActive");
+                }
+                //风 险 
+                if($(this).attr("id") == "projects_fengxPage" ){
+                    $("#mainframe").attr("src", "front/project_fengx.html");
+                    $(this).siblings().removeClass("projectActive");
+                    $(this).addClass("projectActive");
+                }
+                //投 资
+                if($(this).attr("id") == "projects_touzPage" ){
+                    $("#mainframe").attr("src", "front/project_touz.html");
+                    $(this).siblings().removeClass("projectActive");
+                    $(this).addClass("projectActive");
+                }
+            });	
+        });
+    </script>
+</body>
+</html>

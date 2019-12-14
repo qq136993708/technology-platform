@@ -40,11 +40,20 @@ public class Constant {
     public static String LOG_SECURITYADMIN  = "securityadmin";
     public static String LOG_AUDITADMIN     = "auditadmin";
       
-    //核心、重要、一般、非密
+    //用户 -核心、重要、一般、非密
     public static String USER_SECRET_LEVEL_CORE     = "4";
     public static String USER_SECRET_LEVEL_IMPORTANT = "3";
     public static String USER_SECRET_LEVEL_JUST = "2";
     public static String USER_SECRET_LEVEL_NOT = "1";
+    
+    
+    
+    
+    //信息--机密、秘密、内部 公开
+    public static String INFO_SECRET_LEVEL_HEIGHT     = "4";
+    public static String INFO_SECRET_LEVEL_SECRET = "3";
+    public static String INFO_SECRET_LEVEL_INNER = "2";
+    public static String INFO_SECRET_LEVEL_PUBLIC = "1";
     
 
     /**

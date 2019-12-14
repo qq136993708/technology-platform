@@ -82,7 +82,8 @@ public class SysLogController extends BaseController {
 			@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
 			@ApiImplicitParam(name = "logType",  value = "日志类型：1登陆日志，2操作日志，3错误日志",       dataType = "string", paramType = "query") ,
-			@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query")
+			@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "userTypes", value = "2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query")
 	
 	    })
 	@RequestMapping(value = "/sysLog-api/query", method = RequestMethod.POST)
@@ -98,7 +99,7 @@ public class SysLogController extends BaseController {
 			@RequestParam(required = false) String endTime,
 			@RequestParam(required = false) String logType,
 			@RequestParam(required = false) String userType,
-			
+			@RequestParam(required = false) String userTypes,
 			
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -113,6 +114,7 @@ public class SysLogController extends BaseController {
 		param.getParam().put("endTime", endTime);
 		param.getParam().put("logType", logType);
 		param.getParam().put("userType", userType);
+		param.getParam().put("userTypes", userTypes);
 		
 		JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(param));
         System.out.print(">>>>>>>>>>>系统日志查询（分页）参数："+json.toString());

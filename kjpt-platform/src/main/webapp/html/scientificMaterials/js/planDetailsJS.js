@@ -1,6 +1,8 @@
-layui.use(['laypage'], function() {
+layui.use(['laypage', 'layer'], function() {
   var laypage = layui.laypage,
-  variable = getQueryVariable(); // 获取页面传参
+  layer = layui.layer,
+  variable = getQueryVariable(), // 获取页面传参
+  fileImgLoading = null;
 
   function setFilePage(fileId, type) {
     if (!fileId) {
@@ -21,14 +23,23 @@ layui.use(['laypage'], function() {
               limits: [1],
               layout: ['prev', 'page', 'next', 'skip'],
               jump: function(page, first) {
-                console.log(page, first);
+                if (first) {
+                  $(document).scrollTop(0)
+                } else {
+                  var scrTop = $(document).scrollTop();
+                  if (scrTop > 130) {
+                    $(document).scrollTop(130);
+                  }
+                }
+                fileImgLoading = layer.load(2);
                 $('#getPdfPageContent').attr('src', '/file/getPdfPageContent/'+ fileId +'/' + (page.curr - 1));
               }
             });
           }
         }
       })
-    } else {/file/imgFile/f635ef6c8f004953800d3dc43e1f2713
+    } else {
+      fileImgLoading = layer.load(2);
       $('#getPdfPageContent').attr('src', '/file/imgFile/'+ fileId);
     }
   }
@@ -42,7 +53,6 @@ layui.use(['laypage'], function() {
     fileName = fileName.split(']')[1] || fileName.split(']')[0];
     fileType = fileType[fileType.length - 1];
 
-    console.log(fileName, fileType);
     $('#fileName').text(fileName);
     return fileType;
   }
@@ -106,14 +116,27 @@ layui.use(['laypage'], function() {
 
 
     // 下载、预览
+    var fileId = null;
     $('#filesItem').on('click', '.downloadFile', function() {
       var downFileId = $(this).data('fileid');
       window.open('/file/downLoadFile/' + downFileId);
     }).on('click', '.seeFile', function() {
-      var fileId = $(this).data('fileid'),
-      fileName = $(this).attr('title');
-      var fileType = setFileName(fileName);
+      if (fileId != $(this).data('fileid')) {
+        fileId = $(this).data('fileid');
+      } else {
+        return false;
+      }
+      var fileType = setFileName($(this).attr('title'));
       setFilePage(fileId, fileType);
     })
   }
+
+  // 图片加载完毕，关闭加载动画
+  $('#getPdfPageContent').load(function(e) {
+    if (fileImgLoading || fileImgLoading === 0) {
+      layer.close(fileImgLoading);
+      fileImgLoading = null;
+    }
+  })
+
 })

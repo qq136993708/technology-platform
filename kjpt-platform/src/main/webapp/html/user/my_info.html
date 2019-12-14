@@ -28,7 +28,7 @@
      <div class="layui-row layui-col-space20">
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
-           <label class="layui-form-label "><span class="text">头像：</span></label>
+           <label class="layui-form-label "><span class="text">头1像：</span></label>
            <div class="layui-input-block">
             <input type="hidden" name="userExtend" id="userExtend" />
             <div class="img-view-block middle-block" id="imgFileUpload">
@@ -52,7 +52,7 @@
                 <input type="text" id="userUnitText" readonly="true" class="layui-input noborder">
             </div>
             </div>
-        </div>id
+        </div>
     </div>
 
     <div class="layui-row layui-col-space20">
@@ -120,9 +120,9 @@
        <div class="layui-row layui-col-space20">
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">用户类型：</span></label>
+          <label class="layui-form-label "><span class="text">用户机密：</span></label>
           <div class="layui-input-block">
-            <input type="text" id="userKindText" readonly="true"  class="layui-input noborder">
+            <input type="text" name="secretLevelStr" readonly="true"  class="layui-input noborder">
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
     httpModule({
       url: httpUrl,
       type: 'GET',
-      success: function(relData) { 
+      success: function(relData) {
           transToData(relData, ['lastLoginDate']);
           form.val('formMain', relData);
           // 更新表单数据
@@ -225,7 +225,7 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
       httpModule({
         url: url,
         type: 'POST',
-        success: function(relData) { 
+        success: function(relData) {
             var map = {};
             $.each(relData, function(index, item){
                 map[item[codef]] = item[textf];

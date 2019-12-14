@@ -317,6 +317,11 @@ public class UserProviderClient {
 	}
 	
 	
-	
+	@ApiOperation(value="更新用户息",notes="更新用户息")
+	@RequestMapping(value = "/user-provider/updateSysUser", method = RequestMethod.POST)
+	public Integer updateSysUser(@RequestBody SysUser user) throws Exception{
+		logger.info("update user.... "+JSON.toJSONString(user));
+		return userService.updateUserBase(user);
+	}
 	
 }

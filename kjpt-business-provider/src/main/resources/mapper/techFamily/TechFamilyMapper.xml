@@ -15,16 +15,17 @@
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="type_scope" property="typeScope" jdbcType="VARCHAR" />
 		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
-		<result column="create_user_id" property="createUserId"
-			jdbcType="VARCHAR" />
+		<result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate" jdbcType="VARCHAR" />
 		<result column="update_date" property="updateDate" jdbcType="VARCHAR" />
 		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
 		<result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
-		<result column="is_hot" property="isHot" jdbcType="VARCHAR" />
-		<result column="develop_info" property="developInfo" jdbcType="VARCHAR" />
-		<result column="direction_info" property="directionInfo"
-			jdbcType="VARCHAR" />
+		<result column="is_hot"         property="isHot" jdbcType="VARCHAR" />
+		<result column="develop_info"   property="developInfo" jdbcType="VARCHAR" />
+		<result column="direction_info" property="directionInfo" jdbcType="VARCHAR" />
+		<result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+        <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+		
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -99,7 +100,7 @@
 		create_user_id,
 		create_date, update_date,
 		update_user, audit_status, is_hot, develop_info,
-		direction_info
+		direction_info,secret_level
 	</sql>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.pcitc.base.stp.techFamily.TechFamilyExample">
@@ -144,7 +145,7 @@
 		create_user, create_user_id, create_date,
 		update_date, update_user,
 		audit_status,
-		is_hot, develop_info, direction_info
+		is_hot, develop_info, direction_info, secret_level
 		)
 		values
 		(#{tfmTypeId,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},
@@ -160,7 +161,7 @@
 		#{updateDate,jdbcType=VARCHAR},
 		#{updateUser,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR},
 		#{isHot,jdbcType=VARCHAR}, #{developInfo,jdbcType=VARCHAR},
-		#{directionInfo,jdbcType=VARCHAR}
+		#{directionInfo,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
@@ -229,6 +230,13 @@
 			<if test="directionInfo != null">
 				direction_info,
 			</if>
+			<if test="secretLevel != null">
+				secret_level,
+			</if>
+			
+			
+			
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="tfmTypeId != null">
@@ -294,6 +302,10 @@
 			<if test="directionInfo != null">
 				#{directionInfo,jdbcType=VARCHAR},
 			</if>
+			<if test="secretLevel != null">
+				#{secretLevel,jdbcType=VARCHAR},
+			</if>
+			
 		</trim>
 	</insert>
 	<select id="countByExample" parameterType="com.pcitc.base.stp.techFamily.TechFamilyExample"
@@ -303,190 +315,9 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</select>
-	<update id="updateByExampleSelective" parameterType="map">
-		update tfm_type
-		<set>
-			<if test="record.tfmTypeId != null">
-				tfm_type_id = #{record.tfmTypeId,jdbcType=VARCHAR},
-			</if>
-			<if test="record.typeCode != null">
-				type_code = #{record.typeCode,jdbcType=VARCHAR},
-			</if>
-			<if test="record.typeName != null">
-				type_name = #{record.typeName,jdbcType=VARCHAR},
-			</if>
-			<if test="record.parentId != null">
-				parent_id = #{record.parentId,jdbcType=VARCHAR},
-			</if>
-			<if test="record.parentCode != null">
-				parent_code = #{record.parentCode,jdbcType=VARCHAR},
-			</if>
-			<if test="record.isParent != null">
-				is_parent = #{record.isParent,jdbcType=VARCHAR},
-			</if>
-			<if test="record.typeIndex != null">
-				type_index = #{record.typeIndex,jdbcType=VARCHAR},
-			</if>
-			<if test="record.status != null">
-				status = #{record.status,jdbcType=VARCHAR},
-			</if>
-			<if test="record.levelCode != null">
-				level_code = #{record.levelCode,jdbcType=VARCHAR},
-			</if>
-			<if test="record.dataOrder != null">
-				data_order = #{record.dataOrder,jdbcType=VARCHAR},
-			</if>
-			<if test="record.remarks != null">
-				remarks = #{record.remarks,jdbcType=VARCHAR},
-			</if>
-			<if test="record.typeScope != null">
-				type_scope = #{record.typeScope,jdbcType=VARCHAR},
-			</if>
-			<if test="record.createUser != null">
-				create_user = #{record.createUser,jdbcType=VARCHAR},
-			</if>
-			<if test="record.createUserId != null">
-				create_user_id = #{record.createUserId,jdbcType=VARCHAR},
-			</if>
-			<if test="record.createDate != null">
-				create_date = #{record.createDate,jdbcType=VARCHAR},
-			</if>
-			<if test="record.updateDate != null">
-				update_date = #{record.updateDate,jdbcType=VARCHAR},
-			</if>
-			<if test="record.updateUser != null">
-				update_user = #{record.updateUser,jdbcType=VARCHAR},
-			</if>
-			<if test="record.auditStatus != null">
-				audit_status = #{record.auditStatus,jdbcType=VARCHAR},
-			</if>
-			<if test="record.isHot != null">
-				is_hot = #{record.isHot,jdbcType=VARCHAR},
-			</if>
-			<if test="record.developInfo != null">
-				develop_info = #{record.developInfo,jdbcType=VARCHAR},
-			</if>
-			<if test="record.directionInfo != null">
-				direction_info =
-				#{record.directionInfo,jdbcType=VARCHAR},
-			</if>
-		</set>
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByExample" parameterType="map">
-		update tfm_type
-		set tfm_type_id = #{record.tfmTypeId,jdbcType=VARCHAR},
-		type_code = #{record.typeCode,jdbcType=VARCHAR},
-		type_name =
-		#{record.typeName,jdbcType=VARCHAR},
-		parent_id =
-		#{record.parentId,jdbcType=VARCHAR},
-		parent_code =
-		#{record.parentCode,jdbcType=VARCHAR},
-		is_parent =
-		#{record.isParent,jdbcType=VARCHAR},
-		type_index =
-		#{record.typeIndex,jdbcType=VARCHAR},
-		status =
-		#{record.status,jdbcType=VARCHAR},
-		level_code =
-		#{record.levelCode,jdbcType=VARCHAR},
-		data_order =
-		#{record.dataOrder,jdbcType=VARCHAR},
-		remarks =
-		#{record.remarks,jdbcType=VARCHAR},
-		type_scope =
-		#{record.typeScope,jdbcType=VARCHAR},
-		create_user =
-		#{record.createUser,jdbcType=VARCHAR},
-		create_user_id =
-		#{record.createUserId,jdbcType=VARCHAR},
-		create_date =
-		#{record.createDate,jdbcType=VARCHAR},
-		update_date =
-		#{record.updateDate,jdbcType=VARCHAR},
-		update_user =
-		#{record.updateUser,jdbcType=VARCHAR},
-		audit_status =
-		#{record.auditStatus,jdbcType=VARCHAR},
-		is_hot =
-		#{record.isHot,jdbcType=VARCHAR},
-		develop_info =
-		#{record.developInfo,jdbcType=VARCHAR},
-		direction_info =
-		#{record.directionInfo,jdbcType=VARCHAR}
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
-		update tfm_type
-		<set>
-			<if test="typeCode != null">
-				type_code = #{typeCode,jdbcType=VARCHAR},
-			</if>
-			<if test="typeName != null">
-				type_name = #{typeName,jdbcType=VARCHAR},
-			</if>
-			<if test="parentId != null">
-				parent_id = #{parentId,jdbcType=VARCHAR},
-			</if>
-			<if test="parentCode != null">
-				parent_code = #{parentCode,jdbcType=VARCHAR},
-			</if>
-			<if test="isParent != null">
-				is_parent = #{isParent,jdbcType=VARCHAR},
-			</if>
-			<if test="typeIndex != null">
-				type_index = #{typeIndex,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				status = #{status,jdbcType=VARCHAR},
-			</if>
-			<if test="levelCode != null">
-				level_code = #{levelCode,jdbcType=VARCHAR},
-			</if>
-			<if test="dataOrder != null">
-				data_order = #{dataOrder,jdbcType=VARCHAR},
-			</if>
-			<if test="remarks != null">
-				remarks = #{remarks,jdbcType=VARCHAR},
-			</if>
-			<if test="typeScope != null">
-				type_scope = #{typeScope,jdbcType=VARCHAR},
-			</if>
-			<if test="createUser != null">
-				create_user = #{createUser,jdbcType=VARCHAR},
-			</if>
-			<if test="createUserId != null">
-				create_user_id = #{createUserId,jdbcType=VARCHAR},
-			</if>
-			<if test="createDate != null">
-				create_date = #{createDate,jdbcType=VARCHAR},
-			</if>
-			<if test="updateDate != null">
-				update_date = #{updateDate,jdbcType=VARCHAR},
-			</if>
-			<if test="updateUser != null">
-				update_user = #{updateUser,jdbcType=VARCHAR},
-			</if>
-			<if test="auditStatus != null">
-				audit_status = #{auditStatus,jdbcType=VARCHAR},
-			</if>
-			<if test="isHot != null">
-				is_hot = #{isHot,jdbcType=VARCHAR},
-			</if>
-			<if test="developInfo != null">
-				develop_info = #{developInfo,jdbcType=VARCHAR},
-			</if>
-			<if test="directionInfo != null">
-				direction_info = #{directionInfo,jdbcType=VARCHAR},
-			</if>
-		</set>
-		where tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
-	</update>
+	
+	
+	
 	<update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
 		update tfm_type
 		set type_code = #{typeCode,jdbcType=VARCHAR},
@@ -518,6 +349,7 @@
 		#{auditStatus,jdbcType=VARCHAR},
 		is_hot = #{isHot,jdbcType=VARCHAR},
 		develop_info = #{developInfo,jdbcType=VARCHAR},
+		secret_level = #{secretLevel,jdbcType=VARCHAR},
 		direction_info =
 		#{directionInfo,jdbcType=VARCHAR}
 		where tfm_type_id =

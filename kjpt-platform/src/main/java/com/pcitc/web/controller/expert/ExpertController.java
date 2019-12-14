@@ -197,7 +197,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("secretLevel", secretLevel);
     	
     	//默认查询小于等于用户密级的专家
-    	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
+    	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
     	//默认查询当前人所在机构及子机构的所有专家
     	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
     	param.getParam().put("childUnitIds", childUnitIds);
@@ -215,6 +215,13 @@ public class ExpertController extends BaseController {
 		logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
+    
+    
+    
+    
+    
+   
+    		
     
     @ApiOperation(value = "查询专家个数", notes = "查询专家个数")
     @RequestMapping(value = "/expert-api/getCount", method = RequestMethod.GET)
