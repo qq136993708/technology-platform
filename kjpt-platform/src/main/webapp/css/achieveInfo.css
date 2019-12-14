@@ -1,25 +1,66 @@
 .layout-view-content{
   background-color: #001e38;
   padding: 1rem;
+  padding-bottom: .5rem;
   height: 100%;
 }
 .chart-layout.jscWeb {
   height: 100%;
 }
-.achieve_appraisal .top-chart-layout,
-.achieve_appraisal .bottom-chart-layout {
-  height: 50%;
-  min-height: 300px;
+.left-date-block {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 9;
+}
+.left-date-block .layui-input-inline {
+  width: 120px;
+}
+.left-date-block .layui-form-label > .text{
+  color: #fff;
+}
+.left-date-block .laydate-input {
+  background-color: #041E36;
+  border-radius: 3px;
+  border-color: #00EAFF;
+  color: #00EAFF;
+  padding-left: 32px;
+  padding-right: 10px;
+}
+
+.top-chart-layout {
+  height: 44%;
   font-size: 0;
 }
-.achieve_appraisal .chart-item-layout{
+.bottom-chart-layout {
+  height: 56%;
+  padding-top: .5rem;
+  font-size: 0;
+}
+.chart-item-layout{
   display: inline-block;
   vertical-align: top;
   width: 26%;
   height: 100%;
 }
 
+/* 成果鉴定 */
 .achieve_appraisal .appraisal_one {
   width: 48%;
   padding-right: 2rem;
+}
+.achieve_appraisal .appraisal_four {
+  width: 100%;
+}
+
+/* 成果报奖 */
+.achieve_transform .appraisal_one,
+.achieve_transform .appraisal_three {
+  width: 32%;
+  padding: 0;
+}
+.achieve_transform .appraisal_two,
+.achieve_transform .appraisal_four{
+  width: 68%;
+  padding-left: 2rem;
 }
