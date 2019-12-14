@@ -42,7 +42,7 @@ layui.use(['table', 'form','laydate'], function() {
                       shadeClose : true,
                       type : 2,
                       fixed : false,
-                      maxmin : true,
+                      maxmin : false,
                       area : [ '70%', '90%' ],
                       content : temUrl
                   });

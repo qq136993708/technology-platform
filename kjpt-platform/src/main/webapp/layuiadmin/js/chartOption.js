@@ -87,7 +87,7 @@ var kyptCharts = {
         name: item.name,
         data: itemData,
         type: item.type || config.type,
-        barWidth: 28,
+        barMaxWidth: 28,
         label: {
           show: label,
           position: 'top',
@@ -127,13 +127,14 @@ var kyptCharts = {
           show: true,
           left: 10,
           top: 10,
-          itemWidth: 12,
+          itemWidth: 18,
           itemHeight: 12,
           padding: 0,
           itemGap: 12,
           textStyle: {
             fontSize: 12,
-            lineHeight: 12
+            lineHeight: 12,
+            color: labelColor
           },
           data: legendData,
         }
@@ -148,7 +149,13 @@ var kyptCharts = {
         show: true,
         trigger: 'axis',
         axisPointer: {
-          type: 'shadow'
+          type: (function(){
+            if (config.type === 'line') {
+              return 'line';
+            } else {
+              return 'shadow';
+            }
+          })()
         }
       },
       xAxis: {
@@ -203,6 +210,17 @@ var kyptCharts = {
     return option;
   },
   getPieChartOption: function(config) {
+    var _this = this,
+    label = (function() {
+      if (typeof(config.label) === 'boolean') {
+        return config.label;
+      } else {
+        return true;
+      }
+    })(),
+    labelColor = config.labelColor || '#46484B',
+    borderColor = config.borderColor || '';
+
     // 饼图环图配置
     var option = {
       title: (function() {
@@ -234,25 +252,36 @@ var kyptCharts = {
           type: 'shadow'
         }
       },
-      legend: {
-        show: true,
-        orient: 'vertical',
-        left: 10,
-        top: 20,
-        itemWidth: 12,
-        itemHeight: 12,
-        padding: 0,
-        itemGap: 16
-      },
+      legend: (function() {
+        var legendItem = {
+          show: true,
+          orient: 'vertical',
+          left: 10,
+          top: 20,
+          itemWidth: 12,
+          itemHeight: 12,
+          padding: 0,
+          itemGap: 16,
+          textStyle: {
+            color: labelColor
+          }
+        }
+        if (config.legend) {
+          for (var key in config.legend) {
+            legendItem[key] = config.legend[key];
+          }
+        }
+        return legendItem;
+      })(),
       series: [
         {
           name: config.title || 'pieTile',
           type:'pie',
-          radius: ['50%', '70%'],
-          center: ['60%', '50%'],
+          radius: config.radius || ['50%', '70%'],
+          center: config.center || ['60%', '50%'],
           avoidLabelOverlap: false,
           labelLine: {
-            show: true,
+            show: label,
             length: 10,
             length2: 20,
             lineStyle: {
@@ -261,11 +290,16 @@ var kyptCharts = {
           },
           data: config.series,
           label: {
-            show: true,
+            show: label,
             // position: 'inside',
             color: '#313232',
             formatter: '{c}\n{d}%'
+          },
+          itemStyle: {
+            borderWidth: (borderColor ? 2 : 0),
+            borderColor: borderColor || '#fff'
           }
+          
         }
       ],
       color: config.color || '#0AA1FF'

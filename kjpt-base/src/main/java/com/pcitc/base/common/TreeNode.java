@@ -2,6 +2,7 @@ package com.pcitc.base.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pcitc.base.stp.techFamily.TechFamily;
+import org.apache.poi.hslf.record.Record;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Objects;
  * @author masir
  * Bootstrap treeview 树实体
  */
-public class TreeNode implements Serializable {
+public class TreeNode extends RecordModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
