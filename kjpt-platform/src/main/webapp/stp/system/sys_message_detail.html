@@ -10,7 +10,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
-<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<!-- <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css"> -->
+<link rel="stylesheet" href="/css/layui-common.css">
+<link rel="stylesheet" href="/css/common.css">
 
 
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -47,23 +49,22 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-<div class="formBox">
+<div class="layout-view-content min-label dialog">
 	<form id="apply-form" name="apply-form" lay-filter="apply-form" class="form-horizontal layui-form">
 	<input type="hidden" name="messageId" id="messageId">
 	<div class="box-body">
-		<div class="layui-row">
+		<div class="layui-row layui-col-space20">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">消息类别<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label label-required"><span class="text">消息类别:</span></label>
 					<div class="layui-input-block">
 						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="messageType" name="messageType" placeholder="">
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-			
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">消息标题<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label label-required"><span class="text">消息标题:</span></label>
 					<div class="layui-input-block">
 						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="messageTitle" name="messageTitle" placeholder="">
 					</div>
@@ -73,7 +74,7 @@ $(document).ready(function() {
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">消息时间<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label label-required"><span class="text">消息时间:</span></label>
 					<div class="layui-input-block">
 						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="createDate" name="createDate" placeholder="">
 					</div>
@@ -82,7 +83,7 @@ $(document).ready(function() {
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 			
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">阅读次数<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label label-required"><span class="text">阅读次数:</span></label>
 					<div class="layui-input-block">
 						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="readTotal" name="readTotal" placeholder="">
 					</div>
@@ -90,17 +91,21 @@ $(document).ready(function() {
 			</div>
 		</div>
 		<div class="layui-form-item">
-	      	 <label class="layui-form-label">消息内容</label>
+	      	 <label class="layui-form-label"><span class="text">消息内容:</span></label>
 	         <div class="layui-input-block">
 	         	   <textarea readonly="readonly" class="layui-textarea readOnlyBox" id="messageContent" name="messageContent" placeholder=""></textarea>
 	         </div>
        </div>
 	</div>
-	<div class="form-bottom">
+	<!-- <div class="form-bottom">
       <div class="form-bottom-btns">
       	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">关闭</button>
       </div>
-    </div>
+	</div> -->
+	<div class="dialog-footer-btn">
+		<!-- <button class="layui-btn layui-btn-normal disabled-box" lay-submit lay-filter="formAddPlanBtn">立即提交</button> -->
+		<button type="button" class="layui-btn layui-btn-primary close-all-dialog" id="cancel">关闭</button>
+	</div>
 </form>
 </div>
 </body>
