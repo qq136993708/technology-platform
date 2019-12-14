@@ -176,7 +176,7 @@ public class ComputerSoftwareController extends RestBaseController {
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
-        this.setParam(condition, "userSecretLevel", this.getUserProfile().getSecretLevel());
+        this.setParam(condition, "userSecretLevel",EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
 
 
         //默认查询当前人所在机构及子机构的所有专家
