@@ -69,11 +69,6 @@
 
         </if>
             and deleted != '1'
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
-
     </select>
 
 
