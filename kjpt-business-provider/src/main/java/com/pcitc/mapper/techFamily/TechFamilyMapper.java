@@ -26,11 +26,8 @@ public interface TechFamilyMapper {
 
     TechFamily selectByPrimaryKey(String tfmTypeId);
 
-    int updateByExampleSelective(@Param("record") TechFamily record, @Param("example") TechFamilyExample example);
 
-    int updateByExample(@Param("record") TechFamily record, @Param("example") TechFamilyExample example);
 
-    int updateByPrimaryKeySelective(TechFamily record);
 
     int updateByPrimaryKey(TechFamily record);
     

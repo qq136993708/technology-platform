@@ -48,7 +48,28 @@ public class TechFamily {
     
     private List<String> typeCodeCond;
     
-    private List<TechFamily> childNodes = new ArrayList<TechFamily>();
+    private String secretLevel;
+    private String secretLevelStr;
+    
+    
+    
+    public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
+	private List<TechFamily> childNodes = new ArrayList<TechFamily>();
     
     
     public List<TechFamily> getChildNodes() {
