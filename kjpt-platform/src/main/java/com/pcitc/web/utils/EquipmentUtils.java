@@ -212,6 +212,47 @@ public class EquipmentUtils {
 	}
 	
 	
+	
+	public static  String getInfoLevelsByUserSecretLevel(String userSecretLevel)
+	    {
+	    	//核心->绝密
+	    	//重要->机密
+	    	//一般->秘密
+	    	//非密->内部
+	    	
+	    	StringBuffer sb=new StringBuffer();
+	    	if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_CORE))//用户 -核心、重要、一般、非密,//信息--机密、秘密、内部 公开
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_HEIGHT).append(",")
+	    		  .append(Constant.INFO_SECRET_LEVEL_SECRET).append(",")
+	    		  .append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+	    		  .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}else if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_IMPORTANT))
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_HEIGHT).append(",")
+		  		  .append(Constant.INFO_SECRET_LEVEL_SECRET).append(",")
+		  		  .append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+		  		  .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}
+	    	else if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_JUST))
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_SECRET).append(",")
+	  		    .append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+	  		    .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}
+	    	else if(userSecretLevel.equals(Constant.USER_SECRET_LEVEL_NOT))
+	    	{
+	    		  sb.append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+		  		    .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}else
+	    	{
+	    		sb.append(Constant.INFO_SECRET_LEVEL_INNER).append(",")
+	  		    .append(Constant.INFO_SECRET_LEVEL_PUBLIC);
+	    	}
+	    	return sb.toString();
+	    }
+	 
+	
 	//根据机构ID查询机构下所有的信息
 	public static String getAllChildsByIUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
