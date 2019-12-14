@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>中核集团科技管理平台-项目-投资</title>
+    <link rel="stylesheet" href="../common/css/base.css">
+    <link rel="stylesheet" href="../common/css/common.css">
+    <link rel="stylesheet" href="../common/css/table.css">
+    <link rel="stylesheet" href="../common/css/main.css">
+</head>
+<body >
+    <div class="project_check">
+        <div class="check_charts">
+            <div class="title"><span>月度分解计划</span></div>
+            <div class="check_query">
+                <div class="query"><span>核能开发</span></div>
+                <div class="query"><span>集中研发</span></div>
+            </div>
+            <div class="jcCharts">
+                <div id="charts1"></div>   
+            </div>
+        </div>
+        <div class="check_table">
+            <div class="title"><span>计划执行率</span></div>
+            <div class="check_query">
+                <div class="query"><span>核能开发</span></div>
+                <div class="query"><span>集中研发</span></div>
+            </div>
+            <div class="jcCharts">
+                <div id="charts2"></div>   
+            </div>
+        </div>
+    </div>
+    <script src="../common/js/jquery-1.10.1.min.js"></script>
+    <script src="../common/js/echarts.min.js"></script>
+    <script src="../common/js/autofont.js"></script>
+    <script src="js/project_touz.js"></script>
+    <script >
+        window.onload=window.onresize = function(){
+            autofont();
+            var chartsW = $(".jcCharts").width();
+            var chartsH = $(".jcCharts").height();
+            $("#charts1").css("width", chartsW).css("height", chartsH);
+            $("#charts2").css("width", chartsW).css("height", chartsH);
+            var charts1= echarts.init(document.getElementById('charts1'));
+            var charts2= echarts.init(document.getElementById('charts2'));
+            charts1.resize();
+            charts2.resize();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>3D柱状图</title>
+	<meta charset="utf-8">
+</head>
+<body>
+<div id="main" style="width: 100%;height:800px;"></div>
+</body>
+<script src="js/jquery-1.10.1.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="https://echarts.baidu.com/dist/echarts-gl.min.js"></script>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+            color: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+            title: {
+                text: '3D堆叠柱状图',
+                x: 'center'
+            },
+            tooltip: {},
+            xAxis3D: {
+                type: 'category',
+                data: ['1', '2','3', '4','5', '6'],
+                axisLine:{
+                    lineStyle:{
+                        color:'yellow',
+                        width:2
+                    }
+                },
+            },
+            yAxis3D: {
+                type: 'category',
+                data: [''],
+                axisLine:{
+                    lineStyle:{
+                        color:'yellow',
+                        width:2
+                    }
+                },
+            },
+            zAxis3D: {
+                type: 'value',
+                axisLine:{
+                    lineStyle:{
+                        color:'yellow',
+                        width:2
+                    }
+                },
+            },
+            grid3D: {
+                boxWidth: 200,
+                boxDepth: 20,
+                axisPointer: {
+                    show: false
+                },
+                light: {
+                    main: {
+                        intensity: 1.2
+                    },
+                    ambient: {
+                        intensity: 0.3
+                    }
+                },
+                viewControl: {
+                    alpha: 10, //控制场景平移旋转
+                    beta: 20,
+                    minAlpha: 10,
+                    maxAlpha: 10,
+                    minBeta: 20,
+                    maxBeta: 20
+                }
+            },
+            series: [{
+                type: 'bar3D',
+                name:'1',
+                barSize: 15,
+                data: [
+                    [0, 0, 1200+1200+1800],
+                    [2, 0, 10000],
+                    [4, 0, 6000],
+                ],
+                stack: 'stack',
+                shading: 'lambert',
+                emphasis: {
+                    label: {
+                        show: true
+                    }
+                }
+            }, {
+                type: 'bar3D',
+                name:'2',
+                barSize: 15,
+                data: [
+                    [1, 0, 12000],
+                    [3, 0, 60000],
+                    [5, 0, 12000],
+                ],
+                // stack: 'stack',
+                shading: 'lambert',
+                emphasis: {
+                    label: {
+                        show: true
+                    }
+                }
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</html>
