@@ -36,6 +36,12 @@ public class ExpertIndexController {
 			return resault;
 		}
 		
+		@RequestMapping(value = "/syslog/to_auditadmin_list")
+		public String to_auditadmin_list(HttpServletRequest request, HttpServletResponse response) 
+		{
+			return null;
+		}
+		
 	
 	    // 专家管理
 		@RequestMapping(value = "/kjpt/expert/expert_list")

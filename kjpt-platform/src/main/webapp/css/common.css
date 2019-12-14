@@ -27,6 +27,16 @@ html, body {
   margin: 0;
   border: none;
 }
+html {
+  font-size: 20px;
+}
+@media screen and (max-width: 1366px) {
+  html {
+    font-size: 14.22px;
+  }
+}
+
+
 body:not(.layui-layout-body) {
   overflow: auto;
   padding-top: 1px;
@@ -637,7 +647,18 @@ table tr td a {
   display: block;
   height: 100%;
 }
- 
+.chart-layout.jscWeb {
+  padding-top: 2rem;
+}
+.chart-layout.jscWeb .chart-title-layout{
+  height: 2rem;
+  line-height: 2rem;
+}
+.chart-layout.jscWeb .chart-title-layout > .text {
+  color: #44A5FF;
+  font-size: 1rem;
+}
+
 .secret-level-line { 
   border-top: dashed 1px #D4D7D8;
   margin-bottom: 30px;
@@ -650,4 +671,11 @@ table tr td a {
 
 .dense{
   border-bottom: 1px dotted  #ccc; 
+}
+
+.layui-form-select .layui-edge{
+  border-width: 5px;
+}
+.xm-select-parent .xm-select-sj{
+border-width: 5px;
 }

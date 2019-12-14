@@ -121,7 +121,7 @@
         </if>
 
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level
+            AND secret_level in
             <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -138,9 +138,10 @@
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
+       <!-- and secret_level <![CDATA[<=]]> #{userSecretLevel}-->
 
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level
+            AND secret_level in
             <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -209,7 +210,7 @@
         </if>
 
         <if test="secretLevel != null and secretLevel != ''" >
-            secret_level = #{secretLevel}
+           and secret_level = #{secretLevel}
         </if>
 
     </sql>

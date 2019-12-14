@@ -218,7 +218,7 @@
         </if>
 
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level
+            AND secret_level in
             <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -235,92 +235,94 @@
         <if test="secretLevel != null and secretLevel != '' " >
             and secret_level = #{secretLevel}
         </if>
---         and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <!--        and secret_level <![CDATA[<=]]> #{userSecretLevel}-->
+
+        <!-- -->
 
 
-        <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level
-            <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
+                <if test="userSecretLevel != null and userSecretLevel !=''  ">
+                    AND secret_level in
+                    <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
 
 
-    </select>
+            </select>
 
-    <sql id="selectByParam">
+            <sql id="selectByParam">
 
-        <if test="unitName != null and unitName != '' ">
-            and UNIT_NAME like CONCAT('%',#{unitName},'%')
-        </if>
-        <if test="registerNumber != null and registerNumber != ''">
-            and REGISTER_NUMBER = #{registerNumber}
-        </if>
-        <if test="softwareName != null and softwareName != ''">
-            and SOFTWARE_NAME = #{softwareName}
-        </if>
+                <if test="unitName != null and unitName != '' ">
+                    and UNIT_NAME like CONCAT('%',#{unitName},'%')
+                </if>
+                <if test="registerNumber != null and registerNumber != ''">
+                    and REGISTER_NUMBER = #{registerNumber}
+                </if>
+                <if test="softwareName != null and softwareName != ''">
+                    and SOFTWARE_NAME = #{softwareName}
+                </if>
 
-        <if test="softwareIntroduce != null and softwareIntroduce != ''">
-            and SOFTWARE_INTRODUCE = #{softwareIntroduce}
-        </if>
+                <if test="softwareIntroduce != null and softwareIntroduce != ''">
+                    and SOFTWARE_INTRODUCE = #{softwareIntroduce}
+                </if>
 
-        <if test="copyrightOwner != null and copyrightOwner != ''">
-            and COPYRIGHT_OWNER = #{copyrightOwner}
-        </if>
-        <if test="versionNumber != null and versionNumber != ''">
-            and VERSION_NUMBER = #{versionNumber}
-        </if>
+                <if test="copyrightOwner != null and copyrightOwner != ''">
+                    and COPYRIGHT_OWNER = #{copyrightOwner}
+                </if>
+                <if test="versionNumber != null and versionNumber != ''">
+                    and VERSION_NUMBER = #{versionNumber}
+                </if>
 
-        <if test="recordDate != null and recordDate != '' ">
-            and RECORD_DATE = #{recordDate}
-        </if>
+                <if test="recordDate != null and recordDate != '' ">
+                    and RECORD_DATE = #{recordDate}
+                </if>
 
-        <if test="developFinishDate != null  and developFinishDate != '' ">
-            and DEVELOP_FINISH_DATE = #{developFinishDate}
-        </if>
-        <if test="softwareIntro != null and softwareIntro != ''">
-            and SOFTWARE_INTRO = #{softwareIntro}
-        </if>
-        <if test="entryPeople != null and entryPeople != ''">
-            and ENTRY_PEOPLE = #{entryPeople}
-        </if>
-        <if test="entryTime != null and entryTime != '' ">
-            and ENTRY_TIME = #{entryTime}
-        </if>
-        <if test="notes != null and notes != ''">
-            and NOTES = #{notes}
-        </if>
-        <if test="files != null and files != ''">
-            and file = #{files}
-        </if>
+                <if test="developFinishDate != null  and developFinishDate != '' ">
+                    and DEVELOP_FINISH_DATE = #{developFinishDate}
+                </if>
+                <if test="softwareIntro != null and softwareIntro != ''">
+                    and SOFTWARE_INTRO = #{softwareIntro}
+                </if>
+                <if test="entryPeople != null and entryPeople != ''">
+                    and ENTRY_PEOPLE = #{entryPeople}
+                </if>
+                <if test="entryTime != null and entryTime != '' ">
+                    and ENTRY_TIME = #{entryTime}
+                </if>
+                <if test="notes != null and notes != ''">
+                    and NOTES = #{notes}
+                </if>
+                <if test="files != null and files != ''">
+                    and file = #{files}
+                </if>
 
-        <if test="technicalField != null and technicalField != ''">
-           and  technical_field = #{technicalField}
-        </if>
+                <if test="technicalField != null and technicalField != ''">
+                   and  technical_field = #{technicalField}
+                </if>
 
-        <if test="technicalFieldValue != null and technicalFieldValue != ''">
-            and technical_field_value = #{technicalFieldValue}
-        </if>
+                <if test="technicalFieldValue != null and technicalFieldValue != ''">
+                    and technical_field_value = #{technicalFieldValue}
+                </if>
 
-        <if test="createUnitId != null  and createUnitId != ''  ">
-            and create_unit_id = #{createUnitId}
-        </if>
+                <if test="createUnitId != null  and createUnitId != ''  ">
+                    and create_unit_id = #{createUnitId}
+                </if>
 
-        <if test="createUnitName != null  and createUnitName != ''  ">
-            and create_unit_name like CONCAT('%',#{createUnitName},'%')
-        </if>
+                <if test="createUnitName != null  and createUnitName != ''  ">
+                    and create_unit_name like CONCAT('%',#{createUnitName},'%')
+                </if>
 
-        <if test="childUnitIds != null  and childUnitIds !=''  ">
-            AND create_unit_id in
-            <foreach item="item" collection="childUnitIds.split(',')" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
+                <if test="childUnitIds != null  and childUnitIds !=''  ">
+                    AND create_unit_id in
+                    <foreach item="item" collection="childUnitIds.split(',')" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
 
-        <if test="secretLevel != null and secretLevel != ''" >
-            secret_level = #{secretLevel}
-        </if>
+                <if test="secretLevel != null and secretLevel != ''" >
+                   and secret_level = #{secretLevel}
+                </if>
 
-    </sql>
+            </sql>
 
-</mapper>
+        </mapper>
