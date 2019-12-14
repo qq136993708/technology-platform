@@ -58,8 +58,23 @@ var kyptCharts = {
   },
   getLBOption: function(config) {
     // 获取直角坐标系配置
-    var seriesData = [], legendData = [], categoryData = [], _this = this;
-  
+    var seriesData = [],
+    legendData = [],
+    categoryData = [],
+    _this = this,
+    label = (function() {
+      if (typeof(config.label) === 'boolean') {
+        return config.label;
+      } else {
+        return true;
+      }
+    })(),
+    lineColor = config.lineColor || '#ABB0BB',
+    valueColor = config.valueColor || '',
+    labelColor = config.labelColor || '#46484B';
+    
+
+
     $.each(config.series, function(index, item) {
       legendData.push(item.name);
   
@@ -74,7 +89,7 @@ var kyptCharts = {
         type: item.type || config.type,
         barWidth: 28,
         label: {
-          show: true,
+          show: label,
           position: 'top',
           color: '#46484B',
           fontSize: 12
@@ -141,11 +156,11 @@ var kyptCharts = {
         data: categoryData,
         axisTick: {show: false},
         splitLine: {show: false},
-        axisLine: { show: true, lineStyle: {color: '#ABB0BB'} },
+        axisLine: { show: true, lineStyle: {color: lineColor} },
         axisLabel: {
           show: true,
           fontSize: 14,
-          color: '#46484B'
+          color: labelColor
         }
       },
       yAxis: (function() {
@@ -155,14 +170,12 @@ var kyptCharts = {
           axisTick: {show: false},
           axisLabel: {
             show: true,
-            color: '#ABB0BB',
+            color: valueColor,
             fontSize: 12
           },
           splitLine: {
             show: true,
-            lineStyle: {
-              color: '#DBE0E2'
-            }
+            lineStyle: { color: lineColor }
           }
         };
   
