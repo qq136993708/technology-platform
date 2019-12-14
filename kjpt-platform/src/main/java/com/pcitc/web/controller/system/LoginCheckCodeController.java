@@ -22,12 +22,12 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class LoginCheckCodeController extends BaseController {
 
 	private static final String GET_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/get-user-byname/";
-	private static final String UPD_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/update-user";
 	
 	@Autowired
 	DefaultKaptcha defaultKaptcha;
@@ -64,7 +64,7 @@ public class LoginCheckCodeController extends BaseController {
 	    	String createText = defaultKaptcha.createText();
 	    	rsUser.setLoginCheckCode(createText);
 	    	httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-    		this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, this.httpHeaders), Integer.class);
+	    	EquipmentUtils.updateSysUser(rsUser, restTemplate, httpHeaders);
 			//httpServletRequest.getSession().setAttribute("vrifyCode", createText);
 			// 使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
 			BufferedImage challenge = defaultKaptcha.createImage(createText);
