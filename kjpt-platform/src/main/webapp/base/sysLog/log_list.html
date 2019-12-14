@@ -35,7 +35,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label"><span class="text">登录名:</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="userName" id="userName" placeholder="请输入登录名" autocomplete="off" class="layui-input">
+						<input type="text" name="userId" id="userId" placeholder="请输入登录名" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 			</div>
@@ -123,7 +123,7 @@
                         ,cols: [[ //表头
                             {title: '序号',type:'numbers',width:55 },
                             {field: 'optResult', title: '登录结果' },
-                            {field: 'userName', title: '登录名'},
+                            {field: 'userId', title: '登录名'},
                             {field: 'logIp', title: '登录IP'},
                             {field: 'requestType', title: '操作方式'},
                             {field: 'logTime', title: ' 操作时间', templet:  '<div>{{ layui.laytpl.toDateString(d.logTime) }}</div>'}
@@ -144,10 +144,11 @@
             }
         }
         /*初始表格*/
-        obj.tableList({logType:variable.logType,userType:variable.userType});
+        obj.tableList({logType:variable.logType,userType:variable.userType,userTypes:variable.userTypes});
         form.on('submit(newSubmit)', function(data) {
             data.field.logType=variable.logType
             data.field.userType=variable.userType
+            data.field.userTypes=variable.userTypes
             console.log(data.field)
             obj.tableList(data.field)
             return false
