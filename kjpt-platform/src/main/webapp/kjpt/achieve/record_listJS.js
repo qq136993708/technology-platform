@@ -13,7 +13,13 @@ layui.use(['table', 'form'], function() {
         ,cols: [[ //表头
           {type: 'checkbox', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
-          ,{field: 'auditStatusText', title: '备案状态', width: 80}
+          ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
+                      if(d.auditStatus!=0){
+                          return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
+                      }else {
+                          return d.auditStatusText
+                      }
+                  }}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitName', title: '成果持有单位', width: 120 }
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
@@ -47,6 +53,21 @@ layui.use(['table', 'form'], function() {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
+          done:function(){
+              $(".view").click(function () {
+                  var temUrl = "/task/process_bussinessId/" + $(this).attr("id");
+                  top.layer.open({
+                      title : '详情',
+                      shadeClose : true,
+                      type : 2,
+                      fixed : false,
+                      maxmin : false,
+                      area : [ '70%', '90%' ],
+                      content : temUrl
+                  });
+                  return false
+              })
+          },
         page: true, //开启分页
         limit: 10, // 每页数据条数,
         limits: [5, 10, 15, 20], // 配置分页数据条数
@@ -105,11 +126,12 @@ layui.use(['table', 'form'], function() {
   
   // 备案详情，查看，录入，转化
   $('#record_list_table').on('click', '.recordDetails', function(e) {
+    var index=parent.$("#LAY_app_body div.layui-show").index()-1;
     var optionType = $(this).data('type'),
     dialogTitle =  $(this).text().trim(),
     id = $(this).data('id'),
     auditStatus = $(this).data('auditstatus');
-    url = '/kjpt/achieve/record_input.html?type=' + optionType + '&id='+ id;
+    url = '/kjpt/achieve/record_input.html?type=' + optionType + '&id='+ id+"&index="+index;
     if (functionId && auditStatus !== 0 && auditStatus !== '0') {
       url += '&functionId=' + functionId;
     }
