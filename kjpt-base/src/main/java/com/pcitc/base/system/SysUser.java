@@ -97,16 +97,35 @@ public class SysUser {
 	private String nameBigFirstPin;
 	private String secretLevel = "1";
 	
-	private String unifyIdentityId="";
+	private String unifyIdentityId;
 	
 	private String  userNameKey;
 	private String  postName="";
 	private String  userUnitName="";
-	
+	private String  userUnitCode="";
 	
 	private String  secretLevelStr;
 	
 	
+	private String  userUnitPath="";
+	
+	
+
+	public String getUserUnitPath() {
+		return userUnitPath;
+	}
+
+	public void setUserUnitPath(String userUnitPath) {
+		this.userUnitPath = userUnitPath;
+	}
+
+	public String getUserUnitCode() {
+		return userUnitCode;
+	}
+
+	public void setUserUnitCode(String userUnitCode) {
+		this.userUnitCode = userUnitCode;
+	}
 
 	public String getSecretLevelStr() {
 		return secretLevelStr;
