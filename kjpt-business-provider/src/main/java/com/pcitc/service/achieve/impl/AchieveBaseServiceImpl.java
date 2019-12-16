@@ -151,6 +151,7 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
   			if("true".equals(str)) 
   			{
   				achieveBase.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+  				achieveBase.setIsPublic(Constant.IS_PUBLIC_NOT);
   				abm.update(achieveBase);
   				return new Result(true,"操作成功!");
   			}else 
