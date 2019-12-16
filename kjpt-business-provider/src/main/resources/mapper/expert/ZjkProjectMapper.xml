@@ -31,7 +31,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
     insert into zjk_project (id,expert_id, project_name, charge_unit, 
       research_target, setup_yeat, create_time, 
-      del_status, source_type, out_system_id,flag,secret_level
+      del_status, source_type, out_system_id,flag
       )
     values (
       #{id,jdbcType=VARCHAR}, 

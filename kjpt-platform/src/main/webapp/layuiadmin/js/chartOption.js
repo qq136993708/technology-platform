@@ -71,9 +71,11 @@ var kyptCharts = {
     })(),
     lineColor = config.lineColor || '#ABB0BB',
     valueColor = config.valueColor || '',
-    labelColor = config.labelColor || '#46484B';
-    
-
+    labelColor = config.labelColor || '#46484B',
+    barMaxWidth = 28;
+    if (config.type === 'bar' && config.series.length > 1) {
+      barMaxWidth = 18;
+    }
 
     $.each(config.series, function(index, item) {
       legendData.push(item.name);
@@ -87,7 +89,10 @@ var kyptCharts = {
         name: item.name,
         data: itemData,
         type: item.type || config.type,
-        barMaxWidth: 28,
+        // type: 'pictorialBar',
+        barMaxWidth: barMaxWidth,
+        barWidth: config.barWidth || 28,
+        barGap: 0,
         label: {
           show: label,
           position: 'top',
@@ -203,7 +208,7 @@ var kyptCharts = {
       color: config.color || '#0AA1FF'
     };
 
-    if (option.legend && option.legend.show) {
+    if (option.legend && option.legend.show && !option.legend.top) {
       option.grid.top = 72;
     }
 
@@ -275,7 +280,7 @@ var kyptCharts = {
       })(),
       series: [
         {
-          name: config.title || 'pieTile',
+          // name: config.title || 'pieTile',
           type:'pie',
           radius: config.radius || ['50%', '70%'],
           center: config.center || ['60%', '50%'],
