@@ -97,7 +97,7 @@ public class SysUser {
 	private String nameBigFirstPin;
 	private String secretLevel = "1";
 	
-	private String unifyIdentityId="";
+	private String unifyIdentityId;
 	
 	private String  userNameKey;
 	private String  postName="";

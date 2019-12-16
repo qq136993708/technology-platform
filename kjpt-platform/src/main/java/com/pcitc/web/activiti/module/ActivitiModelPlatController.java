@@ -53,6 +53,10 @@ public class ActivitiModelPlatController extends BaseController {
 	private static final String MODEL_DELETE_URL = "http://kjpt-zuul/system-proxy/modeler-provider/model/delete";
 	private static final String MODEL_EXPORT_URL = "http://kjpt-zuul/system-proxy/modeler-provider/model/export";
 	private static final String MODEL_UPLOAD_URL = "http://kjpt-zuul/system-proxy/modeler-provider/model/upload";
+	
+	
+	private static final String RESOURCE_MODEL_IMAGE_PATH = "http://kjpt-zuul/system-proxy/task-provider/getModelImage/";
+	
 
 	/**
 	 * @author zhf
@@ -94,6 +98,40 @@ public class ActivitiModelPlatController extends BaseController {
 		request.setAttribute("imagePath", imagePath);
 		return "/pplus/workflow/model-show";
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/activiti-model/show_image/{modelId}")
+	public String model_show(@PathVariable("modelId") String modelId, HttpServletRequest request) {
+		request.setAttribute("modelId", modelId);
+		return "/pplus/workflow/model_image_show";
+	}
+	
+	
+	@RequestMapping(value = "/activiti-model/get_image/{modelId}")
+	public String get_image(@PathVariable("modelId") String modelId, HttpServletRequest request) 
+	{
+		ResponseEntity<byte[]> responseEntity = this.restTemplate.exchange(RESOURCE_MODEL_IMAGE_PATH + modelId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), byte[].class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		byte[] image = responseEntity.getBody();
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();
+			os.write(image);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ok";
+	}
+	
 
 	@RequestMapping(value = "/activiti-model/image/{modelId}", method = RequestMethod.GET)
 	@ResponseBody

@@ -33,7 +33,7 @@ public class JwtTokenUtil implements Serializable {
 	private static final String CLAIM_KEY_POSITION = "userPosition"; // 职务
 	private static final String CLAIM_KEY_SECRET_LEVEL = "secretLevel";
 	private static final String CLAIM_KEY_USER_UNIT_NAME = "userUnitName";
-	
+	private static final String CLAIM_KEY_USER_ID_CARD = "unifyIdentityId";
 	
 	
 	
@@ -93,6 +93,7 @@ public class JwtTokenUtil implements Serializable {
 			user.setUserPost(claims.get(CLAIM_KEY_POSTID) != null ? claims.get(CLAIM_KEY_POSTID).toString() : null);
 			user.setUserLevel(claims.get(CLAIM_KEY_LEVEL) != null ? Integer.parseInt(claims.get(CLAIM_KEY_LEVEL).toString()) : null);
 			user.setUserConfig2(claims.get(CLAIM_KEY_POSITION) != null ? claims.get(CLAIM_KEY_POSITION).toString() : null);
+			user.setUnifyIdentityId(claims.get(CLAIM_KEY_USER_ID_CARD) != null ? claims.get(CLAIM_KEY_USER_ID_CARD).toString() : null);
 		} else {
 			System.out.println("error-----------claims is null");
 		}
@@ -135,7 +136,7 @@ public class JwtTokenUtil implements Serializable {
 			user.setUserConfig2(claims.get(CLAIM_KEY_POSITION) != null ? claims.get(CLAIM_KEY_POSITION).toString() : null);
 			user.setUserUnitName(claims.get(CLAIM_KEY_USER_UNIT_NAME) != null ? claims.get(CLAIM_KEY_USER_UNIT_NAME).toString() : null);
 			user.setSecretLevel(claims.get(CLAIM_KEY_SECRET_LEVEL) != null ? claims.get(CLAIM_KEY_SECRET_LEVEL).toString() : null);
-	
+			user.setUnifyIdentityId(claims.get(CLAIM_KEY_USER_ID_CARD) != null ? claims.get(CLAIM_KEY_USER_ID_CARD).toString() : null);
 		
 		}
 		return user;

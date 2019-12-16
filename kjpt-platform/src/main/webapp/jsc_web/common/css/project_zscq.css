@@ -28,6 +28,7 @@
     color: rgba(68,165,255,1);
 }
 .bottomContent{
+    height: 50%;
     margin-left: 0.19rem;
 }
 .chartsContent{
