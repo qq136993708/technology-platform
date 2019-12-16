@@ -7,7 +7,6 @@
     <title>中核集团科技管理平台-项目-风险</title>
     <link rel="stylesheet" href="../common/css/base.css">
     <link rel="stylesheet" href="../common/css/common.css">
-    <link rel="stylesheet" href="../control/layui/css/layui.css">
     <link rel="stylesheet" href="../control/ztree/css/zTreeStyle/zTreeStyle.css">
     <link rel="stylesheet" href="../common/css/table.css">
     <link rel="stylesheet" href="../common/css/main.css">
@@ -17,15 +16,6 @@
         <div class="project_fx">
             <div class="title"><span>风险提示事项</span></div>
             <div class="check_query">
-                <div class="query1">
-                    <form class="layui-form" action="">
-                        <select name="city" lay-verify="">
-                            <option value="010">2019年</option>
-                            <option value="021">2018年</option>
-                            <option value="0571">2017年</option>
-                        </select>   
-                    </form> 
-                </div>
                 <div class="query"><span>核能开发</span></div>
                 <div class="query"><span>集中研发</span></div>
                 <div class="query"><span>国防基础</span></div>
@@ -102,7 +92,6 @@
     </div>
     <script src="../common/js/jquery-1.10.1.min.js"></script>
     <script src="../common/js/echarts.min.js"></script>
-    <script src="../control/layui/layui.js"></script>
     <script src="../control/ztree/js/jquery.ztree.core.js"></script>
     <script src="../common/js/autofont.js"></script>
     <script src="js/project_fengx.js"></script>
@@ -114,11 +103,6 @@
             $("#charts").css("width", chartsW).css("height", chartsH);
             linebar.resize();
         }
-    </script>
-    <script>
-        layui.use('form', function(){
-          var form = layui.form;
-        });
     </script>
 </body>
 </html>

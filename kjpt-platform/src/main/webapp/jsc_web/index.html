@@ -47,9 +47,9 @@
             </div>
             <div class="header_right">
                 <div class="right_tab">
-                    <div class="location tab_button transR btnactive" id="kjrcPage"><span>科技人才</span></div>
-                    <div class="location tab_button transR" id="kyptPage"><span>科研平台</span></div>
-                    <div class="location tab_button transR" id="zlyjyfkPage"><span>质量与经验反馈</span></div>
+                    <div class="location tab_button transR btnactive"><span>科技人才</span></div>
+                    <div class="location tab_button transR"><span>科研平台</span></div>
+                    <div class="location tab_button transR"><span>质量与经验反馈</span></div>
                 </div>
             </div>
             <div class="header_date">
@@ -122,16 +122,6 @@
                     $(this).siblings().removeClass("btnactive");
                     $(this).addClass("btnactive");
                 }
-                //知识产权
-                if($(this).attr("id") == "zscqPage" ){
-                    $(".loading-container").removeClass("loading-inactive");
-                    $(".projects").addClass("disNone");
-                    $(".content").removeClass("proIfra");
-                    
-                    $("#mainframe").attr("src", "front/project_zscq.html");
-                    $(this).siblings().removeClass("btnactive");
-                    $(this).addClass("btnactive");
-                }
                 // 成果信息
                 if($(this).attr("id") == "cgxxPage" ){
                     $(this).addClass("btnactive").siblings().removeClass("btnactive");
@@ -142,32 +132,7 @@
                         }
                     }).removeClass('disNone');
                 }
-
-                // 科研平台
-                if($(this).attr("id") == "kyptPage" ){
-                    $(".loading-container").removeClass("loading-inactive");
-                    $(".projects").addClass("disNone");
-                    $(".content").removeClass("proIfra");
-                    
-                    $("#mainframe").attr("src", "front/kypt.html");
-                    $(this).siblings().removeClass("btnactive");
-                    $(this).addClass("btnactive");
-                }
             });	
-
-            //右侧
-            $(".right_tab div").click(function () {
-                // 科研平台
-                if($(this).attr("id") == "kyptPage" ){
-                    $(".loading-container").removeClass("loading-inactive");
-                    $(".projects").addClass("disNone");
-                    $(".content").removeClass("proIfra");
-                    
-                    $("#mainframe").attr("src", "front/kypt.html");
-                    $(this).siblings().removeClass("btnactive");
-                    $(this).addClass("btnactive");
-                }
-            });
             /**项目*/
             $(".projects div").click(function () {
                 //首页
@@ -191,18 +156,6 @@
                 //投 资
                 if($(this).attr("id") == "projects_touzPage" ){
                     $("#mainframe").attr("src", "front/project_touz.html");
-                    $(this).siblings().removeClass("projectActive");
-                    $(this).addClass("projectActive");
-                }
-                //进展及成果
-                if($(this).attr("id") == "projects_jzjcgPage" ){
-                    $("#mainframe").attr("src", "front/project_jzjcg.html");
-                    $(this).siblings().removeClass("projectActive");
-                    $(this).addClass("projectActive");
-                }
-                //项目清单
-                if($(this).attr("id") == "projects_xmqdPage" ){
-                    $("#mainframe").attr("src", "front/project_xmqd.html");
                     $(this).siblings().removeClass("projectActive");
                     $(this).addClass("projectActive");
                 }

@@ -5,9 +5,6 @@ var linebar= echarts.init(document.getElementById('charts'));
 var option = {
 	tooltip: {
 		trigger: 'axis',
-		axisPointer: {
-            type: 'shadow'
-        },
 		backgroundColor:'rgba(38,84,113,0.5)',
 		borderColor:'#0897a0',
 		borderWidth:1
@@ -71,7 +68,6 @@ var option = {
             name:'蒸发量',
 			type:'bar',
 			barWidth:20,
-			barGap: 0,
             data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
         },
         {

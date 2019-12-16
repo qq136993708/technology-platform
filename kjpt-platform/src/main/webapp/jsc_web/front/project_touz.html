@@ -7,7 +7,6 @@
     <title>中核集团科技管理平台-项目-投资</title>
     <link rel="stylesheet" href="../common/css/base.css">
     <link rel="stylesheet" href="../common/css/common.css">
-    <link rel="stylesheet" href="../control/layui/css/layui.css">
     <link rel="stylesheet" href="../common/css/table.css">
     <link rel="stylesheet" href="../common/css/main.css">
 </head>
@@ -16,15 +15,6 @@
         <div class="check_charts">
             <div class="title"><span>月度分解计划</span></div>
             <div class="check_query">
-                <div class="query1">
-                    <form class="layui-form" action="">
-                        <select name="city" lay-verify="">
-                            <option value="010">2019年</option>
-                            <option value="021">2018年</option>
-                            <option value="0571">2017年</option>
-                        </select>   
-                    </form> 
-                </div>
                 <div class="query"><span>核能开发</span></div>
                 <div class="query"><span>集中研发</span></div>
             </div>
@@ -45,7 +35,6 @@
     </div>
     <script src="../common/js/jquery-1.10.1.min.js"></script>
     <script src="../common/js/echarts.min.js"></script>
-    <script src="../control/layui/layui.js"></script>
     <script src="../common/js/autofont.js"></script>
     <script src="js/project_touz.js"></script>
     <script >
@@ -60,11 +49,6 @@
             charts1.resize();
             charts2.resize();
         }
-    </script>
-    <script>
-        layui.use('form', function(){
-          var form = layui.form;
-        });
     </script>
 </body>
 </html>
