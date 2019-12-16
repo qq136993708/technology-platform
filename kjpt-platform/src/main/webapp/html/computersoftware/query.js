@@ -21,7 +21,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           {type: 'radio', field: 'id'}
           ,{field: 'unitNameText', title: '单位名称', sort: true }
           ,{field: 'registerNumber', title: '登记号', sort: true}
-          ,{field: 'softwareName', title: '软件名称', sort: true } 
+          ,{field: 'softwareName', title: '软件名称', sort: true }
+          ,{field: 'technicalFieldText', title: '技术领域', sort: true }  
           ,{field: 'copyrightOwner', title: '著作权人', sort: true}
           ,{field: 'versionNumber', title: '版本号', sort: true}
           ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {

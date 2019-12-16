@@ -22,7 +22,7 @@ public class RestBaseController extends BaseController{
         rm.setUpdateDate(new Date());
         rm.setUpdator(this.getUserProfile().getUserName());
         rm.setCreateUnitName(this.getUserProfile().getUserUnitName());
-        rm.setCreateUnitId(this.getUserProfile().getUserUnit());
+        rm.setCreateUnitId(this.getUserProfile().getUnitId());
         rm.setDeleted("0");
     }
 
