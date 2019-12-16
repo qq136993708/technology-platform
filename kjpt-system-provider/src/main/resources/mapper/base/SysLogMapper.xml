@@ -234,7 +234,8 @@
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="userName != null and userName  !='' ">              AND t.user_name like CONCAT('%',#{userName},'%')</if>
-	     <if test="logType != null      and logType !=''  ">           AND t.log_type = #{logType}</if>
+	     <if test="userId != null      and userId !=''  ">           AND t.user_id = #{userId}</if>
+	      <if test="logType != null      and logType !=''  ">           AND t.log_type = #{logType}</if>
 	     <if test="userType != null       and userType !=''  ">         AND t.user_type = #{userType}</if>
 	     <if test="userCompany != null     and userCompany !=''  ">       AND t.user_company = #{userCompany}</if>
 	     <if test="unitId != null        and unitId !=''  ">          AND t.unit_id = #{unitId}</if>
@@ -244,6 +245,13 @@
          <if test="optResult != null       and optResult !=''">         AND t.opt_result = #{optResult}</if>
          <if test="logName != null       and logName !=''">         AND t.user_name = #{logName}</if>
          <if test="logIp != null       and logIp !=''">         AND t.log_ip = #{logIp}</if>
+         <if test="userTypes != null       and userTypes !=''"> 
+           AND t.user_type in 
+	           <foreach item="item"  collection="userTypes.split(',')"  open="(" separator="," close=")">
+			          #{item}
+			   </foreach>
+			   
+         </if>
 	 </trim>
 	</sql>
 	

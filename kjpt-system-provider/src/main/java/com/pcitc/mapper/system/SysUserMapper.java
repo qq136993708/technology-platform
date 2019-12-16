@@ -52,5 +52,8 @@ public interface SysUserMapper {
 	
 	public	List getList(Map map);
 	public  Long getCount(Map map);
+	
+	public SysUser getUserByUserNameAndPassword(Map<String, String> paramMap);
+	
 
 }

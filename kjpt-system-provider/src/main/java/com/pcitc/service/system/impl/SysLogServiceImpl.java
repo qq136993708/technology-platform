@@ -84,7 +84,10 @@ public class SysLogServiceImpl implements SysLogService {
 			String logName=getTableParam(param,"logName","");
 			String logIp=getTableParam(param,"logIp","");
 			String optResult=getTableParam(param,"optResult","");
+			String userTypes=getTableParam(param,"userTypes","");
+			String userId=getTableParam(param,"userId","");
 			Map map=new HashMap();
+			map.put("userId", userId);
 			map.put("userName", userName);
 			map.put("logType", logType);
 			map.put("userType", userType);
@@ -94,6 +97,7 @@ public class SysLogServiceImpl implements SysLogService {
 			map.put("optResult", optResult);
 			map.put("logName", logName);
 			map.put("logIp", logIp);
+			map.put("userTypes", userTypes);
 			String beginTime=getTableParam(param,"beginTime","");
 			String endTime=getTableParam(param,"endTime","");
 			

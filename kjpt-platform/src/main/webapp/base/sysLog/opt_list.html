@@ -115,7 +115,7 @@
                             {title: '序号',type:'numbers',width:55 },
                             {field: 'optResult', title: '登录结果' },
                             {field: 'optDescribe', title: '操作名称'},
-                            {field: 'userName', title: '操作者'},
+                            {field: 'userId', title: '操作者'},
                             {field: 'logUrl', title: 'URL' },
                             {field: 'logIp', title: '操作IP地址'},
                             {field: 'requestType', title: '操作方式'},
@@ -137,10 +137,11 @@
             }
         }
         /*初始表格*/
-        obj.tableList({logType:variable.logType,userType:variable.userType});
+        obj.tableList({logType:variable.logType,userType:variable.userType,userTypes:variable.userTypes});
         form.on('submit(newSubmit)', function(data) {
             data.field.logType=variable.logType
             data.field.userType=variable.userType
+            data.field.userTypes=variable.userTypes
             console.log(data.field)
             obj.tableList(data.field)
             return false

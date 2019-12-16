@@ -40,5 +40,15 @@ public class SystemHystric implements SystemRemoteClient {
 		System.out.println("sorry，访问selectUserDetail错误，请调整。返回null");
 		return null;
 	}
+	
+	
+	@Override
+	public SysUser getUserByUserNameAndPassword(SysUser sysUser) {
+		System.out.println("sorry，访问getUserByUserNameAndPassword错误，请调整。返回null");
+		return null;
+	}
+	
+	
+	
 
 }

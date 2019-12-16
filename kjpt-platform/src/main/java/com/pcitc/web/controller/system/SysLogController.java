@@ -82,8 +82,10 @@ public class SysLogController extends BaseController {
 			@ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "endTime",  value = "截止时间", dataType = "string", paramType = "query") ,
 			@ApiImplicitParam(name = "logType",  value = "日志类型：1登陆日志，2操作日志，3错误日志",       dataType = "string", paramType = "query") ,
-			@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query"),
-			@ApiImplicitParam(name = "userTypes", value = "2系统管理员，2安全员，3审计员", dataType = "string", paramType = "query")
+			@ApiImplicitParam(name = "userType", value = "用户类型：1普通用户，2系统管理员，3安全员，4审计员", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "userTypes", value = "2系统管理员，3安全员", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "userName", value = "登录名", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "userId", value = "登录账号", dataType = "string", paramType = "query")
 	
 	    })
 	@RequestMapping(value = "/sysLog-api/query", method = RequestMethod.POST)
@@ -100,7 +102,8 @@ public class SysLogController extends BaseController {
 			@RequestParam(required = false) String logType,
 			@RequestParam(required = false) String userType,
 			@RequestParam(required = false) String userTypes,
-			
+			@RequestParam(required = false) String userName,
+			@RequestParam(required = false) String userId,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		LayuiTableParam param = new LayuiTableParam();
@@ -115,6 +118,8 @@ public class SysLogController extends BaseController {
 		param.getParam().put("logType", logType);
 		param.getParam().put("userType", userType);
 		param.getParam().put("userTypes", userTypes);
+		param.getParam().put("userName", userName);
+		param.getParam().put("userId", userId);
 		
 		JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(param));
         System.out.print(">>>>>>>>>>>系统日志查询（分页）参数："+json.toString());

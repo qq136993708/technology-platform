@@ -7,7 +7,8 @@
 <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
-
+	<link rel="stylesheet" href="/css/layui-common.css">
+	<link rel="stylesheet" href="/css/form.css">
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
@@ -34,7 +35,7 @@
 		<input name="initFuncName" id="initFuncName" value="${initFuncName}" type="hidden"> <input name="callbackFuncName" id="callbackFuncName" value="${callbackFuncName}" type="hidden">
 		<div class="btnGroup" style="float: left">
 			<input type="text" style="float: left; position: relative" name="searchUnitName" id="searchUnitName" placeholder="模糊搜索机构名称" style="width:70%" autocomplete="off" class="layui-input">
-			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" id="searchEvent()" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-normal" id="searchEvent()" data-type="searchEvent">查询</button>
 		</div>
 		<div class="left-side-tree" style="margin-top: -10px">
 			<div class="layui-side-scroll" style="width: 100%;" id="unitTree_div">
@@ -43,9 +44,9 @@
 		</div>
 	</div>
 	<div class="form-bottom">
-		<div class="form-bottom-btns">
-			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="selectEvent" lay-submit="" data-type="selectEvent">确定</button>
-			<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消</button>
+		<div class="form-bottom-btns dialog-footer-btn">
+			<button class="layui-btn layui-btn-normal" id="selectEvent" lay-submit="" data-type="selectEvent">确定</button>
+			<button type="button" class="layui-btn layui-btn-primary" id="cancel">取消</button>
 		</div>
 	</div>
 

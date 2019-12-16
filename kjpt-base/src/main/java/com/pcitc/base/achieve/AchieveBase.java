@@ -88,7 +88,33 @@ public class AchieveBase extends RecordModel implements Serializable {
      */
     private String fileDoc="";
 
+    /***
+     * 外部转化审批表
+     * @return
+     */
+    private String approvalDoc;
 
+    /**
+     * 公示附件
+     */
+    private String publicDoc;
+
+
+    public String getApprovalDoc() {
+        return approvalDoc;
+    }
+
+    public void setApprovalDoc(String approvalDoc) {
+        this.approvalDoc = approvalDoc;
+    }
+
+    public String getPublicDoc() {
+        return publicDoc;
+    }
+
+    public void setPublicDoc(String publicDoc) {
+        this.publicDoc = publicDoc;
+    }
 
     public String getId() {
         return id;

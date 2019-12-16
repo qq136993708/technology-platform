@@ -24,7 +24,7 @@
 		<result column="develop_info"   property="developInfo" jdbcType="VARCHAR" />
 		<result column="direction_info" property="directionInfo" jdbcType="VARCHAR" />
 		<result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
-        <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+        <result column="secret_level_text"          jdbcType="VARCHAR" property="secretLevelText" />
 		
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -358,29 +358,30 @@
 
 	<!-- 根据层级条件 显示树 -->
 	<select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode">
-		select tfm_type_id as id,parent_id as pId,type_name as name,level_code
-		as levelCode, type_code as code, is_parent as parentFlag, type_index as nodePath
-		from tfm_type
+		select a.tfm_type_id as id,a.parent_id as pId,a.type_name as name,a.level_code
+		as levelCode, a.type_code as code, a.is_parent as parentFlag, a.type_index as nodePath,
+		a.secret_level as secret_level,sd.name as secret_level_text
+		from tfm_type a left join sys_dictionary sd on a.secret_level = sd.num_value and sd.parent_code = 'ROOT_KJPT_XXMJ'
 		where status = '1' and type_index is not null
 		<if test="parentCode != null and parentCode !=''.toString">
-			and parent_code = '${parentCode}'
+			and a.parent_code = '${parentCode}'
 		</if>
 		<if test="typeCode != null and typeCode !=''.toString">
-			and type_code = '${typeCode}'
+			and a.type_code = '${typeCode}'
 		</if>
 		<if test="typeIndex != null and typeIndex !=''.toString">
-			and type_index like '%@${typeIndex}@%'
+			and a.type_index like '%@${typeIndex}@%'
 		</if>
 		<if test="typeIndex != null and typeIndex !=''.toString">
-			and type_code != '${typeIndex}'
+			and a.type_code != '${typeIndex}'
 		</if>
 		<if test="levelCode != null and levelCode !=''.toString">
-			and level_code &lt;= #{levelCode}
+			and a.level_code &lt;= #{levelCode}
 		</if>
 		<if test="typeName != null and typeName !=''.toString">
-			and type_name like '%${typeName}%'
+			and a.type_name like '%${typeName}%'
 		</if>
-		order by level_code, type_index asc
+		order by a.level_code, a.type_index asc
 	</select>
 
 	<!-- 根据层级条件 显示树 -->

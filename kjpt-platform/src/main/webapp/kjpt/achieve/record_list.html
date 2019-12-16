@@ -44,7 +44,11 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">完成情况：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+            <select name="state" >
+              <option value="">请选择</option>
+              <option value="1">是</option>
+              <option value="0">否</option>
+            </select>
           </div>
         </div>
       </div>
@@ -53,11 +57,11 @@
           <label class="layui-form-label"><span class="text">录入时间：</span></label>
           <div class="layui-input-block font0">
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-              <input type="text" name="inputStart" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
+              <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
             </div>
             <span class="ib-block font14 text-center" style="width: 30px;">-</span>
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-              <input type="text" name="inputEnd" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
+              <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
             </div>
           </div>
         </div>
@@ -66,7 +70,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">备案状态：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input">
+            <select class="auditStatus" name="auditStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
           </div>
         </div>
       </div>
