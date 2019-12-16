@@ -105,7 +105,7 @@ public class ActivitiModelPlatController extends BaseController {
 	
 	@RequestMapping(value = "/activiti-model/show_image/{modelId}")
 	public String model_show(@PathVariable("modelId") String modelId, HttpServletRequest request) {
-		request.setAttribute("modelId", modelId);
+		//request.setAttribute("modelId", modelId);
 		return "/pplus/workflow/model_image_show";
 	}
 	
@@ -113,7 +113,7 @@ public class ActivitiModelPlatController extends BaseController {
 	@RequestMapping(value = "/activiti-model/get_image/{modelId}")
 	public String get_image(@PathVariable("modelId") String modelId, HttpServletRequest request) 
 	{
-		ResponseEntity<byte[]> responseEntity = this.restTemplate.exchange(RESOURCE_MODEL_IMAGE_PATH + modelId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), byte[].class);
+		ResponseEntity<byte[]> responseEntity = this.restTemplate.exchange(RESOURCE_MODEL_IMAGE_PATH + modelId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), byte[].class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		byte[] image = responseEntity.getBody();
 		OutputStream os = null;

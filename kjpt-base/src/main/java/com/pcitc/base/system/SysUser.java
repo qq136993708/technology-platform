@@ -107,6 +107,19 @@ public class SysUser {
 	private String  secretLevelStr;
 	
 	
+	private String  userUnitPath="";
+	
+	
+
+	public String getUserUnitPath() {
+		return userUnitPath;
+	}
+
+	public void setUserUnitPath(String userUnitPath) {
+		this.userUnitPath = userUnitPath;
+	}
+
+	
 
 	public String getSecretLevelStr() {
 		return secretLevelStr;

@@ -33,8 +33,9 @@ public class JwtTokenUtil implements Serializable {
 	private static final String CLAIM_KEY_POSITION = "userPosition"; // 职务
 	private static final String CLAIM_KEY_SECRET_LEVEL = "secretLevel";
 	private static final String CLAIM_KEY_USER_UNIT_NAME = "userUnitName";
+	private static final String CLAIM_KEY_USER_UNIT_ID = "userUnit";
 	private static final String CLAIM_KEY_USER_ID_CARD = "unifyIdentityId";
-	
+	private static final String CLAIM_KEY_USER_UNIT_PATH = "userUnitPath";
 	
 	
 	
@@ -84,16 +85,14 @@ public class JwtTokenUtil implements Serializable {
 			user.setUnitId(claims.get(CLAIM_KEY_UNITID) != null ? claims.get(CLAIM_KEY_UNITID).toString() : null);
 			user.setUnitPath(claims.get(CLAIM_KEY_UNITPATH) != null ? claims.get(CLAIM_KEY_UNITPATH).toString() : null);
 			user.setFunList(claims.get(CLAIM_KEY_FUNCTIONLIST) != null ? (List<SysFunction>) claims.get(CLAIM_KEY_FUNCTIONLIST) : null);
-			// user.setInstituteCodes(claims.get(INSTITUTE_CODE) != null ?
-			// (List<String>)claims.get(INSTITUTE_CODE) : null);
-			// user.setInstituteNames(claims.get(INSTITUTE_NAME) != null ?
-			// (List<String>)claims.get(INSTITUTE_NAME) : null);
 			user.setUserUnitName(claims.get(CLAIM_KEY_USER_UNIT_NAME) != null ? claims.get(CLAIM_KEY_USER_UNIT_NAME).toString() : null);
 			user.setSecretLevel(claims.get(CLAIM_KEY_SECRET_LEVEL) != null ? claims.get(CLAIM_KEY_SECRET_LEVEL).toString() : null);
 			user.setUserPost(claims.get(CLAIM_KEY_POSTID) != null ? claims.get(CLAIM_KEY_POSTID).toString() : null);
 			user.setUserLevel(claims.get(CLAIM_KEY_LEVEL) != null ? Integer.parseInt(claims.get(CLAIM_KEY_LEVEL).toString()) : null);
 			user.setUserConfig2(claims.get(CLAIM_KEY_POSITION) != null ? claims.get(CLAIM_KEY_POSITION).toString() : null);
 			user.setUnifyIdentityId(claims.get(CLAIM_KEY_USER_ID_CARD) != null ? claims.get(CLAIM_KEY_USER_ID_CARD).toString() : null);
+			user.setUserUnit(claims.get(CLAIM_KEY_USER_UNIT_ID) != null ? claims.get(CLAIM_KEY_USER_UNIT_ID).toString() : null);
+			user.setUserUnitPath(claims.get(CLAIM_KEY_USER_UNIT_PATH) != null ? claims.get(CLAIM_KEY_USER_UNIT_PATH).toString() : null);
 		} else {
 			System.out.println("error-----------claims is null");
 		}
@@ -127,17 +126,14 @@ public class JwtTokenUtil implements Serializable {
 			user.setUnitPath(claims.get(CLAIM_KEY_UNITPATH) != null ? claims.get(CLAIM_KEY_UNITPATH).toString() : null);
 			user.setRoles(claims.get(CLAIM_KEY_ROLELIST) != null ? (List<String>) claims.get(CLAIM_KEY_ROLELIST) : null);
 			user.setFunList(claims.get(CLAIM_KEY_FUNCTIONLIST) != null ? (List<SysFunction>) claims.get(CLAIM_KEY_FUNCTIONLIST) : null);
-			// user.setInstituteCodes(claims.get(INSTITUTE_CODE) != null ?
-			// (List<String>)claims.get(INSTITUTE_CODE) : null);
-			// user.setInstituteNames(claims.get(INSTITUTE_NAME) != null ?
-			// (List<String>)claims.get(INSTITUTE_NAME) : null);
 			user.setUserPost(claims.get(CLAIM_KEY_POSTID) != null ? claims.get(CLAIM_KEY_POSTID).toString() : null);
 			user.setUserLevel(claims.get(CLAIM_KEY_LEVEL) != null ? Integer.parseInt(claims.get(CLAIM_KEY_LEVEL).toString()) : null);
 			user.setUserConfig2(claims.get(CLAIM_KEY_POSITION) != null ? claims.get(CLAIM_KEY_POSITION).toString() : null);
 			user.setUserUnitName(claims.get(CLAIM_KEY_USER_UNIT_NAME) != null ? claims.get(CLAIM_KEY_USER_UNIT_NAME).toString() : null);
 			user.setSecretLevel(claims.get(CLAIM_KEY_SECRET_LEVEL) != null ? claims.get(CLAIM_KEY_SECRET_LEVEL).toString() : null);
 			user.setUnifyIdentityId(claims.get(CLAIM_KEY_USER_ID_CARD) != null ? claims.get(CLAIM_KEY_USER_ID_CARD).toString() : null);
-		
+			user.setUserUnitPath(claims.get(CLAIM_KEY_USER_UNIT_PATH) != null ? claims.get(CLAIM_KEY_USER_UNIT_PATH).toString() : null);
+
 		}
 		return user;
 	}
