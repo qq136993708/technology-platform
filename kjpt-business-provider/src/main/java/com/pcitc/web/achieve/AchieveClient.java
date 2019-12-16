@@ -2,6 +2,7 @@ package com.pcitc.web.achieve;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.workflow.Constants;
@@ -82,6 +83,7 @@ public class AchieveClient {
 		
 		AchieveBase achieveBase=abs.load(id);
 		achieveBase.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
+		achieveBase.setIsPublic(Constant.IS_PUBLIC_DRAFT);
 		int count=abs.save(achieveBase) ;
 		return count;
 	}
