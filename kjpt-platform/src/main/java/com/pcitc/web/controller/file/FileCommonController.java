@@ -144,16 +144,16 @@ public class FileCommonController extends BaseController {
     private String checkFileName(String fileName){
 
         if(fileName.startsWith(FILE_TYPE_4)){
-            return "4";
-        }
-        if(fileName.startsWith(FILE_TYPE_3)){
             return "3";
         }
-        if(fileName.startsWith(FILE_TYPE_2)){
+        if(fileName.startsWith(FILE_TYPE_3)){
             return "2";
         }
-        if(fileName.startsWith(FILE_TYPE_1)){
+        if(fileName.startsWith(FILE_TYPE_2)){
             return "1";
+        }
+        if(fileName.startsWith(FILE_TYPE_1)){
+            return "0";
         }
         return null;
     }
