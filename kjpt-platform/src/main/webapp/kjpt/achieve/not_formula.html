@@ -88,19 +88,40 @@
                     ,cols: [[ //表头
                         {type: 'checkbox', field: 'id'}
                         ,{type: 'numbers', title: '序号', width: 80}
-                        ,{field: 'supportingInstitutionsText', title: '成果名称', sort: true }
-                        ,{field: 'personLiable', title: '完成单位', sort: true}
-                        ,{field: 'typeText', title: '科技成果介绍'}
-                        ,{field: 'researchFieldText', title: '成果完成时间'}
-                        ,{field: 'experience', title: '拟转让方式', sort: true}
-                        ,{field: 'secretLevelText', title: '密级', sort: true} 
-                        
-                        ,{ title: '操作'}
+                        ,{field: 'achieveName', title: '成果名称', sort: true }
+                        ,{field: 'finishUnitName', title: '完成单位', sort: true}
+                        ,{field: 'brief', title: '科技成果介绍'}
+                        ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
+                        ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
+                        ,{field: 'secretLevelText', title: '密级', sort: true}
+                        ,{ title: '操作', templet: function(d) {
+                                var html='<a id="'+d.id+'" class="formula link-text recordDetails">公示</a>'
+                                return html
+                            }}
                     ]],
                     parseData: function(res) {return layuiParseData(res, null, 3);},
                     request: {
                         pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                         limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                    },
+                    done:function(res){
+                        console.log(res)
+                        $(".formula").click(function () {
+                            top.layer.open({
+                                type: 2,
+                                title: "公示",
+                                content: "/kjpt/achieve/formula.html?id="+$(this).attr("id"), // 全局弹窗页面地址
+                                btn: null,
+                                area: ['50%', '60%'],
+                                end: function(lay, index) {
+                                    // 弹窗销毁时获取弹窗返回数据
+                                    var getData=getDialogData('dialog-data');
+                                    if(getData){
+                                        queryTable('')
+                                    }
+                                }
+                            });
+                        })
                     },
                     page: true, //开启分页
                     limit: 10, // 每页数据条数,
