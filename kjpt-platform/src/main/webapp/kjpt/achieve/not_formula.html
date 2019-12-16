@@ -132,7 +132,12 @@
                 table.reload('tableDemo', {where: searchData});
             }
         }
-
+        $('.openLayerPage').on('click', function() {
+            var listData = table.checkStatus('tableDemo').data;
+            var index=parent.$("#LAY_app_body div.layui-show").index()-1;
+            var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
+            parent.layui.index.openTabsPage(url,  '查看');
+        })
         // 监控表单提交事件
         form.on('submit(formSubmit)', function(data) {
             queryTable(data.field);
