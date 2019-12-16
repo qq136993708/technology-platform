@@ -55,9 +55,17 @@ public class Constant {
     public static String INFO_SECRET_LEVEL_INNER = "2";
     public static String INFO_SECRET_LEVEL_PUBLIC = "1";
     
+    
+    //是否公示：0未发起（或驳回），1未公示或（流程申请中），2已公示(手动)（正在公示），3公示结束(手动)（流程结束）
+    public static String IS_PUBLIC_DRAFT= "0";
+    public static String IS_PUBLIC_NOT = "1";
+    public static String IS_PUBLIC_DOING = "2";
+    public static String IS_PUBLIC_END = "3";
+    
+    
 
     /**
-     * 默认文件上传类型
+               * 默认文件上传类型
      */
     public static String default_file_type = "png|jpg|jpeg|gif|txt|doc|docx|xls|xlsx|ppt|pptx|pdf|wps|rar|zip|gz|rm|rmvb|mp3|wma|mid|html";
 

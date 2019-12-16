@@ -381,6 +381,15 @@
 		<if test="typeName != null and typeName !=''.toString">
 			and a.type_name like '%${typeName}%'
 		</if>
+		<if test="secretLevel != null and secretLevel != '' " >
+			and a.secret_level = #{secretLevel}
+		</if>
+		<if test="userSecretLevel != null and userSecretLevel !=''  ">
+			AND a.secret_level in
+			<foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 		order by a.level_code, a.type_index asc
 	</select>
 

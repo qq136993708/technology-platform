@@ -32,6 +32,7 @@
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
 
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="technical_field_text" jdbcType="VARCHAR" property="technicalFieldText"/>
 
 
     </resultMap>

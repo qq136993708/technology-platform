@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.system.SysUser;
+import com.pcitc.web.utils.EquipmentUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -80,6 +81,7 @@ public class TechFamilyController extends BaseController {
 			techType.setTypeIndex(request.getParameter("code"));
 		}
 
+		techType.setUserSecretLevel(EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
 		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST, new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
 
 		List<TreeNode> treeNodes = responseEntity.getBody();
