@@ -180,9 +180,9 @@ public class AchieveBaseController extends RestBaseController {
     public AchieveBase newInit() {
         AchieveBase a = new AchieveBase();
         a.setId(UUID.randomUUID().toString().replace("-",""));
-        a.setIsPublic("0");
-        a.setCreateDate(new Date());
-        a.setCreator(this.getUserProfile().getUserName());
+        a.setPublicDoc(UUID.randomUUID().toString().replace("-",""));
+        a.setApprovalDoc(UUID.randomUUID().toString().replace("-",""));
+        a.setDeleted("0");
         return a;
     }
     @ApiOperation(value="已公示")
