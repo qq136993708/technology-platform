@@ -1,10 +1,12 @@
 package com.pcitc.web.workflow;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,13 +19,13 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.SequenceFlow;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
-import org.activiti.engine.history.HistoricIdentityLink;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -45,6 +47,7 @@ import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.pvm.process.TransitionImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
+import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
@@ -53,6 +56,7 @@ import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.image.ProcessDiagramGenerator;
+import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,8 +76,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysUser;
@@ -92,6 +99,7 @@ import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
+import com.pcitc.utils.BpmnModelImageUtil;
 import com.pcitc.utils.ImageGenerator;
 
 import io.swagger.annotations.Api;
@@ -1024,13 +1032,24 @@ public class TaskProviderClient {
 		}
 	}
 	
-		@ApiOperation(value = "查詢流程实例的流程图片", notes = "重点高亮当前节点，高亮已经执行的链路")
-		@RequestMapping(value = "/task-provider/getModelImage/{processDefinitionId}", method = RequestMethod.GET)
-		public byte[] getBpmnModelImage(@PathVariable("processDefinitionId") String processDefinitionId ) {
-			BpmnModel	bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-			byte[] arr=	ImageGenerator.getBpmnModelImage(bpmnModel);
-			return arr;
-	     }
+	@ApiOperation(value = "查詢流程实例的流程图片", notes = "重点高亮当前节点，高亮已经执行的链路")
+	@RequestMapping(value = "/task-provider/getModelImage/{modelId}", method = RequestMethod.GET)
+	public byte[] getBpmnModelImage(@PathVariable("modelId") String modelId ) throws Exception
+	{
+	    	Model modelData = processEngine.getRepositoryService().getModel(modelId);
+	    	//InputStream inputStream =processEngine.getRepositoryService().getModelEditorSource(modelId);
+	    	
+	    	InputStream inputStream = ImageGenerator.getBpmnModelInputStream2(repositoryService, processEngine, modelData.getId()) ;
+	    	ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+			byte[] buff = new byte[100]; // buff用于存放循环读取的临时数据
+			int rc = 0;
+			while ((rc = inputStream.read(buff, 0, 100)) > 0) 
+			{
+				swapStream.write(buff, 0, rc);
+			}
+			byte[] in_b = swapStream.toByteArray(); // in_b为转换之后的结果
+			return in_b;
+     }
 
 	/**
 	 * 获取需要高亮的线
