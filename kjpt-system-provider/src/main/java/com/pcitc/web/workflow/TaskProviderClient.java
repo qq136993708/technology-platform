@@ -99,11 +99,8 @@ import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
-<<<<<<< HEAD
 import com.pcitc.utils.BpmnModelImageUtil;
 import com.pcitc.utils.ImageGenerator;
-=======
->>>>>>> branch 'master' of http://10.102.111.111:88/STP-Team/kjpt.git
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
