@@ -186,15 +186,14 @@ public class AchieveBaseController extends RestBaseController {
         return a;
     }
     @ApiOperation(value="已公示")
-    @RequestMapping(value = "/achieve-api/public/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/achieve-api/public", method = RequestMethod.POST)
     @ResponseBody
-    public Integer handlerPublic(@PathVariable String id) {
-            Map param = new HashMap();
-            param.put("id",id);
-            param.put("status","1");
+    public AchieveBase handlerPublic(@RequestBody AchieveBase ab) {
+        this.setBaseData(ab);
+        ab.setIsPublic("2");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
-        return responseEntity.getBody();
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders),AchieveBase.class);
+        return ab;
     }
 
     @ApiOperation(value="公示结束")
@@ -203,7 +202,7 @@ public class AchieveBaseController extends RestBaseController {
     public Integer publicEnd(@PathVariable String id) {
         Map param = new HashMap();
         param.put("id",id);
-        param.put("status","2");
+        param.put("status","3");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
         return responseEntity.getBody();

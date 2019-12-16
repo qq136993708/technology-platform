@@ -20,9 +20,8 @@ var cgxx_option = {
 　　    itemHeight: 10, // 设置高度
 　　    itemGap: 20, // 设置间距
         orient: 'vertical',
-        right: 150,
-        top: 20,
-        bottom: 20,
+        left: '50%',
+        top: 'center',
         icon:"circle",
         data:['直接访问','邮件营销','联盟广告'],
         textStyle: {
