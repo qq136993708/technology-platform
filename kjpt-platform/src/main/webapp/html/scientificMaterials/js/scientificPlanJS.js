@@ -144,7 +144,7 @@ setSelectInput();
 
 
   function openDataDilog(type, id) {
-	  var dialogTitle = '添加';
+	  var dialogTitle = '新增';
 	  if (type === 'edit') {
 		  dialogTitle = '编辑'; 
     }

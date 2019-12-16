@@ -20,7 +20,7 @@ layui.use(['form','laydate'], function(){
 
   var itemDataUrl = '/blocScientificPlan/newInit';
   var billID = variable.id || '';
-  var msgTitle = '添加';
+  var msgTitle = '新增';
   var readonlyFile = false; // 附件是否只读
   // layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
   
