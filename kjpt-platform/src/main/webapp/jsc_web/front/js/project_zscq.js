@@ -11,7 +11,7 @@ option1 = {
         textStyle: {
             color: '#ffffff',
         },
-        data: ['发明专利', '你用新型', '联盟外观设计']
+        // data: ['发明专利', '你用新型', '联盟外观设计']
     },
     series: [
         {
@@ -34,30 +34,11 @@ option1 = {
                     }
                 }
             },
-            graphic: [
-                {
-                    type: 'text',
-                    id: 'text1',
-                    left: 'center',
-                    top: 'middle',
-                    style: {
-                        text: 'test111',       // 文本块文字。可以使用 \n 来换行。[ default: '' ]
-                        fill: '#ffffff',           // 填充色。
-                        fontSize: 20,
-                        fontWeight: 'bold'
-                    }
-                }
-            ],
             labelLine: {
                 normal: {
                     show: false
                 }
             },
-            data: [
-                { value: 335, name: '发明专利' },
-                { value: 310, name: '你用新型' },
-                { value: 234, name: '联盟外观设计' },
-            ]
         }
     ]
 };
@@ -70,7 +51,7 @@ option2 = {
         }
     },
     legend: {
-        data: ['2017', '2018', '2019'],
+        // data: ['2017', '2018', '2019'],
         textStyle: {
             color: '#ffffff'
         },
@@ -103,7 +84,7 @@ option2 = {
     yAxis: {
         type: 'category',
         inverse: true,
-        data: ['专利总数', '国内专利', '国外专利'],
+        // data: ['专利总数', '国内专利', '国外专利'],
         axisLine: {
             show: true,
             lineStyle: {
@@ -131,24 +112,24 @@ option2 = {
     },
     color: color,
     series: [
-        {
-            name: '2017',
-            type: 'bar',
-            barGap: '0%',
-            data: [165, 170, 30],
-        },
-        {
-            name: '2018',
-            type: 'bar',
-            barGap: '0%',
-            data: [150, 105, 110]
-        },
-        {
-            name: '2019',
-            type: 'bar',
-            barGap: '0%',
-            data: [220, 82, 63]
-        }
+        // {
+        //     name: '2017',
+        //     type: 'bar',
+        //     barGap: '0%',
+        //     data: [165, 170, 30],
+        // },
+        // {
+        //     name: '2018',
+        //     type: 'bar',
+        //     barGap: '0%',
+        //     data: [150, 105, 110]
+        // },
+        // {
+        //     name: '2019',
+        //     type: 'bar',
+        //     barGap: '0%',
+        //     data: [220, 82, 63]
+        // }
     ]
 };
 
@@ -240,9 +221,103 @@ var option3 = {
     ]
 };
 
-var chartsBox1 = echarts.init(document.getElementById('chartsBox1'));
-chartsBox1.setOption(option1);
+var chartsBox1 = echarts.init(document.getElementById('chartsBox1')); //初始化
 var chartsBox2 = echarts.init(document.getElementById('chartsBox2'));
-chartsBox2.setOption(option2);
 var chartsBox3 = echarts.init(document.getElementById('chartsBox3'));
+
+var api = {
+    numOrType: '/cockpit/knowledgeRight/numOrType', //专利类型占比
+    numOrUnit: '/cockpit/knowledgeRight/numOrUnit', //单位同比
+    numYearTrend: '/cockpit/knowledgeRight/numYearTrend' //年度趋势分析
+}
+
+httpModule({
+    url: api.numOrType,
+    type: 'POST',
+    success: setNumOrType
+})
+
+httpModule({
+    url: api.numYearTrend,
+    type: 'POST',
+    success: setNumYearTrend
+})
+
+httpModule({
+    url: api.numOrUnit,
+    type: 'POST',
+    success: setNumOrUnit
+})
+
+function setNumOrType(data){ //设置类型占比配置项
+    if(data.code == 0){
+        var result = data.data;
+        if(result){
+            var str = JSON.stringify(result);
+            str = str.replace(/count/g,'value');
+            str = str.replace(/patent_type_text/g,'name');
+            result = JSON.parse(str);
+        }
+        var legendArr = result.map(function(item,index){
+            return item.name;
+        })
+        option1.legend.data = legendArr; //设置legend
+        option1.series[0].data = result; //赋值
+        chartsBox1.setOption(option1);
+    }else{
+        layer.msg(data.message);
+    }
+}
+
+function setNumYearTrend(data){ //设置年度趋势
+    if(data.code == 0){
+        var result = data.data;
+        if(result){
+
+            var datas = [];
+            var count = {
+                count1:[],
+                count2:[],
+                count3:[]
+            }
+            var years = new Date().getFullYear();
+            for(var i = 0; i < 3; i++){
+                var obj = {};
+                obj['type'] = 'bar';
+                obj['barGap'] = '0%';
+                obj['name'] = years-i;
+                obj['data'] = count['count'+(i+1)];
+                datas.push(obj);
+            }
+
+            var legendArr = result.map(function(item,index){
+                count.count1.push(item['count1']);
+                count.count2.push(item['count2']);
+                count.count3.push(item['count3']);   
+                return item.application_type_text;
+            })
+            
+            console.log('datas',datas);
+            option2.legend.data = [String(years-2),String(years-1),String(years-0)];
+            option2.yAxis.data = legendArr;
+            option2.series = datas;
+            chartsBox2.setOption(option2);
+        }
+    }else{
+        layer.msg(data.message);
+    }
+}
+
+function setNumOrUnit(data){
+    if(data.code == 0){
+        var result = data.data;
+        if(result){
+            
+        }
+    }else{
+        layer.msg(data.message);
+    }
+}
+
+
 chartsBox3.setOption(option3);

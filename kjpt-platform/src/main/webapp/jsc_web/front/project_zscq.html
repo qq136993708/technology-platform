@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../common/css/common.css">
     <link rel="stylesheet" href="../common/css/table.css">
     <link rel="stylesheet" href="../common/css/main.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" href="../common/css/project_zscq.css">
 </head>
 <body>
@@ -35,17 +36,20 @@
         </div>
     </div>
 </body>
+
 <script src="../common/js/jquery-1.10.1.min.js"></script>
 <script src="../common/js/echarts.min.js"></script>
 <script src="../common/js/autofont.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 <script src="./js/project_zscq.js"></script>
-<!-- <script >
+
+<script >
     window.onload=window.onresize = function(){
         autofont();
-        var chartsW = $(".jcCharts").width();
-        var chartsH = $(".jcCharts").height();
-        $("#charts").css("width", chartsW).css("height", chartsH);
-        linebar.resize();
+        chartsBox1.resize();
+        chartsBox2.resize();
+        chartsBox3.resize();
     }
-</script> -->
+</script>
 </html>
