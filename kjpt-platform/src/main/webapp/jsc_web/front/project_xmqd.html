@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>中核集团科技管理平台-项目-风险</title>
+    <title>中核集团科技管理平台-项目-项目清单</title>
     <link rel="stylesheet" href="../common/css/base.css">
     <link rel="stylesheet" href="../common/css/common.css">
     <link rel="stylesheet" href="../control/layui/css/layui.css">
@@ -15,7 +15,7 @@
 <body >
     <div class="project_check">
         <div class="project_fx">
-            <div class="title"><span>风险提示事项</span></div>
+            <div class="title"><span>项目清单</span></div>
             <div class="check_query">
                 <div class="query1">
                     <form class="layui-form" action="">
@@ -30,6 +30,18 @@
                 <div class="query"><span>集中研发</span></div>
                 <div class="query"><span>国防基础</span></div>
                 <div class="query"><span>国防技术基础</span></div>
+                <div class="query2">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="radio" name="sex" value="全部" title="全部">
+                                <input type="radio" name="sex" value="在研" title="在研" checked>
+                                <input type="radio" name="sex" value="已完成" title="已完成" >
+                                <input type="radio" name="sex" value="终止" title="终止" >
+                            </div>
+                          </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="fx_tree">

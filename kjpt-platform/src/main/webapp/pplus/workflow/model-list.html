@@ -254,9 +254,7 @@
 					if (typeof (selectRowData.id) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						//var temUrl = "/activiti-model/show/" + selectRowData.id;
-						var temUrl = "/activiti-model/show_image/" + selectRowData.id;
-						
+						var temUrl = "/activiti-model/show/" + selectRowData.id;
 						top.layer.open({
 							title : '详情',
 							shadeClose : true,
@@ -295,19 +293,7 @@
 				});
 			});
 
-			//监听行双击事件
-			table.on('rowDouble(tableData)', function(obj) {
-				var temUrl = "/activiti-model/show/" + obj.data.id;
-				top.layer.open({
-					title : '详情',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					maxmin : true,
-					area : [ '70%', '90%' ],
-					content : temUrl
-				});
-			});
+			
 
 			//区别按钮属性
 			$('.layui-btn').on('click', function() {

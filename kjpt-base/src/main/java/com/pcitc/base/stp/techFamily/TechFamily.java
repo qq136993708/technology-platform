@@ -50,17 +50,9 @@ public class TechFamily {
     
     private String secretLevel;
     private String secretLevelStr;
-    private String userSecretLevel;
-
-
-    public String getUserSecretLevel() {
-        return userSecretLevel;
-    }
-
-    public void setUserSecretLevel(String userSecretLevel) {
-        this.userSecretLevel = userSecretLevel;
-    }
-
+    
+    
+    
     public String getSecretLevel() {
 		return secretLevel;
 	}

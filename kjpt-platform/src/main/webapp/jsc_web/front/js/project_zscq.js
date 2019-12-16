@@ -1,4 +1,4 @@
-var color = ['#FFF04E', '#FF7F5D', '#2687FF']
+var color = ['#FFF04E','#FF7F5D','#2687FF']
 option1 = {
     tooltip: {
         trigger: 'item',
@@ -6,20 +6,24 @@ option1 = {
     },
     legend: {
         orient: 'vertical',
-        right: '10%',
-        top: 'middle',
-        textStyle: {
-            color: '#ffffff',
+        right:'10%',
+        top:'middle',
+        textStyle:{
+            color:'#ffffff',
         },
+<<<<<<< HEAD
         // data: ['发明专利', '你用新型', '联盟外观设计']
+=======
+        data:['发明专利','你用新型','联盟外观设计']
+>>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
     },
     series: [
         {
-            type: 'pie',
+            type:'pie',
             center: ['30%', '50%'],
             radius: ['60%', '80%'],
             avoidLabelOverlap: false,
-            color: color,
+            color:color,
             label: {
                 normal: {
                     show: false,
@@ -34,15 +38,44 @@ option1 = {
                     }
                 }
             },
+<<<<<<< HEAD
+=======
+            graphic:[
+                {
+                    type:'text',
+                    id: 'text1',
+                    left:'center',
+                    top:'middle',
+                    style:{
+                        text: 'test111',       // 文本块文字。可以使用 \n 来换行。[ default: '' ]
+                        fill: '#ffffff',           // 填充色。
+                        width: 30,
+                        height: 30,
+                        fontSize: 20,
+                        // fontSize: 32,           // 字体大小
+                        fontWeight: 'bold'
+                    }
+                }
+            ],
+>>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
             labelLine: {
                 normal: {
                     show: false
                 }
             },
+<<<<<<< HEAD
+=======
+            data:[
+                {value:335, name:'发明专利'},
+                {value:310, name:'你用新型'},
+                {value:234, name:'联盟外观设计'},
+            ]
+>>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
         }
     ]
 };
 
+<<<<<<< HEAD
 option2 = {
     tooltip: {
         trigger: 'axis',
@@ -321,3 +354,7 @@ function setNumOrUnit(data){
 
 
 chartsBox3.setOption(option3);
+=======
+var chartsBox1 = echarts.init(document.getElementById('chartsBox1'));
+chartsBox1.setOption(option1);
+>>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
