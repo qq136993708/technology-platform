@@ -91,7 +91,7 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     /**
      * 技术领域
      */
-    private String technicalField="";
+    private String technicalFieldText="";
     /**
      * 技术领域值
      */
@@ -228,12 +228,12 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     }
 
 
-    public String getTechnicalField() {
-        return technicalField;
+    public String getTechnicalFieldText() {
+        return technicalFieldText;
     }
 
-    public void setTechnicalField(String technicalField) {
-        this.technicalField = technicalField;
+    public void setTechnicalFieldText(String technicalFieldText) {
+        this.technicalFieldText = technicalFieldText;
     }
 
     public String getTechnicalFieldValue() {
