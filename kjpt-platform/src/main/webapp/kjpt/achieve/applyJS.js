@@ -128,13 +128,11 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             layer.msg('科技成果完成团队情况（按贡献度排序）为必填项不能为空！');
             return false
         }
-        console.log( data.field)
         httpModule({
             url: '/achieve-api/save',
             data:  data.field,
             type: "POST",
             success: function(e) {
-                console.log(e)
                 if(e.code==0){
                     layer.msg('保存成功!', {icon: 1});
                     closeTabsPage(variable.index);
