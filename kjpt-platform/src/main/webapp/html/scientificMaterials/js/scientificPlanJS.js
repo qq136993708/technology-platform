@@ -15,22 +15,22 @@ layui.use(['form', 'table', 'layer', 'laydate','formSelects'], function(){
   var params = getQueryVariable();
   var reportType = +params.reportType;
 
-  function getDicData(){
-    httpModule({
-      url: '/techFamily-api/getTreeList',
-      type: 'GET',
-      success: function(relData) {
-        relData.children.map(function (item,index) {
-        item.children.map(function (items,i) {
-            delete items.children
-        })
-      })
-      formSelects.data('researchField', 'local', { arr: relData.children });
-      formSelects.btns('researchField', ['remove']);
-      }
-    });
-  }
-  getDicData();
+  // function getDicData(){
+  //   httpModule({
+  //     url: '/techFamily-api/getTreeList',
+  //     type: 'GET',
+  //     success: function(relData) {
+  //       relData.children.map(function (item,index) {
+  //       item.children.map(function (items,i) {
+  //           delete items.children
+  //       })
+  //     })
+  //     formSelects.data('researchField', 'local', { arr: relData.children });
+  //     formSelects.btns('researchField', ['remove']);
+  //     }
+  //   });
+  // }
+  // getDicData();
 
   function setSelectInput(){ //js动态设置条件过滤布局
     var len;

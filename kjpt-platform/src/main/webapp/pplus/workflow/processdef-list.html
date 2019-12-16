@@ -242,7 +242,8 @@
 					if (typeof (selectRowData.id) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						$.ajax({
+						layer.confirm('是否删除当前选项',{icon: 3,title:'删除提示'},function(index){
+							$.ajax({
 							url : '/activiti-def/delete/' + selectRowData.id,
 							type : 'post',
 							dataType : 'json',
@@ -262,6 +263,7 @@
 								}
 							}
 						});
+						})
 					}
 				}
 
