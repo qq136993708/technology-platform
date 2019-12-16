@@ -156,9 +156,6 @@
             <if test="deleted != null and deleted != ''" >
                 del_status = #{deleted},
             </if>
-            <if test="fileDoc != null and fileDoc != ''" >
-                file_doc = #{fileDoc},
-            </if>
             <if test="teamPerson != null " >
                 team_person = #{teamPerson},
             </if>
