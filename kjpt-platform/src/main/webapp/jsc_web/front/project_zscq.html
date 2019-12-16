@@ -23,14 +23,14 @@
             <div class="right">
                 <div class="title">专利数量年度趋势分析</div>
                 <div id="chartsBox2" class="chartsContent">
-
+                    <div id="zscq_charts2" ></div>   
                 </div>
             </div>
         </div>
         <div class="bottomContent">
             <div class="title">专利数量按单位同比分析</div>
             <div id="chartsBox3" class="chartsContent">
-                
+                <div id="zscq_charts3" ></div>
             </div>
         </div>
     </div>
@@ -39,13 +39,15 @@
 <script src="../common/js/echarts.min.js"></script>
 <script src="../common/js/autofont.js"></script>
 <script src="./js/project_zscq.js"></script>
-<!-- <script >
+<script >
     window.onload=window.onresize = function(){
         autofont();
-        var chartsW = $(".jcCharts").width();
-        var chartsH = $(".jcCharts").height();
-        $("#charts").css("width", chartsW).css("height", chartsH);
-        linebar.resize();
+        var chartsW = $("#chartsBox2").width();
+        var chartsH = $("#chartsBox2").height();
+        $("#zscq_charts2").css("width", chartsW).css("height", chartsH);
+        chartsBox1.resize();
+        zscq_charts2.resize();
+        
     }
-</script> -->
+</script>
 </html>
