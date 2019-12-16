@@ -180,20 +180,21 @@ public class AchieveBaseController extends RestBaseController {
     public AchieveBase newInit() {
         AchieveBase a = new AchieveBase();
         a.setId(UUID.randomUUID().toString().replace("-",""));
-        a.setPublicDoc(UUID.randomUUID().toString().replace("-",""));
-        a.setApprovalDoc(UUID.randomUUID().toString().replace("-",""));
-        a.setDeleted("0");
+        a.setIsPublic("0");
+        a.setCreateDate(new Date());
+        a.setCreator(this.getUserProfile().getUserName());
         return a;
     }
     @ApiOperation(value="已公示")
-    @RequestMapping(value = "/achieve-api/public", method = RequestMethod.POST)
+    @RequestMapping(value = "/achieve-api/public/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public AchieveBase handlerPublic(@RequestBody AchieveBase ab) {
-        this.setBaseData(ab);
-        ab.setIsPublic("1");
+    public Integer handlerPublic(@PathVariable String id) {
+            Map param = new HashMap();
+            param.put("id",id);
+            param.put("status","1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders),AchieveBase.class);
-        return ab;
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
     }
 
     @ApiOperation(value="公示结束")

@@ -197,14 +197,14 @@
                     theme: '#0F9EE0'
                 },
                 cols: [[
-    				{type:'checkbox', event: 'changeEvents', width: 55},
-                    {title:'序号', type:'numbers', width: 55},
-                    {field:'typeName',   title:'分类名称',  style:'cursor: pointer;'},
-                    {field:'typeCode',      title:'分类编码', style:'cursor: pointer;'},
-                    //{field:'typeScope',      title:'分类标签',  style:'cursor: pointer;'},
-                    /*{field:'directionInfo',      title:'发展方向', width: '15%', style:'cursor: pointer;'},
-                    {field:'isHot',      title:'是否热点', style:'cursor: pointer;'},*/
-                    {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100}
+    				{type:'checkbox', event: 'changeEvents', width: '10%'},
+                    {title:'序号', type:'numbers', width: '10%'},
+                    {field:'typeName',   title:'分类名称', width: '30%',  style:'cursor: pointer;'},
+                    {field:'typeCode',      title:'分类编码', width: '15%', style:'cursor: pointer;'},
+                    {field:'typeScope',      title:'分类标签', width: '10%', style:'cursor: pointer;'},
+                    {field:'directionInfo',      title:'发展方向', width: '15%', style:'cursor: pointer;'},
+                    {field:'isHot',      title:'是否热点', style:'cursor: pointer;'},
+                    // {field:'remarks',   title:'说明',  style:'cursor: pointer;'}
                 ]],
                 done: function (res, curr, count) {
 	            	layer.close(lodingMsg);

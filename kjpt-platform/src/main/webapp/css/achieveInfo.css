@@ -43,6 +43,12 @@
   width: 26%;
   height: 100%;
 }
+.sub_title_text {
+  font-size: 12px;
+  color: #3B6C9A;
+  padding-left: .4rem;
+}
+
 
 /* 成果鉴定 */
 .achieve_appraisal .appraisal_one {
@@ -53,7 +59,7 @@
   width: 100%;
 }
 
-/* 成果报奖 */
+/* 成果转化 */
 .achieve_transform .appraisal_one,
 .achieve_transform .appraisal_three {
   width: 32%;
@@ -63,4 +69,60 @@
 .achieve_transform .appraisal_four{
   width: 68%;
   padding-left: 2rem;
+}
+
+/* 成果报奖 */
+.achieve_award .appraisal_one,
+.achieve_award .appraisal_two{
+  /* width: 30%; */
+  padding-right: 2rem;
+}
+.achieve_award .appraisal_three {
+  width: 48%;
+}
+.achieve_award .appraisal_four {
+  width: 74%;
+  padding-right: 2rem;
+}
+
+/* 科技人才 */
+.intelligent_team .appraisal_one {
+  width: 40%;
+  padding-right: 2rem;
+}
+.intelligent_team .appraisal_two {
+  width: 32%;
+  padding-right: 2rem;
+}
+.intelligent_team .appraisal_three {
+  width: 28%;
+}
+.intelligent_team .appraisal_four {
+  width: 100%;
+}
+
+/* 质量信息 */
+.quality .layout-view-content {
+  padding-right: 0;
+}
+.quality .top-chart-layout{
+  height: 56%;
+}
+.quality .bottom-chart-layout {
+  height: 44%;
+}
+.quality .chart-item-layout {
+  width: 33.33%;
+  padding-right: 2rem;
+}
+
+/* 质量经验 */
+.quality_experience .top-chart-layout {
+  height: 100%;
+}
+.quality_experience .chart-item-layout {
+  width: 50%;
+}
+.quality_experience .chart-title-layout{
+  text-align: center;
 }

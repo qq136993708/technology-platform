@@ -3,12 +3,16 @@ package com.pcitc.web.controller.system;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.system.SysUnit;
+import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.EquipmentUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -198,11 +202,6 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserName(sysUser.getUserName());
-			SysUnit sysUnit=EquipmentUtils.getSysUintById(sysUser.getUserUnit(), restTemplate, httpHeaders);
-			if(sysUnit!=null)
-			{
-				oldSysUser.setUserUnitPath(sysUnit.getUnitPath());
-			}
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
@@ -234,12 +233,6 @@ public class SysUserApiController extends BaseController{
 				sysUser.setUserId(dateid);
 				sysUser.setIsDomain(1);
 				sysUser.setUserLevel(2);
-				SysUnit sysUnit=EquipmentUtils.getSysUintById(sysUser.getUserUnit(), restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-					sysUser.setUserUnitPath(sysUnit.getUnitPath());
-				}
-				
 				sysUser.setUserPassword(MD5Util.MD5Encode(sysUser.getUserPassword()));
 				sysUser.setSecretLevel(Constant.USER_SECRET_LEVEL_NOT);
 				ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, this.httpHeaders), String.class);

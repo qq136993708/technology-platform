@@ -3,7 +3,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     var fileDoc=''
     var readonlyFile = false; // 附件是否只读
     // 获取地址栏传递过来的参数
-    var variable = getQueryVariable(),id='',approvalDoc='',publicDoc='';
+    var variable = getQueryVariable(),id='';
     /*判断id，回显*/
 
     var fileCols = [
@@ -72,8 +72,6 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             success: function(relData) {
                 if(relData.code==0){
                     id=relData.data.id
-                    approvalDoc=relData.data.approvalDoc
-                    publicDoc=relData.data.publicDoc
                 }
                 console.log(relData)
             }
@@ -115,24 +113,22 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             })
         }
         data.field.id=id
-        data.field.approvalDoc=approvalDoc
-        data.field.publicDoc=publicDoc
         data.field.teamPerson=getTableData('achieveTable')
         data.field.techTypeText=techTypeText.substring(0,techTypeText.length-1)
         data.field.achieveTransTypeText=$(".achieveTransType option:selected").text()
         console.log(fileDoc)
-        var fileDocS={}
-        fileDocS[approvalDoc]=fileDoc
-        data.field.fileDoc=JSON.stringify(fileDocS)
+        data.field.fileDoc=fileDoc
         if(getTableData('achieveTable')==''){
             layer.msg('科技成果完成团队情况（按贡献度排序）为必填项不能为空！');
             return false
         }
+        console.log( data.field)
         httpModule({
             url: '/achieve-api/save',
             data:  data.field,
             type: "POST",
             success: function(e) {
+                console.log(e)
                 if(e.code==0){
                     layer.msg('保存成功!', {icon: 1});
                     closeTabsPage(variable.index);

@@ -121,8 +121,8 @@ public class FileCommonController extends BaseController {
      * @return
      */
     private String checkSecretLevel(String secretLevel,String fileName){
-        //如果是X的话就不进行校验
-        if("X".equals(secretLevel)){
+        //如果是0的话就不进行校验
+        if("0".equals(secretLevel)){
             return "1";
         }else{
             String fileLevel = checkFileName(fileName);
@@ -144,16 +144,16 @@ public class FileCommonController extends BaseController {
     private String checkFileName(String fileName){
 
         if(fileName.startsWith(FILE_TYPE_4)){
-            return "3";
+            return "4";
         }
         if(fileName.startsWith(FILE_TYPE_3)){
-            return "2";
+            return "3";
         }
         if(fileName.startsWith(FILE_TYPE_2)){
-            return "1";
+            return "2";
         }
         if(fileName.startsWith(FILE_TYPE_1)){
-            return "0";
+            return "1";
         }
         return null;
     }

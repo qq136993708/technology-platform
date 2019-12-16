@@ -288,7 +288,7 @@ body{
 .btnactive{
     opacity:0.8;
     color: white;
-    background:rgba(33,120,217,1);
+    background:rgba(53, 115, 252, 1);
     border:1px solid rgba(53,115,252,1);
 }
 .transL{

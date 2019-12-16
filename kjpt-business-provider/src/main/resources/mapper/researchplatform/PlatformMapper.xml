@@ -90,6 +90,13 @@
             #{item}
         </foreach>
         <include refid="selectByParam" />
+
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
@@ -100,6 +107,18 @@
             #{item}
         </foreach>
         <include refid="selectByParam" />
+
+        AND create_unit_id in
+        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="selectByParam" />
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
     </select>
 
     <sql id="selectByParam">
@@ -129,11 +148,10 @@
             and level = #{level,jdbcType=VARCHAR}
         </if>
 
+
         <if test="secretLevel != null and secretLevel != ''" >
             secret_level = #{secretLevel}
         </if>
-
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </sql>
 
 

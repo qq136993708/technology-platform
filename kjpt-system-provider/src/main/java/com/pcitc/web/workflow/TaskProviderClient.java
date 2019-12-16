@@ -92,7 +92,6 @@ import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
-import com.pcitc.utils.ImageGenerator;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -1023,14 +1022,6 @@ public class TaskProviderClient {
 			return null;
 		}
 	}
-	
-		@ApiOperation(value = "查詢流程实例的流程图片", notes = "重点高亮当前节点，高亮已经执行的链路")
-		@RequestMapping(value = "/task-provider/getModelImage/{processDefinitionId}", method = RequestMethod.GET)
-		public byte[] getBpmnModelImage(@PathVariable("processDefinitionId") String processDefinitionId ) {
-			BpmnModel	bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-			byte[] arr=	ImageGenerator.getBpmnModelImage(bpmnModel);
-			return arr;
-	     }
 
 	/**
 	 * 获取需要高亮的线

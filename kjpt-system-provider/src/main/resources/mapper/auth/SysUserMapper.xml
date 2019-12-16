@@ -39,12 +39,8 @@
 		<result column="unit_name"      property="unitName" jdbcType="VARCHAR" />
 		<result column="post_name"   property="postName" jdbcType="VARCHAR" />
 		<result column="secret_level_str"   property="secretLevelStr" jdbcType="VARCHAR" />
-		<result column="user_unit_path"   property="userUnitPath" jdbcType="VARCHAR" />
 		
-		<result column="unit_code"   property="unitCode" jdbcType="VARCHAR" />
-		<result column="unit_name"   property="unitName" jdbcType="VARCHAR" />
-		<result column="unit_path"   property="unitPath" jdbcType="VARCHAR" />
-		<result column="unit_id"     property="unitId" jdbcType="VARCHAR" />
+		
 		
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -118,7 +114,7 @@
 		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
 		login_error_number,
 		login_check_code, user_config1, user_config2, user_config3, user_config4,
-		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,user_unit_name,user_unit_path
+		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,user_unit_name
 	</sql>
 	
 	
@@ -162,7 +158,6 @@
 		select * from sys_user where unify_identity_id = #{unifyIdentityId,jdbcType=VARCHAR}
 	</select>
 	
-		
 	<insert id="insert" parameterType="com.pcitc.base.system.SysUser">
 		insert into sys_user (user_id, user_name, user_password,
 		user_disp, user_kind, user_flag,
@@ -172,7 +167,7 @@
 		user_level, user_delflag, user_relation,
 		user_extend, user_comment, is_domain,
 		login_error_number, login_check_code, user_config1,
-		user_config2, user_config3, user_config4,secret_level,unify_identity_id,post_name,user_unit_name,user_unit_path
+		user_config2, user_config3, user_config4,secret_level,unify_identity_id,post_name,user_unit_name
 		)
 		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
 		#{userPassword,jdbcType=VARCHAR},
@@ -188,7 +183,7 @@
 		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}, #{userConfig1,jdbcType=VARCHAR},
 		#{userConfig2,jdbcType=VARCHAR}, #{userConfig3,jdbcType=VARCHAR},
 		#{userConfig4,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
-		,#{postName,jdbcType=VARCHAR},#{userUnitName,jdbcType=VARCHAR},#{userUnitPath,jdbcType=VARCHAR}
+		,#{postName,jdbcType=VARCHAR},#{userUnitName,jdbcType=VARCHAR}
 		
 		)
 	</insert>
@@ -288,9 +283,9 @@
 			<if test="userUnitName != null">
 				user_unit_name,
 			</if>
-			<if test="userUnitPath != null">
-				user_unit_path,
-			</if>
+			
+			
+			
 			
 			
 			
@@ -389,9 +384,7 @@
 			<if test="userUnitName != null">
 				#{userUnitName,jdbcType=VARCHAR},
 			</if>
-			<if test="userUnitPath != null">
-				#{userUnitPath,jdbcType=VARCHAR},
-			</if>
+			
 			
 			
 			
@@ -419,7 +412,6 @@
 		user_role = #{userRole,jdbcType=VARCHAR},
 		user_order = #{userOrder,jdbcType=INTEGER},
 		user_mail = #{userMail,jdbcType=VARCHAR},
-		user_unit_path = #{userUnitPath,jdbcType=VARCHAR},
 		user_mobile = #{userMobile,jdbcType=VARCHAR},
 		user_phone = #{userPhone,jdbcType=VARCHAR},
 		user_sign = #{userSign,jdbcType=VARCHAR},
@@ -516,7 +508,7 @@
 	</select>
 	
 	<select id="getUserByUserNameAndPassword" resultMap="BaseResultMap" parameterType="java.util.Map">
-	SELECT t.*,t2.`unit_path`,t2.`unit_code` ,t2.`unit_name` ,t2.`unit_id` FROM 
+	SELECT t.*,t2.`unit_path`,t2.`unit_code`,t2.`unit_name` ,t2.`unit_id` FROM 
 	(
 	  SELECT * FROM sys_user t WHERE t.`user_name`=#{userName} AND t.`user_password`=#{userPassword} and user_delflag = #{userDelflag} 
 	) t  LEFT JOIN sys_unit t2 ON t.user_unit=t2.`unit_id` 
@@ -562,15 +554,13 @@
 	 </trim>
 	</sql>
 	<sql id="view_user">
-	
-	SELECT t3.* ,
+	      SELECT t3.* ,
 	      ( 
-	          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_YHMJ'
+	         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_YHMJ'
 	          AND t2.`num_value`=t3.`secret_level`
 	      ) secret_level_str
-	      ,t2.`unit_path`,t2.`unit_code`,t2.`unit_name` ,t2.`unit_id` 
-	    FROM  sys_user  t3   LEFT JOIN sys_unit t2 ON t3.user_unit=t2.`unit_id` 
-	    
+	   
+	  FROM  sys_user  t3 
 	</sql>
 	
     <select id="getList" resultMap="BaseResultMap" parameterType="Map" >

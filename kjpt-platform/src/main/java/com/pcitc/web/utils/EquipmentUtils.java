@@ -42,7 +42,7 @@ public class EquipmentUtils {
 	
 	
 	
-	 private static final String UNIT_GET_UNIT = "http://kjpt-zuul/system-proxy/unit-provider/unit/get-unit/";
+	
      private static final String GET_USERPROPERTY = "http://kjpt-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
      public static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
      public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
@@ -78,13 +78,6 @@ public class EquipmentUtils {
 		System.out.println(">>>>>str=" + str);
 		return str;
 	}
-	
-	public static SysUnit getSysUintById(String unitId,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitId, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
-		return unit;
-	}
-	
 	
 	
 	
