@@ -54,8 +54,17 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
 	// 获取地址栏传递过来的参数
   var variable = getQueryVariable();
   getItemInitData(variable);
-
 	form.on('submit(newSubmit)', function(data) {
+    var technicalVal = formSelects.value('technicalField');
+    var technicalStr = '';
+    if(technicalVal.length != 0){
+        var resultArr = technicalVal.map(function(item,index){
+            return item.name
+        })
+        technicalStr = resultArr.join(',');
+        data.field.technicalFieldValue = technicalStr
+    }
+    console.dir('data',data.field);
 		httpModule({
 			url: '/ComputerSoftware/save',
 			data: data.field,
