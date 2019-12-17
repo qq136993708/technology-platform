@@ -19,7 +19,7 @@
 	<div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
-            <span>角色名</span>
+            <span>角色名:</span>
             <input type="text" id="roleName" name="roleName" placeholder="请输入角色名" title="角色名" autocomplete="off" class="form-control" id="modelName1">
         </label>
         <!--按钮组-->
@@ -50,7 +50,7 @@
 	<div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
-            <span>姓名</span>
+            <span>姓名:</span>
             <input type="text" name="userName" placeholder="请输入姓名"
                    title="姓名" autocomplete="off"
                    class="form-control" id="userName">
@@ -202,8 +202,8 @@
                 type: 2,
                 fixed: false,
                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin : true,
-                area : [ '80%', '90%' ],
+                maxmin : false,
+                area : [ '60%', '50%' ],
                 content:  temUrl,
                 end: function(lay, index) {
                     // 弹窗销毁时获取弹窗返回数据

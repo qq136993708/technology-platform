@@ -34,8 +34,6 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       url: httpUrl,
       type: 'GET',
       success: function(relData) {
-        
-
         if (relData.code === '0') {
           // 给form表单赋初始值
 
@@ -49,11 +47,12 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           //data.technicalField = data.technicalField.split(',');
            
           form.val('formMain', data);
-          formSelects.value('technicalField', data.technicalField); 
+          formSelects.value('technicalField', data.technicalField);
+
+          formSelects.value('unitName', [data.unitName]);
 
           // 更新表单数据
           //form.render();
-
 
           setRadioShow();
 

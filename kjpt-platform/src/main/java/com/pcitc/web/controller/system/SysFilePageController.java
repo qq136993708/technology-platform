@@ -78,12 +78,12 @@ public class SysFilePageController extends BaseController {
     public String uploadFile(String param) {
         Map<String, Object> map = JSON.parseObject(param);
         System.out.println("map = " + map);
-        request.setAttribute("param",JSON.toJSON(map).toString());
-        request.setAttribute("file_edit_detail", map.get("file_edit_detail"));
-        request.setAttribute("file_id_name", map.get("file_id_name"));
-        request.setAttribute("file_opt_flag", map.get("file_opt_flag"));
-        request.setAttribute("file_ids_value", map.get("file_ids_value"));
-        request.setAttribute("call_fun", map.get("callback"));
+        this.getCurrentRequest().setAttribute("param",JSON.toJSON(map).toString());
+        this.getCurrentRequest().setAttribute("file_edit_detail", map.get("file_edit_detail"));
+        this.getCurrentRequest().setAttribute("file_id_name", map.get("file_id_name"));
+        this.getCurrentRequest().setAttribute("file_opt_flag", map.get("file_opt_flag"));
+        this.getCurrentRequest().setAttribute("file_ids_value", map.get("file_ids_value"));
+        this.getCurrentRequest().setAttribute("call_fun", map.get("callback"));
 //        response.addHeader("x-frame-options","DENY");
 //        response.addHeader("x-frame-options","SAMEORIGIN");
 
@@ -101,12 +101,12 @@ public class SysFilePageController extends BaseController {
     public String uploadFileTable(String param) {
         Map<String, Object> map = JSON.parseObject(param);
         System.out.println("map = " + map);
-        request.setAttribute("param",JSON.toJSON(map).toString());
-        request.setAttribute("file_edit_detail", map.get("file_edit_detail"));
-        request.setAttribute("file_id_name", map.get("file_id_name"));
-        request.setAttribute("file_opt_flag", map.get("file_opt_flag"));
-        request.setAttribute("file_ids_value", map.get("file_ids_value"));
-        request.setAttribute("call_fun", map.get("callback"));
+        this.getCurrentRequest().setAttribute("param",JSON.toJSON(map).toString());
+        this.getCurrentRequest().setAttribute("file_edit_detail", map.get("file_edit_detail"));
+        this.getCurrentRequest().setAttribute("file_id_name", map.get("file_id_name"));
+        this.getCurrentRequest().setAttribute("file_opt_flag", map.get("file_opt_flag"));
+        this.getCurrentRequest().setAttribute("file_ids_value", map.get("file_ids_value"));
+        this.getCurrentRequest().setAttribute("call_fun", map.get("callback"));
         return "/common/public/uploadpop_table";
     }
 }

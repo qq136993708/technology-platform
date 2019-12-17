@@ -102,8 +102,8 @@ public class SysNewsController extends BaseController {
 	@ResponseBody
 	public Object getNewsIndexType() {
 		SysNews sysNews = new SysNews();
-		sysNews.setBak3(request.getParameter("bak3"));
-		sysNews.setStype(request.getParameter("stype"));
+		sysNews.setBak3(this.getCurrentRequest().getParameter("bak3"));
+		sysNews.setStype(this.getCurrentRequest().getParameter("stype"));
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(getNewsIndexType, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
 		List<?> list = (List<?>) retJson.get("list");
@@ -144,7 +144,7 @@ public class SysNewsController extends BaseController {
 	public Object getListParam(@RequestParam String id) {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-		requestBody.add("id", request.getParameter("id") + "");
+		requestBody.add("id", this.getCurrentRequest().getParameter("id") + "");
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
@@ -220,7 +220,7 @@ public class SysNewsController extends BaseController {
 		}
 		
 		List<SysDictionary>  lbList= CommonUtil.getDictionaryByParentCode("ROOT_XTGL_XWLX", restTemplate, httpHeaders);
-		request.setAttribute("lbList", lbList);
+		this.getCurrentRequest().setAttribute("lbList", lbList);
 		
 		
 		return "stp/system/sysNews_edit";
@@ -341,7 +341,7 @@ public class SysNewsController extends BaseController {
 	@RequestMapping(value = "/sysNews/del", method = RequestMethod.POST)
 	@ResponseBody
 	public Object delSysNews() throws Exception {
-		Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		Integer rs = this.restTemplate.exchange(DEL + this.getCurrentRequest().getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		if (rs > 0) {
 			return new Result(true, "操作成功！");
 		} else {
@@ -353,7 +353,7 @@ public class SysNewsController extends BaseController {
 	@RequestMapping(value = "/sysNews/del-real", method = RequestMethod.POST)
 	@ResponseBody
 	public Object delSysNewsReal() throws Exception {
-		Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		Integer rs = this.restTemplate.exchange(DEL_REAL + this.getCurrentRequest().getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		if (rs > 0) {
 			return new Result(true, "操作成功！");
 		} else {
@@ -365,7 +365,7 @@ public class SysNewsController extends BaseController {
 	@RequestMapping(value = "/sysNews/del-realvideo", method = RequestMethod.POST)
 	@ResponseBody
 	public Object delSysNewsRealVideo() throws Exception {
-		Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		Integer rs = this.restTemplate.exchange(DEL_REAL + this.getCurrentRequest().getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		if (rs > 0) {
 			return new Result(true, "操作成功！");
 		} else {
@@ -375,10 +375,10 @@ public class SysNewsController extends BaseController {
 
 	@RequestMapping(value = "/sysNews/toLeaderSpeechList", method = { RequestMethod.GET })
 	public String toLeaderSpeechList() {
-		String stype = request.getParameter("stype");
-		request.setAttribute("stype", stype);
+		String stype = this.getCurrentRequest().getParameter("stype");
+		this.getCurrentRequest().setAttribute("stype", stype);
 		SysDictionary dic = this.restTemplate.exchange(DICTIONARY+stype, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysDictionary.class).getBody();
-		request.setAttribute("dic", dic);
+		this.getCurrentRequest().setAttribute("dic", dic);
 		return "layui/leader_speech_list";
 	}
 

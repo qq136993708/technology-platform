@@ -387,7 +387,7 @@ body{
     width: 100%;
 }
 .two_nav_item{
-    padding-top: 0.125rem;
+    padding-top: .09rem;
     display: inline-block;
     vertical-align: top;
 }
@@ -399,9 +399,9 @@ body{
 }
 .two_nav_item .project_btn{
     float: left;
-    width: 1.5rem;
-    height: 0.5rem;
-    line-height: 0.5rem;
+    width: 1.4rem;
+    height: .46rem;
+    line-height: .46rem;
     text-align: center;
     color:rgba(255,255,255,1);
     margin-right: .187rem;

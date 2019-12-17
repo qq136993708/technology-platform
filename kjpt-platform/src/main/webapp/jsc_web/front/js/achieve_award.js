@@ -62,6 +62,8 @@ layui.use(['laydate'], function() {
           lineColor: '#1E5389',
           valueColor: '#fff',
           labelColor: '#fff',
+          valueIndex: 'x',
+          barWidth: 10,
           data: chartData,
           series: [
             { name: '特等奖', valueKey: 'value1'},

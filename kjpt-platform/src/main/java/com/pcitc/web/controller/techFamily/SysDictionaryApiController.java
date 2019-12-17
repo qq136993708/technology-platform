@@ -50,7 +50,7 @@ public class SysDictionaryApiController extends BaseController {
 		List<SysDictionary> reslut= new ArrayList();
 		Result resultsDate = new Result();
 		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_KJPT_XXMJ", restTemplate, httpHeaders);
-		String userLevel=sysUserInfo.getSecretLevel();
+		String userLevel=this.getUserProfile().getSecretLevel();
 		System.out.println("用户级别:"+userLevel);	
 	    for(int i=0;i<list.size();i++)
 	    {

@@ -98,6 +98,7 @@
 	white-space: normal;
 	padding-right: 8px;
 	text-align: right;
+  line-height: 16px;
 }
 .layui-form-label.auto > .text {
 	white-space: nowrap;

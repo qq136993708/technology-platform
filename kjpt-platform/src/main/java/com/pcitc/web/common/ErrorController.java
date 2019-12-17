@@ -49,7 +49,7 @@ public class ErrorController extends BaseController{
 		result.setSuccess(false);
 		result.setCode("-1");
 		result.setMessage("服务器错误=" + ex.getMessage());
-		TokenInterUtils.saveErrorSysLog(restTemplate, httpHeaders, request, sysUserInfo,ex.getMessage());
+		TokenInterUtils.saveErrorSysLog(restTemplate, httpHeaders, this.getCurrentRequest(), this.getUserProfile(),ex.getMessage());
         return result;
     }
 }

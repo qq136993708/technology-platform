@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <input type="text" name="isPublic" value="1" class="layui-input layui-hide">
+            <input type="text" name="isPublic" value="3" class="layui-input layui-hide">
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
                 <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
@@ -96,8 +96,7 @@
                         ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
                         ,{field: 'secretLevelText', title: '密级', sort: true}
                         ,{ title: '操作', templet: function(d) {
-                                var html='<a id="'+d.id+'" class="formula link-text recordDetails">公示</a>'
-                                return html
+                                return '<a href="/html/scientificMaterials/planDetails.html?id='+d.publicDoc+'" class="layui-table-link">详情</a>';
                             }}
                     ]],
                     parseData: function(res) {return layuiParseData(res, null, 3);},

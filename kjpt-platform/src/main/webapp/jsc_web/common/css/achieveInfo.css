@@ -1,7 +1,6 @@
 .layout-view-content{
   background-color: #001e38;
-  padding: 1rem;
-  padding-bottom: .5rem;
+  padding: 0 1rem .5rem;
   height: 100%;
 }
 .chart-layout.jscWeb {
@@ -26,7 +25,7 @@
   padding-left: 34px;
   padding-right: 10px;
   background: #041E36 url('../../img/date_icon.png') .4rem center no-repeat;
-  background-size: auto 70%;
+  background-size: auto 60%;
 }
 
 .top-chart-layout {
@@ -73,6 +72,12 @@
 }
 
 /* 成果报奖 */
+.achieve_award .top-chart-layout{
+  height: 52%;
+}
+.achieve_award .bottom-chart-layout{
+  height: 48%;
+}
 .achieve_award .appraisal_one,
 .achieve_award .appraisal_two{
   /* width: 30%; */
@@ -103,6 +108,60 @@
 }
 
 /* 质量信息 */
+.quality .scroll-layout,
+.quality .scroll-object,
+.quality .scroll-object > li{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+}
+.quality .scroll-layout {
+  overflow: hidden;
+  position: relative;
+}
+.quality .scroll-object  {
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  position: relative;
+  width: 200%;
+  left: 0;
+  transition: left .36s ease-out;
+}
+.quality .scroll-object > li {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+.quality .scroll-btn{
+  position: absolute;
+  top: 50%;
+  width: 1.4rem;
+  height: 2rem;
+  margin-top: -1rem;
+  z-index: 999;
+  cursor: pointer;
+  background: rgba(0, 0, 0, .3) url('../../img/right.png') center center no-repeat;
+  background-size: auto 40%;
+  transition: all .18s ease-out;
+  display: none;
+}
+.quality .scroll-btn.left {
+  left: .5rem;
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.quality .scroll-btn.right {
+  right: .5rem;
+}
+.quality .scroll-btn.active {
+  display: block;
+}
+.quality .scroll-btn:hover {
+  background-color: rgba(0, 0, 0, .5);
+}
+
 .quality .layout-view-content {
   padding-right: 0;
 }
@@ -116,6 +175,36 @@
   width: 33.33%;
   padding-right: 2rem;
 }
+.quality ul.left-date-block {
+  width: 100%;
+  font-size: 0;
+  white-space: nowrap;
+  background-color: #093D6D;
+}
+.quality ul.left-date-block li {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+  padding: 0 .5rem;
+  font-size: 14px;
+  line-height: 14px;
+  color: #fff;
+}
+.quality ul.left-date-block .item-value{
+  display: block;
+  float: right;
+  width: 1.5rem;
+  text-align: right;
+}
+.quality ul.left-date-block .item-text{
+  display: block;
+  margin-right: 2rem;
+  /* white-space: normal; */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 
 /* 质量经验 */
 .quality_experience .top-chart-layout {
