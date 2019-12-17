@@ -3,137 +3,159 @@ layui.use(['laydate'], function() {
   chartInit = {
     appraisalOne: function(date) {
       // 成果报奖数量趋势分析
-      var time = date || '2019',
-      chartData = [],
-      labelArr = ['30岁以下', '30~45岁', '46~55岁', '56岁以上']
+      kyptCharts.render({
+        id: 'appraisal_one',
+        type: 'bar',
+        itemName: 'age',
+        legend: { show: false },
+        grid: { top: 20 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        valueIndex: 'x',
+        // barWidth: 10,
+        label: {
+          show: true,
+          position: 'insideLeft',
+          color: '#041E36',
+          fontSize: 16
+        },
+        series: [
+          { name: '年龄段', valueKey: 'num'}
+        ],
+        data: [],
+        color: [['#49FF8E','#2BF3FF'], '#81FF5B', '#42FDFF']
+      });
 
-      for (var i = 0; i < labelArr.length; i++) {
-        chartData.push({
-          name: labelArr[i],
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_one',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: false },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '年龄段', valueKey: 'value'}
-          ],
-          data: chartData,
-          color: ['#2BF3FF', '#81FF5B', '#42FDFF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_one', {data: chartData});
-      }
+      // 获取图表数据
+      httpModule({
+        url: '/cockpit/person/personCountAge',
+        type: 'POST',
+        success: function(res) {
+          if ( res.code === '0' || res.success === true) {
+            kyptCharts.reload('appraisal_one', {data: res.data});
+          }
+        }
+      });
     },
     appraisalTwo: function (date) {
       // 科技人才数量按职称
-      var chartData = [], itemName = ['正高级', '副高级', '中级', '助理级', '员级', '无'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value: (parseInt(Math.random() * 400) + 100)
-        });
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_two',
-          type: 'pie',
-          legend: { top: 'center' },
-          label: false,
-          labelColor: '#fff',
-          radius: ['48%', '66%'],
-          borderColor: '#001e38',
-          series: chartData,
-          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
-        });
-      } else {
-        kyptCharts.reload('appraisal_two', {series: chartData});
-      }
+      kyptCharts.render({
+        id: 'appraisal_two',
+        type: 'pie',
+        legend: { top: 'center' },
+        label: false,
+        labelColor: '#fff',
+        radius: ['44%', '65%'],
+        borderColor: '#001e38',
+        series: [],
+        totalTitle: true,
+        title: {
+          textStyle: { fontSize: 48, color: '#fff' }
+        },
+        color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
+      });
+      
+      httpModule({
+        url: '/cockpit/person/personCountTitle',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            var chartData = [];
+            $.each(res.data, function(i, item) {
+              chartData.push({
+                name: item.title,
+                value: item.num
+              });
+            });
+            kyptCharts.reload('appraisal_two', {series: chartData});
+          }
+        }
+      });
     },
     appraisalThree: function(date) {
       // 科技人才数量按学历
-      var chartData = [], itemName = ['博士', '硕士', '其他'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
+      kyptCharts.render({
+        id: 'appraisal_three',
+        type: 'pie',
+        legend: { top: 'center' },
+        label: false,
+        labelColor: '#fff',
+        radius: ['44%', '65%'],
+        borderColor: '#001e38',
+        series: [],
+        pieFormattr: true,
+        totalTitle: true,
+        title: {
+          textStyle: { fontSize: 48, color: '#fff' }
+        },
+        color: ['#FFF04E', '#FF7F5D', '#2687FF']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_three',
-          type: 'pie',
-          legend: { top: 'center' },
-          label: false,
-          labelColor: '#fff',
-          radius: ['48%', '66%'],
-          borderColor: '#001e38',
-          series: chartData,
-          color: ['#FFF04E', '#FF7F5D', '#2687FF']
-        });
-      } else {
-        kyptCharts.reload('appraisal_three', {series: chartData});
-      }
+      httpModule({
+        url: '/cockpit/person/personCountEducation',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            var chartData = [];
+            $.each(res.data, function(i, item) {
+              chartData.push({
+                name: item.education,
+                value: item.num
+              });
+            });
+            kyptCharts.reload('appraisal_three', {series: chartData});
+          }
+        }
+      });
+
     },
     appraisalFour: function(date) {
       // 成果报奖数量按研究院分布情况
-      var time = date || '2019',
-      chartData = [];
+      kyptCharts.render({
+        id: 'appraisal_four',
+        type: 'bar',
+        itemName: 'company',
+        legend: { show: false},
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        series: [
+          { name: '科技人才数量', valueKey: 'num'}
+        ],
+        data: [],
+        color: [['#42FDFF', '#00C6FF']]
+      })
 
-      for (var i = 1; i < 13; i++) {
-        chartData.push({
-          name: i+'研究院',
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_four',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: false},
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '科技人才数量', valueKey: 'value'}
-          ],
-          data: chartData,
-          color: ['#00C6FF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_four', {data: chartData});
-      }
+      httpModule({
+        url: '/cockpit/person/personCountCompany',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            kyptCharts.reload('appraisal_four', {data: res.data});
+          }
+        }
+      });
     }
   }
 
+  // 初始化图表
+  for(var key in chartInit) {
+    chartInit[key]();
+  }
 
-  // 科技人才数量按年龄段
-  chartInit.appraisalOne();
+  
 
   // 科技人才数量按职称
-  chartInit.appraisalTwo();
+  // chartInit.appraisalTwo();
 
   // 科技人才数量按学历
-  chartInit.appraisalThree();
+  // chartInit.appraisalThree();
 
   // 科技人才数量按单位
-  chartInit.appraisalFour();
+  // chartInit.appraisalFour();
   
 
 });
