@@ -100,7 +100,6 @@
         and deleted != '1'
         <include refid="selectByParam"/>
 
-
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level &lt;= #{userSecretLevel}
         </if>
