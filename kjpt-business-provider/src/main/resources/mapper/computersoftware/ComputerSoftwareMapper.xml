@@ -243,12 +243,7 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
-                <if test="userSecretLevel != null and userSecretLevel !=''  ">
-                    AND secret_level in
-                    <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
-                </if>
+                
 
             </select>
 
