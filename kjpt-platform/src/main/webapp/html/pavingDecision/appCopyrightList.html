@@ -131,6 +131,7 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
           ,{field: 'recordDate', title: '登记日期', templet: function(d) {  return dateFieldText(d.recordDate);  }}  
           ,{field: 'developFinishDate', title: '开发完成日期', templet: function(d) {  return dateFieldText(d.recordDate);  }}  
           ,{field: 'softwareIntro', title: '软件简介' } 
+          ,{field: 'secretLevelText', title: '密级'}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

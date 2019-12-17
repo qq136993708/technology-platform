@@ -4,6 +4,7 @@ import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,14 +42,41 @@ public class KjptCockpitController extends RestBaseController {
      * 科研平台-4大类别
      */
     private static final String NUMSCIENTIFICTYPE = "http://kjpt-zuul/stp-proxy/cockpit/scientificResearch/numScientificType";
+
     /**
      * 科研平台-科研平台数量按技术领域
      */
     private static final String NUMSCIENTIFICTECHNOLOGY = "http://kjpt-zuul/stp-proxy/cockpit/scientificResearch/numScientificTechnology";
 
+    /**
+     * 首页-知识产权
+     */
+    private static final String KNOWLEDGERIGHTCOUNT = "http://kjpt-zuul/stp-proxy/cockpit/index/knowledgeRightCount";
+
+    /**
+     * 首页-知识产权
+     */
+    private static final String PERSONCOUNTTITLE = "http://kjpt-zuul/stp-proxy/cockpit/person/personCountTitle";
+
+    /**
+     * 首页-知识产权
+     */
+    private static final String PERSONCOUNTEDUCATION = "http://kjpt-zuul/stp-proxy/cockpit/person/personCountEducation";
+
+    /**
+     * 科技人才-数量按年龄段
+     */
+    private static final String PERSONCOUNTAGE = "http://kjpt-zuul/stp-proxy/cockpit/person/personCountAge";
+
+    /**
+     * 科技人才-数量按年龄段
+     */
+    private static final String PERSONCOUNTCOMPANY = "http://kjpt-zuul/stp-proxy/cockpit/person/personCountCompany";
+
 
     @ApiOperation(value = "知识产权-专利数量按专利类型占比分析")
     @RequestMapping(value = "/knowledgeRight/numOrType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+
     public List<Map> knowledgeNumOrType() {
         Map<String, Object> condition = new HashMap<>(6);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
@@ -114,4 +142,56 @@ public class KjptCockpitController extends RestBaseController {
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMSCIENTIFICTECHNOLOGY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
+
+
+    @ApiOperation(value = "首页-知识产权")
+    @RequestMapping(value = "/index/knowledgeRightCount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> knowledgeRightCount() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(KNOWLEDGERIGHTCOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "科技人才-数量按年龄段")
+    @RequestMapping(value = "/person/personCountAge", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> personCountAge() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTAGE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "科技人才-数量按职称")
+    @RequestMapping(value = "/person/personCountTitle", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> personCountTitle() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTTITLE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "科技人才-数量按学历")
+    @RequestMapping(value = "/person/personCountEducation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> personCountEducation() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTEDUCATION, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "科技人才-数量按技术领域")
+    @RequestMapping(value = "/person/personCountCompany", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> personCountCompany() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTCOMPANY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
 }

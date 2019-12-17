@@ -130,7 +130,7 @@ public class AdminController extends BaseController {
                 String unifyIdentityId = sid.getPassport();
                 SysUser userDetails = new SysUser();
                 userDetails.setUnifyIdentityId(unifyIdentityId);
-                ResponseEntity<String> userDetailsString = restTemplate.exchange(USER_IDENTITY_ID, HttpMethod.POST, new HttpEntity<SysUser>(userDetails, httpHeaders), String.class);
+                ResponseEntity<String> userDetailsString = this.restTemplate.exchange(USER_IDENTITY_ID, HttpMethod.POST, new HttpEntity<SysUser>(userDetails, httpHeaders), String.class);
                 userDetailsString.getBody();
                 String sysuserString = userDetailsString.getBody();
 

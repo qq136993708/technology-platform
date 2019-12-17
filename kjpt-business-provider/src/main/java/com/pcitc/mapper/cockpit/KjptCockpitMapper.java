@@ -1,5 +1,10 @@
 package com.pcitc.mapper.cockpit;
 
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +36,29 @@ public interface KjptCockpitMapper {
      * 科研平台-科研平台数量按技术领域
      */
     List<Map> numScientificTechnology(Map<String, Object> param);
+
+    /**
+     * 首页-知识产权
+     */
+    List<Map> knowledgeRightCount(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按年龄
+     */
+    List<Map> personCountAge(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按职称
+     */
+    List<Map> personCountTitle(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按学历
+     */
+    List<Map> personCountEducation(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按学历
+     */
+    List<Map> personCountCompany(Map<String, Object> param);
 }
