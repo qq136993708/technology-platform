@@ -86,4 +86,64 @@ public class KjptCockpitClient {
         return kjptCockpitService.numScientificTechnology(param);
     }
 
+    /**
+     *功能描述 首页-知识产权
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "首页-知识产权", notes = "首页-知识产权")
+    @RequestMapping(value = "/index/knowledgeRightCount", method = RequestMethod.POST)
+    public List<Map> knowledgeRightCount(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.knowledgeRightCount(param);
+    }
+
+    /**
+     *功能描述 科技人才-数量按年龄
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "科技人才-数量按职称", notes = "科技人才-数量按职称")
+    @RequestMapping(value = "/person/personCountAge", method = RequestMethod.POST)
+    public List<Map> personCountAge(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.personCountAge(param);
+    }
+
+    /**
+     *功能描述 科技人才-数量按职称
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "科技人才-数量按职称", notes = "科技人才-数量按职称")
+    @RequestMapping(value = "/person/personCountTitle", method = RequestMethod.POST)
+    public List<Map> personCountTitle(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.personCountTitle(param);
+    }
+
+    /**
+     *功能描述 科技人才-数量按学历
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "科技人才-数量按学历", notes = "科技人才-数量按学历")
+    @RequestMapping(value = "/person/personCountEducation", method = RequestMethod.POST)
+    public List<Map> personCountEducation(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.personCountEducation(param);
+    }
+
+    /**
+     *功能描述 科技人才-数量按技术领域
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "科技人才-数量按技术领域", notes = "科技人才-数量按技术领域")
+    @RequestMapping(value = "/person/personCountCompany", method = RequestMethod.POST)
+    public List<Map> personCountCompany(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.personCountCompany(param);
+    }
+
 }

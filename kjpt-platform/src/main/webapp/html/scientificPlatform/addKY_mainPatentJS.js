@@ -44,7 +44,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#applicationDate',  btns: null});
+	laydate.render({ elem: '#applicationDate',  btns: null, trigger: 'click'});
 	
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {
