@@ -175,7 +175,6 @@ public class ComputerSoftwareController extends RestBaseController {
 
         this.setParam(condition, "userSecretLevel",EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
 
-
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds = EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition, "childUnitIds", childUnitIds);
