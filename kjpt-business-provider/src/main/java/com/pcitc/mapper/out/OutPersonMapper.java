@@ -21,7 +21,7 @@ public interface OutPersonMapper {
 
     int updateByPrimaryKey(OutPerson record);
     
-List getList(Map map);
+    List getList(Map map);
     
-    int getCount(Map map);
+    long getCount(Map map);
 }

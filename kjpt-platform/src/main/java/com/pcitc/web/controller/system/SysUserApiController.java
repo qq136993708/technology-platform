@@ -33,6 +33,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.system.SysCollect;
+import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -89,6 +91,12 @@ public class SysUserApiController extends BaseController{
 	
 	private static final String GET_POST_LIST_BYUNIT = "http://kjpt-zuul/system-proxy/post-provider/post/get-post-list";
 	
+	
+	/**
+	 * 我的收藏
+	 */
+	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
+	 
 	
 	@ApiOperation(value = "用户查询（分页）", notes = "用户查询（分页）")
     @ApiImplicitParams({
@@ -371,8 +379,27 @@ public class SysUserApiController extends BaseController{
 		return result.toString();
 	}
     
+    @ApiOperation(value = "根据userId获取收藏", notes = "根据userId获取收藏")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId",           value = "用户Id", dataType = "string", paramType = "query",required=true)
+    })
+    @RequestMapping(value = "/collect-api/getSysCollectByUserId", method = RequestMethod.GET)
+	public String getSysSysCollectByUserId(@RequestParam(value = "userId", required = true) String userId) throws Exception {
+		
+		Result resultsDate = new Result();
+		// 用户有哪些菜单权限
+		SysUser userDetails =   this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		List<SysFunction> list = userDetails.getFunList();
+	     List<SysCollect> scList = userDetails.getScList();
+		 
+		JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(scList));
+		System.out.println(JSONObject.toJSON(jsonObject).toString());
+		resultsDate.setData(list);
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+	}
     
-    
+  
     
     
     @ApiOperation(value = "根据岗位IDS（多个）查询岗位列表", notes = "根据岗位IDS（多个）查询岗位列表")
