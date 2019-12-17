@@ -85,10 +85,12 @@
         (SELECT count(*) FROM kypt_achievement  WHERE kypt_achievement.platform_id = t1.id ) AS achievement_count
          from view_kypt_info t1 where 1=1
             and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
         AND create_unit_id in
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+        </if>
         <include refid="selectByParam" />
 
 
@@ -102,16 +104,12 @@
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_info where 1=1
             and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
         AND create_unit_id in
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
-        <include refid="selectByParam" />
-
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        </if>
         <include refid="selectByParam" />
 
         <if test="secretLevel != null and secretLevel != '' " >
