@@ -92,7 +92,7 @@
          #{workUnit},
          #{major},
          #{deleted},
-         {createDate},
+         #{createDate},
          #{creator},
          #{updateDate},
          #{updator},

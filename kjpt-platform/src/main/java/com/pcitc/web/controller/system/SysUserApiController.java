@@ -38,6 +38,8 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.TokenInterUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -332,6 +334,10 @@ public class SysUserApiController extends BaseController{
 	    System.out.println(">>>>>>>>>> 参数userPost: "+sysUser.getSecretLevel());
 		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + sysUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 		SysUser oldSysUser = se.getBody();
+		//加入日志
+		String secretLevelStr=EquipmentUtils.getDicNameByParentCodeAndValue("ROOT_KJPT_YHMJ",  sysUser.getSecretLevel(), restTemplate, httpHeaders);
+		TokenInterUtils.saveSecurityadminSecretLevelLog("用户密级:"+oldSysUser.getSecretLevelStr()+"修改为"+secretLevelStr, "/user-api/updateUserSecretLevel", restTemplate, httpHeaders, request, sysUserInfo);
+		
 		oldSysUser.setSecretLevel(sysUser.getSecretLevel());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_SECRET_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();

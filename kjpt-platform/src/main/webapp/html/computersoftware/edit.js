@@ -25,7 +25,9 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
           form.val('formMain', data);
           // 更新表单数据
           form.render();
-  
+          if (data.technicalField) {
+            formSelects.value('technicalField', data.technicalField.split(','));
+          }
           setFileUpload({
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: data.id, // 用来查找当前单据下绑定的附件，没有则不查找
