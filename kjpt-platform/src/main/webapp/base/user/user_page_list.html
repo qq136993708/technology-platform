@@ -48,7 +48,7 @@
 	                ,theme: '#0F9EE0'
 	            },
 	            cols: [[
-	            	 {type:'checkbox',event: 'changeEvents',width : 55}
+	            	 {type:'radio',event: 'changeEvents',width : 55}
                     ,{type: 'numbers', title: '序号', width: 80}
                     ,{field: 'userName', title: '登录名称'}
                     ,{field: 'userDisp', title: '展示名称', sort: true }
@@ -133,7 +133,7 @@
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin : false,
-                    area : [ '80%', '90%' ],
+                    area : [ '80%', '65%' ],
                     content:  temUrl,
                     end: function(lay, index) {
                         // 弹窗销毁时获取弹窗返回数据
@@ -161,8 +161,8 @@
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin : true,
-                    area : [ '80%', '90%' ],
+                    maxmin : false,
+                    area : [ '80%', '65%' ],
                     content:  temUrl,
                     end: function(lay, index) {
                         // 弹窗销毁时获取弹窗返回数据
@@ -347,7 +347,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="text">用户名称：</span></label>
                 <div class="layui-input-block">
-                    <input type="text" name="userNameKey" id="userNameKey" placeholder="请输入登录名称或显示名称" autocomplete="off" class="layui-input">
+                    <input type="text" name="userNameKey" id="userNameKey" placeholder="请输入登录名或显示名" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -355,7 +355,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="text">统一身份认证ID：</span></label>
                 <div class="layui-input-block">
-                    <input type="text" name="unifyIdentityId" id="unifyIdentityId" placeholder="请输入登录名称或显示名称" autocomplete="off" class="layui-input">
+                    <input type="text" name="unifyIdentityId" id="unifyIdentityId" placeholder="请输入统一身份认证ID" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>

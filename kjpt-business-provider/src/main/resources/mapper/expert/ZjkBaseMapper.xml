@@ -449,7 +449,7 @@
 	     <if test="delStatus != null             and delStatus !=''  ">       AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null           and outSystemId !=''  ">     AND t.out_system_id = #{outSystemId}</if>
 	     <if test="useStatus != null             and useStatus !=''  ">       AND t.use_status = #{useStatus}</if>
-	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.use_status = #{belongUnit}</if>
+	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
 	     <if test="post != null                  and post !=''  ">            AND t.post = #{post}</if>
 	     <if test="title != null                 and title !=''  ">               AND t.title = #{title}</if>
 	     <if test="technicalField != null        and technicalField !=''  ">      AND FIND_IN_SET(#{technicalField},t.`technical_field`) </if>

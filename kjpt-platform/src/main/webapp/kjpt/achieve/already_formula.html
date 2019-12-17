@@ -78,9 +78,10 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-    layui.use(['table', 'form'], function() {
+    layui.use(['table', 'form','laydate'], function() {
         var table = layui.table;
         var form = layui.form;
+        var laydate = layui.laydate;
 
         var tableRender = false;
         function queryTable(searchData) {
@@ -113,6 +114,32 @@
                 table.reload('tableDemo', {where: searchData});
             }
         }
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#inputStart'
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#inputEnd'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+
         $('.openLayerPage').on('click', function() {
             var listData = table.checkStatus('tableDemo').data;
             var index=parent.$("#LAY_app_body div.layui-show").index()-1;

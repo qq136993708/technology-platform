@@ -81,15 +81,28 @@ layui.use(['element', 'jquery'], function() {
       if (config.href) {
         var itemHref = config.href;
         if (config.hrefData) {
-          var dataList = '';
-          for (var i = 0; i < config.hrefData.length; i++) {
-            dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];
+          if(config.name=='achieveName'){
+              var dataList = '';
+              for (var i = 0; i < config.hrefData.length; i++) {
+                  dataList +=  '&' + config.hrefData[i] + '=' + item.publicDoc;
+              }
+              if (itemHref.indexOf('?') === -1) {
+                  itemHref += ('?' + dataList.substring(1));
+              } else {
+                  itemHref += dataList;
+              }
+          }else {
+              var dataList = '';
+              for (var i = 0; i < config.hrefData.length; i++) {
+                  dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];
+              }
+              if (itemHref.indexOf('?') === -1) {
+                  itemHref += ('?' + dataList.substring(1));
+              } else {
+                  itemHref += dataList;
+              }
           }
-          if (itemHref.indexOf('?') === -1) {
-            itemHref += ('?' + dataList.substring(1));
-          } else {
-            itemHref += dataList;
-          }
+
         }
 
         $li.click(function(e) {
@@ -167,12 +180,12 @@ layui.use(['element', 'jquery'], function() {
   // 专利列表
   getTabContentList({
     id: '#transform_tab_list',
-    url: '/achieveRecord-api/query',
-    data: { page: 1, limit: 10 },
+    url: '/achieve-api/query',
+    data: { page: 1, limit: 10,isPublic:3 },
     name: 'achieveName',
-    href: '',
+    href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
-    title: '专利详情',
+    title: '成果转化',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#transform_tab_list').text(res.message || '请求出错，无法获取数据。')
