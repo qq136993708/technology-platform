@@ -12,7 +12,6 @@
         <result column="PROFESSIONAL_FIELD" jdbcType="VARCHAR" property="professionalField"/>
         <result column="SPECIALTY_CATEGORY" jdbcType="VARCHAR" property="specialtyCategory"/>
         <result column="RELEASE_TIME" jdbcType="DATE" property="releaseTime"/>
-
         <result column="accessory" jdbcType="DATE" property="accessory"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
@@ -116,9 +115,9 @@
         and deleted != '1'
         <include refid="selectByParam"/>
 
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
+        <!--<if test="secretLevel != null and secretLevel != '' " >-->
+            <!--and secret_level = #{secretLevel}-->
+        <!--</if>-->
 
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level in
@@ -127,6 +126,9 @@
             </foreach>
         </if>
 
+        <if test="userSecretLevel != null and userSecretLevel !=''  ">
+            AND secret_level &lt;= #{userSecretLevel}
+        </if>
 
     </select>
 
@@ -136,10 +138,14 @@
         <include refid="selectByParam"/>
 
 
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
+        <!--<if test="secretLevel != null and secretLevel != '' " >-->
+            <!--and secret_level = #{secretLevel}-->
+        <!--</if>-->
        <!-- and secret_level <![CDATA[<=]]> #{userSecretLevel}-->
+
+        <if test="userSecretLevel != null and userSecretLevel !=''  ">
+            AND secret_level &lt;= #{userSecretLevel}
+        </if>
 
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level in

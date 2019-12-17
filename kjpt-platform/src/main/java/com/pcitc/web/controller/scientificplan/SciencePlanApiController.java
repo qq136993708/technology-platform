@@ -157,16 +157,16 @@ public class SciencePlanApiController extends RestBaseController {
             this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
         }
 
-
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
+
         this.setParam(condition,"userSecretLevel",EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
+
 
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
-
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
