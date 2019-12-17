@@ -1,5 +1,7 @@
 package com.pcitc.web.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -104,6 +106,32 @@ public class EquipmentUtils {
 		return returnlist;
 		
 	}
+	
+	
+	
+	public static String  getDicNameByParentCodeAndValue(String parentCode ,String value,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		String resutlt="";
+		String DICTIONARY_CODE = "http://kjpt-zuul/system-proxy/dictionary-provider/dicjson/";
+		JSONArray array =restTemplate.exchange(DICTIONARY_CODE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), JSONArray.class).getBody();
+		List<SysDictionary> returnlist = JSONObject.parseArray(array.toJSONString(), SysDictionary.class);
+		if(returnlist!=null)
+		{
+			for(int i=0;i<returnlist.size();i++) 
+			{
+				SysDictionary sd=returnlist.get(i);
+				String numValue=sd.getNumValue();
+				if(numValue.equals(value))
+				{
+					resutlt=sd.getName();
+				}
+			}
+		}
+		
+		return resutlt;
+		
+	}
+	
 	
 	
 	public static SysDictionary  getDictionaryByCode(String code ,RestTemplate restTemplate,HttpHeaders httpHeaders)
@@ -228,7 +256,7 @@ public class EquipmentUtils {
 	
 	
 	
-	public static  String getInfoLevelsByUserSecretLevel(String userSecretLevel)
+	public static  String getInfoLevelsByUserSecretLevel2(String userSecretLevel)
 	    {
 	    	//核心->绝密
 	    	//重要->机密
@@ -344,7 +372,27 @@ public class EquipmentUtils {
 		}
 		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
 	}
-	
+	// 获取HttpServletRequest请求Body中的内容
+		public static String readBody(HttpServletRequest request) 
+		{
+			
+			StringBuilder sb = new StringBuilder();
+			InputStream is = null;
+			try {
+				is = request.getInputStream();
+				byte[] b = new byte[4096];
+				for (int n; (n = is.read(b)) != -1;) 
+				{
+					sb.append(new String(b, 0, n));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally 
+			{
+				
+			}
+			return sb.toString();
+		}
 	
 	/*
 	 * public static void main(String[] args) {
