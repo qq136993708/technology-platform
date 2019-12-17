@@ -70,6 +70,7 @@
         var $ = layui.jquery,form = layui.form,formSelects=layui.formSelects;
         var readonlyFile = false; // 附件是否只读
         var loadData={} /*获取当前data*/
+        var secretLevel='',approvalDocStr='',publicDocStr=''
         var fileCols = [
             {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
             {title: '操作', templet: function(d) {
@@ -80,35 +81,66 @@
                     return templet;
                 }}
         ]
+        // 获取地址栏传递过来的参数
+        var variable = getQueryVariable();
+        httpModule({
+            url: "/achieve-api/load/"+variable.id,
+            type: 'GET',
+            async:false,
+            success: function(relDataForm) {
+                loadData=relDataForm.data
+                if(relDataForm.success){
+                    form.val('formPlatform', relDataForm.data);
+                }
+                setFileUpload({
+                    dataID: relDataForm.data.approvalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+                    callback: function (tableData, type) {
+                        console.log(tableData)
+                    }
+                });
+                httpModule({
+                    url: '/file/query/' + relDataForm.data.approvalDoc,
+                    success: function(data) {
+                        if (data.code === '0' && data.data.length>0) {
+                            data.data.map(function (item, index) {
+                                console.log(item)
+                                approvalDocStr+=item.id+","
+                            })
+                            approvalDocStr=approvalDocStr.substring(0, approvalDocStr.length - 1);
+                        }else {
+                            approvalDocStr=''
+                        }
+                    }
+                });
+                secretLevel=relDataForm.data.secretLevel
+            }
+        });
         setFileUpload({
             id: 'file-filter-options1', // 附件上传作用域ID值 必传
             dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
             cols: fileCols,
             readonly: readonlyFile,
             secretLevel : function() {
-                return $("#secretLevel").val();
+                return secretLevel;
             },
             callback: function (tableData, type) {
-
-            }
-        });
-        // 获取地址栏传递过来的参数
-        var variable = getQueryVariable();
-        httpModule({
-            url: "/achieve-api/load/"+variable.id,
-            type: 'GET',
-            success: function(relDataForm) {
-                loadData=relDataForm.data
-                if(relDataForm.success){
-                    form.val('formPlatform', relDataForm.data);
+                console.log(tableData)
+                if(tableData.length>0){
+                    fileDoc=''
+                    tableData.map(function (item, index) {
+                        console.log(item)
+                        publicDocStr+=item.id+","
+                    })
+                    publicDocStr=publicDocStr.substring(0, publicDocStr.length - 1);
+                }else {
+                    publicDocStr=''
                 }
             }
         });
         form.on('submit(newSubmit)', function(data) {
-            var fileDoc=''
             var fileDocS={}
-            fileDocS[loadData.approvalDoc]=fileDoc
-            fileDocS[loadData.publicDoc]=fileDoc
+            fileDocS[loadData.approvalDoc]=approvalDocStr
+            fileDocS[loadData.publicDoc]=publicDocStr
             loadData.fileDoc=JSON.stringify(fileDocS)
             httpModule({
                 url: '/achieve-api/public',

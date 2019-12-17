@@ -14,6 +14,7 @@
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
+	<link rel="stylesheet" href="/css/form.css">
 </head>
 <body>
 <div class="formBox">
@@ -22,19 +23,19 @@
 		<input type="hidden" name="roleDelflag" value="0">
 		<div class="box-body">
 			<div class="layui-form-item">
-		        <label class="layui-form-label">角色名称<span class="must-fill">*</span></label>
+		        <label class="layui-form-label"><span class="must-fill">*</span>角色名称</label>
 		        <div class="layui-input-block">
 		         	<input type="text" id="roleName" name="roleName" lay-verify="required" placeholder="请输入角色名称"  autocomplete="off" class="layui-input">
 		        </div>
 	      	</div>
 			<div class="layui-form-item">
-		        <label class="layui-form-label">角色编码<span class="must-fill">*</span></label>
+		        <label class="layui-form-label"><span class="must-fill">*</span>角色编码</label>
 		        <div class="layui-input-block">
 		         	<input type="text" id="roleFlag" readonly="readonly" name="roleFlag" lay-verify="required" autocomplete="off" class="layui-input readOnlyBox">
 		        </div>
 	      	</div>
 			<div class="layui-form-item">
-		        <label class="layui-form-label">排序<span class="must-fill">*</span></label>
+		        <label class="layui-form-label"><span class="must-fill">*</span>排序</label>
 		        <div class="layui-input-block">
 		         	<input type="text" id="roleOrder" name="roleOrder" lay-verify="number" placeholder="排序序号（请输入数字 顺序从小到大）" autocomplete="off" class="layui-input">
 		        </div>
@@ -48,9 +49,9 @@
 		</div>
 		
 		<div class="form-bottom">
-	      <div class="form-bottom-btns">
-	      	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-	      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="closeBtn">取消</button>
+	      <div class="form-bottom-btns dialog-footer-btn">
+	      	<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="submitBtn">保存</button>
+	      	<button type="button" class="layui-btn layui-btn-primary"  id="closeBtn">取消</button>
 	      </div>
 	    </div>
 	</form>

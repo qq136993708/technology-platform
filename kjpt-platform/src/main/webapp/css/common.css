@@ -61,7 +61,7 @@ body > .layui-layout{
   min-height: auto;
 }
 .layout-view-content.dialog{
-  padding: 20px 30px 20px 30px;
+  padding: 30px;
 	min-height: auto;
 	height: calc(100% - 61px);
 	overflow: auto;
@@ -666,7 +666,8 @@ table tr td a {
   margin-left:10px;
 }
 .secret-level-helper {
-  color: #B1B1B2
+  color: #B1B1B2;
+  line-height: 29px;
 }
 
 .dense{

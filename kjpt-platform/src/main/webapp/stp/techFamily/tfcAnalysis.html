@@ -49,6 +49,7 @@
             border: 1px solid #ccc;
             padding-top: 0px;
         }
+        .layui-tree-branch{display: none}
     </style>
 </head>
 <body>
@@ -591,7 +592,7 @@
                 axisLabel: {
                     show: false,
                     textStyle: {
-                        color: '#fff'
+                        color: '#fff',
                     }
                 }
             },
@@ -622,6 +623,7 @@
                 orient: 'horizontal',
                 left: 'center',
                 bottom: '2%',
+
             },
             series: [{
                 name: '',
@@ -629,13 +631,14 @@
                 data: data,
                 label: {
                     normal: {
-                        show: true
-                    }
+                        show: true,
+                        fontSize:16,
+                    },
                 },
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
                     }
                 }
             }]

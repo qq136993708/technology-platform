@@ -63,7 +63,7 @@ layui.use(['table', 'form','laydate'], function() {
                       type : 2,
                       fixed : false,
                       maxmin : false,
-                      area : [ '70%', '90%' ],
+                      area : [ '70%', '50%' ],
                       content : temUrl
                   });
                   return false
