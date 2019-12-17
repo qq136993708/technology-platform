@@ -725,3 +725,17 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     width: 12px;
     height: 12px;
 }
+.link-text {
+    color: rgb(10, 161, 255);
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline !important;
+    transition: opacity 0.24s ease-out 0s;
+}
+a.link-text:hover {
+    color: rgb(10, 161, 255);
+    text-decoration: underline;
+}
+ .link-text:hover {
+     opacity: 0.8;
+ }

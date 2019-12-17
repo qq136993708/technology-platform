@@ -115,10 +115,10 @@
                 data:  loadData,
                 type: "POST",
                 success: function(e) {
-                    console.log(e)
                     if(e.code==0){
                         layer.msg('保存成功!', {icon: 1});
-                        closeTabsPage(variable.index);
+                        setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+                        top.layer.closeAll(); // 关闭弹窗
                     }
                 }
             });

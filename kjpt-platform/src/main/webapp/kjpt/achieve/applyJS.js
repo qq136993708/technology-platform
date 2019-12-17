@@ -47,6 +47,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         httpModule({
             url: "/achieve-api/load/"+variable.id,
             type: 'GET',
+            async:false,
             success: function(relData) {
                 if(relData.code==0){
                     /*回显tr*/
@@ -55,6 +56,8 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                     formSelects.value('techType', relData.data.techType.split(','));
                     fileDoc=variable.id
                     backfill(relData.data.teamPerson,'achieveTable',variable.type)
+                    approvalDoc=relData.data.approvalDoc
+                    publicDoc=relData.data.publicDoc
                     if(variable.type=='view'){
                         readonlyFile=true
                         formSelects.disabled(); // 禁用所有多选下拉框
@@ -82,13 +85,14 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     }
     setFileUpload({
         id: 'file-filter-options1', // 附件上传作用域ID值 必传
-        dataID: variable.id, // 用来查找当前单据下绑定的附件，没有则不查找
+        dataID: approvalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
         cols: fileCols,
         readonly: readonlyFile,
         secretLevel : function() {
             return $("#secretLevel").val();
           },
         callback: function (tableData, type) {
+            console.log(tableData)
             if(tableData.length>0){
                 fileDoc=''
                 tableData.map(function (item, index) {
