@@ -215,7 +215,7 @@ body{
     position: absolute;
     right: 0.25rem;
     top: 0.337rem;
-    bottom: 0;
+    /* bottom: 0; */
     margin: auto;
 	color:#ffffff;
 }
