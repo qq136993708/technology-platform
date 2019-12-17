@@ -12,62 +12,140 @@
   <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
 </head>
 <body class="quality">
-<div class="layout-view-content">
-  <div class="top-chart-layout">
-    <div class="chart-item-layout appraisal_one">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">同位素产品质量趋势图 <span class="sub_title_text">2019年度</span></div>
-        </div>
-        <div class="chart-block" id="appraisal_one"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout appraisal_two">
-          <div class="text">gb/t19001认证审核的主要不符合项条款 <span class="sub_title_text">2019年度</span></div>
-        </div>
-        <div class="chart-block" id="appraisal_two"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout appraisal_three">
-          <div class="text">gjb/t19001认证审核的主要不符合项条款 <span class="sub_title_text">2019年度</span></div>
-        </div>
-        <div class="chart-block" id="appraisal_three"></div>
-      </div>
-    </div>
-  </div>
+<div class="scroll-layout">
+  <div class="scroll-btn left"></div>
+  <div class="scroll-btn right active"></div>
+  <ul class="scroll-object" id="scrollObject">
+    <li class="left-layout">
 
-  <div class="bottom-chart-layout">
-    <div class="chart-item-layout appraisal_four">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果鉴定结论数量按研究院分布情况 <span class="sub_title_text">2019年度</span></div>
+      <div class="layout-view-content">
+        <div class="top-chart-layout">
+          <div class="chart-item-layout quality_one">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">计划执行率 <span class="sub_title_text">2019年度</span></div>
+                <ul class="left-date-block">
+                  <li class="item-lsit" title="当年所有机组的年累计非计划停推数">
+                    <span class="item-value">6</span>
+                    <span class="item-text">当年所有机组的年累计非计划停推数：</span>
+                  </li>
+                  <li class="item-lsit" title="年累计人因失误导致的运行事件数">
+                    <span class="item-value">5</span>
+                    <span class="item-text">年累计人因失误导致的运行事件数：</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="chart-block" id="quality_one"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout quality_two">
+                <div class="text">工程建设II、III不符合项关闭率 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="quality_two"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout quality_three">
+                <div class="text">核材料/核燃料质量趋势图 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="quality_three"></div>
+            </div>
+          </div>
         </div>
-        <div class="chart-block" id="appraisal_four"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout appraisal_five">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">最新季度内、外部质量损失占比（%）<span class="sub_title_text">2019年度</span></div>
+      
+        <div class="bottom-chart-layout">
+          <div class="chart-item-layout quality_four">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">地浸质量数据统计 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="quality_four"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout quality_five">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">地质勘探质量趋势图 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="quality_five"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout quality_six">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">装备制造与仪器仪表生产质量趋势图<span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="quality_six"></div>
+            </div>
+          </div>
         </div>
-        <div class="chart-block" id="appraisal_five"></div>
       </div>
-    </div>
-    <div class="chart-item-layout appraisal_six">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">最新季度外部质量损失各科目占比（%）%）<span class="sub_title_text">2019年度</span></div>
+
+    </li>
+    <li class="right-layout">
+      <div class="layout-view-content">
+        <div class="top-chart-layout">
+          <div class="chart-item-layout appraisal_one">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">同位素产品质量趋势图 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="appraisal_one"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout appraisal_two">
+                <div class="text">gb/t19001认证审核的主要不符合项条款 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="appraisal_two"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout appraisal_three">
+                <div class="text">gjb/t19001认证审核的主要不符合项条款 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="appraisal_three"></div>
+            </div>
+          </div>
         </div>
-        <div class="chart-block" id="appraisal_six"></div>
+      
+        <div class="bottom-chart-layout">
+          <div class="chart-item-layout appraisal_four">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">成果鉴定结论数量按研究院分布情况 <span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="appraisal_four"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout appraisal_five">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">最新季度内、外部质量损失占比（%）<span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="appraisal_five"></div>
+            </div>
+          </div>
+          <div class="chart-item-layout appraisal_six">
+            <div class="chart-layout jscWeb">
+              <div class="chart-title-layout">
+                <div class="text">最新季度外部质量损失各科目占比（%）<span class="sub_title_text">2019年度</span></div>
+              </div>
+              <div class="chart-block" id="appraisal_six"></div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  
+    </li>
+  </ul>
 </div>
+
+
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/plugins/echarts/echarts.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>

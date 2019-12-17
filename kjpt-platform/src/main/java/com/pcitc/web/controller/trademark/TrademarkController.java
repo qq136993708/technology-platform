@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.trademark;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
@@ -115,6 +116,7 @@ public class TrademarkController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
+        SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构及子机构的所有专家

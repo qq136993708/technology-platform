@@ -81,6 +81,10 @@ public class AchieveReward extends RecordModel implements Serializable {
     private String teamPerson = "";
 
     /**
+     * 团队成员数量
+     */
+    private Integer teamPersonCount;
+    /**
      * 附件
      */
     private  String files="";
@@ -227,5 +231,13 @@ public class AchieveReward extends RecordModel implements Serializable {
 
     public void setFiles(String files) {
         this.files = files;
+    }
+
+    public Integer getTeamPersonCount() {
+        return teamPersonCount;
+    }
+
+    public void setTeamPersonCount(Integer teamPersonCount) {
+        this.teamPersonCount = teamPersonCount;
     }
 }

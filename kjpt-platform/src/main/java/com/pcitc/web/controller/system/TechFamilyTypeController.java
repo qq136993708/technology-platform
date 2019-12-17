@@ -113,7 +113,7 @@ public class TechFamilyTypeController extends BaseController {
     public Object getListParam(@RequestParam String id) {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-        requestBody.add("id", request.getParameter("id") + "");
+        requestBody.add("id", this.getCurrentRequest().getParameter("id") + "");
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
@@ -224,7 +224,7 @@ public class TechFamilyTypeController extends BaseController {
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     @ResponseBody
     public Object delTechFamilyType() throws Exception {
-        Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        Integer rs = this.restTemplate.exchange(DEL + this.getCurrentRequest().getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
         } else {
@@ -236,7 +236,7 @@ public class TechFamilyTypeController extends BaseController {
     @RequestMapping(value = "/del-real", method = RequestMethod.POST)
     @ResponseBody
     public Object delTechFamilyTypeReal() throws Exception {
-        Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        Integer rs = this.restTemplate.exchange(DEL_REAL + this.getCurrentRequest().getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
         } else {

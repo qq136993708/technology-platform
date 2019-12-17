@@ -592,7 +592,7 @@ public class TaskController extends BaseController {
 		byte[] image = fileStream.getBody();
 		OutputStream os = null;
 		try {
-			os = response.getOutputStream();
+			os = getCurrentResponse().getOutputStream();
 			os.write(image);
 			os.flush();
 		} catch (Exception e) {
@@ -621,7 +621,7 @@ public class TaskController extends BaseController {
 		byte[] image = fileStream.getBody();
 		OutputStream os = null;
 		try {
-			os = response.getOutputStream();
+			os = getCurrentResponse().getOutputStream();
 			os.write(image);
 			os.flush();
 		} catch (Exception e) {
