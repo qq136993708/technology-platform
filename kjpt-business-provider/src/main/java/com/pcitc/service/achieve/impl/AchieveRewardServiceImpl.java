@@ -35,6 +35,11 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
     @Transactional(rollbackFor = Exception.class)
     public void save(AchieveReward ab) {
         IsEmptyUtil.isEmpty(ab.getId());
+
+        if(ab.getBudgetPerson()!=null){
+            ab.setTeamPersonCount(ab.getBudgetPerson().split("$").length);
+        }
+
         if(load(ab.getId()) ==null){
             ab.setCreateDate(ab.getUpdateDate());
             ab.setCreator(ab.getUpdator());

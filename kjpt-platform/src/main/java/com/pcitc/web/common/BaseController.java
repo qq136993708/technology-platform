@@ -1,8 +1,10 @@
 package com.pcitc.web.common;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,28 +34,43 @@ import java.util.UUID;
 public class BaseController implements ErrorController
 {
 
-    @Autowired
-    public HttpServletRequest request;
+//    @Autowired
+//    public HttpServletRequest request;
+//
+//    @Autowired
+//    public HttpServletResponse response;
 
     @Autowired
-    public HttpServletResponse response;
-
-    @Autowired
-    public RestTemplate restTemplate;
+    protected RestTemplate restTemplate;
 
     @Autowired
     public HttpHeaders httpHeaders;
     
     public Logger logger = LoggerFactory.getLogger(getClass());
     
-    public SysUser sysUserInfo;
+    //public SysUser sysUserInfo;
 
-	public void setUserProfile(SysUser sysUser) {
-		this.sysUserInfo = sysUser;
-	}
+//	public void setUserProfile(SysUser sysUser) {
+//		this.sysUserInfo = sysUser;
+//	}
 	
 	public SysUser getUserProfile() {
-		return sysUserInfo;
+		String token = "";
+		Cookie[] cookies = getCurrentRequest().getCookies();
+		for (Cookie c : cookies) {
+			c.setHttpOnly(true);
+
+			if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
+				token = c.getValue();
+				// 此cookies重新计时
+				c.setMaxAge(1 * 60 * 60); // 设置有效期为一小时
+				c.setPath("/");
+				getCurrentResponse().addCookie(c);
+				break;
+			}
+		}
+
+		return JwtTokenUtil.getUserFromTokenByValue(token);
 	}
 
 
@@ -139,11 +156,13 @@ public class BaseController implements ErrorController
 	{
 		try 
 		{
+			HttpServletRequest request = getCurrentRequest();
 			String uri = request.getRequestURI();
 			String reqType = request.getMethod();
 			String host = request.getRemoteHost();
-			
-			String userId = sysUserInfo == null ? null : sysUserInfo.getUserId();
+
+			SysUser su = getUserProfile();
+			String userId = su == null ? null : su.getUserId();
 			String ctime = DateUtil.format(new Date(), DateUtil.FMT_SSS);
 			
 			
@@ -164,6 +183,7 @@ public class BaseController implements ErrorController
 			HttpEntity<SysReqLogs> entity = new HttpEntity<SysReqLogs>(bean, httpHeaders);
 			String LOG_CLIENT = "http://kjpt-zuul/system-proxy/sys-provider/processlogs/process-logs-save";
 			restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
+
 		}catch(Exception e) 
 		{
 			
