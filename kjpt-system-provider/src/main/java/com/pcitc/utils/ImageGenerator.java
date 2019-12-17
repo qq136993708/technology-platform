@@ -76,7 +76,7 @@ public class ImageGenerator {
         }
         BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
         
-        
+       
         InputStream inputStream =  processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator().generateDiagram(bpmnModel, "png", "WenQuanYi Micro Hei", "WenQuanYi Micro Hei", "WenQuanYi Micro Hei", processEngine.getProcessEngineConfiguration().getClassLoader());
         
 		/*
