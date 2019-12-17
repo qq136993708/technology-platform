@@ -292,15 +292,15 @@ public class TechFamilyController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/tech-family/tfcHotPoint")
     public String tfcHotPoint() 
     {
-        String dataId = request.getParameter("dataId");
+        String dataId = this.getCurrentRequest().getParameter("dataId");
         if (dataId==null||"".equals(dataId))
         {
             dataId="no";
         }
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_COUNT+dataId, HttpMethod.POST, new HttpEntity<>(this.httpHeaders), JSONObject.class);
         JSONObject outProjectInfo = responseEntity.getBody();
-        request.setAttribute("value",outProjectInfo.get("value"));
-        request.setAttribute("name",outProjectInfo.get("name"));
+		this.getCurrentRequest().setAttribute("value",outProjectInfo.get("value"));
+		this.getCurrentRequest().setAttribute("name",outProjectInfo.get("name"));
         return "stp/techFamily/tfcHotPoint";
     }
 
@@ -317,9 +317,9 @@ public class TechFamilyController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/tech-family/tfcAnalysisDetail")
     public String tfcAnalysisDetail()
     {
-        request.setAttribute("typeIndex",request.getParameter("typeIndex"));
-        request.setAttribute("typeName",request.getParameter("typeName"));
-        request.setAttribute("typeCode",request.getParameter("typeCode"));
+		this.getCurrentRequest().setAttribute("typeIndex",this.getCurrentRequest().getParameter("typeIndex"));
+		this.getCurrentRequest().setAttribute("typeName",this.getCurrentRequest().getParameter("typeName"));
+		this.getCurrentRequest().setAttribute("typeCode",this.getCurrentRequest().getParameter("typeCode"));
         return "stp/techFamily/tfcAnalysisDetail";
     }
 	

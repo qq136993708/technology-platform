@@ -7,6 +7,7 @@ import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysPost;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
@@ -293,7 +294,7 @@ public class AchieveRecordController extends RestBaseController {
 		
 		 ResponseEntity<AchieveRecord> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveRecord.class);
 		 AchieveRecord achieveBase=  responseEntity.getBody();
-		
+        SysUser sysUserInfo = this.getUserProfile();
 		String branchFlag="0";
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("id", id);

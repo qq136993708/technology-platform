@@ -3,6 +3,7 @@ package com.pcitc.web.controller.patent;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -138,6 +139,8 @@ public class PatentController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
+        SysUser sysUserInfo = this.getUserProfile();
+
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
 

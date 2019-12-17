@@ -114,7 +114,7 @@ public class ActivitiModelPlatController extends BaseController {
 		byte[] image = responseEntity.getBody();
 		OutputStream os = null;
 		try {
-			os = response.getOutputStream();
+			os = getCurrentResponse().getOutputStream();
 			os.write(image);
 			os.flush();
 		} catch (Exception e) {

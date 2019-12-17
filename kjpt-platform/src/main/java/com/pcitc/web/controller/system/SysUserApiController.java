@@ -344,7 +344,7 @@ public class SysUserApiController extends BaseController{
 		SysUser oldSysUser = se.getBody();
 		//加入日志
 		String secretLevelStr=EquipmentUtils.getDicNameByParentCodeAndValue("ROOT_KJPT_YHMJ",  sysUser.getSecretLevel(), restTemplate, httpHeaders);
-		TokenInterUtils.saveSecurityadminSecretLevelLog("用户密级:"+oldSysUser.getSecretLevelStr()+"修改为"+secretLevelStr, "/user-api/updateUserSecretLevel", restTemplate, httpHeaders, request, sysUserInfo);
+		TokenInterUtils.saveSecurityadminSecretLevelLog("用户密级:"+oldSysUser.getSecretLevelStr()+"修改为"+secretLevelStr, "/user-api/updateUserSecretLevel", restTemplate, httpHeaders, request, this.getUserProfile());
 		
 		oldSysUser.setSecretLevel(sysUser.getSecretLevel());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_SECRET_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
