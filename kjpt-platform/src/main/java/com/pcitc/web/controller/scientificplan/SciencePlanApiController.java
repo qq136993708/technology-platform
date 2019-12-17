@@ -160,9 +160,8 @@ public class SciencePlanApiController extends RestBaseController {
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
-
-        this.setParam(condition,"userSecretLevel",EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
-
+        //默认查询小于等于用户密级的专家
+        this.setParam(condition, "userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构及子机构的所有专家
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
