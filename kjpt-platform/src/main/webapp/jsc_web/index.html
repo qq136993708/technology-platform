@@ -90,14 +90,12 @@
     <script >
         $(function () {
             autofont();
-            $(window).resize(function() { autofont(); });
 
             setTimeout(function() {
 		        $(".loading-container").addClass("loading-inactive");
 		    }, 0);
 
             $('#mainframe').attr('src', '/jsc_web/front/main.html');
-
 
             var $twoNavItem = $('#twoNavItem'),
             $topHeaderNav = $('#top-header-nav');
@@ -156,6 +154,19 @@
                     pageHref = '/jsc_web/front/'+ pageName +'.html';
                     $('#mainframe').attr('src', pageHref);
                 }
+            });
+
+            var windResize = null;
+            $(window).resize(function() {
+                if (windResize || windResize === 0) {
+                    clearTimeout(windResize);
+                }
+                windResize = setTimeout(function() {
+                    autofont();
+
+                    var headerHeight = $('#header').outerHeight();
+                    $('#wrapper').css({ 'padding-top': headerHeight });
+                }, 120);
             });
         });
     </script>

@@ -30,7 +30,7 @@ var kyptCharts = {
       }
       chartTime = setTimeout(function() {
         chartDemo.resize();
-      }, 180);
+      }, 200);
     })
   
     // 回调函数，返回图表对象
