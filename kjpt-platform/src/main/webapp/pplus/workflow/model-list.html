@@ -274,7 +274,6 @@
 					} else {
 						//var temUrl = "/activiti-model/show/" + selectRowData.id;
 						var temUrl = "/activiti-model/show_image/" + selectRowData.id;
-						
 						top.layer.open({
 							title : '详情',
 							shadeClose : true,
@@ -284,6 +283,7 @@
 							area : [ '70%', '50%' ],
 							content : temUrl
 						});
+						return false;
 					}
 				},
 				alertEvent : function() { //点击重置按钮

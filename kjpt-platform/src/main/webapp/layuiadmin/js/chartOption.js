@@ -30,7 +30,7 @@ var kyptCharts = {
       }
       chartTime = setTimeout(function() {
         chartDemo.resize();
-      }, 180);
+      }, 200);
     })
   
     // 回调函数，返回图表对象
@@ -75,6 +75,7 @@ var kyptCharts = {
     barMaxWidth = 28;
     if (config.type === 'bar' && config.series.length > 1) {
       barMaxWidth = 18;
+      console.log(config);
     }
 
     $.each(config.series, function(index, item) {
@@ -85,13 +86,31 @@ var kyptCharts = {
         itemData.push(subItem[item.valueKey])
       })
 
+      var colorValue = null, itemStyle = null;
+      if (typeof(config.color) === 'object' && config.color[index]) {
+        colorValue = config.color[index];
+
+        if (typeof(colorValue) === 'object') {
+          itemStyle = {
+            color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+              colorStops: [{
+                  offset: 0, color: colorValue[0] // 0% 处的颜色
+              }, {
+                  offset: 1, color: colorValue[1] // 100% 处的颜色
+              }],
+              global: false // 缺省为 false
+            }
+          }
+        }
+      }
+
       var seriesItem = {
         name: item.name,
         data: itemData,
         type: item.type || config.type,
         // type: 'pictorialBar',
         barMaxWidth: barMaxWidth,
-        barWidth: config.barWidth || 28,
+        barWidth: config.barWidth || barMaxWidth,
         barGap: 0,
         label: {
           show: label,
@@ -100,6 +119,10 @@ var kyptCharts = {
           fontSize: 12
         }
       };
+
+      if (itemStyle) {
+        seriesItem.itemStyle = itemStyle;
+      }
 
       if (item.yIndex || item.yIndex === 0) {
         seriesItem.yAxisIndex = item.yIndex;

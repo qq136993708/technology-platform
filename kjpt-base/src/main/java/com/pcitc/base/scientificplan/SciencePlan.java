@@ -13,16 +13,16 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;//id
-    private String name = "";  //名称
-    private String authenticateUtil = "";//申报单位
-    private String researchField = "";//研究领域
-    private String professionalField;//专业领域 PROFESSIONAL_FIELD
+    private String id;                    //id
+    private String name = "";             //名称
+    private String authenticateUtil = ""; //申报单位
+    private String researchField = "";    //研究领域
+    private String professionalField;     //专业领域  PROFESSIONAL_FIELD
     private String specialtyCategory = "";//专业类别
     private Date releaseTime = new Date();//发布时间
-    private String authenticateUitlText; //文档
-    private Date annual = new Date();//年度/月度
-    private String accessory; //附件
+    private String authenticateUitlText;  //文档
+    private Date annual = new Date();     //年度/月度
+    private String accessory;             //附件
 
 
     private String nameText;
@@ -30,9 +30,10 @@ public class SciencePlan extends RecordModel implements Serializable {
 
     private String reportType; //上报类型
 
-
+    /**
+     * 研究领域Text
+     */
     private String researchFieldText = "";
-
 
     /**
      * 创建单位id
@@ -44,7 +45,6 @@ public class SciencePlan extends RecordModel implements Serializable {
      */
     private String createUnitName="";
 
-
     /**
      *技术领域名称
      */
@@ -55,8 +55,11 @@ public class SciencePlan extends RecordModel implements Serializable {
      */
     private  String  technicalFieldIndex="";
 
-
+    /**
+     * 密级等级Text
+     */
     private  String secretLevelText="";
+
 
 
     public SciencePlan() {
