@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.controller.system.UnitController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
@@ -116,7 +117,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String name,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
-
+     	SysUser sysUserInfo = this.getUserProfile();
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("name", name);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
@@ -195,7 +196,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("sex", sex);
     	param.getParam().put("education", education);
     	param.getParam().put("secretLevel", secretLevel);
-    	
+		 SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
     	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
     	//默认查询当前人所在机构及子机构的所有专家
@@ -328,7 +329,7 @@ public class ExpertController extends BaseController {
     	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(zjkBase));
 		System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
     
-		
+		SysUser sysUserInfo = this.getUserProfile();
 		
 		
 		if (id!=null && !id.equals("")) 
@@ -523,7 +524,7 @@ public class ExpertController extends BaseController {
   	@RequestMapping(value = "/expert-api/input_excel", method = RequestMethod.POST)
   	public Object newImportData(HttpServletRequest req, HttpServletResponse resp,MultipartFile file) throws Exception 
   	{
-  		
+		SysUser sysUserInfo = this.getUserProfile();
   		Result resultsDate = new Result();
   	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,"所在单位",  "职称"  ,  "职务",  "联系方式"，"专业领域" };
 	    // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};

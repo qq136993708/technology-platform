@@ -3,6 +3,7 @@ package com.pcitc.web.controller.scientificplan;
 import com.github.pagehelper.PageInfo;
 
 import com.pcitc.base.scientificplan.SciencePlan;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -160,6 +161,7 @@ public class SciencePlanApiController extends RestBaseController {
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
+        SysUser sysUserInfo = this.getUserProfile();
         //默认查询小于等于用户密级的专家
         this.setParam(condition, "userSecretLevel",sysUserInfo.getSecretLevel());
 

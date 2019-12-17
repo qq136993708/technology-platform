@@ -94,7 +94,7 @@ public class SKMController extends BaseController {
         Result result = new Result();
         try {
             //TO DO 1，keyword为空时，代表什么意思；2，from代表什么意思；3，项目名称代表什么意思
-            String keyword = request.getParameter("keyword");
+            String keyword = this.getCurrentRequest().getParameter("keyword");
             ResponseEntity<ResultSKM> entity_count = restTemplate.getForEntity(SKM_patent_count + keyword, ResultSKM.class);
             //返回数量
             ResultSKM result_count = entity_count.getBody();
@@ -138,7 +138,7 @@ public class SKMController extends BaseController {
         Result result = new Result();
         try {
             //TO DO 1，keyword为空时，代表什么意思；2，from代表什么意思；3，项目名称代表什么意思
-            String keyword = request.getParameter("keyword");
+            String keyword = this.getCurrentRequest().getParameter("keyword");
             ResponseEntity<ResultSKM> entity_count = restTemplate.getForEntity(SKM_achievement_count + keyword, ResultSKM.class);
             //返回数量
             ResultSKM result_count = entity_count.getBody();

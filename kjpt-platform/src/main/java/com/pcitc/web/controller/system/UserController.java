@@ -434,7 +434,7 @@ public class UserController extends BaseController {
     public Object updateUserInfo(@RequestBody SysUser user) throws IOException {
 		
         // 获取个人原有信息 S
-    	SysUser	sysUser = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+    	SysUser	sysUser = this.restTemplate.exchange(USER_GET_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
     	sysUser.setUserMail(user.getUserMail());
     	sysUser.setUserMobile(user.getUserMobile());
     	sysUser.setUserPhone(user.getUserPhone());
