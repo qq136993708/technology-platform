@@ -62,20 +62,12 @@ var kyptCharts = {
     legendData = [],
     categoryData = [],
     _this = this,
-    label = (function() {
-      if (typeof(config.label) === 'boolean') {
-        return config.label;
-      } else {
-        return true;
-      }
-    })(),
     lineColor = config.lineColor || '#ABB0BB',
     valueColor = config.valueColor || '',
     labelColor = config.labelColor || '#46484B',
     barMaxWidth = 28;
     if (config.type === 'bar' && config.series.length > 1) {
       barMaxWidth = 18;
-      console.log(config);
     }
 
     $.each(config.series, function(index, item) {
@@ -113,12 +105,20 @@ var kyptCharts = {
         barWidth: config.barWidth || barMaxWidth,
         barGap: 0,
         label: {
-          show: label,
+          show: true,
           position: 'top',
           color: '#46484B',
           fontSize: 12
         }
       };
+
+      if (typeof(config.label) === 'object') {
+        for (var key in config.label) {
+          seriesItem.label[key] = config.label[key]; 
+        }
+      } else if (typeof(config.label) === 'boolean') {
+        seriesItem.label.show = config.label;
+      }
 
       if (itemStyle) {
         seriesItem.itemStyle = itemStyle;
@@ -133,8 +133,49 @@ var kyptCharts = {
     $.each(config.data, function(i, item) {
       categoryData.push(item[config.itemName]);
     })
-    
-    var option = {
+  
+    var itemCategory = [{
+      type: 'category',
+      data: categoryData,
+      axisTick: {show: false},
+      splitLine: {show: false},
+      axisLine: { show: true, lineStyle: {color: lineColor} },
+      axisLabel: {
+        show: true,
+        fontSize: 14,
+        color: labelColor
+      }
+    }],
+    itemValueAxis = (function() {
+      var yAxis = [], valueAxis = {
+        type: 'value',
+        axisLine: {show: false},
+        axisTick: {show: false},
+        axisLabel: {
+          show: true,
+          color: valueColor,
+          fontSize: 12
+        },
+        splitLine: {
+          show: true,
+          lineStyle: { color: lineColor }
+        }
+      };
+
+      if (config.yAxis && typeof(config.yAxis) === 'object' && config.yAxis.length) {
+        $.each(config.yAxis, function(i, valItem) {
+          var newValueAxis = _this.transformData(valueAxis);
+          if (valItem && typeof(valItem) === 'object') {
+            newValueAxis = _this.transformData(valItem);
+          }
+          yAxis.push(newValueAxis);
+        })
+      } else {
+        yAxis.push(valueAxis);
+      }
+      return yAxis;
+    })(),
+    option = {
       grid: (function() {
         var gridItem = {
           left: 10,
@@ -186,47 +227,8 @@ var kyptCharts = {
           })()
         }
       },
-      xAxis: {
-        type: 'category',
-        data: categoryData,
-        axisTick: {show: false},
-        splitLine: {show: false},
-        axisLine: { show: true, lineStyle: {color: lineColor} },
-        axisLabel: {
-          show: true,
-          fontSize: 14,
-          color: labelColor
-        }
-      },
-      yAxis: (function() {
-        var yAxis = [], valueAxis = {
-          type: 'value',
-          axisLine: {show: false},
-          axisTick: {show: false},
-          axisLabel: {
-            show: true,
-            color: valueColor,
-            fontSize: 12
-          },
-          splitLine: {
-            show: true,
-            lineStyle: { color: lineColor }
-          }
-        };
-  
-        if (config.yAxis && typeof(config.yAxis) === 'object' && config.yAxis.length) {
-          $.each(config.yAxis, function(i, valItem) {
-            var newValueAxis = _this.transformData(valueAxis);
-            if (valItem && typeof(valItem) === 'object') {
-              newValueAxis = _this.transformData(valItem);
-            }
-            yAxis.push(newValueAxis);
-          })
-        } else {
-          yAxis.push(valueAxis);
-        }
-        return yAxis;
-      })(),
+      xAxis: null,
+      yAxis: null,
       series: seriesData,
       color: config.color || '#0AA1FF'
     };
@@ -235,6 +237,13 @@ var kyptCharts = {
       option.grid.top = 72;
     }
 
+    if (config.valueIndex && config.valueIndex === 'x') {
+      option.xAxis = itemValueAxis;
+      option.yAxis = itemCategory;
+    } else {
+      option.xAxis = itemCategory;
+      option.yAxis = itemValueAxis;
+    }
     return option;
   },
   getPieChartOption: function(config) {
@@ -252,26 +261,28 @@ var kyptCharts = {
     // 饼图环图配置
     var option = {
       title: (function() {
-        if (config.title) {
-          var titleItem = {
-            text: '-',
-            top: 'center',
-            left: 'center',
-            textStyle: {
-              color: '#fff',
-              fontWeight: 'normal',
-              fontSize: 14,
-              lineHeight: 20,
-            },
-            padding: 0,
-            itemGap: 0
-          }
-          if (config.title === 'value') {
-  
-          } else {
-            titleItem.text = config.title;
+        var titleItem = {
+          text: '',
+          top: 'center',
+          left: '60%',
+          textStyle: {
+            color: '#fff',
+            fontWeight: 'normal',
+            fontSize: 14,
+            lineHeight: 20,
+          },
+          padding: 0,
+          itemGap: 0
+        }
+        if (typeof(config.title) === 'object') {
+          for (var key in config.title) {
+            titleItem[key] = config.title[key];
           }
         }
+        if (config.center) {
+          titleItem.left = config.center[0];
+        }
+        return titleItem;
       })(),
       tooltip:  {
         show: true,
@@ -298,6 +309,9 @@ var kyptCharts = {
           for (var key in config.legend) {
             legendItem[key] = config.legend[key];
           }
+        }
+        if (config.pieFormattr && config.series) {
+
         }
         return legendItem;
       })(),
@@ -332,6 +346,16 @@ var kyptCharts = {
       ],
       color: config.color || '#0AA1FF'
     };
+
+    if (config.totalTitle && config.series.length) {
+      var totalTitle = 0;
+      for (var i = 0; i < config.series.length; i++) {
+        if (config.series[i].value || config.series[i].value !== '-') {
+          totalTitle += config.series[i].value;
+        }
+      }
+      option.title.text = totalTitle;
+    }
     return option;
   },
   getChartOption: function (config) {
