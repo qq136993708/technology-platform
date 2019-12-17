@@ -121,9 +121,6 @@ public class BlocScientificPlanController extends RestBaseController {
             this.setParam(condition, "secretLevel", secretLevel);
         }
 
-
-//        this.setParam(condition,"userSecretLevel",EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
-
         this.setParam(condition, "userSecretLevel",sysUserInfo.getSecretLevel());
 
 
