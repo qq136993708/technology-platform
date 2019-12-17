@@ -80,7 +80,6 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
 
-
     })
 
     @GetMapping(value = "/query")
@@ -107,7 +106,6 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false, value = "createUnitId") String createUnitId,
             @RequestParam(required = false, value = "createUnitName") String createUnitName,
             @RequestParam(required = false, value = "secretLevel") String secretLevel
-
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -163,19 +161,18 @@ public class ComputerSoftwareController extends RestBaseController {
             this.setParam(condition, "technicalFieldValue", technicalFieldValue);
         }
 
-
         if (!StringUtils.isEmpty(createUnitId)) {
             this.setParam(condition, "createUnitId", createUnitId);
         }
 
         if (!StringUtils.isEmpty(createUnitName)) {
             this.setParam(condition, "createUnitName", createUnitName);
-
         }
 
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
+
         this.setParam(condition, "userSecretLevel",EquipmentUtils.getInfoLevelsByUserSecretLevel(sysUserInfo.getSecretLevel()));
 
 
@@ -220,6 +217,5 @@ public class ComputerSoftwareController extends RestBaseController {
         p.setEntryTime(new Date());
         return p;
     }
-
 
 }
