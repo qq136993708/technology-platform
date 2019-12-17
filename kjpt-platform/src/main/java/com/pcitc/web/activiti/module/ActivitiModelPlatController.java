@@ -6,22 +6,19 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -29,8 +26,6 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
-
-import net.sf.jasperreports.repo.RepositoryService;
 
 /**
  * @author zhf 2017-04-18 工作流模型
@@ -111,6 +106,7 @@ public class ActivitiModelPlatController extends BaseController {
 	
 	
 	@RequestMapping(value = "/activiti-model/get_image/{modelId}")
+	@ResponseBody
 	public String get_image(@PathVariable("modelId") String modelId, HttpServletRequest request) 
 	{
 		ResponseEntity<byte[]> responseEntity = this.restTemplate.exchange(RESOURCE_MODEL_IMAGE_PATH + modelId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), byte[].class);
@@ -129,7 +125,7 @@ public class ActivitiModelPlatController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "ok";
+		return null;
 	}
 	
 

@@ -92,7 +92,7 @@ public class TokenInterUtils {
 		{
 			Integer resutl=0;
 			String url=request.getRequestURI();
-			System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+url);
+			//System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+url);
 			Map map=TokenInterUtils.getUrlMap();
 			Object urlName=map.get(url);
 			if(urlName!=null)
@@ -179,7 +179,7 @@ public class TokenInterUtils {
 			{
 				Integer resutl=0;
 				String url=request.getRequestURI();
-				System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+url);
+				//System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+url);
 				Map map=TokenInterUtils.getUrlMap();
 				Object urlName=map.get(url);
 				if(urlName!=null)
@@ -188,7 +188,7 @@ public class TokenInterUtils {
 					//如果当前环境下为空,则从TOKEN中获取
 					if(userInfo==null)
 					{
-						System.out.println("========================当前环境userInfo为空=============================");
+						//System.out.println("========================当前环境userInfo为空=============================");
 						List<String> list = httpHeaders.get("Authorization");
 						if (list != null && list.get(0) != null)
 						{
