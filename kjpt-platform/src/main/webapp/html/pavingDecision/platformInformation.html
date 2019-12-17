@@ -108,12 +108,13 @@ layui.use(['form', 'table', 'formSelects'], function(){
           ,{field: 'platformName', title: '平台名称' }
           ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
           ,{field: 'personLiable', title: '主要负责人', sort: true}
-          ,{field: 'typeText', title: '平台类型'} 
+          ,{field: 'levelText', title: '平台类型'} 
           ,{field: 'platformIntroduction', title: '平台介绍'} 
           ,{field: 'overallSituation', title: '科研整体情况分析', sort: true}
           ,{field: 'researchFunds', title: '本年科研经费'}
           ,{field: 'projectCount', title: '项目数量', sort: true}
           ,{field: 'achievementCount', title: '成果数量', sort: true}
+          ,{field: 'secretLevelText', title: '密级', sort: true}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

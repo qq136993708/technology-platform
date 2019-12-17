@@ -18,6 +18,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.TokenInterUtils;
 
 @Component
@@ -36,6 +37,8 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 		try {
 			String path = request.getRequestURI();
 			System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+path);
+			
+			
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
 				System.out.println("手动设置几个常用页面不能直接访问");

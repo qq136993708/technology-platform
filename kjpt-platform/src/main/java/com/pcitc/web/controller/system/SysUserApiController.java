@@ -33,11 +33,15 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.system.SysCollect;
+import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.TokenInterUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -87,6 +91,12 @@ public class SysUserApiController extends BaseController{
 	
 	private static final String GET_POST_LIST_BYUNIT = "http://kjpt-zuul/system-proxy/post-provider/post/get-post-list";
 	
+	
+	/**
+	 * 我的收藏
+	 */
+	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
+	 
 	
 	@ApiOperation(value = "用户查询（分页）", notes = "用户查询（分页）")
     @ApiImplicitParams({
@@ -332,6 +342,10 @@ public class SysUserApiController extends BaseController{
 	    System.out.println(">>>>>>>>>> 参数userPost: "+sysUser.getSecretLevel());
 		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + sysUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 		SysUser oldSysUser = se.getBody();
+		//加入日志
+		String secretLevelStr=EquipmentUtils.getDicNameByParentCodeAndValue("ROOT_KJPT_YHMJ",  sysUser.getSecretLevel(), restTemplate, httpHeaders);
+		TokenInterUtils.saveSecurityadminSecretLevelLog("用户密级:"+oldSysUser.getSecretLevelStr()+"修改为"+secretLevelStr, "/user-api/updateUserSecretLevel", restTemplate, httpHeaders, request, sysUserInfo);
+		
 		oldSysUser.setSecretLevel(sysUser.getSecretLevel());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_SECRET_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -365,8 +379,27 @@ public class SysUserApiController extends BaseController{
 		return result.toString();
 	}
     
+    @ApiOperation(value = "根据userId获取收藏", notes = "根据userId获取收藏")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "userId",           value = "用户Id", dataType = "string", paramType = "query",required=true)
+    })
+    @RequestMapping(value = "/collect-api/getSysCollectByUserId", method = RequestMethod.GET)
+	public String getSysSysCollectByUserId(@RequestParam(value = "userId", required = true) String userId) throws Exception {
+		
+		Result resultsDate = new Result();
+		// 用户有哪些菜单权限
+		SysUser userDetails =   this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		List<SysFunction> list = userDetails.getFunList();
+	     List<SysCollect> scList = userDetails.getScList();
+		 
+		JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(scList));
+		System.out.println(JSONObject.toJSON(jsonObject).toString());
+		resultsDate.setData(list);
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+	}
     
-    
+  
     
     
     @ApiOperation(value = "根据岗位IDS（多个）查询岗位列表", notes = "根据岗位IDS（多个）查询岗位列表")

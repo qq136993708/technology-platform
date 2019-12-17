@@ -20,9 +20,7 @@ public interface SysCollectMapper {
 
     SysCollect selectByPrimaryKey(String dataId);
 
-    int updateByExampleSelective(@Param("record") SysCollect record, @Param("example") SysCollectExample example);
 
-    int updateByExample(@Param("record") SysCollect record, @Param("example") SysCollectExample example);
 
     int updateByPrimaryKeySelective(SysCollect record);
 

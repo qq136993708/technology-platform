@@ -42,7 +42,7 @@ public interface IOutPersonService {
 	
 	public List getOutPersonList(Map map)throws Exception;
 	
-    
+	public long getOutPersonCount(Map map)throws Exception;
 	
 	
 }

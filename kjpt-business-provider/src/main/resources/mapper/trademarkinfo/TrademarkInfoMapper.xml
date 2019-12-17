@@ -463,30 +463,11 @@
     </if>
 
 
-    <if test="userSecretLevel != null and userSecretLevel !=''  ">
-      AND secret_level in
-      <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    </if>
-
-
-
   </select>
   <select id="queryTrademarkList_COUNT" parameterType="java.util.Map" resultType="Long">
     select  count(*) from trademark_info where 1=1
     and deleted != '1'
     <include refid="selectByParam" />
-
-    <if test="secretLevel != null and secretLevel != '' " >
-      and secret_level = #{secretLevel}
-    </if>
-    <if test="userSecretLevel != null and userSecretLevel !=''  ">
-      AND secret_level in
-      <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    </if>
 
 
   </select>
@@ -521,7 +502,9 @@
     <if test="secretLevel != null and secretLevel != '' " >
       and secret_level = #{secretLevel}
     </if>
-    and secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test="userSecretLevel != null and userSecretLevel !=''  ">
+      AND secret_level &lt;= #{userSecretLevel}
+    </if>
 
 
   </sql>

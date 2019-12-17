@@ -41,7 +41,7 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#applicantYear', type: 'year', btns: ['clear', 'confirm']});
+	laydate.render({ elem: '#applicantYear', type: 'year', btns: ['clear', 'confirm'], trigger: 'click'});
 	
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {
