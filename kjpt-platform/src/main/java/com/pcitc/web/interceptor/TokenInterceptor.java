@@ -18,6 +18,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.TokenInterUtils;
 
 @Component
@@ -34,25 +35,10 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			
-			    
-				
-				
-			
-			  if(handler instanceof HandlerMethod) 
-			  { 
-				  HandlerMethod method = (HandlerMethod)handler; 
-				  OperationFilter apiOperation  =method.getMethodAnnotation(OperationFilter.class);
-				  if(apiOperation!=null) 
-				  {
-					  System.out.println("用户想执行的操作是--------------"+apiOperation.actionName()+"  "+apiOperation.modelName());
-					 // System.out.println(">>>>>>>>用户请求的类："+method.getMethod().getDeclaringClass(). getName());
-					 // System.out.println(">>>>>>>用户请求的方法："+method.getMethod().getName()); 
-				  }
-			 
-			  }
-			
 			String path = request.getRequestURI();
+			System.out.println(">>>>>>>>>>>>>>>>>>当前请求"+path);
+			
+			
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
 				System.out.println("手动设置几个常用页面不能直接访问");
@@ -76,7 +62,14 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			{
 				System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/sso") &&!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
+				if (
+						!request.getRequestURI().contains("/sso") 
+						&&!request.getRequestURI().contains("/error") 
+						&& !request.getRequestURI().contains("/get_image") 
+						&& !request.getRequestURI().contains("/login") 
+						&& !request.getRequestURI().contains("/index")  
+						&& !request.getRequestURI().equals("/")) 
+				{
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					return false;
 				}

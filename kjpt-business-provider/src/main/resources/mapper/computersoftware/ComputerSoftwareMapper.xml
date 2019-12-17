@@ -30,10 +30,8 @@
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
-
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
         <result column="technical_field_text" jdbcType="VARCHAR" property="technicalFieldText"/>
-
 
     </resultMap>
 
@@ -69,11 +67,12 @@
         select * from view_computer_software where id = #{id} and deleted != '1'
     </select>
 
+    <!--删除-->
     <update id="delete" parameterType="java.lang.String">
             update computer_software set deleted = '1' where id = #{id}
     </update>
 
-
+    <!--添加-->
     <insert id="add" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
     insert into computer_software (
       ID,
@@ -129,7 +128,7 @@
       )
   </insert>
 
-
+     <!--修改-->
     <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
         update computer_software
         <trim prefix="SET" suffixOverrides=",">
@@ -197,32 +196,20 @@
                 secret_level = #{secretLevel}
             </if>
 
-
         </trim>
         where id = #{id}
     </update>
 
 
-
+    <!--查询-->
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select * from view_computer_software where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
 
 
-        <!--<foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">-->
-            <!--#{item}-->
-        <!--</foreach>-->
-
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level in
-            <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-                #{item}
-            </foreach>
+            AND secret_level &lt;= #{userSecretLevel}
         </if>
 
     </select>
@@ -233,23 +220,11 @@
         and deleted != '1'
         <include refid="selectByParam"/>
 
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
+
+        <if test="userSecretLevel != null and userSecretLevel !=''  ">
+            AND secret_level &lt;= #{userSecretLevel}
         </if>
-        <!--        and secret_level <![CDATA[<=]]> #{userSecretLevel}-->
-
-        <!-- -->
-
-
-                <if test="userSecretLevel != null and userSecretLevel !=''  ">
-                    AND secret_level in
-                    <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
-                </if>
-
-
-            </select>
+    </select>
 
             <sql id="selectByParam">
 
@@ -270,6 +245,7 @@
                 <if test="copyrightOwner != null and copyrightOwner != ''">
                     and COPYRIGHT_OWNER = #{copyrightOwner}
                 </if>
+
                 <if test="versionNumber != null and versionNumber != ''">
                     and VERSION_NUMBER = #{versionNumber}
                 </if>
@@ -281,15 +257,19 @@
                 <if test="developFinishDate != null  and developFinishDate != '' ">
                     and DEVELOP_FINISH_DATE = #{developFinishDate}
                 </if>
+
                 <if test="softwareIntro != null and softwareIntro != ''">
                     and SOFTWARE_INTRO = #{softwareIntro}
                 </if>
+
                 <if test="entryPeople != null and entryPeople != ''">
                     and ENTRY_PEOPLE = #{entryPeople}
                 </if>
+
                 <if test="entryTime != null and entryTime != '' ">
                     and ENTRY_TIME = #{entryTime}
                 </if>
+
                 <if test="notes != null and notes != ''">
                     and NOTES = #{notes}
                 </if>
@@ -325,5 +305,4 @@
                 </if>
 
             </sql>
-
         </mapper>

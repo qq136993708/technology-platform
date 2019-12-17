@@ -5,22 +5,21 @@ import com.pcitc.base.common.FileModel;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.FileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
@@ -122,8 +121,8 @@ public class FileCommonController extends BaseController {
      */
     private String checkSecretLevel(String secretLevel,String fileName){
         //如果是0的话就不进行校验
-        if("0".equals(secretLevel)){
-            return "1";
+        if("X".equals(secretLevel)){
+            return "0";
         }else{
             String fileLevel = checkFileName(fileName);
             if(fileLevel == null){
@@ -144,16 +143,16 @@ public class FileCommonController extends BaseController {
     private String checkFileName(String fileName){
 
         if(fileName.startsWith(FILE_TYPE_4)){
-            return "4";
-        }
-        if(fileName.startsWith(FILE_TYPE_3)){
             return "3";
         }
-        if(fileName.startsWith(FILE_TYPE_2)){
+        if(fileName.startsWith(FILE_TYPE_3)){
             return "2";
         }
-        if(fileName.startsWith(FILE_TYPE_1)){
+        if(fileName.startsWith(FILE_TYPE_2)){
             return "1";
+        }
+        if(fileName.startsWith(FILE_TYPE_1)){
+            return "0";
         }
         return null;
     }

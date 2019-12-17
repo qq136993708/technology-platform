@@ -1,16 +1,12 @@
 package com.pcitc.service.techFamily.impl;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +19,6 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.out.OutProject;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyExample;
 import com.pcitc.base.stp.techFamily.TechFamilyExample.Criteria;
@@ -41,7 +36,6 @@ public class TechFamilyServiceImpl implements TechFamilyService {
     
     @Autowired
     private OutProjectMapper outProjectMapper;
-    
 
     /**
      * @param techType

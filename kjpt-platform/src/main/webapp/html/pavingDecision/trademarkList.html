@@ -115,6 +115,7 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
           ,{field: 'applicant', title: '申请人/注册人' }
           ,{field: 'effectiveDate', title: '有效日期',  templet: function(d) { return dateFieldText(d.effectiveDate); }} 
           ,{field: 'legalStatusText', title: '法律状态' } 
+          ,{field: 'secretLevelText', title: '密级'}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

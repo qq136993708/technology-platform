@@ -118,7 +118,11 @@ public class OutPersonServiceImpl implements IOutPersonService {
 	
     
     
-    
+	public long getOutPersonCount(Map map)throws Exception
+	{
+		return outPersonMapper.getCount(map);
+		
+	}
     
     
     

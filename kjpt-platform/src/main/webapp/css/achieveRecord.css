@@ -46,7 +46,7 @@
   top: 54px;
   position: absolute;
   width: 100%;
-  border-top: 2px #D4D7D8 dashed;
+  border-top: 1px #D4D7D8 dashed;
 }
 .options-list .link-text{
   height: 18px;

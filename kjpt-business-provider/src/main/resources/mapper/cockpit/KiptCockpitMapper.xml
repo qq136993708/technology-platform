@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.cockpit.KjptCockpitMapper">
+
+    <!--知识产权-专利数量按专利类型占比分析-->
+    <select id="knowledgeNumOrType" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+             call sp_report_patent_info_by_patentType(#{param_secret_level,jdbcType=INTEGER})
+        ]]>
+    </select>
+
+    <!--知识产权-专利数量年度趋势分析-->
+    <select id="knowledgeNumYearTrend" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+             call sp_report_patent_info_by_appType(#{param_secret_level,jdbcType=INTEGER})
+        ]]>
+    </select>
+
+    <!--知识产权-专利数量按单位同比分析-->
+    <select id="knowledgeNumOrUnit" parameterType="java.util.Map" resultType="java.util.Map">
+         <![CDATA[
+            call sp_report_patent_info_by_unit(#{param_secret_level,jdbcType=INTEGER})
+        ]]>
+    </select>
+
+    <!--科研平台-4大类别-->
+    <select id="numScientificType" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+        select count(1) as  'entry', 'achievement' as count_type,b.level from kypt_achievement a LEFT JOIN kypt_info b on a.platform_id = b.id
+        where 1=1
+        ]]>
+        <if test="userSecretLevel != null and userSecretLevel != '' ">
+            and a.secret_level <![CDATA[<=]]> #{userSecretLevel}
+        </if>
+        <![CDATA[
+        and a.deleted != '1' group by level union all
+        select count(1) as 'entry', 'patent' as count_type,b.level from kypt_patent a LEFT JOIN kypt_info b on
+        a.platform_id = b.id where 1=1
+        ]]>
+        <if test="userSecretLevel != null and userSecretLevel != '' ">
+            and a.secret_level <![CDATA[<=]]> #{userSecretLevel}
+        </if>
+        <![CDATA[
+        and a.deleted != '1' group by level union all
+        select count(1) as 'entry', 'project' as count_type,b.level from kypt_project a LEFT JOIN kypt_info b on
+        a.platform_id = b.id where 1=1
+        ]]>
+        <if test="userSecretLevel != null and userSecretLevel != '' ">
+            and a.secret_level <![CDATA[<=]]> #{userSecretLevel}
+        </if>
+        <![CDATA[
+        and a.deleted != '1' group by level union all
+        select count(1) as 'entry', 'treatise' as count_type,b.level from kypt_treatise a LEFT JOIN kypt_info b on
+        a.platform_id = b.id where 1=1
+          ]]>
+        <if test="userSecretLevel != null and userSecretLevel != '' ">
+            and a.secret_level <![CDATA[<=]]> #{userSecretLevel}
+        </if>
+        <![CDATA[
+         and a.deleted != '1' group by level
+         ]]>
+    </select>
+
+    <!--科研平台-科研平台数量按技术领域-->
+    <select id="numScientificTechnology" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+        select count(*) '条目',b.type_name from  kypt_info a
+        left join tfm_type b on  FIND_IN_SET(b.type_code,a.research_field)
+        where a.deleted != '1'
+        ]]>
+        <if test="userSecretLevel != null and userSecretLevel != '' ">
+            and a.secret_level <![CDATA[<=]]> #{userSecretLevel}
+        </if>
+        <![CDATA[
+        GROUP BY type_code,b.type_name
+        ]]>
+    </select>
+
+    <!--首页-知识产权-->
+    <select id="knowledgeRightCount" parameterType="java.util.Map" resultType="java.util.Map">
+         <![CDATA[
+             call sp_index_knowledge_right_count(#{param_secret_level,jdbcType=INTEGER})
+        ]]>
+    </select>
+
+    <!--科技人才-数量按年龄-->
+    <select id="personCountAge" parameterType="java.util.Map" resultType="java.util.Map">
+         <![CDATA[
+             call kjpt_bi.sp_person_count_age()
+        ]]>
+    </select>
+
+    <!--科技人才-数量按职称-->
+    <select id="personCountTitle" parameterType="java.util.Map" resultType="java.util.Map">
+         <![CDATA[
+             call kjpt_bi.sp_person_count_title()
+        ]]>
+    </select>
+
+    <!--科技人才-数量按学历-->
+    <select id="personCountEducation" parameterType="java.util.Map" resultType="java.util.Map">
+         <![CDATA[
+             call kjpt_bi.sp_person_count_education()
+        ]]>
+    </select>
+
+
+    <!--科技人才-数量按技术领域-->
+    <select id="personCountCompany" parameterType="java.util.Map" resultType="java.util.Map">
+         <![CDATA[
+             call kjpt_bi.sp_person_count_company()
+        ]]>
+    </select>
+
+</mapper>

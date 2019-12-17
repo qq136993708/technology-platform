@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.out.OutPerson;
@@ -27,12 +28,21 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class OutPersonProviderClient {
 	
-	
 	private final static Logger logger = LoggerFactory.getLogger(OutPersonProviderClient.class); 
 	@Autowired
     private IOutPersonService outPersonService; 
 	
 	
+	
+	
+	@ApiOperation(value = "获取外系统人员", notes = "获取外系统人员")
+	@RequestMapping(value = "/out_person/getOutPersonCount", method = RequestMethod.POST)
+	public JSONObject getOutPersonCount(@RequestBody Map map)throws Exception {
+		Long count=	outPersonService.getOutPersonCount(map);
+		JSONObject jSONObject=new JSONObject();
+		jSONObject.put("count", count);
+		return jSONObject;
+	}
 	
 	
 	@ApiOperation(value = "获取外系统人员列表", notes = "获取外系统人员列表")

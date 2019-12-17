@@ -29,6 +29,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysFunctionProperty;
@@ -221,8 +222,7 @@ public class SysAspect extends BaseController {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 			
 			
-			System.out.println(">>>>>>>>handleLog用户请求的URL："+request.getRequestURI());
-		    System.out.println(">>>>>>>>handleLog用户请求的IP："+request.getRemoteAddr());
+			
 		    //TokenInterUtils.saveSysLog(restTemplate, httpHeaders, request, sysUserInfo);
 		    
 			// 获得注解
@@ -230,6 +230,9 @@ public class SysAspect extends BaseController {
 			if (logger == null) {
 				return;
 			}
+			JSONObject loggerv = JSONObject.parseObject(JSONObject.toJSONString(logger));
+			System.out.println(">>>>>>>>handleLog用户请求的URL："+request.getRequestURI());
+		    System.out.println(">>>>>>>获得注解："+loggerv.toString());
 
 			// 有日志记录的才进行日志保存（一般是增删改）
 			/*

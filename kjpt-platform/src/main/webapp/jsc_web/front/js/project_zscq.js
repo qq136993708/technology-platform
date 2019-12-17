@@ -11,11 +11,7 @@ option1 = {
         textStyle:{
             color:'#ffffff',
         },
-<<<<<<< HEAD
         // data: ['发明专利', '你用新型', '联盟外观设计']
-=======
-        data:['发明专利','你用新型','联盟外观设计']
->>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
     },
     series: [
         {
@@ -38,44 +34,15 @@ option1 = {
                     }
                 }
             },
-<<<<<<< HEAD
-=======
-            graphic:[
-                {
-                    type:'text',
-                    id: 'text1',
-                    left:'center',
-                    top:'middle',
-                    style:{
-                        text: 'test111',       // 文本块文字。可以使用 \n 来换行。[ default: '' ]
-                        fill: '#ffffff',           // 填充色。
-                        width: 30,
-                        height: 30,
-                        fontSize: 20,
-                        // fontSize: 32,           // 字体大小
-                        fontWeight: 'bold'
-                    }
-                }
-            ],
->>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
             labelLine: {
                 normal: {
                     show: false
                 }
             },
-<<<<<<< HEAD
-=======
-            data:[
-                {value:335, name:'发明专利'},
-                {value:310, name:'你用新型'},
-                {value:234, name:'联盟外观设计'},
-            ]
->>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
         }
     ]
 };
 
-<<<<<<< HEAD
 option2 = {
     tooltip: {
         trigger: 'axis',
@@ -144,26 +111,7 @@ option2 = {
         show: false,
     },
     color: color,
-    series: [
-        // {
-        //     name: '2017',
-        //     type: 'bar',
-        //     barGap: '0%',
-        //     data: [165, 170, 30],
-        // },
-        // {
-        //     name: '2018',
-        //     type: 'bar',
-        //     barGap: '0%',
-        //     data: [150, 105, 110]
-        // },
-        // {
-        //     name: '2019',
-        //     type: 'bar',
-        //     barGap: '0%',
-        //     data: [220, 82, 63]
-        // }
-    ]
+    series: []
 };
 
 var option3 = {
@@ -176,7 +124,6 @@ var option3 = {
         borderColor: '#0897a0',
         borderWidth: 1
     },
-
     legend: {
         show: true,
         data: ['本年', '上年', '同比'],
@@ -191,20 +138,23 @@ var option3 = {
     },
     color: ['#4526FF', '#00AEFF', '#EAFF74'],
     grid: {
-        x: '3%',
+        x: '5%',
         x2: '3%',
-        y: '15%',
-        y2: '20%',
+        y: '10%',
+        y2: '25%',
     },
     xAxis: [
         {
             type: 'category',
-            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            data:[],
+            // data: ['test', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
             axisLabel: {
                 textStyle: {
                     color: '#fff',
-                    fontSize: '16'
-                }
+                    fontSize: '12'
+                },
+                interval: 0,
+                rotate: 15,
             }
         }
     ],
@@ -224,6 +174,7 @@ var option3 = {
                     color: ['rgba(30,83,137,0.6)']
                 }
             },
+            
             splitLine: {
                 lineStyle: {
                     color: ['rgba(30,83,137,0.6)']
@@ -231,27 +182,7 @@ var option3 = {
             }
         }
     ],
-    series: [
-        {
-            name: '本年',
-            type: 'bar',
-            barWidth: 20,
-            barGap: 0,
-            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-        },
-        {
-            name: '上年',
-            type: 'bar',
-            barWidth: 20,
-            data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-        },
-        {
-            name: '同比',
-            type: 'line',
-            barWidth: 20,
-            data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-        }
-    ]
+    series: []
 };
 
 var chartsBox1 = echarts.init(document.getElementById('chartsBox1')); //初始化
@@ -267,20 +198,28 @@ var api = {
 httpModule({
     url: api.numOrType,
     type: 'POST',
-    success: setNumOrType
+    success: setNumOrType,
+    error: msgErr
 })
 
 httpModule({
     url: api.numYearTrend,
     type: 'POST',
-    success: setNumYearTrend
+    success: setNumYearTrend,
+    error: msgErr
 })
 
 httpModule({
     url: api.numOrUnit,
     type: 'POST',
-    success: setNumOrUnit
+    success: setNumOrUnit,
+    error: msgErr
+    
 })
+
+function msgErr (){
+    layer.msg('请求失败!', {icon: 2});
+}
 
 function setNumOrType(data){ //设置类型占比配置项
     if(data.code == 0){
@@ -306,7 +245,6 @@ function setNumYearTrend(data){ //设置年度趋势
     if(data.code == 0){
         var result = data.data;
         if(result){
-
             var datas = [];
             var count = {
                 count1:[],
@@ -329,8 +267,6 @@ function setNumYearTrend(data){ //设置年度趋势
                 count.count3.push(item['count3']);   
                 return item.application_type_text;
             })
-            
-            console.log('datas',datas);
             option2.legend.data = [String(years-2),String(years-1),String(years-0)];
             option2.yAxis.data = legendArr;
             option2.series = datas;
@@ -345,7 +281,41 @@ function setNumOrUnit(data){
     if(data.code == 0){
         var result = data.data;
         if(result){
-            
+           var resultObj = {
+            thisYear:[],
+            lastYear:[],
+            scale:[]
+           };
+           var legendArr = result.map(function(item,index){
+               resultObj['thisYear'].push(item.count1);
+               resultObj['lastYear'].push(item.count2);
+               resultObj['scale'].push(item.scale);
+               return item.unit_name_text
+           })
+           var seriesArr = [
+               {
+                name: '本年',
+                type: 'bar',
+                barWidth: 20,
+                barGap: 0,
+                data:resultObj['thisYear']
+               },
+               {
+                    name: '上年',
+                    type: 'bar',
+                    barWidth: 20,
+                    data: resultObj['lastYear']
+               },
+               {
+                name: '同比',
+                type: 'line',
+                barWidth: 20,
+                data: resultObj['scale']
+               }
+           ];
+           option3.xAxis[0].data = legendArr;
+           option3.series = seriesArr;
+           chartsBox3.setOption(option3);
         }
     }else{
         layer.msg(data.message);
@@ -353,8 +323,3 @@ function setNumOrUnit(data){
 }
 
 
-chartsBox3.setOption(option3);
-=======
-var chartsBox1 = echarts.init(document.getElementById('chartsBox1'));
-chartsBox1.setOption(option1);
->>>>>>> 2b9a411e0fd9cddce96021d0bc0492637752c7c5
