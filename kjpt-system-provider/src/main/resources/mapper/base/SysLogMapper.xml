@@ -245,6 +245,12 @@
          <if test="optResult != null       and optResult !=''">         AND t.opt_result = #{optResult}</if>
          <if test="logName != null       and logName !=''">         AND t.user_name = #{logName}</if>
          <if test="logIp != null       and logIp !=''">         AND t.log_ip = #{logIp}</if>
+         
+         <if test="optDescribe != null and optDescribe  !='' ">              AND t.opt_describe like CONCAT('%',#{optDescribe},'%')</if>
+	     
+         
+         
+         
          <if test="userTypes != null       and userTypes !=''"> 
            AND t.user_type in 
 	           <foreach item="item"  collection="userTypes.split(',')"  open="(" separator="," close=")">

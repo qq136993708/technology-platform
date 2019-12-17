@@ -54,4 +54,44 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
         return kjptCockpitMapper.numScientificTechnology(param);
     }
 
+    /**
+     * 首页-知识产权
+     */
+    @Override
+    public List<Map> knowledgeRightCount(Map<String, Object> param) {
+        return kjptCockpitMapper.knowledgeRightCount(param);
+    }
+
+    /**
+     * 科技人才-数量按年龄
+     */
+    @Override
+    public List<Map> personCountAge(Map<String, Object> param) {
+        return kjptCockpitMapper.personCountAge(param);
+    }
+
+    /**
+     * 科技人才-数量按职称
+     */
+    @Override
+    public List<Map> personCountTitle(Map<String, Object> param) {
+        return kjptCockpitMapper.personCountTitle(param);
+    }
+
+    /**
+     * 科技人才-数量按学历
+     */
+    @Override
+    public List<Map> personCountEducation(Map<String, Object> param) {
+        return kjptCockpitMapper.personCountEducation(param);
+    }
+
+    /**
+     * 科技人才-数量按技术领域
+     */
+    @Override
+    public List<Map> personCountCompany(Map<String, Object> param) {
+        return kjptCockpitMapper.personCountCompany(param);
+    }
+
 }

@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.out.OutProject;
 import com.pcitc.web.common.BaseController;
 import io.swagger.annotations.Api;
@@ -35,7 +36,8 @@ public class OutPersonController extends BaseController {
 	 */
 	public static final String PAGE_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_person/page";
 
-		
+	public static final String PAGE_OUTPROJECT_COUNT_URL = "http://kjpt-zuul/stp-proxy/out_person/getOutPersonCount";
+
 	
 	
 	/**
@@ -91,7 +93,34 @@ public class OutPersonController extends BaseController {
     
     
     
+    /**
+	  * 获取人员（分页）
+	 */
+   @ApiOperation(value = "查询外系统-人员数", notes = "查询外系统-人员数")
+   @RequestMapping(value = "/outPerson-api/getOutPersonCount", method = RequestMethod.GET)
+	public String getOutPersonCount(
+			HttpServletRequest request, HttpServletResponse response)throws Exception 
+    {
+		Result resultsDate = new Result();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
+		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(PAGE_OUTPROJECT_URL, HttpMethod.POST, httpEntity,
+				JSONObject.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			JSONObject jSONObject = responseEntity.getBody();
+			long  count =jSONObject.getLongValue("count");
+			System.out.println("============count外系统数- " + count);
+			resultsDate.setData(count);
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		logger.info("============result" + result.toString());
+		return result.toString();
+	}
+
+
   
+	
     
 
 }

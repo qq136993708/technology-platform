@@ -32,4 +32,29 @@ public interface KjptCockpitService {
      */
     List<Map> numScientificTechnology(Map<String, Object> param);
 
+    /**
+     * 首页-知识产权
+     */
+    List<Map> knowledgeRightCount(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按年龄
+     */
+    List<Map> personCountAge(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按职称
+     */
+    List<Map> personCountTitle(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按学历
+     */
+    List<Map> personCountEducation(Map<String, Object> param);
+
+    /**
+     * 科技人才-数量按技术领域
+     */
+    List<Map> personCountCompany(Map<String, Object> param);
+
 }
