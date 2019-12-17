@@ -849,10 +849,6 @@
     and deleted != '1'
     <include refid="selectByParam" />
 
-    <if test="secretLevel != null and secretLevel != '' " >
-      and secret_level = #{secretLevel}
-    </if>
-
     <if test="userSecretLevel != null and userSecretLevel !=''  ">
       AND secret_level in
       <foreach item="item"  collection="userSecretLevel.split(',')"  open="(" separator="," close=")">
@@ -907,7 +903,9 @@
     <if test="secretLevel != null and secretLevel != ''" >
       and secret_level = #{secretLevel}
     </if>
-
+    <if test="userSecretLevel != null and userSecretLevel !=''  ">
+      AND secret_level &lt;= #{userSecretLevel}
+    </if>
 
   </sql>
 </mapper>
