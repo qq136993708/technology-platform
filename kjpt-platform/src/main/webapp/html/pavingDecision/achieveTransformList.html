@@ -104,6 +104,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/platform-api/query' //数据接口
         ,cols: [[ //表头
+          {type: 'checkbox', field: 'id', width: 50, fixed: 'left'},
           ,{field: 'platformName', title: '成果描述' }
           ,{field: 'supportingInstitutionsText', title: '项目来源', sort: true }
           ,{field: 'personLiable', title: '经费支持渠道', sort: true}
