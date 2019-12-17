@@ -120,6 +120,9 @@
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
         update kypt_member
         <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
             <if test="education != null and education != '' " >
                 education = #{education},
             </if>
