@@ -12,7 +12,6 @@ import java.util.Date;
  */
 public class ComputerSoftware extends RecordModel implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
 
     /**
@@ -89,7 +88,7 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     private  String unitNameText= "";
 
     /**
-     * 技术领域
+     * 技术领域Text
      */
     private String technicalFieldText="";
     /**
@@ -97,12 +96,24 @@ public class ComputerSoftware extends RecordModel implements Serializable {
      */
     private String technicalFieldValue="";
 
-
+    /**
+     * 创建单元id
+     */
     private String createUnitId="";
+
+    /**
+     * 创建单元名称
+     */
     private String createUnitName="";
 
+    /**
+     * 技术领域
+     */
     private  String technicalField;
 
+    /**
+     * 密级等级Text
+     */
     private  String secretLevelText="";
 
 
@@ -245,7 +256,6 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     }
 
-
     public String getTechnicalField() {
         return technicalField;
     }
@@ -266,11 +276,9 @@ public class ComputerSoftware extends RecordModel implements Serializable {
         return createUnitName;
     }
 
-
     public void setCreateUnitName(String createUnitName) {
         this.createUnitName = createUnitName;
     }
-
 
     public String getSecretLevelText() {
         return secretLevelText;

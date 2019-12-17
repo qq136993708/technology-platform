@@ -52,6 +52,7 @@
                     </div>
                 </div>
             </div>
+            <input type="text" name="isPublic" value="2" class="layui-input layui-hide">
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
                 <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
@@ -66,7 +67,7 @@
     <div class="view-title-layout" id="opations-btn">
         <div class="right">
             <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
-            <button class="layui-btn border-red" id="delItem">取消公示</button>
+            <button class="layui-btn border-red" id="delItem">结束公示</button>
         </div>
     </div>
 
@@ -89,16 +90,16 @@
                     elem: '#tableDemo'
                     ,url: '/achieve-api/query' //数据接口
                     ,cols: [[ //表头
-                        {type: 'checkbox', field: 'id'}
+                        {type: 'radio', field: 'id'}
                         ,{type: 'numbers', title: '序号', width: 80}
-                        ,{field: 'supportingInstitutionsText', title: '成果名称', sort: true }
-                        ,{field: 'personLiable', title: '完成单位', sort: true}
-                        ,{field: 'typeText', title: '科技成果介绍'}
-                        ,{field: 'researchFieldText', title: '成果完成时间'}
-                        ,{field: 'experience', title: '拟转让方式', sort: true}
-                        ,{field: 'secretLevelText', title: '密级', sort: true} 
+                        ,{field: 'achieveName', title: '成果名称', sort: true }
+                        ,{field: 'finishUnitName', title: '完成单位', sort: true}
+                        ,{field: 'brief', title: '科技成果介绍'}
+                        ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
+                        ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
+                        ,{field: 'secretLevelText', title: '密级', sort: true}
                     ]],
-                    parseData: function(res) {return layuiParseData(res, null, 3);},
+                    parseData: function(res) {return layuiParseData(res, null, 15);},
                     request: {
                         pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                         limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -112,7 +113,32 @@
                 table.reload('tableDemo', {where: searchData});
             }
         }
+        $('.openLayerPage').on('click', function() {
+            var listData = table.checkStatus('tableDemo').data;
+            var index=parent.$("#LAY_app_body div.layui-show").index()-1;
+            var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
+            parent.layui.index.openTabsPage(url,  '查看');
+        })
+        $('#delItem').on('click', function() {
+            // 获取被选中的行数据
+            var activeData = table.checkStatus('tableDemo').data;
+            if (activeData.length) {
+                httpModule({
+                    url: "/achieve-api/publicEnd/"+activeData[0].id,
+                    type: 'post',
+                    success: function(relData) {
+                        if(relData.code==0){
+                            layer.msg('结束公示成功!', {icon: 1});
+                            top.layer.closeAll(); // 关闭弹窗
+                            queryTable('')
+                        }
+                    }
+                });
 
+            } else {
+                top.layer.msg('请选择需要结束公示的数据！');
+            }
+        })
         // 监控表单提交事件
         form.on('submit(formSubmit)', function(data) {
             queryTable(data.field);
@@ -120,16 +146,6 @@
         });
         $('[lay-filter="formSubmit"]').click();
 
-        // 删除申请
-        $('#delItem').on('click', function() {
-            // 获取被选中的行数据
-            var activeData = table.checkStatus('tableDemo').data;
-            if (activeData.length) {
-
-            } else {
-                top.layer.msg('请选择需要删除的数据！');
-            }
-        })
 
     })
 </script>

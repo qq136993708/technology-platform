@@ -86,7 +86,7 @@
                     elem: '#tableDemo'
                     ,url: '/achieve-api/query' //数据接口
                     ,cols: [[ //表头
-                        {type: 'checkbox', field: 'id'}
+                        {type: 'radio', field: 'id'}
                         ,{type: 'numbers', title: '序号', width: 80}
                         ,{field: 'achieveName', title: '成果名称', sort: true }
                         ,{field: 'finishUnitName', title: '完成单位', sort: true}
@@ -118,6 +118,7 @@
                                     var getData=getDialogData('dialog-data');
                                     if(getData){
                                         queryTable('')
+
                                     }
                                 }
                             });

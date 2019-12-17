@@ -48,7 +48,7 @@
                 </div>
                 <div class="header_right">
                     <div class="right_tab">
-                        <div class="location tab_button transR btnactive" href="intelligent_team"><span>科技人才</span></div>
+                        <div class="location tab_button transR" href="intelligent_team"><span>科技人才</span></div>
                         <div class="location tab_button transR" href="kypt"><span>科研平台</span></div>
                         <div class="location tab_button transR" children="zlyjyfkPage" href="quality"><span>质量与经验反馈</span></div>
                     </div>
@@ -61,6 +61,7 @@
                     <span>中核集团用户</span>
                 </div>
             </div>
+            <div class="header-bottom-bg"></div>
             <div class="sub-nav-layout" id="twoNavItem">
                 <div class="two_nav_item projectPage disNone">
                     <div class="project_btn projectActive" href="project"><span>首页</span></div>
@@ -90,14 +91,12 @@
     <script >
         $(function () {
             autofont();
-            $(window).resize(function() { autofont(); });
 
             setTimeout(function() {
 		        $(".loading-container").addClass("loading-inactive");
 		    }, 0);
 
             $('#mainframe').attr('src', '/jsc_web/front/main.html');
-
 
             var $twoNavItem = $('#twoNavItem'),
             $topHeaderNav = $('#top-header-nav');
@@ -109,7 +108,7 @@
                 children = $(this).attr('children');
 
                 // 判断当前导航是否添加链接
-                if (!pageName) {
+                if (!pageName || $(this).hasClass('btnactive')) {
                     return false;
                 }
 
@@ -144,7 +143,7 @@
             // 二级导航链接
             $twoNavItem.on('click', '.project_btn', function(e) {
                 var pageName = $(this).attr('href'), pageHref = '';
-                if (!pageName) {
+                if (!pageName || $(this).hasClass('projectActive')) {
                     return false;
                 } else {
                     // 加载动画 ???
@@ -156,6 +155,19 @@
                     pageHref = '/jsc_web/front/'+ pageName +'.html';
                     $('#mainframe').attr('src', pageHref);
                 }
+            });
+
+            var windResize = null;
+            $(window).resize(function() {
+                if (windResize || windResize === 0) {
+                    clearTimeout(windResize);
+                }
+                windResize = setTimeout(function() {
+                    autofont();
+
+                    var headerHeight = $('#header').outerHeight();
+                    $('#wrapper').css({ 'padding-top': headerHeight });
+                }, 120);
             });
         });
     </script>

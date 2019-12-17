@@ -1037,9 +1037,13 @@ public class TaskProviderClient {
 	@RequestMapping(value = "/task-provider/getModelImage/{modelId}", method = RequestMethod.GET)
 	public byte[] getBpmnModelImage(@PathVariable("modelId") String modelId ) throws Exception
 	{
+		    
 	    	Model modelData = processEngine.getRepositoryService().getModel(modelId);
 	    	//InputStream inputStream =processEngine.getRepositoryService().getModelEditorSource(modelId);
+	    	System.out.println("-----------getBpmnModelImage-modelId="+modelId);
 	    	
+	    	System.out.println("-----------getBpmnModelImage-modelData.getId(="+modelData.getId());
+	    	System.out.println("-----------getBpmnModelImage-getDeploymentId="+modelData.getDeploymentId());
 	    	InputStream inputStream = ImageGenerator.getBpmnModelInputStream2(repositoryService, processEngine, modelData.getId()) ;
 	    	ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
 			byte[] buff = new byte[100]; // buff用于存放循环读取的临时数据
