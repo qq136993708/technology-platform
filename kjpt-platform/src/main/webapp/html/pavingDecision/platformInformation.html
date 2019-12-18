@@ -104,7 +104,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/platform-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'radio', field: 'id'}
+          {type: 'numbers', width: 60}
           ,{field: 'platformName', title: '平台名称' }
           ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
           ,{field: 'personLiable', title: '主要负责人', sort: true}

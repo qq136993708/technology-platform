@@ -92,7 +92,8 @@ layui.use(['form', 'table', 'formSelects'], function(){
     if (tableLoading) {
       table.render({
         elem: '#pavingDecisionTable'
-        ,url: '/platform-api/query' //数据接口
+        // ,url: '/platform-api/query' //数据接口
+        ,data: []
         ,cols: [[ //表头
           {title: '序号', type: 'numbers', width: 90}
           ,{field: 'platformName', title: '项目名称' }

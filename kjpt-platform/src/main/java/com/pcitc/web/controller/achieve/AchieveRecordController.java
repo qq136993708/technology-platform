@@ -91,7 +91,7 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "audiStatus", value = "备案状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "备案状态", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
@@ -107,7 +107,7 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
-            @RequestParam(required = false,value = "audiStatus") String audiStatus,
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
             @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
             @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
             @RequestParam(required = false,value = "achieveType") String achieveType,
@@ -119,6 +119,7 @@ public class AchieveRecordController extends RestBaseController {
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -138,8 +139,8 @@ public class AchieveRecordController extends RestBaseController {
         if (!StringUtils.isEmpty(achieveType)) {
             this.setParam(condition, "achieveType", achieveType);
         }
-        if (!StringUtils.isEmpty(audiStatus)) {
-            this.setParam(condition, "audiStatus", audiStatus);
+        if (!StringUtils.isEmpty(auditStatus)) {
+            this.setParam(condition, "auditStatus", auditStatus);
         }
         if (!StringUtils.isEmpty(grantUnitName)) {
             this.setParam(condition, "grantUnitName", grantUnitName);
@@ -161,10 +162,10 @@ public class AchieveRecordController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -210,13 +211,14 @@ public class AchieveRecordController extends RestBaseController {
     }
 
     private void setRecord(AchieveSubmit as){
+        SysUser sysUserInfo = this.getUserProfile();
         if(as.getAchieveReward()!=null){
             as.getAchieveReward().setCreator(as.getUpdator());
             as.getAchieveReward().setUpdator(as.getUpdator());
             as.getAchieveReward().setCreateDate(as.getUpdateDate());
             as.getAchieveReward().setUpdateDate(as.getUpdateDate());
-            as.getAchieveReward().setCreateUnitId(this.getUserProfile().getUnitId());
-            as.getAchieveReward().setCreateUnitName(this.getUserProfile().getUnitName());
+            as.getAchieveReward().setCreateUnitId(sysUserInfo.getUnitId());
+            as.getAchieveReward().setCreateUnitName(sysUserInfo.getUnitName());
         }
     }
 

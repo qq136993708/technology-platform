@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
 import com.pcitc.base.researchplatform.PlatformTreatiseModel;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
@@ -99,6 +100,7 @@ public class PlatformTreatiseController extends RestBaseController {
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
+        SysUser userInfo = this.getUserProfile();
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -114,10 +116,10 @@ public class PlatformTreatiseController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的科研平台论文
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.setParam(condition,"platformId",platformId);
@@ -168,11 +170,6 @@ public class PlatformTreatiseController extends RestBaseController {
         PlatformTreatiseModel p = new PlatformTreatiseModel();
         p.setId(UUID.randomUUID().toString().replace("-",""));
         p.setPlatformId(platformId);
-        p.setCreateDate(new Date());
-        p.setUpdateDate(new Date());
-        p.setCreator(this.getUserProfile().getUserName());
-        p.setUpdator(this.getUserProfile().getUserName());
-        p.setDeleted("0");
         return p;
     }
 
