@@ -72,9 +72,10 @@ public class JwtTokenUtil implements Serializable {
 			claims = null;
 		}
 
-		SysUser user = new SysUser();
+		SysUser user = null;
 
 		if (claims != null) {
+			user = new SysUser();
 			user.setUserName(claims.get(CLAIM_KEY_USERNAME) != null ? claims.get(CLAIM_KEY_USERNAME).toString() : null);
 			user.setUserDisp(claims.get(CLAIM_KEY_USERDISP) != null ? claims.get(CLAIM_KEY_USERDISP).toString() : null);
 			user.setUserId(claims.get(CLAIM_KEY_USERID) != null ? claims.get(CLAIM_KEY_USERID).toString() : null);
@@ -114,8 +115,9 @@ public class JwtTokenUtil implements Serializable {
 			claims = null;
 		}
 
-		SysUser user = new SysUser();
+		SysUser user =null;
 		if (claims != null) {
+			user= new SysUser();
 			user.setUserName(claims.get(CLAIM_KEY_USERNAME) != null ? claims.get(CLAIM_KEY_USERNAME).toString() : null);
 			user.setUserId(claims.get(CLAIM_KEY_USERID) != null ? claims.get(CLAIM_KEY_USERID).toString() : null);
 			user.setUserMail(claims.get(CLAIM_KEY_EMAIL) != null ? claims.get(CLAIM_KEY_EMAIL).toString() : null);
