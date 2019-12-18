@@ -101,9 +101,9 @@ var kyptCharts = {
         data: itemData,
         type: item.type || config.type,
         // type: 'pictorialBar',
-        barMaxWidth: barMaxWidth,
+        barMaxWidth: config.barWidth || barMaxWidth,
         barWidth: config.barWidth || barMaxWidth,
-        barGap: 0,
+        barGap: config.barGap || 0,
         label: {
           show: true,
           position: 'top',
@@ -166,7 +166,9 @@ var kyptCharts = {
         $.each(config.yAxis, function(i, valItem) {
           var newValueAxis = _this.transformData(valueAxis);
           if (valItem && typeof(valItem) === 'object') {
-            newValueAxis = _this.transformData(valItem);
+            for (var key in valItem) {
+              newValueAxis[key] = valItem[key];
+            }
           }
           yAxis.push(newValueAxis);
         })

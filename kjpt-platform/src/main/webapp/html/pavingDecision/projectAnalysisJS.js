@@ -48,6 +48,9 @@ layui.use(['laydate'], function() {
     id: 'addProjectYear',
     type: 'bar',
     itemName: 'labelName',
+    barGap: '50%',
+    barWidth: 28,
+    grid: { top: 50 },
     series: [
       { name: '2019', valueKey: 'value2019'},
       { name: '2018', valueKey: 'value2018'},
