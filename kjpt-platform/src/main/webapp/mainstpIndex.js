@@ -27,11 +27,6 @@ layui.config({
     # completed: 已完成;
     # unCompleted: 未完成;
     */
-
-    // var titleValue = conversionNumber(data.completed);
-
-    console.log(data);
-
     var option = {
       title: {
         text: data.text,

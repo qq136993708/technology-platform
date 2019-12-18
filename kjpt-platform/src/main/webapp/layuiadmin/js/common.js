@@ -1012,7 +1012,6 @@ function getTableData(id){
 // 设置菜单栏选中项
 function setNavMeunSelected(index) {
 	// index: home-item | 0 | 1 | 2 | 3 | 4 | 5 ...;
-	alert(index)
 	var indexClass = null;
 	if (typeof(index) === 'object') {
 		layHref = index.attr('lay-id');
