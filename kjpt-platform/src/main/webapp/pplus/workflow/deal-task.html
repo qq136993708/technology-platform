@@ -16,68 +16,65 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+	<style>
+		.view-title-layout {
+			padding-top: 20px;
+			padding-bottom: 24px;
+			position: relative;text-indent: 1em;
+		}
+		.view-title-layout::before {content: '';display: block;
+			left: 0;top: 36px;position: absolute;width: 100%;border-top: 1px #D4D7D8 dashed;}
+		.view-title-layout .text {background-color: #fff;position: relative;height: 100%;width: 100px;
+			line-height: 30px;padding-right: 10px;font-weight: bold;font-size: 18px;color: #46484B;}
+		.view-title-layout::after {content: '';display: block;clear: both;padding: 0;margin: 0;}
+		.layui-textarea{width: 98.5%;margin-bottom: 25px}
+		.layui-input{width: 96.5%}
+	</style>
 </head>
 <body>
 <div class="layer-box" style="padding-bottom: 0">
 	<div class="formBox">
 		<form class="layui-form" id="task-form" action="" lay-filter="dealTaskForm layui-container">
-			<div class="tableToolBox" style="margin-top: 0">
-				<div class="tableBtns" style="height: 10px">
-					<div class="tableTitle">审批信息</div>
-				</div>
+			<div class="view-title-layout view-pt0">
+				<div class="text">审批信息</div>
 			</div>
-			<div class="box-body">
-				<div class="layui-row">
-					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">
-								审批人
-								<span class="must-fill">*</span>
-							</label>
-							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" name="title" lay-verify="title" type="text" value="${userInfo.userDisp}" disabled>
-								<input id="auditorId" name="auditorId" type="hidden" value="${userInfo.userId}">
-								<input id="userIds" name="userIds" type="hidden">
-							</div>
+			<div class="layui-row layui-col-space20">
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label class="layui-form-label label-required"><span class="text">审批人:</span></label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" name="title" lay-verify="title" type="text" value="${userInfo.userDisp}" disabled>
+							<input id="auditorId" name="auditorId" type="hidden" value="${userInfo.userId}">
+							<input id="userIds" name="userIds" type="hidden">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label label-required"><span class="text">是否同意:</span></label>
+						<div class="layui-input-block">
+							<input type="radio" name="agree" id="agree1" lay-filter="auditAgree" value="1" title="同意" checked>
+							<input type="radio" name="agree" id="agree2" lay-filter="auditAgree" value="0" title="不同意">
 						</div>
 					</div>
 				</div>
 
-				<div class="layui-row">
-					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">
-								是否同意
-								<span class="must-fill">*</span>
-							</label>
-							<div class="layui-input-block">
-								<input type="radio" name="agree" id="agree1" lay-filter="auditAgree" value="1" title="同意" checked>
-								<input type="radio" name="agree" id="agree2" lay-filter="auditAgree" value="0" title="不同意">
-							</div>
-						</div>
-					</div>
-					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">
-								审批日期
-								<span class="must-fill">*</span>
-							</label>
-							<div class="layui-input-block">
-								<input type="text" name="auditDate" id="auditDate" lay-verify="auditDate" autocomplete="off" class="layui-input readOnlyBox" disabled>
-							</div>
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label class="layui-form-label label-required"><span class="text">审批日期:</span></label>
+						<div class="layui-input-block">
+							<input type="text" name="auditDate" id="auditDate" lay-verify="auditDate" autocomplete="off" class="layui-input readOnlyBox" disabled>
 						</div>
 					</div>
 				</div>
-
-				<div class="layui-form-item layui-form-text">
-					<label class="layui-form-label">审批意见</label>
-					<div class="layui-input-block">
-						<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks">同意</textarea>
+				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+					<div class="layui-form-item">
+						<label class="layui-form-label label-required"><span class="text">审批意见:</span></label>
+						<div class="layui-input-block">
+							<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks">同意</textarea>
+						</div>
 					</div>
 				</div>
 			</div>
 			<!--在添加另一个页面的html，所有业务的详情页面-->
-			
 			<div class="form-bottom" style="padding: 10px 0;">
 				<div class="form-bottom-btns">
 					<a  class="layui-btn layui-btn-normal"  id="save" >提交</a>
@@ -317,7 +314,7 @@
                 $("#detailsInfo").css("height", iframeHeight+20);
             }else {
                 var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
-                $("#detailsInfo").css("height", iframeHeight + 335);
+                $("#detailsInfo").css("height", iframeHeight + 280);
             }
         };
 	</script>

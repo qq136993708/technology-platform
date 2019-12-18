@@ -265,7 +265,9 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
             type: "POST",
             
 			success: function(e) {
-				layer.msg(e.message);
+                if(e.success){
+                    layer.msg('修改用户信息成功!', {icon: 1});
+                }
                 top.layer.closeAll(); // 关闭弹窗
 			}
 		});
