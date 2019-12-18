@@ -14,5 +14,5 @@ public interface IndexHomeMapper {
      * @date 2019/11/28
      * @return com.github.pagehelper.PageInfo
      */
-    List<Map<String,Object>> selectNummary();
+    List<Map<String,Object>> selectNummary(Map param);
 }

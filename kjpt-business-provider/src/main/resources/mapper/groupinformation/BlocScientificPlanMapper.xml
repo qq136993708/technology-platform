@@ -103,6 +103,8 @@
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level &lt;= #{userSecretLevel}
         </if>
+
+
     </select>
 
 
@@ -114,6 +116,8 @@
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level &lt;= #{userSecretLevel}
         </if>
+
+
     </select>
 
     <sql id="selectByParam">

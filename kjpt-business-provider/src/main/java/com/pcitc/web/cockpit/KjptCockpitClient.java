@@ -99,6 +99,18 @@ public class KjptCockpitClient {
     }
 
     /**
+     *功能描述 首页-4大汇总
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "首页-汇总", notes = "首页-汇总")
+    @RequestMapping(value = "/index/allSummaryCount", method = RequestMethod.POST)
+    public List<Map> fourSummaryCount(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.allSummaryCount(param);
+    }
+
+    /**
      *功能描述 科技人才-数量按年龄
      * @author t-chengjia.chen
      * @date 2019/12/14
@@ -146,4 +158,39 @@ public class KjptCockpitClient {
         return kjptCockpitService.personCountCompany(param);
     }
 
+    /**
+     *功能描述 成果信息-成果转化-各单位成果转化激励人数
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "成果信息-成果转化-各单位成果转化激励人数", notes = "成果信息-成果转化-各单位成果转化激励人数")
+    @RequestMapping(value = "/results/conversion/numberIncentive", method = RequestMethod.POST)
+    public List<Map> numberIncentive(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.numberIncentive(param);
+    }
+
+    /**
+     *功能描述 成果信息-成果转化-成果转化数量按成果类型分析
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "成果信息-成果转化-成果转化数量按成果类型分析", notes = "成果信息-成果转化-成果转化数量按成果类型分析")
+    @RequestMapping(value = "/results/conversion/numByResultsType", method = RequestMethod.POST)
+    public List<Map> numByResultsType(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.numByResultsType(param);
+    }
+
+    /**
+     *功能描述 成果信息-成果转化-各单位成果转化金额/激励金额
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "成果信息-成果转化-各单位成果转化金额/激励金额", notes = "成果信息-成果转化-各单位成果转化金额/激励金额")
+    @RequestMapping(value = "/results/conversion/numByIncentiveAmount", method = RequestMethod.POST)
+    public List<Map> numByIncentiveAmount(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.numByIncentiveAmount(param);
+    }
 }

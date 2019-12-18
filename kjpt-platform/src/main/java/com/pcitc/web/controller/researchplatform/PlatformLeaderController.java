@@ -77,7 +77,7 @@ public class PlatformLeaderController extends RestBaseController {
             this.setParam(condition, "platformId", platformId);
         }
         String[] headers = { "姓名",  "担任职务",    "工作单位"  , "专业"};
-        String[] cols =    {"name","post","workUnit","major"};
+        String[] cols =    {"name","post","workUnitText","major"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台

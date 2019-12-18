@@ -22,7 +22,7 @@ public class IndexHomeClient {
 
     @ApiOperation(value = "首页数据汇总查询", notes = "首页数据汇总查询")
     @RequestMapping(value = "/homeNummary", method = RequestMethod.POST)
-    public PageInfo selectNummary() {
-        return indexHomeService.selectNummary();
+    public PageInfo selectNummary(@RequestBody(required = false) Map param) {
+        return indexHomeService.selectNummary(param);
     }
 }

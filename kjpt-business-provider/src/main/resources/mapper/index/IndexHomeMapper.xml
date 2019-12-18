@@ -3,6 +3,8 @@
 
 <mapper namespace="com.pcitc.mapper.index.IndexHomeMapper">
     <select id="selectNummary"  resultType="java.util.Map">
-        select * from view_index_summary
+        <![CDATA[
+             call home_index_summary(#{param_secret_level,jdbcType=INTEGER})
+        ]]>
     </select>
 </mapper>
