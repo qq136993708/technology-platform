@@ -1,9 +1,11 @@
 package com.pcitc.web.utils;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.util.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -126,7 +128,11 @@ public class PoiExcelExportUitl<T> {
                     String value="";
                     if(o!=null)
                     {
-                    	value=o.toString();
+                        if(o instanceof Date){
+                            value= DateUtil.dateToStr((Date) o,DateUtil.FMT_SS);
+                        }else{
+                            value=o.toString();
+                        }
                     }
                     
                     //System.out.println("------------>>数据值:"+value);
@@ -153,7 +159,7 @@ public class PoiExcelExportUitl<T> {
                     } else 
                     {
                     	
-                        hssfcell.setCellValue(hm.get(cols[k]) == null ? "" : hm.get(cols[k]).toString());
+                        hssfcell.setCellValue(value);
                         hssfcell.setCellStyle(cellstylestr);
                     }
                 }

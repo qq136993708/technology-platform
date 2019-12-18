@@ -87,6 +87,11 @@ public class PlatformMemberController extends RestBaseController {
         }
         String[] headers = { "名称",  "出生年月",    "学历"  , "技术职称", "毕业院校", "所学专业", "岗位名称", "担任职务","工作单位"};
         String[] cols =    {"name","birth","educationText","technicalTitle","graduateSchool","majorStudied","postName","assumeOffice","workUnitText"};
+        SysUser sysUserInfo = this.getUserProfile();
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        //默认查询当前人所在机构下所有的科研平台
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformMemberModel.class);
