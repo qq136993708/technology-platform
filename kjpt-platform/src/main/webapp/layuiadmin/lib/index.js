@@ -69,7 +69,7 @@ layui.extend({
                 ].join(''));
                 tabsPage.index = tabs.length;
                 element.tabAdd(FILTER_TAB_TBAS, {
-                    title: '<span>'+ text +'</span>'
+                    title: '<span title="'+ text +'">'+ text +'</span>'
                     ,id: url
                     ,attr: path
                 });

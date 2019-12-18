@@ -4,10 +4,7 @@ import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +70,26 @@ public class KjptCockpitController extends RestBaseController {
      */
     private static final String PERSONCOUNTCOMPANY = "http://kjpt-zuul/stp-proxy/cockpit/person/personCountCompany";
 
+    /**
+     * 成果信息-成果转化-各单位成果转化激励人数
+     */
+    private static final String NUMBERINCENTIVE = "http://kjpt-zuul/stp-proxy/cockpit/results/conversion/numberIncentive";
+
+    /**
+     * 成果信息-成果转化-成果转化数量按成果类型分析
+     */
+    private static final String NUMBYRESULTSTYPE = "http://kjpt-zuul/stp-proxy/cockpit/results/conversion/numByResultsType";
+
+    /**
+     * 成果信息-成果转化-各单位成果转化金额/激励金额
+     */
+    private static final String NUMBYINCENTIVEAMOUNT = "http://kjpt-zuul/stp-proxy/cockpit/results/conversion/numByIncentiveAmount";
+
+    /**
+     * 首页-4大汇总
+     */
+    private static final String FOURSUMMARYCOUNT = "http://kjpt-zuul/stp-proxy/cockpit/index/allSummaryCount";
+
 
     @ApiOperation(value = "知识产权-专利数量按专利类型占比分析")
     @RequestMapping(value = "/knowledgeRight/numOrType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -80,7 +97,7 @@ public class KjptCockpitController extends RestBaseController {
     public List<Map> knowledgeNumOrType() {
         Map<String, Object> condition = new HashMap<>(6);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
-        this.setParam(condition, "userSecretLevel", userSecretLevel);
+        this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(KNOWLEDGENUMTYPE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
@@ -128,7 +145,7 @@ public class KjptCockpitController extends RestBaseController {
     public List<Map> numScientificType() {
         Map<String, Object> condition = new HashMap<>(6);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
-        this.setParam(condition, "userSecretLevel", userSecretLevel);
+        this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMSCIENTIFICTYPE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
@@ -138,11 +155,20 @@ public class KjptCockpitController extends RestBaseController {
     public List<Map> numScientificTechnology() {
         Map<String, Object> condition = new HashMap<>(6);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
-        this.setParam(condition, "userSecretLevel", userSecretLevel);
+        this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMSCIENTIFICTECHNOLOGY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 
+
+    @ApiOperation(value = "首页- 数据汇总")
+    @RequestMapping(value = "/index/allSummaryCount", method = RequestMethod.POST)
+    public List<Map> fourSummaryCount(@RequestParam(value="inType", required = false) String inType) {
+        Map<String, Object> condition = new HashMap<>(6);
+        condition.put("inType",inType);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(FOURSUMMARYCOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
 
     @ApiOperation(value = "首页-知识产权")
     @RequestMapping(value = "/index/knowledgeRightCount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -191,6 +217,37 @@ public class KjptCockpitController extends RestBaseController {
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTCOMPANY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+
+    @ApiOperation(value = "成果信息-成果转化-各单位成果转化激励人数")
+    @RequestMapping(value = "/results/conversion/numberIncentive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> numberIncentive() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBERINCENTIVE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "成果信息-成果转化-成果转化数量按成果类型分析")
+    @RequestMapping(value = "/results/conversion/numByResultsType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> numByResultsType() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBYRESULTSTYPE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "成果信息-成果转化-各单位成果转化金额/激励金额")
+    @RequestMapping(value = "/results/conversion/numByIncentiveAmount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Map> numByIncentiveAmount() {
+        Map<String, Object> condition = new HashMap<>(6);
+        String userSecretLevel = this.getUserProfile().getSecretLevel();
+        this.setParam(condition, "param_secret_level", userSecretLevel);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBYINCENTIVEAMOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 

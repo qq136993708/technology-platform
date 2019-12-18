@@ -43,6 +43,11 @@ public interface KjptCockpitMapper {
     List<Map> knowledgeRightCount(Map<String, Object> param);
 
     /**
+     * 首页-汇总
+     */
+    List<Map> allSummaryCount(Map<String, Object> param);
+
+    /**
      * 科技人才-数量按年龄
      */
     List<Map> personCountAge(Map<String, Object> param);
@@ -61,4 +66,19 @@ public interface KjptCockpitMapper {
      * 科技人才-数量按学历
      */
     List<Map> personCountCompany(Map<String, Object> param);
+
+    /**
+     * 成果信息-成果转化-各单位成果转化激励人数
+     */
+    List<Map> numberIncentive(Map<String, Object> param);
+
+    /**
+     * 成果信息-成果转化-成果转化数量按成果类型分析
+     */
+    List<Map> numByResultsType(Map<String, Object> param);
+
+    /**
+     * 成果信息-成果转化-各单位成果转化金额/激励金额
+     */
+    List<Map> numByIncentiveAmount(Map<String, Object> param);
 }
