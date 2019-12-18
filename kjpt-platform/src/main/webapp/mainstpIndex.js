@@ -1,18 +1,22 @@
-layui.use(['element', 'jquery'], function() {
+layui.config({
+    base : '../layuiadmin/' //静态资源所在路径
+}).extend({
+    index : 'lib/index' //主入口模块
+}).use(['index','element', 'jquery'], function() {
   var $ = layui.jquery;
 
   commonItemInto({
     elem: '#homeHeaderItem',
     itemMinWidth: 164,
     cols: [
-      { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个' }
-      , {  title: '科研平台', iconName: 'icon002', id: '', label: 'kypt', unit: '家' }
-      , { title: '科技成果', iconName: 'icon003', id: '', label: 'kycg', unit: '个' }
-      , { title: '成果转化', iconName: 'icon007', id: '', label: '', unit: '个' }
-      , { title: '专利数量', iconName: 'icon010', id: '', label: 'patent', unit: '个' }
-      , { title: '核行业标准', iconName: 'icon008', id: '', label: '', unit: '个' }
-      , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' }
-      , { title: '经验反馈', iconName: 'icon006', id: '', label: '', unit: '条' }
+      { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个',url:'/kjpt/expert/expert_query.html' }
+      , {  title: '科研平台', iconName: 'icon002', id: '', label: 'kypt', unit: '家',url:'/html/scientificPlatform/scientificPlatform.html' }
+      , { title: '科技成果', iconName: 'icon003', id: '', label: 'kycg', unit: '个' ,url:'#'}
+      , { title: '成果转化', iconName: 'icon007', id: '', label: '', unit: '个',url:'/kjpt/expert/expert_query.html' }
+      , { title: '专利数量', iconName: 'icon010', id: '', label: 'patent', unit: '个' ,url:'/html/patent/query.html'}
+      , { title: '核行业标准', iconName: 'icon008', id: '', label: '', unit: '个',url:'#' }
+      , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' ,url:'#'}
+      , { title: '经验反馈', iconName: 'icon006', id: '', label: '', unit: '条',url:'#' }
     ]
   });
 

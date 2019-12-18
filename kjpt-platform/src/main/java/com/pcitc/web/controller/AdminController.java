@@ -14,11 +14,7 @@ import com.pcitc.base.system.SysLog;
 import com.pcitc.base.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -119,6 +115,9 @@ public class AdminController extends BaseController {
      */
     @RequestMapping(value = {"/sso"}, method = RequestMethod.GET)
     public String sso(String ticket, Model model) {
+
+        HttpServletRequest request = this.getCurrentRequest();
+        HttpServletResponse response = this.getCurrentResponse();
         if (ticket != null && !ticket.isEmpty()) {
             SIDPlugin sid = new SIDPlugin(serverIp, serverPort);
             int ret = sid.SSO_VerifyTicket(licenseKey, ticket);
@@ -581,7 +580,7 @@ public class AdminController extends BaseController {
    public void setLastLogin(String  userId)throws Exception 
    {
 	   SysUser userIpAndDate= EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
-       userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(request));
+       userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(this.getCurrentRequest()));
        //存储登录时间
        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
        String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳

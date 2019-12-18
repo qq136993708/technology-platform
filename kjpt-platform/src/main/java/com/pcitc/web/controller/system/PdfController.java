@@ -16,7 +16,7 @@ public class PdfController extends BaseController {
 
     @RequestMapping("/view")
     public String uploadFileDialog(){
-        String strFileName = request.getParameter("file");
+        String strFileName = this.getCurrentRequest().getParameter("file");
         return "plugins/pdf/pdfjs-2.0.943-dist/web/viewer";
     }
 }

@@ -7,6 +7,7 @@ import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysPost;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
@@ -90,7 +91,7 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "audiStatus", value = "备案状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "备案状态", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
@@ -106,7 +107,7 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
-            @RequestParam(required = false,value = "audiStatus") String audiStatus,
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
             @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
             @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
             @RequestParam(required = false,value = "achieveType") String achieveType,
@@ -137,8 +138,8 @@ public class AchieveRecordController extends RestBaseController {
         if (!StringUtils.isEmpty(achieveType)) {
             this.setParam(condition, "achieveType", achieveType);
         }
-        if (!StringUtils.isEmpty(audiStatus)) {
-            this.setParam(condition, "audiStatus", audiStatus);
+        if (!StringUtils.isEmpty(auditStatus)) {
+            this.setParam(condition, "auditStatus", auditStatus);
         }
         if (!StringUtils.isEmpty(grantUnitName)) {
             this.setParam(condition, "grantUnitName", grantUnitName);
@@ -293,7 +294,7 @@ public class AchieveRecordController extends RestBaseController {
 		
 		 ResponseEntity<AchieveRecord> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveRecord.class);
 		 AchieveRecord achieveBase=  responseEntity.getBody();
-		
+        SysUser sysUserInfo = this.getUserProfile();
 		String branchFlag="0";
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("id", id);

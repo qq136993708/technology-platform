@@ -303,7 +303,7 @@ public class SysNoticeController extends BaseController {
 		inforVo.setDate(sysNotice.getNoticePublishtime());
 		inforVo.setTitle(sysNotice.getNoticeTitle());
 		model.addAttribute("info", inforVo);
-		Object stype = request.getParameter("stype");
+		Object stype = this.getCurrentRequest().getParameter("stype");
 		if (stype == null || "".equals(stype)) {
 			return "base/system/info-dialog";
 		} else {

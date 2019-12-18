@@ -98,7 +98,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 				HandlerMethod m = (HandlerMethod) handler;
 				if (m.getBean() instanceof BaseController) {
 					BaseController baerInfo = (BaseController) m.getBean();
-					baerInfo.setUserProfile(sysUser);
+					//baerInfo.setUserProfile(sysUser);
 				}
 				
 				// 一个用户只能一处登录
@@ -138,7 +138,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 	
 		
-		   TokenInterUtils.saveSysLog(restTemplate, httpHeaders, request, sysUserInfo);
+		   TokenInterUtils.saveSysLog(restTemplate, httpHeaders, request, getUserProfile());
 	    
 	}
 

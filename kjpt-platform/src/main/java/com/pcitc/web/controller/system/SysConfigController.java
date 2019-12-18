@@ -139,10 +139,10 @@ public class SysConfigController extends BaseController {
 		model.addAttribute("configId", configId);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(httpHeaders);
 		System.out.println("=====sysConfigEdit-----" + userInfo.getUserDisp());
-		request.setAttribute("userInfo", userInfo);
+		this.getCurrentRequest().setAttribute("userInfo", userInfo);
 		ResponseEntity<SysConfig> responseEntity = this.restTemplate.exchange(GET_SYS_CONFIG + configId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysConfig.class);
 		SysConfig sysConfig = responseEntity.getBody();
-		request.setAttribute("sysConfig", sysConfig);
+		this.getCurrentRequest().setAttribute("sysConfig", sysConfig);
 		return "/base/system/sysConfig_edit";
 	}
 

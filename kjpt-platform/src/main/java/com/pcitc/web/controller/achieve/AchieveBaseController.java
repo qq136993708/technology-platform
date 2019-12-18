@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysPost;
+import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.ireport.SysUserInfo;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
@@ -216,6 +218,7 @@ public class AchieveBaseController extends RestBaseController {
     @RequestMapping(value = "/achieve-api/start_workflow",method = RequestMethod.POST)
 	public Object start_workflow(HttpServletRequest request, HttpServletResponse response ) throws Exception
 	{
+
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
 		String id = CommonUtil.getParameter(request, "id", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
@@ -225,7 +228,7 @@ public class AchieveBaseController extends RestBaseController {
 		
 		 ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveBase.class);
 		 AchieveBase achieveBase=  responseEntity.getBody();
-		
+        SysUser sysUserInfo = this.getUserProfile();
 		String branchFlag="0";
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("id", id);
