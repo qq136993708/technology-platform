@@ -439,6 +439,7 @@ public class UserController extends BaseController {
     	sysUser.setUserMobile(user.getUserMobile());
     	sysUser.setUserPhone(user.getUserPhone());
     	sysUser.setUserComment(user.getUserComment());
+    	sysUser.setUserHeadPic(user.getUserHeadPic());
         Integer count=   EquipmentUtils.updateSysUser(sysUser, restTemplate, httpHeaders);
         if (count<=0) {
             return new Result(false, "个人设置失败！");

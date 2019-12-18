@@ -108,8 +108,20 @@ public class SysUser {
 	
 	
 	private String  userUnitPath="";
+	private String  userHeadPic="";
 	
 	
+	
+	
+	
+
+	public String getUserHeadPic() {
+		return userHeadPic;
+	}
+
+	public void setUserHeadPic(String userHeadPic) {
+		this.userHeadPic = userHeadPic;
+	}
 
 	public String getUserUnitPath() {
 		return userUnitPath;
