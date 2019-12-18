@@ -293,13 +293,13 @@ layui.config({
       }
     }
   })
-  /*httpModule({
+  httpModule({
     url: '/collect-api/getSysCollectByUserId?userId='+$("#userId").val(),
     type: 'get',
     success: function(res) {
       console.log(res)
     }
-  });*/
+  });
   $('a.tab-more-link').click(function() {
     var itemHref = $(this).attr('lay-href'),
     title = $(this).attr('lay-text');
