@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.system.SysUserUnit;
@@ -124,6 +125,16 @@ public class UserProviderClient {
 	public SysUser selectUserDetailsByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserDetailsByUserId(userId);
 	}
+	
+	@ApiOperation(value="根据ID检索用户收藏",notes="根据ID检索用户收藏")
+	@RequestMapping(value = "/user-provider/user/getSysCollectListByUserId/{userId}", method = RequestMethod.GET)
+	public JSONArray getSysCollectListByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception 
+	{
+		List<SysCollect> list= userService.getSysCollectListByUserId(userId);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
 
 	@ApiOperation(value = "根据唯一标识查询用户信息")
 	@RequestMapping(value = "/user-provider/user/user-identityid",method = RequestMethod.POST)
