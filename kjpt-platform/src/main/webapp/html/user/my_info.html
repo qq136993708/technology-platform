@@ -28,9 +28,9 @@
      <div class="layui-row layui-col-space20">
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
-           <label class="layui-form-label "><span class="text">头1像：</span></label>
+           <label class="layui-form-label "><span class="text">头像：</span></label>
            <div class="layui-input-block">
-            <input type="hidden" name="userExtend" id="userExtend" />
+            <input type="hidden" name="userHeadPic" id="userHeadPic" />
             <div class="img-view-block middle-block" id="imgFileUpload">
               <img src="" alt="请选择图片上传" />
               <div class="file-img-btn" label="imgUpload">
@@ -192,7 +192,7 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
   setImagesUpload({
     id: '#imgFileUpload', // 图片作用域的ID
     callback: function (data, type) {
-      if (data) { $('#userExtend').val(data.id) } else { $('#userExtend').val('') }
+      if (data) {$('#userHeadPic').val(data.id)} else { $('#userHeadPic').val('') }
     }
   });
 
@@ -207,9 +207,8 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
           form.val('formMain', relData);
           // 更新表单数据
           form.render();
-
-          if(relData.userExtend){
-            setImagesUploadState({imgID: relData.userExtend, id: '#imgFileUpload'});
+          if(relData.userHeadPic){
+            setImagesUploadState({imgID: relData.userHeadPic, id: '#imgFileUpload'});
           }
 
           loadText('/unit/list-data', 'unitId', 'unitName', relData.userUnit, '#userUnitText');
@@ -256,6 +255,7 @@ layui.use(['form', 'layer', 'laydate', 'upload'], function(){
             
 			success: function(e) {
 				layer.msg(e.message);
+                top.layer.closeAll(); // 关闭弹窗
 			}
 		});
 		return false;
