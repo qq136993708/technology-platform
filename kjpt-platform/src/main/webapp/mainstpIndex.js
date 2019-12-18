@@ -185,7 +185,7 @@ layui.config({
   getTabContentList({
     id: '#transform_tab_list',
     url: '/achieve-api/query',
-    data: { page: 1, limit: 10,isPublic:3 },
+    data: { page: 1, limit: 10, isPublic:3 },
     name: 'achieveName',
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
@@ -293,13 +293,27 @@ layui.config({
       }
     }
   })
-  /*httpModule({
+  httpModule({
     url: '/collect-api/getSysCollectByUserId?userId='+$("#userId").val(),
     type: 'get',
     success: function(res) {
-      console.log(res)
+      if(res.success){
+        res.data.map(function (item,index) {
+          var html='<div class="work-list"><a lay-href="'+item.collectUrl+'" lay-text="'+item.collectName+'"><span class="link-work">'+item.collectName+'</span></a></div>'
+            $("#threeItem .work-item-box").append(html)
+        })
+      }
     }
-  });*/
+  });
+    httpModule({
+        url: '/task-api/getPendingCountByUserId?userId='+$("#userId").val(),
+        type: 'get',
+        success: function(res) {
+            if(res.success){
+                $("#oneItem").html(res.data)
+            }
+        }
+    });
   $('a.tab-more-link').click(function() {
     var itemHref = $(this).attr('lay-href'),
     title = $(this).attr('lay-text');

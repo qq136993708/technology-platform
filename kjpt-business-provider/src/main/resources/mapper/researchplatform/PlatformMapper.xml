@@ -65,10 +65,10 @@
         select * from view_science_plan_report
         where 1=1
         <if test="startYear != null and startYear != '' " >
-            and annualYaer <![CDATA[>=]]> #{startYear}
+            and annualYear <![CDATA[>=]]> #{startYear}
         </if>
         <if test="endYear != null and endYear != '' " >
-            and annualYaer <![CDATA[<=]]> #{endYear}
+            and annualYear <![CDATA[<=]]> #{endYear}
         </if>
         <if test="unitId != null and unitId != '' " >
             and unitId = #{unitId}
