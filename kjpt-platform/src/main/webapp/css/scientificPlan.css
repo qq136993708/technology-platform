@@ -9,7 +9,8 @@
   color: #383E45;
 }
 .plan-header-layout > .file-layout{
-  padding: 16px 0;
+  padding: 16px 0 1px;
+  margin-right: -24px;
 }
 .file-item-list {
   display: inline-block;
@@ -18,6 +19,7 @@
   margin-right: 24px;
   position: relative;
   padding-left: 56px;
+  margin-bottom: 15px;
   height: 52px;
 }
 .file-item-list .file-icon {
@@ -47,11 +49,15 @@
 .file-item-list .file-option{
   line-height: 20px;
 }
+.file-item-list .file-option .link-text:hover {
+  text-decoration: underline;
+}
 .file-item-list .file-option > span:last-child {
   margin-left: 24px;
 }
 .file-preview {
   min-height: 500px;
+  padding-top: 72px;
   position: relative;
 }
 .file-preview .preview-title {
@@ -80,7 +86,7 @@
 .file-preview .preview-content {
   text-align: center;
   font-size: 0;
-  margin: 0 -18px;
+  /* margin: 0 -18px; */
 }
 .file-preview .preview-content > img {
   max-width: 100%;

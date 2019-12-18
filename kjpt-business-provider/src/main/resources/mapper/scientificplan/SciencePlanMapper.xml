@@ -119,6 +119,19 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
+
+
+
+        <if test="technicalFieldName != null        and technicalFieldName !=''  ">
+            AND
+            <foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`technical_field_name`)
+            </foreach>
+
+        </if>
+
+
+
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
@@ -129,6 +142,19 @@
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level &lt;= #{userSecretLevel}
         </if>
+
+
+
+        <if test="technicalFieldName != null        and technicalFieldName !=''  ">
+            AND
+            <foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`technical_field_name`)
+            </foreach>
+
+        </if>
+
+
+
     </select>
 
 

@@ -27,24 +27,33 @@ layui.config({
     # completed: 已完成;
     # unCompleted: 未完成;
     */
-
-    var titleValue = conversionNumber(data.completed);
-
     var option = {
       title: {
-        text: titleValue,
-        top: 'center',
+        text: data.text,
+        top:  '42%',
         left: 'center',
         textStyle: {
           color: '#fff',
           fontWeight: 'normal',
-          fontSize: 14,
-          lineHeight: 20,
+          fontSize: 12,
+          lineHeight: 14,
+        },
+        subtext: data.subText,
+        subtextStyle: {
+          color: '#fff',
+          fontWeight: 'normal',
+          fontSize: 16,
+          lineHeight: 18,
         },
         padding: 0,
-        itemGap: 0
+        itemGap: 3
       },
-      tooltip: { show: false},
+      tooltip: {
+        show: true,
+        formatter: function(d) {
+          return data.completed.name + ': ' + conversionNumber(data.completed.value) + '<br/>' + data.unCompleted.name + ': ' + conversionNumber(data.unCompleted.value);
+        }
+      },
       legend: { show: false},
       series: [
         {
@@ -56,13 +65,14 @@ layui.config({
           labelLine: { show: false },
           data:[
             {
-              value: data.completed || 0,
-              name:'已完成',
+              value: data.completed.value || 0,
+              name: data.completed.name,
               emphasis: { itemStyle: { color: 'rgba(255, 255, 255, 1)' }},
             },
             {
-              value: data.unCompleted  || 0,
-              name:'未完成',
+              value: data.unCompleted.value  || 0,
+              name: data.unCompleted.name,
+              tooltip: { show: false },
               emphasis: { itemStyle: { color: 'rgba(255, 255, 255, .35)' }}
             }
           ]
@@ -151,10 +161,28 @@ layui.config({
   }
 
   var lastWeekChart = echarts.init(document.getElementById('lastWeek'));
-  lastWeekChart.setOption(getPieChartOption({completed: 108, unCompleted: 24, title: '上周工作完成情况'}));
+  lastWeekChart.setOption(getPieChartOption({
+    completed: { name: '已完成', value: 100 },
+    unCompleted: { name: '在研', value: 99 },
+    text: '总量',
+    subText: conversionNumber(199),
+    title: '项目数量'
+  }));
 
   var thisWeekChart = echarts.init(document.getElementById('thisWeek'));
-  thisWeekChart.setOption(getPieChartOption({completed: 15000000, unCompleted: 300000, title: '本周工作安排'}));
+  thisWeekChart.setOption(getPieChartOption({
+    completed: {
+      name: '实际完成',
+      value: 3000000
+    },
+    unCompleted: {
+      name: '年度计划',
+      value: 15000000
+    },
+    text: '实际完成',
+    subText: conversionNumber(3000000),
+    title: '项目投资'
+  }));
 
   $(window).resize(function() {
     lastWeekChart.resize();
@@ -185,7 +213,7 @@ layui.config({
   getTabContentList({
     id: '#transform_tab_list',
     url: '/achieve-api/query',
-    data: { page: 1, limit: 10,isPublic:3 },
+    data: { page: 1, limit: 10, isPublic:3 },
     name: 'achieveName',
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
@@ -293,13 +321,27 @@ layui.config({
       }
     }
   })
-  /*httpModule({
+  httpModule({
     url: '/collect-api/getSysCollectByUserId?userId='+$("#userId").val(),
     type: 'get',
     success: function(res) {
-      console.log(res)
+      if(res.success){
+        res.data.map(function (item,index) {
+          var html='<div class="work-list"><a lay-href="'+item.collectUrl+'" lay-text="'+item.collectName+'"><span class="link-work">'+item.collectName+'</span></a></div>'
+            $("#threeItem .work-item-box").append(html)
+        })
+      }
     }
-  });*/
+  });
+    httpModule({
+        url: '/task-api/getPendingCountByUserId?userId='+$("#userId").val(),
+        type: 'get',
+        success: function(res) {
+            if(res.success){
+                $("#oneItem").html(res.data)
+            }
+        }
+    });
   $('a.tab-more-link').click(function() {
     var itemHref = $(this).attr('lay-href'),
     title = $(this).attr('lay-text');

@@ -715,6 +715,8 @@ function conversionNumber(data) {
 				return data /100000000 + '亿';
 			}
 		})();
+	} else if (data) {
+		value = data;
 	}
 
 	return value;

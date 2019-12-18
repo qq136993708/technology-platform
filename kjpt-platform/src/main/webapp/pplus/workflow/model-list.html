@@ -149,9 +149,8 @@
 							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 							selectRowData = res.data[index - 1];
 						});
-                        var temUrl = "/activiti-model/show_image/" + $(this).attr("id");
-
                         $(".formula").click(function () {
+
                             top.top.layer.open({
                                 title : '详情',
                                 shadeClose : true,
@@ -159,7 +158,7 @@
                                 fixed : false,
                                 maxmin : false,
                                 area : [ '70%', '50%' ],
-                                content : temUrl
+                                content : "/activiti-model/show_image/" + $(this).attr("id")
                             });
                         })
 
@@ -275,7 +274,7 @@
 						layer.msg('请点击选择一行数据');
 					} else {
 						//var temUrl = "/activiti-model/show/" + selectRowData.id;
-						var temUrl = "/activiti-model/show_image/" + selectRowData.id;
+						/*var temUrl = "/activiti-model/show_image/" + selectRowData.id;
 						top.layer.open({
 							title : '详情',
 							shadeClose : true,
@@ -285,7 +284,7 @@
 							area : [ '70%', '50%' ],
 							content : temUrl
 						});
-						return false;
+						return false;*/
 					}
 				},
 				alertEvent : function() { //点击重置按钮

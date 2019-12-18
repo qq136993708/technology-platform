@@ -128,8 +128,16 @@ var __base_dic_store = {
 				<div class="layui-side-scroll" id="index_main_left_menu">
 					<!--左侧导航-->
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
+						<li class="layui-nav-item">
+							<a href="javascript:;" id="menu_index">
+								<div class="item-row-block">
+									<span class="icon_name menu_index"></span>
+									<span class="item-title">首页</span>
+								</div>
+							</a>
+						</li>
 						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
-						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
+						<li class="layui-nav-item"></#if> <#if gztFlag=="1">
 						<li class="layui-nav-item"></#if> <a href="javascript:void(0);" title="${grgzt.name}">
 								<div class="item-row-block">
 									<#if grgzt.name=='审批处理'><span class="icon_name spcl_icon"></span></#if>
@@ -692,7 +700,13 @@ var __base_dic_store = {
 			$("#moreInfo").on("click", function() {
 				window.open("/instituteIndex?url=" + "/one_level_main/dragon", "_target");
 			});
+            $("#menu_index").click(function () {
+                $("#LAY_app_tabsheader li").removeClass("layui-this")
+                $("#nav li").removeClass("layui-nav-itemed")
+                $("#LAY_app_body>div").removeClass("layui-show")
+                $("#LAY_app_body>div").eq(0).addClass("layui-show")
 
+            })
 			$("#nav li dl dd a").hover(
 					function() {
 						$(this).find("img").removeClass("layui-hide");

@@ -32,6 +32,8 @@ public class IndexHomeController extends BaseController {
 	@ResponseBody
 	public PageInfo recallTask(HttpServletRequest request) {
 		Map<String, Object> condition = new HashMap<>(6);
+		String userSecretLevel = this.getUserProfile().getSecretLevel();
+		this.setParam(condition, "param_secret_level", userSecretLevel);
 		ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(HOME_NUMMARY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
 		return responseEntity.getBody();
 	}

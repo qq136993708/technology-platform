@@ -99,6 +99,8 @@
             </div>
         </div>
     </form>
+    <div class="view-title-layout" id="opations-btn">
+    </div>
     <table id="expertTable" lay-filter="expertTable"></table>
 </div>
 
@@ -118,7 +120,6 @@
                     table.render({
                         elem: '#expertTable' // 表格元素ID
                         ,url: '/expert-api/query' //数据接口
-                        ,height:commonDislodgeTable()
                         ,cols: [[ //表头
                             {type: 'radio' },
                             {title: '序号',type:'numbers',width:55 },

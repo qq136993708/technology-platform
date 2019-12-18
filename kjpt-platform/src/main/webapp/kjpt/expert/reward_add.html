@@ -69,6 +69,12 @@
                                    autocomplete="off" placeholder="请选择获奖日期!" class="layui-input laydate-input">
                         </div>
                     </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">密级:</span></label>
+                        <div class="layui-input-block">
+                            <select class="secretLevel" name="secretLevel" xm-select="secretLevel" xm-select-skin="normal" xm-select-radio></select>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item item">
@@ -141,6 +147,22 @@
                     }
                 }
             });
+            /*查询密级*/
+            $("#formPlatform>div").eq(index).find(".secretLevel").attr("xm-select","secretLevel"+index)
+            httpModule({
+                url: "/sysDictionary-api/getLessThanUserSecretDicList",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function (item) {
+                            item.value=item.code
+                        })
+                        formSelects.data('secretLevel'+index, 'local', { arr: relData.data });
+                        formSelects.btns('secretLevel'+index, ['remove']);
+                    }
+                }
+            });
         }
         /*奖励日期*/
         function awardingTimeStr() {
@@ -178,6 +200,7 @@
                                     formSelects.value('rewarkLevel'+index, [item.rewarkLevel]);
                                     $("#formPlatform>div").eq(index).find(".awardingTimeStr").val(item.awardingTimeStr)
                                     $("#formPlatform>div").eq(index).find(".notes").val(item.notes)
+                                    formSelects.value('secretLevel'+index, [item.secretLevel]);
                                     $("#formPlatform>div").eq(index).find(".awardingUnit").val(item.awardingUnit)
                                 }
 
@@ -222,6 +245,7 @@
                             notes:notes,
                             awardingUnit:awardingUnit,
                             outSystemId:'',
+                            secretLevel:secretLevel,
                             flag:flag
                         }
                         arr.push(data)
