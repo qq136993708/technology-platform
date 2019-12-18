@@ -94,13 +94,13 @@ public class SysUserApiController extends BaseController{
 	
 
 	   // 待办任务数
-		private static final String PENDING_COUNT_URL = "http://kjpt-zuul/system-proxy/task-provider/getPendingCount/";
+		private static final String PENDING_COUNT_URL = "http://kjpt-zuul/system-proxy/task-provider/getPendingCountByUserId/";
 
 	
 	/**
 	 * 我的收藏
 	 */
-	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
+	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/getSysCollectListByUserId/";
 	 
 	
 	@ApiOperation(value = "用户查询（分页）", notes = "用户查询（分页）")
@@ -389,17 +389,14 @@ public class SysUserApiController extends BaseController{
         @ApiImplicitParam(name = "userId",           value = "用户Id", dataType = "string", paramType = "query",required=true)
     })
     @RequestMapping(value = "/collect-api/getSysCollectByUserId", method = RequestMethod.GET)
-	public String getSysSysCollectByUserId(@RequestParam(value = "userId", required = true) String userId) throws Exception {
+	public String getSysCollectByUserId(@RequestParam(value = "userId", required = true) String userId) throws Exception {
 		
 		Result resultsDate = new Result();
 		// 用户有哪些菜单权限
-		SysUser userDetails =   this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-		List<SysFunction> list = userDetails.getFunList();
-	     List<SysCollect> scList = userDetails.getScList();
-		 
-		JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(scList));
-		System.out.println(JSONObject.toJSON(jsonObject).toString());
-		resultsDate.setData(list);
+		JSONArray jSONArray =   this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONArray.class).getBody();
+		
+		System.out.println(jSONArray.toString());
+		resultsDate.setData(jSONArray);
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}
@@ -445,15 +442,17 @@ public class SysUserApiController extends BaseController{
     /**
 	  *根据ID获取用户待办任务数
 	 */
-   @ApiOperation(value = "根据ID获取用户待办任务数", notes = "根据ID获取用户待办任务数")
-	@RequestMapping(value = "/task-api/getPendingCountByUserId/{userId}", method = RequestMethod.GET)
-	public String getPendingCountByUserId(@PathVariable("userId") String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-  	Result resultsDate = new Result();
-  	ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PENDING_COUNT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
+    @ApiOperation(value = "根据ID获取用户待办任务数", notes = "根据ID获取用户待办任务数")
+	@RequestMapping(value = "/task-api/getPendingCountByUserId", method = RequestMethod.GET)
+	public String getPendingCountByUserId(@RequestParam(value = "userId", required = true) String userId , HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+  	    Result resultsDate = new Result();
+  	    System.out.println(">>>>>>>>>> getPendingCountByUserId参数userId: "+userId);
+  	    ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PENDING_COUNT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		JSONObject JSONObject = responseEntity.getBody();
-		logger.info("============远程返回  statusCode " + statusCode);
-		if (statusCode == 200) {
+		if (statusCode == 200) 
+		{
 			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
 			long count=JSONObject.getLongValue("count");
 			resultsDate.setData(count);

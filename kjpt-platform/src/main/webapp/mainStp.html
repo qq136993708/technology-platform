@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="home-stp-layout">
-	<input type="text" value="${unitId}" id="userId" class="layui-hide">
+	<input type="text" value="${unitId?default(0)}" id="userId" class="layui-hide">
 	<div class="home-header-layout">
 		<div class="itemScroll-box" id="homeHeaderItem">
 			<div class="itemScroll">
@@ -181,11 +181,11 @@
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
 							<ul class="details-list" id="transform_tab_list"></ul>
-							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/kjpt/achieve/formula_view.html" lay-text="成果转化公示">查看更多>></a></div>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/homeMore/achieveTransformList.html" lay-text="成果转化公示">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="patent_tab_list"></ul>
-							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/patent/query.html" lay-text="专利管理">查看更多>></a></div>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/homeMore/patentQuery.html" lay-text="专利管理">查看更多>></a></div>
 						</div>
 					</div>
 				</div>
