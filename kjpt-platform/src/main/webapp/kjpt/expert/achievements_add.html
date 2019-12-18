@@ -68,6 +68,12 @@
                                    autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input">
                         </div>
                     </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">密级:</span></label>
+                        <div class="layui-input-block">
+                            <select class="secretLevel" name="secretLevel" xm-select="secretLevel" xm-select-skin="normal" xm-select-radio></select>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item item">
@@ -79,7 +85,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item item">
-                        <label class="layui-form-label label-required"><span class="text">成果类型:</span></label>
+                        <label class="layui-form-label label-required"><span class="text">成果类别:</span></label>
                         <div class="layui-input-block">
                             <select class="achieveType" name="achieveType" xm-select="achieveType" xm-select-skin="normal" xm-select-radio></select>
                             <!--<input type="text" name="achieveType"
@@ -135,6 +141,22 @@
                 success: function(relData) {
                     formSelects.data('applyUnit'+index, 'local', { arr: relData.children });
                     formSelects.btns('applyUnit'+index, ['remove']);
+                }
+            });
+            /*查询密级*/
+            $("#formPlatform>div").eq(index).find(".secretLevel").attr("xm-select","secretLevel"+index)
+            httpModule({
+                url: "/sysDictionary-api/getLessThanUserSecretDicList",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function (item) {
+                            item.value=item.code
+                        })
+                        formSelects.data('secretLevel'+index, 'local', { arr: relData.data });
+                        formSelects.btns('secretLevel'+index, ['remove']);
+                    }
                 }
             });
         }
@@ -196,6 +218,7 @@
                                     $("#formPlatform>div").eq(index).find(".applyYear").val(item.applyYear)
                                     $("#formPlatform>div").eq(index).find(".applyUnit").val(item.applyUnit)
                                     formSelects.value('applyUnit'+index,[item.applyUnit])
+                                    formSelects.value('secretLevel'+index, [item.secretLevel]);
                                     $("#formPlatform>div").eq(index).find(".achieveType").val(item.achieveType)
                                 }
                             })
@@ -230,6 +253,7 @@
                     var achieveName=$("#formPlatform>div").eq(index).find(".achieveName").val()
                     var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
                     var applyUnit=formSelects.value('applyUnit'+index)[0].value
+                    var secretLevel=formSelects.value('secretLevel'+index)[0].value
                     var achieveType=$("#formPlatform>div").eq(index).find(".achieveType").val()
                     var flag = true;
                     if(achieveName=='' || applyUnit=='' || achieveType==''){
@@ -242,6 +266,7 @@
                             applyUnit:applyUnit,
                             achieveType:'',
                             outSystemId:'',
+                            secretLevel:secretLevel,
                             achieveTypeStr:achieveTypeStr,
                             flag:flag
                         }
