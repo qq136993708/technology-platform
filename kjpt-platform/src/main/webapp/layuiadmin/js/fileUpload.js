@@ -239,7 +239,7 @@ function importFiles(config){
         selectFileUpload({
             elem: addFile,
             upload: layui.upload,
-            url:config.url,
+            url: config.url,
             accept: config.accept || 'file',
             callback: function(res) {
                 //上传完毕回调
