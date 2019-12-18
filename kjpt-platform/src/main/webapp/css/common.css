@@ -507,6 +507,7 @@ dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
 table tr td a.layui-table-link,
 table tr td a {
   text-decoration: underline !important;
+  cursor: pointer;
 }
 
 
