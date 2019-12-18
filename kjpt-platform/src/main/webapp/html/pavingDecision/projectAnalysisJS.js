@@ -106,6 +106,7 @@ layui.use(['laydate'], function() {
     elem: '#projectMonth',
     type: 'year',
     value: '2019',
+    trigger: 'click',
     done: function(value, date, endDate) {
       loadMonthChart(value);
     }
@@ -136,6 +137,7 @@ layui.use(['laydate'], function() {
   laydate.render({
     elem: '#TypeRatioDate',
     type: 'month',
+    trigger: 'click',
     value: '2019-12',
     done: function(value, date, endDate) {
       loadTypeRatioChart(value);
@@ -176,6 +178,7 @@ layui.use(['laydate'], function() {
   laydate.render({
     elem: '#AgenciesRatioDate',
     type: 'month',
+    trigger: 'click',
     value: '2019-12',
     done: function(value, date, endDate) {
       loadagenciesRatioChart(value);

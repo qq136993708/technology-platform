@@ -237,6 +237,7 @@ layui.use(['laydate'], function() {
     elem: '#chartTwoDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartTwo(value);
     }
@@ -248,6 +249,7 @@ layui.use(['laydate'], function() {
     elem: '#chartThreeDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartFour(value);
     }
@@ -259,6 +261,7 @@ layui.use(['laydate'], function() {
     elem: '#chartFourDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartThree(value);
     }
@@ -270,6 +273,7 @@ layui.use(['laydate'], function() {
     elem: '#chartFiveDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartFive(value);
     }
@@ -281,6 +285,7 @@ layui.use(['laydate'], function() {
     elem: '#projectMonth',
     type: 'year',
     value: '2019',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartSix(value);
     }
