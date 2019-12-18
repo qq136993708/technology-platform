@@ -68,6 +68,12 @@
                                    autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input">
                         </div>
                     </div>
+                    <div class="layui-form-item item">
+                        <label class="layui-form-label label-required"><span class="text">密级:</span></label>
+                        <div class="layui-input-block">
+                            <select class="secretLevel" name="secretLevel" xm-select="secretLevel" xm-select-skin="normal" xm-select-radio></select>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item item">
@@ -141,6 +147,22 @@
                     }
                 }
             });
+            /*查询密级*/
+            $("#formPlatform>div").eq(index).find(".secretLevel").attr("xm-select","secretLevel"+index)
+            httpModule({
+                url: "/sysDictionary-api/getLessThanUserSecretDicList",
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function (item) {
+                            item.value=item.code
+                        })
+                        formSelects.data('secretLevel'+index, 'local', { arr: relData.data });
+                        formSelects.btns('secretLevel'+index, ['remove']);
+                    }
+                }
+            });
         }
         function getPatentTimeStr() {
             /*申请日期*/
@@ -178,6 +200,7 @@
                                     $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
                                     $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
                                     formSelects.value('patentType'+index,[item.patentType])
+                                    formSelects.value('secretLevel'+index, [item.secretLevel]);
                                     $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
                                 }
 
@@ -209,8 +232,9 @@
                     var getPatentTimeStr=$("#formPlatform>div").eq(index).find(".getPatentTimeStr").val()
                     var patentType=formSelects.value('patentType'+index)[0].code
                     var describe=$("#formPlatform>div").eq(index).find(".describe").val()
+                    var secretLevel=formSelects.value('secretLevel'+index)[0].value
                     var flag = true;
-                    if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr==''){
+                    if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr=='' || secretLevel==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
                     }else {
@@ -220,6 +244,7 @@
                             patentType:patentType,
                             describe:describe,
                             outSystemId:'',
+                            secretLevel:secretLevel,
                             flag:flag
                         }
                         arr.push(data)

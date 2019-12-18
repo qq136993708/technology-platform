@@ -830,6 +830,10 @@ public class UserServiceImpl implements UserService {
 			if (user.getUserUnit() != null && !user.getUserUnit().equals(oluser.getUserUnit())) 
 			{
 				this.updateUserUnit(user);
+				SysUserPostExample example = new SysUserPostExample();
+				SysUserPostExample.Criteria ec = example.createCriteria();
+				ec.andUserIdEqualTo(user.getUserId());
+				userPostMapper.deleteByExample(example);
 			}
 		}
 		return userMapper.updateByPrimaryKey(user);
