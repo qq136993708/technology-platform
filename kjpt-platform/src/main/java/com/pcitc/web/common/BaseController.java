@@ -59,13 +59,8 @@ public class BaseController implements ErrorController
 		Cookie[] cookies = getCurrentRequest().getCookies();
 		for (Cookie c : cookies) {
 			c.setHttpOnly(true);
-
 			if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
 				token = c.getValue();
-				// 此cookies重新计时
-				c.setMaxAge(1 * 60 * 60); // 设置有效期为一小时
-				c.setPath("/");
-				getCurrentResponse().addCookie(c);
 				break;
 			}
 		}

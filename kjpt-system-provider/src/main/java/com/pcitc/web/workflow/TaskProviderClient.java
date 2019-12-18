@@ -244,10 +244,21 @@ public class TaskProviderClient {
 					taskInstanceService.deleteTaskDelegate(std);
 				}
 			}
-
 		}
-
 		return rInt;
+	}
+	
+	
+	
+	@ApiOperation(value = "查询待办任务数量", notes = "查询待办任务数量")
+	@RequestMapping(value = "/task-provider/getPendingCountByUserId/{userId}", method = RequestMethod.GET)
+	public JSONObject getPendingCountByUserId(@PathVariable(value = "userId", required = true) String userId) 
+	{
+		System.out.println(">>>>>>>>查询待办任务数量>>getPendingCountByUserId 参数userId: "+userId);
+		long count = taskService.createTaskQuery().taskCandidateOrAssigned(userId).count();
+		JSONObject jSONObject=new JSONObject();
+		jSONObject.put("count", count);
+		return jSONObject;
 	}
 
 	/**

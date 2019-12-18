@@ -1,5 +1,7 @@
 package com.pcitc.web.achieve;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
@@ -13,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,9 +61,15 @@ public class AchieveRecordClient {
     public Integer delete(@PathVariable String ids){
          return ars.delete(ids);
     }
-    
-    
-    
+
+
+    @ApiOperation(value = "查询成果不分页", notes = "查询成果不分页")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+        List list=ars.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
     
     
     

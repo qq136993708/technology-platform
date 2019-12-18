@@ -51,7 +51,10 @@ layui.use(['laydate'], function() {
       kyptCharts.render({
         id: 'cahrtOne',
         type: 'bar',
+        barGap: '50%',
+        barWidth: 28,
         itemName: 'labelName',
+        grid: { top: 50 },
         series: [
           { name: '2019', valueKey: 'value2019'},
           { name: '2018', valueKey: 'value2018'},
@@ -206,15 +209,16 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'addProjectMonth',
           type: 'bar',
+          barWidth: 28,
           itemName: 'name',
-          // legend: { show: false },
-          grid: { top: 24 },
+          barGap: '50%',
+          grid: { top: 50 },
           series: [
             { name: '计划', valueKey: 'plannedvalue'},
             { name: '实际', valueKey: 'actualValue'},
             { name: '计划达成率', valueKey: 'completionRate', type: 'line', yIndex: 1},
           ],
-          yAxis: [null, { axisLabel: { show: true, formatter: '{value}%'}}],
+          yAxis: [{ max: 500, splitNumber: 4}, { splitNumber: 4, max: 500, axisLabel: { show: true, formatter: '{value}%'}}],
           data: chartData,
           color: ['#FCBD3B', '#0AA1FF', '#727272']
         })
@@ -233,6 +237,7 @@ layui.use(['laydate'], function() {
     elem: '#chartTwoDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartTwo(value);
     }
@@ -244,6 +249,7 @@ layui.use(['laydate'], function() {
     elem: '#chartThreeDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartFour(value);
     }
@@ -255,6 +261,7 @@ layui.use(['laydate'], function() {
     elem: '#chartFourDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartThree(value);
     }
@@ -266,6 +273,7 @@ layui.use(['laydate'], function() {
     elem: '#chartFiveDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartFive(value);
     }
@@ -277,6 +285,7 @@ layui.use(['laydate'], function() {
     elem: '#projectMonth',
     type: 'year',
     value: '2019',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartSix(value);
     }

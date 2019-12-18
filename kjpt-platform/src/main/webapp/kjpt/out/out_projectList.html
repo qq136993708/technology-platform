@@ -67,6 +67,7 @@
     layui.use(['jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl'], function () {
         table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
         var variable = getQueryVariable();
+        console.log(variable)
         function renderTable() {
             var param = JSON.parse(window.localStorage.getItem("param"));
             var lodingMsg = layer.msg('数据加载中....');
@@ -77,10 +78,8 @@
                 url: '/outProject-api/page',
                 method: "get",
                 where: {
-                    param: {
-                        projectName: variable.typeName,
-                        setupYear: variable.pYear
-                    }
+                    projectName: decodeURI(variable.typeName),
+                    setupYear: variable.pYear
                 },
                 limit: param.selfRownum,
                 // limit: 15,

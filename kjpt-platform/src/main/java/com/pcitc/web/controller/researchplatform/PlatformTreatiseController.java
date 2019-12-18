@@ -77,6 +77,11 @@ public class PlatformTreatiseController extends RestBaseController {
         this.setParam(condition, "platformId", platformId);
         String[] headers = { "论文题目",  "级别",    "期刊名称",    "作者",    "发表时间" };
         String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear"};
+        SysUser sysUserInfo = this.getUserProfile();
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        //默认查询当前人所在机构下所有的科研平台
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformTreatiseModel.class);

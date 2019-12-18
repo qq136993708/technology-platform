@@ -1,5 +1,6 @@
 package com.pcitc.web.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -7,36 +8,28 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSONArray;
 import com.eetrust.security.MessageConstants;
 import com.eetrust.security.SIDPlugin;
-import com.pcitc.base.system.SysLog;
-import com.pcitc.base.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
-import com.pcitc.web.common.SessionShare;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
@@ -49,19 +42,21 @@ public class AdminController extends BaseController {
 
     // 访问zuul中的登录方法
     private static final String LOGIN_URL = "http://kjpt-zuul/auth/login";
+
     private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
+
     private static final String USER_IDENTITY_ID = "http://kjpt-zuul/system-proxy/user-provider/user/user-identityid/";
+
     private static final String GET_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/get-user-byname/";
 
     // 已办任务数
     private static final String DONE_TASK_COUNT = "http://kjpt-zuul/system-proxy/task-provider/done-task-count";
+
     // 待办任务数
     private static final String PENDING_TASK_COUNT = "http://kjpt-zuul/system-proxy/task-provider/pending-task-count";
 
-
     // 收藏菜单
     private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
-
 
     @Value("${serverIp}")
     private String serverIp;
@@ -78,323 +73,176 @@ public class AdminController extends BaseController {
     @Value("${sosPortlURL}")
     private String sosPortlURL;
 
-
     private Integer TIME_OUT = 1 * 60 * 60;
 
-
     @RequestMapping(value = "/login")
-    public String pcitcToIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String login(@RequestParam(value="username", required = false) String userName,
+                        @RequestParam(value="password", required = false) String password,
+                        @RequestParam(value="error", required = false) String error) throws Exception {
         //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
         if (loginType != null && loginType.trim().equals("1")) {
             return "redirect:" + sosPortlURL;
         }
+
+        HttpServletRequest request = this.getCurrentRequest();
         request.setAttribute("ssoOortlUrl", sosPortlURL);
-        System.out.println("----------====进入login....");
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null || cookies.length == 0) {
-            System.out.println("not find cookies! ");
-        } else {
-            for (Cookie c : cookies) {
-                if ("loginErrorCount".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
-                    System.out.println("----------====进入login....loginErrorCount======");
-                    request.setAttribute("loginErrorCount", c.getValue());
-                    break;
-                }
-            }
+
+        if("ssoError1".equals(error)) {
+            request.setAttribute("err", "统一身份认证失败");
+        } else if("ssoError2".equals(error)){
+            request.setAttribute("err", "未知用户，尚未在本系统注册");
         }
-        return "/login";
+
+        if(userName == null) {
+            return "/login";
+        }
+
+        boolean result = buildTokenByPassword(userName, MD5Util.MD5Encode(password));
+        if(result) {
+            return "redirect:/index";
+        }else {
+            request.setAttribute("err", "用户名密码错误");
+            return "/login";
+        }
+
     }
 
+
+    private boolean buildTokenByPassword(String userName, String password) {
+
+        if(userName == null) {
+            return false;
+        }
+        HttpServletResponse response = this.getCurrentResponse();
+
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+        valueMap.add("username", userName);
+        valueMap.add("password", password);
+        //从数据库中查到 然后返回 TOKEN
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, this.httpHeaders);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        // 获取的token有问题(用户名或密码不正确) 返回登录
+        if (retJson == null || retJson.get("token") == null) {
+            return false;
+        }
+        //token保存到Cookie
+        Cookie cookie = new Cookie("token", retJson.getString("token"));
+        cookie.setMaxAge(-1);// 设置有效期为一小时
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return true;
+    }
 
     /**
      * 通过socket协议，5556端口连接CA平台，适用于中核集团
-     *
-     * @param ticket
-     * @param model
-     * @return
      */
     @RequestMapping(value = {"/sso"}, method = RequestMethod.GET)
-    public String sso(String ticket, Model model) {
+    public String sso(@RequestParam(value="ticket", required = false) String ticket) throws IOException {
+
+        HttpServletResponse response = this.getCurrentResponse();
+
+        if(StringUtils.isEmpty(ticket)) {
+            // 验证失败
+            // response.sendRedirect("/login?error=ssoError1");
+            //return;
+            return "redirect:/login?error=ssoError1";
+        }
+
+        SIDPlugin sid = new SIDPlugin(serverIp, serverPort);
+        int ret = sid.SSO_VerifyTicket(licenseKey, ticket);
+        if (ret != MessageConstants.SECURITY_SERVICE_SUCCESS) {
+            // 验证失败
+            //response.sendRedirect("/login?error=ssoError1");
+            //return;
+            return "redirect:/login?error=ssoError1";
+
+        }
+        // 验证成功
+        String unifyIdentityId = sid.getPassport();
+        SysUser userDetails = new SysUser();
+        userDetails.setUnifyIdentityId(unifyIdentityId);
+
+        ResponseEntity<SysUser> userDetailsString = this.restTemplate.exchange(USER_IDENTITY_ID, HttpMethod.POST, new HttpEntity<SysUser>(userDetails, httpHeaders), SysUser.class);
+        userDetailsString.getBody();
+        userDetails = userDetailsString.getBody();
+
+        if(userDetails == null) {
+            // 验证失败
+            //response.sendRedirect("/login?error=ssoError2");
+            return "redirect:/login?error=ssoError2";
+            // return;
+        }
+
+        boolean result = this.buildTokenByPassword(userDetails.getUserName(), userDetails.getUserPassword());
+
+        if(result) {
+            //response.sendRedirect("/index");
+            return "redirect:/index";
+        } else {
+            //response.sendRedirect("/login");
+            return "redirect:/login";
+        }
+
+    }
+
+    /**
+     * 功能描述 跳转首页
+     *
+     * @return java.lang.String
+     * @author t-chengjia.chen
+     * @date 2019/12/18
+     */
+    @RequestMapping(value = "/index")
+    public String index() {
 
         HttpServletRequest request = this.getCurrentRequest();
         HttpServletResponse response = this.getCurrentResponse();
-        if (ticket != null && !ticket.isEmpty()) {
-            SIDPlugin sid = new SIDPlugin(serverIp, serverPort);
-            int ret = sid.SSO_VerifyTicket(licenseKey, ticket);
-            if (ret != MessageConstants.SECURITY_SERVICE_SUCCESS) {
-                // 验证失败
-                return null;
-            } else {
-                // 验证成功
-                String unifyIdentityId = sid.getPassport();
-                SysUser userDetails = new SysUser();
-                userDetails.setUnifyIdentityId(unifyIdentityId);
-                ResponseEntity<String> userDetailsString = this.restTemplate.exchange(USER_IDENTITY_ID, HttpMethod.POST, new HttpEntity<SysUser>(userDetails, httpHeaders), String.class);
-                userDetailsString.getBody();
-                String sysuserString = userDetailsString.getBody();
 
-                JSONObject strJson = JSONObject.parseObject(sysuserString);
-                String userId = strJson.getString("userId");
-
-                // 用户有哪些菜单权限
-                userDetails = this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-                List<SysFunction> funList = userDetails.getFunList();
-                List<SysFunction> upList = new ArrayList<SysFunction>();
-                // 个人工作台菜单
-                List<SysFunction> grgztList = new ArrayList<SysFunction>();
-                HashSet authSet = new HashSet();
-                for (SysFunction sysfun : funList) {
-                    if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
-                        upList.add(sysfun);
-                    }
-                    // 个人工作台的二级、三级菜单
-                    if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
-                        // System.out.println("个人工作台================"+sysfun.getName());
-                        grgztList.add(sysfun);
-                    }
-                    if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
-                        authSet.add(sysfun.getUrl().split("/")[1]);
-                    }
-                }
-                request.getSession().setAttribute("authSet", authSet);
-
-                // 收藏的菜单
-                List<SysCollect> scList = userDetails.getScList();
-                request.setAttribute("scList", scList);
-
-                // 重新登录，覆盖原cookies。cookies中信息都是后续要用的
-                httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-                requestBody.add("username", userDetails.getUserName());
-                requestBody.add("password", userDetails.getUserPassword());
-                HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-
-                ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
-                JSONObject retJson = responseEntity.getBody();
-
-                Cookie cookie = new Cookie("token", retJson.getString("token"));
-                cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
-                cookie.setPath("/");
-                response.addCookie(cookie);
-
-                request.setAttribute("funList", funList);
-                request.setAttribute("grgztList", grgztList);
-                request.setAttribute("upList", upList);
-                request.setAttribute("userInfo", userDetails);
-
-                System.out.println("----------====登录成功1index....");
-                Cookie loginCookie = new Cookie("loginErrorCount", null);
-                loginCookie.setMaxAge(0);
-                loginCookie.setPath("/");
-                response.addCookie(loginCookie);
-
-                // 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
-                String sessionID = request.getRequestedSessionId();
-                String userName = userDetails.getUserName();
-                if (!SessionShare.getSessionIdSave().containsKey(userName)) {
-                    SessionShare.getSessionIdSave().put(userName, sessionID);
-                } else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
-                    SessionShare.getSessionIdSave().remove(userName);
-                    SessionShare.getSessionIdSave().put(userName, sessionID);
-                }
-
-                request.setAttribute("userId", userDetails.getUserId());
-
-                if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
-                    request.setAttribute("userName", userName);
-                    return "/adminIndex";
-                } else {
-                    return "/index";
-                }
+        SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+        List<SysFunction> funList = userDetails.getFunList();
+        List<SysFunction> upList = new ArrayList<SysFunction>();
+        // 个人工作台菜单
+        List<SysFunction> grgztList = new ArrayList<SysFunction>();
+        HashSet authSet = new HashSet();
+        for (SysFunction sysfun : funList) {
+            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
+                upList.add(sysfun);
+            }
+            // 个人工作台的二级、三级菜单
+            if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
+                grgztList.add(sysfun);
+            }
+            if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+                authSet.add(sysfun.getUrl().split("/")[1]);
             }
         }
-        return "index";
-    }
+        request.getSession().setAttribute("authSet", authSet);
+        // 收藏的菜单
+        List<SysCollect> scList = userDetails.getScList();
+        request.setAttribute("scList", scList);
+        request.setAttribute("funList", funList);
+        request.setAttribute("grgztList", grgztList);
+        request.setAttribute("upList", upList);
+        request.setAttribute("userInfo", userDetails);
+        Cookie loginCookie = new Cookie("loginErrorCount", null);
+        loginCookie.setMaxAge(0);// 设置过期
+        loginCookie.setPath("/");
+        response.addCookie(loginCookie);
+        request.setAttribute("userId", userDetails.getUserId());
 
-    @RequestMapping(value = "/index")
-    public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SysUser sysUserInfo = getUserProfile();
-        SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
-        SysUser tokenUser = new SysUser();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        //如果是从登录过来的
-        if (username != null && password != null) {
-            System.out.println("\n\n\n------从登录过来的用户名：" + username + "\n\n\n");
-            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
-            valueMap.add("username", username);
-            valueMap.add("password", MD5Util.MD5Encode(password));
-            //从数据库中查到 然后返回 TOKEN
-            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, this.httpHeaders);
-            ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
-            JSONObject retJson = responseEntity.getBody();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-            // 获取的token有问题(用户名或密码不正确) 返回登录
-            if (retJson == null || retJson.get("token") == null) {
-            	Integer errorNumber=setErrorNumber(username);
-                // 登录错误次数
-                Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
-                loginCookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
-                loginCookie.setPath("/");
-                response.addCookie(loginCookie);
-                response.sendRedirect("/login");
-                return null;
-            }
-            //token保存到Cookie
-            Cookie cookie = new Cookie("token", retJson.getString("token"));
-            cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
-            cookie.setPath("/");
-            response.addCookie(cookie);
-
-            // 获取用户有哪些功能权限
-            tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
-            userDetails = this.restTemplate.exchange(USER_DETAILS_URL + tokenUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-            List<SysFunction> funList = userDetails.getFunList();
-            List<SysFunction> upList = new ArrayList<SysFunction>();
-            // 个人工作台菜单
-            List<SysFunction> grgztList = new ArrayList<SysFunction>();
-            HashSet authSet = new HashSet();
-            for (SysFunction sysfun : funList) {
-                if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
-                    upList.add(sysfun);
-                }
-
-                // 个人工作台的二级、三级菜单
-                if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
-                    // System.out.println("个人工作台================"+sysfun.getName());
-                    grgztList.add(sysfun);
-                }
-                if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
-                    authSet.add(sysfun.getUrl().split("/")[1]);
-                }
-            }
-            request.getSession().setAttribute("authSet", authSet);
-
-            // 收藏的菜单
-            List<SysCollect> scList = userDetails.getScList();
-            request.setAttribute("scList", scList);
-
-            // 重置登录次数
-			/*
-			 * if (userDetails.getLoginErrorNumber() != null &&
-			 * userDetails.getLoginErrorNumber() > 0) { userDetails.setLoginErrorNumber(0);
-			 * this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new
-			 * HttpEntity<SysUser>(userDetails, this.httpHeaders), Integer.class); }
-			 */
-
-            request.setAttribute("funList", funList);
-            request.setAttribute("grgztList", grgztList);
-            request.setAttribute("upList", upList);
-            request.setAttribute("userInfo", userDetails);
-
-            Cookie loginCookie = new Cookie("loginErrorCount", null);
-            loginCookie.setMaxAge(0);// 设置过期
-            loginCookie.setPath("/");
-            response.addCookie(loginCookie);
-
-
-            // 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
-			/*String sessionID = request.getRequestedSessionId();
-			String userName = userDetails.getUserName();
-			if (!SessionShare.getSessionIdSave().containsKey(userName)) {
-				SessionShare.getSessionIdSave().put(userName, sessionID);
-			} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
-				SessionShare.getSessionIdSave().remove(userName);
-				SessionShare.getSessionIdSave().put(userName, sessionID);
-			}*/
-            setLastLogin(tokenUser.getUserId());
-            request.setAttribute("userId", userDetails.getUserId());
-            if (username.equals(Constant.LOG_SYSTEMADMIN) || username.equals(Constant.LOG_SECURITYADMIN) || username.equals(Constant.LOG_AUDITADMIN)) {
-                request.setAttribute("userName", username);
-                return "/adminIndex";
-            } else {
-                return "/index";
-            }
+        String userName = userDetails.getUserName();
+        if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
+            request.setAttribute("userName", userName);
+            return "/adminIndex";
         } else {
-
-            if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
-                System.out.println("未登录！");
-                response.sendRedirect("/login");
-                return null;
-            }
-
-            System.out.println("\n\n\n------从TOKEN过来的用户名：" + sysUserInfo.getUserDisp() + "\n\n\n");
-            // 用户有哪些菜单权限
-            userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-            List<SysFunction> funList = userDetails.getFunList();
-            List<SysFunction> upList = new ArrayList<SysFunction>();
-            // 个人工作台菜单
-            List<SysFunction> grgztList = new ArrayList<SysFunction>();
-            HashSet authSet = new HashSet();
-            for (SysFunction sysfun : funList) {
-                if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
-                    upList.add(sysfun);
-                }
-
-                // 个人工作台的二级、三级菜单
-                if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
-                    // System.out.println("个人工作台================"+sysfun.getName());
-                    grgztList.add(sysfun);
-                }
-                if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
-                    authSet.add(sysfun.getUrl().split("/")[1]);
-                }
-            }
-            request.getSession().setAttribute("authSet", authSet);
-
-            // 收藏的菜单
-            List<SysCollect> scList = userDetails.getScList();
-            request.setAttribute("scList", scList);
-
-            // 重新登录，覆盖原cookies。cookies中信息都是后续要用的
-            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-            requestBody.add("username", userDetails.getUserName());
-            requestBody.add("password", userDetails.getUserPassword());
-            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-
-            ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
-            JSONObject retJson = responseEntity.getBody();
-
-            Cookie cookie = new Cookie("token", retJson.getString("token"));
-            cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
-            cookie.setPath("/");
-            response.addCookie(cookie);
-
-            request.setAttribute("funList", funList);
-            request.setAttribute("grgztList", grgztList);
-            request.setAttribute("upList", upList);
-            request.setAttribute("userInfo", userDetails);
-
-            System.out.println("----------====登录成功1index....");
-            Cookie loginCookie = new Cookie("loginErrorCount", null);
-            loginCookie.setMaxAge(0);
-            loginCookie.setPath("/");
-            response.addCookie(loginCookie);
-
-            // 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
-            String sessionID = request.getRequestedSessionId();
-            String userName = userDetails.getUserName();
-            if (!SessionShare.getSessionIdSave().containsKey(userName)) {
-                SessionShare.getSessionIdSave().put(userName, sessionID);
-            } else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
-                SessionShare.getSessionIdSave().remove(userName);
-                SessionShare.getSessionIdSave().put(userName, sessionID);
-            }
-
-            request.setAttribute("userId", userDetails.getUserId());
-
-            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
-                request.setAttribute("userName", userName);
-                return "/adminIndex";
-            } else {
-                return "/index";
-            }
+            return "/index";
         }
-    }
 
+    }
 
     @RequestMapping(value = "/instituteRedrect")
     public String instituteRedrect(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -405,7 +253,6 @@ public class AdminController extends BaseController {
         url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
         return url;
     }
-
 
     /**
      * 首页的具体内容
@@ -421,14 +268,6 @@ public class AdminController extends BaseController {
         // 获取通知
         request.setAttribute("taskCount", request.getParameter("taskCount"));
 
-        String nd = HanaUtil.getCurrentYear();
-        request.setAttribute("nd", nd);
-        String month = HanaUtil.getCurrentYearMoth();
-        request.setAttribute("month", month);
-        String unitCode = sysUserInfo.getUnitCode();
-        request.setAttribute("unitCode", unitCode);
-
-
         SysUser sysUser = EquipmentUtils.getSysUserByUserId(sysUserInfo.getUserId(), restTemplate, httpHeaders);
         List<SysCollect> scList = sysUser.getScList();
         // 收藏菜单前端显示
@@ -441,16 +280,19 @@ public class AdminController extends BaseController {
         request.setAttribute("scShowList", scShowList);
         request.setAttribute("scList", scList);
 
-        String unitPathId = sysUserInfo.getUnitPath();
-
-
         // 获取登录人员职务
         request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
-
+        request.setAttribute("userId", sysUserInfo.getUserId());
         return "/mainStp";
     }
 
-    // 获取O信息（待办）
+    /**
+     * 功能描述 获取O信息（待办）
+     *
+     * @return java.lang.String
+     * @author t-chengjia.chen
+     * @date 2019/12/18
+     */
     @RequestMapping(value = "/getOA")
     @ResponseBody
     public String getOA(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -520,17 +362,15 @@ public class AdminController extends BaseController {
         return jsonObj.toString();
     }
 
-
     @RequestMapping(value = "/logout")
     @ResponseBody
     @OperationFilter(modelName = "系统管理", actionName = "登出操作")
-    public Object sysLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Object logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);// 立即失效
         cookie.setPath("/");
         response.addCookie(cookie);
-
 		/*//判断是生产环境还是测试环境
 		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
 		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
@@ -571,38 +411,28 @@ public class AdminController extends BaseController {
             return new Result(false, "操作失败,只能收藏系统级功能菜单!");
         }
     }
-    
-    
 
-    
-    
-    
-   public void setLastLogin(String  userId)throws Exception 
-   {
-	   SysUser userIpAndDate= EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
-       userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(this.getCurrentRequest()));
-       //存储登录时间
-       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-       String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
-       userIpAndDate.setLastLoginDate(date);
-       EquipmentUtils.updateSysUser(userIpAndDate, restTemplate, httpHeaders);
-   }
-    
-   public Integer setErrorNumber(String  userId)throws Exception 
-   {
-	      Integer  errorNumber =0;
-	   
-	       SysUser rsUser= EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
-	       if(rsUser!=null)
-	       {
-	    	   errorNumber = rsUser.getLoginErrorNumber() == null ? 1 : rsUser.getLoginErrorNumber() + 1;
-		       rsUser.setLoginErrorNumber(errorNumber);
-		       EquipmentUtils.updateSysUser(rsUser, restTemplate, httpHeaders);
-	       }
-	       return errorNumber;
-   }
-	
-  
+    public void setLastLogin(String userId) throws Exception {
+        SysUser userIpAndDate = EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
+        userIpAndDate.setLastLoginIp(EquipmentUtils.getRemoteHost(this.getCurrentRequest()));
+        //存储登录时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+        userIpAndDate.setLastLoginDate(date);
+        EquipmentUtils.updateSysUser(userIpAndDate, restTemplate, httpHeaders);
+    }
+
+    public Integer setErrorNumber(String userId) throws Exception {
+        Integer errorNumber = 0;
+
+        SysUser rsUser = EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
+        if (rsUser != null) {
+            errorNumber = rsUser.getLoginErrorNumber() == null ? 1 : rsUser.getLoginErrorNumber() + 1;
+            rsUser.setLoginErrorNumber(errorNumber);
+            EquipmentUtils.updateSysUser(rsUser, restTemplate, httpHeaders);
+        }
+        return errorNumber;
+    }
 
 
 }

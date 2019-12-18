@@ -269,6 +269,21 @@ public class UserServiceImpl implements UserService {
 		user.setScList(scList);
 		return user;
 	}
+	
+	
+	public List<SysCollect> getSysCollectListByUserId(String userId) throws Exception {
+		// 此人收藏的菜单
+		SysCollectExample sysCollectExample = new SysCollectExample();
+		Criteria cri = sysCollectExample.createCriteria();
+		cri.andUserIdEqualTo(userId);
+		cri.andStatusEqualTo("1");
+		sysCollectExample.setOrderByClause(" create_date desc");
+		List<SysCollect> list = sysCollectMapper.selectByExample(sysCollectExample);
+		return list;
+	}
+	
+	
+	
 
 	@Override
 	public int deleteUserReal(String userId) {
@@ -815,6 +830,10 @@ public class UserServiceImpl implements UserService {
 			if (user.getUserUnit() != null && !user.getUserUnit().equals(oluser.getUserUnit())) 
 			{
 				this.updateUserUnit(user);
+				SysUserPostExample example = new SysUserPostExample();
+				SysUserPostExample.Criteria ec = example.createCriteria();
+				ec.andUserIdEqualTo(user.getUserId());
+				userPostMapper.deleteByExample(example);
 			}
 		}
 		return userMapper.updateByPrimaryKey(user);

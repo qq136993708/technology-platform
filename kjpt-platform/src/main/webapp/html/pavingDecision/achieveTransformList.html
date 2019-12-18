@@ -8,7 +8,7 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   
@@ -18,49 +18,65 @@
 <div class="layout-view-content min-label">
   <form class="layui-form layui-form-screen" action="" lay-filter="pavingDecision">
     <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">平台类型：</span></label>
+          <label class="layui-form-label"><span class="text">成果名称：</span></label>
           <div class="layui-input-block">
-            <select name="platformName" placeholder="请输入"></select>
+            <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
-      
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">技术领域：</span></label>
+          <label class="layui-form-label"><span class="text">是否核心成果：</span></label>
           <div class="layui-input-block">
-            <select name="researchField" dic-base-data="ROOT_KJPT_YJLY" placeholder="请选择"></select>
+            <select name="achieveType" lay-filter="achieveType">
+              <option value="">请选择</option>
+              <option value="1">是</option>
+              <option value="0">否</option>
+            </select>
           </div>
         </div>
       </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">依托单位：</span></label>
+          <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
           <div class="layui-input-block">
-            <select name="supportingInstitutions"
-              xm-select="supportingInstitutions"
-              xm-select-skin="normal"
-              xm-select-radio=""
-              dic-base-data="ROOT_KJPT_YTDW"
-              placeholder="请选择"></select>
+            <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
-      
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md4" form-label-item="level">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">平台得分：</span></label>
+          <label class="layui-form-label"><span class="text">完成情况：</span></label>
+          <div class="layui-input-block">
+            <select name="aboutCompleteInfo" >
+              <option value="">请选择</option>
+              <option value="Y">是</option>
+              <option value="N">否</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">录入时间：</span></label>
           <div class="layui-input-block font0">
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-              <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
             </div>
             <span class="ib-block font14 text-center" style="width: 30px;">-</span>
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-              <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">备案状态：</span></label>
+          <div class="layui-input-block">
+            <select class="auditStatus" name="auditStatus" placeholder="请选择" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
           </div>
         </div>
       </div>
@@ -78,7 +94,7 @@
 
   <div class="view-title-layout" id="opations-btn">
     <div class="right">
-      <button class="layui-btn border-blue" id="importData">导出</button>
+      <button class="layui-btn border-blue" id="importData">导出excel</button>
     </div>
   </div>
 
@@ -87,15 +103,16 @@
   </div>
 
 </div>
+
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
 // layui 使用说明 ----- 多个模块同时引用
-layui.use(['form', 'table', 'formSelects'], function(){
+layui.use(['form', 'table', 'laydate'], function(){
   var form = layui.form,
   table = layui.table,
-  formSelects = layui.formSelects,
+  laydate = layui.laydate,
   tableLoading = true;
 
   function queryTable(data) {
@@ -104,41 +121,89 @@ layui.use(['form', 'table', 'formSelects'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/achieveRecord-api/query' //数据接口
         ,cols: [[ //表头
-          ,{field: 'platformName', title: '成果描述', width: 120, fixed: 'left'}
-          ,{field: 'projectSource', title: '项目来源', sort: true }
-          ,{field: 'projectChannel', title: '经费支持渠道', sort: true}
-          ,{field: 'teamInfo', title: '完成团队'} 
-          ,{field: 'finishUnitName', title: '完成单位'}
-          ,{field: 'intellectualInfo', title: '知识产权情况', sort: true}
-          ,{field: 'achieveTypeText', title: '是否为集团公司核心技术成果', sort: true}
-          ,{field: 'appraisalDoc', title: '知识产权状况报告或科技成果评价'}
-          ,{field: 'auditStatusText', title: '成果转换状态'}
-          ,{field: 'grantUnitName', title: '单位基本信息'}
-          ,{field: 'grantChooseWay', title: '选择单位的方式'}
-          ,{field: 'grantInvest', title: '对受让单位的尽职调查情况'}
-          ,{field: 'grantChooseWay', title: '选择单位的理由'}
-          ,{field: 'grantDoc', title: '尽职调查报告'}
-          ,{field: 'achieveTransType', title: '成果转换方式' }
-          ,{field: 'transPriceWay', title: '定价方式' }
-          ,{field: 'transPriceBasis', title: '定价原则及依据' }
-          ,{field: 'transContractDoc', title: '合同（协议）情况'} 
-          ,{field: 'transPublicDoc', title: '公示情况'}
-          ,{field: 'transPublicDoc', title: '公示及结果说明材料' }
-          ,{field: 'transContractDoc', title: '合同（协议）文本' }
-          ,{field: 'transAssessDoc', title: '资产评价报告及评估备案表'}
-          ,{field: 'decisionFlow', title: '单位内部决策流程'}
-          ,{field: 'decisionResult', title: '决策事项及结果'}
-          ,{field: 'decisionMeetingDoc', title: '内部决策会议纪要'}
+          ,{field: 'achieveName', title: '成果描述', width: 120, fixed: 'left'}
+          ,{field: 'projectSource', title: '项目来源', width: 100}
+          ,{field: 'projectChannel', title: '经费支持渠道', width: 120}
+          ,{field: 'teamInfo', title: '完成团队', width: 100} 
+          ,{field: 'finishUnitName', title: '完成单位', width: 100}
+          ,{field: 'intellectualInfo', title: '知识产权情况', width: 120}
+          ,{field: 'achieveTypeText', title: '是否为核心成果', width: 120}
+          ,{field: 'appraisalDoc', title: '知识产权状况报告或科技成果评价', width: 120, templet: function(d) {
+            if (d.appraisalDoc) {
+              return '<a fileid="'+ d.appraisalDoc +'" lay-title="'+d.achieveName+'-知识产权状况报告或科技成果评价" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
+          ,{field: 'auditStatusText', title: '成果转换状态', width: 120}
+          ,{field: 'grantUnitName', title: '单位基本信息', width: 120}
+          ,{field: 'grantChooseWay', title: '选择单位的方式', width: 120}
+          ,{field: 'grantInvest', title: '对受让单位的尽职调查情况', width: 120}
+          ,{field: 'grantChooseWay', title: '选择单位的理由', width: 120}
+          ,{field: 'grantDoc', title: '尽职调查报告', width: 120, templet: function(d) {
+            if (d.grantDoc) {
+              return '<a fileid="'+ d.grantDoc +'" lay-title="'+d.achieveName+'-尽职调查报告" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
+          ,{field: 'achieveTransType', title: '成果转换方式', width: 120}
+          ,{field: 'transPriceWay', title: '定价方式', width: 100}
+          ,{field: 'transPriceBasis', title: '定价原则及依据', width: 120}
+          ,{field: 'transContractDoc', title: '合同（协议）情况', width: 120, templet: function(d) {
+            if (d.transContractDoc) {
+              return '<a fileid="'+ d.transContractDoc +'" lay-title="'+d.achieveName+'-合同（协议）情况" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }} 
+          ,{field: 'transPublicDoc', title: '公示情况', width: 100, templet: function(d) {
+            if (d.transPublicDoc) {
+              return '<a fileid="'+ d.transPublicDoc +'" lay-title="'+d.achieveName+'-公示情况" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
+          ,{field: 'transPublicDoc', title: '公示及结果说明材料', width: 120, templet: function(d) {
+            if (d.transPublicDoc) {
+              return '<a fileid="'+ d.transPublicDoc +'" lay-title="'+d.achieveName+'-公示及结果说明材料" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
+          ,{field: 'transContractDoc', title: '合同（协议）文本', width: 100, templet: function(d) {
+            if (d.transContractDoc) {
+              return '<a fileid="'+ d.transContractDoc +'" lay-title="'+d.achieveName+'-合同（协议）文本" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
+          ,{field: 'transAssessDoc', title: '资产评价报告及评估备案表', width: 120, templet: function(d) {
+            if (d.transAssessDoc) {
+              return '<a fileid="'+ d.transAssessDoc +'" lay-title="'+d.achieveName+'-资产评价报告及评估备案表" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
+          ,{field: 'decisionFlow', title: '单位内部决策流程', width: 120}
+          ,{field: 'decisionResult', title: '决策事项及结果', width: 120}
+          ,{field: 'decisionMeetingDoc', title: '内部决策会议纪要', width: 120, templet: function(d) {
+            if (d.decisionMeetingDoc) {
+              return '<a fileid="'+ d.decisionMeetingDoc +'" lay-title="'+d.achieveName+'-内部决策会议纪要" class="layui-table-link">查看附件</a>';
+            } else {
+              return '-';
+            }
+          }}
           // 激励方案
-          ,{field: 'transIncome', title: '转化收入'} // ???????
-          ,{field: 'checkBasis', title: '成本核算及核算依据'} // ???????
-          ,{field: 'incomeCalculation', title: '项目全周期净收入计算'} // ?????
-          ,{field: 'rewardRecord', title: '项目全周期激励方案及制定方案' }
-          ,{field: 'rewardQuota', title: '激励额度' }
-          ,{field: 'budgetSources', title: '工资总额预算来源' }
-          ,{field: 'typeText', title: '激励人员名单'} /// ????
-          ,{field: 'budgetSources', title: '激励总额'}
-          ,{field: 'assignPlan', title: '激励分配方案' }
+          ,{field: 'transIncome', title: '转化收入', width: 100} // ???????
+          ,{field: 'checkBasis', title: '成本核算及核算依据', width: 120} // ???????
+          ,{field: 'incomeCalculation', title: '项目全周期净收入计算', width: 120} // ?????
+          ,{field: 'rewardRecord', title: '项目全周期激励方案及制定方案', width: 120}
+          ,{field: 'rewardQuota', title: '激励额度', width: 100}
+          ,{field: 'budgetSources', title: '工资总额预算来源', width: 120}
+          ,{field: 'typeText', title: '激励人员名单', width: 120} /// ????
+          ,{field: 'budgetSources', title: '激励总额', width: 100}
+          ,{field: 'assignPlan', title: '激励分配方案', width: 100}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -162,6 +227,31 @@ layui.use(['form', 'table', 'formSelects'], function(){
     }
   }
 
+  //开始录入日期
+  var insStart = laydate.render({
+    elem: '#inputStart'
+    ,done: function(value, date){
+      //更新结束日期的最小日期
+      insEnd.config.min = lay.extend({}, date, {
+          month: date.month - 1
+      });
+
+      //自动弹出结束日期的选择器
+      insEnd.config.elem[0].focus();
+    }
+  });
+
+  //结束录入日期
+  var insEnd = laydate.render({
+    elem: '#inputEnd'
+    ,min: 0
+    ,done: function(value, date){
+      //更新开始日期的最大日期
+      insStart.config.max = lay.extend({}, date, {
+          month: date.month - 1
+      });
+    }
+  });
 
   form.on('submit(submitBtn)', function(data) {
     var searchData = data.field;
@@ -179,6 +269,15 @@ layui.use(['form', 'table', 'formSelects'], function(){
     name ? name = name.trim() : name = '';
     window.open('/platform-api/export?level=01&platformName=', '_blank');
   })
+
+  // 查看附件
+  $('.paving-table-layout:eq(0)').on('click', 'a[fileid]', function(e) {
+    var fileId = $(this).attr('fileid'),
+    pageTitle = $(this).attr('lay-title'),
+    viewFilePage = '/html/scientificMaterials/planDetails.html?id=' + fileId;
+    parent.layui.index.openTabsPage(viewFilePage, pageTitle);
+  });
+
 });
 </script>
 </body>

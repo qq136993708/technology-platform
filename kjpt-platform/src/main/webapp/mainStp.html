@@ -16,6 +16,7 @@
 </head>
 <body>
 <div class="home-stp-layout">
+	<input type="text" value="${userId}" id="userId" class="layui-hide">
 	<div class="home-header-layout">
 		<div class="itemScroll-box" id="homeHeaderItem">
 			<div class="itemScroll">
@@ -130,7 +131,9 @@
 			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
 				<div class="middle-item oneItem">
 					<div class="middle-title">我的待办</div>
-					<div class="middle-content middle-block"><span class="ib-block">90</span></div>
+					<div class="middle-content middle-block">
+						<a lay-href="/task/pending/list/ini" lay-text="待办任务">
+						<span class="ib-block" id="oneItem"></span></a></div>
 				</div>
 			</div>
 			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
@@ -143,22 +146,22 @@
 						</div>
 						<div class="chart-item">
 							<div class="chart-box" id="thisWeek"></div>
-							<div class="chart-title">项目经费</div>
+							<div class="chart-title">项目投资</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
-				<div class="middle-item threeItem">
+				<div class="middle-item threeItem" id="threeItem">
 					<div class="middle-title">我的收藏</div>
 					<div class="middle-content middle-block">
 						<div class="ib-block work-item-box">
-							<div class="work-list"><span class="link-work">工作安排</span></div>
+							<!--<div class="work-list"><span class="link-work">工作安排</span></div>
 							<div class="work-list"><span class="link-work">装备计划查询</span></div>
 							<div class="work-list"><span class="link-work">科研投入计划</span></div>
 							<div class="work-list"><span class="link-work">科研项目分析</span></div>
 							<div class="work-list end"><span class="link-work">现金流量分析</span></div>
-							<div class="work-list end"><span class="link-work">预算汇总表</span></div>
+							<div class="work-list end"><span class="link-work">预算汇总表</span></div>-->
 						</div>
 					</div>
 				</div>
@@ -180,11 +183,11 @@
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
 							<ul class="details-list" id="transform_tab_list"></ul>
-							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/kjpt/achieve/formula_view.html" lay-text="成果转化">查看更多>></a></div>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/kjpt/achieve/formula_view.html" lay-text="成果转化公示">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="patent_tab_list"></ul>
-							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/patent/query.html" lay-text="专利管理">查看更多>></a></div>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/homeMore/patentQuery.html" lay-text="专利管理">查看更多>></a></div>
 						</div>
 					</div>
 				</div>

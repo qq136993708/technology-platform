@@ -142,6 +142,10 @@
 
         $('.openLayerPage').on('click', function() {
             var listData = table.checkStatus('tableDemo').data;
+            if(undefined==listData||""==listData||undefined==listData[0].id||""==listData[0].id){
+                layer.msg('请选择需要查看的数据！');
+                return
+            }
             var index=parent.$("#LAY_app_body div.layui-show").index()-1;
             var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
             parent.layui.index.openTabsPage(url,  '查看');

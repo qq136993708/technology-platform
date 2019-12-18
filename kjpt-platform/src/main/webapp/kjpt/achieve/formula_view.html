@@ -27,34 +27,11 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">录入时间：</span></label>
-                    <div class="layui-input-block font0">
-                        <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                            <input type="text" name="inputStart" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
-                        </div>
-                        <span class="ib-block font14 text-center" style="width: 30px;">-</span>
-                        <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                            <input type="text" name="inputEnd" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
-                        </div>
-                    </div>
-                </div>
-            </div>
             <input type="text" name="isPublic" value="3" class="layui-input layui-hide">
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
-                <div class="layui-form-item text-right">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                <div class="layui-form-item">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    <span class="layui-fold-btn"></span>
                 </div>
             </div>
 
@@ -62,9 +39,6 @@
     </form>
 
     <div class="view-title-layout" id="opations-btn">
-        <div class="right">
-            <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
-        </div>
     </div>
 
     <table id="tableDemo"  lay-filter="tableDemo"></table>
@@ -90,12 +64,8 @@
                         {type: 'radio', field: 'id'}
                         ,{type: 'numbers', title: '序号', width: 80}
                         ,{field: 'achieveName', title: '成果名称', sort: true }
-                        ,{field: 'finishUnitName', title: '完成单位', sort: true}
-                        ,{field: 'brief', title: '科技成果介绍'}
-                        ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
-                        ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
-                        ,{field: 'secretLevelText', title: '密级', sort: true}
-                        ,{ title: '操作', templet: function(d) {
+                        ,{field: 'finishDate', title: '录入时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
+                        ,{ title: '操作',width: 100, templet: function(d) {
                                 return '<a href="/html/scientificMaterials/planDetails.html?id='+d.publicDoc+'" class="layui-table-link">详情</a>';
                             }}
                     ]],

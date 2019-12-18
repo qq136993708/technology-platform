@@ -437,6 +437,7 @@
             		return;
             	}
             	var temUrl="/post/postTable?unitId="+unitId+"&postId="+selectRowData.postId;
+            	alert(selectRowData.postId);
             	openBaseWin("编辑岗位",temUrl);
                 
             },
@@ -467,7 +468,7 @@
             	var temUrl="/unit/edit_unit?parentUnitId="+nodes[0].id;
             	//openBaseWin("新增下级机构",temUrl);
 				top.layer.open({
-					title:'新增岗位',
+					title:'新增机构',
 					shadeClose: true,
 					type: 2,
 					fixed: false,
@@ -496,7 +497,7 @@
             	var temUrl="/unit/edit_unit?unitId="+nodes[0].id;
             	//openBaseWin("编辑机构",temUrl);
 				top.layer.open({
-					title:'编辑岗位',
+					title:'编辑机构',
 					shadeClose: true,
 					type: 2,
 					fixed: false,

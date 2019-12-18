@@ -81,8 +81,13 @@ public class PlatformController extends RestBaseController {
         if (level != null) {
             this.setParam(condition, "level", level);
         }
-        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分" };
-        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","typeText","researchFieldText","overallSituation","researchFunds","platformScoring"};
+        SysUser sysUserInfo = this.getUserProfile();
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        //默认查询当前人所在机构下所有的科研平台
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","密级" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","secretLevelText"};
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformInfoModel.class);

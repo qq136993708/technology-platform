@@ -40,15 +40,11 @@
                     <div class="item-text  ib-block font16">相关项目<span class="font20" diy-form-value="project"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
-                    <div class="icon-item  ib-block icon002"></div>
-                    <div class="item-text  ib-block font16">参与项目评审<span class="font20">0</span>个</div>
-                </div>
-                <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon003"></div>
                     <div class="item-text  ib-block font16">相关成果<span class="font20" diy-form-value="achievementNum"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
-                    <div class="icon-item  ib-block icon003"></div>
+                    <div class="icon-item  ib-block icon002"></div>
                     <div class="item-text  ib-block font16">相关奖励<span class="font20" diy-form-value="reward"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
@@ -146,7 +142,7 @@
             {title: '序号',type:'numbers',width:55 },
             {field: 'achieveName', title: '成果名称'},
             {field: 'applyUnitStr', title: '申请单位'},
-            {field: 'achieveType', title: '成果类别' },
+            {field: 'achieveTypeStr', title: '成果类别' },
             {field: 'applyYear', title: '申请年度'},
         ]
         tableRender('achievements',achievementsArr,'/expert-achievement-api/list',variable.id)

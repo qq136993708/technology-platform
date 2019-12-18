@@ -1131,7 +1131,10 @@ height: 100%;
 .layui-nav-item dd .item-row-block > .icon_name{
     opacity: 0;
 }
-
+.layui-nav-item .item-row-block > .menu_index{
+    /* 首页 */
+    background-image: url('../../images/menu_index.png');
+}
 .layui-nav-item .item-row-block > .spcl_icon{
     /* 审批处理 */
     background-image: url('../../images/spcl_icon.png');
