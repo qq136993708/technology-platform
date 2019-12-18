@@ -94,7 +94,7 @@ public class SysUserApiController extends BaseController{
 	
 
 	   // 待办任务数
-		private static final String PENDING_COUNT_URL = "http://kjpt-zuul/system-proxy/task-provider/getPendingCount/";
+		private static final String PENDING_COUNT_URL = "http://kjpt-zuul/system-proxy/task-provider/getPendingCountByUserId/";
 
 	
 	/**
@@ -445,15 +445,17 @@ public class SysUserApiController extends BaseController{
     /**
 	  *根据ID获取用户待办任务数
 	 */
-   @ApiOperation(value = "根据ID获取用户待办任务数", notes = "根据ID获取用户待办任务数")
-	@RequestMapping(value = "/task-api/getPendingCountByUserId/{userId}", method = RequestMethod.GET)
-	public String getPendingCountByUserId(@PathVariable("userId") String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-  	Result resultsDate = new Result();
-  	ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PENDING_COUNT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
+    @ApiOperation(value = "根据ID获取用户待办任务数", notes = "根据ID获取用户待办任务数")
+	@RequestMapping(value = "/task-api/getPendingCountByUserId", method = RequestMethod.GET)
+	public String getPendingCountByUserId(@RequestParam(value = "userId", required = true) String userId , HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+  	    Result resultsDate = new Result();
+  	    System.out.println(">>>>>>>>>> getPendingCountByUserId参数userId: "+userId);
+  	    ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PENDING_COUNT_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		JSONObject JSONObject = responseEntity.getBody();
-		logger.info("============远程返回  statusCode " + statusCode);
-		if (statusCode == 200) {
+		if (statusCode == 200) 
+		{
 			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
 			long count=JSONObject.getLongValue("count");
 			resultsDate.setData(count);
