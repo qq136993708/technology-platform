@@ -102,7 +102,8 @@ layui.use(['form', 'table', 'formSelects'], function(){
     if (tableLoading) {
       table.render({
         elem: '#pavingDecisionTable'
-        ,url: '/platform-api/query' //数据接口
+        // ,url: '/platform-api/query' //数据接口
+        ,data: []
         ,cols: [[ //表头
           ,{field: 'platformName', title: '平台名称' }
           ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }

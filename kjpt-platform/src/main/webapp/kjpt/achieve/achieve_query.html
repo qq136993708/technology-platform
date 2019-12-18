@@ -155,7 +155,6 @@
         //开始日期
         var insStart = laydate.render({
             elem: '#inputStart'
-            ,min: 0
             ,done: function(value, date){
                 //更新结束日期的最小日期
                 insEnd.config.min = lay.extend({}, date, {

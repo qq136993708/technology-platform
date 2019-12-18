@@ -104,8 +104,17 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
 
 
   form.on('submit(formAddPlanBtn)', function(data) {
+    var technicalVal = formSelects.value('researchField');
+    var technicalStr = '';
+    if(technicalVal.length != 0){
+        var resultArr = technicalVal.map(function(item,index){
+            return item.name
+        })
+        technicalStr = resultArr.join(',');
+        data.field.technicalFieldName = technicalStr
+    }
     var saveData = data.field;
-    console.log('saveData',saveData.releaseTime);
+    console.log('saveData',saveData);
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }

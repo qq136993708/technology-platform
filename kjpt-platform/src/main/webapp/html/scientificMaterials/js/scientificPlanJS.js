@@ -80,7 +80,7 @@ setSelectInput();
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
     {field: 'nameText', title: '申报单位', sort: true },
-    {field: 'researchFieldText', title: '研究领域'},
+    {field: 'technicalFieldName', title: '研究领域'},
     {field: 'releaseTime', title: '发布时间',templet: function(d){
       var times = new Date(d.releaseTime);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();

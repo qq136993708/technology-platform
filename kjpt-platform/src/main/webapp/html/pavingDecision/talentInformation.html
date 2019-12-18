@@ -20,7 +20,7 @@
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">性别：</span></label>
+          <label class="layui-form-label"><span class="text">性别：</span></label>
           <div class="layui-input-block">
             <select name="sex" placeholder="请选择">
               <option value=""></option>
@@ -32,7 +32,7 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">学历：</span></label>
+          <label class="layui-form-label"><span class="text">学历：</span></label>
           <div class="layui-input-block">
             <select name="sex" placeholder="请选择" dic-base-data="ROOT_KJPT_XL"></select>
           </div>
@@ -126,7 +126,8 @@ layui.use(['form', 'table', 'formSelects'], function(){
     if (tableLoading) {
       table.render({
         elem: '#pavingDecisionTable'
-        ,url: '/platform-api/query' //数据接口
+        // ,url: '/platform-api/query' //数据接口
+        ,data: []
         ,cols: [[ //表头
           ,{field: 'platformName', title: '姓名'}
           ,{field: 'supportingInstitutionsText', title: '性别', sort: true }

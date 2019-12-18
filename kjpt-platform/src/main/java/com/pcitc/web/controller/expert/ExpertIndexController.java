@@ -169,6 +169,11 @@ public class ExpertIndexController {
 		    
 		    
 		    
+			@RequestMapping(value = "/error")
+			public String error(HttpServletRequest request, HttpServletResponse response) throws Exception 
+			{
+				return "/error.html";
+			}
 		    
 		    
 		    
