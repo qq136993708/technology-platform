@@ -100,7 +100,7 @@ public class SysUserApiController extends BaseController{
 	/**
 	 * 我的收藏
 	 */
-	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
+	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/getSysCollectListByUserId/";
 	 
 	
 	@ApiOperation(value = "用户查询（分页）", notes = "用户查询（分页）")
@@ -389,17 +389,14 @@ public class SysUserApiController extends BaseController{
         @ApiImplicitParam(name = "userId",           value = "用户Id", dataType = "string", paramType = "query",required=true)
     })
     @RequestMapping(value = "/collect-api/getSysCollectByUserId", method = RequestMethod.GET)
-	public String getSysSysCollectByUserId(@RequestParam(value = "userId", required = true) String userId) throws Exception {
+	public String getSysCollectByUserId(@RequestParam(value = "userId", required = true) String userId) throws Exception {
 		
 		Result resultsDate = new Result();
 		// 用户有哪些菜单权限
-		SysUser userDetails =   this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-		List<SysFunction> list = userDetails.getFunList();
-	     List<SysCollect> scList = userDetails.getScList();
-		 
-		JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(scList));
-		System.out.println(JSONObject.toJSON(jsonObject).toString());
-		resultsDate.setData(list);
+		JSONArray jSONArray =   this.restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), JSONArray.class).getBody();
+		
+		System.out.println(jSONArray.toString());
+		resultsDate.setData(jSONArray);
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}

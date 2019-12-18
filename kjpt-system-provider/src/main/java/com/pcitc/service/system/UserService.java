@@ -6,6 +6,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.system.SysUserUnit;
@@ -142,6 +143,6 @@ public interface UserService {
 	public Integer updateUserBase(SysUser user)throws Exception;
 	
 	public SysUser getUserByUserNameAndPassword(String userName,String password);
-	
+	public List<SysCollect> getSysCollectListByUserId(String userId) throws Exception;
 	
 }
