@@ -173,10 +173,17 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     {
     	return arm.add(as);
     }
+
+    @Override
+    public List<AchieveRecord> queryNoPage(Map paramMap) {
+        List dataList = arm.query(paramMap);
+        return dataList;
+    }
   
     
     
     //流程
+        @Override
 		public Result dealWorkFlow(String id, Map map) throws Exception
 		{
 			
@@ -246,5 +253,6 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 				return new Result(false,"操作失败!");
 			}
 		}
-    
+
+
 }
