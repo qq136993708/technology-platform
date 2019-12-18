@@ -27,8 +27,8 @@ public class IndexHomeServiceImpl implements IndexHomeService {
      * @return com.github.pagehelper.PageInfo
      */
     @Override
-    public PageInfo selectNummary() {
-        List dataList = indexHomeMapper.selectNummary();
+    public PageInfo selectNummary(Map param) {
+        List dataList = indexHomeMapper.selectNummary(param);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }

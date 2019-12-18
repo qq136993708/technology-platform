@@ -63,6 +63,14 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
     }
 
     /**
+     * 首页-汇总
+     */
+    @Override
+    public List<Map> allSummaryCount(Map<String, Object> param) {
+        return kjptCockpitMapper.allSummaryCount(param);
+    }
+
+    /**
      * 科技人才-数量按年龄
      */
     @Override
@@ -92,6 +100,30 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
     @Override
     public List<Map> personCountCompany(Map<String, Object> param) {
         return kjptCockpitMapper.personCountCompany(param);
+    }
+
+    /**
+     * 成果信息-成果转化-各单位成果转化激励人数
+     */
+    @Override
+    public List<Map> numberIncentive(Map<String, Object> param) {
+        return kjptCockpitMapper.numberIncentive(param);
+    }
+
+    /**
+     * 成果信息-成果转化-成果转化数量按成果类型分析
+     */
+    @Override
+    public List<Map> numByResultsType(Map<String, Object> param) {
+        return kjptCockpitMapper.numByResultsType(param);
+    }
+
+    /**
+     * 成果信息-成果转化-各单位成果转化金额/激励金额
+     */
+    @Override
+    public List<Map> numByIncentiveAmount(Map<String, Object> param) {
+        return kjptCockpitMapper.numByIncentiveAmount(param);
     }
 
 }
