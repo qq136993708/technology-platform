@@ -421,14 +421,6 @@ public class AdminController extends BaseController {
         // 获取通知
         request.setAttribute("taskCount", request.getParameter("taskCount"));
 
-        String nd = HanaUtil.getCurrentYear();
-        request.setAttribute("nd", nd);
-        String month = HanaUtil.getCurrentYearMoth();
-        request.setAttribute("month", month);
-        String unitCode = sysUserInfo.getUnitCode();
-        request.setAttribute("unitCode", unitCode);
-
-
         SysUser sysUser = EquipmentUtils.getSysUserByUserId(sysUserInfo.getUserId(), restTemplate, httpHeaders);
         List<SysCollect> scList = sysUser.getScList();
         // 收藏菜单前端显示
@@ -441,12 +433,9 @@ public class AdminController extends BaseController {
         request.setAttribute("scShowList", scShowList);
         request.setAttribute("scList", scList);
 
-        String unitPathId = sysUserInfo.getUnitPath();
-
-
         // 获取登录人员职务
         request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
-
+        request.setAttribute("userId", sysUserInfo.getUserId());
         return "/mainStp";
     }
 

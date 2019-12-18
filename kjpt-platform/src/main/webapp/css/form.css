@@ -45,6 +45,7 @@
 }
 .must-fill{
     position: static;
+    padding-right: 6px;
 }
 .box-body{
     padding-right: 0;

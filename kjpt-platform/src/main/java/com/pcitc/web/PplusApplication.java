@@ -95,57 +95,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		};
 	}
 	
-	/*@Bean
-	public ServletContextInitializer contextInitializer() {
-	    return new ServletContextInitializer() {
-
-	        @Override
-	        public void onStartup(ServletContext servletContext)
-	                throws ServletException {
-	                servletContext.setInitParameter("spSimpleConfigFile","classpath:/conf/sp-simple-config.properties");
-	        }
-	    };
-	}
 	
-	@Bean
-	public ServletListenerRegistrationBean<ApplicationWatch> serssionListenerBean(){
-		ServletListenerRegistrationBean<ApplicationWatch> 
-		sessionListener = new ServletListenerRegistrationBean<ApplicationWatch>(new ApplicationWatch());
-		return sessionListener;
-	}
-	
-	@Bean
-	public FilterRegistrationBean MyFilterRegistration1() {
-		FilterRegistrationBean registration = new FilterRegistrationBean();
-		registration.setFilter(new SAMLProfileFilter());
-		registration.addUrlPatterns("/SSO/*");
-		registration.setName("SAMLProfileFilter");
-		registration.setOrder(1);
-		return registration;
-	}
-	
-	@Bean
-    public FilterRegistrationBean MyFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        AccessEnforcer access = new AccessEnforcer();
-        registration.setFilter(access);
-        registration.addUrlPatterns("/*");
-        //registration.addInitParameter("spSimpleConfigFile", "classpath:/conf/sp-simple-config.properties");
-        registration.addInitParameter("noFilterURLs", "/;/spSimple.html;/error;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html;/**//*.css;/**//*.js;/**//*.png;/**//*.ico;/**//*.jpg;/**//*.jpeg;/**//*.gif;");
-        registration.setName("AccessEnforcer");
-        registration.setOrder(1);
-        return registration;
-    }
-	
-	@Bean
-	public FilterRegistrationBean MyFilterRegistration2() {
-		FilterRegistrationBean registration = new FilterRegistrationBean();
-		registration.setFilter(new InitFilter());
-		registration.addUrlPatterns("/");
-		registration.setName("InitFilter");
-		registration.setOrder(1);
-		return registration;
-	}*/
 	
 	/**
 	 * 文件上传配置
