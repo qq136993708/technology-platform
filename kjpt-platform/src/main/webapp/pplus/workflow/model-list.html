@@ -208,7 +208,8 @@
 								headers : {
 									'Content-Type' : 'application/json',
 								},
-								error : function() {//请求失败处理函数  
+								error : function() {//请求失败处理函数 
+									top.layer.close(index); 
 									layer.msg('操作失败！');
 
 								},
@@ -218,6 +219,7 @@
 										active.searchEvent();
                                         top.layer.closeAll(); // 关闭弹窗
 									} else {
+										top.layer.close(index);
 										layer.msg('操作失败！' + data.message);
 									}
 								}

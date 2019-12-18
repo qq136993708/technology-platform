@@ -3,6 +3,7 @@ package com.pcitc.web.controller.achieve;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveReward;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
@@ -78,6 +79,7 @@ public class AchieveRewardController extends RestBaseController {
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -99,7 +101,7 @@ public class AchieveRewardController extends RestBaseController {
         }
 
         //默认查询当前人所在机构下所有的成果激励
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -136,7 +138,6 @@ public class AchieveRewardController extends RestBaseController {
         a.setIncomeReportDoc(UUID.randomUUID().toString().replace("-",""));
         a.setRewardAccountingDoc(UUID.randomUUID().toString().replace("-",""));
         a.setCreateDate(new Date());
-        a.setCreator(this.getUserProfile().getUserName());
         return a;
     }
 }

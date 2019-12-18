@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchplatform.PlatformPatentModel;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
@@ -99,6 +100,7 @@ public class PlatformProjectController extends RestBaseController {
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+        SysUser userInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -113,10 +115,10 @@ public class PlatformProjectController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的科研平台项目
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.setParam(condition,"platformId",platformId);

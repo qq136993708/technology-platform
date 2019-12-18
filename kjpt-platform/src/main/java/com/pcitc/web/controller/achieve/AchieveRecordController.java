@@ -119,6 +119,7 @@ public class AchieveRecordController extends RestBaseController {
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -161,10 +162,10 @@ public class AchieveRecordController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -210,13 +211,14 @@ public class AchieveRecordController extends RestBaseController {
     }
 
     private void setRecord(AchieveSubmit as){
+        SysUser sysUserInfo = this.getUserProfile();
         if(as.getAchieveReward()!=null){
             as.getAchieveReward().setCreator(as.getUpdator());
             as.getAchieveReward().setUpdator(as.getUpdator());
             as.getAchieveReward().setCreateDate(as.getUpdateDate());
             as.getAchieveReward().setUpdateDate(as.getUpdateDate());
-            as.getAchieveReward().setCreateUnitId(this.getUserProfile().getUnitId());
-            as.getAchieveReward().setCreateUnitName(this.getUserProfile().getUnitName());
+            as.getAchieveReward().setCreateUnitId(sysUserInfo.getUnitId());
+            as.getAchieveReward().setCreateUnitName(sysUserInfo.getUnitName());
         }
     }
 

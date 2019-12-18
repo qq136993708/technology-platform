@@ -99,6 +99,7 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "isPublic") String isPublic
     ){
         Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -134,10 +135,10 @@ public class AchieveBaseController extends RestBaseController {
         if(isPublic != null){
             this.setParam(condition,"isPublic",isPublic);
         }
-        this.setParam(condition,"userSecretLevel",this.getUserProfile().getSecretLevel());
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(this.getUserProfile().getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

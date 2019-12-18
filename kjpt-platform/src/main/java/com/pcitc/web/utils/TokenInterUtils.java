@@ -137,18 +137,23 @@ public class TokenInterUtils {
 				//如果当前环境下为空,则从TOKEN中获取
 				if(userInfo==null)
 				{
-					System.out.println("========================当前环境userInfo为空=============================");
+					//System.out.println("========================当前环境userInfo为空=============================");
 					List<String> list = httpHeaders.get("Authorization");
 					if (list != null && list.get(0) != null)
 					{
-						userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+						String arr[]=list.get(0).split(" ");
+						if(arr!=null && arr.length>1)
+						{
+							userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+						}
+						
 					}
 				}
 				if(userInfo!=null)
 				{
 					
 					JSONObject user = JSONObject.parseObject(JSONObject.toJSONString(userInfo));
-					System.out.println(">>>>>>>>>>>>>>>>>>>>USER信息"+user.toString());
+					//System.out.println(">>>>>>>>>>>>>>>>>>>>USER信息"+user.toString());
 					String userName=userInfo.getUserDisp();
 					String userId=userInfo.getUserName();
 					SysLog sysLog = new SysLog();
@@ -191,7 +196,7 @@ public class TokenInterUtils {
 					sysLog.setUnitName(unitName);
 					sysLog.setOptDescribe(optDescribe);
 					JSONObject sysLogstr = JSONObject.parseObject(JSONObject.toJSONString(sysLog));
-					System.out.println(">>>>>>>>>>>>>>>>>>>>sysLog信息"+sysLogstr.toString());
+					//System.out.println(">>>>>>>>>>>>>>>>>>>>sysLog信息"+sysLogstr.toString());
 					httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 					ResponseEntity<String> responseEntity =restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, httpHeaders), String.class);
 					int statusCode = responseEntity.getStatusCodeValue();
@@ -228,7 +233,11 @@ public class TokenInterUtils {
 						List<String> list = httpHeaders.get("Authorization");
 						if (list != null && list.get(0) != null)
 						{
-							userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+							String arr[]=list.get(0).split(" ");
+							if(arr!=null && arr.length>1)
+							{
+								userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+							}
 						}
 					}
 					if(userInfo!=null)
