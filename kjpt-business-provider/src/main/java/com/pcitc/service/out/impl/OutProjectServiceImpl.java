@@ -22,6 +22,8 @@ import com.pcitc.base.out.OutProject;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.out.OutProjectMapper;
 import com.pcitc.service.out.IOutProjectService;
+
+import io.swagger.annotations.ApiImplicitParam;
 @Service("outProjectService")
 public class OutProjectServiceImpl implements IOutProjectService {
 	
@@ -73,6 +75,10 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	public LayuiTableData getOutProjectPage(LayuiTableParam param)throws Exception
 	{
 		
+		
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>getOutProjectPage参数 "+result.toString());
+		
 	        //每页显示条数
 			int pageSize = param.getLimit();
 			//从第多少条开始
@@ -81,21 +87,27 @@ public class OutProjectServiceImpl implements IOutProjectService {
 			int pageNum = pageStart/pageSize + 1;
 			// 1、设置分页信息，包括当前页数和每页显示的总计数
 			PageHelper.startPage(pageNum, pageSize);
-			String rewarkLevel=getTableParam(param,"rewarkLevel","");
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
 			String expertId=getTableParam(param,"expertId","");
 			String techTypeIndex=getTableParam(param,"techTypeIndex","");
 			
+			String techType=getTableParam(param,"techType","");
+			String projectName=getTableParam(param,"projectName","");
+			String setupYear=getTableParam(param,"setupYear","");
+			
+			
 			
 			Map map=new HashMap();
-			map.put("rewarkLevel", rewarkLevel);
+			map.put("techType", techType);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
 			map.put("expertId", expertId);
 			map.put("techTypeIndex", techTypeIndex);
+			map.put("projectName", projectName);
+			map.put("setupYear", setupYear);
 			
 			
 			List<OutProject> list = outProjectMapper.getList(map);
