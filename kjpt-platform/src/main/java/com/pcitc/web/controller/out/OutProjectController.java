@@ -98,6 +98,10 @@ public class OutProjectController extends BaseController {
             @RequestParam(required = false) String setupYear,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
+    	
+    	
+		System.out.println(">>>>>>>>>projectName "+projectName);
+		System.out.println(">>>>>>>>>setupYear "+setupYear);
 
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("techType", techType);

@@ -84,7 +84,9 @@ public class AuthServiceImpl implements AuthService {
 		temp.setUserName(username);
 		temp.setUserPassword(password);
 		SysUser user = systemRemoteClient.getUserByUserNameAndPassword(temp);
-		
+		if (user==null){
+			return null;
+		}
 		return jwtTokenUtil.generateToken(user);
 	}
 
