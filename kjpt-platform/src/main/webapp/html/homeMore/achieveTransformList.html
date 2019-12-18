@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <input type="hidden" name="functionId" value="32927d91316c4fb6a87ad0c8e0b4b261">
+    <input type="hidden" name="isPublic" value="3">
   </form>
 
   <div class="paving-table-layout">
@@ -85,7 +85,6 @@ layui.use(['form', 'table', 'formSelects'], function(){
       table.reload('pavingDecisionTable', {where: data});
     }
   }
-
 
   form.on('submit(submitBtn)', function(data) {
     var searchData = data.field;
