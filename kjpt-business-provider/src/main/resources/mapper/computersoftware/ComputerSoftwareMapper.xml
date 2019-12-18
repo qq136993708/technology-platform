@@ -212,6 +212,19 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
+
+
+
+        <if test="technicalField != null and technicalField !=''  ">
+            AND
+            <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`technical_field`)
+            </foreach>
+
+        </if>
+
+
+
     </select>
 
 
@@ -224,6 +237,17 @@
         <if test="userSecretLevel != null and userSecretLevel !=''  ">
             AND secret_level &lt;= #{userSecretLevel}
         </if>
+
+
+        <if test="technicalField != null and technicalField !=''  ">
+            AND
+            <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`technical_field`)
+            </foreach>
+
+        </if>
+
+
     </select>
 
             <sql id="selectByParam">
