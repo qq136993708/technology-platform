@@ -69,7 +69,6 @@ public class BaseController implements ErrorController
 				break;
 			}
 		}
-
 		return JwtTokenUtil.getUserFromTokenByValue(token);
 	}
 
