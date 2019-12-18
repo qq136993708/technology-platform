@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,4 +21,9 @@ public interface AchieveRecordService {
     
     Integer saveAchieveRecord(AchieveRecord as);
     public Result dealWorkFlow(String id, Map map) throws Exception;
+
+    /**
+     * 查询成果列表
+     */
+    List<AchieveRecord> queryNoPage(Map paramMap);
 }

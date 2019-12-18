@@ -1,11 +1,14 @@
 package com.pcitc.web.controller.achieve;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -16,6 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -53,6 +57,10 @@ public class AchieveRecordController extends RestBaseController {
      * 查询列表
      */
     private static final String query = "http://kjpt-zuul/stp-proxy/achieveRecord-api/query";
+    /**
+     * 查询列表不分页
+     */
+    private static final String queryNopage = "http://kjpt-zuul/stp-proxy/achieveRecord-api/queryNoPage";
     /**
      * 保存
      */
@@ -172,6 +180,80 @@ public class AchieveRecordController extends RestBaseController {
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
     }
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "备案状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveType", value = "成果类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "grantUnitName", value = "成果受让单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "aboutCompleteInfo", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+    })
+
+    @RequestMapping(value = "/achieveRecord-api/exportExcel", method = RequestMethod.GET)
+    public void exportExcel(
+            @RequestParam(required = false,value = "achieveName") String achieveName,
+            @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
+            @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "achieveType") String achieveType,
+            @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
+            @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
+            @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        if (!StringUtils.isEmpty(achieveName)) {
+            this.setParam(condition, "achieveName", achieveName);
+        }
+        if (!StringUtils.isEmpty(finishUnitName)) {
+            this.setParam(condition, "finishUnitName", finishUnitName);
+        }
+        if (!StringUtils.isEmpty(achieveType)) {
+            this.setParam(condition, "achieveType", achieveType);
+        }
+        if (!StringUtils.isEmpty(auditStatus)) {
+            this.setParam(condition, "auditStatus", auditStatus);
+        }
+        if (!StringUtils.isEmpty(grantUnitName)) {
+            this.setParam(condition, "grantUnitName", grantUnitName);
+        }
+        if (!StringUtils.isEmpty(achieveTransType)) {
+            this.setParam(condition, "achieveTransType", achieveTransType);
+        }
+        if (!StringUtils.isEmpty(aboutCompleteInfo)) {
+            this.setParam(condition, "aboutCompleteInfo", aboutCompleteInfo);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        }
+
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+
+        //默认查询当前人所在机构下所有的成果备案
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
+        String[] headers = { "备案状态",  "成果名称",    "成果基本情况"  , "成果持有单位"  , "拟受让单位"  , "是否核心技术成果"  , "拟转让方式"  , "完成情况"  , "未完成项目预计完成时间"  , "密级"};
+        String[] cols =    {"auditStatusText","achieveName","achieveInfo","finishUnitName","achieveTypeText","achieveTechTypeText","aboutCompleteInfo","aboutCompleteTime","secretLevelText"};
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), AchieveRecord.class);
+        String fileName = "成果转化表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
+    }
 
     @ApiOperation(value="保存")
     @RequestMapping(value = "/achieveRecord-api/save", method = RequestMethod.POST)
@@ -279,10 +361,8 @@ public class AchieveRecordController extends RestBaseController {
         as.setAchieveReward(ar);
         return as;
     }
-    
-    
-    
-    
+
+
     @ApiOperation(value="成果进展情况流程")
     @RequestMapping(value = "/achieveRecord-api/start_workflow",method = RequestMethod.POST)
 	public Object start_workflow(HttpServletRequest request, HttpServletResponse response ) throws Exception
