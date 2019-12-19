@@ -452,7 +452,6 @@
 	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
 	     <if test="post != null                  and post !=''  ">            AND t.post = #{post}</if>
 	     <if test="title != null                 and title !=''  ">               AND t.title = #{title}</if>
-	     <if test="technicalField != null        and technicalField !=''  ">      AND FIND_IN_SET(#{technicalField},t.`technical_field`) </if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">          AND t.belong_unit = #{belongUnit}</if>
 	     <if test="technicalFieldName != null    and technicalFieldName  !='' ">   AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
 	     <if test="sex != null                   and sex !=''  ">                  AND t.sex = #{sex}</if>
@@ -474,6 +473,14 @@
 	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
 	         AND t.secret_level &lt;= #{userSecretLevel}
 	     </if>
+	     <if test="technicalField != null        and technicalField !=''  ">   
+	      AND
+	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+			    FIND_IN_SET(#{item},t.`technical_field`) 
+			   </foreach>
+	        
+	     </if>
+	  
 	 </trim>
 	</sql>
 	
