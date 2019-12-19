@@ -57,6 +57,13 @@
         </if>
         and secret_level <![CDATA[<=]]> #{userSecretLevel}
 
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
 
     </select>
 
@@ -67,6 +74,13 @@
             and secret_level = #{secretLevel}
         </if>
         and secret_level <![CDATA[<=]]> #{userSecretLevel}
+
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
 
     </select>
 

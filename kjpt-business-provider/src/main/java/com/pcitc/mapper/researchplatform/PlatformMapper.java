@@ -34,7 +34,7 @@ public interface PlatformMapper {
     /**
      * 平台相关项目条数
      */
-    List<Map> selectPaltinfoCount(String id);
+    List<Map> selectPaltinfoCount(Map param);
 
 
     void excelData2MemoryDB(List<PlatformInfoModel> dataList);

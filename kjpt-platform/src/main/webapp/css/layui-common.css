@@ -132,9 +132,6 @@
 .layui-input[disabled], .layui-textarea[disabled],.laydate-input[disabled]{
   border-color: #eee!important;
 }
-.layui-input[readonly], .layui-textarea[readonly],.laydate-input[readonly]{
-  border-color: #eee!important;
-}
 .layui-textarea {
   min-height: 80px;
 }

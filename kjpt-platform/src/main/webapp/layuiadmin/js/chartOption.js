@@ -267,6 +267,7 @@ var kyptCharts = {
           text: '',
           top: 'center',
           left: '60%',
+          textAlign: 'center',
           textStyle: {
             color: '#fff',
             fontWeight: 'normal',
@@ -280,9 +281,6 @@ var kyptCharts = {
           for (var key in config.title) {
             titleItem[key] = config.title[key];
           }
-        }
-        if (config.center) {
-          titleItem.left = config.center[0];
         }
         return titleItem;
       })(),
@@ -357,6 +355,12 @@ var kyptCharts = {
         }
       }
       option.title.text = totalTitle;
+
+      if (config.center) {
+        option.title.left = config.center[0];
+      } else {
+        option.title.left = '60%';
+      }
     }
     return option;
   },

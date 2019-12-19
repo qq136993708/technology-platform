@@ -22,6 +22,7 @@
         <result column="current_reward_money" jdbcType="FLOAT" property="currentRewardMoney"/>
         <result column="about_complete_time" jdbcType="TIMESTAMP" property="aboutCompleteTime"/>
         <result column="about_complete_info" jdbcType="VARCHAR" property="aboutCompleteInfo"/>
+        <result column="about_complete_info_text" jdbcType="VARCHAR" property="aboutCompleteInfoText"/>
         <result column="achieve_tech_type" jdbcType="VARCHAR" property="achieveTechType"/>
         <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
         <result column="project_source" jdbcType="VARCHAR" property="projectSource"/>

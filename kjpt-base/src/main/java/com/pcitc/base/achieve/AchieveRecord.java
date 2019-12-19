@@ -88,6 +88,11 @@ public class AchieveRecord extends RecordModel implements Serializable {
      * 未完成项目预计完成情况
      */
     private String aboutCompleteInfo="";
+
+    /**
+     * 未完成项目预计完成情况字典值
+     */
+    private String aboutCompleteInfoText="";
     /**
      * 技术族类型（技术族）
      */
@@ -530,5 +535,13 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setFiles(String files) {
         this.files = files;
+    }
+
+    public String getAboutCompleteInfoText() {
+        return aboutCompleteInfoText;
+    }
+
+    public void setAboutCompleteInfoText(String aboutCompleteInfoText) {
+        this.aboutCompleteInfoText = aboutCompleteInfoText;
     }
 }

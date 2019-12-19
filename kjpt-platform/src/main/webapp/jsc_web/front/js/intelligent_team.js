@@ -84,8 +84,15 @@ layui.use(['laydate'], function() {
         radius: ['44%', '65%'],
         borderColor: '#001e38',
         series: [],
-        pieFormattr: true,
         totalTitle: true,
+        title: {
+          textStyle: {
+            color: '#fff',
+            fontSize: 30,
+            width: '100%'
+          }
+        },
+        pieFormattr: true,
         title: {
           textStyle: { fontSize: 48, color: '#fff' }
         },

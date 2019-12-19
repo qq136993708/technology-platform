@@ -6,7 +6,30 @@
 * {
     box-sizing: border-box;
 }
-
+::-webkit-scrollbar{
+    width:6px !important;
+  }
+  ::-webkit-scrollbar-button {
+  }
+  ::-webkit-scrollbar-track{
+    background-color:#194f8c;
+    
+  }
+  ::-webkit-scrollbar-track-piece{
+    background-color:#194f8c;
+    -webkit-border-radius:4px;
+  }
+  ::-webkit-scrollbar-thumb{
+    background-color:#133969;  
+    border:solid 1px #133969;
+    border-radius:4px;  
+  } 
+  ::-webkit-scrollbar-corner {
+    background-color: #133969;
+  } 
+  ::-webkit-resizer {
+    background: no-repeat bottom right;
+  }
 /*
 html,body,#wrapper {
 	font-size:50px;
@@ -387,7 +410,7 @@ body{
     width: 100%;
 }
 .two_nav_item{
-    padding-top: .09rem;
+    padding-top: 0.125rem;
     display: inline-block;
     vertical-align: top;
 }
@@ -399,9 +422,9 @@ body{
 }
 .two_nav_item .project_btn{
     float: left;
-    width: 1.4rem;
-    height: .46rem;
-    line-height: .46rem;
+    width: 1.5rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
     text-align: center;
     color:rgba(255,255,255,1);
     margin-right: .187rem;

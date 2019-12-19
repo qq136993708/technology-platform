@@ -93,10 +93,6 @@
         </if>
         <include refid="selectByParam" />
 
-
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
         and secret_level <![CDATA[<=]]> #{userSecretLevel}
 
     </select>
@@ -111,10 +107,6 @@
         </foreach>
         </if>
         <include refid="selectByParam" />
-
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
         and secret_level <![CDATA[<=]]> #{userSecretLevel}
 
     </select>
@@ -258,12 +250,71 @@
         where id = #{id}
     </update>
 
-    <select id="selectPaltinfoCount" parameterType="java.lang.String" resultType="java.util.Map">
-        select count(1) as count, 'achievement' as count_type from kypt_achievement where platform_id =#{id} and deleted != '1' union all
-        select count(1) as count, 'patent' as count_type from kypt_patent where platform_id =#{id} and deleted != '1' union all
-        select count(1) as count, 'project' as count_type from kypt_project where platform_id =#{id} and deleted != '1' union all
-        select count(1) as count, 'treatise' as count_type from kypt_treatise where platform_id =#{id} and deleted != '1' union all
+    <select id="selectPaltinfoCount" parameterType="java.util.Map" resultType="java.util.Map">
+        select count(1) as count, 'achievement' as count_type from kypt_achievement where platform_id =#{id} and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+         union all
+        select count(1) as count, 'patent' as count_type from kypt_patent where platform_id =#{id} and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        union all
+        select count(1) as count, 'project' as count_type from kypt_project where platform_id =#{id} and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        union all
+        select count(1) as count, 'treatise' as count_type from kypt_treatise where platform_id =#{id} and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        union all
         select count(1) as count, 'member' as count_type from kypt_member where platform_id =#{id} and deleted != '1'
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' " >
+            and secret_level = #{secretLevel}
+        </if>
+        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
     <update id="delete" parameterType="java.lang.String">
