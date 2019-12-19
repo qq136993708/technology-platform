@@ -163,18 +163,18 @@ var fx_option = {
             name: '业务指标',
 			type: 'gauge',
 			min:0,
-			max:500,
+			max:300,
 			splitNumber:6,
 			startAngle:180,
 			endAngle:0,
 			center : ['45%', '70%'],    // 默认全局居中
 			radius : '100%',
 			detail: {
-				formatter:'{value}%',
+				formatter:'风险：{value}',
 				offsetCenter: [0, 0],
 				textStyle: {
                     color: '#ffffff',
-                    fontSize : 14,
+                    fontSize : 12,
                     fontFamily:'Impact'
                 }
             },
@@ -262,7 +262,7 @@ var xmtz_option = {
                 offsetCenter: [0, '20%'],     
 				textStyle: {
                 color: '#ffffff',
-                fontSize : 30,
+                fontSize : 20,
                 fontFamily:'Impact'
             }
         },
@@ -323,10 +323,10 @@ xmtz_charts3.setOption(xmtz_option);
 xmtz_charts4.setOption(xmtz_option);
 
 $(document).ready(function() {
-    gaugeimg('xmtz_charts1', '核能开发', 0, 500, 300, 'μg/m3');
-    gaugeimg('xmtz_charts2', '集中研发', 0, 500, 100, 'μg/m3');
-    gaugeimg('xmtz_charts3', '国防基础', 0, 500, 200, 'μg/m3');
-    gaugeimg('xmtz_charts4', '国防技术基础', 0, 500, 400, 'μg/m3');
+    gaugeimg('xmtz_charts1', '核能开发', 0, 100, 42, 'μg/m3');
+    gaugeimg('xmtz_charts2', '集中研发', 0, 100, 90, 'μg/m3');
+    gaugeimg('xmtz_charts3', '国防基础', 0, 100, 50, 'μg/m3');
+    gaugeimg('xmtz_charts4', '国防技术基础', 0, 100, 80, 'μg/m3');
     
     /*
 		 *id:id;
@@ -409,23 +409,13 @@ $(document).ready(function() {
                             shadowBlur: 10
                         }
                     },
-                    // detail: {
-                    //     formatter:'{value}%',
-                    //     // offsetCenter: [0, 0],
-                    //     offsetCenter: [0, '20%'],     
-                    //     textStyle: {
-                    //     color: '#ffffff',
-                    //     fontSize : 30,
-                    //     fontFamily:'Impact'
-                    // },
-
 					detail: {
                         formatter:'{value}%',
-                        offsetCenter: [0, '20%'],  
+                        offsetCenter: [0, '25%'],  
 						// formatter: '{value}' + unit,
 						textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
 							color: '#fff',
-                            "fontSize": 30,
+                            "fontSize": 25,
                             fontFamily:'Impact'
 						}
 					},
@@ -440,7 +430,6 @@ $(document).ready(function() {
 			option.series[0].data[0].value = val;
 			option.series[0].axisLine.lineStyle.color[0][0] = (val - min) / (max - min);
 			option.series[0].axisLine.lineStyle.color[0][1] = detectionData(val, id);
-			console.log(option.series[0].axisLine);
 			myChart.setOption(option);
         }
         
@@ -507,7 +496,6 @@ function load_tzgmtj_data(){
     $("#tzgmtj_table .tzgmtj_tbody").html('');
     var html='';
 	for(var v in tzgmtj_data){
-        console.log(v);
         html+='<tr><td>'+tzgmtj_data[v].xms+'</td>';
         html+='<td>'+tzgmtj_data[v].hnkf+'</td>';
         html+='<td>'+tzgmtj_data[v].jzyf+'</td>';
@@ -524,6 +512,5 @@ function htmlFont(){
 }
 function getFontSize(){
 	var fontSize = $("html").css('fontSize').replace("px",'');
-	console.log(fontSize);
 	return parseFloat(fontSize);
 }
