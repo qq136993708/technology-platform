@@ -127,6 +127,14 @@
         </if>
 
 
+        <!--<if test="researchField != null  and researchField !=''  ">-->
+        <!--AND-->
+        <!--<foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">-->
+            <!--FIND_IN_SET(#{item},`RESEARCH_FIELD`)-->
+        <!--</foreach>-->
+    <!--</if>-->
+
+
 
     </select>
 
@@ -145,6 +153,13 @@
                 FIND_IN_SET(#{item},`technical_field_name`)
             </foreach>
         </if>
+
+        <!--<if test="researchField != null  and researchField !=''  ">-->
+            <!--AND-->
+            <!--<foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">-->
+                <!--FIND_IN_SET(#{item},`RESEARCH_FIELD`)-->
+            <!--</foreach>-->
+        <!--</if>-->
 
     </select>
 
