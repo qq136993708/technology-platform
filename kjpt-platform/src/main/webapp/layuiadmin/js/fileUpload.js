@@ -246,7 +246,7 @@ function importFiles(config){
               if (res.code === '1') {
                 res.success = false;
                 var errorTips = '';
-                $.each(res.data, function(i, item) {
+                $.each(JSON.parse(res.data), function(i, item) {
                   errorTips += '<p class="font14">' + item.msg + '</p>';
                 })
                 if (errorTips) {
