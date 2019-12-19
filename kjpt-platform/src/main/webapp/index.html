@@ -583,9 +583,16 @@ var __base_dic_store = {
 					window.open("http://10.1.19.130/zshkjjl/");
 					return false;
 				}
-										if ($("#" + id).text() == "辅助决策") {
-												$("#nav" + id+" li").eq(1).removeClass("layui-nav-itemed")
-										}
+				if ($("#" + id).text() == "辅助决策") {
+					$("#nav" + id+" li").eq(1).removeClass("layui-nav-itemed")
+				}
+
+				if ($("#" + id).text() == "领导驾驶舱") {
+					window.open("/jsc_web/index.html", '_blank');
+					return false;
+				}
+				
+
 				$(".layui-nav-tree").addClass("layui-hide");
 				$("#nav" + id).removeClass("layui-hide");
 
