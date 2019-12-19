@@ -339,6 +339,10 @@ layui.config({
         success: function(res) {
             if(res.success){
                 $("#oneItem").html(res.data)
+                $("#text").html("项")
+            }else {
+                $("#oneItem").html("0")
+                $("#text").html("项")
             }
         }
     });

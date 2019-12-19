@@ -25,8 +25,9 @@ layui.use(['table', 'form', 'layer'], function() {
     }}
   ]
   ];
-  console.log(variable);
-
+    if(variable.flag==1){
+        $("#all_page_submit").hide()
+    }
   // 添加 转化净收益及激励方案
   function addTransfromMaintain(data, auditStatus) {
     var wrapID = 'init_transfrom_maintain';

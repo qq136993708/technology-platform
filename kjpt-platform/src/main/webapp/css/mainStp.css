@@ -218,8 +218,19 @@
   text-align: center;
   position: relative;
 }
-
-
+.oneItem .middle-content a{
+  display: inline-block;
+  position: relative;
+  height: 80px;
+}
+.home-middle-layout .middle-content a .text{
+  display: inline-block;
+  width: 18px;
+  font-size: 18px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+}
 .home-middle-layout .oneItem .ib-block{
   font-family: 'FlamaLight';
   font-size: 90px;
@@ -446,3 +457,4 @@ li.item-details .details-text {
   text-decoration: underline;
   color: #0AA1FF;
 }
+.e-text{font-size: 12px}
