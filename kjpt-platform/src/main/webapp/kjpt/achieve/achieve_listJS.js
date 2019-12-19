@@ -165,9 +165,14 @@ layui.use(['table', 'form','laydate'], function() {
       }
     }else if (optionType == 'view') {
         var listData = table.checkStatus('tableDemo').data;
+        if (listData.length) {
         url += '&id='+listData[0].id+"&index="+index;
         parent.layui.index.openTabsPage(url, dialogTitle + '申请');
         return false
+        }else{
+            top.layer.msg('请选择要'+dialogTitle+'的数据！');
+            return false;
+        }
     }else {
         parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }
