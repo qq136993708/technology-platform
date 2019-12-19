@@ -168,9 +168,23 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
 
   // 导出
   $('#importData').click(function() {
-    var name = $('[name="platformName"]').val();
-    name ? name = name.trim() : name = '';
-    window.open('/platform-api/export?level=01&platformName=', '_blank');
+    var formValue = form.val('pavingDecision'),
+    searchData = {
+      unitName: formValue.unitName, // 单位名称
+      registerNumber: formValue.registerNumber, // 登记号
+      softwareName: formValue.softwareName, // 软件名称
+      copyrightOwner: formValue.copyrightOwner, // 著权人
+      versionNumber: formValue.versionNumber, // 版本号
+      recordDateStart: formValue.recordDateStart, // 注册日期 开始
+      recordDateStart: formValue.recordDateEnd // 注册日期 结束
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/ComputerSoftware/exportExcel?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
   })
 
 
