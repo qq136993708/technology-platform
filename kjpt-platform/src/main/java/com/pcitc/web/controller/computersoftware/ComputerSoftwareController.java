@@ -1,9 +1,12 @@
 package com.pcitc.web.controller.computersoftware;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -11,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -20,10 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.GET;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 @Api(value = "computerSoftware-api", description = "计算机软件接口")
@@ -43,6 +44,10 @@ public class ComputerSoftwareController extends RestBaseController {
      * 保存平台
      */
     private static final String save = "http://kjpt-zuul/stp-proxy/computerSoftware-api/save";
+    /**
+     * 导出
+     */
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/computerSoftware-api/queryNoPage";
     /**
      * 删除
      */
@@ -187,6 +192,59 @@ public class ComputerSoftwareController extends RestBaseController {
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
 
+    }
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "registerNumber", value = "登记号", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "softwareName", value = "软件名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "copyrightOwner", value = "著作权人", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "versionNumber", value = "版本号", dataType = "string", paramType = "query")
+    })
+
+    @GetMapping(value = "/exportExcel")
+    @ResponseBody
+    public void exportExcel(
+            @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) String registerNumber,
+            @RequestParam(required = false) String softwareName,
+            @RequestParam(required = false) String copyrightOwner,
+            @RequestParam(required = false) String versionNumber
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+
+
+        if (!StringUtils.isEmpty(unitName)) {
+            this.setParam(condition, "unitName", unitName);
+        }
+        if (!StringUtils.isEmpty(registerNumber)) {
+            this.setParam(condition, "registerNumber", registerNumber);
+        }
+        if (!StringUtils.isEmpty(softwareName)) {
+            this.setParam(condition, "softwareName", softwareName);
+        }
+        if (!StringUtils.isEmpty(copyrightOwner)) {
+            this.setParam(condition, "copyrightOwner", copyrightOwner);
+        }
+        if (!StringUtils.isEmpty(versionNumber)) {
+            this.setParam(condition, "versionNumber", versionNumber);
+        }
+        SysUser sysUserInfo = this.getUserProfile();
+        //默认查询小于等于用户密级的专家
+        this.setParam(condition, "userSecretLevel",sysUserInfo.getSecretLevel());
+
+
+        //默认查询当前人所在机构及子机构的所有专家
+        String childUnitIds = EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition, "childUnitIds", childUnitIds);
+
+        String[] headers = { "单位名称",  "登记号",    "软件名称"  , "著作权人","版本号","登记日期","开发完成日期","软件简介","密级"};
+        String[] cols =    {"unitNameText","registerNumber","softwareName","copyrightOwner","versionNumber","recordDate","developFinishDate","softwareIntro","secretLevelText"};
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ComputerSoftware.class);
+        String fileName = "软件著作权明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
     }
 
     @ApiOperation(value = "保存")

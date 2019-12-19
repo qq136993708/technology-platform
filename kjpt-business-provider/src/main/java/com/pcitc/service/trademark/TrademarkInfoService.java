@@ -3,6 +3,7 @@ package com.pcitc.service.trademark;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,4 +46,14 @@ public interface TrademarkInfoService {
      * @return
      */
     Integer deleteTrademark(String id);
+
+
+    /**
+     * 商标列表查询
+     * @param param
+     * @return
+     */
+    List queryNoPage(Map param);
+
+
 }

@@ -62,4 +62,9 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
     public Integer delete(String id) {
         return computerSoftwareMapper.delete(id);
     }
+
+    @Override
+    public List queryNoPage(Map paramMap) {
+        return computerSoftwareMapper.query(paramMap);
+    }
 }

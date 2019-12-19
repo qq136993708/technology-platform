@@ -254,16 +254,41 @@ public class PatentController extends RestBaseController {
     @ApiOperation(value = "导出", notes = "导出")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "applicationType", value = "申请类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentType", value = "专利类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/exportExcel",  method = RequestMethod.GET)
     @ResponseBody
     public void queryPatent(
             @RequestParam(required = false) String unitName,
-            @RequestParam(required = false) String applicationNumber
+            @RequestParam(required = false) String applicationType,
+            @RequestParam(required = false) String patentType,
+            @RequestParam(required = false) String applicationNumber,
+            @RequestParam(required = false) String patentName,
+            @RequestParam(required = false) String applicant,
+            @RequestParam(required = false) String inventor
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+        if (!StringUtils.isEmpty(applicationType)) {
+            this.setParam(condition, "applicationType", applicationType);
+        }
+        if (!StringUtils.isEmpty(patentType)) {
+            this.setParam(condition, "patentType", patentType);
+        }
+        if (!StringUtils.isEmpty(patentName)) {
+            this.setParam(condition, "patentName", patentName);
+        }
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "applicant", applicant);
+        }
+        if (!StringUtils.isEmpty(inventor)) {
+            this.setParam(condition, "inventor", inventor);
+        }
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
         }

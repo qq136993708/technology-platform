@@ -1,5 +1,7 @@
 package com.pcitc.web.trademark;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.service.trademark.TrademarkInfoService;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +75,14 @@ public class TrademarkInfoClient {
     @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_delete/{id}",method=RequestMethod.DELETE)
     public Object deleteTrademark(@PathVariable String id) {
         return trademarkInfoService.deleteTrademark(id);
+    }
+
+    @ApiOperation(value = "查询商标列表", notes = "查询商标列表")
+    @RequestMapping(value = "/trademark-provider/trademarkInfo/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+        List list=trademarkInfoService.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
     }
 
 }
