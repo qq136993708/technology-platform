@@ -1,0 +1,66 @@
+{
+	"2017": {
+		"hhkf": {
+			"name": "80010003",
+			"name1": 257000,
+			"name2": "2",
+			"name3": "B ",
+			"name4": null,
+			"name5": "3",
+			"name6": "130125199003084522 ",
+			"name7": "4"
+		},
+		"xlxw": {
+			"xlxw1": "石油大学（华东）",
+			"xlxw2": "（2003-01-01 至 2007-01-01）",
+			"xlxw3": "石油大学（华东）本科(最高学历)｜管理学学士(最高学位)｜会计学",
+			"xlxw4": "全日制"
+		},
+		"xmjl": [{
+			"name": "共享服务公司财务系统项目",
+			"name1": "测试数据",
+			"date": "（2010-01-01 至 2014-12-31）",
+			"strUpdateDate": "",
+			"strEndDate": "9999 - 12 - 31 ",
+			"updateDate": null,
+			"resumeType": "专业技术资格 ",
+			"strBeginDate": "2011 - 01 - 01 ",
+			"deptCode": "",
+			"resumeCode": "3E55 EF7B97ADB0A9E0531E98F60A7D98 "
+		}, {
+			"name": "共享服务公司财务系统项目1",
+			"name1": "测试数据1",
+			"date": "（2010-01-01 至 2014-12-31）",
+			"strUpdateDate ": "",
+			"strEndDate ": "9999 - 12 - 31 ",
+			"updateDate ": null,
+			"resumeType ": "工作经历信息 ",
+			"strBeginDate ": "2011 - 01 - 01 ",
+			"deptCode ": "",
+			"resumeCode ": "3E55 EF7B97ACB0A9E0531E98F60A7D98 "
+		}],
+		"gzjl": [{
+			"name": "共享服务公司财务系统项目1",
+			"name1": "测试数据",
+			"date": "2009.01 - 至今",
+			"strUpdateDate": "",
+			"strEndDate": "9999 - 12 - 31 ",
+			"updateDate": null,
+			"resumeType": "专业技术资格 ",
+			"strBeginDate": "2011 - 01 - 01 ",
+			"deptCode": "",
+			"resumeCode": "3E55 EF7B97ADB0A9E0531E98F60A7D98 "
+		}, {
+			"name": "共享服务公司财务系统项目2",
+			"name1": "测试数据1",
+			"date": "（2010-01-01 至 2014-12-31）",
+			"strUpdateDate ": "",
+			"strEndDate ": "9999 - 12 - 31 ",
+			"updateDate ": null,
+			"resumeType ": "工作经历信息 ",
+			"strBeginDate ": "2011 - 01 - 01 ",
+			"deptCode ": "",
+			"resumeCode ": "3E55 EF7B97ACB0A9E0531E98F60A7D98 "
+		}]
+	}
+}

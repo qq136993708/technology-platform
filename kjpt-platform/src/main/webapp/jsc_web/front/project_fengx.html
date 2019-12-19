@@ -26,7 +26,7 @@
                         </select>   
                     </form> 
                 </div>
-                <div class="query"><span>核能开发</span></div>
+                <div class="query qActive"><span>核能开发</span></div>
                 <div class="query"><span>集中研发</span></div>
                 <div class="query"><span>国防基础</span></div>
                 <div class="query"><span>国防技术基础</span></div>
@@ -36,68 +36,61 @@
             <div id="treeDemo" class="ztree"></div>
         </div>
         <div class="fx_table">
-                <table class="table-left" id="down_table" cellpadding="0" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <td class="name">名称</td>
-                                <td>2011年</td>
-                                <td>2012年</td>
-                                <td>2013年</td>
-                                <td>2014年</td>
-                                <td>2015年</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="name">技术</td>
-                                <td>23.10</td>
-                                <td>28.41</td>
-                                <td>15.39</td>
-                                <td>3.47</td>
-                                <td>1.83</td>
-                            </tr>
-                            <tr >
-                                <td>化工</td>
-                                <td>1547.80</td>
-                                <td>1446.97</td>
-                                <td>1361.02</td>
-                                <td>1312.20</td>
-                                <td>964.42</td>
-                            </tr>
-                            <tr >
-                                <td>煤炭</td>
-                                <td>264.44</td>
-                                <td>220.70</td>
-                                <td>189.82</td>
-                                <td>184.14</td>
-                                <td>133.72</td>
-                            </tr>
-                            <tr >
-                                <td>材料</td>
-                                <td>264.18</td>
-                                <td>277.24</td>
-                                <td>258.68</td>
-                                <td>210.70</td>
-                                <td>166.14</td>
-                            </tr>
-                            <tr >
-                                <td>设备</td>
-                                <td>553.68</td>
-                                <td>606.28</td>
-                                <td>499.51</td>
-                                <td>438.86</td>
-                                <td>341.29</td>
-                            </tr>
-                            <tr >
-                                <td>物资采购总额</td>
-                                <td>2653.20</td>
-                                <td>2579.60</td>
-                                <td>2324.42</td>
-                                <td>2149.37</td>
-                                <td>1607.39</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <table class="table-left" id="fxTaable" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td class="name">项目名称</td>
+                        <td>问题及主要原因</td>
+                        <td>造成的影响</td>
+                        <td>措施</td>
+                        <td>备注</td>
+                    </tr>
+                </thead>
+                <tbody id="fx_tbody">
+                    <tr>
+                        <td class="name">技术</td>
+                        <td>23.10</td>
+                        <td>28.41</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                    </tr>
+                    <tr >
+                        <td>化工</td>
+                        <td>1547.80</td>
+                        <td>1446.97</td>
+                        <td>1361.02</td>
+                        <td>1312.20</td>
+                    </tr>
+                    <tr >
+                        <td>煤炭</td>
+                        <td>264.44</td>
+                        <td>220.70</td>
+                        <td>189.82</td>
+                        <td>184.14</td>
+                    </tr>
+                    <tr >
+                        <td>材料</td>
+                        <td>264.18</td>
+                        <td>277.24</td>
+                        <td>258.68</td>
+                        <td>210.70</td>
+                    </tr>
+                    <tr >
+                        <td>设备</td>
+                        <td>553.68</td>
+                        <td>606.28</td>
+                        <td>499.51</td>
+                        <td>438.86</td>
+                    </tr>
+                    <tr >
+                        <td>物资采购总额</td>
+                        <td>2653.20</td>
+                        <td>2579.60</td>
+                        <td>2324.42</td>
+                        <td>2149.37</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <script src="../common/js/jquery-1.10.1.min.js"></script>
@@ -106,13 +99,11 @@
     <script src="../control/ztree/js/jquery.ztree.core.js"></script>
     <script src="../common/js/autofont.js"></script>
     <script src="js/project_fengx.js"></script>
+    <script src="js/project_data.js"></script>
+    
     <script >
         window.onload=window.onresize = function(){
             autofont();
-            var chartsW = $(".jcCharts").width();
-            var chartsH = $(".jcCharts").height();
-            $("#charts").css("width", chartsW).css("height", chartsH);
-            linebar.resize();
         }
     </script>
     <script>

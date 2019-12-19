@@ -14,7 +14,7 @@ var option = {
 	},
 	legend: {
 		show:true,
-		data:['蒸发量','降水量','降水量1'],
+		data:['关键控制节点数','完成数','未完成数'],
 		itemWidth: 10,  // 设置宽度
 　　    itemHeight: 10, // 设置高度
 　　    itemGap: 40, // 设置间距
@@ -34,7 +34,7 @@ var option = {
 	xAxis: [
 		{
 			type: 'category',
-			data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+			data: ['中国核电','核动力院','工程公司','原子能公司','XXXX','XXXX'],
 			axisLabel:{
 				textStyle:{
 					color:'#fff',
@@ -68,24 +68,180 @@ var option = {
 	],
 	series: [
 		{
-            name:'蒸发量',
+            name:'关键控制节点数',
 			type:'bar',
 			barWidth:20,
 			barGap: 0,
-            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+            data:[49, 71, 16, 129, 144, 176]
         },
         {
-            name:'降水量',
+            name:'完成数',
 			type:'bar',
 			barWidth:20,
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            data:[83, 78, 8, 93, 106, 84]
 		},
         {
-            name:'降水量1',
+            name:'未完成数',
 			type:'bar',
 			barWidth:20,
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            data:[48, 38, 39, 4, 47, 8]
         }
 	]
 };
 linebar.setOption(option);
+
+
+$(document).ready(function() {
+	
+	var data={
+		"year1": {
+			"hhkf": {
+				"data1": [49, 71, 106, 129, 144, 176],
+				"data2": [83, 78, 98, 93, 106, 84],
+				"data3": [48, 38, 39, 41, 47, 48],
+			},
+			"jzyf": {
+				"data1": [11, 12, 16, 129, 144, 176],
+				"data2": [83, 78, 8, 93, 106, 84],
+				"data3": [4, 38, 9, 41, 47, 4]
+			},
+			"gfjc": {
+				"data1": [11, 12, 16, 19, 144, 176],
+				"data2": [83, 78, 8, 93, 16, 8],
+				"data3": [4, 38, 9, 41, 47, 4],
+			},
+			"gfjsjc": {
+				"data1": [11, 12, 16, 12, 144, 176],
+				"data2": [3, 8, 8, 93, 106, 84],
+				"data3": [4, 38, 9, 41, 4, 4],
+			},
+			"hhkf-table": 
+				[
+					{"val1":"项目名称1","val2":"承担单位1","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称2","val2":"承担单位2","val3":"节点名称2","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称3","val2":"承担单位3","val3":"节点名称3","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称4","val2":"承担单位4","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称5","val2":"承担单位5","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称6","val2":"承担单位6","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称7","val2":"承担单位7","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"}
+				]
+		},
+		"year2": {
+			"hhkf": {
+				"data1": [49, 71, 106, 129, 144, 176],
+				"data2": [83, 78, 98, 93, 106, 84],
+				"data3": [48, 38, 39, 41, 47, 48],
+			},
+			"jzyf": {
+				"data1": [11, 12, 16, 129, 144, 176],
+				"data2": [83, 78, 8, 93, 106, 84],
+				"data3": [4, 38, 9, 41, 47, 4]
+			},
+			"gfjc": {
+				"data1": [11, 12, 16, 19, 144, 176],
+				"data2": [83, 78, 8, 93, 16, 8],
+				"data3": [4, 38, 9, 41, 47, 4],
+			},
+			"gfjsjc": {
+				"data1": [11, 12, 16, 12, 144, 176],
+				"data2": [3, 8, 8, 93, 106, 84],
+				"data3": [4, 38, 9, 41, 4, 4],
+			},
+			"hhkf-table": 
+				[
+					{"val1":"项目名称1","val2":"承担单位1","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称2","val2":"承担单位2","val3":"节点名称2","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称3","val2":"承担单位3","val3":"节点名称3","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称4","val2":"承担单位4","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称5","val2":"承担单位5","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称6","val2":"承担单位6","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称7","val2":"承担单位7","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"},
+					{"val1":"项目名称8","val2":"承担单位8","val3":"节点名称1","val4":"节点内容","val5":"2020-05-01","val6":"单位1","val7":"5","val8":"5","val9":"5"}
+				]
+			
+		},
+		"year3": {
+			"hhkf": {
+				"data1": [49, 71, 106, 129, 144, 176],
+				"data2": [83, 78, 98, 93, 106, 84],
+				"data3": [48, 38, 39, 41, 47, 48],
+			},
+			"jzyf": {
+				"data1": [11, 12, 16, 129, 144, 176],
+				"data2": [83, 78, 8, 93, 106, 84],
+				"data3": [4, 38, 9, 41, 47, 4]
+			},
+			"gfjc": {
+				"data1": [11, 12, 16, 19, 144, 176],
+				"data2": [83, 78, 8, 93, 16, 8],
+				"data3": [4, 38, 9, 41, 47, 4],
+			},
+			"gfjsjc": {
+				"data1": [11, 12, 16, 12, 144, 176],
+				"data2": [3, 8, 8, 93, 106, 84],
+				"data3": [4, 38, 9, 41, 4, 4],
+			},
+			"hhkf-table": {
+				"xlxw1": "石油大学（华东）",
+				"xlxw2": "（2003-01-01 至 2007-01-01）",
+				"xlxw3": "石油大学（华东）本科(最高学历)｜管理学学士(最高学位)｜会计学",
+				"xlxw4": "全日制"
+			}
+		},
+	}
+	loadTableDat();
+	$(".check_query .query").on("click", function(){
+		$(this).siblings().removeClass("qActive");
+		$(this).addClass("qActive");
+		$("#check_date").val()
+		if($(this).text()=="核能开发"){
+			option.series[0].data=data.year1.hhkf.data1;
+			option.series[1].data=data.year1.hhkf.data2;
+			option.series[2].data=data.year1.hhkf.data3;
+			linebar.setOption(option);
+			loadTableDat();
+		}
+		if($(this).text()=="集中研发"){
+			option.series[0].data=data.year1.jzyf.data1;
+			option.series[1].data=data.year1.jzyf.data2;
+			option.series[2].data=data.year1.jzyf.data3;
+			linebar.setOption(option);
+			loadTableDat();
+		}
+		if($(this).text()=="国防基础"){
+			option.series[0].data=data.year1.gfjc.data1;
+			option.series[1].data=data.year1.gfjc.data2;
+			option.series[2].data=data.year1.gfjc.data3;
+			linebar.setOption(option);
+			loadTableDat();
+		}
+		if($(this).text()=="国防技术基础"){
+			option.series[0].data=data.year1.gfjsjc.data1;
+			option.series[1].data=data.year1.gfjsjc.data2;
+			option.series[2].data=data.year1.gfjsjc.data3;
+			linebar.setOption(option);
+			loadTableDat();
+		}
+	});
+
+	function loadTableDat(){
+		//清空数据
+		$("#check_table").html('');
+		var html='';
+		var tableData=data.year1["hhkf-table"];
+		console.log(tableData);
+		for(var v in tableData){
+			html+='<tr><td>'+tableData[v].val1+'</td>';
+			html+='<td>'+tableData[v].val2+'</td>';
+			html+='<td>'+tableData[v].val3+'</td>';
+			html+='<td>'+tableData[v].val4+'</td>';
+			html+='<td>'+tableData[v].val5+'</td>';
+			html+='<td>'+tableData[v].val6+'</td>';
+			html+='<td>'+tableData[v].val7+'</td>';
+			html+='<td>'+tableData[v].val8+'</td>';
+			html+='<td>'+Math.round(Math.random()*1000)+'</td></<td></tr>';
+		}
+		$("#check_table").append(html);
+	}
+	
+})
