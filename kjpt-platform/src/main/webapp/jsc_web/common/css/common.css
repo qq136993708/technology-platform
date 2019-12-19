@@ -237,13 +237,25 @@ body{
     right: 0;
     top: .337rem;
     margin-left: .187rem;
-	color:  #fff;
+    color:  #fff;
+    font-size: 0;
 }
-.header_date span,.header_user span{
+.header_date span,
+.header_date img,
+.header_user span,
+.header_user img{
     font-size:.175rem;
     font-family: 'myfont1'; 
     font-weight:400;
     color:rgba(255,255,255,1);
+    display: inline-block;
+    vertical-align: middle;
+}
+.header_date img {
+    margin-right: 6px;
+}
+.header_user img {
+    margin-left: 5px;
 }
 .header_user {
     position: absolute;
