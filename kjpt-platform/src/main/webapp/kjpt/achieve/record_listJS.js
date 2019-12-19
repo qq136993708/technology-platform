@@ -178,6 +178,7 @@ layui.use(['table', 'form','laydate'], function() {
     } else {
       top.layer.msg('请选择需要上报的单据！');
     }
+      $('#flow').attr('disabled',"true")
   })
   
   
