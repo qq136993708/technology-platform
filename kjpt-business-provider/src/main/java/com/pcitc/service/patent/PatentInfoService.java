@@ -37,7 +37,7 @@ public interface PatentInfoService {
     List queryPatent(Map param);
 
     /**
-     * 专利列表分页查询
+     * 专利列表查询
      * @param param
      * @return
      */

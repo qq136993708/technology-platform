@@ -371,9 +371,9 @@
 	        		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
 	        		
 	        		//头像
-	        		if($("#userExtend").val() != null && $("#userExtend").val() != ""){
+	        		if($("#userHeadPic").val() != null && $("#userHeadPic").val() != ""){
 						 //$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
-						 setImagesUploadState({imgID:$("#userExtend").val(), id: '#imgFileUpload'});
+						 setImagesUploadState({imgID:data.userHeadPic, id: '#imgFileUpload'});
 					}
 					 
 	           	 

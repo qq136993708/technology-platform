@@ -29,7 +29,6 @@ public class ExcelImportController extends RestBaseController {
      * 根据ID获取对象信息
      */
     private static final String importPath = "http://kjpt-zuul/stp-proxy/excelImport-api/import/%s/%s/%s";
-    //private static final String importPathNoPid = "http://kjpt-zuul/stp-proxy/excelImport-api/import/%s/%s";
 
     @ApiOperation(value="Excel导入")
     @RequestMapping(value = {"/excelImport/{importType}"}, method = RequestMethod.POST)
@@ -44,6 +43,5 @@ public class ExcelImportController extends RestBaseController {
             sys.setCode("1");
             throw sys;
         }
-        //return responseEntity.getBody();
     }
 }

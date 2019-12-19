@@ -132,6 +132,12 @@
 .layui-input[disabled], .layui-textarea[disabled],.laydate-input[disabled]{
   border-color: #eee!important;
 }
+.laydate-input[disabled] {
+  background: #fff
+}
+.layui-disabled{
+  color: black !important;
+}
 .layui-textarea {
   min-height: 80px;
 }
@@ -206,6 +212,7 @@
   font-size: 14px;
 }
 .layui-input:not(:disabled):hover,
+.layui-input:not(:readonly):hover,
 .layui-input:not(:disabled):active,
 .laydate-input:not(:disabled):hover,
 .laydate-input:not(:disabled):active,
@@ -422,3 +429,8 @@
   border-color: #1890ff;
   background-color: #1890ff;
 }
+.layui-disabled:hover{
+  color: black !important;
+  box-shadow: none !important;
+}
+.layui-disabled + .layui-edge{display: none}
