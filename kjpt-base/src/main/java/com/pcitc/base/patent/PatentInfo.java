@@ -248,8 +248,6 @@ public class PatentInfo extends RecordModel implements Serializable {
     private String secretLevelText;
 
 
-    private static final long serialVersionUID = 1L;
-
     public String getId() {
         return id;
     }
@@ -753,7 +751,6 @@ public class PatentInfo extends RecordModel implements Serializable {
         sb.append(", updateDate=").append(updateDate);
         sb.append(", updator=").append(updator);
         sb.append(", deleted=").append(deleted);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }

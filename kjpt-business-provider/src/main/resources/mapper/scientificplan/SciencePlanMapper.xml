@@ -122,10 +122,10 @@
 
 
 
-        <if test="technicalFieldName != null        and technicalFieldName !=''  ">
+        <if test="technicalField != null        and technicalField !=''  ">
             AND
-            <foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`technical_field_name`)
+            <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`RESEARCH_FIELD`)
             </foreach>
 
         </if>
@@ -145,10 +145,10 @@
 
 
 
-        <if test="technicalFieldName != null        and technicalFieldName !=''  ">
+        <if test="technicalField != null        and technicalField !=''  ">
             AND
-            <foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`technical_field_name`)
+            <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`RESEARCH_FIELD`)
             </foreach>
 
         </if>

@@ -64,4 +64,9 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
     public Integer deleteTrademark(String id) {
         return trademarkInfoMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public List queryNoPage(Map param) {
+        return trademarkInfoMapper.queryTrademarkList(param);
+    }
 }
