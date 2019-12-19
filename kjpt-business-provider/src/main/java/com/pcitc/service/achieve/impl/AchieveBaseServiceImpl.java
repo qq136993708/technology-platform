@@ -66,9 +66,14 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
 	private void handlerFile(String files,String secretLevel){
 		if(files != null){
 			JSONObject fileDoc =  JSONObject.parseObject(files);
-			for(String key:fileDoc.keySet()){
-				fs.updateFileData(fileDoc.get(key) == null?"":fileDoc.get(key).toString(),key,secretLevel);
+			if(fileDoc!=null)
+			{
+				for(String key:fileDoc.keySet()){
+					fs.updateFileData(fileDoc.get(key) == null?"":fileDoc.get(key).toString(),key,secretLevel);
+				}
 			}
+			
+			
 		}
 	}
 
