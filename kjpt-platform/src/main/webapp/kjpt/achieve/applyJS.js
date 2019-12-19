@@ -6,7 +6,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     var variable = getQueryVariable(),id='',approvalDoc='',publicDoc='';
     /*判断id，回显*/
 
-    var fileCols = [
+   /* var fileCols = [
         {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
         {title: '操作', templet: function(d) {
                 var templet = '<div class="file-options">';
@@ -15,7 +15,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                 templet += '</div>';
                 return templet;
             }}
-    ]
+    ]*/
     laydate.render({
         elem: '#finishDate'
         ,trigger: 'click'
@@ -37,6 +37,9 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         }
     });
     if(variable.type=='view'){
+        gray()
+        $(".file-options-delete").remove()
+        readonlyFile=true
         if(variable.flag==1){
             $("#close").hide()
         }
@@ -59,7 +62,6 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                     approvalDoc=relData.data.approvalDoc
                     publicDoc=relData.data.publicDoc
                     if(variable.type=='view'){
-                        readonlyFile=true
                         formSelects.disabled(); // 禁用所有多选下拉框
                     }
                     console.log(relData)
@@ -86,7 +88,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     setFileUpload({
         id: 'file-filter-options1', // 附件上传作用域ID值 必传
         dataID: approvalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
-        cols: fileCols,
+        /*cols: fileCols,*/
         readonly: readonlyFile,
         secretLevel : function() {
             return $("#secretLevel").val();

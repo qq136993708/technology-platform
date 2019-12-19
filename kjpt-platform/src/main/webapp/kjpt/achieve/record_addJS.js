@@ -32,6 +32,7 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
   if (variable.type === 'view') {
     $('[lay-submit]').remove();
     itemInitApi = '/achieveRecord-api/load/' + variable.id
+    gray()
   } else if (variable.type === 'edit') {
     itemInitApi = '/achieveRecord-api/load/' + variable.id
   }

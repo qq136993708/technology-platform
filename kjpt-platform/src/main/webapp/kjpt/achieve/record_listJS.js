@@ -12,7 +12,7 @@ layui.use(['table', 'form','laydate'], function() {
         ,elem: '#tableDemo'
         ,url: '/achieveRecord-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'checkbox', field: 'id', width: 50, fixed: 'left'}
+          {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
           ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
                       if(d.auditStatus!=0){
