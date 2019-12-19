@@ -324,8 +324,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         if (res.code === '0') {
           layer.msg('数据导入成功!', {icon: 1});
           addTableData({update: true, id: tableFilterArr[activeTab].tableId})
-        } else {
-          layer.msg('数据导入失败', {icon: 2});
         }
       }
     });
