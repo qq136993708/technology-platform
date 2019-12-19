@@ -75,8 +75,8 @@ public class PlatformPatentController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述"};
-        String[] cols =    {"patentName","patentTypeText","applicationDate","remark"};
+        String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述","密级"};
+        String[] cols =    {"patentName","patentTypeText","applicationDate","remark","secretLevelText"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台

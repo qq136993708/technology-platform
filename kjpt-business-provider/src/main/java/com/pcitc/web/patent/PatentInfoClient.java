@@ -1,5 +1,7 @@
 package com.pcitc.web.patent;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.service.file.FileCommonService;
@@ -85,6 +87,14 @@ public class PatentInfoClient {
 	@RequestMapping(value = "/patent-provider/patentInfo/patentInfo_delete/{id}", method = RequestMethod.DELETE)
 	public Integer deletePatent(@PathVariable String id) {
 		return patentInfoService.deletePatent(id);
+	}
+
+	@ApiOperation(value = "查询专利列表", notes = "查询专利列表")
+	@RequestMapping(value = "/patent-provider/patentInfo/queryNoPage", method = RequestMethod.POST)
+	public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+		List list=patentInfoService.queryNoPage(param);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
 	}
 
 }
