@@ -55,7 +55,7 @@ public class PlatformController extends RestBaseController {
      */
     private static final String scienceStatistics = "http://kjpt-zuul/stp-proxy/researchPlatform-api/scienceStatistics";
 
-    private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount/";
+    private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount";
 
     private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatform-api/excelImport/";
 
@@ -125,7 +125,7 @@ public class PlatformController extends RestBaseController {
 
     ) throws Exception {
         SysUser sysUserInfo = this.getUserProfile();
-        Map<String, Object> condition = new HashMap<>(6);
+        Map<String, Object> condition = new HashMap<>();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -195,7 +195,14 @@ public class PlatformController extends RestBaseController {
     @RequestMapping(value = "/platform-api/selectPaltinfoCount/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List selectPaltinfoCount(@PathVariable String id) {
-        ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), List.class);
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        //默认查询当前人所在机构下所有的科研平台
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setParam(condition,"id",id);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 

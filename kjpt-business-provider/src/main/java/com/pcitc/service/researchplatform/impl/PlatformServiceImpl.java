@@ -64,8 +64,8 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
-    public List<Map> selectPaltinfoCount(String id) {
-        return platformServiceMapper.selectPaltinfoCount(id);
+    public List<Map> selectPaltinfoCount(Map param) {
+        return platformServiceMapper.selectPaltinfoCount(param);
     }
 
     @Override
