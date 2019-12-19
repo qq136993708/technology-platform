@@ -515,6 +515,11 @@ public class WorkflowProviderClient {
 	public Object selectProcessDefList(@RequestBody LayuiTableParam param) {
 		System.out.println("1---------------------selectProcessDefList");
 		
+		
+		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>selectProcessDefList>> 参数: "+parma.toJSONString());
+		
+		
 		int limit = 15;
 		int page = 1;
 		// 只查询已经激活的工作流定义
@@ -528,6 +533,11 @@ public class WorkflowProviderClient {
 		if (param.getParam().get("processDefineName") != null && !StrUtil.isBlankOrNull(param.getParam().get("processDefineName").toString())) {
 			query = query.processDefinitionNameLike("%" + param.getParam().get("processDefineName").toString() + "%");
 		}
+		
+		JSONObject aaaa = JSONObject.parseObject(JSONObject.toJSONString(query));
+		System.out.println(">>>>>>>>query>> 参数: "+aaaa.toJSONString());
+		
+		
 		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionId().desc().listPage(limit * (page - 1), limit);
 		
 		List<ProcessDefVo> retList = new ArrayList<ProcessDefVo>();
@@ -537,6 +547,8 @@ public class WorkflowProviderClient {
 			BeanUtils.copyProperties(entity, vo);
 			retList.add(vo);
 		}
+		
+		
 		long count = query.count();
 		LayuiTableData data = new LayuiTableData();
 		data.setData(retList);
