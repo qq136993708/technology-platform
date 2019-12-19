@@ -66,8 +66,8 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
           formSelects.value('authenticateUtil', [formData.authenticateUtil]);
         }
 
-        if (formData.technicalField) {
-          formSelects.value('technicalField', formData.technicalField.split(','));
+        if (formData.researchField) {
+          formSelects.value('researchField', formData.researchField.split(','));
         }
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
