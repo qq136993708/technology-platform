@@ -16,6 +16,8 @@ layui.config({
     createElement("ROOT_KJPT_XL","education","option","education")
     /*职称*/
     createElement("ROOT_KJPT_ZWJB","title","option","title")
+    createElement("ROOT_KJPT_ZJFZ","groupType","option","groupType")
+
     /*出生年*/
     laydate.render({
         elem: '#appDate', //指定元素
@@ -96,6 +98,7 @@ layui.config({
         httpModule({
             url: '/expert-api/get/'+variable.id,
             type: 'GET',
+            async:false,
             success: function(relData) {
                 if (relData.success === true) {
                     // 给form表单赋初始值
