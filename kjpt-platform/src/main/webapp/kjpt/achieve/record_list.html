@@ -106,7 +106,7 @@
       <button class="layui-btn border-blue openLayerPage" data-type="edit" button-role="edit">编辑</button>
       <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
       <button class="layui-btn border-red" id="delItem" button-role="delete">删除</button>
-      <button class="layui-btn border-blue" data-type="view" button-role="export">导出Excel</button>
+      <button class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出Excel</button>
       
      <button class="layui-btn layui-btn-normal" id="flow">上报</button>
       
@@ -262,6 +262,12 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
     
   });
 }
+// 导出
+$('#exportData').click(function() {
+ /* var name = $('[name="platformName"]').val();
+  name ? name = name.trim() : name = '';*/
+  window.open('/achieveRecord-api/exportExcel?', '_blank');
+})
 
 
 
