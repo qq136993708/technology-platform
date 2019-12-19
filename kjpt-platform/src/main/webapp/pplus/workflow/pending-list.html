@@ -9,7 +9,11 @@
 <link rel="stylesheet" href="/css/layui-common.css">
 <script src="/layuiadmin/layui/layui.js"></script>
 </head>
-
+<style>
+	.borderStateColor-blue.active{
+		border: 1px solid #1890ff !important;
+	}
+</style>
 <body>
 	<div class="searchBox">
 		<!--查询条件-->
@@ -278,7 +282,7 @@
 			active = {
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
-					var systemFlag = $(".btnGroupS button.layui-this").val();
+					var systemFlag = 'system';
 					if (systemFlag == 'system') {
 						renderTable();
 					} else {
