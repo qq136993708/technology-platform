@@ -35,7 +35,7 @@ public interface PlatformService {
      */
     Integer delete(String id);
 
-    List<Map> selectPaltinfoCount(String id);
+    List<Map> selectPaltinfoCount(Map param);
 
     /**
      *excel导入

@@ -71,9 +71,9 @@ public class PlatformClient {
 
 
     @ApiOperation(value = "科研平台项目条数", notes = "科研平台项目条数")
-    @RequestMapping(value = "/selectPaltinfoCount/{id}", method = RequestMethod.GET)
-    public List<Map> selectPaltinfoCount(@PathVariable String id){
-        return ps.selectPaltinfoCount(id);
+    @RequestMapping(value = "/selectPaltinfoCount", method = RequestMethod.POST)
+    public List<Map> selectPaltinfoCount(@RequestBody Map param){
+        return ps.selectPaltinfoCount(param);
     }
 
 

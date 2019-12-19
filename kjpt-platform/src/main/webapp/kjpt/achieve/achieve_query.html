@@ -187,6 +187,13 @@
         $('[lay-filter="formSubmit"]').click();
 
     })
+
+    // 导出
+    $('.openLayerPage').click(function() {
+        /* var name = $('[name="platformName"]').val();
+         name ? name = name.trim() : name = '';*/
+        window.open('/achieveRecord-api/exportExcel?', '_blank');
+    })
 </script>
 </body>
 </html>
