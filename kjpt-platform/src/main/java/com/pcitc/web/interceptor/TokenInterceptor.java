@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -39,6 +40,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 			String token = null;
 			Cookie[] cookies = request.getCookies();
 			for (Cookie c : cookies) {
