@@ -746,16 +746,31 @@ function commonItemInto(config) {
 	$itemBox = $itemScroll.find('.itemBlock:eq(0)');
 
 	$.each(config.cols, function(i, item) {
-		itemList += ('<li class="top-item middle-block"><a lay-href="'+item.url+'" lay-text="'+item.title+'">'+
-		'<div class="item-cell">'+
-			'<div class="title-cl-item">'+
-				'<span class="text-icon"><img src="/images/'+ item.iconName +'.png" alt=""></span>'+
-				'<span class="text-title">'+ item.title +'</span>'+
-			'</div>'+
-			'<div class="number-cl-item">'+
-				'<span class="number" id="'+ item.id +'" num-label="'+ item.label +'">0</span><span class="text">'+ item.unit +'</span>'+
-			'</div>'+
-		'</div></a></li>');
+		console.log(item.url)
+		if(item.url!='#'){
+            itemList += ('<li class="top-item middle-block"><a lay-href="'+item.url+'" lay-text="'+item.title+'">'+
+                '<div class="item-cell">'+
+                '<div class="title-cl-item">'+
+                '<span class="text-icon"><img src="/images/'+ item.iconName +'.png" alt=""></span>'+
+                '<span class="text-title">'+ item.title +'</span>'+
+                '</div>'+
+                '<div class="number-cl-item">'+
+                '<span class="number" id="'+ item.id +'" num-label="'+ item.label +'">0</span><span class="text">'+ item.unit +'</span>'+
+                '</div>'+
+                '</div></a></li>');
+		}else {
+            itemList += ('<li class="top-item middle-block">'+
+                '<div class="item-cell">'+
+                '<div class="title-cl-item">'+
+                '<span class="text-icon"><img src="/images/'+ item.iconName +'.png" alt=""></span>'+
+                '<span class="text-title">'+ item.title +'</span>'+
+                '</div>'+
+                '<div class="number-cl-item">'+
+                '<span class="number" id="'+ item.id +'" num-label="'+ item.label +'">0</span><span class="text">'+ item.unit +'</span>'+
+                '</div>'+
+                '</div></li>');
+		}
+
 	});
 
 	$itemBox.html(itemList);

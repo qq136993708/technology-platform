@@ -101,6 +101,19 @@
 .home-header-layout .top-item:last-child::after{
   display: none;
 }
+.oneItem .middle-content a{
+  display: inline-block;
+  position: relative;
+  height: 80px;
+}
+.home-middle-layout .middle-content a .text{
+  display: inline-block;
+  width: 18px;
+  font-size: 18px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+}
 .home-header-layout .item-cell{
   display: inline-block;
   vertical-align: middle;
@@ -214,11 +227,10 @@
 }
 .home-middle-layout .middle-content {
   height: calc(100% - 32px);
-  margin: 16px 24px;
+  margin: 16px 24px 0;
   text-align: center;
   position: relative;
 }
-
 
 .home-middle-layout .oneItem .ib-block{
   font-family: 'FlamaLight';
@@ -269,9 +281,13 @@
 }
 .home-middle-layout .threeItem .middle-content{
   white-space: normal;
+  margin-top: 34px;
+  padding-top: 10px;
+  height: calc(100% - 42px);
 }
 .home-middle-layout .work-item-box{
-  padding-top: 30px;
+  padding-bottom: 1px;
+  font-size: 0;
   width: 99.8%;
 }
 .home-middle-layout .work-list{
@@ -280,7 +296,6 @@
   margin-bottom: 10px;
   height: 32px;
   width: 49.9%;
-  float: left;
 }
 .home-middle-layout .work-list:nth-child(2n) {
   padding-left: 5px;

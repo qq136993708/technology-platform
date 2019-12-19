@@ -105,7 +105,7 @@
 			//延迟加载，加载后计算业务详情页面的高度
 			var $iFrame = $("#detailsInfo");
 			var index_close; //添加laoding,0-2两种方式
-			$($iFrame).attr("src", "${auditDetailsPath?default('')}");
+			$($iFrame).attr("src", "${auditDetailsPath?default('')}"+"&flag=1");
 			if ($iFrame[0].attachEvent) {
 				//alert("加载中");
 				index_close = layer.load(1);

@@ -164,6 +164,14 @@ layui.use(['laydate'], function() {
           radius: ['48%', '66%'],
           borderColor: '#001e38',
           title: ' 研究院占比',
+          totalTitle: true,
+          title: {
+            textStyle: {
+              color: '#fff',
+              fontSize: 30,
+              width: '100%'
+            }
+          },
           series: chartData,
           color: ['#81FF5B', '#FFF04E', '#DF5DFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
         });

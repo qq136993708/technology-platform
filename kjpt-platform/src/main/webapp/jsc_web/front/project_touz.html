@@ -15,7 +15,7 @@
     <div class="project_check">
         <div class="check_charts">
             <div class="title"><span>月度分解计划</span></div>
-            <div class="check_query">
+            <div class="check_query" id="query1">
                 <div class="query1">
                     <form class="layui-form" action="">
                         <select name="city" lay-verify="">
@@ -25,7 +25,7 @@
                         </select>   
                     </form> 
                 </div>
-                <div class="query"><span>核能开发</span></div>
+                <div class="query qActive"><span>核能开发</span></div>
                 <div class="query"><span>集中研发</span></div>
             </div>
             <div class="jcCharts">
@@ -34,8 +34,8 @@
         </div>
         <div class="check_table">
             <div class="title"><span>计划执行率</span></div>
-            <div class="check_query">
-                <div class="query"><span>核能开发</span></div>
+            <div class="check_query" id="query2">
+                <div class="query qActive"><span>核能开发</span></div>
                 <div class="query"><span>集中研发</span></div>
             </div>
             <div class="jcCharts">
@@ -48,6 +48,7 @@
     <script src="../control/layui/layui.js"></script>
     <script src="../common/js/autofont.js"></script>
     <script src="js/project_touz.js"></script>
+    <script src="js/project_data.js"></script>
     <script >
         window.onload=window.onresize = function(){
             autofont();

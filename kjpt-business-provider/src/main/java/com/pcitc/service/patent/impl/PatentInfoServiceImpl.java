@@ -73,6 +73,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         return dataList;
     }
 
+    @Override
+    public List queryNoPage(Map param) {
+        return patentInfoMapper.queryPatentList(param);
+    }
+
     public PatentInfo getPatentInfo(String id){
         return patentInfoMapper.selectByPrimaryKey(id);
     }

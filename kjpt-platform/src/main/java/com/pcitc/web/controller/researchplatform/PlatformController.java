@@ -55,7 +55,7 @@ public class PlatformController extends RestBaseController {
      */
     private static final String scienceStatistics = "http://kjpt-zuul/stp-proxy/researchPlatform-api/scienceStatistics";
 
-    private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount/";
+    private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount";
 
     private static final String importPath = "http://kjpt-zuul/stp-proxy/researchPlatform-api/excelImport/";
 
@@ -81,19 +81,40 @@ public class PlatformController extends RestBaseController {
         if (level != null) {
             this.setParam(condition, "level", level);
         }
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","密级" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","secretLevelText"};
+        export(headers,cols,"科研平台表_",condition);
+    }
+
+    @ApiOperation(value="导出科研平台信息excel")
+    @RequestMapping(value = "/platform-api/exportKyptInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public void exportKyptInfo(@RequestParam(required = false) String researchField,@RequestParam(required = false) String level) throws Exception {
+        Map<String, Object> condition = new HashMap<>(2);
+        if (researchField != null) {
+            this.setParam(condition, "researchField", researchField);
+        }
+        if (level != null) {
+            this.setParam(condition, "level", level);
+        }
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","项目数量","成果数量","密级" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","projectCount","achievementCount","secretLevelText"};
+        export(headers,cols,"科研平台信息表_",condition);
+    }
+
+    private void export(String[] headers,String[] cols,String fileName,Map condition) throws Exception {
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
-        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","密级" };
-        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","secretLevelText"};
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformInfoModel.class);
-        String fileName = "科研平台表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        fileName = fileName+ DateFormatUtils.format(new Date(), "ddhhmmss");
         this.exportExcel(headers,cols,fileName,list);
     }
+
 
 
     @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
@@ -125,7 +146,7 @@ public class PlatformController extends RestBaseController {
 
     ) throws Exception {
         SysUser sysUserInfo = this.getUserProfile();
-        Map<String, Object> condition = new HashMap<>(6);
+        Map<String, Object> condition = new HashMap<>();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -195,7 +216,14 @@ public class PlatformController extends RestBaseController {
     @RequestMapping(value = "/platform-api/selectPaltinfoCount/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List selectPaltinfoCount(@PathVariable String id) {
-        ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), List.class);
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        //默认查询当前人所在机构下所有的科研平台
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setParam(condition,"id",id);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 
