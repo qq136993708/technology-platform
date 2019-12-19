@@ -101,6 +101,19 @@
 .home-header-layout .top-item:last-child::after{
   display: none;
 }
+.oneItem .middle-content a{
+  display: inline-block;
+  position: relative;
+  height: 80px;
+}
+.home-middle-layout .middle-content a .text{
+  display: inline-block;
+  width: 18px;
+  font-size: 18px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+}
 .home-header-layout .item-cell{
   display: inline-block;
   vertical-align: middle;
