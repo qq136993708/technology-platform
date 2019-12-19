@@ -29,13 +29,7 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'transMoney', title: '拟转化金额（万）', width: 100 }
           ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100 }
           ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100 }
-          ,{field: 'aboutCompleteInfo', title: '完成情况', width: 120, templet: function(d) {
-            if (d.aboutCompleteInfo && d.aboutCompleteInfo !== '-') {
-              return d.aboutCompleteInfo === 'Y' ? '已完成': '未完成';
-            } else {
-              return '-';
-            }
-          }}
+          ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
           ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, templet: function(d) {
             return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           }}
