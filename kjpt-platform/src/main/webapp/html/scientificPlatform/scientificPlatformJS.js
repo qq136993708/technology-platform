@@ -153,8 +153,6 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function(){
         if (res.code === '0') {
           layer.msg('数据导入成功!', {icon: 1});
           $('[lay-filter="formDemo"]').click();
-        } else {
-          layer.msg('数据导入失败', {icon: 2});
         }
       }
     });

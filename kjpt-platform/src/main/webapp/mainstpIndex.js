@@ -10,10 +10,10 @@ layui.config({
     itemMinWidth: 164,
     cols: [
       { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个',url:'/kjpt/expert/expert_query.html' }
-      , {  title: '科研平台', iconName: 'icon002', id: '', label: 'kypt', unit: '家',url:'/html/scientificPlatform/scientificPlatform.html' }
+      , {  title: '科研平台', iconName: 'icon002', id: 'scientificPlatform', label: '', unit: '家',url:'/html/scientificPlatform/scientificPlatform.html' }
       , { title: '科技成果', iconName: 'icon003', id: '', label: 'kycg', unit: '个' ,url:'#'}
-      , { title: '成果转化', iconName: 'icon007', id: '', label: '', unit: '个',url:'/kjpt/expert/expert_query.html' }
-      , { title: '专利数量', iconName: 'icon010', id: '', label: 'patent', unit: '个' ,url:'/html/patent/query.html'}
+      , { title: '成果转化', iconName: 'icon007', id: 'achieveTranform', label: '', unit: '个',url:'/kjpt/expert/expert_query.html' }
+      , { title: '专利数量', iconName: 'icon010', id: 'patentNumber', label: '', unit: '个' ,url:'/html/patent/query.html'}
       , { title: '核行业标准', iconName: 'icon008', id: '', label: '', unit: '个',url:'#' }
       , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' ,url:'#'}
       , { title: '经验反馈', iconName: 'icon006', id: '', label: '', unit: '条',url:'#' }
@@ -190,24 +190,64 @@ layui.config({
   });
 
   // 获取相关个数
+  // httpModule({
+  //   url: '/indexHome-model/homeNummary',
+  //   success: function(res) {
+  //     if ( res.list.length) {
+  //       $('[num-label]').each(function(i, item) {
+  //         var numLabel = $(this).attr('num-label');
+  //         if (numLabel) {
+  //          var itemVlue = res.list.filter(function(value, i) { if (value.sumName === numLabel) return value; })[0];
+  //          if (itemVlue) {
+  //            $(this).empty().text(itemVlue.num);
+  //          }
+  //         } else {
+  //           $(this).empty().text(0)
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
+
+  // 获取科研平台数量
   httpModule({
-    url: '/indexHome-model/homeNummary',
+    url: '/platform-api/query',
+    data: {pageNum: 1, pageSize: 1, level: '' },
     success: function(res) {
-      if ( res.list.length) {
-        $('[num-label]').each(function(i, item) {
-          var numLabel = $(this).attr('num-label');
-          if (numLabel) {
-           var itemVlue = res.list.filter(function(value, i) { if (value.sumName === numLabel) return value; })[0];
-           if (itemVlue) {
-             $(this).empty().text(itemVlue.num);
-           }
-          } else {
-            $(this).empty().text(0)
-          }
-        });
+      if (res.code === '0') {
+        $('#scientificPlatform').text(res.data.total)
+      } else {
+        $('#scientificPlatform').text(0)
       }
     }
-  });
+  })
+
+  // 获取专利数量
+  httpModule({
+    url: '/patentController/query',
+    data: {pageNum: 1, pageSize: 1 },
+    success: function(res) {
+      if (res.code === '0') {
+        $('#patentNumber').text(res.data.total)
+      } else {
+        $('#patentNumber').text(0)
+      }
+    }
+  })
+
+  // 获取成果转化数量
+  httpModule({
+    url: '/achieveRecord-api/query',
+    data: {pageNum: 1, pageSize: 1},
+    success: function(res) {
+      if (res.code === '0') {
+        $('#achieveTranform').text(res.data.total)
+      } else {
+        $('#achieveTranform').text(0)
+      }
+    }
+  })
+
 
   // 专利列表
   getTabContentList({

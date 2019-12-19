@@ -96,17 +96,16 @@
 <script type="text/javascript">
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
-$('#functionId').val(functionId);
+$('#functionId').val(parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code"));
 var roleCodes = "";
 var unitCodes = "";
 var postCodes = "";
-
 function dealFlow(id) 
 {
 	 $('#id').val(id);
-	console.log("functionId="+functionId+" id="+id); 
+	console.log("functionId="+parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code")+" id="+id);
 	var nunits="";
-	 var json = {functionId:functionId,branchFlag: "0"};
+	 var json = {functionId:parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code"),branchFlag: "0"};
 	 $.ajax({
          type : 'POST',
          url : "/workflow/start/audit-type",
