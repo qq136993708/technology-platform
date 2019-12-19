@@ -53,6 +53,14 @@ layui.use(['laydate'], function() {
           radius: ['44%', '65%'],
           borderColor: '#001e38',
           title: ' 成果种类占比',
+          totalTitle: true,
+          title: {
+            textStyle: {
+              color: '#fff',
+              fontSize: 30,
+              width: '100%'
+            }
+          },
           series: chartData,
           color: ['#FFF04E', '#FF7F5D', '#2687FF']
         });
@@ -79,6 +87,14 @@ layui.use(['laydate'], function() {
           radius: ['44%', '65%'],
           borderColor: '#001e38',
           title: ' 研究院占比',
+          totalTitle: true,
+          title: {
+            textStyle: {
+              color: '#fff',
+              fontSize: 30,
+              width: '100%'
+            }
+          },
           series: chartData,
           color: ['#81FF5B', '#FFF04E', '#DF5DFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
         });
