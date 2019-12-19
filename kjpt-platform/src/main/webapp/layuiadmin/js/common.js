@@ -440,9 +440,10 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 	} else if (type === 'select') {
 		if (selector.attr('placeholder')) {
 			selector.append('<option value=""></option>');
+		} else {
+			selector.append(new Option('请选择', ('')));
 		}
 		if (__dicData.length) {
-            selector.append(new Option('请选择', ('')));
 			$.each(__dicData, function(i, item){
 				selector.append(new Option(item.name, (item.numValue || item.value)));
 			});

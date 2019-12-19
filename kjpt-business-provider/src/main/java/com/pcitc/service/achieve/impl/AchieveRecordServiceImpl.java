@@ -171,7 +171,7 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     @Override
     public Integer saveAchieveRecord(AchieveRecord as)
     {
-    	return arm.add(as);
+    	return arm.update(as);
     }
 
     @Override
