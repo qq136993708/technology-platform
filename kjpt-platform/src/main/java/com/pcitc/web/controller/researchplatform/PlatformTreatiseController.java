@@ -75,8 +75,8 @@ public class PlatformTreatiseController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "论文题目",  "级别",    "期刊名称",    "作者",    "发表时间" };
-        String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear"};
+        String[] headers = { "论文题目",  "级别",    "期刊名称",    "作者",    "发表时间","密级" };
+        String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear","secretLevelText"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台

@@ -16,7 +16,7 @@ var option1 = {
 	},
 	legend: {
 		show:true,
-		data:['蒸发量','降水量'],
+		data:['计划（万元）','支出（万元）'],
 		itemWidth: 10,  // 设置宽度
 　　    itemHeight: 10, // 设置高度
 　　    itemGap: 40, // 设置间距
@@ -28,7 +28,7 @@ var option1 = {
 	},
 	color:['#4526FF','#00AEFF','#93E9FF'],
 	grid: {
-		x:'3%',
+		x:'5%',
 		x2:'3%',
 		y:'15%',
 		y2:'20%',
@@ -36,7 +36,7 @@ var option1 = {
 	xAxis: [
 		{
 			type: 'category',
-			data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+			data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
 			axisLabel:{
 				textStyle:{
 					color:'#fff',
@@ -70,17 +70,18 @@ var option1 = {
 	],
 	series: [
 		{
-            name:'蒸发量',
+            name:'计划（万元）',
 			type:'bar',
 			barWidth:20,
 			barGap: 0,
-            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+            data: [5270, 2643, 7804, 9172, 8753, 5786, 5796, 10532, 7536, 12643, 8888, 6666]
+
         },
         {
-            name:'降水量',
+            name:'支出（万元）',
 			type:'bar',
 			barWidth:20,
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            data: [7543, 9999, 7804, 9172, 8753, 5786, 9631, 7543, 8541, 14763, 9999, 7777]
 		}
 	]
 };
@@ -114,7 +115,7 @@ var option2 = {
 	xAxis : [
 		{
 			type : 'category',
-			data : ['2011年','2012年','2013年','2014年','2015年'],
+			data : ['1月','1-2月','1-3月','1-4月','1-5月','1-6月','1-7月','1-8月','1-9月','1-10月','1-11月','1-12月'],
 			axisLabel:{
 				textStyle:{
 					color:'#fff',
@@ -150,7 +151,7 @@ var option2 = {
 		{
 			name:'2019年执行率',
 			type:'line',
-			data:[3.5,12.4,24.0,32.3,66.2],
+			data: [10, 14, 24, 40, 44, 45, 50, 57,67, 72, 81, 90],
 			symbol:'circle',
 			symbolSize:2 | 4,
 			itemStyle:{
@@ -172,7 +173,7 @@ var option2 = {
 		{
 			name:'2018年执行率',
 			type:'line',
-			data:[95.9,97.0,96.5,96.6,96.5],
+			data: [6, 10, 20, 37, 40, 42,24, 40, 44, 45, 50, 57],
 			symbol:'circle',
 			symbolSize:2 | 4,
 			itemStyle:{
@@ -196,3 +197,33 @@ var option2 = {
 charts1.setOption(option1);
 charts2.setOption(option2);
 
+$(document).ready(function(){
+	$("#query1 .query").on("click", function(){
+		$(this).siblings().removeClass("qActive");
+		$(this).addClass("qActive");
+		if($(this).text()=="核能开发"){
+			option1.series[0].data=tz_data1[0].data;
+			option1.series[1].data=tz_data1[1].data;
+			charts1.setOption(option1);
+		}
+		if($(this).text()=="集中研发"){
+			option1.series[0].data=tz_data2[0].data;
+			option1.series[1].data=tz_data2[1].data;
+			charts1.setOption(option1);
+		}
+	});
+	$("#query2 .query").on("click", function(){
+		$(this).siblings().removeClass("qActive");
+		$(this).addClass("qActive");
+		if($(this).text()=="核能开发"){
+			option2.series[0].data=tz_data5[0].data;
+			option2.series[1].data=tz_data5[1].data;
+			charts2.setOption(option2);
+		}
+		if($(this).text()=="集中研发"){
+			option2.series[0].data=tz_data6[0].data;
+			option2.series[1].data=tz_data6[1].data;
+			charts2.setOption(option2);
+		}
+	});
+});

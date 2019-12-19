@@ -244,4 +244,29 @@ layui.use(['table', 'form','laydate'], function() {
     });
   })
   
+  // 导出 /achieveRecord-api/exportExcel
+  $('#exportData').on('click', function(e) {
+    var formValue = form.val('achTransfrom'),
+    searchData = {
+      achieveName: formValue.achieveName, // 成果名称
+      finishUnitName: formValue.finishUnitName, // 完成单位、持有单位
+      auditStatus: formValue.auditStatus, // 备案状态
+      startDate: formValue.startDate, // 录入开始时间
+      endDate: formValue.endDate, // 录入结束时间
+      achieveType: formValue.achieveType, // 成果类型、是否为核心成果
+      aboutCompleteInfo: formValue.aboutCompleteInfo, // 完成情况
+      grantUnitName: '', // 成果受让单位
+      achieveTransType: '', // 转化方式
+      secretLevel: '' // 密级
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/achieveRecord-api/exportExcel?' + exportUrl.substring(1);
+    console.log(formValue);
+    // 附件下载
+    window.open(exportUrl, '_blank');
+  })
 })

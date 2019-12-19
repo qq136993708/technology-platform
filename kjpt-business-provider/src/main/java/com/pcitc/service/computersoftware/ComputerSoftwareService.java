@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,5 +30,6 @@ public interface ComputerSoftwareService {
      */
     Integer delete(String id);
 
+    List queryNoPage(Map paramMap);
 
 }
