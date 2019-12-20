@@ -53,8 +53,10 @@ layui.use(['laydate'], function() {
         type: 'bar',
         barGap: '50%',
         barWidth: 28,
+        legendPosition: 'top',
         itemName: 'labelName',
-        grid: { top: 50 },
+        legend: { top: 18 },
+        grid: {top: 20},
         series: [
           { name: '2019', valueKey: 'value2019'},
           { name: '2018', valueKey: 'value2018'},
@@ -89,6 +91,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartTwo',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 项目计划投资',
           series: chartData,
           color: ['#FFDF29', '#2370A3', '#009186', '#9EBE4A']
@@ -119,6 +122,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartThree',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 项目投资计划',
           series: chartData,
           color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -140,6 +144,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartFour',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 实际完成投资',
           series: chartData,
           color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -170,6 +175,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartFive',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 实际完成投资',
           series: chartData,
           color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -212,7 +218,9 @@ layui.use(['laydate'], function() {
           barWidth: 28,
           itemName: 'name',
           barGap: '50%',
-          grid: { top: 50 },
+          legendPosition: 'top',
+          legend: { top: 18 },
+          grid: {top: 20},
           series: [
             { name: '计划', valueKey: 'plannedvalue'},
             { name: '实际', valueKey: 'actualValue'},

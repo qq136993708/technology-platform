@@ -8,16 +8,24 @@ var kyptCharts = {
       return null;
     } else {
       _this.chart[config.id] = {
-        config: {}
+        config: {}, chart: null
       };
       for (var key in config) {
         _this.chart[config.id].config[key] = config[key];
       }
     };
 
-    var elem = document.getElementById(config.id),
-    chartDemo = echarts.init(elem),
-    chartOption = _this.getChartOption(config);
+    var $chartParent = $('#' + config.id),
+    chartOption = _this.getChartOption(config),
+    elem = $('<div style="height: 100%;" class="dy-chart-layout"></div>').get(0);
+    $chartParent.css({position: 'relative'}).append($(elem));
+    if (config.legendPosition) {
+      _this.setChartLegend(config, chartOption.legend);
+      chartOption.legend.show = false;
+    }
+
+    var chartDemo = echarts.init(elem);
+    _this.chart[config.id].chart = chartDemo;
 
     // 渲染图表
     chartDemo.setOption(chartOption);
@@ -37,8 +45,6 @@ var kyptCharts = {
     if (config.callback) {
       config.callback(chartDemo);
     }
-
-    _this.chart[config.id].chart = chartDemo;
   },
   reload: function(id, config) {
     if (!id) {
@@ -51,8 +57,15 @@ var kyptCharts = {
       } else if (typeof(config) === 'object') {
         for (var key in config) {
           _this.chart[id].config[key] = config[key];
-          _this.chart[id].chart.setOption(_this.getChartOption(_this.chart[id].config));
         }
+
+        var chartOption = _this.getChartOption(_this.chart[id].config);
+        if (_this.chart[id].config.legendPosition) {
+          _this.setChartLegend(_this.chart[id].config, chartOption.legend);
+          chartOption.legend.show = false;
+        }
+        _this.chart[id].chart.setOption(chartOption);
+        _this.chart[id].chart.resize();
       }
     }
   },
@@ -85,12 +98,20 @@ var kyptCharts = {
         if (typeof(colorValue) === 'object') {
           itemStyle = {
             color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+            // x: 1, y: 0, x2: 0, y2: 1,
               colorStops: [{
                   offset: 0, color: colorValue[0] // 0% 处的颜色
               }, {
                   offset: 1, color: colorValue[1] // 100% 处的颜色
               }],
               global: false // 缺省为 false
+            }
+          }
+          // 横向柱子渐变色渲染
+          if (config.valueIndex && config.valueIndex === 'x') {
+            var targetValue = {x: 1, y: 0, x2: 0, y2: 1};
+            for (var key in targetValue) {
+              itemStyle.color[key] = targetValue[key];
             }
           }
         }
@@ -248,6 +269,101 @@ var kyptCharts = {
     }
     return option;
   },
+  setChartLegend: function(config, pieLegend) {
+    // 饼图图例是否显示
+    if (config.series && config.series.length) {
+      var _this = this,
+      itemHtml = '',
+      $parent = $('#'+config.id),
+      legendColor = config.color || [],
+      formatter = (function() {
+        if (pieLegend.formatter) {
+          return pieLegend.formatter.split('|');
+        } else {
+          return ['name'];
+        }
+      })(),
+      $legend = (function() {
+        if ($parent.find('.pie-legend-list').length) {
+          $parent.find('.pie-legend-list').remove();
+        }
+        var legendClass = config.legendPosition + ' ' + (pieLegend.orient || 'horizontal');
+
+        return $('<div class="pie-legend-list"></div>').addClass(legendClass);
+      })(),
+      $center = (function() {
+        if (pieLegend.top === 'center' || pieLegend.bottom === 'center') {
+          $legend.addClass('middle-block');
+          return $('<div class="ib-block"></div>');
+        } else {
+          return null;
+        }
+      })();
+
+      if (typeof(legendColor) === 'string') {
+        legendColor = [legendColor];
+      }
+      $.each(config.series, function(i, item) {
+        var $item = $('<label class="legend-item" title="'+item.name+'"></label>'),
+        itemColor = legendColor[i] || legendColor[0];
+        if (typeof(itemColor) === 'object') {
+          itemColor = itemColor[1];
+        } else if (!itemColor) {
+          itemColor = '#0AA1FF';
+        }
+        itemHtml = '<span class="lenend-item-icon '+ (item.type || config.type) +'" style="background-color:'+itemColor+'"></span>';
+        itemHtml += '<span class="lenend-item-name">'+ item.name +'</span>';
+        if (formatter.indexOf('value') >= 0) {
+          itemHtml += '<span class="lenend-item-value">'+ item.value +'</span>';
+        }
+        $item.append(itemHtml);
+        if ($center) {
+          $center.append($item);
+        } else {
+          $legend.append($item);
+        }
+  
+        // 添加图例事件
+        $item.off('click').on({
+          'click': function(e) {
+            var optionChart = _this.chart[config.id].chart.getOption(),
+            legendSelected = optionChart.legend.selected || {};
+            if ($(this).hasClass('selected')) {
+              $(this).removeClass('selected');
+              legendSelected[item.name] = true;
+            } else {
+              $(this).addClass('selected');
+              legendSelected[item.name] = false;
+            }
+            _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+          }
+        })
+      });
+
+      if ($center) {
+        $legend.append($center);
+      }
+      $parent.append($legend);
+      $legend.css({
+        'padding-top': pieLegend.top || 'auto',
+        'padding-right': pieLegend.right || 'auto',
+        'padding-bottom': pieLegend.bottom || 'auto',
+        'padding-left': pieLegend.left || 'auto',
+        color: pieLegend.textStyle.color || '#333'
+      })
+
+      var className = 'padding-' + config.legendPosition, classValue = {};
+      if (config.legendPosition === 'left' || config.legendPosition === 'right') {
+        classValue[className] = $legend.outerWidth();
+      } else {
+        classValue[className] = $legend.outerHeight();
+      }
+      $parent.css(classValue);
+      return true;
+    } else {
+      return false;
+    }
+  },
   getPieChartOption: function(config) {
     var _this = this,
     label = (function() {
@@ -266,7 +382,7 @@ var kyptCharts = {
         var titleItem = {
           text: '',
           top: 'center',
-          left: '60%',
+          left: '50%',
           textAlign: 'center',
           textStyle: {
             color: '#fff',
@@ -320,7 +436,7 @@ var kyptCharts = {
           // name: config.title || 'pieTile',
           type:'pie',
           radius: config.radius || ['50%', '70%'],
-          center: config.center || ['60%', '50%'],
+          center: config.center || ['50%', '50%'],
           avoidLabelOverlap: false,
           labelLine: {
             show: label,
@@ -359,7 +475,7 @@ var kyptCharts = {
       if (config.center) {
         option.title.left = config.center[0];
       } else {
-        option.title.left = '60%';
+        option.title.left = '50%';
       }
     }
     return option;
