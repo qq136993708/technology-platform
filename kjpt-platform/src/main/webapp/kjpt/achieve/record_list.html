@@ -246,6 +246,7 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	                      function () 
 	                      {
 	                    	  queryTable('');
+                              $('#flow').removeAttr("disabled");
                               top.layer.closeAll(); // 关闭弹窗
 	                      });
 	        	  

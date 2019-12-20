@@ -190,6 +190,7 @@ function handleTask(userIds)
     var url="/achieve-api/start_workflow?v_date="+v_date;
     var backurl="/achieve/achieve_list?v_date="+v_date;
     ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+
 }
 
 
@@ -223,6 +224,7 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	                      function () 
 	                      {
                               queryTable('');
+                              $('#flow').removeAttr("disabled");
                               top.layer.closeAll(); // 关闭弹窗
 	                      });
 	        	  

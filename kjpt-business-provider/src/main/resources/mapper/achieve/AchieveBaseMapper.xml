@@ -21,7 +21,7 @@
         <result column="public_doc" jdbcType="VARCHAR" property="publicDoc"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
-        <result column="is_public" jdbcType="VARCHAR" property="deleted"/>
+        <result column="is_public" jdbcType="VARCHAR" property="isPublic"/>
         <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
