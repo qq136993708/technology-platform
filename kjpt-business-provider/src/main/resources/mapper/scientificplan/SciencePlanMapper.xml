@@ -119,17 +119,20 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
+        <!--<if test="technicalFieldName != null  and technicalFieldName !=''  ">-->
+            <!--AND-->
+            <!--<foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">-->
+                <!--FIND_IN_SET(#{item},`technical_field_name`)-->
+            <!--</foreach>-->
+        <!--</if>-->
 
 
-
-        <if test="technicalField != null        and technicalField !=''  ">
-            AND
-            <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`RESEARCH_FIELD`)
-            </foreach>
-
-        </if>
-
+        <if test="researchField != null  and researchField !=''  ">
+        AND
+        <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
+            FIND_IN_SET(#{item},`RESEARCH_FIELD`)
+        </foreach>
+    </if>
 
 
     </select>
@@ -143,17 +146,19 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
+        <!--<if test="technicalFieldName != null   and technicalFieldName !=''  ">-->
+            <!--AND-->
+            <!--<foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">-->
+                <!--FIND_IN_SET(#{item},`technical_field_name`)-->
+            <!--</foreach>-->
+        <!--</if>-->
 
-
-        <if test="technicalField != null        and technicalField !=''  ">
+        <if test="researchField != null  and researchField !=''  ">
             AND
-            <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+            <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
                 FIND_IN_SET(#{item},`RESEARCH_FIELD`)
             </foreach>
-
         </if>
-
-
 
     </select>
 
@@ -293,7 +298,6 @@
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel}
             </if>
-
         </trim>
         where id = #{id}
     </update>

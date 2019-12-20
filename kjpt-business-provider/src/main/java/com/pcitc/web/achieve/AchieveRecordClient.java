@@ -114,6 +114,7 @@ public class AchieveRecordClient {
 	@RequestMapping(value = "/task/agree/{id}", method = RequestMethod.POST)
 	public Integer taskAgreeSreProjectTaskInner(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
+		System.out.println(">>>>>taskAgreeSreProjectTaskInner>>id="+id);
 		AchieveRecord ar=ars.load(id);
 		ar.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
 		int count=ars.saveAchieveRecord(ar) ;

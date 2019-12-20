@@ -128,6 +128,7 @@ layui.use(['table', 'form','laydate'], function() {
           top.layer.msg('当前申请状态不能上报！');
           return false;
       }
+      $('#flow').attr('disabled',"true")
   })
   
   // 新增、编辑、查看

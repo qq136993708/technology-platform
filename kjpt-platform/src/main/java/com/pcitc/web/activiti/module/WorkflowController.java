@@ -302,6 +302,10 @@ public class WorkflowController extends BaseController {
 	@ResponseBody
 	public Object getWorkflowDefineListForTable(@ModelAttribute("param") LayuiTableParam param) {
 		System.out.println("====--------/workflow/function-config/workflow-define-list");
+		
+		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
+		
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROCESS_DEF_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();

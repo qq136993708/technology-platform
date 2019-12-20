@@ -54,11 +54,13 @@
                     </div>
                 </div>
                 <div class="header_date">
+                    <img src="img/time.png" style="width: 14px;height: 14px;" alt="">
                     <span>截止到：</span>
                     <span id="formatDate">2019年5月23日  10:20:36 </span>
                 </div>
                 <div class="header_user">
                     <span>中核集团用户</span>
+                    <img src="img/exit.png" style="width: 14px;height: 14px;" alt="">
                 </div>
             </div>
             <div class="header-bottom-bg"></div>
@@ -96,7 +98,7 @@
 		        $(".loading-container").addClass("loading-inactive");
 		    }, 0);
 
-            $('#mainframe').attr('src', '/jsc_web/front/main.html');
+            $('#mainframe').attr('src', 'front/main.html');
 
             var $twoNavItem = $('#twoNavItem'),
             $topHeaderNav = $('#top-header-nav');
@@ -136,7 +138,7 @@
                 $('#wrapper').css({ 'padding-top': headerHeight });
 
                 // 添加链接显示页面
-                pageHref = '/jsc_web/front/'+ pageName +'.html';
+                pageHref = 'front/'+ pageName +'.html';
                 setTimeout(function() {
                     $('#mainframe').attr('src', pageHref);
                 }, 60);
@@ -154,7 +156,7 @@
                     $(this).addClass("projectActive");
 
                     // 添加链接显示页面
-                    pageHref = '/jsc_web/front/'+ pageName +'.html';
+                    pageHref = 'front/'+ pageName +'.html';
                     $('#mainframe').attr('src', pageHref);
                 }
             });

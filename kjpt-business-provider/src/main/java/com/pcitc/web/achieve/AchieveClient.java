@@ -93,8 +93,11 @@ public class AchieveClient {
 	public Integer taskAgreeSreProjectTaskInner(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		AchieveBase achieveBase=abs.load(id);
+		System.out.println(achieveBase.getAchieveName()+"-------taskAgreeSreProjectTaskInner----"+achieveBase.getDeleted());
+		
 		achieveBase.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
 		int count=abs.save(achieveBase) ;
+		
 		return count;
 	}
 	

@@ -41,6 +41,7 @@ function selectFileUpload(config) {
 }
 
 function setFileUpload(config) {
+  console.log(config)
   var configOption = {
     id: '', // 作用域ID;
     dataID: '', // 单据ID;
@@ -246,6 +247,9 @@ function importFiles(config){
               if (res.code === '1') {
                 res.success = false;
                 var errorTips = '';
+                if (res.message) {
+                  errorTips = '<p class="font14">' + res.message + '</p>';
+                }
                 $.each(JSON.parse(res.data), function(i, item) {
                   errorTips += '<p class="font14">' + item.msg + '</p>';
                 })
@@ -258,6 +262,14 @@ function importFiles(config){
                     top.layer.close(index);
                   });
                 }
+              } else if (res.code === '-1') {
+                top.layer.alert(res.message, {
+                  icon: 2,
+                  title: '附件导入失败',
+                  area: ['420px', '240px']
+                }, function(index) {
+                  top.layer.close(index);
+                });
               }
               if (config.callback) {
                 config.callback(res, 'import');
