@@ -119,21 +119,20 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
-        <if test="technicalFieldName != null  and technicalFieldName !=''  ">
-            AND
-            <foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`technical_field_name`)
-            </foreach>
-        </if>
+        <!--<if test="technicalFieldName != null  and technicalFieldName !=''  ">-->
+            <!--AND-->
+            <!--<foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">-->
+                <!--FIND_IN_SET(#{item},`technical_field_name`)-->
+            <!--</foreach>-->
+        <!--</if>-->
 
 
-        <!--<if test="researchField != null  and researchField !=''  ">-->
-        <!--AND-->
-        <!--<foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">-->
-            <!--FIND_IN_SET(#{item},`RESEARCH_FIELD`)-->
-        <!--</foreach>-->
-    <!--</if>-->
-
+        <if test="researchField != null  and researchField !=''  ">
+        AND
+        <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
+            FIND_IN_SET(#{item},`RESEARCH_FIELD`)
+        </foreach>
+    </if>
 
 
     </select>
@@ -147,19 +146,19 @@
             AND secret_level &lt;= #{userSecretLevel}
         </if>
 
-        <if test="technicalFieldName != null   and technicalFieldName !=''  ">
-            AND
-            <foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`technical_field_name`)
-            </foreach>
-        </if>
-
-        <!--<if test="researchField != null  and researchField !=''  ">-->
+        <!--<if test="technicalFieldName != null   and technicalFieldName !=''  ">-->
             <!--AND-->
-            <!--<foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">-->
-                <!--FIND_IN_SET(#{item},`RESEARCH_FIELD`)-->
+            <!--<foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">-->
+                <!--FIND_IN_SET(#{item},`technical_field_name`)-->
             <!--</foreach>-->
         <!--</if>-->
+
+        <if test="researchField != null  and researchField !=''  ">
+            AND
+            <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},`RESEARCH_FIELD`)
+            </foreach>
+        </if>
 
     </select>
 
