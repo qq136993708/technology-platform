@@ -974,10 +974,16 @@ function backfill(data, id, type) {
 					$("#"+id+" thead tr th:eq(5)").hide();
             dataArr.map(function (item, index) {
                 var itemArr=item.split("#")
+				var sex='男'
+				if(itemArr[1]!=="null"){
+                	if(itemArr[1]!=1){
+                        sex=='女'
+					}
+				}
                 var trHtml='<tr>' +
                     '<td>'+(index+1)+'</td>' +
                     '<td><input type="text" disabled="disabled" value="'+(itemArr[0]=='null' ? '': itemArr[0])+'" placeholder="请填写姓名" autocomplete="off" class="layui-input"></td>' +
-                    '<td><input type="text" disabled="disabled" value="'+(itemArr[1]=='null' ? '': itemArr[1])+'" autocomplete="off" class="layui-input"></td>' +
+                    '<td><input type="text" disabled="disabled" value="'+(itemArr[1]=='null' ? '': sex)+'" autocomplete="off" class="layui-input"></td>' +
                     '<td><input type="text" disabled="disabled" placeholder="请填写..." value="'+(itemArr[2]=='null' ? '': itemArr[2])+'" autocomplete="off" class="layui-input"></td>' +
                     '<td><input type="text" disabled="disabled" placeholder="请填写..."   value="'+(itemArr[3]=='null' ? '': itemArr[3])+'" autocomplete="off" class="layui-input"></td>' +
                     '</tr>';
