@@ -18,9 +18,12 @@ public interface AchieveRecordService {
     void simpleSave(AchieveSubmit as);
     Integer delete(String ids);
     PageInfo query(Map param);
-    
+    PageInfo queryAchieveSubsidiarity(Map param);
     Integer saveAchieveRecord(AchieveRecord as);
     public Result dealWorkFlow(String id, Map map) throws Exception;
+
+
+    List<Map> queryAchieveSubsidiarityExport(Map param);
 
     /**
      * 查询成果列表

@@ -681,3 +681,99 @@ table tr td a {
 .xm-select-parent .xm-select-sj{
 border-width: 5px;
 }
+
+
+/* 饼图图例样式 */
+.pie-legend-list {
+  position: absolute;
+  z-index: 9;
+}
+.pie-legend-list.horizontal,
+.pie-legend-list.left{
+  left: 0;
+}
+.pie-legend-list.bottom{
+  bottom: 0;
+}
+.pie-legend-list.right{
+  right: 0;
+}
+.pie-legend-list.vertical,
+.pie-legend-list.top{
+  top: 0;
+}
+.pie-legend-list .legend-item {
+  display: inline-block;
+  vertical-align: top;
+  padding-bottom: .6rem;
+  position: relative;
+  overflow: hidden;
+  font-size: 0;
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+  transition: all .18s ease-out;
+}
+.pie-legend-list .legend-item:hover {
+  opacity: .75;
+}
+
+.pie-legend-list .legend-item input {
+  position: absolute;
+  right: 110%;
+  bottom: 110%;
+}
+.pie-legend-list .legend-item > span {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: .4rem;
+  font-size: 14px;
+  line-height: 16px;
+}
+.pie-legend-list .legend-item > span:last-child{
+  margin-right: 0;
+}
+.pie-legend-list.vertical{
+  height: 100%;
+}
+.pie-legend-list.vertical .legend-item{
+  display: block;
+}
+.pie-legend-list.horizontal{
+  width: 100%;
+}
+.pie-legend-list.horizontal .legend-item{
+  margin-right: 1rem;
+}
+.pie-legend-list .lenend-item-icon{
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+.pie-legend-list .legend-item.selected,
+.pie-legend-list .legend-item.selected:hover{
+  opacity: .6 !important;
+}
+.pie-legend-list .legend-item.selected > .lenend-item-icon{
+  background: #ccc !important;
+}
+.pie-legend-list .legend-item.selected > span{
+  color: #ccc !important;
+}
+.pie-legend-list .legend-item > .lenend-item-name{
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 1366px) {
+  .pie-legend-list .legend-item > span {
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .pie-legend-list .lenend-item-icon {
+    width: 12px;
+    height: 12px;
+  }
+}

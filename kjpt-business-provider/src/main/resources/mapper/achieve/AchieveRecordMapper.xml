@@ -106,6 +106,43 @@
         select  * from view_achieve_record where id = #{id} and del_status != '1'
     </select>
 
+
+    <select id="queryAchieveSubsidiarity" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from view_achieve_subsidiarity where 1=1
+
+        <if test="achieveName != null and achieveName != '' " >
+            and achieveName like CONCAT('%',#{achieveName},'%')
+        </if>
+        <if test="achieveType != null and achieveType != '' " >
+            and achieveType = #{achieveType}
+        </if>
+        <if test="finishUnitName != null and finishUnitName != '' " >
+            and finishUnitName like CONCAT('%',#{finishUnitName},'%')
+        </if>
+        <if test="aboutCompleteInfo != null and aboutCompleteInfo != '' " >
+            and aboutCompleteInfo = #{aboutCompleteInfo}
+        </if>
+        <if test="auditStatus != null and auditStatus != '' " >
+            and auditStatus = #{auditStatus}
+        </if>
+
+        <if test="startDate != null and startDate != '' " >
+            and createTime <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="endDate != null and endDate != '' " >
+            and createTime <![CDATA[<=]]> #{endDate}
+        </if>
+
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND createUnitId in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        and secretLevel <![CDATA[<=]]> #{userSecretLevel}
+
+    </select>
+
     <select id="query" parameterType="java.util.Map" resultMap="AchieveRecordMap">
         select  * from view_achieve_record where 1=1
             and del_status != '1'

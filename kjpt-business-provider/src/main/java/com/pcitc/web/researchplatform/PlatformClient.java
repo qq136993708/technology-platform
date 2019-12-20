@@ -89,4 +89,13 @@ public class PlatformClient {
         return ps.scienceStatistics(param);
     }
 
+
+    @ApiOperation(value = "科技材料统计表不分页", notes = "科技材料统计表不分页")
+    @RequestMapping(value = "/scienceStatisticsNoPage", method = RequestMethod.POST)
+    public JSONArray scienceStatisticsNoPage(@RequestBody(required = false) Map param){
+        List list=ps.scienceStatisticsNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+
 }

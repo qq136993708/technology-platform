@@ -53,5 +53,5 @@ public interface PlatformService {
      */
     PageInfo scienceStatistics(Map param);
 
-
+    List<Map> scienceStatisticsNoPage(Map param);
 }

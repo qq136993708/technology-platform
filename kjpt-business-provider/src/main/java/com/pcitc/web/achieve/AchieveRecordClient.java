@@ -54,6 +54,12 @@ public class AchieveRecordClient {
         return ars.query(param);
     }
 
+    @ApiOperation(value = "辅助决策成果转化明细", notes = "辅助决策成果转化明细")
+    @RequestMapping(value = "/queryAchieveSubsidiarity", method = RequestMethod.POST)
+    public PageInfo queryAchieveSubsidiarity(@RequestBody(required = false) Map param){
+        return ars.queryAchieveSubsidiarity(param);
+    }
+
 
 
     @ApiOperation(value = "成果转换备案删除", notes = "成果转换备案删除")
@@ -70,11 +76,18 @@ public class AchieveRecordClient {
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
         return json;
     }
-    
-    
-    
-    
-    
+
+
+
+    @ApiOperation(value = "导出成果转化明细表", notes = "导出成果转化明细表")
+    @RequestMapping(value = "/queryAchieveSubsidiarityExport", method = RequestMethod.POST)
+    public JSONArray queryAchieveSubsidiarityExport(@RequestBody(required = false) Map param){
+        List list=ars.queryAchieveSubsidiarityExport(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+
+
     
     
 

@@ -158,10 +158,11 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_five',
           type: 'pie',
-          legend: { top: 'center' },
+          legendPosition: 'left',
+          legend: { top: 'center', formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['48%', '66%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: ' 研究院占比',
           totalTitle: true,

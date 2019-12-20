@@ -47,7 +47,8 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_two',
           type: 'pie',
-          legend: { top: 'center', formatter: '{name}{value}'},
+          legendPosition: 'left',
+          legend: { top: 'center', formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
           radius: ['44%', '65%'],
@@ -81,7 +82,8 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_three',
           type: 'pie',
-          legend: { top: 'center' },
+          legendPosition: 'left',
+          legend: { top: 'center', formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
           radius: ['44%', '65%'],
