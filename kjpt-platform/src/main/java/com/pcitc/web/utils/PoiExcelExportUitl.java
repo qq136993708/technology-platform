@@ -117,7 +117,12 @@ public class PoiExcelExportUitl<T> {
             {
                 // 获取数据
                 BeanToMap<T> btm = new BeanToMap<T>();
-                Map<String,Object> hm = btm.getMap(list.get(curRow));
+                Map<String,Object> hm = null;
+                if(list.get(curRow) instanceof  java.util.Map){
+                    hm = (Map<String, Object>) list.get(curRow);
+                }else{
+                    hm = btm.getMap(list.get(curRow));
+                }
                 // 创建excel行 表头1行 导致数据行数 延后一行
                 HSSFRow hssfrow = hssfsheet.createRow(curRow % 65535 + 1);
                 // 读取数据值

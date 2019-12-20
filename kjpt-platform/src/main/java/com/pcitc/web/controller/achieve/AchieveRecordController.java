@@ -78,7 +78,17 @@ public class AchieveRecordController extends RestBaseController {
      * 流程
      */
     private static final String WORKFLOW_URL = "http://kjpt-zuul/stp-proxy/achieveRecord-api/task/start_activity/";
-    
+
+
+    /**
+     * 辅助决策成果转化明细
+     */
+    private static final String queryAchieveSubsidiarity = "http://kjpt-zuul/stp-proxy/achieveRecord-api/queryAchieveSubsidiarity";
+    /**
+     * 辅助决策成果转化明细
+     */
+    private static final String queryAchieveSubsidiarityExport = "http://kjpt-zuul/stp-proxy/achieveRecord-api/queryAchieveSubsidiarityExport";
+
     
 
 
@@ -290,6 +300,156 @@ public class AchieveRecordController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
+    }
+
+
+
+
+    @ApiOperation(value = "辅助决策成果转化明细", notes = "辅助决策成果转化明细")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "备案状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveType", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveType", value = "是否核心成果", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/achieveRecord-api/queryAchieveSubsidiarity", method = RequestMethod.GET)
+    @ResponseBody
+    public PageInfo queryAchieveSubsidiarity(
+            @RequestParam(required = false,value = "pageNum") Integer pageNum,
+            @RequestParam(required = false,value = "pageSize") Integer pageSize,
+            @RequestParam(required = false,value = "achieveName") String achieveName,
+            @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
+            @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
+            @RequestParam(required = false,value = "achieveType") String achieveType,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
+
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        if (pageNum == null) {
+            this.setParam(condition, "pageNum", 1);
+        }else {
+            this.setParam(condition, "pageNum", pageNum);
+        }
+        if (pageSize == null) {
+            this.setParam(condition, "pageSize", 10);
+        }else {
+            this.setParam(condition, "pageSize", pageSize);
+        }
+        if (!StringUtils.isEmpty(achieveName)) {
+            this.setParam(condition, "achieveName", achieveName);
+        }
+        if (!StringUtils.isEmpty(finishUnitName)) {
+            this.setParam(condition, "finishUnitName", finishUnitName);
+        }
+        if (!StringUtils.isEmpty(achieveType)) {
+            this.setParam(condition, "achieveType", achieveType);
+        }
+        if (!StringUtils.isEmpty(auditStatus)) {
+            this.setParam(condition, "auditStatus", auditStatus);
+        }
+        if (!StringUtils.isEmpty(aboutCompleteInfo)) {
+            this.setParam(condition, "aboutCompleteInfo", aboutCompleteInfo);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        }
+
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+
+        //默认查询当前人所在机构下所有的成果备案
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(queryAchieveSubsidiarity, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "辅助决策成果转化明细导出", notes = "辅助决策成果转化明细导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "achieveName", value = "成果名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "finishUnitName", value = "完成单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "auditStatus", value = "备案状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveType", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveType", value = "是否核心成果", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/achieveRecord-api/queryAchieveSubsidiarityExport", method = RequestMethod.GET)
+    @ResponseBody
+    public void queryAchieveSubsidiarityExport(
+            @RequestParam(required = false,value = "achieveName") String achieveName,
+            @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
+            @RequestParam(required = false,value = "auditStatus") String auditStatus,
+            @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
+            @RequestParam(required = false,value = "achieveType") String achieveType,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel
+
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        if (!StringUtils.isEmpty(achieveName)) {
+            this.setParam(condition, "achieveName", achieveName);
+        }
+        if (!StringUtils.isEmpty(finishUnitName)) {
+            this.setParam(condition, "finishUnitName", finishUnitName);
+        }
+        if (!StringUtils.isEmpty(achieveType)) {
+            this.setParam(condition, "achieveType", achieveType);
+        }
+        if (!StringUtils.isEmpty(auditStatus)) {
+            this.setParam(condition, "auditStatus", auditStatus);
+        }
+        if (!StringUtils.isEmpty(aboutCompleteInfo)) {
+            this.setParam(condition, "aboutCompleteInfo", aboutCompleteInfo);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        }
+
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+
+        //默认查询当前人所在机构下所有的成果备案
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
+
+        String[] headers = { "成果描述",     "项目来源",   "经费支持渠道"  ,"完成团队"  , "完成单位"  , "知识产权情况"  , "是否为核心成果"  , "知识产权状况报告或科技成果评价"  , "成果转换状态"        , "单位基本信息", "选择单位的方式", "对受让单位的尽职调查情况", "选择单位的理由", "尽职调查报告", "成果转换方式",       "定价方式",      "定价原则及依据", "合同（协议）情况", "公示情况",      "公示及结果说明材料", "合同（协议）文本", "资产评价报告及评估备案表", "单位内部决策流程", "决策事项及结果", "内部决策会议纪要", "转化收入", "成本核算及核算依据", "项目全周期净收入计算", "项目全周期激励方案及制定方案", "激励额度", "工资总额预算来源", "激励人员名单", "激励总额", "激励分配方案"};
+        String[] cols =    {"achieveName","projectSource","projectChannel","teamInfo","finishUnitName","intellectualInfo","achieveType"     ,"appraisalDoc"                     ,"achieveTransStatusText","grantUnitName","grantChooseWay","grantInvest",               "grantChooseWay", "grantInvest",  "achieveTransTypeText","transPriceWay","transPriceBasis","transContractDoc", "transPublicDoc" , "transPublicDoc"  ,"transContractDoc" ,"transAssessDoc"           ,"decisionFlow"     ,"decisionResult" ,"decisionMeetingDoc", "transIncome","checkBasis",      "incomeCalculation" , "rewardRecord" ,                  "rewardQuota" ,"budgetSources" ,"budgetPerson", "budgetAllMoney","assignPlan" };
+
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryAchieveSubsidiarityExport, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), Map.class);
+        String fileName = "成果转化明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
     }
 
     private void setRecord(AchieveSubmit as){

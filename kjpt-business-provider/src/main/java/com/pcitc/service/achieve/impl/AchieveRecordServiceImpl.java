@@ -167,7 +167,17 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
-    
+
+    @Override
+    public PageInfo queryAchieveSubsidiarity(Map param) {
+        int pageNum = (int)param.get("pageNum");
+        int pageSize = (int)param.get("pageSize");
+        PageHelper.startPage(pageNum, pageSize);
+        List dataList = arm.queryAchieveSubsidiarity(param);
+        PageInfo pageInfo = new PageInfo(dataList);
+        return pageInfo;
+    }
+
     @Override
     public Integer saveAchieveRecord(AchieveRecord as)
     {
@@ -253,6 +263,11 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
 				return new Result(false,"操作失败!");
 			}
 		}
+
+    @Override
+    public List<Map> queryAchieveSubsidiarityExport(Map param) {
+        return arm.queryAchieveSubsidiarity(param);
+    }
 
 
 }

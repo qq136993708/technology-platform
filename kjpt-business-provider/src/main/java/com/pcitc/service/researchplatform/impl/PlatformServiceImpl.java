@@ -108,4 +108,9 @@ public class PlatformServiceImpl implements PlatformService {
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
+
+    @Override
+    public List<Map> scienceStatisticsNoPage(Map param) {
+        return platformServiceMapper.scienceStatistics(param);
+    }
 }

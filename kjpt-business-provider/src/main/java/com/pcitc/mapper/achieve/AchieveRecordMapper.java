@@ -14,4 +14,5 @@ public interface AchieveRecordMapper {
     Integer update(AchieveRecord ab);
     Integer delete(String[] ids);
     List<AchieveRecord> query(Map param);
+    List<Map> queryAchieveSubsidiarity(Map param);
 }
