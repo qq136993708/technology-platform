@@ -90,7 +90,8 @@ public class FileUtil {
         fm.setId(id);
 
 
-        File targetFile = new File(getFilePath(relativePath)+"/"+id+"."+fileName.split("\\.")[1]);
+        //File targetFile = new File(getFilePath(relativePath)+"/"+id+"."+fileName.split("\\.")[1]);
+        File targetFile = new File(getFilePath(relativePath)+"/"+id);
         if (targetFile.exists())
         {
             targetFile.delete();
@@ -98,7 +99,7 @@ public class FileUtil {
         //file.transferTo(targetFile);
         byte[] encryptByte;
         encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
-        System.out.println("upload===================="+key);
+        //System.out.println("upload===================="+key);
         OutputStream output = new FileOutputStream(targetFile);
 
         BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
@@ -109,7 +110,8 @@ public class FileUtil {
         fm.setCreateDate(new Date());
         fm.setFileSize(file.getSize());
         fm.setType(file.getContentType());
-        fm.setFilePath(relativePath+"/"+id+"."+fileName.split("\\.")[1]);
+        //fm.setFilePath(relativePath+"/"+id+"."+fileName.split("\\.")[1]);
+        fm.setFilePath(relativePath+"/"+id);
         //上传附件
         return fm;
     }

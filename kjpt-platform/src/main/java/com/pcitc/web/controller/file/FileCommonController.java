@@ -53,13 +53,13 @@ public class FileCommonController extends BaseController {
     /**
      * 获取pdf页码
      */
-    private static final String getPdfPageCount = "http://10.102.111.142:8099/preview/localPageCount?fileName=%s&filePath=%s";
+    private static final String getPdfPageCount = "http://localhost:8099/preview/localPageCount?fileName=%s&filePath=%s";
     //http://10.102.111.142:8099/preview/local?fileName=1&filePath=1
 
     /**
      * 预览
      */
-    private static final String getPrepareContent = "http://10.102.111.142:8099/preview/local?fileName=%s&filePath=%s&page=%s";
+    private static final String getPrepareContent = "http://localhost:8099/preview/local?fileName=%s&filePath=%s&page=%s";
 
     @Autowired
     private FileUtil fileUtil;
