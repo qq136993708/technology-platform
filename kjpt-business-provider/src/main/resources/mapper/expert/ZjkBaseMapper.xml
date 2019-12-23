@@ -52,7 +52,7 @@
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
     achievement, head_pic, create_time, create_user, update_time, update_user, 
     out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
-    create_unit_id,create_unit_name,secret_level
+    create_unit_id,create_unit_name,secret_level,secret_level_str,group_type_str
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
