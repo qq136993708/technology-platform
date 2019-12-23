@@ -1,89 +1,81 @@
 .ring li {
-    width: 152px;
-    height: 249px;
-    position: absolute;
+    width: 25%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    padding-bottom: 24px;
 }
-
+.ring li .value-item{
+    display: inline-block;
+    vertical-align: top;
+    min-width: 120px;
+    height: 100%;
+    position: relative;
+}
 .ring li h3 {
-    color: #fff;
-    font-size: 30px;
     width: 100%;
     text-align: center;
-    z-index: 10;
+    position: absolute;
+    left: 0;
+    bottom: 96px;
+    z-index: 9;
 }
-
-.ring li:nth-child(3) h3 {
-    font-size: 30px;
-    width: 100%;
-    text-align: center
-}
-
-.ring li:nth-child(4) h3 {
-    font-size: 30px;
-    width: 100%;
-    text-align: center
-}
-
 .ring li h3 i {
-    text-align: center;
-    font-size:0.5rem;
+    font-size: 0.5rem;
     font-family: 'Impact'; 
-    font-weight:400;
+    font-weight: 400;
     color:rgba(170,237,255,1);
-    font-style:  normal;
+    font-style: normal;
 }
-
-.ring li span {
+.ring li .value-item span {
     display: block;
-    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% auto;
 }
 
-.ring li span:nth-child(2) {
+.ring li span.retate_icon{
+    height: calc(100% - 40px);
     width: 102px;
-    height: 45px;
-    background: url(../../img/yc1_ring1.gif) no-repeat;
     margin: 0 auto;
-    background-size: 100% 100%;
+    background-image: url(../../img/yc1_ring.gif);
 }
 
-.ring li:nth-child(3) span:nth-child(2) {
-    background: url(../../img/yc1_ring2.gif) no-repeat;
-    background-size: 100% 100%;
-}
-
-.ring li:nth-child(4) span:nth-child(2) {
-    background: url(../../img/yc1_ring2.gif) no-repeat;
-    background-size: 100% 100%;
-}
-
-.ring li span:nth-child(3) {
+.ring li span.light_bot {
+    position: absolute;
+    left: 50%;
+    margin-left: -30px;
+    bottom: 58px;
     width: 60px;
     height: 25px;
-    background: url(../../img/light_bot.png) no-repeat;
-    margin: -43px auto;
-    background-size:  100% 100%;
+    background-image: url(../../img/light_bot.png);
 }
 
-.ring li span:nth-child(4) {
-    width: 75px;
+.ring li span.light_mid {
+    position: absolute;
+    width: 76px;
     height: 30px;
-    background: url(../../img/light_mid.png) no-repeat;
-    margin: 5px auto;
-    background-size:  100% 100%;
+    left: 50%;
+    bottom: 70px;
+    margin-left: -38px;
+    background-image: url(../../img/light_mid.png);
 }
 
-.ring li span:nth-child(5) {
+.ring li span.light_top {
+    position: absolute;
     width: 92px;
     height: 77px;
-    background: url(../../img/light_top.png) no-repeat;
-    margin: -80px auto;
+    left: 50%;
+    bottom: 70px;
+    margin-left: -46px;
+    background-image: url(../../img/light_top.png);
     animation: light 2s infinite linear;
-    background-size: 100% 100%;
 }
-.ring li span:nth-child(6) {
-    
+.ring li span.value-name {
+    height: 40px;
+    line-height: 40px;
     text-align:  center;
-    margin: 120px auto;
     font-size:0.25rem;
     font-family:PingFang SC;
     font-weight:400;
