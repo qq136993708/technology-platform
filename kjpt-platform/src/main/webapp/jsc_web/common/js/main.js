@@ -291,7 +291,7 @@ var xmsl_option={
 			name:'已完成',
 			type:'bar',
 			stack:"采购",
-			data:[10,7,10,10],
+			data: [10,7,10,10],
 			itemStyle:{
 				normal:{
 					color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
@@ -300,7 +300,8 @@ var xmsl_option={
                     }, {
                         offset: 1,
                         color: "rgba(0, 198, 255, 1)" 
-                    }], false)
+                    }], false),
+                    barBorderRadius: [0, 0, 20, 20]
 				}
             },
             label: {
@@ -312,8 +313,38 @@ var xmsl_option={
                     }
                 }
             },
-			barWidth:40
-		},
+            barWidth:40,
+            markPoint: {
+                data: [
+                    {coord: [0, 10]},
+                    {coord: [1, 7]},
+                    {coord: [2, 10]},
+                    {coord: [3, 10]}
+                ],
+                label: { show: false },
+                symbol: 'circle',
+                symbolSize: [40, 12],
+                itemStyle: { color : '#0E9AC2'}
+            }
+        },
+        {
+            name:'辅助',
+            type:'bar',
+            stack:"采购",
+            data:[0,0,0,0],
+            barMinHeight: 16,
+            itemStyle: {
+                normal: {
+                    barBorderColor: 'rgba(0,0,0,0)',
+                    color: 'rgba(0,0,0,0)'
+                },
+                emphasis: {
+                    barBorderColor: 'rgba(0,0,0,0)',
+                    color: 'rgba(0,0,0,0)'
+                }
+            },
+            tooltip: { show: false }
+        },
 		{
 			name:'在研',
 			type:'bar',
@@ -327,7 +358,8 @@ var xmsl_option={
                     }, {
                         offset: 1,
                         color: "rgba(73, 255, 142, 1)" 
-                    }], false)
+                    }], false),
+                    barBorderRadius: [0, 0, 20, 20]
 				}
             },
             label: {
@@ -339,7 +371,21 @@ var xmsl_option={
                     }
                 }
             },
-			barWidth:40
+            barWidth:40,
+            markPoint: {
+                type: 'category',
+                data: [
+                    {coord: [0, 14]},
+                    {coord: [1, 11]},
+                    {coord: [2, 14]},
+                    {coord: [3, 12]}
+                ],
+                symbolOffset: [0, -16],
+                label: { show: false },
+                symbol: 'circle',
+                symbolSize: [40, 12],
+                itemStyle: { color : '#1ACB62'}
+            }
 		}
 	]
 };
