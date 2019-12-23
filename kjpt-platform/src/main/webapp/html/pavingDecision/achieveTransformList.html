@@ -98,6 +98,29 @@
     <table id="pavingDecisionTable"></table>
   </div>
 
+  <!-- 激励人员名单 -->
+  <div id="name_list_dialog" style="display: none;">
+    <div style="padding: 0 20px">
+      <table class="layui-table" id="teamPerson_table">
+        <thead>
+          <tr>
+            <th width="80">序号</th>
+            <th width="120">姓名</th>
+            <th width="100">性别</th>
+            <th>所在单位</th>
+            <th>职务和贡献</th>
+            <th width="100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="layui-none">
+            <td colspan="6"><div style="text-align: center">暂无数据,请添加！</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -105,17 +128,24 @@
 <script src="/layuiadmin/js/common.js"></script>
 <script>
 // layui 使用说明 ----- 多个模块同时引用
-layui.use(['form', 'table', 'laydate'], function(){
+layui.use(['form', 'table', 'laydate', 'layer'], function(){
   var form = layui.form,
   table = layui.table,
   laydate = layui.laydate,
+  layer = layui.layer,
   tableLoading = true;
+
+  // 记录人员名单
+  function setTeamPerson(data) {
+    $('#teamPerson_table tbody').empty();
+    backfill(data, 'teamPerson_table', 'view');
+  }
 
   function queryTable(data) {
     if (tableLoading) {
       table.render({
         elem: '#pavingDecisionTable'
-        ,url: '/achieveRecord-api/query' //数据接口
+        ,url: '/achieveRecord-api/queryAchieveSubsidiarity' //数据接口
         ,cols: [[ //表头
           ,{field: 'achieveName', title: '成果描述', width: 120, fixed: 'left'}
           ,{field: 'projectSource', title: '项目来源', width: 100}
@@ -197,7 +227,13 @@ layui.use(['form', 'table', 'laydate'], function(){
           ,{field: 'rewardRecord', title: '项目全周期激励方案及制定方案', width: 120}
           ,{field: 'rewardQuota', title: '激励额度', width: 100}
           ,{field: 'budgetSources', title: '工资总额预算来源', width: 120}
-          ,{field: 'typeText', title: '激励人员名单', width: 120} /// ????
+          ,{field: 'teamPerson', title: '激励人员名单', width: 120, templet: function(d) {
+            if (d.teamPerson && d.teamPerson !== '-') {
+              return '<a teamperson="'+ d.teamPerson +'" class="layui-table-link">查看名单</a>';
+            } else {
+              return '-';
+            }
+          }} /// ????
           ,{field: 'budgetSources', title: '激励总额', width: 100}
           ,{field: 'assignPlan', title: '激励分配方案', width: 100}
         ]],
@@ -279,7 +315,7 @@ layui.use(['form', 'table', 'laydate'], function(){
     for (var key in searchData) {
       exportUrl += '&' + key + '=' + searchData[key];
     }
-    exportUrl = '/achieveRecord-api/exportExcel?' + exportUrl.substring(1);
+    exportUrl = '/achieveRecord-api/queryAchieveSubsidiarityExport?' + exportUrl.substring(1);
     window.open(exportUrl, '_blank');
   })
 
@@ -290,6 +326,23 @@ layui.use(['form', 'table', 'laydate'], function(){
     viewFilePage = '/html/scientificMaterials/planDetails.html?id=' + fileId;
     parent.layui.index.openTabsPage(viewFilePage, pageTitle);
   });
+
+  // 查看激励人员名单
+  $('.paving-table-layout:eq(0)').on('click', 'a[teamperson]', function(e) {
+    var teamperson = $(this).attr('teamperson');
+    setTeamPerson(teamperson);
+    top.layer.open({
+      title: '激励人员名单',
+      area: ['800px', '320px'],
+      type: 1,
+      content: $('#name_list_dialog').html(),
+      btn: ['关闭'],
+      yes: function(i, lay) {
+        top.layer.close(i);
+      }
+    })
+  });
+  
 
 });
 </script>

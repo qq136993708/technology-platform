@@ -345,11 +345,11 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_four',
           type: 'pie',
-          legend: { top: 'center', left: '65%'},
+          legendPosition: 'right',
+          legend: { top: 'center', right:18, formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['43%', '65%'],
-          center: ['28%', '50%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: ' 损失占比',
           series: chartData,
@@ -372,15 +372,15 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_five',
           type: 'pie',
-          legend: { top: 'center', left: '65%'},
+          legendPosition: 'right',
+          legend: { top: 'center', right:18, formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['43%', '65%'],
-          center: ['28%', '50%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: '科目损失占比',
           series: chartData,
-          color: ['#FFF04E', '#FF7F5D', '#2687FF']
+          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
         });
       } else {
         kyptCharts.reload('appraisal_five', {series: chartData});
@@ -399,15 +399,15 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_six',
           type: 'pie',
-          legend: { top: 'center', left: '65%'},
+          legendPosition: 'right',
+          legend: { top: 'center', right:18, formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['43%', '65%'],
-          center: ['28%', '50%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: '科目损失占比',
           series: chartData,
-          color: ['#FFF04E', '#FF7F5D', '#2687FF']
+          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#FF7F5D', '#2687FF']
         });
       } else {
         kyptCharts.reload('appraisal_six', {series: chartData});

@@ -216,3 +216,23 @@
 .quality_experience .chart-title-layout{
   text-align: center;
 }
+
+
+/* 饼图图例最小宽度 */
+.pie-legend-list .legend-item > .lenend-item-name{
+  min-width: 64px;
+}
+.quality_experience .pie-legend-list{
+  white-space: normal;
+  height: 44%;
+}
+.quality_experience .pie-legend-list .legend-item{
+  margin: 0;
+  padding-bottom: 1rem;
+  width: 50%;
+  padding-left: 1.2rem;
+  white-space: nowrap;
+}
+.quality_experience .pie-legend-list .legend-item > .lenend-item-name{
+  width: calc(100% - 4rem);
+}

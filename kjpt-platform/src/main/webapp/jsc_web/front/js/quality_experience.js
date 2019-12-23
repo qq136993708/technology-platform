@@ -20,9 +20,9 @@ layui.use(['laydate'], function() {
           labelColor: '#fff',
           borderColor: '#001e38',
           title: '反馈经验数量',
-          legend: { top: '70%', left: 'center', orient: 'horizontal', width: '50%'},
-          radius: ['32%', '45%'],
-          center: ['50%', '30%'],
+          legendPosition: 'bottom',
+          legend: { top: 0, right: '25%', left: '25%', orient: 'horizontal', formatter: 'name|value'},
+          radius: ['50%', '72%'],
           series: chartData,
           color: ['#81FF5B', '#FFF04E', '#DF5DFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
         });
@@ -51,9 +51,9 @@ layui.use(['laydate'], function() {
           labelColor: '#fff',
           borderColor: '#001e38',
           title: ' 反馈经验数量',
-          legend: { top: '70%', left: 'center', orient: 'horizontal', width: '50%'},
-          radius: ['32%', '45%'],
-          center: ['50%', '30%'],
+          legendPosition: 'bottom',
+          legend: { top: 0, right: '22%', left: '22%', orient: 'horizontal', formatter: 'name|value'},
+          radius: ['54%', '76%'],
           series: chartData,
           color: ['#00D0CE', '#00A3FF', '#3668AC', '#4E408D', '#975BA8',
             '#E44191', '#FFF04E', '#FF2624', '#FCB133', '#FF7693', '#8CCB48', '#00D169']
