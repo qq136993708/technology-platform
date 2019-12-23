@@ -1268,7 +1268,9 @@ height: 100%;
     background-color: #e3f4ff;
     color: #0AA1FF;
 }
-
+.layui-layer-setwin{
+    right: 40px !important;
+  }
 
 /* 侧边收缩模式 */
 .layadmin-side-shrink .layui-layout-admin .layui-side,
