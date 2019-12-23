@@ -25,15 +25,24 @@
     width: 100%;
     height: calc(100% - 0.5rem);
 }
-.main_content .main_charts,.main_content .desc{
+.main_content .main_charts{
     width: 100%;
-    height: 75%;
+    height: 74%;
+    padding-bottom: .5rem;
+}
+.main_content .main_charts > .chart-block {
+    height: 100%;
 }
 .main_content .desc{
-    height: 25%;
+    height: 26%;
     position:  relative;
 }
-
+.main_content .desc > ul {
+    font-size: 0;
+    width: 100%;
+    height: 100%;
+    white-space: nowrap;
+}
 
 .zscq{
     float: left;
