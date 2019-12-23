@@ -33,6 +33,16 @@ public class FileUtil {
     @Value("${baseFilePath}")
     private String fileBasePath;
 
+    private static String key;
+
+    static {
+        try {
+            key = AESFileUtils.getSecretKey();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 删除文件夹里面的所有文件
      *
@@ -66,10 +76,9 @@ public class FileUtil {
     /**
      * 文件上传
      */
-    public FileModel upload(MultipartFile file) throws IllegalStateException, IOException
-    {
-        FileModel fm = new FileModel();
+    public FileModel upload(MultipartFile file) throws Exception {
 
+        FileModel fm = new FileModel();
         String fileName = "";
         String[] fileNames  =file.getOriginalFilename().split("\\\\");
         if (fileNames.length > 0) {
@@ -79,12 +88,22 @@ public class FileUtil {
         String  relativePath= "/"+DateUtil.format(new Date(),"yyyyMM");
 
         fm.setId(id);
+
+
         File targetFile = new File(getFilePath(relativePath)+"/"+id+"."+fileName.split("\\.")[1]);
         if (targetFile.exists())
         {
             targetFile.delete();
         }
-        file.transferTo(targetFile);
+        //file.transferTo(targetFile);
+        byte[] encryptByte;
+        encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
+        System.out.println("upload===================="+key);
+        OutputStream output = new FileOutputStream(targetFile);
+
+        BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
+
+        bufferedOutput.write(encryptByte);
 
         fm.setFileName(fileName);
         fm.setCreateDate(new Date());
@@ -315,35 +334,22 @@ public class FileUtil {
      * @param isAttachment
      * @param res
      */
-    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) {
-
+    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) throws Exception {
         res.setContentType(f.getType());
         res.setContentLengthLong(f.getFileSize());
         res.setCharacterEncoding("UTF-8");
         File file = new File(getFilePath(f.getFilePath()));
         if(file.exists()==true && file!=null)
         {
-        	try{
-                if(isAttachment) {
-                    String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
-                    res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
-                }
-                InputStream in = new FileInputStream(file);
-                //输出
-                OutputStream os = res.getOutputStream();
-
-                byte[] b = new byte[1000];
-                int len;
-                while ((len = in.read(b)) > 0)
-                {
-                    os.write(b, 0, len);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                /*LogUtil.logError(e);
-
-                sendError(res, "文件下载错误，err=" + e.getMessage());*/
+            if(isAttachment) {
+                String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
+                res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
             }
+            InputStream in = new FileInputStream(file);
+            //输出
+            OutputStream os = res.getOutputStream();
+            //解密输出
+            AESFileUtils.downLoadDecryptFile(key,in,os);
         }
         
 

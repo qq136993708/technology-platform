@@ -159,14 +159,14 @@ public class FileCommonController extends BaseController {
 
     @ApiOperation(value = "文件下载", notes = "文件下载")
     @RequestMapping(value="/downLoadFile/{fileId}",method = RequestMethod.GET)
-    public void downLoadFile(@PathVariable String fileId) {
+    public void downLoadFile(@PathVariable String fileId) throws Exception {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         fileUtil.responseFile(responseEntity.getBody(),true,this.getCurrentResponse());
     }
 
     @ApiOperation(value = "预览附件图片展示", notes = "预览附件图片展示")
     @RequestMapping(value="/imgFile/{fileId}",method = RequestMethod.GET)
-    public void imgFile(@PathVariable String fileId){
+    public void imgFile(@PathVariable String fileId) throws Exception {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         fileUtil.responseFile(responseEntity.getBody(),false,this.getCurrentResponse());
     }
