@@ -38,7 +38,7 @@ public class ExcelImportController extends RestBaseController {
         List dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
-        if(responseEntity.getBody() !=null){
+        if(!responseEntity.getBody().isEmpty()){
             SysException sys = new SysException(JSON.toJSONString(responseEntity.getBody()));
             sys.setCode("1");
             throw sys;
