@@ -137,8 +137,8 @@
 .quality .scroll-btn{
   position: absolute;
   top: 50%;
-  width: 1.4rem;
-  height: 2rem;
+  width: 2rem;
+  height: 3rem;
   margin-top: -1rem;
   z-index: 999;
   cursor: pointer;
@@ -163,7 +163,8 @@
 }
 
 .quality .layout-view-content {
-  padding-right: 0;
+  padding-right: 1rem;
+  padding-left: 2.5rem;
 }
 .quality .top-chart-layout{
   height: 56%;

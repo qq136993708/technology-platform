@@ -252,14 +252,7 @@
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
      select * from  out_person t <include refid="selectCondition" />
-     <choose>
-      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
-      <otherwise>
-        ORDER BY  create_time desc
-      </otherwise>
-     </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
-      ) e
    </select>
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >

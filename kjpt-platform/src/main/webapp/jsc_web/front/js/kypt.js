@@ -13,7 +13,7 @@ var option1 = {
         }
     },
     legend: {
-        data: ['2011年'],
+        data: ['2019年'],
         x:'left',
         textStyle:{
             color:'#fff'
@@ -75,7 +75,7 @@ var option1 = {
     },
     series: [
         {
-            name: '2011年',
+            name: '2019年',
             type: 'bar',
             barWidth: '15',
             inverse: true,

@@ -84,10 +84,14 @@ public class TechFamilyController extends BaseController {
 
 		List<TreeNode> treeNodes = responseEntity.getBody();
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(treeNodes));
-
+		TreeNode treeNode = new TreeNode();
+		treeNode.setpId("10");
+		treeNode.setpId("-");
+		treeNode.setName("技术族");
+		json.add(treeNode);
 
 		System.out.println("----"+json.toString());
-		return JSONUtils.toJSONString(treeNodes);
+		return json.toString();
 	}
 
 	public JSONObject getChlidrenData(JSONObject treeJson, JSONArray treeNodes, String parentId, int levelCount, String name) {
