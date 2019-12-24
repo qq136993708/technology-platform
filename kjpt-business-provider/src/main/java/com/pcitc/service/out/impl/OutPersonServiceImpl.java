@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -71,6 +72,9 @@ public class OutPersonServiceImpl implements IOutPersonService {
 	public LayuiTableData getOutPersonPage(LayuiTableParam param)throws Exception
 	{
 		
+		
+		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>getOutPersonPage参数: "+parma.toJSONString());
 	        //每页显示条数
 			int pageSize = param.getLimit();
 			//从第多少条开始
