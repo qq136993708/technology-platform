@@ -130,12 +130,11 @@
                         }
                     })
                     $activeSubItem.removeClass('disNone').find('.project_btn').eq(0).addClass('projectActive');
+                    $('#wrapper').css({ 'padding-top': '8rem'});
                 } else {
                     $twoNavItem.find('.two_nav_item').addClass('disNone');
+                    $('#wrapper').css({ 'padding-top': '6.8rem'});
                 }
-
-                var headerHeight = $('#header').outerHeight();
-                $('#wrapper').css({ 'padding-top': headerHeight });
 
                 // 添加链接显示页面
                 pageHref = 'front/'+ pageName +'.html';
