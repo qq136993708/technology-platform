@@ -122,4 +122,6 @@ body{background: white;}
   .layadmin-user-login-footer{font-size: 18px;line-height: 32px;}
   .layadmin-user-login-body{bottom: 160px;}
 }
-
+.layui-err{color: #FF2020;
+  position: relative;
+  top: -15px;}
