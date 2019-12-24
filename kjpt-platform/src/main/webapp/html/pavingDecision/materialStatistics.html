@@ -125,8 +125,6 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
 
   // 导出
   $('#importData').click(function() {
-    top.layer.msg('当前页面暂不支持导出数据！');
-    return;
     var formValue = form.val('pavingDecision'),
     unitValue = formSelects.value('unitId'),
     searchData = {
@@ -149,7 +147,7 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
     for (var key in searchData) {
       exportUrl += '&' + key + '=' + searchData[key];
     }
-    exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+    exportUrl = '/exportScienceStatistics?' + exportUrl.substring(1);
     window.open(exportUrl, '_blank');
   })
 });
