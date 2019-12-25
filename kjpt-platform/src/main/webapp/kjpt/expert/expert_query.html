@@ -125,8 +125,8 @@
                             {type: 'checkbox' },
                             {title: '序号',type:'numbers',width:55 },
                             {field: 'name', title: '姓名' },
-                            {field: 'outUserNo', title: '是否专家',templet: function(d){
-                                    if(d.outUserNo==undefined){return "-"}else {return "是"}
+                            {field: 'isExpert', title: '是否专家',templet: function(d){
+                                    if(d.isExpert==0){return "否"}else {return "是"}
                                 }},
                             {field: 'sexStr', title: '性别'},
                             {field: 'age', title: '年龄'},
@@ -215,7 +215,7 @@
             }
             var id=''
             activeData.map(function (item, index) {
-                if(item.outUserNo==undefined){
+                if(item.isExpert==0){
                     id+=item.id+","
                 }
             })
