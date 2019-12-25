@@ -3,11 +3,13 @@ package com.pcitc.base.out;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.pcitc.base.util.CommonUtil;
+
 /**
  * out_person
  * @author 
  */
-public class OutPerson implements Serializable {
+public class OutPerson  {
     private String id;
 
     /**
@@ -88,18 +90,75 @@ public class OutPerson implements Serializable {
     private String sexStr;
     
     
-    private Integer beginAage;
-    private Integer endAage;
-    private Integer age;
+    private Integer beginAage=0;
+    private Integer endAage=0;
+    private Integer age=0;
     
     private String seeUserIds;
     private String seeUserNames;
+    
+    private String ids;
+    private String groups;
+    
+    private String userNo;
+    
+    private String outUserNo;
+    
+    
     
     
     
     
 
-    public String getTitleStr() {
+    public String getOutUserNo() {
+		return outUserNo;
+	}
+
+	public void setOutUserNo(String outUserNo) {
+		this.outUserNo = outUserNo;
+	}
+
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
+
+	public String getSeeUserIds() {
+		return seeUserIds;
+	}
+
+	public void setSeeUserIds(String seeUserIds) {
+		this.seeUserIds = seeUserIds;
+	}
+
+	public String getSeeUserNames() {
+		return seeUserNames;
+	}
+
+	public void setSeeUserNames(String seeUserNames) {
+		this.seeUserNames = seeUserNames;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public String getGroups() {
+		return groups;
+	}
+
+	public void setGroups(String groups) {
+		this.groups = groups;
+	}
+
+	public String getTitleStr() {
 		return titleStr;
 	}
 

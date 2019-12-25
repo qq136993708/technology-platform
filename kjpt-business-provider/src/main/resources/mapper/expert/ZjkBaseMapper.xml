@@ -43,8 +43,10 @@
     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
    
-    
-    
+    <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
+    <result column="see_user_ids"             jdbcType="VARCHAR" property="seeUserIds" />
+    <result column="see_user_names"           jdbcType="VARCHAR" property="seeUserNames" />
+    <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     
   </resultMap>
   <sql id="Base_Column_List">
@@ -53,6 +55,9 @@
     achievement, head_pic, create_time, create_user, update_time, update_user, 
     out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
     create_unit_id,create_unit_name,secret_level,secret_level_str,group_type_str
+    ,expert_type
+    ,see_user_ids
+    ,see_user_names
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -68,7 +73,8 @@
       email, brief, achievement, 
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
-      audit_status,create_unit_id,create_unit_name,secret_level
+      audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
+     ,see_user_ids,see_user_names
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -81,8 +87,11 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
       , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
       , #{technicalFieldIndex,jdbcType=VARCHAR} , #{groupType,jdbcType=VARCHAR}
-       , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
-        , #{secretLevel,jdbcType=VARCHAR}
+      , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
+      , #{secretLevel,jdbcType=VARCHAR}
+      , #{expertType,jdbcType=VARCHAR}
+      , #{seeUserIds,jdbcType=VARCHAR}
+      , #{seeUserNames,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -185,9 +194,19 @@
       <if test="createUnitName != null">
         create_unit_name,
       </if>
-    <if test="secretLevel != null">
+      <if test="secretLevel != null">
         secret_level,
       </if>
+      <if test="expertType != null">
+        expert_type,
+      </if>
+      <if test="seeUserIds != null">
+        see_user_ids,
+      </if>
+      <if test="seeUserNames != null">
+        see_user_names,
+      </if>
+    
    
     
     </trim>
@@ -290,12 +309,18 @@
       <if test="createUnitName != null">
         #{createUnitName,jdbcType=VARCHAR},
       </if>   
-      
       <if test="secretLevel != null">
         #{secretLevel,jdbcType=VARCHAR},
       </if> 
-      
-      
+      <if test="expertType != null">
+        #{expertType,jdbcType=VARCHAR},
+      </if> 
+      <if test="seeUserIds != null">
+        #{seeUserIds,jdbcType=VARCHAR},
+      </if> 
+      <if test="seeUserNames != null">
+        #{seeUserNames,jdbcType=VARCHAR},
+      </if> 
        
     
     </trim>
@@ -399,6 +424,15 @@
       <if test="secretLevel != null">
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if> 
+      <if test="expertType != null">
+        expert_type = #{expertType,jdbcType=VARCHAR},
+      </if> 
+      <if test="seeUserIds != null">
+        see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
+      </if> 
+      <if test="seeUserNames != null">
+        see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      </if>  
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -436,6 +470,9 @@
       create_unit_name = #{createUnitName,jdbcType=VARCHAR},
       group_type = #{groupType,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
+      expert_type = #{expertType,jdbcType=VARCHAR},
+      see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
+      see_user_names = #{seeUserNames,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -471,16 +508,17 @@
 	        AND t.secret_level = #{secretLevel}
 	     </if>
 	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND t.secret_level &lt;= #{userSecretLevel}
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
 	     </if>
 	     <if test="technicalField != null        and technicalField !=''  ">   
 	      AND
 	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
 			    FIND_IN_SET(#{item},t.`technical_field`) 
 			   </foreach>
-	        
 	     </if>
-	  
+	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
+	     <if test="seeUserIds != null       and seeUserIds !=''  ">       AND t.see_user_ids = #{seeUserIds}</if>
+	     <if test="seeUserNames != null     and seeUserNames !=''  ">     AND t.see_user_names = #{seeUserNames}</if>
 	 </trim>
 	</sql>
 	
@@ -547,10 +585,6 @@
     from view_zjk_base
     where id = #{id,jdbcType=VARCHAR}
    </select>
-  
-  
-  
-  
   
   
   

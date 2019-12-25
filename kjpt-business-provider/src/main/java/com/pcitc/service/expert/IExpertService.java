@@ -14,7 +14,7 @@ import com.pcitc.base.expert.ZjkReward;
 
 public interface IExpertService {
 	
-	
+	public Integer outPersonToZjkBase(Map map)throws Exception;
 	 /**
        * 根据ID获取专家信息详情
      */

@@ -15,8 +15,11 @@ layui.config({
     /*学历*/
     createElement("ROOT_KJPT_XL","education","option","education")
     /*职称*/
-    createElement("ROOT_KJPT_ZWJB","title","option","title")
+    createElement("ROOT_KJPT_JSZC","title","option","title")
+    /*分组*/
     createElement("ROOT_KJPT_ZJFZ","groupType","option","groupType")
+    /*专家分类*/
+    createElement("ROOT_KJPT_GCCRCLB","expertType","option","expertType")
 
     /*出生年*/
     laydate.render({
@@ -300,7 +303,7 @@ layui.config({
             layer.msg("性别必为填项不能为空！", {icon: 2});
             return false
         }
-        if(data.field.belongUnit==undefined){
+        if(data.field.belongUnit==''){
             layer.msg("所在单位必为选项不能为空！", {icon: 2});
             return false
         }

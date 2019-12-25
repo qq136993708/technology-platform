@@ -21,10 +21,20 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="age" jdbcType="INTEGER" property="age" />
     
+    <result column="title_str"     jdbcType="VARCHAR" property="titleStr" />
+    <result column="education_str" jdbcType="VARCHAR" property="educationStr" />
+    <result column="sex_str"       jdbcType="VARCHAR" property="sexStr" />
+    <result column="user_no"       jdbcType="VARCHAR" property="userNo" />
+    <result column="out_user_no" jdbcType="VARCHAR" property="outUserNo" />
+    
+    
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, tech_type, 
-    create_time, create_user, tech_type_name, id_card, email, contact_way, work_experience,post,title,age
+    create_time, create_user, tech_type_name, id_card, email, contact_way, work_experience,post,title,age,user_no
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -42,7 +52,7 @@
       education, belong_unit_name, belong_unit_id, 
       tech_type, create_time, create_user, 
       tech_type_name, id_card, email, 
-      contact_way, work_experience,post,title,age
+      contact_way, work_experience,post,title,age,user_no
       )
     values (
     
@@ -51,6 +61,7 @@
       #{techType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
       #{techTypeName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{contactWay,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}
+      , #{userNo,jdbcType=VARCHAR}
       
       )
   </insert>
@@ -111,6 +122,15 @@
       <if test="age != null">
         age,
       </if>
+      <if test="userNo != null">
+       user_no,
+      </if>
+      
+      
+      
+      
+      
+    
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -165,6 +185,12 @@
       <if test="age != null">
         #{age,jdbcType=INTEGER},
       </if>
+      
+       <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      
+      
     
     </trim>
   </insert>
@@ -222,6 +248,13 @@
      <if test="age != null">
         age = #{age,jdbcType=INTEGER},
       </if>
+       <if test="userNo != null">
+        user_no = #{title,jdbcType=VARCHAR},
+      </if>
+      
+      
+    
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -230,6 +263,7 @@
     set sex = #{sex,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
       birth_year = #{birthYear,jdbcType=VARCHAR},
+      user_no = #{userNo,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
       belong_unit_id = #{belongUnitId,jdbcType=VARCHAR},
@@ -248,7 +282,7 @@
   </update>
   
   <sql id="view_out_person">
-	    SELECT t1.*,
+	   SELECT t1.*,tb.`out_system_id` AS out_user_no,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XL'
           AND t2.`num_value`=t1.`education`
@@ -264,6 +298,7 @@
           AND t2.num_value =t1.`title`
       )  title_str
       FROM out_person t1
+      LEFT JOIN zjk_base tb ON tb.`out_system_id`=t1.`user_no`
 	</sql>
   
    <sql id="selectCondition">
@@ -286,6 +321,7 @@
 			    FIND_IN_SET(#{item},t.`tech_type`) 
 			   </foreach>
 	       </if>
+	       <if test="userNo != null              and userNo !=''  ">            AND t.user_no = #{userNo}</if>
 	 </trim>
 	</sql>
 	

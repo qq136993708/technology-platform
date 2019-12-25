@@ -164,10 +164,38 @@ public class ZjkBase  {
     private String secretLevelStr;
     
     
+    private String expertType="";
+    private String seeUserIds="";
+    private String seeUserNames="";
     
     
     
     
+    
+	public String getExpertType() {
+		return expertType;
+	}
+
+	public void setExpertType(String expertType) {
+		this.expertType = expertType;
+	}
+
+	public String getSeeUserIds() {
+		return seeUserIds;
+	}
+
+	public void setSeeUserIds(String seeUserIds) {
+		this.seeUserIds = seeUserIds;
+	}
+
+	public String getSeeUserNames() {
+		return seeUserNames;
+	}
+
+	public void setSeeUserNames(String seeUserNames) {
+		this.seeUserNames = seeUserNames;
+	}
+
 	public String getSecretLevel() {
 		return secretLevel;
 	}

@@ -21,7 +21,7 @@ public class ExpertIndexController {
 		{
 			
 			String logType=CommonUtil.getParameter(request, "logType", "1");//日志类型：1登陆日志，2操作日志，3错误日志
-			String userType=CommonUtil.getParameter(request, "userType", "");//用户类型：1普通用户，2系统管理员，3安全员，4审计员
+			String userType=CommonUtil.getParameter(request, "userTypes", "");//用户类型：1普通用户，2系统管理员，3安全员，4审计员
 			String userType2=CommonUtil.getParameter(request, "userType2", "");
 			request.setAttribute("logType", logType);
 			request.setAttribute("userType", userType);
