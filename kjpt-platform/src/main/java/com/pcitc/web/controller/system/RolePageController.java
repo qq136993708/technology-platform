@@ -47,7 +47,7 @@ public class RolePageController
 		basePath = request.getContextPath();
 		request.setAttribute("roleId", roleId);
 	    request.setAttribute("basePath", basePath);
-	    System.out.println("-------roleId--------"+roleId);
+	   // System.out.println("-------roleId--------"+roleId);
         return "base/auth/rolefunc_select";
     }
 	public String getBasePath() {

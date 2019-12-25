@@ -144,7 +144,7 @@ public class ExpertController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家列表（分页） " + result.toString());
+		//logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
     
@@ -222,7 +222,7 @@ public class ExpertController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家列表（分页） " + result.toString());
+		//logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
     
@@ -566,8 +566,8 @@ public class ExpertController extends BaseController {
 		  	            String aname=String.valueOf(lo.get(0));
 		  	            String agestr=String.valueOf(lo.get(3));
 		  	          
-		  	            System.out.println(i+"----------"+aname);
-		  	            System.out.println(i+"----------"+agestr);
+		  	            //System.out.println(i+"----------"+aname);
+		  	            //System.out.println(i+"----------"+agestr);
 		  	  			ZjkBase obj = new ZjkBase();
 		  	  			Integer count=Integer.valueOf(Math.round(Float.valueOf(agestr)));
 		  	  		    Integer year=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));

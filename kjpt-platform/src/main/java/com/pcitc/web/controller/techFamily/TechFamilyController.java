@@ -90,7 +90,7 @@ public class TechFamilyController extends BaseController {
 		treeNode.setName("技术族");
 		json.add(treeNode);
 
-		System.out.println("----"+json.toString());
+		//System.out.println("----"+json.toString());
 		return json.toString();
 	}
 
@@ -211,12 +211,12 @@ public class TechFamilyController extends BaseController {
 
 		Integer retI = this.restTemplate.exchange(TECH_TYPE_DELETE, HttpMethod.DELETE, entity, Integer.class).getBody();
 
-		System.out.println("=================-----------" + retI);
+		//System.out.println("=================-----------" + retI);
 		if (retI != null && retI >= 1) {
-			System.out.println("=================操作成功");
+			//System.out.println("=================操作成功");
 			return new Result(true, "操作成功");
 		} else {
-			System.out.println("=================操作失败");
+			//System.out.println("=================操作失败");
 			return new Result(true, "操作失败");
 		}
 	}
@@ -269,7 +269,7 @@ public class TechFamilyController extends BaseController {
 
 		JSONArray treeNodes = responseEntity.getBody();
 
-		System.out.println(treeNodes+"------222-------");
+	//	System.out.println(treeNodes+"------222-------");
 		return treeNodes;
 	}
 	

@@ -318,10 +318,10 @@
 	       <if test="education != null          and education !=''  ">        AND t.education = #{education}</if>
 	       <if test="title != null              and title !=''  ">            AND t.title = #{title}</if>
 	       <if test="post != null               and post !=''  ">             AND t.post = #{post}</if>
-	       <if test="beginAage != null and beginAage !=''  ">  
+	       <if test="beginAage != null and beginAage !=0  ">  
 	           AND t.age &gt;= #{beginAage}
 	       </if>
-	       <if test="endAage != null   and endAage !=''  ">
+	       <if test="endAage != null   and endAage !=0  ">
 	           AND t.age &lt;= #{endAage}
 	       </if>
 	       <if test="sex != null        and sex !=''  "> AND t.sex = #{sex}</if>
