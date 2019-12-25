@@ -296,6 +296,7 @@
   margin-bottom: 10px;
   height: 32px;
   width: 49.9%;
+  float: left;
 }
 .home-middle-layout .work-list:nth-child(2n) {
   padding-left: 5px;
