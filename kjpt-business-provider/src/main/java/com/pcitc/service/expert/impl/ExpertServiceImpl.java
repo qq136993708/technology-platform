@@ -375,14 +375,12 @@ public class ExpertServiceImpl implements IExpertService {
 			String technicalFieldName=getTableParam(param,"technicalFieldName","");
 			String groupType=getTableParam(param,"groupType","");
 			String childUnitIds=getTableParam(param,"childUnitIds","");
-			
 			String secretLevel=getTableParam(param,"secretLevel","");
 			String userSecretLevel=getTableParam(param,"userSecretLevel","");
 			String createUnitId=getTableParam(param,"createUnitId","");
 			String createUnitName=getTableParam(param,"createUnitName","");
+			String expertType=getTableParam(param,"expertType","");
 			
-		    
-		    
 			
 			Map map=new HashMap();
 			map.put("name", name);
@@ -400,11 +398,12 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("technicalFieldIndex", technicalFieldIndex);
 			map.put("technicalFieldName", technicalFieldName);
 			map.put("childUnitIds", childUnitIds);
-			
 			map.put("secretLevel", secretLevel);
 			map.put("userSecretLevel", userSecretLevel);
 			map.put("createUnitId", createUnitId);
 			map.put("createUnitName", createUnitName);
+			map.put("expertType", expertType);
+			
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
@@ -451,14 +450,19 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBase.setTitle(outPerson.getTitle());
 				zjkBase.setPost(outPerson.getPost());
 				zjkBase.setCreateTime(new Date());
+				zjkBase.setSex(outPerson.getSex());
+				zjkBase.setBrief(outPerson.getBirthYear());
+				zjkBase.setEducation(outPerson.getEducation());
+				zjkBase.setBelongUnit(outPerson.getBelongUnitId());
+				zjkBase.setTechnicalField(outPerson.getTechType());
+				zjkBase.setTechnicalFieldName(outPerson.getTechTypeName());
 				zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
 				zjkBase.setSourceType(Constant.SOURCE_TYPE_OUTER);//数据来源（1本系统，2外系统）
 				String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 				zjkBase.setId(dateid);
 				zjkBase.setGroupType(groups);
 				zjkBase.setCreateUser(userId);
-				String str=CommonUtil.genRandomNum()+"1";//9位=生成8位随机数+1
-				zjkBase.setNum(str);//人才编号-通过身份证从人事库取,如果没有，生成8位随机数
+				zjkBase.setNum(outPerson.getUserNo());//人才编号-通过身份证从人事库取,如果没有，生成8位随机数
 				zjkBaseMapper.insert(zjkBase);
 				count=1;
 			}

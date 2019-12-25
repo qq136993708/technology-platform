@@ -46,9 +46,7 @@
     <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
     <result column="see_user_ids"             jdbcType="VARCHAR" property="seeUserIds" />
     <result column="see_user_names"           jdbcType="VARCHAR" property="seeUserNames" />
-   
-    
-    
+    <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     
   </resultMap>
   <sql id="Base_Column_List">
