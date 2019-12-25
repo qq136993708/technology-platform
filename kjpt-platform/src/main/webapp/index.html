@@ -826,7 +826,7 @@ var __base_dic_store = {
 				});
 			}
 			//待办任务
-			window.getNotReadTaskList = function() {
+			/*window.getNotReadTaskList = function() {
 				publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
 					$(".task_more").unbind();
 					$(".task_info").unbind();
@@ -844,13 +844,13 @@ var __base_dic_store = {
 						parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
 					});
 							});
-			}
+			}*/
 			$(document).ready(function() {
 				$("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
 				//initMessageSocket();
 				//initTaskSocket();
 				getNotReadMessageList();
-				getNotReadTaskList();
+				/*getNotReadTaskList();*/
 			});
 
 
