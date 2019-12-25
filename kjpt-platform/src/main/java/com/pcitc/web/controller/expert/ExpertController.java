@@ -124,8 +124,13 @@ public class ExpertController extends BaseController {
     	param.setLimit(limit);
     	param.setPage(page);
     	
-    	//默认查询小于等于用户密级的专家
-    	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
+    	String userName=sysUserInfo.getUserName();
+    	if(!userName.equals(Constant.USER_CONFIGADMIN))
+    	{
+    		//默认查询小于等于用户密级的专家
+        	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
+    	}
+    	
     	//默认查询当前人所在机构及子机构的所有专家
     	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
     	//param.getParam().put("childUnitIds", childUnitIds);

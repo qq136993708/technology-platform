@@ -62,7 +62,7 @@ public class Constant {
     public static String IS_PUBLIC_DOING = "2";
     public static String IS_PUBLIC_END = "3";
     
-    
+    public static String USER_CONFIGADMIN = "configadmin";
 
     /**
                * 默认文件上传类型
