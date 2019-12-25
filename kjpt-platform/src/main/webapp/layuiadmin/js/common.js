@@ -1117,4 +1117,189 @@ function _getButtonRoles() {
 		$(".xm-select-sj,.layui-edge").hide()
 		$(".xm-select-parent .xm-input").css("borderColor","#eee")
 	}
-  _useButtonRoles();
+	_useButtonRoles();
+	
+/* 知悉范围 *--- start ----*/
+function setJurisdictionScope(config) {
+	/*
+	config = {
+		elem: ElementHtml || ElementID,
+		data: [{name: string, id: string, ...}]
+	}
+	*/
+	$scope = (function() {
+		if (typeof(config.elem) === 'object') {
+			return $(config.elem);
+		} else if (typeof(config.elem) === 'string') {
+			return (config.elem.indexOf('#') === 0 ? $(config.elem) : $('#' + config.elem));
+		} else {
+			return null;
+		}
+	})();
+
+	if ($scope) {
+		layui.use(['table', 'laypage'], function() {
+			var table = layui.table,
+			laypage = layui.laypage,
+			scopeTableId = scopeTableId = randomID(),
+			pageID = randomID(),
+			viewData = config.data || [],
+			loadData = false,
+			activeListData = {},
+			tableData = { data: [], pageIndex: 1, pageSize: 5, total: 0, limits: [5, 10, 20, 30, 50]},
+			$selected = null,
+			$scopeInput = null,
+			reloadTable = function() {
+				if (!loadData) {
+					table.render({
+						elem: ('#' + scopeTableId)
+						,cols: [[ //表头
+							{type: 'checkbox', width: 80}
+							,{field: 'patentName', title: '用户名称' }
+							,{field: 'createDate', title: '所在单位' }
+						]],
+						data: tableData.data,
+						page: false //开启分页
+					});
+				} else {
+					table.reload(scopeTableId, {data: tableData.data});
+				}
+			},
+			selectedItemData = function() {
+				if (!$selected) {
+					return false;
+				}	
+				var labelHtml = '';
+				for (var key in activeListData) {
+					labelHtml += '<label class="sed-item-list">';
+					labelHtml += '<span class="name-item">'+activeListData[key].patentName+'</span>';
+					labelHtml += '<span class="delete-item" item-id="'+ activeListData[key].id +'"></span></label>';
+				}
+				$selected.empty().append(labelHtml);
+			},
+			getTableData = function(Data) {
+				var searchData = Data || {};
+				searchData.pageNum = tableData.pageIndex;
+				searchData.pageSize = tableData.pageSize;
+
+				httpModule({
+					url: '/patentController/query', // 数据接口
+					data: searchData || null,
+					success: function(res) {
+						if (res.code === '0') {
+							tableData.data = [];
+							$.each(res.data.list, function(i, item) {
+								var tmepItem = switchHttpData(item);
+								if (activeListData[item.id]) {
+									tmepItem.LAY_CHECKED = true;
+								} else {
+									tmepItem.LAY_CHECKED = false;
+								}
+								tableData.data.push(tmepItem);
+							});
+							tableData.total =	res.data.total;
+
+							// 渲染表格
+							reloadTable();
+	
+							if (!loadData) {
+								loadData = true;
+								laypage.render({
+									elem: pageID,
+									count: tableData.total,
+									limit: tableData.pageSize,
+									curr: tableData.pageIndex,
+									limits: tableData.limits,
+									jump: function(obj, isFirst) {
+										if (!isFirst) {
+											tableData.pageIndex = obj.curr;
+											tableData.pageSize = obj.limit;
+											getTableData({name: $scopeInput.val()});
+										}
+									}
+								});
+							}
+						}
+					}
+				});
+			}
+	
+			// 加载知悉范围HTML
+			$scope.load('/html/components/scope.html', function(html) {
+				var $hideLayout = $scope.find('[hide-table]'),
+				$page = $scope.find('.table-page-layout:eq(0)');
+
+				$scopeInput = $scope.find('[name="search_name"]').eq(0);
+
+				$page.attr('id', pageID); // 分页ID
+				$selected = $scope.find('[active-item]:eq(0)').empty();
+
+				// 删除选中用户
+				$selected.on('click', '.delete-item', function(e) {
+					var itemID = $(this).attr('item-id');
+					if (activeListData[itemID]) {
+						delete activeListData[itemID];
+						$(this).closest('label').remove();
+						for (var i = 0; i < tableData.data.length; i++) {
+							if (tableData.data[i].id === itemID) {
+								tableData.data[i].LAY_CHECKED = false;
+							}
+						}
+						reloadTable();
+					}
+				});
+				// 给表格添加随机ID
+				$scope.find('table:eq(0)').attr({
+					'id': scopeTableId, 'lay-filter':scopeTableId
+				});
+				
+				// 展开收起
+				$scope.on('click', '[label-id="downPlan"]', function(e) {
+					if ($(this).attr('_show-table') === 'true') {
+						$(this).attr('_show-table', 'false');
+						$hideLayout.hide();
+					} else {
+						$(this).attr('_show-table', 'true');
+						$hideLayout.show();
+						if (!loadData) {
+							var useName = $scopeInput.val() || '';
+							getTableData({name: useName });
+						}
+					}
+				})
+
+				// 监听表格选择与否
+				table.on('checkbox('+scopeTableId+')', function(rowData) {
+					if (rowData.type === 'all') {
+						$.each(tableData.data, function(i, item) {
+							if (rowData.checked) {
+								var tempItem = switchHttpData(item);
+								tempItem.LAY_CHECKED = rowData.checked;
+								activeListData[item.id] = tempItem;
+							} else if (activeListData[item.id]) {
+								delete activeListData[item.id];
+								$('[item-id="'+ item.id +'"]').closest('label').remove();
+							}
+						});
+					} else if (rowData.type === 'one') {
+						if (rowData.checked) {
+							var tempItem = switchHttpData(rowData.data);
+							tempItem.LAY_CHECKED = rowData.checked;
+							activeListData[rowData.data.id] = tempItem;
+						} else if (activeListData[rowData.data.id]) {
+							delete activeListData[rowData.data.id];
+							$('[item-id="'+ rowData.data.id +'"]').closest('label').remove();
+						}
+					}
+					// 更新选中项
+					selectedItemData();
+				});
+
+			});
+		})
+	} else {
+		console.error('elem => 不能为空！');
+		return false;
+	}
+}
+/* 知悉范围 *--- end ----*/
