@@ -10,7 +10,7 @@
     display: inline-block;
     vertical-align: top;
     min-width: 120px;
-    height: 100%;
+    height: 160px;
     position: relative;
 }
 .ring li h3 {
@@ -22,7 +22,7 @@
     z-index: 9;
 }
 .ring li h3 i {
-    font-size: 0.5rem;
+    font-size: 30px;
     font-family: 'Impact'; 
     font-weight: 400;
     color:rgba(170,237,255,1);
@@ -36,7 +36,7 @@
 }
 
 .ring li span.retate_icon{
-    height: calc(100% - 40px);
+    height: calc(100% - 2rem);
     width: 102px;
     margin: 0 auto;
     background-image: url(../../img/yc1_ring.gif);
@@ -46,7 +46,7 @@
     position: absolute;
     left: 50%;
     margin-left: -30px;
-    bottom: 58px;
+    bottom: calc(2rem + 18px);
     width: 60px;
     height: 25px;
     background-image: url(../../img/light_bot.png);
@@ -57,7 +57,7 @@
     width: 76px;
     height: 30px;
     left: 50%;
-    bottom: 70px;
+    bottom: calc(2rem + 30px);
     margin-left: -38px;
     background-image: url(../../img/light_mid.png);
 }
@@ -67,16 +67,16 @@
     width: 92px;
     height: 77px;
     left: 50%;
-    bottom: 70px;
+    bottom: calc(2rem + 30px);
     margin-left: -46px;
     background-image: url(../../img/light_top.png);
     animation: light 2s infinite linear;
 }
 .ring li span.value-name {
-    height: 40px;
-    line-height: 40px;
+    height: 2rem;
+    line-height: 2rem;
     text-align:  center;
-    font-size:0.25rem;
+    font-size: .8rem;
     font-family:PingFang SC;
     font-weight:400;
     color:rgba(255,255,255,1);
@@ -94,25 +94,6 @@
     100% {
         opacity: 1
     }
-}
-
-/* .ring li:first-child{left:1000px;top:279px;} */
-.ring li:nth-child(1) {
-    top:  30px;
-}
-.ring li:nth-child(2) {
-    left: 152px;
-    top:  30px;
-}
-
-.ring li:nth-child(3) {
-    left: 295px;
-    top:  30px;
-}
-
-.ring li:nth-child(4) {
-    left: 440px;
-    top:  30px;
 }
 
 .line {

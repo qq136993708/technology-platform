@@ -4,37 +4,87 @@
     float: left;
     
 }
-.main_left,.main_right{
+.main_left{
     width: 30%;
     height: 100%;
-    
+    padding-left: 1.2rem;
 }
 .main_middle{
-    width: 39%;
+    width: 38%;
     height: 100%;
 }
-.main_top,.main_bottom{
-    height: 30%;
-    padding: 0 0.375rem;
+.main_right {
+    width: 32%;
+    height: 100%; 
+    padding-left: 6.8rem;
+}
+.main_top {
+    height: 16.5rem;
+    padding-bottom: 3.5rem;
+}
+.main_right .main_top {
+    height: 12.5rem;
+    padding-bottom: 0;
+}
+.main_top .title {
+    margin-left: 1.7rem;
 }
 .main_bottom{
-    height: 69%;
+    height: 30%;
+    padding: 0 1.5rem;
+}
+.main_bottom{
+    height: calc(100% - 16.5rem);
 }
 
 .main_content{
     width: 100%;
-    height: calc(100% - 0.5rem);
+    height: calc(100% - 2rem);
 }
+.main_left .main_content {
+    padding-left: 1rem;
+}
+.main_right .main_content {
+    padding-top: 1.3rem;
+    height: calc(100% - 2rem);
+}
+
 .main_content .main_charts{
     width: 100%;
-    height: 74%;
-    padding-bottom: .5rem;
+    height: 64%;
+    min-height: 24rem;
+    position: relative;
+    padding: 0 4rem 2rem 3.8rem;
+    background: url('../../img/barChartbg.png') no-repeat bottom center;
+    background-size: 100% 100%;
 }
 .main_content .main_charts > .chart-block {
     height: 100%;
 }
+.main_content .main_charts .light-text-list{
+    position: absolute;
+    left: 3rem;
+    width: calc(100% - 7.8rem);
+    height: 1rem;
+    bottom: 1.2rem;
+    font-size: 0;
+}
+.light-text-list .text {
+    display: inline-block;
+    vertical-align: top;
+    width: 25%;
+    font-size: 1.25rem;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 6px #fff;
+    text-align: center;
+    line-height: 1.1rem;
+    height: 1.1rem;
+    font-family: Impact;
+}
 .main_content .desc{
-    height: 26%;
+    height: 36%;
+    padding-top: 2.5rem;
     position:  relative;
 }
 .main_content .desc > ul {
@@ -46,84 +96,84 @@
 
 .zscq{
     float: left;
-    width: 32.8%;
+    width: 33.33%;
     height: 100%;
+    padding: .7rem .75rem 0;
 }
 .circle{
-    height: 80%;
+    height: calc(100% - 1.1rem);
     position: relative;
-    margin-bottom: .28rem;
 }
 .circle .bounce1{
-    /* width: 1.125rem;
-    height:1.125rem; */
-    width: 1.125rem;
-    height:1.125rem;
-    
-    line-height: 1.125rem;
-    background:rgba(12,87,157,0.7);
-    opacity:0.7;
+    width: 4.6rem;
+    height: 4.6rem;
+    line-height: 4.6rem;
+    background:#0060ab;
     text-align: center;
-    border-radius: 1.125rem;
+    border-radius: 2.3rem;
     position:  absolute;
-    top: 26%;
-    left: 22%;
-    z-index: 5;
+    top: 50%;
+    margin-top: -2.3rem;
+    left: 50%;
+    margin-left: -2.3rem;
+    z-index: 1;
 }
 .circle .bounce1 span{
-    font-size: 0.625rem;
-    font-family:Impact;
+    font-size: 2.2rem;
+    font-family: Impact;
     font-weight:400;
     color:rgba(255,255,255,1);
 }
 .circle .bounce2{
-    /* width: 1.81rem;
-    height: 1.81rem; */
-
-    width: 1.61rem;
-    height: 1.61rem;
-    background:rgba(12,87,157,0.7);
-    opacity:0.7;
-    border-radius: 1.61rem;
+    width: 7.2rem;
+    height: 7.2rem;
+    background:#003460;
+    box-shadow: 0px 0px 1rem #003460;
+    border-radius: 3.6rem;
     position:  absolute;
-    top: 15%;
-    left: 10%;
-    z-index: 1;
+    top: 50%;
+    margin-top: -3.6rem;
+    margin-left: -3.6rem;
+    left: 50%;
 }
 .circle_desc{
-    height: 20%;
-    line-height: 20%;
+    height: 1.1rem;
+    line-height: 1.1rem;
     text-align: center;
 }
 .circle_desc span{
-    font-size:0.2rem;
+    font-size: 0.8rem;
     font-family:'myFont3';
-    font-weight:400;
+    font-weight: 400;
     color:rgba(255,255,255,1);
 }
 
 .zlxx{
     float: left;
-    width: 32.8%;
+    width: 33.3%;
     height: 100%;
-    display: flex;
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
 }
 .zlxx_desc{
-    margin-bottom: 0.187rem;
+    height: 3.6rem;
+    line-height: 3.6rem;
 }
 .zlxx span{
-    font-size:0.5rem;
+    font-size: 2rem;
     font-family:'Impact';
     font-weight:400;
     color:rgba(255,255,255,1);
+    text-shadow: 0 0 12px #0060ab;
 }
 .zlxx i{
-    font-size:0.2rem;
+    display: block;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: .8rem;
     font-family: 'myFont3'; 
-    font-weight:400;
+    font-weight: 400;
     font-style: normal;
     color:rgba(255,255,255,1);
 }
@@ -138,20 +188,22 @@
 .xmtz_charts #xmtz_charts2,
 .xmtz_charts #xmtz_charts3,
 .xmtz_charts #xmtz_charts4{
-    width: 100%;
-    height: calc(100% - 0.5rem);
+    width: 9rem;
+    height: 7.6rem;
+    margin: 0 auto;
 }
 .xmtz_desc{
     text-align:  center;
     position:  relative;
     bottom: .187rem;
-    height: 0.5rem;
+    height: 2.4rem;
 }
 .desc1{
-    margin-bottom: .125rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
 }
 .xmtz_desc span{
-    font-size:0.2rem;
+    font-size: .8rem;
     font-family: 'myFont3'; 
     font-weight:400;
     color:rgba(255,255,255,1);
@@ -159,12 +211,17 @@
 .cgxx_charts{
     width: 100%;
     height: 33.3%;
+    /* padding-bottom: 1.2rem; */
+}
+.cgxx_charts > div.chart {
+    height: 100%;
+    max-width: 330px;
 }
 
 /*************项目-检查界面*************************/
 .project_check{
-    height: calc(100% - 0.625rem);
-    padding: 0.25rem;
+    height: 100%;
+    padding: 1px 1.6rem .5rem 1.6rem;
 }
 .check_charts,.check_table{
     width: 100%;
@@ -172,17 +229,17 @@
 }
 .check_query{
     width: 100%;
-    height:0.375rem;
-    margin-top: 0.125rem;
+    height: 2rem;
+    margin-top: .5rem;
 }
 .check_query .query,.check_query .query1,.check_query .query2{
     float: left;
-    width:1.375rem;
-    height:0.375rem;
-    line-height:0.375rem;
+    width: 6rem;
+    height: 2rem;
+    line-height: 2rem;
     background:rgba(0,234,255,0.5);
     border-radius:2px;
-    margin-right: 0.25rem;
+    margin-right: 1rem;
     text-align: center;
     cursor: pointer;
 }
@@ -196,27 +253,26 @@
 }
 .check_query .query1{
     background:none;
-    width: 2rem;
+    width: 8rem;
 }
 .check_query .query2{
     background:none;
     width: auto;
 }
 .query span,.query1 span{
-    font-size:0.175rem;
+    font-size: .8rem;
     font-family:'myFont3';
     font-weight:400;
     color:rgba(4,48,99,1);
 }
 .jcCharts{
     width: 100%;
-    height: calc(100% - 0.875rem);
+    height: calc(100% - 3rem);
 }
 /***relayui - css****/
 .layui-input,.layui-select{
-    height:0.375rem;
-    line-height: 1.3;
-    line-height: 38px\9;
+    height: 2rem;
+    line-height: calc(2rem - 2px);
     color:rgba(0,234,255,1);
     background:rgba(10,43,74,1);
     border:1px solid rgba(0,234,255,1);
@@ -257,25 +313,21 @@
     color: #00EAFF;
 }
 /*************项目-风险界面*************************/
-.fx_tree,.fx_table{
+.fx_tree, .fx_table{
     float: left;
     width: 25%;
-    height: 100%;
-    margin-top: 0.125rem;
+    height: calc(100% - 5rem);
+    margin-top: .5rem;
 }
 .fx_tree{
-    width: 5rem;
+    width: 22rem;
     background:rgba(10,43,74,1);
-    /* height:  95%; */
-    /* height:  95%; */
-    height:  calc(100% - 0.5rem);
     overflow-y: auto;
     overflow-x:  hidden;
 }
 .fx_table{
-    margin-left: 0.25rem;
-    width: calc(99.7% - 5.25rem);
-    height:  calc(100% - 0.5rem);
+    margin-left: 1rem;
+    width: calc(99.7% - 23rem);
 }
 .ztree *{
     font-size:0.175rem !important;
@@ -310,13 +362,13 @@
 
 .jzjcg_table1,.jzjcg_table2{
     width: 100%;
-    height: 50%;
+    height: calc(50% - 2.2rem);
 }
 
 /**********项目-首页界面****************/
 .project_main{
-    height: calc(100% - 0.625rem);
-    padding: 0.25rem;
+    height: 100%;
+    padding: 1px 1.6rem .5rem 1.6rem;
 }
 .project_main_left,.project_main_middle,.project_main_right{
     float: left;
@@ -339,12 +391,13 @@
     height: 75%;
 }
 
-.project_main_right_tz1,.project_main_right_tz2{
-    height: 55%;
-    padding: 0 0.375rem;
+.project_main_right_tz1{
+    height: calc(100% - 16rem);
+    padding: 0 1rem;
 }
 .project_main_right_tz2{
-    height: 45%;
+    height: 16rem;
+    padding: 0 1rem;
 }
 .project_main_left_xm .xm_table,
 .project_main_left_fx .fx_charts,
@@ -352,7 +405,7 @@
 .project_main_right_tz2 .tz_tzgmtj
 {
     width: 100%;
-    height: calc(100% - 0.5rem);
+    height: calc(100% - 2rem);
 }
 .project_main_charts,.project_main_table{
     width: 100%;

@@ -467,7 +467,7 @@ var kyptCharts = {
       var totalTitle = 0;
       for (var i = 0; i < config.series.length; i++) {
         if (config.series[i].value || config.series[i].value !== '-') {
-          totalTitle += config.series[i].value;
+          totalTitle += parseFloat(config.series[i].value);
         }
       }
       option.title.text = totalTitle;

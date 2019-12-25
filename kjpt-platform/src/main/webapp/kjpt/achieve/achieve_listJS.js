@@ -135,10 +135,10 @@ layui.use(['table', 'form','laydate'], function() {
   $('.openLayerPage').on('click', function() {
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;
     var optionType = $(this).data('type'),
-    dialogTitle = '新增申请',
+    dialogTitle = '新增',
     url = '/kjpt/achieve/apply.html?type=' + optionType+"&index="+index;
     if (optionType === 'edit') {
-      dialogTitle = '编辑申请';
+      dialogTitle = '编辑';
     } else if (optionType === 'view') {
       dialogTitle = '查看';
         url = '/kjpt/achieve/apply_view.html?type=' + optionType+"&index="+index;

@@ -44,13 +44,13 @@
             <div class="title"><span>成果信息</span></div>
             <div class="main_content">
                 <div class="cgxx_charts">
-                    <div id="cgxx_charts1" style="width: 100%;height:170px;"></div>
+                    <div id="cgxx_charts1" class="chart"></div>
                 </div>
                 <div class="cgxx_charts">
-                    <div id="cgxx_charts2" style="width: 100%;height:170px;"></div>
+                    <div id="cgxx_charts2" class="chart"></div>
                 </div>
                 <div class="cgxx_charts">
-                    <div id="cgxx_charts3" style="width: 100%;height:170px;"></div>
+                    <div id="cgxx_charts3" class="chart"></div>
                 </div>
             </div>
         </div>
@@ -59,7 +59,15 @@
     <div class="main_middle">
         <div class="title"><span>项目数量</span></div>
         <div class="main_content">
-            <div class="main_charts"><div class="chart-block" id="main_charts"></div></div>
+            <div class="main_charts">
+                <div class="chart-block" id="main_charts"></div>
+                <div class="light-text-list">
+                    <i class="text">14</i>
+                    <i class="text">11</i>
+                    <i class="text">14</i>
+                    <i class="text">12</i>
+                </div>
+            </div>
             <div class="desc">
                 <ul class="ring">
                     <li>
@@ -164,11 +172,10 @@
     
     <script src="../common/js/jquery-1.10.1.min.js"></script>
     <script src="../common/js/echarts.min.js"></script>
-    <script src="../common/js/autofont.js"></script>
+    <script src="/layuiadmin/js/chartOption.js"></script>
     <script src="../common/js/main.js"></script>
     <script >
-        window.onload=window.onresize = function(){
-            autofont();
+        window.onload = window.onresize = function(){
             main_charts.resize();
         }
     </script>
