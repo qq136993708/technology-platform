@@ -317,8 +317,6 @@ public class FileUtil {
             out = res.getOutputStream();
             in = new FileInputStream(file);
 
-            AESFileUtils.downLoadDecryptFile(key,in,out);
-
              byte[] b = new byte[1000];
              int len;
              while ((len = in.read(b)) > 0)
@@ -362,16 +360,13 @@ public class FileUtil {
                 res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
             }
             InputStream in = new FileInputStream(file);
-            if(in!=null)
+            OutputStream os = res.getOutputStream();
+            //输出
+            byte[] b = new byte[1000];
+            int len;
+            while ((len = in.read(b)) > 0)
             {
-                OutputStream os = res.getOutputStream();
-                //输出
-                byte[] b = new byte[1000];
-                int len;
-                while ((len = in.read(b)) > 0)
-                {
-                    os.write(b, 0, len);
-                }
+                os.write(b, 0, len);
             }
 
     }
