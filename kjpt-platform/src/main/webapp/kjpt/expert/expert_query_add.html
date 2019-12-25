@@ -51,8 +51,9 @@
             });
             groups=groups.substr(0, groups.length - 1);
             httpModule({
-                url: '/outPerson-api/outPersonToZjkBase?ids='+variable.id+"&groups"+groups,
-                type: "get",
+                url: '/outPerson-api/outPersonToZjkBase',
+                data:{ids:variable.id,groups:groups},
+                type: "post",
                 success: function(e) {
                     if(e.success==0){
                         layer.msg('保存成功!', {icon: 1});
