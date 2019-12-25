@@ -33,32 +33,29 @@
         <!-- 头部 -->
         <div class="header-layout" id="header">
             <div class="top-header" id="top-header-nav">
-                <div class="header_left">
+                <div class="header_main">
                     <div class="left_tab">
                         <div class="location tab_button transL btnactive" href="main"><span>首页</span></div>
                         <div class="location tab_button transL" children="projectPage" href="project"><span>项 目</span></div>
                         <div class="location tab_button transL" href="project_zscq"><span>知识产权</span></div>
                         <div class="location tab_button transL" children="achievements" href="achieve_appraisal"><span>成果信息</span></div>
                     </div>
-                </div>
-                <div class="header_main">
                     <div class="logo_text">
                         <span class="text_cn">中核集团科技管理平台</span>
                     </div>
-                </div>
-                <div class="header_right">
                     <div class="right_tab">
                         <div class="location tab_button transR" href="intelligent_team"><span>科技人才</span></div>
                         <div class="location tab_button transR" href="kypt"><span>科研平台</span></div>
                         <div class="location tab_button transR" children="zlyjyfkPage" href="quality"><span>质量与经验反馈</span></div>
                     </div>
                 </div>
-                <div class="header_date">
+
+                <div class="header_date middle-block">
                     <img src="img/time.png" style="width: 14px;height: 14px;" alt="">
                     <span>截止到：</span>
                     <span id="formatDate">2019年5月23日  10:20:36 </span>
                 </div>
-                <div class="header_user">
+                <div class="header_user middle-block">
                     <span>中核集团用户</span>
                     <img src="img/exit.png" style="width: 14px;height: 14px;" alt="">
                 </div>
@@ -158,19 +155,6 @@
                     pageHref = 'front/'+ pageName +'.html';
                     $('#mainframe').attr('src', pageHref);
                 }
-            });
-
-            var windResize = null;
-            $(window).resize(function() {
-                if (windResize || windResize === 0) {
-                    clearTimeout(windResize);
-                }
-                windResize = setTimeout(function() {
-                    autofont();
-
-                    var headerHeight = $('#header').outerHeight();
-                    $('#wrapper').css({ 'padding-top': headerHeight });
-                }, 120);
             });
         });
     </script>

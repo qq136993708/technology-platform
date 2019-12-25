@@ -56,7 +56,7 @@ var option1 = {
     },
     yAxis: {
         type: 'category',
-        data: ['平台一','平台二','平台三','平台四','平台五','平台六'],
+        data: ['板块级科研平台','集团级科研平台','部委级科研平台','省部级科研平台','国家级科研平台'],
         axisLabel:{
             textStyle:{
                 color:'#fff',

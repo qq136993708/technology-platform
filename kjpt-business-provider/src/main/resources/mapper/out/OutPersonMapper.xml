@@ -21,6 +21,13 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="age" jdbcType="INTEGER" property="age" />
     
+    <result column="title_str"     jdbcType="VARCHAR" property="titleStr" />
+    <result column="education_str" jdbcType="VARCHAR" property="educationStr" />
+    <result column="sex_str"       jdbcType="VARCHAR" property="sexStr" />
+    
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, tech_type, 

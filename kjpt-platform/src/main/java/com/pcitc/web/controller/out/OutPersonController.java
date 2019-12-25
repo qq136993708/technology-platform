@@ -206,7 +206,8 @@ public class OutPersonController extends BaseController {
    
    @ApiOperation(value = "人才转为专家", notes = "人才转为专家")
    @ApiImplicitParams({
-   	   @ApiImplicitParam(name = "id", value = "主键", dataType = "string", paramType = "form"),
+   	    @ApiImplicitParam(name = "ids", value = "主键（多个逗号分）", dataType = "string", paramType = "form"),
+     	@ApiImplicitParam(name = "groups", value = "分组（多个逗号分）", dataType = "string", paramType = "form")
        
    })
    @RequestMapping(method = RequestMethod.GET, value = "/outPerson-api/outPersonToZjkBase")
