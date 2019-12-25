@@ -89,7 +89,6 @@ public class FileCommonController extends BaseController {
     @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
     @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
     public String upload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "secretLevel") String secretLevel){
-
         try {
             String fileSecretLevel = checkSecretLevel(secretLevel,file.getOriginalFilename());
             FileModel f = fileUtil.upload(file);
@@ -199,7 +198,7 @@ public class FileCommonController extends BaseController {
 
     @ApiOperation(value = "获取预览内容", notes = "获取预览内容")
     @RequestMapping(value="/getPdfPageContent/{fileId}/{pageNum}",method = RequestMethod.GET)
-    public void getPrepareContent(@PathVariable String fileId,@PathVariable Integer pageNum) {
+    public void getPrepareContent(@PathVariable String fileId,@PathVariable Integer pageNum) throws Exception {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         FileModel f = responseEntity.getBody();
         RestTemplate template = new RestTemplate();

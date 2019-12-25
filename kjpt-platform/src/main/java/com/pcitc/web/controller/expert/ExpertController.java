@@ -165,7 +165,11 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "technicalFieldIndex",       value = "技术索引",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "secretLevel",               value = "信息密级",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertType",                 value = "高层次人才类别",     dataType = "string", paramType = "query")
+        
+        
+    
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -184,6 +188,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String technicalFieldName,
             @RequestParam(required = false) String secretLevel,
             @RequestParam(required = false) String groupType,
+            @RequestParam(required = false) String expertType,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -201,14 +206,13 @@ public class ExpertController extends BaseController {
     	param.getParam().put("sex", sex);
     	param.getParam().put("education", education);
     	param.getParam().put("secretLevel", secretLevel);
+    	param.getParam().put("expertType", expertType);
 		 SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
     	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
     	//默认查询当前人所在机构及子机构的所有专家
-    	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-    	param.getParam().put("childUnitIds", childUnitIds);
-    	
-    	
+    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+    	//param.getParam().put("childUnitIds", childUnitIds);
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);

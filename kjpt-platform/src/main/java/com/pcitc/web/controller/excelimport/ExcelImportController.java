@@ -33,15 +33,16 @@ public class ExcelImportController extends RestBaseController {
     @ApiOperation(value="Excel导入")
     @RequestMapping(value = {"/excelImport/{importType}"}, method = RequestMethod.POST)
     @ResponseBody
-    public void kgjImport(@RequestParam(value = "file", required = false) MultipartFile impExcel, @PathVariable String importType, @RequestParam(value="pid",required=false) String pid) throws Exception {
+    public List kgjImport(@RequestParam(value = "file", required = false) MultipartFile impExcel, @PathVariable String importType, @RequestParam(value="pid",required=false) String pid) throws Exception {
         InputStream in = new BufferedInputStream(impExcel.getInputStream());
         List dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
-        if(!responseEntity.getBody().isEmpty()){
+        if(!responseEntity.getBody().isEmpty() && !"kgjimp".equals(importType)){
             SysException sys = new SysException(JSON.toJSONString(responseEntity.getBody()));
             sys.setCode("1");
             throw sys;
         }
+        return responseEntity.getBody();
     }
 }
