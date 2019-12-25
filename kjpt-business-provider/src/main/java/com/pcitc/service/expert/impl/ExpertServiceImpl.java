@@ -445,6 +445,7 @@ public class ExpertServiceImpl implements IExpertService {
 				String id=arr[i];
 				OutPerson outPerson=outPersonMapper.selectByPrimaryKey(id);
 				ZjkBase zjkBase = new ZjkBase();
+				zjkBase.setOutSystemId(outPerson.getUserNo());
 				zjkBase.setName(outPerson.getName());
 				zjkBase.setEmail(outPerson.getEmail());
 				zjkBase.setTitle(outPerson.getTitle());

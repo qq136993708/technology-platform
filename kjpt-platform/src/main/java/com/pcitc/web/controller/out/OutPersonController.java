@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.EquipmentUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -208,33 +203,31 @@ public class OutPersonController extends BaseController {
    @ApiImplicitParams({
    	    @ApiImplicitParam(name = "ids", value = "主键（多个逗号分）", dataType = "string", paramType = "form"),
      	@ApiImplicitParam(name = "groups", value = "分组（多个逗号分）", dataType = "string", paramType = "form")
-       
    })
-   @RequestMapping(method = RequestMethod.GET, value = "/outPerson-api/outPersonToZjkBase")
-	public String outPersonToZjkBase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+   @RequestMapping(method = RequestMethod.POST, value = "/outPerson-api/outPersonToZjkBase")
+	public String outPersonToZjkBase(@RequestBody  OutPerson outPerson,HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+		Result resultsDate = new Result();
+		SysUser user = getUserProfile();
+		Map map = new HashMap();
+		map.put("groups", outPerson.getGroups());
+		map.put("ids", outPerson.getIds());
+		map.put("userId", user.getUserName());
 
-	String ids=CommonUtil.getParameter(request, "ids", "");
-	String groups=CommonUtil.getParameter(request, "groups", "");
-   	Result resultsDate = new Result();
-   	
-   	this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
- 	Map<String ,Object> paramMap = new HashMap<String ,Object>();
- 	paramMap.put("groups", groups);
- 	paramMap.put("ids", ids);
- 	HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
-	ResponseEntity<Integer> responseEntity = restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, httpEntity, Integer.class);
-	int statusCode = responseEntity.getStatusCodeValue();
-	int dataId = responseEntity.getBody();
-	// 返回结果代码
-	if (statusCode == 200) 
-	{
-		resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
-	} else 
-	{
-		resultsDate = new Result(false, "同步专家信息失败");
-	}
-	JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-	return result.toString();
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(map, this.httpHeaders);
+		ResponseEntity<Integer> responseEntity = restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, httpEntity,Integer.class);
+
+		int statusCode = responseEntity.getStatusCodeValue();
+		Integer dataId = responseEntity.getBody();
+		// 返回结果代码
+		if (statusCode == 200) 
+		{
+			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		} else {
+			resultsDate = new Result(false, "同步专家信息失败");
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
    }
    
   
