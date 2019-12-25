@@ -152,6 +152,7 @@ html {
     height: 4.8rem;
     cursor: default;
     position: relative;
+    text-align: center;
     background: url('../../img/header_top_bg.png') center bottom no-repeat;
     background-size: 110% auto;
 }
@@ -165,46 +166,32 @@ html {
     width: 100%;
     height: 2rem;
 }
-.header_left {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    width: 100%;
-    /* height: 0.5rem; */
-    padding-left: .187rem;
-    padding-right: .187rem;
+.header_main {
+    display: inline-block;
+    padding-right: 6rem;
     padding-bottom: 1px;
 	color:  #fff;
 }
-.left_tab::after {
+.left_tab::after,
+.right_tab::after{
     content: '';
     display: table;
     width: 100%;
     float: none;
     clear: both;
 }
-
-.header_main {
-    height: 2.5rem;
-    line-height: 2.5rem;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    margin-top: -1.25rem;
-    margin-left: 30rem;
-    box-sizing: border-box;
-    text-align: center;
-    width: calc(100% - 60rem);
-}
-.header_main img {
-    float: left;
-    width: 2.12rem;
-    height: 100%;
-}
 .header_main .logo_text {
+    height: 4.8rem;
+    line-height: 4.8rem;
     box-sizing: border-box;
+    display: inline-block;
+    vertical-align: bottom;
 }
+.left_tab, .right_tab {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
 .header_right {
     position: absolute;
     right: 0;
@@ -220,35 +207,37 @@ html {
 .header_date {
     position: absolute;
     left: 0;
-    right: 0;
-    top: .337rem;
-    margin-left: .187rem;
-    color:  #fff;
-    font-size: 0;
+    top: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    margin-left: 1rem;
+    color: #fff;
 }
 .header_date span,
 .header_date img,
 .header_user span,
 .header_user img{
-    font-size:.175rem;
+    font-size: 14px;
+    line-height: 14px;
     font-family: 'myfont1'; 
-    font-weight:400;
+    font-weight: 400;
     color:rgba(255,255,255,1);
     display: inline-block;
     vertical-align: middle;
 }
 .header_date img {
-    margin-right: 6px;
+    margin-right: .4rem;
 }
 .header_user img {
-    margin-left: 5px;
+    margin-left: .4rem;
 }
 .header_user {
     position: absolute;
-    right: 0.25rem;
-    top: 0.337rem;
-    /* bottom: 0; */
-    margin: auto;
+    right: 0;
+    top: 1rem;
+    margin-right: 1rem;
+    height: 1rem;
+    line-height: 1rem;
 	color:#ffffff;
 }
 .title{
@@ -265,9 +254,9 @@ html {
 
 .tab_button{
     float: left;
-    width: 7rem;
+    min-width: 6.5rem;
     height: 1.9rem;
-    line-height: 0.43rem;
+    line-height: calc(1.9rem - 2px);
     text-align: center;
     color:rgba(255,255,255,1);
     margin-right: .5rem;
@@ -283,6 +272,10 @@ html {
     
     z-index: -1;
 }
+.header_main .tab_button:last-child {
+    margin-right: 0;
+}
+
 .btnactive{
     opacity:0.8;
     color: white;
@@ -329,11 +322,12 @@ html {
 .header_main .logo_text {
     box-sizing: border-box;
     text-align:  center;
+    padding: 0 3rem;
 }
 .logo_text span {
-    display: inline-block;
+    display: block;
     height: 100%;
-    font-size: 1.2rem;
+    font-size: 2rem;
     color:#ffffff;
     letter-spacing: .3rem;
     font-family: 'tgafont'; 
