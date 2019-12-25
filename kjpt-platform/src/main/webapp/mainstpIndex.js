@@ -12,7 +12,7 @@ layui.config({
       { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个',url:'/kjpt/expert/expert_query.html' }
       , {  title: '科研平台', iconName: 'icon002', id: 'scientificPlatform', label: '', unit: '家',url:'/html/scientificPlatform/scientificPlatform.html' }
       , { title: '科技成果', iconName: 'icon003', id: '', label: 'kycg', unit: '个' ,url:'#'}
-      , { title: '成果转化', iconName: 'icon007', id: 'achieveTranform', label: '', unit: '个',url:'/kjpt/expert/expert_query.html' }
+      , { title: '成果转化', iconName: 'icon007', id: 'achieveTranform', label: '', unit: '个',url:'/achieve/achieve_query' }
       , { title: '专利数量', iconName: 'icon010', id: 'patentNumber', label: '', unit: '个' ,url:'/html/patent/query.html'}
       , { title: '核行业标准', iconName: 'icon008', id: '', label: '', unit: '个',url:'#' }
       , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' ,url:'#'}

@@ -51,8 +51,9 @@
             });
             groups=groups.substr(0, groups.length - 1);
             httpModule({
-                url: '/achieve-api/save?ids='+variable.id+"&groups="+groups,
+                url: '/achieve-api/save',
                 type: "get",
+                data:{ids:variable.id,groups:groups},
                 success: function(e) {
                     if(e.success==0){
                         layer.msg('保存成功!', {icon: 1});

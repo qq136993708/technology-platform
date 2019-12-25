@@ -128,17 +128,20 @@
                                     return ('<a href="./expert_view.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>')
                                 } },
                             {field: 'sexStr', title: '性别'},
-                            {field: 'titleStr', title: '年龄'},
+                            {field: 'age', title: '年龄'},
                             {field: 'educationStr', title: '学历' },
                             {field: 'belongUnitStr', title: '职称'},
                             {field: 'belongUnitName', title: '所在单位'},
-                            {field: 'contactWay', title: '技术领域'},
+                            {field: 'techTypeName', title: '技术领域'},
                         ]],
                         method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                         where: where
                         ,request: {
                             page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
                             limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                        }
+                        ,done:function (res) {
+                            console.log(res)
                         }
                         , page: true //开启分页
                         , limit: 15
