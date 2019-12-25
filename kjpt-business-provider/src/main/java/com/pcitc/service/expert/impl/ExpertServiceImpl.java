@@ -464,6 +464,9 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBase.setCreateUser(userId);
 				zjkBase.setNum(outPerson.getUserNo());//人才编号-通过身份证从人事库取,如果没有，生成8位随机数
 				zjkBaseMapper.insert(zjkBase);
+				
+				outPerson.setIsExpert("1");
+				outPersonMapper.updateByPrimaryKey(outPerson);
 				count=1;
 			}
 		}

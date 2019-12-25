@@ -342,35 +342,43 @@ public class FileUtil {
      * @param res
      */
     public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) {
-        res.setContentType(f.getType());
-        res.setContentLengthLong(f.getFileSize());
-        res.setCharacterEncoding("UTF-8");
-        File file = new File(getFilePath(f.getFilePath()));
-        if(file.exists()==true && file!=null)
-        {
-            try{
-                if(isAttachment) {
-                    String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
-                    res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
-                }
-                InputStream in = new FileInputStream(file);
-                //输出
-                OutputStream os = res.getOutputStream();
+    	if(f!=null)
+    	{
+    		 res.setContentType(f.getType());
+    	        res.setContentLengthLong(f.getFileSize());
+    	        res.setCharacterEncoding("UTF-8");
+    	        File file = new File(getFilePath(f.getFilePath()));
+    	        if(file.exists()==true && file!=null && !file.isDirectory())
+    	        {
+    	            try{
+    	                if(isAttachment) {
+    	                    String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
+    	                    res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
+    	                }
+    	                InputStream in = new FileInputStream(file);
+    	                if(in!=null)
+    	                {
+    	                	//输出
+        	                OutputStream os = res.getOutputStream();
 
-                byte[] b = new byte[1000];
-                int len;
-                while ((len = in.read(b)) > 0)
-                {
-                    os.write(b, 0, len);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                /*LogUtil.logError(e);
+        	                byte[] b = new byte[1000];
+        	                int len;
+        	                while ((len = in.read(b)) > 0)
+        	                {
+        	                    os.write(b, 0, len);
+        	                }
+    	                }
+    	                
+    	            } catch (Exception e) {
+    	                e.printStackTrace();
+    	                /*LogUtil.logError(e);
 
-                sendError(res, "文件下载错误，err=" + e.getMessage());*/
-            }
-        }
-        
+    	                sendError(res, "文件下载错误，err=" + e.getMessage());*/
+    	            }
+    	        }
+    	        
+    	}
+       
 
     }
 

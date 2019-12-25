@@ -94,8 +94,8 @@ public class OutPersonServiceImpl implements IOutPersonService {
 			Integer endAage=CommonUtil.getTableParamInt(param,"endAage",120);
 			String sex=getTableParam(param,"sex","");
 			String techType=getTableParam(param,"techType","");
-		       
-		       
+			String isExpert=getTableParam(param,"isExpert",""); 
+			
 			
 			
 			Map map=new HashMap();
@@ -108,7 +108,7 @@ public class OutPersonServiceImpl implements IOutPersonService {
 			map.put("endAage", endAage);
 			map.put("sex", sex);
 			map.put("techType", techType);
-			
+			map.put("isExpert", isExpert);
 			
 			List<OutPerson> list = outPersonMapper.getList(map);
 			PageInfo<OutPerson> pageInfo = new PageInfo<OutPerson>(list);
