@@ -15,37 +15,37 @@ public class OutPerson  {
     /**
      * 性别
      */
-    private String sex;
+    private String sex="";
 
     /**
      * 名称
      */
-    private String name;
+    private String name="";
 
     /**
      * 生出年(yyyy)
      */
-    private String birthYear;
+    private String birthYear="";
 
     /**
      * 学历(字典)
      */
-    private String education;
+    private String education="";
 
     /**
      * 所在单位名称
      */
-    private String belongUnitName;
+    private String belongUnitName="";
 
     /**
      * 所在单位ID
      */
-    private String belongUnitId;
+    private String belongUnitId="";
 
     /**
      * 技术族领域（多选）
      */
-    private String techType;
+    private String techType="";
 
     /**
      * 创建时间
@@ -55,35 +55,35 @@ public class OutPerson  {
     /**
      * 创建人
      */
-    private String createUser;
+    private String createUser="";
 
     /**
      * 技术领域名称
      */
-    private String techTypeName;
+    private String techTypeName="";
 
     /**
      * 身份证号码
      */
-    private String idCard;
+    private String idCard="";
 
     /**
      * 邮箱
      */
-    private String email;
+    private String email="";
 
     /**
      * 联系方式
      */
-    private String contactWay;
+    private String contactWay="";
 
     /**
      * 工作经历
      */
-    private String workExperience;
+    private String workExperience="";
     
-    private String post;
-    private String title;
+    private String post="";
+    private String title="";
     
     private String titleStr;
     private String educationStr;
@@ -100,17 +100,25 @@ public class OutPerson  {
     private String ids;
     private String groups;
     
-    private String userNo;
+    private String userNo="";
     
-    private String outUserNo;
+    private String outUserNo="";
     
-    
+    private String   isExpert="0";
     
     
     
     
 
-    public String getOutUserNo() {
+    public String getIsExpert() {
+		return isExpert;
+	}
+
+	public void setIsExpert(String isExpert) {
+		this.isExpert = isExpert;
+	}
+
+	public String getOutUserNo() {
 		return outUserNo;
 	}
 

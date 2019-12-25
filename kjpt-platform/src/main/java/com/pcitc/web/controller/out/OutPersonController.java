@@ -87,7 +87,11 @@ public class OutPersonController extends BaseController {
         @ApiImplicitParam(name = "beginAage",      value = "开始年龄",     dataType = "int", paramType = "query"),
         @ApiImplicitParam(name = "endAage",        value = "截止年龄",     dataType = "int", paramType = "query"),
         @ApiImplicitParam(name = "sex",            value = "性别",        dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "techType",       value = "技术领域",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "techType",       value = "技术领域",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "isExpert",       value = "0不是专家，1是专家",     dataType = "string", paramType = "query")
+        
+        
+    
     })
     @RequestMapping(value = "/outPerson-api/page", method = RequestMethod.GET)
 	public String getExpertPage(
@@ -104,6 +108,8 @@ public class OutPersonController extends BaseController {
             @RequestParam(required = false) Integer endAage,
             @RequestParam(required = false) String sex,
             @RequestParam(required = false) String techType,
+            @RequestParam(required = false) String isExpert,
+            
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -117,6 +123,7 @@ public class OutPersonController extends BaseController {
     	param.getParam().put("endAage", endAage);
     	param.getParam().put("sex", sex);
     	param.getParam().put("techType", techType);
+    	param.getParam().put("isExpert", isExpert);
     	param.setLimit(limit);
     	param.setPage(page);
 		LayuiTableData layuiTableData = new LayuiTableData();
