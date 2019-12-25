@@ -81,7 +81,7 @@ public class SysConfigController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getSysConfigListForTable(@ModelAttribute("param") LayuiTableParam param) {
-		System.out.println("====--------/sys_config/list");
+		//System.out.println("====--------/sys_config/list");
 		// 获取当前登录人信息
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		param.getParam().put("configCode", userInfo.getUserId());
@@ -138,7 +138,7 @@ public class SysConfigController extends BaseController {
 			configId = "";
 		model.addAttribute("configId", configId);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(httpHeaders);
-		System.out.println("=====sysConfigEdit-----" + userInfo.getUserDisp());
+		//System.out.println("=====sysConfigEdit-----" + userInfo.getUserDisp());
 		this.getCurrentRequest().setAttribute("userInfo", userInfo);
 		ResponseEntity<SysConfig> responseEntity = this.restTemplate.exchange(GET_SYS_CONFIG + configId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysConfig.class);
 		SysConfig sysConfig = responseEntity.getBody();
@@ -181,10 +181,10 @@ public class SysConfigController extends BaseController {
 	@RequestMapping(value = "/sysConfig/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public Result deleteSysConfig(@RequestBody SysConfig sysConfig) {
-		System.out.println("deleteSysRestfulapi=================-----------" + sysConfig.getConfigId());
+		//System.out.println("deleteSysRestfulapi=================-----------" + sysConfig.getConfigId());
 		HttpEntity<SysConfig> entity = new HttpEntity<SysConfig>(sysConfig, this.httpHeaders);
 		Integer retI = this.restTemplate.exchange(DELETE_SYS_CONFIG, HttpMethod.DELETE, entity, Integer.class).getBody();
-		System.out.println("=================-----------" + retI);
+		//System.out.println("=================-----------" + retI);
 		if (retI == 0) {
 			return new Result(false, "操作失败!");
 		} else {
@@ -207,7 +207,7 @@ public class SysConfigController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getSysConfigHistoryList(@ModelAttribute("param") LayuiTableParam param) {
-		System.out.println("---------------------------/sysconfig/history/list");
+		//System.out.println("---------------------------/sysconfig/history/list");
 		// 获取当前登录人信息
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		param.getParam().put("configCode", userInfo.getUserId());

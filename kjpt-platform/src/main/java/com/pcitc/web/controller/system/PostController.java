@@ -53,7 +53,7 @@ public class PostController extends BaseController {
 
 	@RequestMapping(value = "/post/edit-post", method = RequestMethod.GET)
 	public ModelAndView toPostEditPage(HttpServletRequest request, @RequestParam(name = "unitId", required = false) String unitId, @RequestParam(name = "postId", required = false) String postId) {
-		System.out.println("----------unitId=====" + unitId + "---------postId===" + postId);
+		//System.out.println("----------unitId=====" + unitId + "---------postId===" + postId);
 		request.setAttribute("unitId", unitId);
 		request.setAttribute("postId", postId);
 		return new ModelAndView("/base/post/edit_post");
@@ -61,7 +61,7 @@ public class PostController extends BaseController {
 
 	@RequestMapping(value = "/post/post_function", method = RequestMethod.GET)
 	public ModelAndView toPostFunctionPage(HttpServletRequest request, @RequestParam(name = "unitId", required = false) String unitId, @RequestParam(name = "postId", required = false) String postId) {
-		System.out.println("----------unitId=====" + unitId + "---------postId===" + postId);
+		//System.out.println("----------unitId=====" + unitId + "---------postId===" + postId);
 		request.setAttribute("unitId", unitId);
 		request.setAttribute("postId", postId);
 		return new ModelAndView("/base/post/post_function");

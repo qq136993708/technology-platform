@@ -147,7 +147,7 @@ public class SysMeetingController extends BaseController {
 			sysMeeting = new SysMeeting();
 			sysMeeting.setId(idv);
 			sysMeeting.setCreateTime(new Date());
-			System.out.println("---------------ext1:" + ext1 + " name=" + name + " ext2=" + ext2);
+			//System.out.println("---------------ext1:" + ext1 + " name=" + name + " ext2=" + ext2);
 		} else {
 			ResponseEntity<SysMeeting> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysMeeting.class);
 			sysMeeting = se.getBody();

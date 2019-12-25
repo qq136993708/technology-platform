@@ -78,9 +78,9 @@ public class TechFamilyApiController extends BaseController
 		
 		JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(alllist));
 		
-		System.out.println(">>>>>>>>>nodeList条数:"+trreeJsovvn.toString());		
+		//System.out.println(">>>>>>>>>nodeList条数:"+trreeJsovvn.toString());		
 		JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(TreeUtils.recursiveTree(Constant.TECHFAMILY_ROOT_ID,alllist)));
-		System.out.println("-----------------树形结构："+trreeJson.toString());
+		//System.out.println("-----------------树形结构："+trreeJson.toString());
 		return trreeJson.toString();
 	}
 	
