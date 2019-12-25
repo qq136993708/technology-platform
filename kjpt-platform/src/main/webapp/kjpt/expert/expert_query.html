@@ -215,9 +215,15 @@
             }
             var id=''
             activeData.map(function (item, index) {
-                id+=item.id+","
+                if(item.outUserNo==undefined){
+                    id+=item.id+","
+                }
             })
             id=id.substr(0, id.length - 1);
+            if(id==''){
+                layer.msg('已选择要存入专家库的数据都转为专家！');
+                return false
+            }
             top.layer.open({
                 type: 2,
                 title: "选择分组",
