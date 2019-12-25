@@ -20,7 +20,7 @@ public class AESFileUtils {
     private static final String ALGORITHM = "AES";
     private static final int KEY_SIZE = 128;
     private static final int CACHE_SIZE = 1024;
-
+    private static final String FILE_KEY = "kjptFile";
     /**
      * <p>
      * 生成随机密钥

@@ -96,15 +96,17 @@ public class FileUtil {
         {
             targetFile.delete();
         }
-        //file.transferTo(targetFile);
-        byte[] encryptByte;
-        encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
-        //System.out.println("upload===================="+key);
-        OutputStream output = new FileOutputStream(targetFile);
+        file.transferTo(targetFile);
+        //文件加密
+        ///////////////////////////
+        //byte[] encryptByte;
+        //encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
+        //OutputStream output = new FileOutputStream(targetFile);
 
-        BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
+        //BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
 
-        bufferedOutput.write(encryptByte);
+        //bufferedOutput.write(encryptByte);
+        /////////////////////////////
 
         fm.setFileName(fileName);
         fm.setCreateDate(new Date());
@@ -305,29 +307,32 @@ public class FileUtil {
      * @param file
      * @param res
      */
-    public static void prepare(File file,HttpServletResponse res,String contentType)
-    {
+    public static void prepare(File file,HttpServletResponse res,String contentType) throws Exception {
 
         OutputStream out = null;
         InputStream in = null;
-        try
-        {
+         try
+         {
             res.setContentType(contentType);
             out = res.getOutputStream();
             in = new FileInputStream(file);
 
-            byte[] b = new byte[1000];
-            int len;
-            while ((len = in.read(b)) > 0)
+            AESFileUtils.downLoadDecryptFile(key,in,out);
+
+             byte[] b = new byte[1000];
+             int len;
+             while ((len = in.read(b)) > 0)
             {
-                out.write(b, 0, len);
-            }
-            out.flush();
-            closeIO(in);
-            closeIO(out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                 out.write(b, 0, len);
+             }
+             out.flush();
+             closeIO(in);
+             closeIO(out);
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+
     }
 
     /**
@@ -336,22 +341,34 @@ public class FileUtil {
      * @param isAttachment
      * @param res
      */
-    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) throws Exception {
+    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) {
         res.setContentType(f.getType());
         res.setContentLengthLong(f.getFileSize());
         res.setCharacterEncoding("UTF-8");
         File file = new File(getFilePath(f.getFilePath()));
         if(file.exists()==true && file!=null)
         {
-            if(isAttachment) {
-                String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
-                res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
+            try{
+                if(isAttachment) {
+                    String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
+                    res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
+                }
+                InputStream in = new FileInputStream(file);
+                //输出
+                OutputStream os = res.getOutputStream();
+
+                byte[] b = new byte[1000];
+                int len;
+                while ((len = in.read(b)) > 0)
+                {
+                    os.write(b, 0, len);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                /*LogUtil.logError(e);
+
+                sendError(res, "文件下载错误，err=" + e.getMessage());*/
             }
-            InputStream in = new FileInputStream(file);
-            //输出
-            OutputStream os = res.getOutputStream();
-            //解密输出
-            AESFileUtils.downLoadDecryptFile(key,in,os);
         }
         
 
