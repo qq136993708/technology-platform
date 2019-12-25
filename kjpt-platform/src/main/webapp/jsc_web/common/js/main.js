@@ -1,7 +1,73 @@
-/**成果信息***/
-var cgxx_charts1 = echarts.init(document.getElementById('cgxx_charts1'));
-var cgxx_charts2 = echarts.init(document.getElementById('cgxx_charts2'));
-var cgxx_charts3 = echarts.init(document.getElementById('cgxx_charts3'));
+// 成果鉴定
+kyptCharts.render({
+    id: 'cgxx_charts1',
+    type: 'pie',
+    legendPosition: 'right',
+    legend: { top: 'center', formatter: 'name|value'},
+    label: false,
+    labelColor: '#fff',
+    radius: ['62%', '84%'],
+    borderColor: '#001e38',
+    title: '成果鉴定',
+    totalTitle: true,
+    title: {
+        textStyle: {
+        color: '#fff',
+        fontSize: 24,
+        width: '100%'
+        }
+    },
+    series: [],
+    color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
+});
+
+// 成果报奖
+kyptCharts.render({
+    id: 'cgxx_charts2',
+    type: 'pie',
+    legendPosition: 'right',
+    legend: { top: 'center', formatter: 'name|value'},
+    label: false,
+    labelColor: '#fff',
+    radius: ['62%', '84%'],
+    borderColor: '#001e38',
+    title: '成果报奖',
+    totalTitle: true,
+    title: {
+        textStyle: {
+        color: '#fff',
+        fontSize: 24,
+        width: '100%'
+        }
+    },
+    series: [],
+    color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
+});
+
+// 成果转化
+kyptCharts.render({
+    id: 'cgxx_charts3',
+    type: 'pie',
+    legendPosition: 'right',
+    legend: { top: 'center', formatter: 'name|value'},
+    label: false,
+    labelColor: '#fff',
+    radius: ['62%', '84%'],
+    borderColor: '#001e38',
+    title: '成果转化',
+    totalTitle: true,
+    title: {
+        textStyle: {
+        color: '#fff',
+        fontSize: 24,
+        width: '100%'
+        }
+    },
+    series: [],
+    color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
+});
+
+
 /**项目投资***/
 var xmtz_charts1 = echarts.init(document.getElementById('xmtz_charts1'));
 var xmtz_charts2 = echarts.init(document.getElementById('xmtz_charts2'));
@@ -121,11 +187,6 @@ var option1 = {
         }
     ]
 };
-// 成果信息
-cgxx_charts1.setOption(cgxx_option);
-cgxx_charts2.setOption(cgxx_option);
-cgxx_charts3.setOption(cgxx_option);
-
 
 // 项目投资Option
 var xmtz_option = {
@@ -224,18 +285,18 @@ var xmsl_option={
         show:true,
         itemWidth:13,
         itemHeight:13,
-        x:'60%',
 		data:['已完成','在研'],
 		textStyle:{
 			color:'#fff',
-			fontSize:18
-		}
+			fontSize: 16
+        },
+        right: 10
 	},
 	grid: {
-		x:'5%',
-		x2:'5%',
-		y:30,
-		y2:'10%'
+		top: '12%',
+		right: '5%',
+		left: '5%',
+		bottom:'10%'
 	},
 	xAxis: [
 		{
@@ -380,7 +441,7 @@ var xmsl_option={
                     {coord: [2, 14]},
                     {coord: [3, 12]}
                 ],
-                symbolOffset: [0, -16],
+                symbolOffset: [0, -15],
                 label: { show: false },
                 symbol: 'circle',
                 symbolSize: [40, 12],
@@ -423,7 +484,6 @@ function loadZSCQData(){
         success: function(result){
             if(result.success==true){
                 $("#cgsj_num span").html(result.data[0].count);//成果数量
-                $("#cgsj_num span").attr('style','font-size: 0.4rem;')
                 
                 $("#zhuanl_num span").html(result.data[1].count);//专利
                 $("#rjzzq_num span").html(result.data[2].count);//软件著作权
@@ -446,9 +506,21 @@ function loadMAINData(type){
         data:{inType:type},
         dataType: 'JSON',
         success: function(result){
-            if(result.success==true){
+            if(result.success == true){
+                console.log(result);
+
                 if(type=="2"){
-                    setCGXXData(result);//成果信息
+                    //成果信息 数据不对
+                    var chartData = [];
+                    $.each(result.data, function(i, item) {
+                        chartData.push({
+                            name: item.name.split('-')[1],
+                            value: item.num
+                        })
+                    })
+                    kyptCharts.reload('cgxx_charts1', {series: chartData});
+                    kyptCharts.reload('cgxx_charts2', {series: chartData});
+                    kyptCharts.reload('cgxx_charts3', {series: chartData});
                 }
                 if(type=="1"){
                     setXMSLData(result);//项目数量
@@ -464,20 +536,7 @@ function loadMAINData(type){
         }
     });
 }
-//成果信息
-function setCGXXData(result){
-    var data1=[
-        {value:23, name:'成果鉴定'},
-        {value:32, name:'成果报奖'},
-        {value:54, name:'成果转化'}
-    ]
-    cgxx_option.series[0].data=data1;
 
-    cgxx_charts1.setOption(cgxx_option);
-    cgxx_charts2.setOption(cgxx_option);
-    cgxx_charts3.setOption(cgxx_option);
-
-}
 //项目数量
 function setXMSLData(result){
     if(result.success==true){

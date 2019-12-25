@@ -167,8 +167,8 @@ var fx_option = {
 			splitNumber:6,
 			startAngle:180,
 			endAngle:0,
-			center : ['45%', '70%'],    // 默认全局居中
-			radius : '100%',
+			center : ['45%', '60%'],    // 默认全局居中
+			radius : '90%',
 			detail: {
 				formatter:'风险：{value}',
 				offsetCenter: [0, 0],
@@ -238,90 +238,7 @@ fx_chart5.setOption(fx_option);
 fx_chart6.setOption(fx_option);
 
 
-
-
 // 投资执行情况Option
-var xmtz_option = {
-	tooltip : {
-		formatter: "{a} <br/>{b} : {c}%"
-	},
-	series: [
-		{
-			name: '业务指标',
-			type: 'gauge',
-			min:0,
-			max:120,
-			splitNumber:6,
-			startAngle:225,
-			endAngle:-45,
-			center : ['45%', '50%'],    // 默认全局居中
-			radius : '90%',
-			detail: {
-				formatter:'{value}%',
-                // offsetCenter: [0, 0],
-                offsetCenter: [0, '20%'],     
-				textStyle: {
-                color: '#ffffff',
-                fontSize : 20,
-                fontFamily:'Impact'
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            top: '5%',
-            bottom: '5%',
-            containLabel: true
-        },
-        axisTick:{
-            show: false
-        },
-        axisLine: {            // 坐标轴线
-            lineStyle: {       // 属性lineStyle控制线条样式
-                color: [
-                    [1,new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                        {
-                            offset: 0.1,
-                            color: "rgba(246, 224, 103, 1)"
-                        },
-                        {
-                            offset: 1,
-                            color: "rgba(246, 180, 103, 1)"
-                        }
-                    ])]
-                ],
-                width: 10
-            }
-        },
-			axisLabel: {            // 坐标轴小标记
-				show:false
-			},
-			splitLine: {           // 分隔线
-				show:false
-			},
-			pointer: {
-				show:false
-            },
-            title : {
-                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    fontSize: 14,
-                    color: '#fff',
-                    shadowColor : '#fff', //默认透明
-                    shadowBlur: 10
-                }
-            },
-			data: [{value: 50, name: '核能开发'}]
-		}
-	]
-};
-
-
-// 项目投资
-xmtz_charts1.setOption(xmtz_option);
-xmtz_charts2.setOption(xmtz_option);
-xmtz_charts3.setOption(xmtz_option);
-xmtz_charts4.setOption(xmtz_option);
-
 $(document).ready(function() {
     gaugeimg('xmtz_charts1', '核能开发', 0, 100, 42, 'μg/m3');
     gaugeimg('xmtz_charts2', '集中研发', 0, 100, 90, 'μg/m3');
@@ -342,8 +259,8 @@ $(document).ready(function() {
 			option = {
 				title: {
 					text: title,
-					x: '28%',
-                    y: '30%',
+					x: 'center',
+                    y: '44%',
                     textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                         fontSize: 14,
                         color: '#fff',
@@ -369,13 +286,9 @@ $(document).ready(function() {
 					}
 				},
 				series: [{
-					// center: ['50%', '50%'],
-					// number: [0, '50%'],
 					startAngle:225,
                     endAngle:-45,
-                    center : ['45%', '50%'],    // 默认全局居中
-                    radius : '100%',
-					splitNumber: 10, //分割段数
+                    center : ['50%', '60%'],    // 默认全局居中
 					name: title,
 					type: 'gauge',
 					radius: '90%',
