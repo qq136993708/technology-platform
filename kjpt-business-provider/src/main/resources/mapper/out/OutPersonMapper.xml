@@ -19,16 +19,17 @@
     <result column="work_experience" jdbcType="VARCHAR" property="workExperience" />
     <result column="post"  jdbcType="VARCHAR" property="post" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="age" jdbcType="INTEGER" property="age" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, tech_type, 
-    create_time, create_user, tech_type_name, id_card, email, contact_way, work_experience,post,title
+    create_time, create_user, tech_type_name, id_card, email, contact_way, work_experience,post,title,age
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from out_person
+    from (<include refid="view_out_person"/>) t
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -41,7 +42,7 @@
       education, belong_unit_name, belong_unit_id, 
       tech_type, create_time, create_user, 
       tech_type_name, id_card, email, 
-      contact_way, work_experience,post,title
+      contact_way, work_experience,post,title,age
       )
     values (
     
@@ -49,7 +50,9 @@
       #{education,jdbcType=VARCHAR}, #{belongUnitName,jdbcType=VARCHAR}, #{belongUnitId,jdbcType=VARCHAR}, 
       #{techType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
       #{techTypeName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{contactWay,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR})
+      #{contactWay,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}
+      
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
     insert into out_person
@@ -105,7 +108,9 @@
       <if test="title != null">
         title,
       </if>
-    
+      <if test="age != null">
+        age,
+      </if>
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -157,7 +162,9 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
     
     </trim>
   </insert>
@@ -212,7 +219,9 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-    
+     <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -228,6 +237,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=VARCHAR},
       tech_type_name = #{techTypeName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
       id_card = #{idCard,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
@@ -237,21 +247,50 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-  
-  
+  <sql id="view_out_person">
+	    SELECT t1.*,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XL'
+          AND t2.`num_value`=t1.`education`
+      ) education_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XB'
+          AND t2.num_value =t1.`sex`
+      ) sex_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
+          AND t2.num_value =t1.`title`
+      )  title_str
+      FROM out_person t1
+	</sql>
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	       <if test="name != null     and name  !='' ">                       AND t.project_name like CONCAT('%',#{name},'%')</if>
+	       <if test="name != null               and name  !='' ">             AND t.project_name like CONCAT('%',#{name},'%')</if>
 	       <if test="belongUnitId != null       and belongUnitId !=''  ">     AND t.belong_unit_id = #{belongUnitId}</if>
 	       <if test="education != null          and education !=''  ">        AND t.education = #{education}</if>
 	       <if test="title != null              and title !=''  ">            AND t.title = #{title}</if>
 	       <if test="post != null               and post !=''  ">             AND t.post = #{post}</if>
+	       <if test="beginAage != null and beginAage !=''  ">  
+	           AND t.age &gt;= #{beginAage}
+	       </if>
+	       <if test="endAage != null   and endAage !=''  ">
+	           AND t.age &lt;= #{endAage}
+	       </if>
+	       <if test="sex != null        and sex !=''  "> AND t.sex = #{sex}</if>
+	       <if test="techType != null   and techType !=''  ">   
+	          AND
+	          <foreach item="item"  collection="techType.split(',')"  open="(" separator=" or " close=")">
+			    FIND_IN_SET(#{item},t.`tech_type`) 
+			   </foreach>
+	       </if>
 	 </trim>
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from  out_person t <include refid="selectCondition" />
+     select * from  (<include refid="view_out_person"/>) t <include refid="selectCondition" />
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
    </select>
    

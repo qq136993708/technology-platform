@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.out.OutPerson;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.service.out.IOutPersonService;
 @Service("outPersonService")
@@ -89,6 +90,10 @@ public class OutPersonServiceImpl implements IOutPersonService {
 			String title=getTableParam(param,"title","");
 			String post=getTableParam(param,"post","");
 			
+			Integer beginAage=CommonUtil.getTableParamInt(param,"beginAage",18);
+			Integer endAage=CommonUtil.getTableParamInt(param,"endAage",120);
+			String sex=getTableParam(param,"sex","");
+			String techType=getTableParam(param,"techType","");
 		       
 		       
 			
@@ -99,6 +104,10 @@ public class OutPersonServiceImpl implements IOutPersonService {
 			map.put("education", education);
 			map.put("belongUnitId", belongUnitId);
 			map.put("name", name);
+			map.put("beginAage", beginAage);
+			map.put("endAage", endAage);
+			map.put("sex", sex);
+			map.put("techType", techType);
 			
 			
 			List<OutPerson> list = outPersonMapper.getList(map);

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
@@ -27,6 +29,7 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -52,7 +55,7 @@ public class OutPersonController extends BaseController {
 	/**
 	 * 根据ID获取对象信息
 	 */
-	public static final String ADD_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/add";
+	public static final String ADD_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/outPersonToZjkBase";
 
 	/**
 	 * 根据ID获取对象信息
@@ -79,13 +82,17 @@ public class OutPersonController extends BaseController {
 	 */
     @ApiOperation(value = "查询外系统-人员列表（分页）", notes = "查询外系统-人员列表（分页）")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "page",           value = "页码",       dataType = "string", paramType = "query",required=true),
+        @ApiImplicitParam(name = "page",           value = "页码",        dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "limit",          value = "每页显示条数",  dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "name",           value = "名称",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "education",      value = "学历(字典)",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "belongUnitId",    value = "所在单位ID",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "post",            value = "职务",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "title",           value = "职称",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "name",           value = "名称",        dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "education",      value = "学历(字典)",    dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "belongUnitId",   value = "所在单位ID",   dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "post",           value = "职务",        dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "title",          value = "职称",        dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "beginAage",      value = "开始年龄",     dataType = "int", paramType = "query"),
+        @ApiImplicitParam(name = "endAage",        value = "截止年龄",     dataType = "int", paramType = "query"),
+        @ApiImplicitParam(name = "sex",            value = "性别",        dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "techType",       value = "技术领域",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/outPerson-api/page", method = RequestMethod.GET)
 	public String getExpertPage(
@@ -98,6 +105,10 @@ public class OutPersonController extends BaseController {
             @RequestParam(required = false) String belongUnitId,
             @RequestParam(required = false) String post,
             @RequestParam(required = false) String title,
+            @RequestParam(required = false) Integer beginAage,
+            @RequestParam(required = false) Integer endAage,
+            @RequestParam(required = false) String sex,
+            @RequestParam(required = false) String techType,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -107,6 +118,10 @@ public class OutPersonController extends BaseController {
     	param.getParam().put("belongUnitId", belongUnitId);
     	param.getParam().put("post", post);
     	param.getParam().put("title", title);
+    	param.getParam().put("beginAage", beginAage);
+    	param.getParam().put("endAage", endAage);
+    	param.getParam().put("sex", sex);
+    	param.getParam().put("techType", techType);
     	param.setLimit(limit);
     	param.setPage(page);
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -192,42 +207,23 @@ public class OutPersonController extends BaseController {
    @ApiOperation(value = "人才转为专家", notes = "人才转为专家")
    @ApiImplicitParams({
    	   @ApiImplicitParam(name = "id", value = "主键", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "sex", value = "性别", dataType = "string", paramType = "form",required=true),
-       @ApiImplicitParam(name = "name", value = "姓名", dataType = "string", paramType = "form",required=true),
-       @ApiImplicitParam(name = "age", value = "年龄", dataType = "string", paramType = "form",required=true),
-       @ApiImplicitParam(name = "idCardNo", value = "身份证号码", dataType = "string", paramType = "form",required=true),
-       @ApiImplicitParam(name = "education", value = "学历", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "title", value = "职称", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "post", value = "职务", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "belongUnitName", value = "所在单位", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "belongUnitId", value = "所在单位", dataType = "string", paramType = "form"),
-       @ApiImplicitParam(name = "email", value = "邮箱", dataType = "string", paramType = "form")
        
    })
-   @RequestMapping(method = RequestMethod.POST, value = "/outPerson-api/saveAsZjkBase")
-	public String saveExpert(@RequestBody  OutPerson outPerson,HttpServletRequest request, HttpServletResponse response) throws Exception {
+   @RequestMapping(method = RequestMethod.GET, value = "/outPerson-api/outPersonToZjkBase")
+	public String outPersonToZjkBase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+	String ids=CommonUtil.getParameter(request, "ids", "");
+	String groups=CommonUtil.getParameter(request, "groups", "");
    	Result resultsDate = new Result();
-   	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(outPerson));
-	System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
-	SysUser sysUserInfo = this.getUserProfile();
-	ZjkBase zjkBase = new ZjkBase();
-	zjkBase.setName(outPerson.getName());
-	zjkBase.setEmail(outPerson.getEmail());
-	zjkBase.setTitle(outPerson.getTitle());
-	zjkBase.setPost(outPerson.getPost());
-	zjkBase.setCreateTime(new Date());
-	zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
-	zjkBase.setSourceType(Constant.SOURCE_TYPE_OUTER);//数据来源（1本系统，2外系统）
-	String dateid = UUID.randomUUID().toString().replaceAll("-", "");
-	zjkBase.setId(dateid);
-	zjkBase.setCreateUser(sysUserInfo.getUserId());
-	String str=EquipmentUtils.genRandomNum()+"1";//9位=生成8位随机数+1
-	zjkBase.setNum(str);//人才编号-通过身份证从人事库取,如果没有，生成8位随机数
-	ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
+   	
+   	this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+ 	Map<String ,Object> paramMap = new HashMap<String ,Object>();
+ 	paramMap.put("groups", groups);
+ 	paramMap.put("ids", ids);
+ 	HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	ResponseEntity<Integer> responseEntity = restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, httpEntity, Integer.class);
 	int statusCode = responseEntity.getStatusCodeValue();
-	String dataId = responseEntity.getBody();
+	int dataId = responseEntity.getBody();
 	// 返回结果代码
 	if (statusCode == 200) 
 	{

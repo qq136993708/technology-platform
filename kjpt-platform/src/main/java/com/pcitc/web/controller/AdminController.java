@@ -106,6 +106,25 @@ public class AdminController extends BaseController {
         }
 
     }
+    
+    
+    
+    @RequestMapping(value = "/loginSave")
+    @ResponseBody
+    public Result loginSave(HttpServletRequest request) throws Exception {
+    	
+    	String password=CommonUtil.getParameter(request, "password", "");
+    	String username=CommonUtil.getParameter(request, "username", "");
+    	
+    	Result resultsDate = new Result();
+        if(username == null || password==null) 
+        {
+        	resultsDate.setSuccess(false);
+        	resultsDate.setMessage("");
+        }
+        return resultsDate;
+    }
+
 
 
     private boolean buildTokenByPassword(String userName, String password) {
@@ -138,7 +157,7 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * 通过socket协议，5556端口连接CA平台，适用于中核集团
+             * 通过socket协议，5556端口连接CA平台，适用于中核集团
      */
     @RequestMapping(value = {"/sso"}, method = RequestMethod.GET)
     public String sso(@RequestParam(value="ticket", required = false) String ticket) throws IOException {

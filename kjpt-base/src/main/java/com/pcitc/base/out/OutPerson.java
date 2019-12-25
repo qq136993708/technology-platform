@@ -83,11 +83,71 @@ public class OutPerson implements Serializable {
     private String post;
     private String title;
     
+    private String titleStr;
+    private String educationStr;
+    private String sexStr;
+    
+    
+    private Integer beginAage;
+    private Integer endAage;
+    private Integer age;
+    
+    private String seeUserIds;
+    private String seeUserNames;
+    
+    
     
     
 
+    public String getTitleStr() {
+		return titleStr;
+	}
 
-    public String getPost() {
+	public void setTitleStr(String titleStr) {
+		this.titleStr = titleStr;
+	}
+
+	public String getEducationStr() {
+		return educationStr;
+	}
+
+	public void setEducationStr(String educationStr) {
+		this.educationStr = educationStr;
+	}
+
+	public String getSexStr() {
+		return sexStr;
+	}
+
+	public void setSexStr(String sexStr) {
+		this.sexStr = sexStr;
+	}
+
+	public Integer getBeginAage() {
+		return beginAage;
+	}
+
+	public void setBeginAage(Integer beginAage) {
+		this.beginAage = beginAage;
+	}
+
+	public Integer getEndAage() {
+		return endAage;
+	}
+
+	public void setEndAage(Integer endAage) {
+		this.endAage = endAage;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public String getPost() {
 		return post;
 	}
 

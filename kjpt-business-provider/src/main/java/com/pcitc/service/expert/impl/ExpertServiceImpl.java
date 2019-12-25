@@ -18,22 +18,23 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
+import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
-import com.pcitc.service.feign.WorkflowRemoteClient;
 
 
 @Service
@@ -52,7 +53,8 @@ public class ExpertServiceImpl implements IExpertService {
 	@Autowired
     private TechFamilyMapper techFamilyMapper;
 	
-	
+	@Autowired
+    private OutPersonMapper outPersonMapper;
 	
 	  
 	
@@ -427,6 +429,42 @@ public class ExpertServiceImpl implements IExpertService {
 		System.out.println(">>>>>>>>>专家查询结果 "+list.size());
 	    return list;
 	}
+	
+	
+	public Integer outPersonToZjkBase(Map map)throws Exception
+	{
+		String groups=(String)map.get("groups");
+		String ids=(String)map.get("ids");
+		String userId=(String)map.get("userId");
+		String arr[]=ids.split(",");
+		int count=0;
+		if(arr!=null)
+		{
+			for(int i=0;i<arr.length;i++)
+			{
+				String id=arr[i];
+				OutPerson outPerson=outPersonMapper.selectByPrimaryKey(id);
+				ZjkBase zjkBase = new ZjkBase();
+				zjkBase.setName(outPerson.getName());
+				zjkBase.setEmail(outPerson.getEmail());
+				zjkBase.setTitle(outPerson.getTitle());
+				zjkBase.setPost(outPerson.getPost());
+				zjkBase.setCreateTime(new Date());
+				zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
+				zjkBase.setSourceType(Constant.SOURCE_TYPE_OUTER);//数据来源（1本系统，2外系统）
+				String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				zjkBase.setId(dateid);
+				zjkBase.setGroupType(groups);
+				zjkBase.setCreateUser(userId);
+				String str=CommonUtil.genRandomNum()+"1";//9位=生成8位随机数+1
+				zjkBase.setNum(str);//人才编号-通过身份证从人事库取,如果没有，生成8位随机数
+				zjkBaseMapper.insert(zjkBase);
+				count=1;
+			}
+		}
+	    return count;
+	}
+	
 	
 	
 	

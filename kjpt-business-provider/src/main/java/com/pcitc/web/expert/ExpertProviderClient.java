@@ -43,6 +43,23 @@ public class ExpertProviderClient {
 	
 	/**===============================================专家===================================================*/
 	
+	
+	
+	@ApiOperation(value = "人才转为专家", notes = "人才转为专家")
+	@RequestMapping(value = "/expert/outPersonToZjkBase", method = RequestMethod.POST)
+	public JSONArray outPersonToZjkBase(@RequestBody Map param)throws Exception
+	{
+		logger.info("=== outPersonToZjkBase param============"+param);
+		List list=expertService.getZjkBaseList(param);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
+	
+	
+	
+	
+	
 	@ApiOperation(value = "获取专家（分页）", notes = "获取专家（分页）")
 	@RequestMapping(value = "/expert/page", method = RequestMethod.POST)
 	public LayuiTableData getZjkBaseList(@RequestBody LayuiTableParam param)throws Exception
