@@ -183,8 +183,9 @@ public class AchieveRecordController extends RestBaseController {
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -252,10 +253,11 @@ public class AchieveRecordController extends RestBaseController {
             this.setParam(condition,"secretLevel",secretLevel);
         }
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
         String[] headers = { "备案状态",  "成果名称",    "成果基本情况"  , "成果持有单位"  , "拟受让单位"  , "是否核心技术成果"  , "拟转让方式"  , "完成情况"  , "未完成项目预计完成时间"  , "密级"};
         String[] cols =    {"auditStatusText","achieveName","achieveInfo","finishUnitName","achieveTypeText","achieveTechTypeText","achieveTransTypeText","aboutCompleteInfo","aboutCompleteTime","secretLevelText"};
@@ -375,8 +377,8 @@ public class AchieveRecordController extends RestBaseController {
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(queryAchieveSubsidiarity, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -439,8 +441,8 @@ public class AchieveRecordController extends RestBaseController {
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
 
         String[] headers = { "成果描述",     "项目来源",   "经费支持渠道"  ,"完成团队"  , "完成单位"  , "知识产权情况"  , "是否为核心成果"  , "知识产权状况报告或科技成果评价"  , "成果转换状态"        , "单位基本信息", "选择单位的方式", "对受让单位的尽职调查情况", "选择单位的理由", "尽职调查报告", "成果转换方式",       "定价方式",      "定价原则及依据", "合同（协议）情况", "公示情况",      "公示及结果说明材料", "合同（协议）文本", "资产评价报告及评估备案表", "单位内部决策流程", "决策事项及结果", "内部决策会议纪要", "转化收入", "成本核算及核算依据", "项目全周期净收入计算", "项目全周期激励方案及制定方案", "激励额度", "工资总额预算来源", "激励人员名单", "激励总额", "激励分配方案"};

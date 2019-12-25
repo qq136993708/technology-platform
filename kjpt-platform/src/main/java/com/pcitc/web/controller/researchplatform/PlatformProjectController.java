@@ -79,8 +79,8 @@ public class PlatformProjectController extends RestBaseController {
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformProjectModel.class);
@@ -104,7 +104,7 @@ public class PlatformProjectController extends RestBaseController {
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
-        Map<String, Object> condition = new HashMap<>(6);
+        Map<String, Object> condition = new HashMap<>(8);
         SysUser userInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -123,10 +123,11 @@ public class PlatformProjectController extends RestBaseController {
         this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的科研平台项目
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.setParam(condition,"platformId",platformId);
+        this.setParam(condition,"userName",userInfo.getUserName());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
