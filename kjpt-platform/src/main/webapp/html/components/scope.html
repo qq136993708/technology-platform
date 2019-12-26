@@ -10,7 +10,7 @@
               <span class="delete-item"></span>
             </label>
           </div>
-          <input type="type" class="item-list-input" name="search_name" />
+          <input type="type" class="item-list-input" _name="search_name" />
         </div>
       </div>
     </div>
@@ -20,9 +20,11 @@
       <button type="button" label-id="downPlan" class="layui-btn border-blue">手工配置</button>
     </div>
   </div>
-  <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hide-table" hide-table>
+  <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hide-table-layout">
     <table></table>
-
     <div class="table-page-layout"></div>
   </div>
+
+  <input type="hidden" name="knowledgeScope"> <!-- 登录账号 -->
+  <input type="hidden" name="knowledgePerson"> <!-- 人员姓名 -->
 </div>
