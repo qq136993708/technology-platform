@@ -112,7 +112,7 @@ public class SysUserApiController extends BaseController{
 	        @ApiImplicitParam(name = "recodeLevel",    value = "单据密级",    dataType = "string", paramType = "query",required=true)
 	    })
 	    @RequestMapping(value = "/user-api/getSysUserPageByRecodeLevel", method = RequestMethod.POST)
-		public String queryUserPage(
+		public String getSysUserPageByRecodeLevel(
 				
 				@RequestParam(required = true) Integer page,
 	            @RequestParam(required = true) Integer limit,
@@ -126,7 +126,7 @@ public class SysUserApiController extends BaseController{
 	    	
 	    	
 	    	param.getParam().put("userDelflag", 0);
-	    	param.getParam().put("recodeLevel", Integer.valueOf(recodeLevel)+1);
+	    	param.getParam().put("recodeLevel", String.valueOf(Integer.valueOf(recodeLevel).intValue()+1));
 	    	
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
