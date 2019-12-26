@@ -7,12 +7,13 @@ var kypt_charts5= echarts.init(document.getElementById('kypt_charts5'));
 var option1 = {
     tooltip: {
         trigger: 'axis',
-        formatter: "{b}： {c}%",
+        formatter: "{b}： {c}",
         axisPointer: {
             type: 'shadow'
         }
     },
     legend: {
+        show: false,
         data: ['2019年'],
         x:'left',
         textStyle:{
@@ -56,7 +57,7 @@ var option1 = {
     },
     yAxis: {
         type: 'category',
-        data: ['板块级科研平台','集团级科研平台','部委级科研平台','省部级科研平台','国家级科研平台'],
+        data: ['板块级','集团级','部委级','省部级','国家级'],
         axisLabel:{
             textStyle:{
                 color:'#fff',
@@ -174,10 +175,10 @@ var option5 = {
         },
         color:['#4526FF','#00AEFF','#EAFF74'],
         grid: {
-            x:'3%',
-            x2:'3%',
-            y:'15%',
-            y2:'20%',
+            left:'5%',
+            right:'5%',
+            top:'10%',
+            bottom:'15%',
         },
         xAxis: [
             {

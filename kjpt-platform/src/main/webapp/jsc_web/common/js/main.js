@@ -17,7 +17,11 @@ kyptCharts.render({
         width: '100%'
         }
     },
-    series: [],
+    series: [
+        {name: '理论成果', value: '10'},
+        {name: '软科学成果', value: '60'},
+        {name: '应用技术成果', value: '30'}
+    ],
     color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
 });
 
@@ -40,7 +44,11 @@ kyptCharts.render({
         width: '100%'
         }
     },
-    series: [],
+    series: [
+        {name: '理论成果', value: '10'},
+        {name: '软科学成果', value: '60'},
+        {name: '应用技术成果', value: '30'}
+    ],
     color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
 });
 
@@ -63,7 +71,11 @@ kyptCharts.render({
         width: '100%'
         }
     },
-    series: [],
+    series: [
+        {name: '待转化', value: '10'},
+        {name: '拟转化', value: '60'},
+        {name: '已转化', value: '30'}
+    ],
     color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
 });
 
@@ -75,118 +87,6 @@ var xmtz_charts3 = echarts.init(document.getElementById('xmtz_charts3'));
 var xmtz_charts4 = echarts.init(document.getElementById('xmtz_charts4'));
 /**项目数量***/
 var main_charts = echarts.init(document.getElementById('main_charts'));
-//成果信息option
-var cgxx_option = {
-    tooltip: {
-        trigger: 'item',
-        formatter: "{b}: {c} ({d}%)",
-        backgroundColor:'rgba(38,84,113,0.5)',
-		borderColor:'#0897a0',
-        borderWidth:1,
-    },
-    legend: {
-        type: 'scroll',
-        itemWidth: 10,  // 设置宽度
-　　    itemHeight: 10, // 设置高度
-　　    itemGap: 20, // 设置间距
-        orient: 'vertical',
-        left: '50%',
-        top: 'center',
-        icon:"circle",
-        data:['成果鉴定','成果报奖','成果转化'],
-        textStyle: {
-            fontSize: '14',
-            color:'#ffffff'
-        }
-    },
-    color:['#DF5DFF','#81FF5B','#42FDFF'],
-    series: [
-        {
-            name:'',
-            type:'pie',
-            radius: ['50%', '65%'],
-            center: ['25%', '45%'],
-            avoidLabelOverlap: false,
-            label: {
-               normal: {
-                    show: false,
-                    textStyle: {
-                       color: 'rgba(255, 255, 255, 1)'
-                    },
-                    fontSize: htmlFont(),
-                    formatter:function (params){	            
-                       return params.name+'\n'+params.percent+'%'+'\n'+parseInt(params.value)+'吨'
-                    }
-               }
-           },
-            
-            data:[
-                {value:335, name:'成果鉴定'},
-                {value:310, name:'成果报奖'},
-                {value:234, name:'成果转化'}
-            ]
-        }
-    ]
-};
-var option1 = {
-   color:['#FED25F','#43a7fa','#ff586f'],
-     title:{
-        show:true,
-        left:'center',
-        top:'center',
-        
-    },
-    legend: {
-        x: 'left',
-        data:['成果鉴定','成果报奖','成果转化'],
-        textStyle:{
-           color:'#fff',
-           fontSize:0.12*getFontSize()
-        },
-        itemWidth:0.12*getFontSize(),
-        itemHeight:0.12*getFontSize()
-    },
-    tooltip: {
-        trigger: 'item',
-        formatter: function(params){
-           return params.name+'<br />'+name+':'+params.value+'万吨'	        	
-        }
-    },
-    series: [
-        {
-            name:'零售构成',
-            type:'pie',
-            radius: ['50%', '65%'],
-            avoidLabelOverlap: false,
-            label: {
-                normal: {
-                    show: true,
-                    textStyle: {
-                        color: 'rgba(255, 255, 255, 1)'
-                    },
-                    fontSize: htmlFont(),
-                    position: 'center'
-                }
-            },
-            
-            labelLine: {
-                normal: {
-                    show: false,
-                    length: 2,
-                    length2: 5,
-                    lineStyle: {
-                        color: 'rgba(255, 255, 255, 1)'
-                    },
-                }
-            },
-            data:[
-               {value:335, name:'成果鉴定'},
-               {value:310, name:'成果报奖'},
-               {value:234, name:'成果转化'}
-           ]
-        }
-    ]
-};
 
 // 项目投资Option
 var xmtz_option = {
@@ -296,7 +196,7 @@ var xmsl_option={
 		top: '12%',
 		right: '5%',
 		left: '5%',
-		bottom:'10%'
+		bottom:'12%'
 	},
 	xAxis: [
 		{
@@ -306,7 +206,9 @@ var xmsl_option={
 				textStyle:{
 					color:'#fff',
 					fontSize:'16'
-				}
+                },
+                margin: 16,
+                interval: 0
 			},
 			axisLine:{
 				show:false
@@ -348,23 +250,35 @@ var xmsl_option={
 		}
 	],
 	series: [
+        {
+            name:'辅助0',
+            type:'bar',
+            stack:"采购",
+            data:[0,0,0,0],
+            barMinHeight: 0,
+            itemStyle: { opacity: 0 },
+            tooltip: { show: false },
+            markPoint: {
+                type: 'category',
+                data: [
+                    {coord: [0, 0]},
+                    {coord: [1, 0]},
+                    {coord: [2, 0]},
+                    {coord: [3, 0]}
+                ],
+                // symbolOffset: [0, -15],
+                label: { show: false },
+                symbol: 'circle',
+                symbolSize: [40, 12],
+                itemStyle: { color : '#42fdff'}
+            }
+        },
 		{
 			name:'已完成',
 			type:'bar',
 			stack:"采购",
 			data: [10,7,10,10],
-			itemStyle:{
-				normal:{
-					color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                        offset: 0,
-                        color: "rgba(66, 253, 255, 1)" 
-                    }, {
-                        offset: 1,
-                        color: "rgba(0, 198, 255, 1)" 
-                    }], false),
-                    barBorderRadius: [0, 0, 20, 20]
-				}
-            },
+			itemStyle:{ color: '#42fdff' },
             label: {
                 normal: {
                     show: true,
@@ -389,40 +303,34 @@ var xmsl_option={
             }
         },
         {
-            name:'辅助',
+            name:'辅助1',
             type:'bar',
             stack:"采购",
             data:[0,0,0,0],
             barMinHeight: 16,
-            itemStyle: {
-                normal: {
-                    barBorderColor: 'rgba(0,0,0,0)',
-                    color: 'rgba(0,0,0,0)'
-                },
-                emphasis: {
-                    barBorderColor: 'rgba(0,0,0,0)',
-                    color: 'rgba(0,0,0,0)'
-                }
-            },
-            tooltip: { show: false }
+            itemStyle: { opacity: 0 },
+            tooltip: { show: false },
+            markPoint: {
+                type: 'category',
+                data: [
+                    {coord: [0, 10]},
+                    {coord: [1, 7]},
+                    {coord: [2, 10]},
+                    {coord: [3, 10]}
+                ],
+                symbolOffset: [0, -15],
+                label: { show: false },
+                symbol: 'circle',
+                symbolSize: [40, 12],
+                itemStyle: { color : '#5cfdb7'}
+            }
         },
 		{
 			name:'在研',
 			type:'bar',
 			stack:"采购",
 			data:[4,4,4,2],
-			itemStyle:{
-				normal:{
-					color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                        offset: 0,
-                        color: "rgba(43, 243, 255, 1)" 
-                    }, {
-                        offset: 1,
-                        color: "rgba(73, 255, 142, 1)" 
-                    }], false),
-                    barBorderRadius: [0, 0, 20, 20]
-				}
-            },
+			itemStyle:{ color: "#5cfdb7"},
             label: {
                 normal: {
                     show: true,
@@ -518,9 +426,9 @@ function loadMAINData(type){
                             value: item.num
                         })
                     })
-                    kyptCharts.reload('cgxx_charts1', {series: chartData});
-                    kyptCharts.reload('cgxx_charts2', {series: chartData});
-                    kyptCharts.reload('cgxx_charts3', {series: chartData});
+                    // kyptCharts.reload('cgxx_charts1', {series: chartData});
+                    // kyptCharts.reload('cgxx_charts2', {series: chartData});
+                    // kyptCharts.reload('cgxx_charts3', {series: chartData});
                 }
                 if(type=="1"){
                     setXMSLData(result);//项目数量
