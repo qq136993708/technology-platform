@@ -23,11 +23,19 @@
 <script>
     layui.use([ 'form', 'jquery','table'], function(){
         var $ = layui.jquery, form = layui.form, table = layui.table;
-        httpModule({
-            url: '/expert-api/list?page=1&limit=15',
+        var data = new FormData();
+        data.append('page', '1');
+        data.append('limit', '15');
+        data.append('expertTypes', '02,03');
+        $.ajax({
             type: 'post',
-            data:{expertTypes:'02,03'},
-            success: function(relData) {
+            contentType: false, // 关关关！必须得 false
+            processData: false, // 关关关！重点
+            url: '/expert-api/list',
+            data: data,
+            success: function (relData) {
+                console.log(relData)
+                // TODO
                 if(relData.data){
                     relData.data.map(function (item, index) {
                         var url='/layuiadmin/layui/images/expert-img.png'
@@ -49,7 +57,6 @@
                         $(".main-list").append(html)
                     })
                 }
-
             }
         });
     });
