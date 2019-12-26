@@ -24,7 +24,7 @@
     layui.use([ 'form', 'jquery','table'], function(){
         var $ = layui.jquery, form = layui.form, table = layui.table;
         httpModule({
-            url: '/expert-api/list?page=1&limit=15&expertType=01,02',
+            url: '/expert-api/list?page=1&limit=15&expertTypes=02,03',
             type: 'post',
             success: function(relData) {
                 relData.data.map(function (item, index) {
