@@ -107,6 +107,17 @@
   width: 100%;
 }
 
+/* 科研平台 */
+.kypt_content .chart-item-layout{
+  width: 25%;
+}
+.kypt_content .kyptCharts5 {
+  width: 100%;
+}
+.kypt_content .bottom-chart-layout{
+  padding-top: 1.5rem;
+}
+
 /* 质量信息 */
 .quality .scroll-layout,
 .quality .scroll-object,

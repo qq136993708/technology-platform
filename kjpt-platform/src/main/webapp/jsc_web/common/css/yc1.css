@@ -252,3 +252,6 @@ p {
     bottom: 80px;
     width: 816px;
 }
+.main_left .pie-legend-list .legend-item > .lenend-item-name {
+    width: 88px;
+}
