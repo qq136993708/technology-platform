@@ -1127,7 +1127,8 @@ function setJurisdictionScope(config) {
 		elem: ElementHtml || ElementID,
 		knowledgeScope: '', // 已添加的用户账号
 		knowledgePerson: '', // 已添加的用户名称
-		secretLevel: string // 初始保密级别
+		secretLevel: string, // 初始保密级别
+		disabled: boolean // 是否为只读状态
 	}
 	*/
 	$scope = (function() {
@@ -1202,6 +1203,8 @@ function setJurisdictionScope(config) {
 				setFormInputValue();
 			},
 			getTableData = function(Data) {
+				console.log(Data);
+
 				// 获取表格数据
 				var searchData = Data || {}, searchHttp = '';
 				searchData.page = tableData.pageIndex;
@@ -1292,106 +1295,120 @@ function setJurisdictionScope(config) {
 				$page.attr('id', pageID); // 分页ID
 				$selected = $scope.find('[active-item]:eq(0)').empty(); // 清空显示值区域
 
-				// 删除选中用户
-				$selected.on('click', '.delete-item', function(e) {
-					var itemID = $(this).attr('item-id');
-					if (activeListData[itemID]) {
-						delete activeListData[itemID];
-						$(this).closest('label').remove();
-						for (var i = 0; i < tableData.data.length; i++) {
-							if (tableData.data[i][idkey] === itemID) {
-								tableData.data[i].LAY_CHECKED = false;
-							}
-						}
-						// 重新渲染表格
-						reloadTable();
-
-						// 选中值添加到表单中
-						setFormInputValue();
-					}
-				});
-				// 给表格添加随机ID
-				$scope.find('table:eq(0)').attr({
-					'id': scopeTableId, 'lay-filter':scopeTableId
-				});
-
-				// 监听表格选择与否
-				table.on('checkbox('+scopeTableId+')', function(rowData) {
-					if (rowData.type === 'all') {
-						$.each(tableData.data, function(i, item) {
-							if (rowData.checked) {
-								var tempItem = switchHttpData(item);
-								tempItem.LAY_CHECKED = rowData.checked;
-								activeListData[item[idkey]] = tempItem;
-							} else if (activeListData[item[idkey]]) {
-								delete activeListData[item[idkey]];
-								$('[item-id="'+ item[idkey] +'"]').closest('label').remove();
-							}
-						});
-					} else if (rowData.type === 'one') {
-						if (rowData.checked) {
-							var tempItem = switchHttpData(rowData.data);
-							tempItem.LAY_CHECKED = rowData.checked;
-							activeListData[rowData.data[idkey]] = tempItem;
-						} else if (activeListData[rowData.data[idkey]]) {
-							delete activeListData[rowData.data[idkey]];
-							$('[item-id="'+ rowData.data[idkey] +'"]').closest('label').remove();
-						}
-					}
-					// 更新选中项
+				if (config.disabled) {
+					// 只读状态
+					$hideLayout.hide();
+					$scope.find('[label-id="downPlan"]').hide();
 					selectedItemData();
-				});
-				
-				// 展开收起
-				$scope.on('click', '[label-id="downPlan"]', function(e) {
-					if ($(this).attr('_show-table') === 'true') {
-						$(this).text('展开').attr('_show-table', 'false');
-						$hideLayout.hide();
-					} else {
-						$(this).text('收起').attr('_show-table', 'true');
-						$hideLayout.show();
-						reloadTable();
-					}
-				});
-
-				// 监控单据保密级别变更
-				commonLayuiForm.on('select(secretLevel)', function(data) {
-					if (data.value && data.value !== '0') {
-						$scope.show();
-						$nameInput.attr('lay-verify', 'required');
-						$valueInput.attr('lay-verify', 'required');
-
-						if (data.value !== secretLevel) {
-							secretLevel = data.value;
-							tableData.pageIndex = 1;
-	
-							if (data.value !== config.secretLevel) {
-								activeListData = {}; // 清空已选知悉范围
-								$nameInput.val('');
-								$valueInput.val('');
-								$selected.empty();
-							} else if (config.knowledgeScope) {
-								// 还原初始化
-								initActiveValue();
-								selectedItemData();
-							}
-
-							// 更新表格数据
-							var useName = $scopeInput.val() || '';
-							getTableData({name: useName });
-						}
-					} else {
+				} else {
+					// 保密级别为0时，不显示知悉范围
+					if ( !secretLevel || secretLevel === '0') {
 						$scope.hide();
-						$nameInput.attr('lay-verify', '').val('');
-						$valueInput.attr('lay-verify', '').val('');
+					} else if (config.knowledgeScope || secretLevel > 0) {
+						if (config.knowledgeScope) {
+							selectedItemData();
+						}
+						$scope.find('[label-id="downPlan"]').text('展开').attr('_show-table', 'false');
 					}
-				});
 
-				// 保密级别为0时，不显示知悉范围
-				if ( !secretLevel || secretLevel === '0') {
-					$scope.hide();
-				} else if (config.knowledgeScope) {
-					selectedItemData();
+					// 删除选中用户
+					$selected.on('click', '.delete-item', function(e) {
+						var itemID = $(this).attr('item-id');
+						if (activeListData[itemID]) {
+							delete activeListData[itemID];
+							$(this).closest('label').remove();
+							for (var i = 0; i < tableData.data.length; i++) {
+								if (tableData.data[i][idkey] === itemID) {
+									tableData.data[i].LAY_CHECKED = false;
+								}
+							}
+							// 重新渲染表格
+							reloadTable();
+
+							// 选中值添加到表单中
+							setFormInputValue();
+						}
+					});
+					// 给表格添加随机ID
+					$scope.find('table:eq(0)').attr({
+						'id': scopeTableId, 'lay-filter':scopeTableId
+					});
+
+					// 监听表格选择与否
+					table.on('checkbox('+scopeTableId+')', function(rowData) {
+						if (rowData.type === 'all') {
+							$.each(tableData.data, function(i, item) {
+								if (rowData.checked) {
+									var tempItem = switchHttpData(item);
+									tempItem.LAY_CHECKED = rowData.checked;
+									activeListData[item[idkey]] = tempItem;
+								} else if (activeListData[item[idkey]]) {
+									delete activeListData[item[idkey]];
+									$('[item-id="'+ item[idkey] +'"]').closest('label').remove();
+								}
+							});
+						} else if (rowData.type === 'one') {
+							if (rowData.checked) {
+								var tempItem = switchHttpData(rowData.data);
+								tempItem.LAY_CHECKED = rowData.checked;
+								activeListData[rowData.data[idkey]] = tempItem;
+							} else if (activeListData[rowData.data[idkey]]) {
+								delete activeListData[rowData.data[idkey]];
+								$('[item-id="'+ rowData.data[idkey] +'"]').closest('label').remove();
+							}
+						}
+						// 更新选中项
+						selectedItemData();
+					});
+					
+					// 展开收起
+					$scope.on('click', '[label-id="downPlan"]', function(e) {
+						if ($(this).attr('_show-table') === 'true') {
+							$(this).text('展开').attr('_show-table', 'false');
+							$hideLayout.hide();
+						} else {
+							$(this).text('收起').attr('_show-table', 'true');
+							$hideLayout.show();
+							if (!loadData) {
+								getTableData({name: $scopeInput.val()});
+							} else {
+								reloadTable();
+							}
+						}
+					});
+
+					// 监控单据保密级别变更
+					commonLayuiForm.on('select(secretLevel)', function(data) {
+						if (data.value && data.value !== '0') {
+							$scope.show();
+							$nameInput.attr('lay-verify', 'required');
+							$valueInput.attr('lay-verify', 'required');
+
+							if (data.value !== secretLevel) {
+								secretLevel = data.value;
+								tableData.pageIndex = 1;
+		
+								if (data.value !== config.secretLevel) {
+									activeListData = {}; // 清空已选知悉范围
+									$nameInput.val('');
+									$valueInput.val('');
+									$selected.empty();
+								} else if (config.knowledgeScope) {
+									// 还原初始化
+									initActiveValue();
+									selectedItemData();
+								}
+
+								// 更新表格数据
+								var useName = $scopeInput.val() || '';
+								getTableData({name: useName });
+							}
+						} else {
+							$scope.hide();
+							$nameInput.attr('lay-verify', '').val('');
+							$valueInput.attr('lay-verify', '').val('');
+						}
+					});
 				}
 			});
 		})

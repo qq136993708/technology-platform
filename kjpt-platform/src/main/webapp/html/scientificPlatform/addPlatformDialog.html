@@ -203,24 +203,35 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
       type: 'GET',
       success: function(relData) {
         if (relData.code === '0') {
+          var formData = relData.data;
+
           // 给form表单赋初始值
-          form.val('formPlatform', relData.data);
-          setTargetNameValue({level: relData.data.level});
+          form.val('formPlatform', formData);
+          setTargetNameValue({level: formData.level});
           // 更新表单数据
           form.render();
-          if (relData.data.supportingInstitutions) {
-            layui.formSelects.value('supportingInstitutions', [relData.data.supportingInstitutions]);
+          if (formData.supportingInstitutions) {
+            layui.formSelects.value('supportingInstitutions', [formData.supportingInstitutions]);
           }
-          if (relData.data.researchField){
-            if (relData.data.researchField.indexOf(',') > 0) {
-              layui.formSelects.value('researchField', relData.data.researchField.split(','));
+          if (formData.researchField){
+            if (formData.researchField.indexOf(',') > 0) {
+              layui.formSelects.value('researchField', formData.researchField.split(','));
             } else {
-              layui.formSelects.value('researchField', [relData.data.researchField]);
+              layui.formSelects.value('researchField', [formData.researchField]);
             }
           }
-          if (relData.data.imgId) {
-            setImagesUploadState({imgID: relData.data.imgId, id: '#imgFileUpload'});
+          if (formData.imgId) {
+            setImagesUploadState({imgID: formData.imgId, id: '#imgFileUpload'});
           }
+
+          // 添加知悉范围
+          setJurisdictionScope({
+            elem: 'scope_list_layout',
+            knowledgeScope: formData.knowledgeScope,
+            knowledgePerson: formData.knowledgePerson,
+            secretLevel: formData.secretLevel,
+            display: false
+          });
         }
       }
     });
@@ -261,8 +272,5 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
     }
   });
   
-  setJurisdictionScope({elem: 'scope_list_layout'});
-  
-
 });
 </script>
