@@ -286,6 +286,10 @@ public class UserProviderClient {
 	}
 	
 	
+	
+	
+	
+	
 	@ApiOperation(value = "获取用户列表", notes = "获取用户列表")
 	@RequestMapping(value = "/user-provider/list", method = RequestMethod.POST)
 	public JSONArray list(@RequestBody Map param)throws Exception

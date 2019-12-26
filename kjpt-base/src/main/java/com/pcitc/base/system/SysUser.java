@@ -111,9 +111,19 @@ public class SysUser {
 	private String  userHeadPic="";
 	
 	
+	private String  sqlStr;
 	
 	
+
 	
+
+	public String getSqlStr() {
+		return sqlStr;
+	}
+
+	public void setSqlStr(String sqlStr) {
+		this.sqlStr = sqlStr;
+	}
 
 	public String getUserHeadPic() {
 		return userHeadPic;

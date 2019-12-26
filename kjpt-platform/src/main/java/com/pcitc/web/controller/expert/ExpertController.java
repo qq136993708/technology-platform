@@ -107,7 +107,9 @@ public class ExpertController extends BaseController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
+        
     })
     @RequestMapping(value = "/expert-api/list", method = RequestMethod.POST)
 	public String getExpertPage(
@@ -115,6 +117,7 @@ public class ExpertController extends BaseController {
 			@RequestParam(required = true) Integer page,
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) String expertTypes,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
      	SysUser sysUserInfo = this.getUserProfile();
@@ -123,7 +126,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
-    	
+    	param.getParam().put("expertTypes", expertTypes);
     	String userName=sysUserInfo.getUserName();
     	if(!userName.equals(Constant.USER_CONFIGADMIN))
     	{
@@ -132,8 +135,8 @@ public class ExpertController extends BaseController {
     	}
     	
     	//默认查询当前人所在机构及子机构的所有专家
-    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-    	//param.getParam().put("childUnitIds", childUnitIds);
+    	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+    	param.getParam().put("childUnitIds", childUnitIds);
     	
     	
 		LayuiTableData layuiTableData = new LayuiTableData();

@@ -169,9 +169,18 @@ public class ZjkBase  {
     private String seeUserNames="";
     private String expertTypes;
     
+    private String  expertTypeStr;
     
     
     
+	public String getExpertTypeStr() {
+		return expertTypeStr;
+	}
+
+	public void setExpertTypeStr(String expertTypeStr) {
+		this.expertTypeStr = expertTypeStr;
+	}
+
 	public String getExpertTypes() {
 		return expertTypes;
 	}

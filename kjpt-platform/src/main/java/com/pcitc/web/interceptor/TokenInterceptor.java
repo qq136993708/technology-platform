@@ -50,7 +50,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					break;
 				}
 			}
-			System.out.println(">>>>>>>token:"+token);
+			//System.out.println(">>>>>>>token:"+token);
 			if (token != null && !token.equals("null")) {
 				httpHeaders.set("Authorization", "Bearer " + token);
 				return true;

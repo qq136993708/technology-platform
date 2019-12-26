@@ -574,6 +574,12 @@
 	     </if>
 	     <if test="postName != null              and postName !=''  ">             AND t.post_name like CONCAT('%',#{postName},'%') </if>
 	     <if test="userUnitName != null          and userUnitName !=''  ">         AND t.user_unit_name like CONCAT('%',#{userUnitName},'%') </if>
+	     <if test="sqlStr != null          and sqlStr !=''  ">      ${sqlStr} </if>
+	
+	
+	
+	
+	
 	 </trim>
 	</sql>
 	<sql id="view_user">

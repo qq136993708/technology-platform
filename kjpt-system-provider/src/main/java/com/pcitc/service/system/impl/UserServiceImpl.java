@@ -775,7 +775,7 @@ public class UserServiceImpl implements UserService {
 			String userMail=CommonUtil.getTableParam(param,"userMail","");
 			Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
 			
-			
+			String recodeLevel=CommonUtil.getTableParam(param,"recodeLevel","");
 			
 			
 			
@@ -795,6 +795,16 @@ public class UserServiceImpl implements UserService {
 			map.put("postName", postName);
 			map.put("userMail", userMail);
 			map.put("userDelflag", userDelflag);
+			
+			
+			//选知悉范围时， 大于单据的级别 
+			if(!recodeLevel.equals(""))
+			{
+				map.put("sqlStr", " and t.secret_level &gt;= "+recodeLevel);
+			}
+			
+			
+			
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());
