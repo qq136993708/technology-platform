@@ -34,10 +34,10 @@
             url: '/expert-api/list',
             data: data,
             success: function (relData) {
-                console.log(relData)
+                console.log($.parseJSON(relData).data)
                 // TODO
-                if(relData.data){
-                    relData.data.map(function (item, index) {
+                if($.parseJSON(relData).data){
+                    $.parseJSON(relData).data.map(function (item, index) {
                         var url='/layuiadmin/layui/images/expert-img.png'
                         if(item.headPic!=''){
                             url='/file/imgFile/'+item.headPic
@@ -56,6 +56,8 @@
                             '        </div>';
                         $(".main-list").append(html)
                     })
+                }else {
+                    layer.msg('暂无数据！');
                 }
             }
         });
