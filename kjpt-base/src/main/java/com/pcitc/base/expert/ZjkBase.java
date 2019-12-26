@@ -167,11 +167,19 @@ public class ZjkBase  {
     private String expertType="";
     private String seeUserIds="";
     private String seeUserNames="";
+    private String expertTypes;
     
     
     
     
-    
+	public String getExpertTypes() {
+		return expertTypes;
+	}
+
+	public void setExpertTypes(String expertTypes) {
+		this.expertTypes = expertTypes;
+	}
+
 	public String getExpertType() {
 		return expertType;
 	}

@@ -380,6 +380,7 @@ public class ExpertServiceImpl implements IExpertService {
 			String createUnitId=getTableParam(param,"createUnitId","");
 			String createUnitName=getTableParam(param,"createUnitName","");
 			String expertType=getTableParam(param,"expertType","");
+			String expertTypes=getTableParam(param,"expertTypes","");
 			
 			
 			Map map=new HashMap();
@@ -403,7 +404,7 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("createUnitId", createUnitId);
 			map.put("createUnitName", createUnitName);
 			map.put("expertType", expertType);
-			
+			map.put("expertTypes", expertTypes);
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());

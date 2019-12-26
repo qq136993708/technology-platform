@@ -166,7 +166,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "secretLevel",               value = "信息密级",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "expertType",                 value = "高层次人才类别",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "expertType",                 value = "高层次人才类别",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
         
         
     
@@ -189,6 +190,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String secretLevel,
             @RequestParam(required = false) String groupType,
             @RequestParam(required = false) String expertType,
+            @RequestParam(required = false) String expertTypes,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -207,6 +209,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("education", education);
     	param.getParam().put("secretLevel", secretLevel);
     	param.getParam().put("expertType", expertType);
+    	param.getParam().put("expertTypes", expertTypes);
 		 SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
     	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );

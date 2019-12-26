@@ -519,6 +519,13 @@
 	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
 	     <if test="seeUserIds != null       and seeUserIds !=''  ">       AND t.see_user_ids = #{seeUserIds}</if>
 	     <if test="seeUserNames != null     and seeUserNames !=''  ">     AND t.see_user_names = #{seeUserNames}</if>
+	     <if test="expertTypes != null       and expertTypes !=''  ">   
+	         AND t.expert_type in 
+	           <foreach item="item"  collection="expertTypes.split(',')"  open="(" separator="," close=")">
+			          #{item}
+			   </foreach>
+	     </if>
+	
 	 </trim>
 	</sql>
 	

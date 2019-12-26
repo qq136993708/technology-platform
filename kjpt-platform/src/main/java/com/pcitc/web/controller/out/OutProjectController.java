@@ -118,7 +118,7 @@ public class OutProjectController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============查询外系统- " + result.toString());
+		//logger.info("============查询外系统- " + result.toString());
 		return result.toString();
 	}
 
