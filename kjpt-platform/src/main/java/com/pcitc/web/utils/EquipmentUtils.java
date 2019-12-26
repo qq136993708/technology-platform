@@ -51,10 +51,6 @@ public class EquipmentUtils {
      public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
-     /**
- 	 * 获取用户（分页）
- 	 */
- 	private static final String USER_LIST_PAGE_URL = "http://kjpt-zuul/system-proxy/user-provider/page";
 	
 	public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -99,21 +95,6 @@ public class EquipmentUtils {
 		return SysUserProperty;
 	}
 	
-	//根据单据级别选知悉范围用户
-	public static LayuiTableData  getSysUserPageByRecodeLevel(LayuiTableParam param,int recodeLevel,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		LayuiTableData layuiTableData = new LayuiTableData();
-		param.getParam().put("recodeLevel", recodeLevel+1);
-		param.getParam().put("userDelflag", 0);
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(USER_LIST_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
-			layuiTableData = responseEntity.getBody();
-		}
-		return layuiTableData;
-	}
 	
 	
 	
