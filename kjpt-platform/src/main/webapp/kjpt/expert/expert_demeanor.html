@@ -24,28 +24,32 @@
     layui.use([ 'form', 'jquery','table'], function(){
         var $ = layui.jquery, form = layui.form, table = layui.table;
         httpModule({
-            url: '/expert-api/list?page=1&limit=15&expertTypes=02,03',
+            url: '/expert-api/list?page=1&limit=15',
             type: 'post',
+            data:{expertTypes:'02,03'},
             success: function(relData) {
-                relData.data.map(function (item, index) {
-                    var url='/layuiadmin/layui/images/expert-img.png'
-                    if(item.headPic!=''){
-                        url='/file/imgFile/'+item.headPic
-                    }
-                    var html='<div class="list">' +
-                        '            <div class="list-item">' +
-                        '                <div class="item-img">' +
-                        '                    <img src="'+url+'"/>' +
-                        '                </div>' +
-                        '                <p class="item-name">'+item.name+'</p>' +
-                        '                <p class="item-jx">' +item.brief+'</p>' +
-                        '                <p class="item-view">' +
-                        '                    <a href="./expert_view.html?id='+item.id+'" >查看详情</a>' +
-                        '                </p>' +
-                        '            </div>' +
-                        '        </div>';
-                    $(".main-list").append(html)
-                })
+                if(relData.data){
+                    relData.data.map(function (item, index) {
+                        var url='/layuiadmin/layui/images/expert-img.png'
+                        if(item.headPic!=''){
+                            url='/file/imgFile/'+item.headPic
+                        }
+                        var html='<div class="list">' +
+                            '            <div class="list-item">' +
+                            '                <div class="item-img">' +
+                            '                    <img src="'+url+'"/>' +
+                            '                </div>' +
+                            '                <p class="item-name">'+item.name+'</p>' +
+                            '                <p class="item-jx">' +item.brief+'</p>' +
+                            '                <p class="item-view">' +
+                            '                    <a href="./expert_view.html?id='+item.id+'" >查看详情</a>' +
+                            '                </p>' +
+                            '            </div>' +
+                            '        </div>';
+                        $(".main-list").append(html)
+                    })
+                }
+
             }
         });
     });
