@@ -5,9 +5,25 @@
 </HEAD>
 <BODY>
 <script type="text/javascript">
+
+
+function gethost()
+{
+    var port = location.port;
+    var hostUrl = "http://";
+    if(port == 80){
+        hostUrl += location.hostname;
+    }else{
+        hostUrl += location.host;
+    }
+    
+    return hostUrl;
+}
+console.log("hostUrl="+gethost());
+
 //<!--
 function isIFrameSelf(){try{if(window.top ==window){return false;}else{return true;}}catch(e){return true;}}
-function toHome(){ if(!isIFrameSelf()){ window.location.href="http://localhost:8080/login";}}
+function toHome(){ if(!isIFrameSelf()){ window.location.href=gethost()+"/login";}}
 window.setTimeout("toHome()",5000);
 //-->
 </script>
