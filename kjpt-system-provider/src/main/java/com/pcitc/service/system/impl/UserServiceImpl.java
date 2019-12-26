@@ -796,12 +796,9 @@ public class UserServiceImpl implements UserService {
 			map.put("userMail", userMail);
 			map.put("userDelflag", userDelflag);
 			
-			
 			//选知悉范围时， 大于单据的级别 
-			if(!recodeLevel.equals(""))
-			{
-				map.put("sqlStr", " and t.secret_level &gt;= "+recodeLevel);
-			}
+			map.put("recodeLevel", recodeLevel);
+			
 			
 			
 			

@@ -111,18 +111,19 @@ public class SysUser {
 	private String  userHeadPic="";
 	
 	
-	private String  sqlStr;
+	private String  recodeLevel;
 	
 	
 
 	
 
-	public String getSqlStr() {
-		return sqlStr;
+
+	public String getRecodeLevel() {
+		return recodeLevel;
 	}
 
-	public void setSqlStr(String sqlStr) {
-		this.sqlStr = sqlStr;
+	public void setRecodeLevel(String recodeLevel) {
+		this.recodeLevel = recodeLevel;
 	}
 
 	public String getUserHeadPic() {
