@@ -170,7 +170,8 @@ html {
     display: inline-block;
     padding-right: 6rem;
     padding-bottom: 1px;
-	color:  #fff;
+    color:  #fff;
+    white-space: nowrap;
 }
 .left_tab::after,
 .right_tab::after{
