@@ -768,10 +768,6 @@ border-width: 5px;
 }
 
 /* 知悉范围* --- start --- */
-.sed-item-layout{
-  font-size: 0 !important;
-  height: auto;
-}
 .item-list-data {
   padding-top: 4px;
   display: inline-block;
@@ -834,6 +830,32 @@ border-width: 5px;
 .scope-layout.layui-row {
   padding-bottom: 0;
 }
+.layui-input-block-scope{
+  position: relative;
+}
+.layui-input-block-scope .layui-input{
+  position: relative;
+  background: none !important;
+  border-width: 0 !important;
+  padding: 1px;
+  padding-left: 10px;
+  font-size: 0 !important;
+  height: auto;
+}
+.layui-input-block-scope > input {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0;
+  margin: 0;
+  font-size: 0 !important;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 1px #D4D7D8 solid;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
 /* 知悉范围* --- end --- */
 
 @media screen and (max-width: 1366px) {

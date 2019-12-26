@@ -2,7 +2,9 @@
   <div class="layui-col-xs8 layui-col-sm6 layui-col-md6">
     <div class="layui-form-item">
       <label class="layui-form-label label-required"><span class="text">知悉范围：</span></label>
-      <div class="layui-input-block">
+      <div class="layui-input-block layui-input-block-scope">
+        <input type="text" name="knowledgeScope"> <!-- 登录账号 -->
+        <input type="hidden" name="knowledgePerson"> <!-- 人员姓名 -->
         <div class="layui-input sed-item-layout">
           <div class="item-list-data" active-item>
             <label class="sed-item-list">
@@ -10,21 +12,18 @@
               <span class="delete-item"></span>
             </label>
           </div>
-          <input type="type" class="item-list-input" _name="search_name" />
+          <div class="ib-block"><input type="type" class="item-list-input" _name="search_name" /></div>
         </div>
       </div>
     </div>
   </div>
   <div class="layui-col-xs4 layui-col-sm6 layui-col-md6">
-    <div class="layui-input-inline">
-      <button type="button" label-id="downPlan" class="layui-btn border-blue">手工配置</button>
+    <div class="layui-input-inline layui-input-block-scope">
+      <div class="layui-input"><span class="link-text" _show-table="true" label-id="downPlan">收起</span></div>
     </div>
   </div>
   <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hide-table-layout">
     <table></table>
     <div class="table-page-layout"></div>
   </div>
-
-  <input type="hidden" name="knowledgeScope"> <!-- 登录账号 -->
-  <input type="hidden" name="knowledgePerson"> <!-- 人员姓名 -->
 </div>
