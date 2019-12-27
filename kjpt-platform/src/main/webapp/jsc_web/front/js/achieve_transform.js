@@ -5,7 +5,7 @@ layui.use(['laydate'], function() {
       // 成果转化数量趋势分析
       var time = date || '2019',
       chartData = [],
-      initYear = 2017;
+      initYear = 2016;
 
       for (var i = 1; i < 4; i++) {
         chartData.push({

@@ -8,7 +8,6 @@ kyptCharts.render({
     labelColor: '#fff',
     radius: ['50%', '72%'],
     borderColor: '#001e38',
-    title: '专利类型占比',
     totalTitle: true,
     title: {
       textStyle: {

@@ -234,7 +234,8 @@ layui.use(['laydate'], function() {
           value2: (parseInt(Math.random() * 100) + 0),
           value3: (parseInt(Math.random() * 100) + 0),
           value4: (parseInt(Math.random() * 100) + 0),
-          value5: (parseInt(Math.random() * 100) + 0)
+          value5: (parseInt(Math.random() * 100) + 0),
+          value6: (parseInt(Math.random() * 100) + 0)
         })
       }
 
@@ -252,9 +253,10 @@ layui.use(['laydate'], function() {
           series: [
             { name: '医疗器械一次检验合格率（%）', valueKey: 'value1'},
             { name: '医疗器械出厂检验合格率（%）', valueKey: 'value2'},
-            { name: '放射源出厂检验合格率（%）', valueKey: 'value3'},
-            { name: '放射性药品一次检验合格率（%）', valueKey: 'value4'},
-            { name: '放射性药品出厂检验合格率（%）', valueKey: 'value5'}
+            { name: '放射源一次检验合格率（%）', valueKey: 'value3'},
+            { name: '放射源出厂检验合格率（%）', valueKey: 'value4'},
+            { name: '放射性药品一次检验合格率（%）', valueKey: 'value5'},
+            { name: '放射性药品出厂检验合格率（%）', valueKey: 'value6'}
           ],
           data: chartData,
           color: ['#EAFF74', '#00FF32', '#42FDFF', '#D300E0', '#FF7F5D', '#00ABE9']
