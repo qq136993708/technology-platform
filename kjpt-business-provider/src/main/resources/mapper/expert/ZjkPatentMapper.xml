@@ -240,7 +240,7 @@
      SELECT t1.*, DATE_FORMAT(t1.`get_patent_time`,'%Y-%m-%d') get_patent_time_str,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
-          AND t2.`code`=t1.`patent_type`
+          AND t2.`num_value`=t1.`patent_type`
       ) patent_type_str
       ,
       ( 
@@ -318,7 +318,7 @@
      <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 	    select 
 	     *
-	    from (<include refid="view_zjk_patent" />)
+	    from (<include refid="view_zjk_patent" />) t
 	    where id = #{id,jdbcType=VARCHAR}
 	  </select>
   
