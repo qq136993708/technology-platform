@@ -122,6 +122,7 @@ public class PlatformAchievementController extends RestBaseController {
         String[] cols =    {"achievementName","applicantUnitText","achievementTypeText","applicantYear","secretLevelText"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
         //默认查询当前人所在机构下所有的科研平台
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);

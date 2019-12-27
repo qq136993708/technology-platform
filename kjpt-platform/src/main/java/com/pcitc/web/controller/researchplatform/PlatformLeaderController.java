@@ -80,6 +80,7 @@ public class PlatformLeaderController extends RestBaseController {
         String[] cols =    {"name","post","workUnitText","major"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
         //默认查询当前人所在机构下所有的科研平台
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
@@ -133,7 +134,7 @@ public class PlatformLeaderController extends RestBaseController {
             this.setParam(condition, "secretLevel", secretLevel);
         }
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
 
 
         //默认查询当前人所在机构下所有的科研平台领军人物
