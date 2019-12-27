@@ -327,10 +327,6 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "headPic", value = "头像", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息(外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 )", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form")
         
@@ -370,10 +366,8 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setPersonnelNum(zjkBase.getPersonnelNum());
 			oldZjkBase.setUseStatus(zjkBase.getUseStatus());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
-			oldZjkBase.setZjkAchievementJsonList(zjkBase.getZjkAchievementJsonList());
-			oldZjkBase.setZjkPatentJsonList(zjkBase.getZjkPatentJsonList());
-			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
-			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
+			
+			
 			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
@@ -416,6 +410,8 @@ public class ExpertController extends BaseController {
 			zjkBase.setAuditStatus(Constant.AUDIT_STATUS_DRAFT);
 			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
 			zjkBase.setCreateUnitName(sysUserInfo.getUserUnitName());
+			zjkBase.setSeeUserIds(sysUserInfo.getUserId());
+			zjkBase.setSeeUserNames(sysUserInfo.getUserDisp());
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();

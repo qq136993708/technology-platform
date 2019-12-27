@@ -107,17 +107,19 @@ public class SysUserApiController extends BaseController{
 	 
 	    @ApiOperation(value = "根据单据级别选知悉范围用户（分页）", notes = "根据单据级别选知悉范围用户（分页）")
 	    @ApiImplicitParams({
-	        @ApiImplicitParam(name = "page",           value = "页码",      dataType = "string", paramType = "query",required=true),
-	        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query",required=true),
-	        @ApiImplicitParam(name = "recodeLevel",    value = "单据密级",    dataType = "string", paramType = "query",required=true)
+	        @ApiImplicitParam(name = "page",           value = "页码",      dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "recodeLevel",    value = "单据密级",    dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "name",    value = "人员或单位名称",    dataType = "string", paramType = "query")
 	    })
-	    @RequestMapping(value = "/user-api/getSysUserPageByRecodeLevel", method = RequestMethod.POST)
+	    @RequestMapping(value = "/user-api/getSysUserPageByRecodeLevel", method = RequestMethod.GET)
 		public String getSysUserPageByRecodeLevel(
 				
 				@RequestParam(required = true) Integer page,
 	            @RequestParam(required = true) Integer limit,
 	            @RequestParam(required = false) String recodeLevel,
-				HttpServletRequest request, HttpServletResponse response)throws Exception 
+	            @RequestParam(required = false) String name,
+				HttpServletRequest request, HttpServletResponse response)throws Exception
 	     {
 
 	    	LayuiTableParam param =new LayuiTableParam();
@@ -127,6 +129,7 @@ public class SysUserApiController extends BaseController{
 	    	
 	    	param.getParam().put("userDelflag", 0);
 	    	param.getParam().put("recodeLevel", String.valueOf(Integer.valueOf(recodeLevel).intValue()+1));
+	    	param.getParam().put("name",name);
 	    	
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);

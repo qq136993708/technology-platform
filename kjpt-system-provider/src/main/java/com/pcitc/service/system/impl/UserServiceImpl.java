@@ -773,6 +773,7 @@ public class UserServiceImpl implements UserService {
 			String userUnitName=CommonUtil.getTableParam(param,"userUnitName","");
 			String postName=CommonUtil.getTableParam(param,"postName","");
 			String userMail=CommonUtil.getTableParam(param,"userMail","");
+			String name=CommonUtil.getTableParam(param,"name","");
 			Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
 			
 			String recodeLevel=CommonUtil.getTableParam(param,"recodeLevel","");
@@ -798,7 +799,8 @@ public class UserServiceImpl implements UserService {
 			
 			//选知悉范围时， 大于单据的级别 
 			map.put("recodeLevel", recodeLevel);
-			
+			map.put("name", name);
+
 			
 			
 			

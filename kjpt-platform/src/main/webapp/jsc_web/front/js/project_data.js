@@ -513,11 +513,6 @@ var fx_tree_data=[{
 	"id": "517160HXXY",
 	"pIds": "0,5171000000,93b310985f294403be425bfeb2df9703,"
 }, {
-	"name": "www",
-	"pId": "517160HXXY",
-	"id": "fc0276d213374026963421af89aaaeeb",
-	"pIds": "0,5171000000,93b310985f294403be425bfeb2df9703,517160HXXY,"
-}, {
 	"name": "中国宝原投资有限公司",
 	"pId": "b30a3bdbc6d447f1bf21183efb57811e",
 	"id": "517160ZCKG",

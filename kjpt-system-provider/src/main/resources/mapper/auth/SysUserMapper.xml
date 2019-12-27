@@ -577,6 +577,12 @@
 	     <if test="recodeLevel != null          and recodeLevel !=''  ">    
 	      and t.secret_level &gt;=  #{recodeLevel}
 	     </if>
+
+
+
+		 <if test="name != null   and name !=''  ">
+		 	and (t.user_disp like CONCAT('%',#{name},'%')  or   t.user_unit_name like CONCAT('%',#{name},'%') )
+		 </if>
 	
 	
 	
