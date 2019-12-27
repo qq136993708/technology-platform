@@ -164,7 +164,7 @@
             {field: 'researchTarget', title: '研究目标' },
             {field: 'setupYeat', title: '立项年度'},
         ]
-        tableRender('project',projectArr,'/expert-project-api/list',variable.id)
+        tableRender('project',projectArr,'/expert-project-api/page',variable.id)
         var achievementsArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'achieveName', title: '成果名称'},
@@ -172,7 +172,7 @@
             {field: 'achieveTypeStr', title: '成果类别' },
             {field: 'applyYear', title: '申请年度'},
         ]
-        tableRender('achievements',achievementsArr,'/expert-achievement-api/list',variable.id)
+        tableRender('achievements',achievementsArr,'/expert-achievement-api/page',variable.id)
         var patentArr=[
             {title: '序号',type:'numbers' ,width:55},
             {field: 'patentName', title: '专利名称'},
@@ -180,7 +180,7 @@
             {field: 'getPatentTimeStr', title: '申请日期' },
             {field: 'describe', title: '专利描述'},
         ]
-        tableRender('patent',patentArr,'/expert-patent-api/list',variable.id)
+        tableRender('patent',patentArr,'/expert-patent-api/page',variable.id)
         var rewardArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'rewarkLevelStr', title: '奖励级别'},
@@ -188,7 +188,7 @@
             {field: 'awardingUnit', title: '授奖单位' },
             {field: 'awardingTimeStr', title: '获奖日期'},
         ]
-        tableRender('reward',rewardArr,'/expert-reward-api/list',variable.id)
+        tableRender('reward',rewardArr,'/expert-reward-api/page',variable.id)
         function tableRender(id,cols,url,where) {
             table.render({
                 elem: '#'+id // 表格元素ID
@@ -233,7 +233,7 @@
                     url:'/kjpt/expert/project_add.html?id='+variable.id,
                     tableName:'project',
                     projectArr:projectArr,
-                    tableUrl:'/expert-project-api/list'
+                    tableUrl:'/expert-project-api/page'
                 }
                 openLayer(obj)
             },
@@ -243,7 +243,7 @@
                     url:'/kjpt/expert/achievements_add.html?id='+variable.id,
                     tableName:'achievements',
                     projectArr:achievementsArr,
-                    tableUrl:'/expert-achievement-api/list'
+                    tableUrl:'/expert-achievement-api/page'
                 }
                 openLayer(obj)
             },
@@ -253,7 +253,7 @@
                     url:'/kjpt/expert/patent_add.html?id='+variable.id,
                     tableName:'patent',
                     projectArr:patentArr,
-                    tableUrl:'/expert-patent-api/list'
+                    tableUrl:'/expert-patent-api/page'
                 }
                 openLayer(obj)
             },
@@ -263,7 +263,7 @@
                     url:'/kjpt/expert/reward_add.html?id='+variable.id,
                     tableName:'reward',
                     projectArr:rewardArr,
-                    tableUrl:'/expert-patent-api/list'
+                    tableUrl:'/expert-patent-api/page'
                 }
                 openLayer(obj)
             }
