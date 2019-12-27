@@ -2,17 +2,18 @@ var kypt_charts1= echarts.init(document.getElementById('kypt_charts1'));
 var kypt_charts2= echarts.init(document.getElementById('kypt_charts2'));
 var kypt_charts3= echarts.init(document.getElementById('kypt_charts3'));
 var kypt_charts4= echarts.init(document.getElementById('kypt_charts4'));
-var kypt_charts5= echarts.init(document.getElementById('kypt_charts5'));
+// var kypt_charts5= echarts.init(document.getElementById('kypt_charts5'));
 
 var option1 = {
     tooltip: {
         trigger: 'axis',
-        formatter: "{b}： {c}%",
+        formatter: "{b}： {c}",
         axisPointer: {
             type: 'shadow'
         }
     },
     legend: {
+        show: false,
         data: ['2019年'],
         x:'left',
         textStyle:{
@@ -56,7 +57,7 @@ var option1 = {
     },
     yAxis: {
         type: 'category',
-        data: ['板块级科研平台','集团级科研平台','部委级科研平台','省部级科研平台','国家级科研平台'],
+        data: ['板块级','集团级','部委级','省部级','国家级'],
         axisLabel:{
             textStyle:{
                 color:'#fff',
@@ -149,98 +150,58 @@ var option1 = {
     ]
 };
 
-var option5 = {
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            },
-            backgroundColor:'rgba(38,84,113,0.5)',
-            borderColor:'#0897a0',
-            borderWidth:1
-        },
-    
-        legend: {
-            show:false,
-            data:['本年'],
-            itemWidth: 10,  // 设置宽度
-    　　    itemHeight: 10, // 设置高度
-    　　    itemGap: 40, // 设置间距
-            x:'right',
-            textStyle:{
-                color:'#fff',
-                fontSize:14
-            }
-        },
-        color:['#4526FF','#00AEFF','#EAFF74'],
-        grid: {
-            x:'3%',
-            x2:'3%',
-            y:'15%',
-            y2:'20%',
-        },
-        xAxis: [
-            {
-                type: 'category',
-                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-                axisLabel:{
-                    textStyle:{
-                        color:'#fff',
-                        fontSize:'16'
-                    }
-                }
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value',
-                name: '',
-                axisLabel:{
-                    textStyle:{
-                        color:'#fff',
-                        fontSize:'16'
-                    }
-                },
-                axisLine:{
-                    show:true,
-                    lineStyle:{
-                        color:['rgba(30,83,137,0.6)']
-                    }
-                },
-                splitLine:{
-                    lineStyle:{
-                        color:['rgba(30,83,137,0.6)']
-                    }
-                }
-            }
-        ],
-        series: [
-            {
-                name:'本年',
-                type:'bar',
-                barWidth:30,
-                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-                itemStyle:{
-                    normal:{
-                        color:function(params){
-                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#43F0FF'
-                            }, {
-                                offset: 1,
-                                color: '#4E00FF'
-                            }]);
-                        }
-                    }
-                },
-            }
-        ]
-    };
 kypt_charts1.setOption(option1);
 kypt_charts2.setOption(option1);
 kypt_charts3.setOption(option1);
 kypt_charts4.setOption(option1);
-kypt_charts5.setOption(option5);
+
+
+
+var chartTime = null;
+$(window).resize(function() {
+  if (chartTime || chartTime === 0) {
+    clearTimeout(chartTime);
+  };
+
+  chartTime = setTimeout(function() {
+    kypt_charts1.resize();
+    kypt_charts2.resize();
+    kypt_charts3.resize();
+    kypt_charts4.resize();
+  }, 120);
+})
+
+// 科研平台数量按技术领域
+kyptCharts.render({
+    id: 'kypt_charts5',
+    type: 'bar',
+    legend: { show: false },
+    lineColor: '#1E5389',
+    valueColor: '#fff',
+    labelColor: '#fff',
+    label: false,
+    itemName: 'name',
+    borderColor: '#001e38',
+    title: '科研平台数量',
+    data: [
+        {name: '技术领域1', value: 143},
+        {name: '技术领域2', value: 423},
+        {name: '技术领域3', value: 63},
+        {name: '技术领域4', value: 93},
+        {name: '技术领域5', value: 113},
+        {name: '技术领域6', value: 203},
+        {name: '技术领域7', value: 120},
+        {name: '技术领域8', value: 69},
+        {name: '技术领域9', value: 91},
+        {name: '技术领域10', value: 210},
+        {name: '技术领域11', value: 150},
+        {name: '技术领域12', value: 50}
+    ],
+    series: [
+        {name: '数量', valueKey: 'value'},
+    ],
+    color: [['#4E00FF', '#43F0FF']]
+});
 
 
 

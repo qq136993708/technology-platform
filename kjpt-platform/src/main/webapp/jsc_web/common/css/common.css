@@ -170,7 +170,8 @@ html {
     display: inline-block;
     padding-right: 6rem;
     padding-bottom: 1px;
-	color:  #fff;
+    color:  #fff;
+    white-space: nowrap;
 }
 .left_tab::after,
 .right_tab::after{
@@ -327,7 +328,7 @@ html {
 .logo_text span {
     display: block;
     height: 100%;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color:#ffffff;
     letter-spacing: .3rem;
     font-family: 'tgafont'; 

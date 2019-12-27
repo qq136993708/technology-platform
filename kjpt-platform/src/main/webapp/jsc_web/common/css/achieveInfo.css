@@ -34,7 +34,7 @@
 }
 .bottom-chart-layout {
   height: 56%;
-  padding-top: .5rem;
+  padding-top: .8rem;
   font-size: 0;
 }
 .chart-item-layout{
@@ -105,6 +105,17 @@
 }
 .intelligent_team .appraisal_four {
   width: 100%;
+}
+
+/* 科研平台 */
+.kypt_content .chart-item-layout{
+  width: 25%;
+}
+.kypt_content .kyptCharts5 {
+  width: 100%;
+}
+.kypt_content .bottom-chart-layout{
+  padding-top: 1.5rem;
 }
 
 /* 质量信息 */

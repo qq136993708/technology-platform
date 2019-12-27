@@ -384,6 +384,7 @@ layui.config({
             }else {
                 $("#oneItem").html("0")
                 parent.$("#pendingCount").html('')
+                parent.$("#pendingCount").hide()
                 $("#text").html("项")
             }
         }

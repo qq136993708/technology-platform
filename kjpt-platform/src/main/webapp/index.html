@@ -343,8 +343,12 @@ var __base_dic_store = {
 			var $ = layui.jquery, publicMethods = layui.publicMethods;
 			$('.dowebok').liMarquee();
 			// var headerNav = $(".layui-header-nav ul.layui-layout-left").html();
-			
-			// 设置头部导航超出隐藏
+            $(window).resize(function () {
+                setTimeout(function () {
+                    setHeaderMoreItem();
+                }, 120);
+            })
+                // 设置头部导航超出隐藏
 			setHeaderMoreItem();
 
 			$('#navPrev').on({
