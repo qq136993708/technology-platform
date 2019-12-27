@@ -18,12 +18,14 @@
       <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
      <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
     
-    
+     <result column="see_user_ids"             jdbcType="VARCHAR" property="seeUserIds" />
+    <result column="see_user_names"           jdbcType="VARCHAR" property="seeUserNames" />
+    <result column="create_user"              jdbcType="VARCHAR" property="createUser" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, del_status, source_type, rewark_level, notes, awarding_unit, awarding_time, 
-    create_time, out_system_id,flag,secret_level
+    create_time, out_system_id,flag,secret_level,see_user_ids,see_user_names,create_user
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -34,7 +36,7 @@
     insert into zjk_reward (
       id,expert_id, del_status, source_type, 
       rewark_level, notes, awarding_unit, 
-      awarding_time, create_time, out_system_id,flag
+      awarding_time, create_time, out_system_id,flag,secret_level,see_user_ids,see_user_names,create_user
       )
     values (
       #{id,jdbcType=VARCHAR},
@@ -42,6 +44,9 @@
       #{rewarkLevel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{awardingUnit,jdbcType=VARCHAR}, 
       #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
       #{outSystemId,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
+       ,#{seeUserIds,jdbcType=VARCHAR}
+      ,#{seeUserNames,jdbcType=VARCHAR}
+      ,#{createUser,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
@@ -84,6 +89,15 @@
        <if test="secretLevel != null">
         secret_level,
       </if>
+      <if test="seeUserIds != null">
+        see_user_ids,
+      </if>
+      <if test="seeUserNames != null">
+        see_user_names,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -122,6 +136,15 @@
       <if test="secretLevel != null">
         #{secretLevel,jdbcType=VARCHAR},
       </if>  
+      <if test="seeUserIds != null">
+        #{seeUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="seeUserNames != null">
+        #{seeUserNames,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkReward">
@@ -163,7 +186,15 @@
       <if test="secretLevel != null">
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if>
-      
+       <if test="seeUserIds != null">
+        see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="seeUserNames != null">
+        see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -175,6 +206,10 @@
       rewark_level = #{rewarkLevel,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
       secret_level = #{secretLevel,jdbcType=VARCHAR},
+       
+      see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
+      see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
       awarding_unit = #{awardingUnit,jdbcType=VARCHAR},
       awarding_time = #{awardingTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -205,6 +240,11 @@
 	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
 	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	<if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
+	     <if test="seeUserIds != null        and seeUserIds !=''  "> 
+	            AND FIND_IN_SET(#{seeUserIds},t.`see_user_ids`) 
+	      </if>
+	
 	 </trim>
 	</sql>
 	

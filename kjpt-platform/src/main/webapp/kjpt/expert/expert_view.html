@@ -80,21 +80,48 @@
                 </div>
                 <div class="layui-tab-item">
                     <!-- 项目 -->
-                    <table id="project"></table>
+                    <div class="view-title-layout">
+                        <div class="right">
+                            <a class="layui-btn border-blue openDialog"  data-type="projectAdd" button-role="add">新增</a>
+                            <a class="layui-btn border-blue openDialog" data-type="projectEdit" button-role="edit">编辑</a>
+                            <a class="layui-btn border-red deleteItem" data-type="projectDelete" button-role="delete">删除</a>
+                        </div>
+                    </div>
+                    <table id="project" lay-filter="project"></table>
                 </div>
                 <div class="layui-tab-item">
                     <!-- 成果信息 -->
-                    <table id="achievements"></table>
+                    <div class="view-title-layout">
+                        <div class="right">
+                            <a class="layui-btn border-blue openDialog"  data-type="achievementsAdd" button-role="add">新增</a>
+                            <a class="layui-btn border-blue openDialog" data-type="achievementsEdit" button-role="edit">编辑</a>
+                            <a class="layui-btn border-red deleteItem" data-type="achievementsDelete" button-role="delete">删除</a>
+                        </div>
+                    </div>
+                    <table id="achievements" lay-filter="achievements"></table>
                 </div>
                 <div class="layui-tab-item">
                     <!-- 专利信息 -->
-                    <table id="patent"></table>
+                    <div class="view-title-layout">
+                        <div class="right">
+                            <a class="layui-btn border-blue openDialog"  data-type="patentAdd" button-role="add">新增</a>
+                            <a class="layui-btn border-blue openDialog" data-type="patentEdit" button-role="edit">编辑</a>
+                            <a class="layui-btn border-red deleteItem" data-type="patentDelete" button-role="delete">删除</a>
+                        </div>
+                    </div>
+                    <table id="patent" lay-filter="patent"></table>
                 </div>
                 <div class="layui-tab-item">
                     <!-- 奖励信息 -->
-                    <table id="reward"></table>
+                    <div class="view-title-layout">
+                        <div class="right">
+                            <a class="layui-btn border-blue openDialog"  data-type="rewardAdd" button-role="add">新增</a>
+                            <a class="layui-btn border-blue openDialog" data-type="rewardEdit" button-role="edit">编辑</a>
+                            <a class="layui-btn border-red deleteItem" data-type="rewardDelete" button-role="delete">删除</a>
+                        </div>
+                    </div>
+                    <table id="reward" lay-filter="reward"></table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -137,7 +164,7 @@
             {field: 'researchTarget', title: '研究目标' },
             {field: 'setupYeat', title: '立项年度'},
         ]
-        tableRender('project',projectArr,'/expert-project-api/list',variable.id)
+        tableRender('project',projectArr,'/expert-project-api/page',variable.id)
         var achievementsArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'achieveName', title: '成果名称'},
@@ -145,7 +172,7 @@
             {field: 'achieveTypeStr', title: '成果类别' },
             {field: 'applyYear', title: '申请年度'},
         ]
-        tableRender('achievements',achievementsArr,'/expert-achievement-api/list',variable.id)
+        tableRender('achievements',achievementsArr,'/expert-achievement-api/page',variable.id)
         var patentArr=[
             {title: '序号',type:'numbers' ,width:55},
             {field: 'patentName', title: '专利名称'},
@@ -153,7 +180,7 @@
             {field: 'getPatentTimeStr', title: '申请日期' },
             {field: 'describe', title: '专利描述'},
         ]
-        tableRender('patent',patentArr,'/expert-patent-api/list',variable.id)
+        tableRender('patent',patentArr,'/expert-patent-api/page',variable.id)
         var rewardArr=[
             {title: '序号',type:'numbers',width:55 },
             {field: 'rewarkLevelStr', title: '奖励级别'},
@@ -161,7 +188,7 @@
             {field: 'awardingUnit', title: '授奖单位' },
             {field: 'awardingTimeStr', title: '获奖日期'},
         ]
-        tableRender('reward',rewardArr,'/expert-reward-api/list',variable.id)
+        tableRender('reward',rewardArr,'/expert-reward-api/page',variable.id)
         function tableRender(id,cols,url,where) {
             table.render({
                 elem: '#'+id // 表格元素ID
@@ -185,7 +212,66 @@
                 , limits: [15, 30, 45, 60], // 配置分页数据条数
             });
         }
+        function openLayer(obj) {
+            top.layer.open({
+                type: 2,
+                title: obj.title,
+                content: obj.url, // 全局弹窗页面地址
+                btn: null,
+                area: ['50%', '60%'],
+                end: function(lay, index) {
+                    // 弹窗销毁时获取弹窗返回数据
+                    var getData = getDialogData('dialog-data');
 
+                }
+            });
+        }
+        var $ = layui.$, active = {
+            projectAdd:function () {
+                var obj={
+                    title:'添加项目',
+                    url:'/kjpt/expert/project_add.html?expertId='+variable.id,
+                    tableName:'project',
+                    projectArr:projectArr,
+                    tableUrl:'/expert-project-api/page'
+                }
+                openLayer(obj)
+            },
+            achievementsAdd:function () {
+                var obj={
+                    title:'添加成果',
+                    url:'/kjpt/expert/achievements_add.html?expertId='+variable.id,
+                    tableName:'achievements',
+                    projectArr:achievementsArr,
+                    tableUrl:'/expert-achievement-api/page'
+                }
+                openLayer(obj)
+            },
+            patentAdd:function () {
+                var obj={
+                    title:'添加专利',
+                    url:'/kjpt/expert/patent_add.html?expertId='+variable.id,
+                    tableName:'patent',
+                    projectArr:patentArr,
+                    tableUrl:'/expert-patent-api/page'
+                }
+                openLayer(obj)
+            },
+            rewardAdd:function () {
+                var obj={
+                    title:'添加奖励',
+                    url:'/kjpt/expert/reward_add.html?expertId='+variable.id,
+                    tableName:'reward',
+                    projectArr:rewardArr,
+                    tableUrl:'/expert-patent-api/page'
+                }
+                openLayer(obj)
+            }
+        }
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
     });
 </script>
 </body>

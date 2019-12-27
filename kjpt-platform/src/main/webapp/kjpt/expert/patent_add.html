@@ -12,13 +12,6 @@
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
-        .item{margin-bottom: 10px !important;}
-        .input-layout-box .layui-btn{width: 100px;background: url(/images/add.png) no-repeat left center;border: 1px solid #fff;border-radius: 3px;
-            height: 30px;font-size: 14px;line-height: 30px;color: #1890FF;cursor: pointer;float: left;margin-top: 10px;background-size: 14px}
-        .input-layout-box .layui-btn:hover{border: 1px solid #fff !important;box-shadow: none !important;}
-        .layout-view-content.dialog .layui-form-label{width: 90px;max-width: 90px;}
-        .layout-view-content.dialog .layui-input-block{margin-left: 90px}
-        .input-layout-box{text-align: center}
         .layui-anim.layui-icon{display: none}
         .layui-form-radio{background: #ECF0F4;color: #46484B;padding-left: 10px;float: left;margin-right: 0;}
         .layui-form-radioed{background: #0AA1FF;color: white}
@@ -51,7 +44,25 @@
     </div>
     <!-- 手动录入 -->
     <div class="input-layout-box">
-        <div class="layui-hide" id="item">
+        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+                        <div class="layui-input-block">
+                            <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+                        <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>
+                    </div>
+                </div>
+            </div>
+            <div class="secret-level-line"></div>
             <div class="layui-row layui-col-space20">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item item">
@@ -65,13 +76,7 @@
                         <label class="layui-form-label label-required"><span class="text">申请日期:</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="getPatentTimeStr"
-                                   autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item item">
-                        <label class="layui-form-label label-required"><span class="text">密级:</span></label>
-                        <div class="layui-input-block">
-                            <select class="secretLevel" name="secretLevel" xm-select="secretLevel" xm-select-skin="normal" xm-select-radio></select>
+                                   autocomplete="off" placeholder="请选择申请日期!" class="layui-input laydate-input getPatentTimeStr">
                         </div>
                     </div>
                 </div>
@@ -92,20 +97,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 delete">
-                    <a href="#" class="deleteItem"><span>—</span>删除</a>
-                </div>
             </div>
-        </div>
-        <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-
+            <input type="text" name="expertId" id="expertId" class="layui-hide">
+            <div class="dialog-footer-btn">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
+                <button class="layui-btn layui-btn-primary" data-type="close">关闭</button>
+            </div>
         </form>
-        <button data-type="add" class="add-item layui-btn">添加专利</button>
     </div>
-    <div class="dialog-footer-btn">
-        <a class="layui-btn layui-btn-normal" data-type="save">提交</a>
-        <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
-    </div>
+
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
@@ -130,132 +130,29 @@
         })
         switchItem(submitType);
         form.val('formRadio', {optionType: submitType});
-        function patentType(index) {
-            /*专利类型*/
-            $("#formPlatform>div").eq(index).find(".patentType").attr("xm-select","patentType"+index)
-            httpModule({
-                url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_ZLZL",
-                type: 'GET',
-                async:false,
-                success: function(relData) {
-                    if (relData.success === true) {
-                        relData.data.map(function (item) {
-                            item.value=item.code
-                        })
-                        formSelects.data('patentType'+index, 'local', { arr: relData.data });
-                        formSelects.btns('patentType'+index, ['remove']);
-                    }
+        /*专利类型*/
+        httpModule({
+            url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_ZLZL",
+            type: 'GET',
+            async:false,
+            success: function(relData) {
+                if (relData.success === true) {
+                    relData.data.map(function (item) {
+                        item.value=item.code
+                    })
+                    formSelects.data('patentType', 'local', { arr: relData.data });
+                    formSelects.btns('patentType', ['remove']);
                 }
-            });
-            /*查询密级*/
-            $("#formPlatform>div").eq(index).find(".secretLevel").attr("xm-select","secretLevel"+index)
-            httpModule({
-                url: "/sysDictionary-api/getLessThanUserSecretDicList",
-                type: 'GET',
-                async:false,
-                success: function(relData) {
-                    if (relData.success === true) {
-                        relData.data.map(function (item) {
-                            item.value=item.code
-                        })
-                        formSelects.data('secretLevel'+index, 'local', { arr: relData.data });
-                        formSelects.btns('secretLevel'+index, ['remove']);
-                    }
-                }
-            });
-        }
-        function getPatentTimeStr() {
-            /*申请日期*/
-            lay('.getPatentTimeStr').each(function(){
-                laydate.render({
-                    elem: this
-                    ,trigger: 'click'
-                });
-            });
-        }
-        function itemHtml(index) {
-            var html=$("#item").html()
-            $("#formPlatform").append(html)
-            $("#formPlatform>div").eq(index).find(".laydate-input").addClass("getPatentTimeStr")
-            getPatentTimeStr();
-            $(".deleteItem").click(function () {
-                $(this).parents(".layui-row").remove()
-            })
-        }
+            }
+        });
+        laydate.render({
+            elem: ".getPatentTimeStr"
+            ,trigger: 'click'
+        });
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
-        if(variable!=null){
-            httpModule({
-                url: '/expert-api/get/'+variable.id,
-                type: 'GET',
-                success: function(relData) {
-                    if (relData.success === true) {
-                        // 给form表单赋初始值
-                        var patentName=JSON.parse(relData.data.zjkPatentJsonList)
-                        if(patentName.length>0){
-                            patentName.map(function (item, index) {
-                                if(item.flag){
-                                    itemHtml(index)
-                                    patentType(index)
-                                    $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
-                                    $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
-                                    formSelects.value('patentType'+index,[item.patentType])
-                                    formSelects.value('secretLevel'+index, [item.secretLevel]);
-                                    $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
-                                }
-
-                            })
-                        }else {
-                            var index=$("#formPlatform>div").length
-                            itemHtml(index)
-                            patentType(index)
-                        }
-
-                    }
-                }
-            });
-        }else {
-            var index=$("#formPlatform>div").length
-            itemHtml(index)
-            patentType(index)
-        }
+        $("#expertId").val(variable.expertId)
         var $ = layui.$, active = {
-            add:function(){
-                var index=$("#formPlatform>div").length
-                itemHtml(index)
-                patentType(index)
-            },
-            save:function () {
-                var arr=[]
-                $("#formPlatform>div").each(function (index,item) {
-                    var patentName=$("#formPlatform>div").eq(index).find(".patentName").val()
-                    var getPatentTimeStr=$("#formPlatform>div").eq(index).find(".getPatentTimeStr").val()
-                    var patentType=formSelects.value('patentType'+index)[0].code
-                    var describe=$("#formPlatform>div").eq(index).find(".describe").val()
-                    var secretLevel=formSelects.value('secretLevel'+index)[0].value
-                    var flag = true;
-                    if(patentName=='' || patentType=='' || describe=='' || getPatentTimeStr=='' || secretLevel==''){
-                        layer.msg("为填项不能为空！", {icon: 2});
-                        return
-                    }else {
-                        var data={
-                            patentName:patentName,
-                            getPatentTimeStr:getPatentTimeStr,
-                            patentType:patentType,
-                            describe:describe,
-                            outSystemId:'',
-                            secretLevel:secretLevel,
-                            flag:flag
-                        }
-                        arr.push(data)
-                    }
-                })
-                if(arr.length==$("#formPlatform>div").length){
-                    setDialogData(arr); // 通知上层页面状态 - 弹窗中使用
-                    top.layer.closeAll(); // 关闭弹窗
-                }
-
-            },
             close:function () {
                 /*模拟关闭标签页事件*/
                 setDialogData('');
@@ -266,6 +163,10 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+        form.on('submit(formSave)', function(data) {
+            console.log(data)
+            return false
+        })
     });
 </script>
 </body>
