@@ -114,7 +114,7 @@ layui.config({
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
-                    achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
+                    /*achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
                     patentName=JSON.parse(relData.data.zjkPatentJsonList)
                     projectName=JSON.parse(relData.data.zjkProjectJsonList)
                     rewardName=JSON.parse(relData.data.zjkRewardJsonList)
@@ -153,7 +153,7 @@ layui.config({
                         var num=$(this).parent('li').index()
                         $(this).parent('li').remove()
                         rewardName.splice(num,1)
-                    })
+                    })*/
                     form.render()
                 }
             }
@@ -318,10 +318,10 @@ layui.config({
             data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1)
         }
         data.field.headPic=headPic
-        data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
+        /*data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
         data.field.zjkProjectJsonList=JSON.stringify(projectName)
         data.field.zjkPatentJsonList=JSON.stringify(patentName)
-        data.field.zjkRewardJsonList=JSON.stringify(rewardName)
+        data.field.zjkRewardJsonList=JSON.stringify(rewardName)*/
         if(variable!=null){
             data.field.id=variable.id
         }
