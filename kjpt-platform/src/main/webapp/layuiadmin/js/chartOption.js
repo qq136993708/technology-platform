@@ -164,7 +164,8 @@ var kyptCharts = {
       axisLabel: {
         show: true,
         fontSize: 14,
-        color: labelColor
+        color: labelColor,
+        rotate: config.labelRotate || 0
       }
     }],
     itemValueAxis = (function() {
@@ -188,7 +189,12 @@ var kyptCharts = {
           var newValueAxis = _this.transformData(valueAxis);
           if (valItem && typeof(valItem) === 'object') {
             for (var key in valItem) {
-              newValueAxis[key] = valItem[key];
+              if (key !== 'formatter') {
+                newValueAxis[key] = valItem[key];
+              }
+            }
+            if (valItem.formatter) {
+              newValueAxis.axisLabel.formatter = valItem.formatter;
             }
           }
           yAxis.push(newValueAxis);

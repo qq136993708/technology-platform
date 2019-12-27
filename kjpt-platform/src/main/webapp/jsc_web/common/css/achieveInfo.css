@@ -48,7 +48,19 @@
   color: #3B6C9A;
   padding-left: .4rem;
 }
-
+/* 知识产权 */
+.zscq_content .chartsBox1 {
+  width: 35%;
+  padding-right: 3rem;
+}
+.zscq_content .chartsBox2 {
+  width: 65%;
+  padding-right: 1.5rem;
+}
+.zscq_content .chartsBox3{
+  width: 100%;
+  padding-right: 1.5rem;
+}
 
 /* 成果鉴定 */
 .achieve_appraisal .appraisal_one {

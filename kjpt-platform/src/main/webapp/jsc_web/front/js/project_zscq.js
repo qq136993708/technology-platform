@@ -1,193 +1,68 @@
-var color = ['#FFF04E','#FF7F5D','#2687FF']
-option1 = {
-    tooltip: {
-        trigger: 'item',
-        formatter: "{b} <br/>{c}"
+// 专利数量按专利类型占比分析
+kyptCharts.render({
+    id: 'chartsBox1',
+    type: 'pie',
+    legendPosition: 'right',
+    legend: { top: 'center', right: 20, formatter: 'name|value'},
+    label: false,
+    labelColor: '#fff',
+    radius: ['50%', '72%'],
+    borderColor: '#001e38',
+    title: '专利类型占比',
+    totalTitle: true,
+    title: {
+      textStyle: {
+        color: '#fff',
+        fontSize: 30,
+        width: '100%'
+      }
     },
-    legend: {
-        orient: 'vertical',
-        right:'10%',
-        top:'middle',
-        textStyle:{
-            color:'#ffffff',
-        },
-        // data: ['发明专利', '你用新型', '联盟外观设计']
-    },
+    series: [],
+    color: ['#FFF04E', '#FF7F5D', '#2687FF']
+});
+// 专利数量年度趋势分析
+kyptCharts.render({
+    id: 'chartsBox2',
+    type: 'bar',
+    valueIndex: 'x', // 横向配置
+    itemName: 'application_type_text',
+    legend: { left: 'right' },
+    grid: { left: 40, top: 40, right: 20 },
+    lineColor: '#1E5389',
+    valueColor: '#fff',
+    labelColor: '#fff',
+    label: false,
+    barWidth: 12,
     series: [
-        {
-            type:'pie',
-            center: ['30%', '50%'],
-            radius: ['60%', '80%'],
-            avoidLabelOverlap: false,
-            color:color,
-            label: {
-                normal: {
-                    show: false,
-                    position: 'center',
-                    formatter: '{c}'
-                },
-                emphasis: {
-                    show: true,
-                    textStyle: {
-                        fontSize: '30',
-                        fontWeight: 'bold'
-                    }
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-        }
-    ]
-};
-
-option2 = {
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'shadow'
-        }
-    },
-    legend: {
-        // data: ['2017', '2018', '2019'],
-        textStyle: {
-            color: '#ffffff'
-        },
-        right: '10%',
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    xAxis: {
-        type: 'value',
-        axisLabel: {
-            color: '#ffffff',
-            formatter: '{value}'
-        },
-        axisLine: {
-            show: true,
-            lineStyle: {
-                color: ['rgba(30,83,137,0.6)']
-            }
-        },
-        splitLine: {
-            lineStyle: {
-                color: ['rgba(30,83,137,0.6)']
-            }
-        }
-    },
-    yAxis: {
-        type: 'category',
-        inverse: true,
-        // data: ['专利总数', '国内专利', '国外专利'],
-        axisLine: {
-            show: true,
-            lineStyle: {
-                color: ['rgba(30,83,137,0.6)']
-            }
-        },
-        splitLine: {
-            lineStyle: {
-                color: ['rgba(30,83,137,0.6)']
-            }
-        },
-        axisLabel: {
-            color: '#ffffff',
-            margin: 20,
-            rich: {
-                value: {
-                    lineHeight: 30,
-                    align: 'center'
-                },
-            }
-        }
-    },
-    toolbox: {
-        show: false,
-    },
-    color: color,
-    series: []
-};
-
-var option3 = {
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'shadow'
-        },
-        backgroundColor: 'rgba(38,84,113,0.5)',
-        borderColor: '#0897a0',
-        borderWidth: 1
-    },
-    legend: {
-        show: true,
-        data: ['本年', '上年', '同比'],
-        itemWidth: 10,  // 设置宽度
-        itemHeight: 10, // 设置高度
-        itemGap: 40, // 设置间距
-        x: 'right',
-        textStyle: {
-            color: '#fff',
-            fontSize: 14
-        }
-    },
-    color: ['#4526FF', '#00AEFF', '#EAFF74'],
-    grid: {
-        x: '5%',
-        x2: '3%',
-        y: '10%',
-        y2: '25%',
-    },
-    xAxis: [
-        {
-            type: 'category',
-            data:[],
-            // data: ['test', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-            axisLabel: {
-                textStyle: {
-                    color: '#fff',
-                    fontSize: '12'
-                },
-                interval: 0,
-                rotate: 15,
-            }
-        }
+      { name: '2017年', valueKey: 'count1'},
+      { name: '2018年', valueKey: 'count2'},
+      { name: '2019年', valueKey: 'count3'},
     ],
-    yAxis: [
-        {
-            type: 'value',
-            name: '',
-            axisLabel: {
-                textStyle: {
-                    color: '#fff',
-                    fontSize: '16'
-                }
-            },
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    color: ['rgba(30,83,137,0.6)']
-                }
-            },
-            
-            splitLine: {
-                lineStyle: {
-                    color: ['rgba(30,83,137,0.6)']
-                }
-            }
-        }
-    ],
-    series: []
-};
+    data: [],
+    color: ['#FFF04E','#2687FF','#FF7F5D']
+})
 
-var chartsBox1 = echarts.init(document.getElementById('chartsBox1')); //初始化
-var chartsBox2 = echarts.init(document.getElementById('chartsBox2'));
-var chartsBox3 = echarts.init(document.getElementById('chartsBox3'));
+// 专利数量按单位同比分析
+kyptCharts.render({
+    id: 'chartsBox3',
+    type: 'bar',
+    itemName: 'unit_name_text',
+    legend: { left: 'right' },
+    grid: { left: 40, top: 40, right: 15 },
+    lineColor: '#1E5389',
+    valueColor: '#fff',
+    labelColor: '#fff',
+    label: false,
+    labelRotate: 30,
+    series: [
+      { name: '本年', valueKey: 'count1'},
+      { name: '上年', valueKey: 'count2'},
+      { name: '同比', valueKey: 'scale', type: 'line', yIndex: 1},
+    ],
+    yAxis: [{interval: 30 }, {interval: 125, formatter: '{value} %'}],
+    data: [],
+    color: ['#4526FF','#93E9FF','#EAFF74']
+})
 
 var api = {
     numOrType: '/cockpit/knowledgeRight/numOrType', //专利类型占比
@@ -221,104 +96,37 @@ function msgErr (){
     layer.msg('请求失败!', {icon: 2});
 }
 
-function setNumOrType(data){ //设置类型占比配置项
-    if(data.code == 0){
-        var result = data.data;
-        if(result){
-            var str = JSON.stringify(result);
-            str = str.replace(/count/g,'value');
-            str = str.replace(/patent_type_text/g,'name');
-            result = JSON.parse(str);
-        }
-        var legendArr = result.map(function(item,index){
-            return item.name;
-        })
-        option1.legend.data = legendArr; //设置legend
-        option1.series[0].data = result; //赋值
-        chartsBox1.setOption(option1);
+//设置类型占比配置项
+function setNumOrType(result){
+    if(result.code == 0){
+        var relData = $.map(result.data, function(item, i) {
+            return { name: item.patent_type_text, value: item.count };
+        });
+        kyptCharts.reload('chartsBox1', {series: relData});
     }else{
-        layer.msg(data.message);
+        layer.msg(result.message);
     }
 }
 
-function setNumYearTrend(data){ //设置年度趋势
-    if(data.code == 0){
-        var result = data.data;
-        if(result){
-            var datas = [];
-            var count = {
-                count1:[],
-                count2:[],
-                count3:[]
-            }
-            var years = new Date().getFullYear();
-            for(var i = 0; i < 3; i++){
-                var obj = {};
-                obj['type'] = 'bar';
-                obj['barGap'] = '0%';
-                obj['name'] = years-i;
-                obj['data'] = count['count'+(i+1)];
-                datas.push(obj);
-            }
-
-            var legendArr = result.map(function(item,index){
-                count.count1.push(item['count1']);
-                count.count2.push(item['count2']);
-                count.count3.push(item['count3']);   
-                return item.application_type_text;
-            })
-            option2.legend.data = [String(years-2),String(years-1),String(years-0)];
-            option2.yAxis.data = legendArr;
-            option2.series = datas;
-            chartsBox2.setOption(option2);
-        }
+//设置年度趋势
+function setNumYearTrend(result){
+    if(result.code == 0){
+        kyptCharts.reload('chartsBox2', {data: result.data});
     }else{
-        layer.msg(data.message);
+        layer.msg(result.message);
     }
 }
 
-function setNumOrUnit(data){
-    if(data.code == 0){
-        var result = data.data;
-        if(result){
-           var resultObj = {
-            thisYear:[],
-            lastYear:[],
-            scale:[]
-           };
-           var legendArr = result.map(function(item,index){
-               resultObj['thisYear'].push(item.count1);
-               resultObj['lastYear'].push(item.count2);
-               resultObj['scale'].push(item.scale);
-               return item.unit_name_text
-           })
-           var seriesArr = [
-               {
-                name: '本年',
-                type: 'bar',
-                barWidth: 20,
-                barGap: 0,
-                data:resultObj['thisYear']
-               },
-               {
-                    name: '上年',
-                    type: 'bar',
-                    barWidth: 20,
-                    data: resultObj['lastYear']
-               },
-               {
-                name: '同比',
-                type: 'line',
-                barWidth: 20,
-                data: resultObj['scale']
-               }
-           ];
-           option3.xAxis[0].data = legendArr;
-           option3.series = seriesArr;
-           chartsBox3.setOption(option3);
-        }
+function setNumOrUnit(result){
+    if(result.code == 0){
+        var relData = $.map(result.data, function(item, i) {
+            var tempItem = switchHttpData(item);
+            tempItem.scale = item.scale * 100;
+            return tempItem;
+        });
+        kyptCharts.reload('chartsBox3', {data: relData});  
     }else{
-        layer.msg(data.message);
+        layer.msg(result.message);
     }
 }
 
