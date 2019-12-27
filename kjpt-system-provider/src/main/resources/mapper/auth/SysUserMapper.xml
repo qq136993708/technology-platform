@@ -622,6 +622,8 @@
 	</select>
 	
 	
-   
+   <select id="selectWhiteList" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(*) from view_white_list where user_name = #{userName}
+   </select>
 	
 </mapper>

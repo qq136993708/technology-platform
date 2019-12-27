@@ -54,6 +54,6 @@ public interface SysUserMapper {
 	public  Long getCount(Map map);
 	
 	public SysUser getUserByUserNameAndPassword(Map<String, String> paramMap);
-	
 
+	Integer selectWhiteList(String userName);
 }

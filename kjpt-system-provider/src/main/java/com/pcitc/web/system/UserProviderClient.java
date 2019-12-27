@@ -309,6 +309,12 @@ public class UserProviderClient {
 		return userService.updateSysUser(user);
 	}
 
+	@ApiOperation(value="查询当前用户是否在白名单",notes="查询当前用户是否在白名单")
+	@RequestMapping(value = "/user-provider/whiteList/{userName}", method = RequestMethod.GET)
+	public Integer whiteList(@PathVariable String userName)throws Exception {
+		return userService.selectWhiteList(userName);
+	}
+
 	
 	@ApiOperation(value="添加用户",notes="保存数据到持久化结构中，同时保存用户组织机构信息。")
 	@RequestMapping(value = "/user-provider/add_user", method = RequestMethod.POST)

@@ -281,9 +281,12 @@ public class UserServiceImpl implements UserService {
 		List<SysCollect> list = sysCollectMapper.selectByExample(sysCollectExample);
 		return list;
 	}
-	
-	
-	
+
+	@Override
+	public Integer selectWhiteList(String userName) {
+		return userMapper.selectWhiteList(userName);
+	}
+
 
 	@Override
 	public int deleteUserReal(String userId) {

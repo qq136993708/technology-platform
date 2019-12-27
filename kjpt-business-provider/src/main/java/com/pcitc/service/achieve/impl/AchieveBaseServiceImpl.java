@@ -52,6 +52,7 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
             ab.setCreator(ab.getUpdator());
 			//fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
 			handlerFile(ab.getFileDoc(),ab.getSecretLevel());
+			ab.setPublicDoc("0");
             return abm.add(ab);
         }
         else{
