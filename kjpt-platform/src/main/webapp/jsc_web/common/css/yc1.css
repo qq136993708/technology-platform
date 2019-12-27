@@ -84,7 +84,7 @@
 }
 @keyframes light {
     0% {
-        opacity: 1
+        opacity: .7
     }
 
     50% {
