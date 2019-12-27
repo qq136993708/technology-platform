@@ -12,18 +12,30 @@
               <span class="delete-item"></span>
             </label>
           </div>
-          <div class="ib-block"><input type="type" class="item-list-input" _name="search_name" /></div>
         </div>
       </div>
     </div>
   </div>
   <div class="layui-col-xs4 layui-col-sm6 layui-col-md6">
     <div class="layui-input-inline layui-input-block-scope">
-      <div class="layui-input"><span class="link-text" _show-table="true" label-id="downPlan">收起</span></div>
+      <div class="layui-input"><span class="link-text" _show-table="true" label-id="downPlan">添加</span></div>
     </div>
   </div>
   <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hide-table-layout">
-    <table></table>
-    <div class="table-page-layout"></div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <label class="layui-form-label auto"><span class="text">姓名/单位：</span></label>
+        <div class="layui-input-inline"><input type="type" class="layui-input" _name="search_name" /></div>
+        <div class="layui-input-inline">
+          <button class="layui-btn border-blue search-data-btn" type="button">搜索</button>
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <table></table>
+        <div class="table-page-layout"></div>
+      </div>
+    </div>
   </div>
 </div>

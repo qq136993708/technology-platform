@@ -1144,235 +1144,243 @@ function setJurisdictionScope(config) {
 	if ($scope) {
 		layui.use(['table', 'laypage'], function() {
 			var table = layui.table,
-			idkey = 'userName', // 用户账号key
-			namekey = 'userDisp', // 用户名称key
 			laypage = layui.laypage,
-			secretLevel = config.secretLevel || '0', // 单据密级 保密级别为0时，不显示知悉范围
-			formFilter = $scope.closest('.layui-form').attr('lay-filter'),
-			scopeTableId = scopeTableId = randomID(),
-			pageID = randomID(),
-			loadData = false,
-			activeListData = {}, // 所有选中的值
-			tableData = { data: [], pageIndex: 1, pageSize: 5, total: 0, limits: [5, 10, 20, 30, 50]},
-			$selected = null,
-			$scopeInput = null,
-			$valueInput = null,
-			$nameInput = null,
-			setFormInputValue = function() {
-				// 设置表单 用户账号，用户名的值
-				var valueID = '', nameID = '';
-				for (var key in activeListData) {
-					valueID += (',' + key);
-					nameID += (',' + activeListData[key][namekey]);
-				}
-				valueID = valueID.substring(1);
-				nameID = nameID.substring(1);
-				$valueInput.val(valueID);
-				$nameInput.val(nameID);
-			},
-			reloadTable = function() {
-				// 表格渲染
-				if (!loadData) {
-					table.render({
-						elem: ('#' + scopeTableId)
-						,cols: [[ //表头
-							{type: 'checkbox', width: 80}
-							,{field: 'userDisp', title: '用户名称' }
-							,{field: 'userUnitName', title: '所在单位' }
-						]],
-						data: tableData.data,
-						page: false //开启分页
-					});
-				} else {
-					table.reload(scopeTableId, {data: tableData.data});
-				}
-			},
-			selectedItemData = function() {
-				// 显示选中的值
-				if (!$selected) {
-					return false;
-				}	
-				var labelHtml = '';
-				for (var key in activeListData) {
-					labelHtml += '<label class="sed-item-list">';
-					labelHtml += '<span class="name-item">'+activeListData[key][namekey]+'</span>';
-					labelHtml += '<span class="delete-item" item-id="'+ activeListData[key][idkey] +'"></span></label>';
-				}
-				$selected.empty().append(labelHtml);
-				// 选中值添加到表单中
-				setFormInputValue();
-			},
-			getTableData = function(Data) {
-				console.log(Data);
+			initScope = {
+				idkey: 'userName', // 用户账号key
+				namekey: 'userDisp', // 用户名称key
+				secretLevel: config.secretLevel || '0', // 单据密级 保密级别为0时，不显示知悉范围
+				formFilter: $scope.closest('.layui-form').attr('lay-filter'),
+				scopeTableId: randomID(),
+				pageID: randomID(),
+				loadData: false,
+				activeListData: {}, // 所有选中的值
+				tableData: { data: [], pageIndex: 1, pageSize: 5, total: 0, limits: [5, 10, 20, 30, 50]},
+				$selected: null,
+				$scopeInput: null,
+				$valueInput: null,
+				$nameInput: null,
+				setFormInputValue: function() {
+					// 设置表单 用户账号，用户名的值
+					var valueID = '', nameID = '';
+					for (var key in initScope.activeListData) {
+						valueID += (',' + key);
+						nameID += (',' + initScope.activeListData[key][initScope.namekey]);
+					}
+					valueID = valueID.substring(1);
+					nameID = nameID.substring(1);
+					initScope.$valueInput.val(valueID);
+					initScope.$nameInput.val(nameID);
+				},
+				reloadTable: function() {
+					// 表格渲染
+					if (!initScope.loadData) {
+						table.render({
+							elem: ('#' + initScope.scopeTableId)
+							,cols: [[ //表头
+								{type: 'checkbox', width: 80}
+								,{field: 'userDisp', title: '用户名称' }
+								,{field: 'userUnitName', title: '所在单位' }
+							]],
+							data: initScope.tableData.data,
+							done: function(data) {
+								if (!initScope.loadData) {
+									initScope.loadData = true;
+									table.reload(initScope.scopeTableId);
+								}
+							},
+							page: false //开启分页
+						});
+					} else {
+						table.reload(initScope.scopeTableId, {data: initScope.tableData.data});
+					}
+				},
+				selectedItemData: function() {
+					// 显示选中的值
+					if (!initScope.$selected) {
+						return false;
+					}	
+					var labelHtml = '';
+					for (var key in initScope.activeListData) {
+						labelHtml += '<label class="sed-item-list">';
+						labelHtml += '<span class="name-item">'+initScope.activeListData[key][initScope.namekey]+'</span>';
+						labelHtml += '<span class="delete-item" item-id="'+ initScope.activeListData[key][initScope.idkey] +'"></span></label>';
+					}
+					initScope.$selected.empty().append(labelHtml);
+					// 选中值添加到表单中
+					initScope.setFormInputValue();
+				},
+				getTableData: function(Data) {
+					// 获取表格数据
+					var searchData = Data || {}, searchHttp = '';
+					searchData.page = initScope.tableData.pageIndex;
+					searchData.limit = initScope.tableData.pageSize;
+					searchData.recodeLevel = initScope.secretLevel || 0;
 
-				// 获取表格数据
-				var searchData = Data || {}, searchHttp = '';
-				searchData.page = tableData.pageIndex;
-				searchData.limit = tableData.pageSize;
-				searchData.recodeLevel = secretLevel || 0;
-
-				for (var key in searchData) {
-					if (key !== 'name') {
+					for (var key in searchData) {
 						searchHttp += ('&' + key + '=' + searchData[key]);
 					}
-				}
-				searchHttp = searchHttp.substring(1);
+					searchHttp = searchHttp.substring(1);
 
-				httpModule({
-					url: '/user-api/getSysUserPageByRecodeLevel?' + searchHttp, // 数据接口
-					type: 'POST',
-					// data: searchData || null,
-					success: function(res) {
-						if (res.code === 0) {
-							tableData.data = [];
-							$.each(res.data, function(i, item) {
-								var tmepItem = switchHttpData(item);
-								if (activeListData[item[idkey]]) {
-									tmepItem.LAY_CHECKED = true;
-								} else {
-									tmepItem.LAY_CHECKED = false;
-								}
-								tableData.data.push(tmepItem);
-							});
-							tableData.total =	res.count;
-
-							// 渲染表格
-							reloadTable();
-	
-							if (!loadData) {
-								loadData = true;
-							}
-
-							if (tableData.total > tableData.pageSize) {
-								$('#' + pageID).show();
-								// 配置分页 实时更新
-								laypage.render({
-									elem: pageID,
-									count: tableData.total,
-									limit: tableData.pageSize,
-									curr: tableData.pageIndex,
-									limits: tableData.limits,
-									jump: function(obj, isFirst) {
-										if (!isFirst) {
-											tableData.pageIndex = obj.curr;
-											tableData.pageSize = obj.limit;
-											getTableData({name: $scopeInput.val()});
-										}
+					httpModule({
+						url: '/user-api/getSysUserPageByRecodeLevel?' + searchHttp, // 数据接口
+						// type: 'POST',
+						// data: searchData || null,
+						success: function(res) {
+							if (res.code === 0) {
+								initScope.tableData.data = [];
+								$.each(res.data, function(i, item) {
+									var tmepItem = switchHttpData(item);
+									if (initScope.activeListData[item[initScope.idkey]]) {
+										tmepItem.LAY_CHECKED = true;
+									} else {
+										tmepItem.LAY_CHECKED = false;
 									}
+									initScope.tableData.data.push(tmepItem);
 								});
-							} else {
-								$('#' + pageID).hide();
+								initScope.tableData.total =	res.count;
+								// 渲染表格
+								initScope.reloadTable();
+
+								if (initScope.tableData.total > initScope.tableData.pageSize) {
+									$('#' + initScope.pageID).show();
+									// 配置分页 实时更新
+									laypage.render({
+										elem: initScope.pageID,
+										count: initScope.tableData.total,
+										limit: initScope.tableData.pageSize,
+										curr: initScope.tableData.pageIndex,
+										limits: initScope.tableData.limits,
+										jump: function(obj, isFirst) {
+											if (!isFirst) {
+												initScope.tableData.pageIndex = obj.curr;
+												initScope.tableData.pageSize = obj.limit;
+												initScope.getTableData({name: initScope.$scopeInput.val()});
+											}
+										}
+									});
+								} else {
+									$('#' + initScope.pageID).hide();
+								}
 							}
 						}
-					}
-				});
-			},
-			initActiveValue = function() {
-				var tempID = config.knowledgeScope.split(','),
-				tempName = config.knowledgePerson.split(',');
-				$.each(tempID, function(i, item) {
-					activeListData[item] = {};
-					activeListData[item][idkey] = item;
-					activeListData[item][namekey] = tempName[i];
-				})
+					});
+				},
+				initActiveValue: function() {
+					var tempID = config.knowledgeScope.split(','),
+					tempName = config.knowledgePerson.split(',');
+					$.each(tempID, function(i, item) {
+						initScope.activeListData[item] = {};
+						initScope.activeListData[item][initScope.idkey] = item;
+						initScope.activeListData[item][initScope.namekey] = tempName[i];
+					})
+				}
 			};
 
 			// 判断初始是否有需要显示的内容
 			if (config.knowledgeScope) {
-				initActiveValue();
+				initScope.initActiveValue();
 			}
 	
 			// 加载知悉范围HTML
 			$scope.load('/html/components/scope.html', function(html) {
-				var $hideLayout = $scope.find('.hide-table-layout:eq(0)'),
-				$page = $scope.find('.table-page-layout:eq(0)');
+				var $hideLayout = $scope.find('.hide-table-layout:eq(0)');
+				initScope.$valueInput = $scope.find('[name="knowledgeScope"]'); // 知悉范围 value
+				initScope.$nameInput = $scope.find('[name="knowledgePerson"]'); // 知悉范围 name
+				initScope.$selected = $scope.find('[active-item]:eq(0)').empty(); // 清空显示值区域
 
-				$valueInput = $scope.find('[name="knowledgeScope"]'); // 知悉范围 value
-				$nameInput = $scope.find('[name="knowledgePerson"]'); // 知悉范围 name
-				$scopeInput = $scope.find('[_name="search_name"]').eq(0); // 知悉范围搜索框
-				secretLevel = commonLayuiForm.val(formFilter).secretLevel || '0'; // 获取单据密级
-
-				$page.attr('id', pageID); // 分页ID
-				$selected = $scope.find('[active-item]:eq(0)').empty(); // 清空显示值区域
-
+				// 判断是否禁用
 				if (config.disabled) {
 					// 只读状态
-					$hideLayout.hide();
-					$scope.find('[label-id="downPlan"]').hide();
-					selectedItemData();
+					$hideLayout.remove();
+					$scope.find('[label-id="downPlan"]').remove();
+					if (config.knowledgeScope) {
+						initScope.selectedItemData();
+					}
 				} else {
+					$hideLayout.hide();
+
+					// 添加分页ID
+					$scope.find('.table-page-layout:eq(0)').attr('id', initScope.pageID);
+					// 获取单据密级
+					initScope.secretLevel = commonLayuiForm.val(initScope.formFilter).secretLevel || '0';
+					// 知悉范围搜索框
+					initScope.$scopeInput = $scope.find('[_name="search_name"]').eq(0);
+
 					// 保密级别为0时，不显示知悉范围
-					if ( !secretLevel || secretLevel === '0') {
+					if ( !initScope.secretLevel || initScope.secretLevel === '0') {
 						$scope.hide();
-					} else if (config.knowledgeScope || secretLevel > 0) {
+					} else if (config.knowledgeScope || initScope.secretLevel > 0) {
 						if (config.knowledgeScope) {
-							selectedItemData();
+							initScope.selectedItemData();
 						}
-						$scope.find('[label-id="downPlan"]').text('展开').attr('_show-table', 'false');
+						$scope.find('[label-id="downPlan"]').text('添加').attr('_show-table', 'false');
 					}
 
 					// 删除选中用户
-					$selected.on('click', '.delete-item', function(e) {
+					initScope.$selected.on('click', '.delete-item', function(e) {
 						var itemID = $(this).attr('item-id');
-						if (activeListData[itemID]) {
-							delete activeListData[itemID];
+						if (initScope.activeListData[itemID]) {
+							delete initScope.activeListData[itemID];
 							$(this).closest('label').remove();
-							for (var i = 0; i < tableData.data.length; i++) {
-								if (tableData.data[i][idkey] === itemID) {
-									tableData.data[i].LAY_CHECKED = false;
+							for (var i = 0; i < initScope.tableData.data.length; i++) {
+								if (initScope.tableData.data[i][initScope.idkey] === itemID) {
+									initScope.tableData.data[i].LAY_CHECKED = false;
 								}
 							}
 							// 重新渲染表格
-							reloadTable();
+							initScope.reloadTable();
 
 							// 选中值添加到表单中
-							setFormInputValue();
+							initScope.setFormInputValue();
 						}
 					});
 					// 给表格添加随机ID
 					$scope.find('table:eq(0)').attr({
-						'id': scopeTableId, 'lay-filter':scopeTableId
+						'id': initScope.scopeTableId, 'lay-filter':initScope.scopeTableId
 					});
 
 					// 监听表格选择与否
-					table.on('checkbox('+scopeTableId+')', function(rowData) {
+					table.on('checkbox('+initScope.scopeTableId+')', function(rowData) {
 						if (rowData.type === 'all') {
-							$.each(tableData.data, function(i, item) {
+							$.each(initScope.tableData.data, function(i, item) {
 								if (rowData.checked) {
 									var tempItem = switchHttpData(item);
 									tempItem.LAY_CHECKED = rowData.checked;
-									activeListData[item[idkey]] = tempItem;
-								} else if (activeListData[item[idkey]]) {
-									delete activeListData[item[idkey]];
-									$('[item-id="'+ item[idkey] +'"]').closest('label').remove();
+									initScope.activeListData[item[initScope.idkey]] = tempItem;
+								} else if (initScope.activeListData[item[initScope.idkey]]) {
+									delete initScope.activeListData[item[initScope.idkey]];
+									$('[item-id="'+ item[initScope.idkey] +'"]').closest('label').remove();
 								}
 							});
 						} else if (rowData.type === 'one') {
 							if (rowData.checked) {
 								var tempItem = switchHttpData(rowData.data);
 								tempItem.LAY_CHECKED = rowData.checked;
-								activeListData[rowData.data[idkey]] = tempItem;
-							} else if (activeListData[rowData.data[idkey]]) {
-								delete activeListData[rowData.data[idkey]];
-								$('[item-id="'+ rowData.data[idkey] +'"]').closest('label').remove();
+								initScope.activeListData[rowData.data[initScope.idkey]] = tempItem;
+							} else if (initScope.activeListData[rowData.data[initScope.idkey]]) {
+								delete initScope.activeListData[rowData.data[initScope.idkey]];
+								$('[item-id="'+ rowData.data[initScope.idkey] +'"]').closest('label').remove();
 							}
 						}
 						// 更新选中项
-						selectedItemData();
+						initScope.selectedItemData();
 					});
 					
 					// 展开收起
 					$scope.on('click', '[label-id="downPlan"]', function(e) {
 						if ($(this).attr('_show-table') === 'true') {
-							$(this).text('展开').attr('_show-table', 'false');
+							$(this).text('添加').attr('_show-table', 'false');
 							$hideLayout.hide();
 						} else {
 							$(this).text('收起').attr('_show-table', 'true');
 							$hideLayout.show();
-							if (!loadData) {
-								getTableData({name: $scopeInput.val()});
+
+							if (!initScope.loadData) {
+								// 第一次展开时查询数据
+								initScope.getTableData({name: initScope.$scopeInput.val()});
 							} else {
-								reloadTable();
+								// 再次展开表格，重新渲染样式
+								initScope.reloadTable();
 							}
 						}
 					});
@@ -1381,34 +1389,40 @@ function setJurisdictionScope(config) {
 					commonLayuiForm.on('select(secretLevel)', function(data) {
 						if (data.value && data.value !== '0') {
 							$scope.show();
-							$nameInput.attr('lay-verify', 'required');
-							$valueInput.attr('lay-verify', 'required');
+							initScope.$nameInput.attr('lay-verify', 'required');
+							initScope.$valueInput.attr('lay-verify', 'required');
 
-							if (data.value !== secretLevel) {
-								secretLevel = data.value;
-								tableData.pageIndex = 1;
+							if (data.value !== initScope.secretLevel) {
+								initScope.secretLevel = data.value;
+								initScope.tableData.pageIndex = 1;
 		
 								if (data.value !== config.secretLevel) {
-									activeListData = {}; // 清空已选知悉范围
-									$nameInput.val('');
-									$valueInput.val('');
-									$selected.empty();
+									initScope.activeListData = {}; // 清空已选知悉范围
+									initScope.$nameInput.val('');
+									initScope.$valueInput.val('');
+									initScope.$selected.empty();
 								} else if (config.knowledgeScope) {
 									// 还原初始化
-									initActiveValue();
-									selectedItemData();
+									initScope.initActiveValue();
+									initScope.selectedItemData();
 								}
 
 								// 更新表格数据
-								var useName = $scopeInput.val() || '';
-								getTableData({name: useName });
+								var useName = initScope.$scopeInput.val() || '';
+								initScope.getTableData({name: useName });
 							}
 						} else {
 							$scope.hide();
-							$nameInput.attr('lay-verify', '').val('');
-							$valueInput.attr('lay-verify', '').val('');
+							initScope.$nameInput.attr('lay-verify', '').val('');
+							initScope.$valueInput.attr('lay-verify', '').val('');
 						}
 					});
+
+					// 搜索知悉范围数据
+					$scope.on('click', '.search-data-btn', function(e) {
+						initScope.tableData.pageIndex = 1;
+						initScope.getTableData({name: initScope.$scopeInput.val()});
+					})
 				}
 			});
 		})
