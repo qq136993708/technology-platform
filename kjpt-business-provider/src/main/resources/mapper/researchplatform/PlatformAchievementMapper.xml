@@ -22,6 +22,8 @@
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
     </resultMap>
 
 
@@ -40,37 +42,46 @@
         update_date,
         create_unit_id,
         create_unit_name,
-        secret_level
+        secret_level,
+        knowledge_scope,
+        knowledge_person
        </sql>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  * from view_kypt_achievement where 1=1 and platform_id = #{platformId}
+        and deleted != '1'
+        <if test="userName != null  and userName !=''  ">
+            and secret_level = '0' or (
+            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
+            <if test="secretLevel != null and secretLevel != '' ">
+                and secret_level = #{secretLevel}
+            </if>
+            )
+        </if>
+    </select>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
         select  * from view_kypt_achievement where id = #{id} and deleted != '1'
     </select>
 
-    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  * from view_kypt_achievement where 1=1 and platform_id = #{platformId}
-            and deleted != '1'
-
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-         and secret_level <![CDATA[<=]]> #{userSecretLevel}
-    </select>
-
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_achievement where 1=1 and platform_id = #{platformId}
-            and deleted != '1'
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
+        and deleted != '1'
+        <if test="userName != null  and userName !=''  ">
+            and secret_level = '0' or (
+            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
+            <if test="secretLevel != null and secretLevel != '' ">
+                and secret_level = #{secretLevel}
+            </if>
+            )
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformTreatiseModel">
-        insert into kypt_achievement(id,platform_id,base_id,achievement_name,achievement_type,applicant_unit,applicant_year,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name,secret_level)
-         values(#{id},#{platformId},#{baseId},#{achievementName},#{achievementType},#{applicantUnit},#{applicantYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName},#{secretLevel})
+        insert into kypt_achievement(id,platform_id,base_id,achievement_name,achievement_type,applicant_unit,applicant_year,deleted,create_user,create_date,update_date,update_user,create_unit_id,create_unit_name,secret_level,knowledge_scope,knowledge_person)
+         values(#{id},#{platformId},#{baseId},#{achievementName},#{achievementType},#{applicantUnit},#{applicantYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
@@ -89,8 +100,15 @@
                 applicant_year = #{applicantYear},
             </if>
             <if test="secretLevel != null and secretLevel != ''" >
-                secret_level = #{secretLevel}
+                secret_level = #{secretLevel},
             </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson}
+            </if>
+
         </trim>
         where id = #{id}
     </update>
