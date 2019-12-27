@@ -1131,6 +1131,7 @@ function setJurisdictionScope(config) {
 		disabled: boolean // 是否为只读状态
 	}
 	*/
+
 	$scope = (function() {
 		if (typeof(config.elem) === 'object') {
 			return $(config.elem);
@@ -1140,6 +1141,12 @@ function setJurisdictionScope(config) {
 			return null;
 		}
 	})();
+
+	// 公开禁用的直接不加载
+	if (config.disabled && config.secretLevel == '0') {
+		$scope.remove();
+		return;
+	}
 
 	if ($scope) {
 		layui.use(['table', 'laypage'], function() {

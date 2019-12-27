@@ -54,17 +54,31 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             success: function(relData) {
                 if(relData.code==0){
                     /*回显tr*/
+                    var formData = relData.data;
                     relData.data.finishDate=dateFieldText(relData.data.finishDate)
                     form.val('formPlatform', relData.data);
                     formSelects.value('techType', relData.data.techType.split(','));
                     fileDoc=variable.id
                     backfill(relData.data.teamPerson,'achieveTable',variable.type)
                     approvalDoc=relData.data.approvalDoc
-                    publicDoc=relData.data.publicDoc
+                    publicDoc=relData.data.publicDoc;
+
+                    var scope_disabled = false;
                     if(variable.type=='view'){
                         formSelects.disabled(); // 禁用所有多选下拉框
+                        scope_disabled = true;
                     }
-                    console.log(relData)
+
+                    // 添加知悉范围
+                    setJurisdictionScope({
+                        elem: 'scope_list_layout',
+                        knowledgeScope: formData.knowledgeScope,
+                        knowledgePerson: formData.knowledgePerson,
+                        secretLevel: formData.secretLevel,
+                        disabled: scope_disabled
+                    });
+
+                    // console.log(relData)
                 }
             }
         });
@@ -78,9 +92,18 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                 if(relData.code==0){
                     id=relData.data.id
                     approvalDoc=relData.data.approvalDoc
-                    publicDoc=relData.data.publicDoc
+                    publicDoc=relData.data.publicDoc;
+
+                    // 添加知悉范围
+                    setJurisdictionScope({
+                        elem: 'scope_list_layout',
+                        // knowledgeScope: formData.knowledgeScope,
+                        // knowledgePerson: formData.knowledgePerson,
+                        // secretLevel: formData.secretLevel,
+                        disabled: false
+                    });
+
                 }
-                console.log(relData)
             }
         });
 
