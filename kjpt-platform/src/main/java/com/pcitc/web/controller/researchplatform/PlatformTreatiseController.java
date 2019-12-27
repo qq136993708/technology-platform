@@ -79,6 +79,7 @@ public class PlatformTreatiseController extends RestBaseController {
         String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear","secretLevelText"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
         //默认查询当前人所在机构下所有的科研平台
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
@@ -122,6 +123,7 @@ public class PlatformTreatiseController extends RestBaseController {
             this.setParam(condition,"secretLevel",secretLevel);
         }
         this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
+        this.setParam(condition,"userName",userInfo.getUserName());
 
         //默认查询当前人所在机构下所有的科研平台论文
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);

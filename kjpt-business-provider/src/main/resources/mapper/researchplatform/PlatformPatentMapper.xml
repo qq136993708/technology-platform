@@ -55,28 +55,26 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_patent where 1=1 and platform_id = #{platformId}
         and deleted != '1'
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
 
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_patent where 1=1 and platform_id = #{platformId}
         and deleted != '1'
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
     </select>
 
 
@@ -96,7 +94,9 @@
         update_user,
         create_unit_id,
         create_unit_name,
-        secret_level
+        secret_level,
+        knowledge_scope,
+        knowledge_person
         )
          values(
          #{id},
@@ -113,7 +113,9 @@
          #{updator},
          #{createUnitId},
          #{createUnitName},
-         #{secretLevel}
+         #{secretLevel},
+         #{knowledgeScope},
+         #{knowledgePerson}
          )
     </insert>
 
