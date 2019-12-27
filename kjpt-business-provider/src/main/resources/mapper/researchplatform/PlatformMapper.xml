@@ -137,14 +137,14 @@
         </if>
 
 
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
+
     </sql>
 
 
@@ -272,14 +272,13 @@
             </foreach>
         </if>
 
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
         union all
         select count(1) as count, 'patent' as count_type from kypt_patent where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
@@ -289,14 +288,13 @@
             </foreach>
         </if>
 
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
         union all
         select count(1) as count, 'project' as count_type from kypt_project where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
@@ -306,14 +304,13 @@
             </foreach>
         </if>
 
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
         union all
         select count(1) as count, 'treatise' as count_type from kypt_treatise where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
@@ -323,14 +320,13 @@
             </foreach>
         </if>
 
-        <if test="userName != null  and userName !=''  ">
-            and secret_level = '0' or (
-            secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
-            <if test="secretLevel != null and secretLevel != '' ">
-                and secret_level = #{secretLevel}
-            </if>
-            )
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
         </if>
+        ))
         union all
         select count(1) as count, 'member' as count_type from kypt_member where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
