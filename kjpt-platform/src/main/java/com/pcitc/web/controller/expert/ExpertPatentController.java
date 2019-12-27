@@ -209,8 +209,12 @@ public class ExpertPatentController extends BaseController {
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkPatent.setId(dateid);
 			zjkPatent.setCreateUser(sysUserInfo.getUserId());
-			zjkPatent.setSeeUserIds(sysUserInfo.getUserId());
-			zjkPatent.setSeeUserNames(sysUserInfo.getUserDisp());
+			String seeUserIds=zjkPatent.getSeeUserIds();
+   			if(seeUserIds==null || "".equals(seeUserIds))
+			{
+   				zjkPatent.setSeeUserIds(sysUserInfo.getUserId());
+   				zjkPatent.setSeeUserNames(sysUserInfo.getUserDisp());
+			}
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkPatent, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();

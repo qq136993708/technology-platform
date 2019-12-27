@@ -212,8 +212,12 @@ public class ExpertAchievementController extends BaseController {
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkAchievement.setId(dateid);
 			zjkAchievement.setCreateUser(sysUserInfo.getUserId());
-			zjkAchievement.setSeeUserIds(sysUserInfo.getUserId());
-			zjkAchievement.setSeeUserNames(sysUserInfo.getUserDisp());
+			String seeUserIds=zjkAchievement.getSeeUserIds();
+			if(seeUserIds==null || "".equals(seeUserIds))
+			{
+				zjkAchievement.setSeeUserIds(sysUserInfo.getUserId());
+				zjkAchievement.setSeeUserNames(sysUserInfo.getUserDisp());
+			}
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkAchievement, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();

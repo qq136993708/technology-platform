@@ -207,8 +207,12 @@ public class ExpertProjectController extends BaseController {
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkProject.setId(dateid);
 			zjkProject.setCreateUser(sysUserInfo.getUserId());
-			zjkProject.setSeeUserIds(sysUserInfo.getUserId());
-			zjkProject.setSeeUserNames(sysUserInfo.getUserDisp());
+			String seeUserIds=zjkProject.getSeeUserIds();
+   			if(seeUserIds==null || "".equals(seeUserIds))
+			{
+   				zjkProject.setSeeUserIds(sysUserInfo.getUserId());
+   				zjkProject.setSeeUserNames(sysUserInfo.getUserDisp());
+			}
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkProject>(zjkProject, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();
