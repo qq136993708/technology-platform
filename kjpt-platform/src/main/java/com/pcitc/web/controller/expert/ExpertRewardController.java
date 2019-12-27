@@ -204,8 +204,12 @@ public class ExpertRewardController extends BaseController {
    			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
    			zjkReward.setId(dateid);
    			zjkReward.setCreateUser(sysUserInfo.getUserId());
-   			zjkReward.setSeeUserIds(sysUserInfo.getUserId());
-   			zjkReward.setSeeUserNames(sysUserInfo.getUserDisp());
+   			String seeUserIds=zjkReward.getSeeUserIds();
+   			if(seeUserIds==null || "".equals(seeUserIds))
+			{
+   				zjkReward.setSeeUserIds(sysUserInfo.getUserId());
+   				zjkReward.setSeeUserNames(sysUserInfo.getUserDisp());
+			}
    			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkReward>(zjkReward, this.httpHeaders), String.class);
    			int statusCode = responseEntity.getStatusCodeValue();
    			String dataId = responseEntity.getBody();
