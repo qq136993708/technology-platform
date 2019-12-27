@@ -26,6 +26,7 @@ import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.RestMessage;
 
@@ -177,7 +178,6 @@ public class ExpertPatentController extends BaseController {
 
     	Result resultsDate = new Result();
     	String id=zjkPatent.getId();
-    	
     	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(zjkPatent));
 		System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
 		SysUser sysUserInfo = this.getUserProfile();
@@ -185,29 +185,34 @@ public class ExpertPatentController extends BaseController {
 		{
 			ResponseEntity<ZjkPatent> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkPatent.class);
 			ZjkPatent oldZjkPatent = se.getBody();
+			Date date=DateUtil.strToDate(zjkPatent.getGetPatentTimeStr(), DateUtil.FMT_DD);
 			oldZjkPatent.setPatentType(zjkPatent.getPatentType());
 			oldZjkPatent.setPatentName(zjkPatent.getPatentName());
 			oldZjkPatent.setSecretLevel(zjkPatent.getSecretLevel());
 			oldZjkPatent.setSeeUserIds(zjkPatent.getSeeUserIds());
 			oldZjkPatent.setSeeUserNames(zjkPatent.getSeeUserNames());
-			oldZjkPatent.setGetPatentTime(zjkPatent.getGetPatentTime());
+			oldZjkPatent.setGetPatentTime(date);
 			oldZjkPatent.setDescribe(zjkPatent.getDescribe());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkPatent>(oldZjkPatent, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
 			// 返回结果代码
-			if (statusCode == 200) {
+			if (statusCode == 200)
+			{
 				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-			} else {
+			} else 
+			{
 				resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 			}
 		} else 
 		{
+			Date date=DateUtil.strToDate(zjkPatent.getGetPatentTimeStr(), DateUtil.FMT_DD);
 			zjkPatent.setCreateTime(new Date());
 			zjkPatent.setDelStatus(Constant.DEL_STATUS_NOT);
 			zjkPatent.setSourceType(Constant.SOURCE_TYPE_LOCATION);//数据来源（1本系统，2外系统）
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkPatent.setId(dateid);
+			zjkPatent.setGetPatentTime(date);
 			zjkPatent.setCreateUser(sysUserInfo.getUserId());
 			String seeUserIds=zjkPatent.getSeeUserIds();
    			if(seeUserIds==null || "".equals(seeUserIds))
