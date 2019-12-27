@@ -84,7 +84,8 @@
                     <div class="layui-form-item item">
                         <label class="layui-form-label label-required"><span class="text">专利类型:</span></label>
                         <div class="layui-input-block">
-                            <select class="patentType" name="patentType" xm-select="patentType" xm-select-skin="normal" xm-select-radio></select>
+                            <select id="patentType" name="patentType" dic-base-data="ROOT_KJPT_ZLZL" lay-verify="required" placeholder="请选择...">
+                            </select>
                             <!--<input type="text" name="patentType"
                                    placeholder="" autocomplete="off" class="layui-input patentType">-->
                         </div>
@@ -114,6 +115,7 @@
     layui.use(['form', 'jquery','element','laydate','formSelects'], function(){
         var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate,formSelects=layui.formSelects;
         var submitType = 'input';
+        var id=''
         function switchItem(type) {
             submitType = type;
             if (type === 'unInput') {
@@ -130,21 +132,6 @@
         })
         switchItem(submitType);
         form.val('formRadio', {optionType: submitType});
-        /*专利类型*/
-        httpModule({
-            url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_ZLZL",
-            type: 'GET',
-            async:false,
-            success: function(relData) {
-                if (relData.success === true) {
-                    relData.data.map(function (item) {
-                        item.value=item.code
-                    })
-                    formSelects.data('patentType', 'local', { arr: relData.data });
-                    formSelects.btns('patentType', ['remove']);
-                }
-            }
-        });
         laydate.render({
             elem: ".getPatentTimeStr"
             ,trigger: 'click'
@@ -152,6 +139,21 @@
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
         $("#expertId").val(variable.expertId)
+        if(variable.id!=undefined){
+            httpModule({
+                url: "/expert-patent-api/get/"+variable.id,
+                type: 'GET',
+                async:false,
+                success: function(relData) {
+                    console.log(relData)
+                    if(relData.success){
+                        /*回显tr*/
+                        form.val('formPlatform', relData.data);
+                        id=relData.data.id
+                    }
+                }
+            });
+        }
         var $ = layui.$, active = {
             close:function () {
                 /*模拟关闭标签页事件*/
@@ -164,7 +166,26 @@
             active[type] ? active[type].call(this) : '';
         });
         form.on('submit(formSave)', function(data) {
-            console.log(data)
+            console.log(data.field)
+            if(id!=''){
+                data.field.id=id
+            }
+            if(formSelects.value('achieveType')){
+
+            }
+            httpModule({
+                url: '/expert-patent-api/save',
+                data: data.field,
+                type: "POST",
+                success: function(e) {
+                    console.log(e)
+                    if(e.success){
+                        layer.msg('保存成功!');
+                        top.layer.closeAll(); // 关闭弹窗
+                        setDialogData(e);
+                    }
+                }
+            });
             return false
         })
     });

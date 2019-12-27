@@ -26,6 +26,7 @@ import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 
 import io.swagger.annotations.Api;
@@ -178,7 +179,9 @@ public class ExpertRewardController extends BaseController {
    		{
    			ResponseEntity<ZjkReward> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkReward.class);
    			ZjkReward oldZjkReward = se.getBody();
-   			oldZjkReward.setAwardingTime(zjkReward.getAwardingTime());
+   			
+   			Date date=DateUtil.strToDate(zjkReward.getAwardingTimeStr(), DateUtil.FMT_DD);
+   			oldZjkReward.setAwardingTime(date);
    			oldZjkReward.setRewarkLevel(zjkReward.getRewarkLevel());
    			oldZjkReward.setAwardingUnit(zjkReward.getAwardingUnit());
    			oldZjkReward.setNotes(zjkReward.getNotes());
@@ -210,6 +213,8 @@ public class ExpertRewardController extends BaseController {
    				zjkReward.setSeeUserIds(sysUserInfo.getUserId());
    				zjkReward.setSeeUserNames(sysUserInfo.getUserDisp());
 			}
+   			Date date=DateUtil.strToDate(zjkReward.getAwardingTimeStr(), DateUtil.FMT_DD);
+   			zjkReward.setAwardingTime(date);
    			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkReward>(zjkReward, this.httpHeaders), String.class);
    			int statusCode = responseEntity.getStatusCodeValue();
    			String dataId = responseEntity.getBody();

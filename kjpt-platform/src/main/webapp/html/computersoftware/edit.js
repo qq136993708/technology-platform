@@ -45,7 +45,14 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
           });
           formSelects.value('supportingInstitutions', [data.unitName]);
 
-
+          // 添加知悉范围
+          setJurisdictionScope({
+            elem: 'scope_list_layout',
+            knowledgeScope: data.knowledgeScope,
+            knowledgePerson: data.knowledgePerson,
+            secretLevel: data.secretLevel,
+            disabled: scope_disabled
+          });
         }
       }
     });

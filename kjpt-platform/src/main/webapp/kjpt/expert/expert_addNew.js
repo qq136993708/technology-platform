@@ -105,7 +105,7 @@ layui.config({
             success: function(relData) {
                 if (relData.success === true) {
                     // 给form表单赋初始值
-                    console.log(relData.data)
+                    var formData = relData.data;
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
@@ -154,10 +154,27 @@ layui.config({
                         $(this).parent('li').remove()
                         rewardName.splice(num,1)
                     })*/
-                    form.render()
+                    form.render();
+
+                    // 添加知悉范围
+                    setJurisdictionScope({
+                        elem: 'scope_list_layout',
+                        knowledgeScope: formData.knowledgeScope,
+                        knowledgePerson: formData.knowledgePerson,
+                        secretLevel: formData.secretLevel,
+                        disabled: false
+                    });
+
                 }
             }
         });
+    } else {
+        // 添加知悉范围
+        setJurisdictionScope({
+            elem: 'scope_list_layout',
+            disabled: false
+        });
+
     }
 
     var $ = layui.$, active = {

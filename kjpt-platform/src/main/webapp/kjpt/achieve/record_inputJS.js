@@ -214,7 +214,6 @@ layui.use(['table', 'form', 'layer'], function() {
   httpModule({
     url: '/achieveRecord-api/load/'+ variable.id,
     success: function(res) {
-      console.log(res);
       // teamPerson
       if (res.code === '0' || res.success === true) {
         var detailsData = res.data;
@@ -276,11 +275,25 @@ layui.use(['table', 'form', 'layer'], function() {
           });
         })
 
+        var scope_disabled = false;
         if (variable.type === 'transfrom' || variable.type === 'view') {
           // 维护
           $('form[lay-filter="RecordInputForm"] .view-row-title').remove();
           setFomeDisabled('RecordInputForm', '.disabled');
+          scope_disabled = true;
         }
+
+        // 更新表单状态
+        form.render();
+
+        // 添加知悉范围
+        setJurisdictionScope({
+          elem: 'scope_list_layout',
+          knowledgeScope: detailsData.knowledgeScope,
+          knowledgePerson: detailsData.knowledgePerson,
+          secretLevel: detailsData.secretLevel,
+          disabled: scope_disabled
+        });
       }
     }
   });

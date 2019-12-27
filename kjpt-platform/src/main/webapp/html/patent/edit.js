@@ -74,6 +74,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             }
           });
 
+          // 添加知悉范围
+          setJurisdictionScope({
+            elem: 'scope_list_layout',
+            knowledgeScope: data.knowledgeScope,
+            knowledgePerson: data.knowledgePerson,
+            secretLevel: data.secretLevel,
+            disabled: patent_view_page
+          });
         }
       }
     });

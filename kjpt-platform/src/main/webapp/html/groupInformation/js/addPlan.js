@@ -56,13 +56,24 @@ layui.use(['form','laydate'], function(){
         form.val('formAddPlan', formData);
         form.render();
         $('#reportType').val(reportTypeVal);
-       
+        
+        var scopeDisabled = false;
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
           layui.form.render('select');
           $('#reportType').val(reportTypeVal);
+          scopeDisabled = true;
         }
+
+        // 添加知悉范围
+        setJurisdictionScope({
+          elem: 'scope_list_layout',
+          knowledgeScope: formData.knowledgeScope,
+          knowledgePerson: formData.knowledgePerson,
+          secretLevel: formData.secretLevel,
+          disabled: scopeDisabled
+        });
       }
     }
   })
