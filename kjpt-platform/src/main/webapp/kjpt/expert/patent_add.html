@@ -98,6 +98,7 @@
                     </div>
                 </div>
             </div>
+            <input type="text" name="expertId" id="expertId" class="layui-hide">
             <div class="dialog-footer-btn">
                 <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSave">提交</button>
                 <button class="layui-btn layui-btn-primary" data-type="close">关闭</button>
@@ -150,7 +151,7 @@
         });
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
-
+        $("#expertId").val(variable.expertId)
         var $ = layui.$, active = {
             close:function () {
                 /*模拟关闭标签页事件*/
