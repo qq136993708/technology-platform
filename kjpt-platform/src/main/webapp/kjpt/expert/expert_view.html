@@ -158,6 +158,7 @@
             $(this).attr("title",$(this).html())
         })
         var projectArr=[
+            {type: 'radio' },
             {title: '序号',type:'numbers',width:55 },
             {field: 'projectName', title: '项目名称'},
             {field: 'chargeUnitStr', title: '负责单位'},
@@ -166,6 +167,7 @@
         ]
         tableRender('project',projectArr,'/expert-project-api/page',variable.id)
         var achievementsArr=[
+            {type: 'radio' },
             {title: '序号',type:'numbers',width:55 },
             {field: 'achieveName', title: '成果名称'},
             {field: 'applyUnitStr', title: '申请单位'},
@@ -174,6 +176,7 @@
         ]
         tableRender('achievements',achievementsArr,'/expert-achievement-api/page',variable.id)
         var patentArr=[
+            {type: 'radio' },
             {title: '序号',type:'numbers' ,width:55},
             {field: 'patentName', title: '专利名称'},
             {field: 'patentTypeStr', title: '专利类型'},
@@ -182,6 +185,7 @@
         ]
         tableRender('patent',patentArr,'/expert-patent-api/page',variable.id)
         var rewardArr=[
+            {type: 'radio' },
             {title: '序号',type:'numbers',width:55 },
             {field: 'rewarkLevelStr', title: '奖励级别'},
             {field: 'notes', title: '奖励描述'},
@@ -205,7 +209,7 @@
                     limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
                 },
                 done:function (res, curr, count) {
-                    //console.log(res)
+                    console.log(res)
                 }
                 , page: true //开启分页
                 , limit: 15
@@ -222,8 +226,34 @@
                 end: function(lay, index) {
                     // 弹窗销毁时获取弹窗返回数据
                     var getData = getDialogData('dialog-data');
-
+                    if(getData.success){
+                        tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id)
+                    }
                 }
+            });
+        }
+        function deleData(obj) {
+            var activeData = table.checkStatus(obj.id).data;
+            console.log(activeData)
+            if(activeData.length==0){
+                layer.msg('请选择要删除的数据!');
+                return false
+            }
+            top.layer.confirm('您确定要删除吗？', {icon: 3, title:'删除提示'}, function(index){
+                layer.close(index);
+                // 确认删除
+                httpModule({
+                    url: obj.url+activeData[0].id,
+                    type: "get",
+                    success: function(e) {
+                        console.log(e)
+                        if(e.success){
+                            layer.msg('删除成功!');
+                            top.layer.closeAll(); // 关闭弹窗
+                            tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id)
+                        }
+                    }
+                });
             });
         }
         var $ = layui.$, active = {
@@ -237,22 +267,92 @@
                 }
                 openLayer(obj)
             },
+            projectEdit:function(){
+                var activeData = table.checkStatus('project').data;
+                console.log(activeData)
+                if(activeData.length==0){
+                    layer.msg('请选择要编辑的数据!');
+                    return false
+                }
+                var obj={
+                    title:'编辑项目',
+                    url:'/kjpt/expert/project_add.html?expertId='+variable.id+"&id="+activeData[0].id,
+                    tableName:'project',
+                    arr:projectArr,
+                    tableUrl:'/expert-project-api/page'
+                }
+                openLayer(obj)
+            },
+            projectDelete:function(){
+                var obj={
+                    id:'project',
+                    tableName:'project',
+                    url:'/expert-project-api/delete/',
+                    arr:projectArr,
+                    tableUrl:'/expert-project-api/page'
+                }
+                deleData(obj)
+
+            },
             achievementsAdd:function () {
                 var obj={
                     title:'添加成果',
                     url:'/kjpt/expert/achievements_add.html?expertId='+variable.id,
                     tableName:'achievements',
-                    projectArr:achievementsArr,
+                    arr:achievementsArr,
                     tableUrl:'/expert-achievement-api/page'
                 }
                 openLayer(obj)
+            },
+            achievementsEdit:function(){
+                var activeData = table.checkStatus('achievements').data;
+                console.log(activeData)
+                if(activeData.length==0){
+                    layer.msg('请选择要删除的数据!');
+                    return false
+                }
+                var obj={
+                    title:'编辑成果',
+                    url:'/kjpt/expert/achievements_add.html?expertId='+variable.id+"&id="+activeData[0].id,
+                    tableName:'achievements',
+                    arr:achievementsArr,
+                    tableUrl:'/expert-achievement-api/page'
+                }
+                openLayer(obj)
+            },
+            achievementsDelete:function(){
+                var obj={
+                    id:'achievements',
+                    tableName:'achievements',
+                    url:'/expert-achievement-api/delete/',
+                    arr:achievementsArr,
+                    tableUrl:'/expert-achievement-api/page'
+                }
+                deleData(obj)
+
             },
             patentAdd:function () {
                 var obj={
                     title:'添加专利',
                     url:'/kjpt/expert/patent_add.html?expertId='+variable.id,
                     tableName:'patent',
-                    projectArr:patentArr,
+                    arr:patentArr,
+                    tableUrl:'/expert-patent-api/page'
+                }
+                openLayer(obj)
+            },
+            patentEdit:function(){
+                var activeData = table.checkStatus('patent').data;
+                console.log(activeData)
+                if(activeData.length==0){
+                    layer.msg('请选择要删除的数据!');
+                    return false
+                }
+                var obj={
+                    title:'编辑专利',
+                    url:'/kjpt/expert/patent_add.html?expertId='+variable.id+"&id="+activeData[0].id,
+                    tableName:'patent',
+                    arr:patentArr,
                     tableUrl:'/expert-patent-api/page'
                 }
                 openLayer(obj)
@@ -262,7 +362,7 @@
                     title:'添加奖励',
                     url:'/kjpt/expert/reward_add.html?expertId='+variable.id,
                     tableName:'reward',
-                    projectArr:rewardArr,
+                    arr:rewardArr,
                     tableUrl:'/expert-patent-api/page'
                 }
                 openLayer(obj)
