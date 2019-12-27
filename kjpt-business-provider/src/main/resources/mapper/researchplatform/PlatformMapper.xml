@@ -27,13 +27,15 @@
 
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
-		<result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
+        <result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
         <result column="supporting_institutions_text" jdbcType="VARCHAR" property="supportingInstitutionsText"/>
-		<result column="platform_type_text" jdbcType="VARCHAR" property="typeText"/>
-		<result column="level_text" jdbcType="VARCHAR" property="levelText"/>
+        <result column="platform_type_text" jdbcType="VARCHAR" property="typeText"/>
+        <result column="level_text" jdbcType="VARCHAR" property="levelText"/>
 
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
     </resultMap>
 
 
@@ -58,7 +60,9 @@
         deleted,
         create_unit_id,
         create_unit_name,
-        secret_level
+        secret_level,
+        knowledge_scope,
+        knowledge_person
        </sql>
 
     <select id="scienceStatistics" parameterType="java.util.Map" resultType="java.util.Map">
@@ -83,31 +87,16 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  t1.*,(SELECT count(*) FROM kypt_project  WHERE kypt_project.platform_id = t1.id ) AS project_count,
         (SELECT count(*) FROM kypt_achievement  WHERE kypt_achievement.platform_id = t1.id ) AS achievement_count
-         from view_kypt_info t1 where 1=1
-            and deleted != '1'
-        <if test="childUnitIds != null          and childUnitIds !=''  ">
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        </if>
+        from view_kypt_info t1 where 1=1
+        and deleted != '1'
         <include refid="selectByParam" />
-
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
 
     </select>
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_info where 1=1
-            and deleted != '1'
-        <if test="childUnitIds != null          and childUnitIds !=''  ">
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        </if>
+        and deleted != '1'
         <include refid="selectByParam" />
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
 
     </select>
 
@@ -140,10 +129,22 @@
             and level = #{level,jdbcType=VARCHAR}
         </if>
 
-
-        <if test="secretLevel != null and secretLevel != ''" >
-            secret_level = #{secretLevel}
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
+
+
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        ))
+
     </sql>
 
 
@@ -168,7 +169,9 @@
         research_field_text,
         create_unit_id,
         create_unit_name,
-        secret_level
+        secret_level,
+        knowledge_scope,
+        knowledge_person
         )
          values(
          #{id},#{platformName},
@@ -187,7 +190,9 @@
          #{researchFieldText},
          #{createUnitId},
          #{createUnitName},
-         #{secretLevel}
+         #{secretLevel},
+         #{knowledgeScope},
+         #{knowledgePerson}
 
           )
     </insert>
@@ -245,7 +250,13 @@
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >
-                secret_level = #{secretLevel}
+                secret_level = #{secretLevel},
+            </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson}
             </if>
 
         </trim>
@@ -261,11 +272,14 @@
             </foreach>
         </if>
 
-        <if test="secretLevel != null and secretLevel != '' " >
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
-         union all
+        ))
+        union all
         select count(1) as count, 'patent' as count_type from kypt_patent where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
             AND create_unit_id in
@@ -274,10 +288,13 @@
             </foreach>
         </if>
 
-        <if test="secretLevel != null and secretLevel != '' " >
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        ))
         union all
         select count(1) as count, 'project' as count_type from kypt_project where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
@@ -287,10 +304,13 @@
             </foreach>
         </if>
 
-        <if test="secretLevel != null and secretLevel != '' " >
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        ))
         union all
         select count(1) as count, 'treatise' as count_type from kypt_treatise where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
@@ -300,10 +320,13 @@
             </foreach>
         </if>
 
-        <if test="secretLevel != null and secretLevel != '' " >
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        ))
         union all
         select count(1) as count, 'member' as count_type from kypt_member where platform_id =#{id} and deleted != '1'
         <if test="childUnitIds != null          and childUnitIds !=''  ">
@@ -312,11 +335,6 @@
                 #{item}
             </foreach>
         </if>
-
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
     <update id="delete" parameterType="java.lang.String">
@@ -325,22 +343,22 @@
 
     <insert id="excelData2MemoryDB" parameterType="java.util.List">
         insert into kypt_info_memory(
-            id,
-            platform_name,
-            research_field,
-            supporting_institutions,
-            research_funds,
-            platform_introduction,
-            team_Introduction,
-            overall_situation,
-            person_liable,
-            platform_scoring,
-            level,
-            deleted,
-            create_user,
-            create_date
+        id,
+        platform_name,
+        research_field,
+        supporting_institutions,
+        research_funds,
+        platform_introduction,
+        team_Introduction,
+        overall_situation,
+        person_liable,
+        platform_scoring,
+        level,
+        deleted,
+        create_user,
+        create_date
         )values
-            <foreach collection="list" item="plf" separator=",">
+        <foreach collection="list" item="plf" separator=",">
             (
             #{plf.id},
             #{plf.platformName},

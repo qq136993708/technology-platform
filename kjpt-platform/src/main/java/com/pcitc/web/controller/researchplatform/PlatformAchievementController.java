@@ -67,7 +67,7 @@ public class PlatformAchievementController extends RestBaseController {
     }
 
 
-    @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台项目列表")
+    @ApiOperation(value = "查询科研平台成果列表", notes = "查询科研平台成果列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
@@ -102,8 +102,9 @@ public class PlatformAchievementController extends RestBaseController {
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的科研平台成果
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setParam(condition,"userName",sysUserInfo.getUserName());
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -122,8 +123,8 @@ public class PlatformAchievementController extends RestBaseController {
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformAchievementModel.class);

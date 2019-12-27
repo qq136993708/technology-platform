@@ -54,6 +54,8 @@
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
     </resultMap>
 
 
@@ -99,7 +101,9 @@
         grant_invest,
         create_unit_id,
         create_unit_name,
-        secret_level
+        secret_level,
+        knowledge_scope,
+        knowledge_person
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRecordMap">
@@ -133,13 +137,15 @@
             and createTime <![CDATA[<=]]> #{endDate}
         </if>
 
-        <if test="childUnitIds != null          and childUnitIds !=''  ">
+        <if test="childUnitIds != null and childUnitIds !=''  ">
             AND createUnitId in
             <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        and secretLevel <![CDATA[<=]]> #{userSecretLevel}
+        and secretLevel = '0' or (
+        secretLevel <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledgeScope)
+        )
 
     </select>
 
@@ -147,27 +153,11 @@
         select  * from view_achieve_record where 1=1
             and del_status != '1'
         <include refid="selectByParam" />
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from achieve_record where 1=1
             and del_status != '1'
         <include refid="selectByParam" />
-        AND create_unit_id in
-        <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        <if test="secretLevel != null and secretLevel != '' " >
-            and secret_level = #{secretLevel}
-        </if>
-        and secret_level <![CDATA[<=]]> #{userSecretLevel}
     </select>
 
     <sql id="selectByParam">
@@ -198,6 +188,20 @@
         <if test="endDate != null and endDate != '' " >
             and create_time <![CDATA[<=]]> #{endDate}
         </if>
+
+        and secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel} and FIND_IN_SET(#{userName},knowledge_scope)
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        )
+
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND t.create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -205,7 +209,7 @@
          values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
          #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
           ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
-          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{createUnitId},#{createUnitName},#{secretLevel})
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -320,7 +324,13 @@
                 create_unit_name = #{createUnitName,jdbcType=VARCHAR},
             </if>
             <if test="secretLevel != null and secretLevel != ''" >
-                secret_level = #{secretLevel,jdbcType=VARCHAR}
+                secret_level = #{secretLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson,jdbcType=VARCHAR}
             </if>
         </trim>
         where id = #{id}

@@ -10,9 +10,9 @@ import java.util.Date;
 public class RecordModel implements Serializable {
 
 	//创建人
-	private String creator;
+	private String creator ="";
 	//修改人
-	private String updator;
+	private String updator ="";
 	//创建时间
 	private Date createDate=new Date();
 	//修改时间
@@ -20,16 +20,22 @@ public class RecordModel implements Serializable {
 	//删除标识
 	private String deleted = "0";
 	//创建人所在单位
-	private String createUnitId;
+	private String createUnitId ="";
 
 	//创建人所在单位名称
-	private String createUnitName;
+	private String createUnitName ="";
 
 	//密级
-	private String secretLevel;
+	private String secretLevel ="";
 
 	//密级字典
-	private String secretLevelText;
+	private String secretLevelText ="";
+
+	//知悉范围
+	private String knowledgeScope ="";
+
+	//知悉范围人员名称
+	private String knowledgePerson ="";
 
 
 	public String getSecretLevel() {
@@ -97,5 +103,21 @@ public class RecordModel implements Serializable {
 
 	public void setSecretLevelText(String secretLevelText) {
 		this.secretLevelText = secretLevelText;
+	}
+
+	public String getKnowledgeScope() {
+		return knowledgeScope;
+	}
+
+	public void setKnowledgeScope(String knowledgeScope) {
+		this.knowledgeScope = knowledgeScope;
+	}
+
+	public String getKnowledgePerson() {
+		return knowledgePerson;
+	}
+
+	public void setKnowledgePerson(String knowledgePerson) {
+		this.knowledgePerson = knowledgePerson;
 	}
 }

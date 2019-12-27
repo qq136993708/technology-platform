@@ -80,8 +80,8 @@ public class PlatformPatentController extends RestBaseController {
         SysUser sysUserInfo = this.getUserProfile();
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
         //默认查询当前人所在机构下所有的科研平台
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformPatentModel.class);
@@ -125,8 +125,8 @@ public class PlatformPatentController extends RestBaseController {
 
 
         //默认查询当前人所在机构下所有的科研平台专利
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.setParam(condition,"platformId",platformId);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
