@@ -69,8 +69,36 @@ public class ZjkAchievement implements Serializable {
     private String secretLevel="";
     private String secretLevelStr="";
     
+    private String seeUserIds="";
+    private String seeUserNames="";
+    private String createUser="";
+    
 
-    public String getSecretLevel() {
+    public String getSeeUserIds() {
+		return seeUserIds;
+	}
+
+	public void setSeeUserIds(String seeUserIds) {
+		this.seeUserIds = seeUserIds;
+	}
+
+	public String getSeeUserNames() {
+		return seeUserNames;
+	}
+
+	public void setSeeUserNames(String seeUserNames) {
+		this.seeUserNames = seeUserNames;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getSecretLevel() {
 		return secretLevel;
 	}
 

@@ -525,7 +525,10 @@
 			          #{item}
 			   </foreach>
 	     </if>
-	
+	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
+	     <if test="seeUserIds != null        and seeUserIds !=''  "> 
+	            AND FIND_IN_SET(#{seeUserIds},t.`see_user_ids`) 
+	     </if>
 	 </trim>
 	</sql>
 	
