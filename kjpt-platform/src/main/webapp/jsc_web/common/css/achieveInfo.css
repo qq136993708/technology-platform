@@ -208,6 +208,7 @@
 .quality ul.left-date-block li {
   display: inline-block;
   vertical-align: middle;
+  white-space: nowrap;
   width: 50%;
   padding: 0 .5rem;
   font-size: 14px;
@@ -215,14 +216,20 @@
   color: #fff;
 }
 .quality ul.left-date-block .item-value{
-  display: block;
-  float: right;
-  width: 1.5rem;
+  display: inline-block;
+  vertical-align: top;
+  max-width: 1.5rem;
   text-align: right;
 }
+.quality ul.left-date-block .dot-text{
+  display: inline-block;
+  vertical-align: top;
+  width: 6px;
+}
 .quality ul.left-date-block .item-text{
-  display: block;
-  margin-right: 2rem;
+  display: inline-block;
+  vertical-align: top;
+  max-width: calc(100% - 2rem - 6px);
   /* white-space: normal; */
   overflow: hidden;
   white-space: nowrap;
