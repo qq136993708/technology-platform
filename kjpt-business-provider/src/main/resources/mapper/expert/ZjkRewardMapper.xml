@@ -36,7 +36,7 @@
     insert into zjk_reward (
       id,expert_id, del_status, source_type, 
       rewark_level, notes, awarding_unit, 
-      awarding_time, create_time, out_system_id,flag,see_user_ids,see_user_names,create_user
+      awarding_time, create_time, out_system_id,flag,secret_level,see_user_ids,see_user_names,create_user
       )
     values (
       #{id,jdbcType=VARCHAR},
