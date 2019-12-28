@@ -143,7 +143,7 @@
         </if>
         and (secret_level = '0' or (
             secret_level <![CDATA[<=]]> #{userSecretLevel}
-            <if test="skipKnowledgeScope=='1'">
+            <if test='skipKnowledgeScope=="0"'>
                 and FIND_IN_SET(#{userName}, knowledge_scope)
             </if>
         ))
@@ -275,11 +275,13 @@
             </foreach>
         </if>
 
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
         union all
@@ -291,11 +293,13 @@
             </foreach>
         </if>
 
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
         union all
@@ -307,11 +311,13 @@
             </foreach>
         </if>
 
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
         union all
@@ -323,11 +329,13 @@
             </foreach>
         </if>
 
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
         union all
@@ -338,6 +346,15 @@
                 #{item}
             </foreach>
         </if>
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
+        </if>
+        ))
     </select>
 
     <update id="delete" parameterType="java.lang.String">

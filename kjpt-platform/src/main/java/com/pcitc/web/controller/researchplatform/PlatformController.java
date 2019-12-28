@@ -121,12 +121,7 @@ public class PlatformController extends RestBaseController {
     }
 
     private void export(String[] headers,String[] cols,String fileName,Map condition) throws Exception {
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
-        //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformInfoModel.class);
@@ -201,14 +196,7 @@ public class PlatformController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-
-        //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
-
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
@@ -238,8 +226,7 @@ public class PlatformController extends RestBaseController {
     public List selectPaltinfoCount(@PathVariable String id) {
         Map<String, Object> condition = new HashMap<>(6);
         SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
+        this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
@@ -286,8 +273,7 @@ public class PlatformController extends RestBaseController {
         if (!StringUtils.isEmpty(unitId)) {
             this.setParam(condition, "unitId", unitId);
         }
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
+        this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(scienceStatistics, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -308,6 +294,7 @@ public class PlatformController extends RestBaseController {
     ) throws Exception {
 
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
         if (!StringUtils.isEmpty(startYear)) {
             this.setParam(condition, "startYear", startYear);
         }
@@ -322,11 +309,6 @@ public class PlatformController extends RestBaseController {
         String[] cols =    {"annualYear","unitName","scientificCount","workPointCount","progressTrendsCount","annualSummaryCount","researchReportCount"};
 
         SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
-        //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(scienceStatisticsNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), Map.class);

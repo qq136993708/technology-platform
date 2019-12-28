@@ -99,12 +99,7 @@ public class PlatformAchievementController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-        //默认查询当前人所在机构下所有的科研平台成果
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
+        this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -120,12 +115,7 @@ public class PlatformAchievementController extends RestBaseController {
         this.setParam(condition, "platformId", platformId);
         String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度","密级"};
         String[] cols =    {"achievementName","applicantUnitText","achievementTypeText","applicantYear","secretLevelText"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
-        //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformAchievementModel.class);

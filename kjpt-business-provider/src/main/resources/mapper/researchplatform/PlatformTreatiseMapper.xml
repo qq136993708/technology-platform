@@ -58,11 +58,13 @@
         select  * from view_kypt_treatise where 1=1 and platform_id = #{platformId}
         and deleted != '1'
 
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
 
@@ -72,11 +74,13 @@
         select  count(*) from kypt_treatise where 1=1 and platform_id = #{platformId}
         and deleted != '1'
 
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
 

@@ -50,11 +50,13 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select  * from view_kypt_achievement where 1=1 and platform_id = #{platformId}
         and deleted != '1'
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
     </select>
@@ -66,11 +68,13 @@
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from kypt_achievement where 1=1 and platform_id = #{platformId}
         and deleted != '1'
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        and FIND_IN_SET(#{userName},knowledge_scope)
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
     </select>

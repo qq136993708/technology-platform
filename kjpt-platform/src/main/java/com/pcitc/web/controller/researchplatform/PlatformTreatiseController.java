@@ -77,12 +77,7 @@ public class PlatformTreatiseController extends RestBaseController {
         this.setParam(condition, "platformId", platformId);
         String[] headers = { "论文题目",  "级别",    "期刊名称",    "作者",    "发表时间","密级" };
         String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear","secretLevelText"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
-        //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformTreatiseModel.class);
@@ -106,7 +101,6 @@ public class PlatformTreatiseController extends RestBaseController {
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
-        SysUser userInfo = this.getUserProfile();
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -122,8 +116,7 @@ public class PlatformTreatiseController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
-        this.setParam(condition,"userName",userInfo.getUserName());
+        this.setBaseParam(condition);
 
         //默认查询当前人所在机构下所有的科研平台论文
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);

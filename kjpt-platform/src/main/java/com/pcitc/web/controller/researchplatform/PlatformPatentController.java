@@ -77,9 +77,7 @@ public class PlatformPatentController extends RestBaseController {
         this.setParam(condition, "platformId", platformId);
         String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述","密级"};
         String[] cols =    {"patentName","patentTypeText","applicationDate","remark","secretLevelText"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
+        this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
@@ -106,7 +104,6 @@ public class PlatformPatentController extends RestBaseController {
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
-        SysUser userInfo = this.getUserProfile();
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -122,8 +119,7 @@ public class PlatformPatentController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
-        this.setParam(condition,"userName",userInfo.getUserName());
+        this.setBaseParam(condition);
 
         //默认查询当前人所在机构下所有的科研平台专利
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);

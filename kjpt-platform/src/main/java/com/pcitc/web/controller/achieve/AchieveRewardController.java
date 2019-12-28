@@ -79,7 +79,6 @@ public class AchieveRewardController extends RestBaseController {
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
-        SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {

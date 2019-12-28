@@ -87,9 +87,7 @@ public class PlatformMemberController extends RestBaseController {
         }
         String[] headers = { "名称",  "出生年月",    "学历"  , "技术职称", "毕业院校", "所学专业", "岗位名称", "担任职务","工作单位"};
         String[] cols =    {"name","birth","educationText","technicalTitle","graduateSchool","majorStudied","postName","assumeOffice","workUnitText"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
+        this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
@@ -140,12 +138,7 @@ public class PlatformMemberController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
-        this.setParam(condition,"userName",userInfo.getUserName());
-
-        //默认查询当前人所在机构下所有的科研平台成员
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
