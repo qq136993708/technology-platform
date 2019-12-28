@@ -28,6 +28,8 @@
         <result column="technical_field_index" jdbcType="VARCHAR" property="technicalFieldIndex"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
 
     </resultMap>
 
@@ -51,7 +53,9 @@
      create_unit_name,
      technical_field_name,
      technical_field_index,
-     secret_level
+     secret_level,
+     knowledge_scope,
+     knowledge_person
 
   </sql>
 
@@ -84,7 +88,9 @@
        create_unit_name,
        technical_field_name,
        technical_field_index,
-       secret_level
+       secret_level,
+       knowledge_scope,
+       knowledge_person
       )
     values (
         #{id},
@@ -106,7 +112,9 @@
         #{createUnitName},
         #{technicalFieldName},
         #{technicalFieldIndex},
-        #{secretLevel}
+        #{secretLevel},
+        #{knowledgeScope},
+        #{knowledgePerson}
       )
   </insert>
 
@@ -114,19 +122,6 @@
         select * from view_science_plan where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
-
-        <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level &lt;= #{userSecretLevel}
-        </if>
-
-
-        <!--<if test="technicalFieldName != null  and technicalFieldName !=''  ">-->
-        <!--AND-->
-        <!--<foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">-->
-            <!--FIND_IN_SET(#{item},`technical_field_name`)-->
-        <!--</foreach>-->
-    <!--</if>-->
-
 
         <if test="researchField != null  and researchField !=''  ">
         AND
@@ -142,19 +137,6 @@
         select count(*) from science_plan where 1=1
         and deleted != '1'
         <include refid="selectByParam"/>
-
-        <if test="userSecretLevel != null and userSecretLevel !=''  ">
-            AND secret_level &lt;= #{userSecretLevel}
-        </if>
-
-
-        <!--<if test="technicalFieldName != null  and technicalFieldName !=''  ">-->
-            <!--AND-->
-            <!--<foreach item="item"  collection="technicalFieldName.split(',')"  open="(" separator=" or " close=")">-->
-                <!--FIND_IN_SET(#{item},`technical_field_name`)-->
-            <!--</foreach>-->
-        <!--</if>-->
-
 
         <if test="researchField != null  and researchField !=''  ">
             AND
@@ -230,6 +212,13 @@
            and secret_level = #{secretLevel}
         </if>
 
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
+        </if>
+        ))
+
     </sql>
 
 
@@ -299,7 +288,13 @@
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >
-                secret_level = #{secretLevel}
+                secret_level = #{secretLevel},
+            </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson}
             </if>
         </trim>
         where id = #{id}

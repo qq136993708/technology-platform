@@ -119,12 +119,7 @@ public class TrademarkController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-        //默认查询当前人所在机构及子机构的所有专家
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition, "childUnitIds", childUnitIds);
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
@@ -158,12 +153,7 @@ public class TrademarkController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-        //默认查询当前人所在机构及子机构的所有专家
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition, "childUnitIds", childUnitIds);
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         String[] headers = { "单位名称",  "注册商标名称",    "商标申请号"  , "注册日期","注册公告日","核定使用商品大类","申请人/注册人","有效日期","法律状态","密级"};
         String[] cols =    {"unitNameText","trademarkName","applicationNumber","registerDate","registerNoticeDate","commodityCategory","applicant","effectiveDate","legalStatusText","secretLevelText"};

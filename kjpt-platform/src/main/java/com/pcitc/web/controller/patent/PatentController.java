@@ -145,14 +145,7 @@ public class PatentController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        SysUser sysUserInfo = this.getUserProfile();
-
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-
-        //默认查询当前人所在机构及子机构的所有专家
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition, "childUnitIds", childUnitIds);
+        this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -295,14 +288,9 @@ public class PatentController extends RestBaseController {
         if (!StringUtils.isEmpty(applicationNumber)) {
             this.setParam(condition, "applicationNumber", applicationNumber);
         }
-
-
+        this.setBaseParam(condition);
         String[] headers = { "单位名称",  "专利名称",    "申请类型"  , "专利类型","申请（专利）号","技术领域","专利范围","申请费用","申请人/专利权人","密级"};
         String[] cols =    {"unitNameText","patentName","applicationTypeText","patentTypeText","applicationNumber","technicalFieldText","patentRange","applicationCost","applicant","secretLevelText"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PatentInfo.class);

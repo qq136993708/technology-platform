@@ -51,6 +51,8 @@
 
     <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+    <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+    <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -141,7 +143,9 @@
     create_unit_id,
     create_unit_name,
     secret_level,
-    secret_level_text
+    secret_level_text,
+    knowledge_scope,
+    knowledge_person
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -213,7 +217,9 @@
     updator, deleted,
     country, technical_field,
     technical_field_text,
-    secret_level
+    secret_level,
+    knowledge_scope,
+    knowledge_person
       )
     values (
     #{userId,jdbcType=VARCHAR},
@@ -251,7 +257,9 @@
     #{country,jdbcType=VARCHAR},
     #{technicalField,jdbcType=VARCHAR},
     #{technicalFieldText,jdbcType=VARCHAR},
-    #{secretLevel,jdbcType=VARCHAR}
+    #{secretLevel,jdbcType=VARCHAR},
+    #{knowledgeScope},
+    #{knowledgePerson}
       )
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.patent.PatentInfo">
@@ -377,7 +385,13 @@
       </if>
 
       <if test="secretLevel != null">
-        secret_level
+        secret_level,
+      </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person
       </if>
 
     </trim>
@@ -500,7 +514,13 @@
         #{createUnitName,jdbcType=VARCHAR},
       </if>
       <if test="secretLevel != null">
-        #{secretLevel,jdbcType=VARCHAR}
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR}
       </if>
 
     </trim>
@@ -820,7 +840,9 @@
 	  technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
 	  create_unit_id = #{createUnitId,jdbcType=VARCHAR},
 	  create_unit_name = #{createUnitName,jdbcType=VARCHAR},
-	  secret_level = #{secretLevel,jdbcType=VARCHAR}
+	  secret_level = #{secretLevel,jdbcType=VARCHAR},
+	  knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+	  knowledge_person = #{knowledgePerson,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -828,12 +850,6 @@
     select  <include refid="Base_Column_List"/> from view_patent_info where 1=1
     <include refid="selectByParam" />
     and deleted != '1'
-
-    <if test="secretLevel != null and secretLevel != '' " >
-      and secret_level = #{secretLevel}
-    </if>
-
-
   </select>
 
   <select id="queryPatentList_COUNT" parameterType="java.util.Map" resultType="Long">
@@ -883,13 +899,19 @@
       </foreach>
     </if>
 
-
     <if test="secretLevel != null and secretLevel != ''" >
       and secret_level = #{secretLevel}
     </if>
     <if test="userSecretLevel != null and userSecretLevel !=''  ">
       AND secret_level &lt;= #{userSecretLevel}
     </if>
+
+    and (secret_level = '0' or (
+    secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test='skipKnowledgeScope=="0"'>
+      and FIND_IN_SET(#{userName}, knowledge_scope)
+    </if>
+    ))
 
   </sql>
 </mapper>

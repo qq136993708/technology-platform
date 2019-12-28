@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.cockpit;
 
+import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -96,6 +97,8 @@ public class KjptCockpitController extends RestBaseController {
 
     public List<Map> knowledgeNumOrType() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(KNOWLEDGENUMTYPE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -106,6 +109,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/knowledgeRight/numYearTrend", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> knowledgeNumYearTrend() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(KNOWLEDGENUMTREND, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -116,6 +121,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/knowledgeRight/numOrUnit", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> knowledgeNumOrUnit() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(KNOWLEDGENUMUNIT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -144,6 +151,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/scientificResearch/numScientificType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> numScientificType() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMSCIENTIFICTYPE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -154,6 +163,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/scientificResearch/numScientificTechnology", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> numScientificTechnology() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMSCIENTIFICTECHNOLOGY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -165,6 +176,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/index/allSummaryCount", method = RequestMethod.POST)
     public List<Map> fourSummaryCount(@RequestParam(value="inType", required = false) String inType) {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         condition.put("inType",inType);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(FOURSUMMARYCOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
@@ -174,6 +187,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/index/knowledgeRightCount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> knowledgeRightCount() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(KNOWLEDGERIGHTCOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -184,6 +199,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/person/personCountAge", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> personCountAge() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTAGE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -194,6 +211,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/person/personCountTitle", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> personCountTitle() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTTITLE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -204,6 +223,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/person/personCountEducation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> personCountEducation() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTEDUCATION, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -214,6 +235,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/person/personCountCompany", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> personCountCompany() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(PERSONCOUNTCOMPANY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -225,6 +248,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/results/conversion/numberIncentive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> numberIncentive() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBERINCENTIVE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -235,6 +260,8 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/results/conversion/numByResultsType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> numByResultsType() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBYRESULTSTYPE, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
@@ -245,10 +272,21 @@ public class KjptCockpitController extends RestBaseController {
     @RequestMapping(value = "/results/conversion/numByIncentiveAmount", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public List<Map> numByIncentiveAmount() {
         Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBYINCENTIVEAMOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
+    }
+
+
+    private void checkIsWhiteList(Map param){
+        if(!"1".equals(param.get("skipKnowledgeScope"))){
+            SysException sys = new SysException("非白名单账号，无权查看数据！");
+            sys.setCode("-1");
+            throw sys;
+        }
     }
 
 }
