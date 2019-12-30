@@ -181,7 +181,11 @@
             	if(!selectRowData){
             		layer.msg('请选择要删除的数据!');
             		return;
-            	}
+            	}else if(selectRowData.userName=="configadmin" || selectRowData.userName=="systemadmin" || selectRowData.userName=="securityadmin"
+                    || selectRowData.userName=="securityadmin"){
+                    layer.msg('当前用户不能删除!');
+                    return;
+                }
 				top.layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
 					var userIds = [];
