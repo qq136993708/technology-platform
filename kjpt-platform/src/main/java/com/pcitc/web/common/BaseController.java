@@ -80,11 +80,11 @@ public class BaseController implements ErrorController
 		this.setParam(condition,"userName",sysUserInfo.getUserName());
 
 
-		if(this.getCurrentRequest().getSession().getAttribute(WHITE_LIST_KEY) == null){
+		if(this.getCurrentRequest().getSession().getAttribute(sysUserInfo.getUserName()) == null){
 			setIsWhiteList();
 		}
 
-		this.setParam(condition,"skipKnowledgeScope",this.getCurrentRequest().getSession().getAttribute(WHITE_LIST_KEY));
+		this.setParam(condition,"skipKnowledgeScope",this.getCurrentRequest().getSession().getAttribute(sysUserInfo.getUserName()));
 	}
 
 
@@ -99,7 +99,7 @@ public class BaseController implements ErrorController
 		if(response.getBody() > 0){
 			isWhiteList = "1";
 		}
-		this.getCurrentRequest().getSession().setAttribute(WHITE_LIST_KEY,isWhiteList);
+		this.getCurrentRequest().getSession().setAttribute(userName,isWhiteList);
 	}
 
 
