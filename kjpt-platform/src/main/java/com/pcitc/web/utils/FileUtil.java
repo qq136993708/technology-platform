@@ -15,6 +15,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
@@ -33,11 +34,15 @@ public class FileUtil {
     @Value("${baseFilePath}")
     private String fileBasePath;
 
+    private static String seed ="kjptFile";
+
     private static String key;
+
+    //private static Key key;
 
     static {
         try {
-            key = AESFileUtils.getSecretKey();
+             key = AESFileUtils.getSecretKey(seed);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,22 +95,21 @@ public class FileUtil {
         fm.setId(id);
 
 
-        //File targetFile = new File(getFilePath(relativePath)+"/"+id+"."+fileName.split("\\.")[1]);
         File targetFile = new File(getFilePath(relativePath)+"/"+id);
         if (targetFile.exists())
         {
             targetFile.delete();
         }
-        file.transferTo(targetFile);
+        //file.transferTo(targetFile);
         //文件加密
         ///////////////////////////
-        //byte[] encryptByte;
-        //encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
-        //OutputStream output = new FileOutputStream(targetFile);
+        byte[] encryptByte;
+        encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
+        OutputStream output = new FileOutputStream(targetFile);
 
-        //BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
+        BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
 
-        //bufferedOutput.write(encryptByte);
+        bufferedOutput.write(encryptByte);
         /////////////////////////////
 
         fm.setFileName(fileName);
@@ -309,26 +313,28 @@ public class FileUtil {
      */
     public static void prepare(File file,HttpServletResponse res,String contentType) throws Exception {
 
-        OutputStream out = null;
-        InputStream in = null;
-         try
-         {
+        OutputStream out;
+        InputStream in;
+        try
+        {
             res.setContentType(contentType);
             out = res.getOutputStream();
             in = new FileInputStream(file);
 
-             byte[] b = new byte[1000];
-             int len;
-             while ((len = in.read(b)) > 0)
-            {
-                 out.write(b, 0, len);
-             }
-             out.flush();
-             closeIO(in);
-             closeIO(out);
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
+            AESFileUtils.downLoadDecryptFile(key,in,out);
+
+//            byte[] b = new byte[1000];
+//            int len;
+//            while ((len = in.read(b)) > 0)
+//            {
+//                out.write(b, 0, len);
+//            }
+//            out.flush();
+//            closeIO(in);
+//            closeIO(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -339,35 +345,24 @@ public class FileUtil {
      * @param isAttachment
      * @param res
      */
-    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) throws IOException {
-
-            File file = null;
-            if(f != null && f.getFilePath() != null) {
-                file = new File(getFilePath(f.getFilePath()));
-            }
-
-            if(file==null || !file.exists()) {
-                res.sendError(404,"文件不存在");
-                return;
-            }
-
-            res.setContentType(f.getType());
-            res.setContentLengthLong(f.getFileSize());
-            res.setCharacterEncoding("UTF-8");
-
+    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) throws Exception {
+        res.setContentType(f.getType());
+        res.setContentLengthLong(f.getFileSize());
+        res.setCharacterEncoding("UTF-8");
+        File file = new File(getFilePath(f.getFilePath()));
+        if(file.exists()==true && file!=null)
+        {
             if(isAttachment) {
                 String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
                 res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
             }
             InputStream in = new FileInputStream(file);
-            OutputStream os = res.getOutputStream();
             //输出
-            byte[] b = new byte[1000];
-            int len;
-            while ((len = in.read(b)) > 0)
-            {
-                os.write(b, 0, len);
-            }
+            OutputStream os = res.getOutputStream();
+            //解密输出
+            AESFileUtils.downLoadDecryptFile(key,in,os);
+        }
+
 
     }
 

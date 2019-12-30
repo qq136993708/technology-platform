@@ -145,12 +145,12 @@
         </if>
 
         <if test="secretLevel != null and secretLevel != '' ">
-            and secret_level = #{secretLevel}
+            and secretLevel = #{secretLevel}
         </if>
         and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        secretLevel <![CDATA[<=]]> #{userSecretLevel}
         <if test='skipKnowledgeScope=="0"'>
-            and FIND_IN_SET(#{userName}, knowledge_scope)
+            and FIND_IN_SET(#{userName}, knowledgeScope)
         </if>
         ))
 
