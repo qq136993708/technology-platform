@@ -185,10 +185,24 @@ public class ExpertRewardController extends BaseController {
    			oldZjkReward.setRewarkLevel(zjkReward.getRewarkLevel());
    			oldZjkReward.setAwardingUnit(zjkReward.getAwardingUnit());
    			oldZjkReward.setNotes(zjkReward.getNotes());
-   			
    			oldZjkReward.setSecretLevel(zjkReward.getSecretLevel());
-   			oldZjkReward.setSeeUserIds(zjkReward.getSeeUserIds());
-   			oldZjkReward.setSeeUserNames(zjkReward.getSeeUserNames());
+   			
+   			
+   		    //处理知悉范围
+			String knowledgeScope=zjkReward.getKnowledgeScope();
+			String knowledgePerson=zjkReward.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				oldZjkReward.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkReward.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				oldZjkReward.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				oldZjkReward.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+			}
+			
+			
+   			
    			
    			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkReward>(oldZjkReward, this.httpHeaders), Integer.class);
    			int statusCode = responseEntity.getStatusCodeValue();
@@ -207,12 +221,21 @@ public class ExpertRewardController extends BaseController {
    			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
    			zjkReward.setId(dateid);
    			zjkReward.setCreateUser(sysUserInfo.getUserId());
-   			String seeUserIds=zjkReward.getSeeUserIds();
-   			if(seeUserIds==null || "".equals(seeUserIds))
+   			
+   			
+   		    //处理知悉范围
+			String knowledgeScope=zjkReward.getKnowledgeScope();
+			String knowledgePerson=zjkReward.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-   				zjkReward.setSeeUserIds(sysUserInfo.getUserId());
-   				zjkReward.setSeeUserNames(sysUserInfo.getUserDisp());
+				zjkReward.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkReward.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				zjkReward.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				zjkReward.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
 			}
+   			
    			Date date=DateUtil.strToDate(zjkReward.getAwardingTimeStr(), DateUtil.FMT_DD);
    			zjkReward.setAwardingTime(date);
    			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkReward>(zjkReward, this.httpHeaders), String.class);

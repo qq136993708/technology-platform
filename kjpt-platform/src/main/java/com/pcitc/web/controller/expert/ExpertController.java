@@ -372,6 +372,22 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
 			oldZjkBase.setName(zjkBase.getName());
+			
+			
+			//处理知悉范围
+			String knowledgeScope=zjkBase.getKnowledgeScope();
+			String knowledgePerson=zjkBase.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				oldZjkBase.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				oldZjkBase.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				oldZjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+			}
+			
+			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
@@ -411,7 +427,18 @@ public class ExpertController extends BaseController {
 			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
 			zjkBase.setCreateUnitName(sysUserInfo.getUserUnitName());
 			
-			
+			//处理知悉范围
+			String knowledgeScope=zjkBase.getKnowledgeScope();
+			String knowledgePerson=zjkBase.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				zjkBase.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				zjkBase.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				zjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+			}
 	
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
