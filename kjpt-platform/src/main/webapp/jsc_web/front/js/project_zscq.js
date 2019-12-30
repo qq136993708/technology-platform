@@ -58,7 +58,7 @@ kyptCharts.render({
       { name: '上年', valueKey: 'count2'},
       { name: '同比', valueKey: 'scale', type: 'line', yIndex: 1},
     ],
-    yAxis: [{interval: 30 }, {interval: 125, formatter: '{value} %'}],
+    yAxis: [ {max: 200}, { max: 200, formatter: '{value} %'}],
     data: [],
     color: ['#4526FF','#93E9FF','#EAFF74']
 })
@@ -92,7 +92,7 @@ httpModule({
 })
 
 function msgErr (){
-    layer.msg('请求失败!', {icon: 2});
+    top.layer.msg('请求失败!', {icon: 2});
 }
 
 //设置类型占比配置项
@@ -103,7 +103,7 @@ function setNumOrType(result){
         });
         kyptCharts.reload('chartsBox1', {series: relData});
     }else{
-        layer.msg(result.message);
+        top.layer.msg(result.message);
     }
 }
 
@@ -112,7 +112,7 @@ function setNumYearTrend(result){
     if(result.code == 0){
         kyptCharts.reload('chartsBox2', {data: result.data});
     }else{
-        layer.msg(result.message);
+        top.layer.msg(result.message);
     }
 }
 
@@ -125,7 +125,7 @@ function setNumOrUnit(result){
         });
         kyptCharts.reload('chartsBox3', {data: relData});  
     }else{
-        layer.msg(result.message);
+        top.layer.msg(result.message);
     }
 }
 
