@@ -99,16 +99,6 @@
     <script src="../common/js/autofont.js"></script>
     <script src="js/project_xmqd.js"></script>
     <script src="js/project_data.js"></script>
-    
-    <script >
-        window.onload=window.onresize = function(){
-            autofont();
-            var chartsW = $(".jcCharts").width();
-            var chartsH = $(".jcCharts").height();
-            $("#charts").css("width", chartsW).css("height", chartsH);
-            linebar.resize();
-        }
-    </script>
     <script>
         layui.use('form', function(){
           var form = layui.form;

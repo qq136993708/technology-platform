@@ -19,8 +19,8 @@
     padding-left: 6.8rem;
 }
 .main_top {
-    height: 16.5rem;
-    padding-bottom: 3.5rem;
+    height: 13.5rem;
+    padding-bottom: 1rem;
 }
 .main_right .main_top {
     height: 12.5rem;
@@ -34,7 +34,7 @@
     padding: 0 1.5rem;
 }
 .main_bottom{
-    height: calc(100% - 16.5rem);
+    height: calc(100% - 13.5rem);
 }
 
 .main_content{
@@ -462,10 +462,11 @@
 }
 
 .ztree li a.curSelectedNode {
-    padding-top: 0px !important;
-    background-color: #3783C8 !important;
-    color: #fff !important;
-    opacity: 0.8 !important;
+    padding-top: .2rem;
+    background-color: #3783C8;
+    opacity: 0.8;
+    height: auto;
+    border-width: 0;
 }
 
 

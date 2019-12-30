@@ -70,7 +70,7 @@
     bottom: calc(2rem + 30px);
     margin-left: -46px;
     background-image: url(../../img/light_top.png);
-    animation: light 2s infinite linear;
+    animation: light 3s infinite linear;
 }
 .ring li span.value-name {
     height: 2rem;
@@ -84,15 +84,23 @@
 }
 @keyframes light {
     0% {
-        opacity: .7
+        opacity: .5
+    }
+
+    25% {
+        opacity: .75
     }
 
     50% {
-        opacity: 0.5
+        opacity: 1
+    }
+
+    75% {
+        opacity: .75
     }
 
     100% {
-        opacity: 1
+        opacity: .5
     }
 }
 
