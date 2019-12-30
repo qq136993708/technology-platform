@@ -1,6 +1,8 @@
 package com.pcitc.web.computersoftware;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.service.computersoftware.ComputerSoftwareService;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "computerSoftware-api", description = "计算机软件接口")
@@ -38,6 +41,14 @@ public class ComputerSoftwareClient {
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageInfo query(@RequestBody(required = false) Map param) {
         return computerSoftwareService.query(param);
+    }
+
+    @ApiOperation(value = "计算机软件平台信息查询列表", notes = "计算机软件平台信息查询列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+        List list=computerSoftwareService.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
     }
 
 

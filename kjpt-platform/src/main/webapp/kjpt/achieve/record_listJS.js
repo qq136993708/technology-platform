@@ -12,7 +12,7 @@ layui.use(['table', 'form','laydate'], function() {
         ,elem: '#tableDemo'
         ,url: '/achieveRecord-api/query' //数据接口
         ,cols: [[ //表头
-          {type: 'checkbox', field: 'id', width: 50, fixed: 'left'}
+          {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
           ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
                       if(d.auditStatus!=0){
@@ -29,7 +29,7 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'transMoney', title: '拟转化金额（万）', width: 100 }
           ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100 }
           ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100 }
-          ,{field: 'aboutCompleteInfo', title: '完成情况', width: 120 }
+          ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
           ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, templet: function(d) {
             return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           }}
@@ -178,6 +178,7 @@ layui.use(['table', 'form','laydate'], function() {
     } else {
       top.layer.msg('请选择需要上报的单据！');
     }
+      $('#flow').attr('disabled',"true")
   })
   
   
@@ -238,4 +239,29 @@ layui.use(['table', 'form','laydate'], function() {
     });
   })
   
+  // 导出 /achieveRecord-api/exportExcel
+  $('#exportData').on('click', function(e) {
+    var formValue = form.val('achTransfrom'),
+    searchData = {
+      achieveName: formValue.achieveName, // 成果名称
+      finishUnitName: formValue.finishUnitName, // 完成单位、持有单位
+      auditStatus: formValue.auditStatus, // 备案状态
+      startDate: formValue.startDate, // 录入开始时间
+      endDate: formValue.endDate, // 录入结束时间
+      achieveType: formValue.achieveType, // 成果类型、是否为核心成果
+      aboutCompleteInfo: formValue.aboutCompleteInfo, // 完成情况
+      grantUnitName: '', // 成果受让单位
+      achieveTransType: '', // 转化方式
+      secretLevel: '' // 密级
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/achieveRecord-api/exportExcel?' + exportUrl.substring(1);
+    console.log(formValue);
+    // 附件下载
+    window.open(exportUrl, '_blank');
+  })
 })

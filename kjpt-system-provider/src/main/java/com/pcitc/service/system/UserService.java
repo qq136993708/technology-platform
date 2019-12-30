@@ -144,5 +144,7 @@ public interface UserService {
 	
 	public SysUser getUserByUserNameAndPassword(String userName,String password);
 	public List<SysCollect> getSysCollectListByUserId(String userId) throws Exception;
+
+	Integer selectWhiteList(String userName);
 	
 }

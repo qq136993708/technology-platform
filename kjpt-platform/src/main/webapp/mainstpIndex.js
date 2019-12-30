@@ -10,10 +10,10 @@ layui.config({
     itemMinWidth: 164,
     cols: [
       { title: '科技人才', iconName: 'icon011', id: 'expertNumber', label: 'zik', unit: '个',url:'/kjpt/expert/expert_query.html' }
-      , {  title: '科研平台', iconName: 'icon002', id: '', label: 'kypt', unit: '家',url:'/html/scientificPlatform/scientificPlatform.html' }
+      , {  title: '科研平台', iconName: 'icon002', id: 'scientificPlatform', label: '', unit: '家',url:'/html/scientificPlatform/scientificPlatform.html' }
       , { title: '科技成果', iconName: 'icon003', id: '', label: 'kycg', unit: '个' ,url:'#'}
-      , { title: '成果转化', iconName: 'icon007', id: '', label: '', unit: '个',url:'/kjpt/expert/expert_query.html' }
-      , { title: '专利数量', iconName: 'icon010', id: '', label: 'patent', unit: '个' ,url:'/html/patent/query.html'}
+      , { title: '成果转化', iconName: 'icon007', id: 'achieveTranform', label: '', unit: '个',url:'/achieve/achieve_query' }
+      , { title: '专利数量', iconName: 'icon010', id: 'patentNumber', label: '', unit: '个' ,url:'/html/patent/query.html'}
       , { title: '核行业标准', iconName: 'icon008', id: '', label: '', unit: '个',url:'#' }
       , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' ,url:'#'}
       , { title: '经验反馈', iconName: 'icon006', id: '', label: '', unit: '条',url:'#' }
@@ -27,24 +27,33 @@ layui.config({
     # completed: 已完成;
     # unCompleted: 未完成;
     */
-
-    var titleValue = conversionNumber(data.completed);
-
     var option = {
       title: {
-        text: titleValue,
-        top: 'center',
+        text: data.text,
+        top:  '42%',
         left: 'center',
         textStyle: {
           color: '#fff',
           fontWeight: 'normal',
-          fontSize: 14,
-          lineHeight: 20,
+          fontSize: 12,
+          lineHeight: 14,
+        },
+        subtext: data.subText,
+        subtextStyle: {
+          color: '#fff',
+          fontWeight: 'normal',
+          fontSize: 16,
+          lineHeight: 18,
         },
         padding: 0,
-        itemGap: 0
+        itemGap: 3
       },
-      tooltip: { show: false},
+      tooltip: {
+        show: true,
+        formatter: function(d) {
+          return data.completed.name + ': ' + conversionNumber(data.completed.value) + '<br/>' + data.unCompleted.name + ': ' + conversionNumber(data.unCompleted.value);
+        }
+      },
       legend: { show: false},
       series: [
         {
@@ -56,13 +65,14 @@ layui.config({
           labelLine: { show: false },
           data:[
             {
-              value: data.completed || 0,
-              name:'已完成',
+              value: data.completed.value || 0,
+              name: data.completed.name,
               emphasis: { itemStyle: { color: 'rgba(255, 255, 255, 1)' }},
             },
             {
-              value: data.unCompleted  || 0,
-              name:'未完成',
+              value: data.unCompleted.value  || 0,
+              name: data.unCompleted.name,
+              tooltip: { show: false },
               emphasis: { itemStyle: { color: 'rgba(255, 255, 255, .35)' }}
             }
           ]
@@ -151,10 +161,28 @@ layui.config({
   }
 
   var lastWeekChart = echarts.init(document.getElementById('lastWeek'));
-  lastWeekChart.setOption(getPieChartOption({completed: 108, unCompleted: 24, title: '上周工作完成情况'}));
+  lastWeekChart.setOption(getPieChartOption({
+    completed: { name: '已完成', value: 100 },
+    unCompleted: { name: '在研', value: 99 },
+    text: '总量',
+    subText: conversionNumber(199),
+    title: '项目数量'
+  }));
 
   var thisWeekChart = echarts.init(document.getElementById('thisWeek'));
-  thisWeekChart.setOption(getPieChartOption({completed: 15000000, unCompleted: 300000, title: '本周工作安排'}));
+  thisWeekChart.setOption(getPieChartOption({
+    completed: {
+      name: '实际完成',
+      value: 3000000
+    },
+    unCompleted: {
+      name: '年度计划',
+      value: 15000000
+    },
+    text: '实际完成',
+    subText: conversionNumber(3000000),
+    title: '项目投资'
+  }));
 
   $(window).resize(function() {
     lastWeekChart.resize();
@@ -162,30 +190,70 @@ layui.config({
   });
 
   // 获取相关个数
+  // httpModule({
+  //   url: '/indexHome-model/homeNummary',
+  //   success: function(res) {
+  //     if ( res.list.length) {
+  //       $('[num-label]').each(function(i, item) {
+  //         var numLabel = $(this).attr('num-label');
+  //         if (numLabel) {
+  //          var itemVlue = res.list.filter(function(value, i) { if (value.sumName === numLabel) return value; })[0];
+  //          if (itemVlue) {
+  //            $(this).empty().text(itemVlue.num);
+  //          }
+  //         } else {
+  //           $(this).empty().text(0)
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
+
+  // 获取科研平台数量
   httpModule({
-    url: '/indexHome-model/homeNummary',
+    url: '/platform-api/query',
+    data: {pageNum: 1, pageSize: 1, level: '' },
     success: function(res) {
-      if ( res.list.length) {
-        $('[num-label]').each(function(i, item) {
-          var numLabel = $(this).attr('num-label');
-          if (numLabel) {
-           var itemVlue = res.list.filter(function(value, i) { if (value.sumName === numLabel) return value; })[0];
-           if (itemVlue) {
-             $(this).empty().text(itemVlue.num);
-           }
-          } else {
-            $(this).empty().text(0)
-          }
-        });
+      if (res.code === '0') {
+        $('#scientificPlatform').text(res.data.total)
+      } else {
+        $('#scientificPlatform').text(0)
       }
     }
-  });
+  })
+
+  // 获取专利数量
+  httpModule({
+    url: '/patentController/query',
+    data: {pageNum: 1, pageSize: 1 },
+    success: function(res) {
+      if (res.code === '0') {
+        $('#patentNumber').text(res.data.total)
+      } else {
+        $('#patentNumber').text(0)
+      }
+    }
+  })
+
+  // 获取成果转化数量
+  httpModule({
+    url: '/achieveRecord-api/query',
+    data: {pageNum: 1, pageSize: 1},
+    success: function(res) {
+      if (res.code === '0') {
+        $('#achieveTranform').text(res.data.total)
+      } else {
+        $('#achieveTranform').text(0)
+      }
+    }
+  })
+
 
   // 专利列表
   getTabContentList({
     id: '#transform_tab_list',
     url: '/achieve-api/query',
-    data: { page: 1, limit: 10,isPublic:3 },
+    data: { page: 1, limit: 10, isPublic:2 },
     name: 'achieveName',
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],
@@ -297,9 +365,30 @@ layui.config({
     url: '/collect-api/getSysCollectByUserId?userId='+$("#userId").val(),
     type: 'get',
     success: function(res) {
-      console.log(res)
+      if(res.success){
+        res.data.map(function (item,index) {
+          var html='<div class="work-list"><a lay-href="'+item.collectUrl+'" lay-text="'+item.collectName+'"><span class="link-work">'+item.collectName+'</span></a></div>'
+            $("#threeItem .work-item-box").append(html)
+        })
+      }
     }
   });
+    httpModule({
+        url: '/task-api/getPendingCountByUserId?userId='+$("#userId").val(),
+        type: 'get',
+        success: function(res) {
+            if(res.success){
+                $("#oneItem").html(res.data)
+                parent.$("#pendingCount").html(res.data)
+                $("#text").html("项")
+            }else {
+                $("#oneItem").html("0")
+                parent.$("#pendingCount").html('')
+                parent.$("#pendingCount").hide()
+                $("#text").html("项")
+            }
+        }
+    });
   $('a.tab-more-link').click(function() {
     var itemHref = $(this).attr('lay-href'),
     title = $(this).attr('lay-text');

@@ -69,10 +69,39 @@ public class ZjkProject implements Serializable {
     private String secretLevelStr="";
     
     
-    
+    private String knowledgeScope="";
+    private String knowledgePerson="";
+    private String createUser="";
     
 
-    public String getSecretLevel() {
+    
+
+
+	public String getKnowledgeScope() {
+		return knowledgeScope;
+	}
+
+	public void setKnowledgeScope(String knowledgeScope) {
+		this.knowledgeScope = knowledgeScope;
+	}
+
+	public String getKnowledgePerson() {
+		return knowledgePerson;
+	}
+
+	public void setKnowledgePerson(String knowledgePerson) {
+		this.knowledgePerson = knowledgePerson;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getSecretLevel() {
 		return secretLevel;
 	}
 

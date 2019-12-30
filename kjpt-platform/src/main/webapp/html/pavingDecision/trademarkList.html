@@ -78,7 +78,7 @@
 
   <div class="view-title-layout" id="opations-btn">
     <div class="right">
-      <button class="layui-btn border-blue" id="importData">导出</button>
+      <button class="layui-btn border-blue" id="importData">导出Excel</button>
     </div>
   </div>
 
@@ -152,9 +152,22 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
 
   // 导出
   $('#importData').click(function() {
-    var name = $('[name="platformName"]').val();
-    name ? name = name.trim() : name = '';
-    window.open('/platform-api/export?level=01&platformName=', '_blank');
+    var formValue = form.val('pavingDecision'),
+    searchData = {
+      unitName: formValue.unitName, // 单位名称
+      trademarkName: formValue.trademarkName, // 商标名称
+      lawStatus: formValue.lawStatus, // 法律状态
+      registerDateStart: formValue.registerDateStart, // 注册日期 开始
+      registerDateEnd: formValue.registerDateEnd, // 注册日期 结束
+      secretLevel: ''
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/trademarkController/export?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
   })
 
   laydate.render({ //渲染时间表单

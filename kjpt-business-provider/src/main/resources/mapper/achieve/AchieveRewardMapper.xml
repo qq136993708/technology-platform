@@ -66,6 +66,16 @@
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
             #{item}
         </foreach>
+
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope)
+        </if>
+        ))
     </select>
 
     <select id="getByRecordId" parameterType="java.lang.String" resultMap="AchieveRewardMap">

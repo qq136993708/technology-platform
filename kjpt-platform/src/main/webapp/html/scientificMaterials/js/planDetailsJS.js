@@ -32,15 +32,18 @@ layui.use(['laypage', 'layer'], function() {
                   }
                 }
                 fileImgLoading = layer.load(2);
-                $('#getPdfPageContent').attr('src', '/file/getPdfPageContent/'+ fileId +'/' + (page.curr - 1));
+                $('#getPdfPageContent').show().attr('src', '/file/getPdfPageContent/'+ fileId +'/' + (page.curr - 1));
               }
             });
           }
         }
       })
-    } else {
+    } else if (type === 'png' || type === 'jpg' || type === 'jpeg' || type === 'gif') {
       fileImgLoading = layer.load(2);
-      $('#getPdfPageContent').attr('src', '/file/imgFile/'+ fileId);
+      $('#getPdfPageContent').show().attr('src', '/file/imgFile/'+ fileId);
+    } else {
+      $('#getPdfPageContent').hide();
+      $('#fileName').text('当前附件不支持在线预览，请下载后查看。');
     }
   }
 
@@ -65,21 +68,23 @@ layui.use(['laypage', 'layer'], function() {
       fileHtml += '<div class="file-title">'+ item.fileName +'</div>';
       fileHtml += '<div class="file-option"><span class="link-text downloadFile" data-fileid="'+item.id+'">下载</span>';
       if (item.fileName.indexOf('.docx') > 0 ||
-        item.fileName.indexOf('.doc') ||
-        item.fileName.indexOf('.png') ||
-        item.fileName.indexOf('.jpg') ||
-        item.fileName.indexOf('.jpeg') ||
-        item.fileName.indexOf('.gif') ||
-        item.fileName.indexOf('.pdf')
+        item.fileName.indexOf('.doc') > 0  ||
+        item.fileName.indexOf('.png') > 0  ||
+        item.fileName.indexOf('.jpg') > 0  ||
+        item.fileName.indexOf('.jpeg') > 0  ||
+        item.fileName.indexOf('.gif') > 0  ||
+        item.fileName.indexOf('.pdf') > 0 
       ) {
         fileHtml += '<span class="link-text seeFile" title="'+item.fileName+'" data-fileid="'+item.id+'">预览</span>';
       }
       fileHtml += '</div></div>';
     })
     if (!fileHtml) {
-      fileHtml = '<div class="ib-block font14">没有任何附件。</div>';
+      fileHtml = '<div class="ib-block font14">没有查到任何附件。</div>';
+      $('.file-preview').hide();
       $('#filesItem').addClass('middle-block').css('height', 60).empty().html(fileHtml);
     } else {
+      $('.file-preview').show();
       $('#filesItem').empty().html(fileHtml);
 
       var files = data.filter(function(item, i) {

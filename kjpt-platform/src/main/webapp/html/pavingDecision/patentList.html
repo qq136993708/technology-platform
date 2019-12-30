@@ -174,9 +174,23 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   // 导出
   $('#importData').click(function() {
-    var name = $('[name="platformName"]').val();
-    name ? name = name.trim() : name = '';
-    window.open('/platform-api/export?level=01&platformName=', '_blank');
+    var formValue = form.val('pavingDecision'),
+    searchData = {
+      unitName: formValue.unitName,
+      applicationType: formValue.applicationType,
+      patentType: formValue.patentType,
+      applicationNumber: formValue.applicationNumber,
+      patentName: formValue.patentName,
+      applicant: formValue.applicant,
+      inventor: formValue.inventor
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
   })
 });
 </script>

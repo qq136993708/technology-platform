@@ -79,7 +79,6 @@ public class AchieveRewardController extends RestBaseController {
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
-        SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -101,8 +100,8 @@ public class AchieveRewardController extends RestBaseController {
         }
 
         //默认查询当前人所在机构下所有的成果激励
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);

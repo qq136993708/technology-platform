@@ -22,7 +22,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">平台类型：</span></label>
           <div class="layui-input-block">
-            <select name="platformType" placeholder="请输入" lay-filter="platformType" dic-base-data="ROOT_KJPT_PTLX"></select>
+            <select name="level" placeholder="请选择" lay-filter="level" dic-base-data="ROOT_KJPT_PTJB"></select>
           </div>
         </div>
       </div>
@@ -31,7 +31,9 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">技术领域：</span></label>
           <div class="layui-input-block">
-            <select name="researchField" dic-base-data="ROOT_KJPT_YJLY" placeholder="请选择"></select>
+            <select name="researchField" xm-select="researchField"
+              dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal"
+              placeholder="请选择"></select>
           </div>
         </div>
       </div>
@@ -54,11 +56,11 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">平台得分：</span></label>
           <div class="layui-input-block font0">
-            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+            <div class="layui-input-inline margin0" style="width: calc(50% - 10px)">
               <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
-            <span class="ib-block font14 text-center" style="width: 30px;">-</span>
-            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+            <span class="ib-block font14 text-center" style="width: 20px;">-</span>
+            <div class="layui-input-inline margin0" style="width: calc(50% - 10px)">
               <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
@@ -73,7 +75,6 @@
         </div>
       </div>
     </div>
-    <input type="hidden" name="level">
   </form>
 
   <div class="view-title-layout" id="opations-btn">
@@ -151,9 +152,32 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   // 导出
   $('#importData').click(function() {
-    var name = $('[name="platformName"]').val();
-    name ? name = name.trim() : name = '';
-    window.open('/platform-api/export?level=01&platformName=', '_blank');
+    var formValue = form.val('pavingDecision'),
+    RFvalue = formSelects.value('researchField'),
+    searchData = {
+      platformScorinLow: formValue.platformScorinLow,
+      platformScorinHigh: formValue.platformScorinHigh,
+      level: formValue.level,
+      researchField: (function() {
+        if (RFvalue && RFvalue.length) {
+          var rfValue = '';
+          for (var i = 0; i < RFvalue.length; i++) {
+            rfValue += ',' + RFvalue[i].value;
+          }
+          return rfValue.substring(1);
+        } else {
+          return '';
+        }
+      })(),
+      supportingInstitutions: formValue.supportingInstitutions
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/platform-api/exportKyptInfo?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
   })
 });
 </script>

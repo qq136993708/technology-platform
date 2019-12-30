@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunctionProperty;
@@ -50,7 +51,6 @@ public class EquipmentUtils {
      public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
-     
 	
 	public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -83,6 +83,12 @@ public class EquipmentUtils {
 	
 	
 	
+	
+	
+	
+		
+		
+	
 	public static SysUserProperty getSysUserProperty(String userId,String dataType,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
 		SysUserProperty	SysUserProperty = null;
@@ -94,6 +100,10 @@ public class EquipmentUtils {
 		}
 		return SysUserProperty;
 	}
+	
+	
+	
+	
 	
 	
 	

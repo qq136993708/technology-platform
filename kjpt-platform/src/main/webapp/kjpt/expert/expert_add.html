@@ -28,27 +28,29 @@
 <body class="">
 <div class="layout-view-content dialog">
     <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-            <div class="layui-row layui-col-space20">
-                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                          <label class="layui-form-label label-required"><span class="text">密级：</span></label>
-                          <div class="layui-input-block">
-                            <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
-                            </select>
-                          </div>
-                        </div>
-                    </div>  
-                  
-                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
-                            <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>  
-                        </div>
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+                    <div class="layui-input-block">
+                    <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+                    </select>
                     </div>
-                         
                 </div>
-          
-                <div class="secret-level-line"></div>
+            </div>  
+            
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+                    <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>  
+                </div>
+            </div>
+            
+        </div>
+        <!-- 知悉范围 -->
+        <div id="scope_list_layout"></div>
+    
+        <div class="secret-level-line"></div>
 
         <div class="layui-row layui-col-space20">
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
@@ -160,7 +162,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required"><span class="text">所在单位:</span></label>
                     <div class="layui-input-block">
-                        <select name="belongUnit" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
+                        <select name="belongUnit" lay-verify="required" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
                     </div>
                 </div>
                 <!--技术领域-->
@@ -196,10 +198,19 @@
                                   placeholder="" autocomplete="off" class="layui-input layui-textarea"></textarea>
                     </div>
                 </div>
+                <!--专家分类-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">高层次人才类别:</span></label>
+                    <div class="layui-input-block">
+                        <select name="expertType" id="expertType">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="layui-row">
-            <!--主要项目-->
+        <!--<div class="layui-row">
+            &lt;!&ndash;主要项目&ndash;&gt;
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="text">主要项目:</span></label>
                 <div class="layui-input-block layui-add-button">
@@ -210,7 +221,7 @@
                     </div>
                 </div>
             </div>
-            <!--主要成果-->
+            &lt;!&ndash;主要成果&ndash;&gt;
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="text">主要成果:</span></label>
                 <div class="layui-input-block layui-add-button">
@@ -221,7 +232,7 @@
                     </div>
                 </div>
             </div>
-            <!--主要专利-->
+            &lt;!&ndash;主要专利&ndash;&gt;
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="text">主要专利:</span></label>
                 <div class="layui-input-block layui-add-button">
@@ -232,7 +243,7 @@
                     </div>
                 </div>
             </div>
-            <!--奖励信息-->
+            &lt;!&ndash;奖励信息&ndash;&gt;
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="text">奖励信息:</span></label>
                 <div class="layui-input-block layui-add-button">
@@ -243,7 +254,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="dialog-footer-btn">
             <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
             <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>

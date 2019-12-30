@@ -30,7 +30,7 @@
               <div class="layui-form-item">
                 <label class="layui-form-label label-required"><span class="text">密级：</span></label>
                 <div class="layui-input-block">
-                  <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+                  <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
                   </select>
                 </div>
               </div>
@@ -42,8 +42,9 @@
                   <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>  
               </div>
           </div>
-               
-      </div>
+        </div>
+        <!-- 知悉范围 -->
+        <div id="scope_list_layout"></div>
 
     <div class="secret-level-line"></div>
 
@@ -338,6 +339,7 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
+<script>var patent_view_page = false; </script>
 <script src="edit.js"></script>
 
  

@@ -23,7 +23,7 @@
               <div class="layui-form-item">
                 <label class="layui-form-label label-required"><span class="text">密级：</span></label>
                 <div class="layui-input-block">
-                  <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+                  <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
                   </select>
                 </div>
               </div>
@@ -37,7 +37,8 @@
           </div>
                
       </div>
-
+      <!-- 知悉范围 -->
+      <div id="scope_list_layout"></div>
     <div class="secret-level-line"></div>
 
      <div class="layui-row layui-col-space20">
@@ -201,6 +202,7 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
+<script>var scope_disabled = false;  </script>
 <script src="edit.js"></script>
 
  

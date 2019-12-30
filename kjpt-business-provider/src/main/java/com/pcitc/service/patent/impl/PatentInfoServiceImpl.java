@@ -49,7 +49,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         int pageNum = (int)param.get("pageNum");
         int pageSize = (int)param.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
-        List dataList = patentInfoMapper.queryPatentList(param);
+        List<PatentInfo> dataList = patentInfoMapper.queryPatentList(param);
+        dataList.forEach(patentInfo ->{
+            patentInfo.setApplicationDateStr(DateUtils.format(patentInfo.getApplicationDate(),DateUtils.FMT_SS));
+            System.out.println(patentInfo);
+        });
         PageInfo pageInfo = new PageInfo(dataList);
 
         return pageInfo;
@@ -67,6 +71,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         //PageInfo pageInfo = new PageInfo(dataList);
 
         return dataList;
+    }
+
+    @Override
+    public List queryNoPage(Map param) {
+        return patentInfoMapper.queryPatentList(param);
     }
 
     public PatentInfo getPatentInfo(String id){

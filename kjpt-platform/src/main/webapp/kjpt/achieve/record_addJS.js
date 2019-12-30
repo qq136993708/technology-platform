@@ -32,6 +32,7 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
   if (variable.type === 'view') {
     $('[lay-submit]').remove();
     itemInitApi = '/achieveRecord-api/load/' + variable.id
+    gray()
   } else if (variable.type === 'edit') {
     itemInitApi = '/achieveRecord-api/load/' + variable.id
   }
@@ -63,6 +64,8 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
         }
         form.render();
 
+        var scope_disabled = false;
+
         // 监听是否为核心成果
         if (variable.type != 'view') {
           form.on('select(achieveType)', function(data) {
@@ -81,7 +84,18 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
             form.val('newRecordFome', {achieveName: '', achieveId: ''})
             form.render('select');
           })
+        } else {
+          scope_disabled = true;
         }
+        // 添加知悉范围
+        setJurisdictionScope({
+          elem: 'scope_list_layout',
+          knowledgeScope: newData.knowledgeScope,
+          knowledgePerson: newData.knowledgePerson,
+          secretLevel: newData.secretLevel,
+          disabled: scope_disabled
+        });
+
       }
     }
   });

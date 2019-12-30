@@ -53,7 +53,7 @@
 
   <div class="view-title-layout" id="opations-btn">
     <div class="right">
-      <button class="layui-btn border-blue" id="importData">导出</button>
+      <button class="layui-btn border-blue" id="importData">导出Excel</button>
     </div>
   </div>
 
@@ -125,9 +125,30 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
 
   // 导出
   $('#importData').click(function() {
-    var name = $('[name="platformName"]').val();
-    name ? name = name.trim() : name = '';
-    window.open('/platform-api/export?level=01&platformName=', '_blank');
+    var formValue = form.val('pavingDecision'),
+    unitValue = formSelects.value('unitId'),
+    searchData = {
+      unitId: (function(){
+        if (unitValue && unitValue.length) {
+          var unitid = '';
+          $.each(unitValue, function(i, item) {
+            unitid += ',' + item.value;
+          })
+          return unitid.substring(1);
+        } else {
+          return '';
+        }
+      })(),
+      startYear: formValue.startYear,
+      endYear: formValue.endYear
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/exportScienceStatistics?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
   })
 });
 </script>

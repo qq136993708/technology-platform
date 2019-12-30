@@ -234,7 +234,8 @@ layui.use(['laydate'], function() {
           value2: (parseInt(Math.random() * 100) + 0),
           value3: (parseInt(Math.random() * 100) + 0),
           value4: (parseInt(Math.random() * 100) + 0),
-          value5: (parseInt(Math.random() * 100) + 0)
+          value5: (parseInt(Math.random() * 100) + 0),
+          value6: (parseInt(Math.random() * 100) + 0)
         })
       }
 
@@ -252,9 +253,10 @@ layui.use(['laydate'], function() {
           series: [
             { name: '医疗器械一次检验合格率（%）', valueKey: 'value1'},
             { name: '医疗器械出厂检验合格率（%）', valueKey: 'value2'},
-            { name: '放射源出厂检验合格率（%）', valueKey: 'value3'},
-            { name: '放射性药品一次检验合格率（%）', valueKey: 'value4'},
-            { name: '放射性药品出厂检验合格率（%）', valueKey: 'value5'}
+            { name: '放射源一次检验合格率（%）', valueKey: 'value3'},
+            { name: '放射源出厂检验合格率（%）', valueKey: 'value4'},
+            { name: '放射性药品一次检验合格率（%）', valueKey: 'value5'},
+            { name: '放射性药品出厂检验合格率（%）', valueKey: 'value6'}
           ],
           data: chartData,
           color: ['#EAFF74', '#00FF32', '#42FDFF', '#D300E0', '#FF7F5D', '#00ABE9']
@@ -345,11 +347,11 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_four',
           type: 'pie',
-          legend: { top: 'center', left: '65%'},
+          legendPosition: 'right',
+          legend: { top: 'center', right:18, formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['43%', '65%'],
-          center: ['28%', '50%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: ' 损失占比',
           series: chartData,
@@ -372,15 +374,15 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_five',
           type: 'pie',
-          legend: { top: 'center', left: '65%'},
+          legendPosition: 'right',
+          legend: { top: 'center', right:18, formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['43%', '65%'],
-          center: ['28%', '50%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: '科目损失占比',
           series: chartData,
-          color: ['#FFF04E', '#FF7F5D', '#2687FF']
+          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
         });
       } else {
         kyptCharts.reload('appraisal_five', {series: chartData});
@@ -399,15 +401,15 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_six',
           type: 'pie',
-          legend: { top: 'center', left: '65%'},
+          legendPosition: 'right',
+          legend: { top: 'center', right:18, formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['43%', '65%'],
-          center: ['28%', '50%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: '科目损失占比',
           series: chartData,
-          color: ['#FFF04E', '#FF7F5D', '#2687FF']
+          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#FF7F5D', '#2687FF']
         });
       } else {
         kyptCharts.reload('appraisal_six', {series: chartData});

@@ -108,8 +108,31 @@ public class SysUser {
 	
 	
 	private String  userUnitPath="";
+	private String  userHeadPic="";
 	
 	
+	private String  recodeLevel;
+	
+	
+
+	
+
+
+	public String getRecodeLevel() {
+		return recodeLevel;
+	}
+
+	public void setRecodeLevel(String recodeLevel) {
+		this.recodeLevel = recodeLevel;
+	}
+
+	public String getUserHeadPic() {
+		return userHeadPic;
+	}
+
+	public void setUserHeadPic(String userHeadPic) {
+		this.userHeadPic = userHeadPic;
+	}
 
 	public String getUserUnitPath() {
 		return userUnitPath;

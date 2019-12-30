@@ -26,6 +26,10 @@
 
     <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+
+    <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+    <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -106,7 +110,9 @@
      create_unit_id,
      create_unit_name,
      secret_level,
-     secret_level_text
+     secret_level_text,
+     knowledge_scope,
+     knowledge_person
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample" resultMap="BaseResultMap">
     select
@@ -166,7 +172,9 @@
     law_status, remark,
     entry_date,
     file,
-    secret_level
+    secret_level,
+    knowledge_scope,
+    knowledge_person
 
     )
     values (
@@ -183,7 +191,9 @@
     #{remark,jdbcType=VARCHAR},
     #{entryDate,jdbcType=TIMESTAMP},
     #{file,jdbcType=VARCHAR},
-    #{secretLevel,jdbcType=VARCHAR}
+    #{secretLevel,jdbcType=VARCHAR},
+    #{knowledgeScope,jdbcType=VARCHAR},
+    #{knowledgePerson,jdbcType=VARCHAR}
     )
 
   </insert>
@@ -450,19 +460,15 @@
       file = #{files,jdbcType=VARCHAR},
       create_unit_id = #{createUnitId,jdbcType=VARCHAR},
 	  create_unit_name = #{createUnitName,jdbcType=VARCHAR},
-	  secret_level =  #{secretLevel,jdbcType=VARCHAR}
+	  secret_level =  #{secretLevel,jdbcType=VARCHAR},
+	  knowledge_scope =  #{knowledgeScope,jdbcType=VARCHAR},
+	  knowledge_person =  #{knowledgePerson,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List"/> from view_trademark_info where 1=1
     <include refid="selectByParam" />
     and deleted != '1'
-
-    <if test="secretLevel != null and secretLevel != '' " >
-      and secret_level = #{secretLevel}
-    </if>
-
-
   </select>
   <select id="queryTrademarkList_COUNT" parameterType="java.util.Map" resultType="Long">
     select  count(*) from trademark_info where 1=1
@@ -502,9 +508,13 @@
     <if test="secretLevel != null and secretLevel != '' " >
       and secret_level = #{secretLevel}
     </if>
-    <if test="userSecretLevel != null and userSecretLevel !=''  ">
-      AND secret_level &lt;= #{userSecretLevel}
+
+    and (secret_level = '0' or (
+    secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test='skipKnowledgeScope=="0"'>
+      and FIND_IN_SET(#{userName}, knowledge_scope)
     </if>
+    ))
 
 
   </sql>

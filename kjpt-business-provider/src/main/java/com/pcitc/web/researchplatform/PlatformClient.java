@@ -71,9 +71,9 @@ public class PlatformClient {
 
 
     @ApiOperation(value = "科研平台项目条数", notes = "科研平台项目条数")
-    @RequestMapping(value = "/selectPaltinfoCount/{id}", method = RequestMethod.GET)
-    public List<Map> selectPaltinfoCount(@PathVariable String id){
-        return ps.selectPaltinfoCount(id);
+    @RequestMapping(value = "/selectPaltinfoCount", method = RequestMethod.POST)
+    public List<Map> selectPaltinfoCount(@RequestBody Map param){
+        return ps.selectPaltinfoCount(param);
     }
 
 
@@ -87,6 +87,15 @@ public class PlatformClient {
     @RequestMapping(value="/scienceStatistics",method =RequestMethod.POST)
     public PageInfo excelImport( @RequestBody Map param){
         return ps.scienceStatistics(param);
+    }
+
+
+    @ApiOperation(value = "科技材料统计表不分页", notes = "科技材料统计表不分页")
+    @RequestMapping(value = "/scienceStatisticsNoPage", method = RequestMethod.POST)
+    public JSONArray scienceStatisticsNoPage(@RequestBody(required = false) Map param){
+        List list=ps.scienceStatisticsNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
     }
 
 }

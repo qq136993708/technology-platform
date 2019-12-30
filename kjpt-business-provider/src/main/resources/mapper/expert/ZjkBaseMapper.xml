@@ -43,17 +43,13 @@
     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
    
-    
-    
+    <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
+    <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+    <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     
   </resultMap>
-  <sql id="Base_Column_List">
-    id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
-    technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
-    achievement, head_pic, create_time, create_user, update_time, update_user, 
-    out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
-    create_unit_id,create_unit_name,secret_level
-  </sql>
+  
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_base
@@ -68,7 +64,8 @@
       email, brief, achievement, 
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
-      audit_status,create_unit_id,create_unit_name,secret_level
+      audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
+     ,knowledge_scope,knowledge_person
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -81,8 +78,11 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
       , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
       , #{technicalFieldIndex,jdbcType=VARCHAR} , #{groupType,jdbcType=VARCHAR}
-       , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
-        , #{secretLevel,jdbcType=VARCHAR}
+      , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
+      , #{secretLevel,jdbcType=VARCHAR}
+      , #{expertType,jdbcType=VARCHAR}
+      , #{knowledgeScope,jdbcType=VARCHAR}
+      , #{knowledgePerson,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -185,9 +185,19 @@
       <if test="createUnitName != null">
         create_unit_name,
       </if>
-    <if test="secretLevel != null">
+      <if test="secretLevel != null">
         secret_level,
       </if>
+      <if test="expertType != null">
+        expert_type,
+      </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person,
+      </if>
+    
    
     
     </trim>
@@ -290,12 +300,18 @@
       <if test="createUnitName != null">
         #{createUnitName,jdbcType=VARCHAR},
       </if>   
-      
       <if test="secretLevel != null">
         #{secretLevel,jdbcType=VARCHAR},
       </if> 
-      
-      
+      <if test="expertType != null">
+        #{expertType,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
+      </if> 
        
     
     </trim>
@@ -399,6 +415,15 @@
       <if test="secretLevel != null">
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if> 
+      <if test="expertType != null">
+        expert_type = #{expertType,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      </if>  
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -436,6 +461,9 @@
       create_unit_name = #{createUnitName,jdbcType=VARCHAR},
       group_type = #{groupType,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
+      expert_type = #{expertType,jdbcType=VARCHAR},
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -452,7 +480,6 @@
 	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
 	     <if test="post != null                  and post !=''  ">            AND t.post = #{post}</if>
 	     <if test="title != null                 and title !=''  ">               AND t.title = #{title}</if>
-	     <if test="technicalField != null        and technicalField !=''  ">      AND FIND_IN_SET(#{technicalField},t.`technical_field`) </if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">          AND t.belong_unit = #{belongUnit}</if>
 	     <if test="technicalFieldName != null    and technicalFieldName  !='' ">   AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
 	     <if test="sex != null                   and sex !=''  ">                  AND t.sex = #{sex}</if>
@@ -472,7 +499,24 @@
 	        AND t.secret_level = #{secretLevel}
 	     </if>
 	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND t.secret_level &lt;= #{userSecretLevel}
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
+	     <if test="technicalField != null        and technicalField !=''  ">   
+	      AND
+	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+			    FIND_IN_SET(#{item},t.`technical_field`) 
+			   </foreach>
+	     </if>
+	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
+	     <if test="expertTypes != null       and expertTypes !=''  ">   
+	         AND t.expert_type in 
+	           <foreach item="item"  collection="expertTypes.split(',')"  open="(" separator="," close=")">
+			          #{item}
+			   </foreach>
+	     </if>
+	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
+	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
 	     </if>
 	 </trim>
 	</sql>
@@ -540,10 +584,6 @@
     from view_zjk_base
     where id = #{id,jdbcType=VARCHAR}
    </select>
-  
-  
-  
-  
   
   
   

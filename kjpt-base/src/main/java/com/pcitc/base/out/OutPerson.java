@@ -3,47 +3,49 @@ package com.pcitc.base.out;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.pcitc.base.util.CommonUtil;
+
 /**
  * out_person
  * @author 
  */
-public class OutPerson implements Serializable {
+public class OutPerson  {
     private String id;
 
     /**
      * 性别
      */
-    private String sex;
+    private String sex="";
 
     /**
      * 名称
      */
-    private String name;
+    private String name="";
 
     /**
      * 生出年(yyyy)
      */
-    private String birthYear;
+    private String birthYear="";
 
     /**
      * 学历(字典)
      */
-    private String education;
+    private String education="";
 
     /**
      * 所在单位名称
      */
-    private String belongUnitName;
+    private String belongUnitName="";
 
     /**
      * 所在单位ID
      */
-    private String belongUnitId;
+    private String belongUnitId="";
 
     /**
      * 技术族领域（多选）
      */
-    private String techType;
+    private String techType="";
 
     /**
      * 创建时间
@@ -53,41 +55,166 @@ public class OutPerson implements Serializable {
     /**
      * 创建人
      */
-    private String createUser;
+    private String createUser="";
 
     /**
      * 技术领域名称
      */
-    private String techTypeName;
+    private String techTypeName="";
 
     /**
      * 身份证号码
      */
-    private String idCard;
+    private String idCard="";
 
     /**
      * 邮箱
      */
-    private String email;
+    private String email="";
 
     /**
      * 联系方式
      */
-    private String contactWay;
+    private String contactWay="";
 
     /**
      * 工作经历
      */
-    private String workExperience;
+    private String workExperience="";
     
-    private String post;
-    private String title;
+    private String post="";
+    private String title="";
+    
+    private String titleStr;
+    private String educationStr;
+    private String sexStr;
+    
+    
+    private Integer beginAage=0;
+    private Integer endAage=0;
+    private Integer age=0;
+    
+    private String seeUserIds;
+    private String seeUserNames;
+    
+    private String ids;
+    private String groups;
+    
+    private String userNo="";
+    
+    private String outUserNo="";
+    
+    private String   isExpert="0";
+    
     
     
     
 
+    public String getIsExpert() {
+		return isExpert;
+	}
 
-    public String getPost() {
+	public void setIsExpert(String isExpert) {
+		this.isExpert = isExpert;
+	}
+
+	public String getOutUserNo() {
+		return outUserNo;
+	}
+
+	public void setOutUserNo(String outUserNo) {
+		this.outUserNo = outUserNo;
+	}
+
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
+
+	public String getSeeUserIds() {
+		return seeUserIds;
+	}
+
+	public void setSeeUserIds(String seeUserIds) {
+		this.seeUserIds = seeUserIds;
+	}
+
+	public String getSeeUserNames() {
+		return seeUserNames;
+	}
+
+	public void setSeeUserNames(String seeUserNames) {
+		this.seeUserNames = seeUserNames;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public String getGroups() {
+		return groups;
+	}
+
+	public void setGroups(String groups) {
+		this.groups = groups;
+	}
+
+	public String getTitleStr() {
+		return titleStr;
+	}
+
+	public void setTitleStr(String titleStr) {
+		this.titleStr = titleStr;
+	}
+
+	public String getEducationStr() {
+		return educationStr;
+	}
+
+	public void setEducationStr(String educationStr) {
+		this.educationStr = educationStr;
+	}
+
+	public String getSexStr() {
+		return sexStr;
+	}
+
+	public void setSexStr(String sexStr) {
+		this.sexStr = sexStr;
+	}
+
+	public Integer getBeginAage() {
+		return beginAage;
+	}
+
+	public void setBeginAage(Integer beginAage) {
+		this.beginAage = beginAage;
+	}
+
+	public Integer getEndAage() {
+		return endAage;
+	}
+
+	public void setEndAage(Integer endAage) {
+		this.endAage = endAage;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public String getPost() {
 		return post;
 	}
 

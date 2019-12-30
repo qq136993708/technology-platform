@@ -1,11 +1,10 @@
 //Demo
-layui.use(['form', 'table', 'layer', 'laydate','formSelects'], function(){
+layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var form = layui.form;
   var $ = layui.$;
   var table = layui.table;
   var layer = layui.layer;
   var laydate = layui.laydate;
-  var formSelects=layui.formSelects;
 
   // var newTime = new Date(); //发布时间初始值
   // var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
@@ -14,23 +13,6 @@ layui.use(['form', 'table', 'layer', 'laydate','formSelects'], function(){
   var tipTitle = '';
   var params = getQueryVariable();
   var reportType = +params.reportType;
-
-  function getDicData(){
-    httpModule({
-      url: '/techFamily-api/getTreeList',
-      type: 'GET',
-      success: function(relData) {
-        relData.children.map(function (item,index) {
-        item.children.map(function (items,i) {
-            delete items.children
-        })
-      })
-      formSelects.data('researchField', 'local', { arr: relData.children });
-      formSelects.btns('researchField', ['remove']);
-      }
-    });
-  }
-  getDicData();
 
   function setSelectInput(){ //js动态设置条件过滤布局
     var len;

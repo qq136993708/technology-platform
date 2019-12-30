@@ -125,7 +125,7 @@
 </script>
 </head>
 <body >
-<form id="login-form" method="post" name="login-form" action="/index" lay-filter="login-form" class="form-horizontal layui-form">
+<form id="login-form" method="post" name="login-form" action="/login" lay-filter="login-form" class="form-horizontal layui-form">
 	<input type="hidden" name="loginErrorCount" id="loginErrorCount" value="${loginErrorCount}">
     <div class="layadmin-user-login">
         <div class="layadmin-user-login-header">
@@ -161,6 +161,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="layui-err">${err}</div>
                         <div class="layui-form-item paddingNull">
                             <button id="sub_button" type="button" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登录</button>
                         </div>

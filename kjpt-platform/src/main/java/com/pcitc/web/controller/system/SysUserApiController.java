@@ -102,6 +102,49 @@ public class SysUserApiController extends BaseController{
 	 */
 	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/getSysCollectListByUserId/";
 	 
+	 
+	 
+	 
+	    @ApiOperation(value = "根据单据级别选知悉范围用户（分页）", notes = "根据单据级别选知悉范围用户（分页）")
+	    @ApiImplicitParams({
+	        @ApiImplicitParam(name = "page",           value = "页码",      dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "recodeLevel",    value = "单据密级",    dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "name",    value = "人员或单位名称",    dataType = "string", paramType = "query")
+	    })
+	    @RequestMapping(value = "/user-api/getSysUserPageByRecodeLevel", method = RequestMethod.GET)
+		public String getSysUserPageByRecodeLevel(
+				
+				@RequestParam(required = true) Integer page,
+	            @RequestParam(required = true) Integer limit,
+	            @RequestParam(required = false) String recodeLevel,
+	            @RequestParam(required = false) String name,
+				HttpServletRequest request, HttpServletResponse response)throws Exception
+	     {
+
+	    	LayuiTableParam param =new LayuiTableParam();
+	    	param.setLimit(limit);
+	    	param.setPage(page);
+	    	
+	    	
+	    	param.getParam().put("userDelflag", 0);
+	    	param.getParam().put("recodeLevel", String.valueOf(Integer.valueOf(recodeLevel).intValue()));
+	    	param.getParam().put("name",name);
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(USER_LIST_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			logger.info("============获取用户列表（分页） " + result.toString());
+			return result.toString();
+		}
+		
+	 
+	 
 	
 	@ApiOperation(value = "用户查询（分页）", notes = "用户查询（分页）")
     @ApiImplicitParams({
@@ -112,7 +155,7 @@ public class SysUserApiController extends BaseController{
         @ApiImplicitParam(name = "userPost",       value = "岗位",       dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "userRole",       value = "角色",       dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "secretLevel",    value = "用户密级",    dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "unifyIdentityId",value = "统一身份ID",  dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "unifyIdentityId",value = "统一身份ID",  dataType = "string", paramType = "query"),
     })
     @RequestMapping(value = "/user-api/query", method = RequestMethod.POST)
 	public String queryUserPage(
@@ -140,7 +183,6 @@ public class SysUserApiController extends BaseController{
     	param.getParam().put("userRole", userRole);
     	
     	param.getParam().put("userDelflag", 0);
-    	
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -217,6 +259,7 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserName(sysUser.getUserName());
+			oldSysUser.setUserHeadPic(sysUser.getUserHeadPic());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();

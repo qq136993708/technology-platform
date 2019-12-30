@@ -52,6 +52,7 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
             ab.setCreator(ab.getUpdator());
 			//fs.updateFileData(ab.getFileDoc(),ab.getId(),ab.getSecretLevel());
 			handlerFile(ab.getFileDoc(),ab.getSecretLevel());
+			ab.setPublicDoc("0");
             return abm.add(ab);
         }
         else{
@@ -66,9 +67,14 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
 	private void handlerFile(String files,String secretLevel){
 		if(files != null){
 			JSONObject fileDoc =  JSONObject.parseObject(files);
-			for(String key:fileDoc.keySet()){
-				fs.updateFileData(fileDoc.get(key) == null?"":fileDoc.get(key).toString(),key,secretLevel);
+			if(fileDoc!=null)
+			{
+				for(String key:fileDoc.keySet()){
+					fs.updateFileData(fileDoc.get(key) == null?"":fileDoc.get(key).toString(),key,secretLevel);
+				}
 			}
+			
+			
 		}
 	}
 

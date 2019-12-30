@@ -74,13 +74,12 @@ public class PlatformProjectController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "项目名称",  "负责单位",    "立项年度" };
-        String[] cols =    {"projectName","dutyInstitutionsText","approvalYear"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        String[] headers = { "项目名称",  "负责单位",    "立项年度","密级" };
+        String[] cols =    {"projectName","dutyInstitutionsText","approvalYear","secretLevelText"};
+        this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformProjectModel.class);
@@ -104,8 +103,7 @@ public class PlatformProjectController extends RestBaseController {
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
-        Map<String, Object> condition = new HashMap<>(6);
-        SysUser userInfo = this.getUserProfile();
+        Map<String, Object> condition = new HashMap<>(8);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
         }else {
@@ -120,13 +118,10 @@ public class PlatformProjectController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
-
-        //默认查询当前人所在机构下所有的科研平台项目
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.setBaseParam(condition);
 
         this.setParam(condition,"platformId",platformId);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

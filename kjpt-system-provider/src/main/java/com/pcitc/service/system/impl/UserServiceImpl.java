@@ -281,9 +281,12 @@ public class UserServiceImpl implements UserService {
 		List<SysCollect> list = sysCollectMapper.selectByExample(sysCollectExample);
 		return list;
 	}
-	
-	
-	
+
+	@Override
+	public Integer selectWhiteList(String userName) {
+		return userMapper.selectWhiteList(userName);
+	}
+
 
 	@Override
 	public int deleteUserReal(String userId) {
@@ -773,9 +776,10 @@ public class UserServiceImpl implements UserService {
 			String userUnitName=CommonUtil.getTableParam(param,"userUnitName","");
 			String postName=CommonUtil.getTableParam(param,"postName","");
 			String userMail=CommonUtil.getTableParam(param,"userMail","");
+			String name=CommonUtil.getTableParam(param,"name","");
 			Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
 			
-			
+			String recodeLevel=CommonUtil.getTableParam(param,"recodeLevel","");
 			
 			
 			
@@ -795,6 +799,14 @@ public class UserServiceImpl implements UserService {
 			map.put("postName", postName);
 			map.put("userMail", userMail);
 			map.put("userDelflag", userDelflag);
+			
+			//选知悉范围时， 大于单据的级别 
+			map.put("recodeLevel", recodeLevel);
+			map.put("name", name);
+
+			
+			
+			
 			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());
@@ -830,6 +842,10 @@ public class UserServiceImpl implements UserService {
 			if (user.getUserUnit() != null && !user.getUserUnit().equals(oluser.getUserUnit())) 
 			{
 				this.updateUserUnit(user);
+				SysUserPostExample example = new SysUserPostExample();
+				SysUserPostExample.Criteria ec = example.createCriteria();
+				ec.andUserIdEqualTo(user.getUserId());
+				userPostMapper.deleteByExample(example);
 			}
 		}
 		return userMapper.updateByPrimaryKey(user);

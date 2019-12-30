@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  
+    <style>
+        .xm-select-parent .xm-select-sj{display: none!important; }
+    </style>
   <!-- 更多样式在此引入 -->
 </head>
 <body class="">
@@ -21,10 +23,10 @@
       <div class="layui-row layui-col-space20">
           <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
               <div class="layui-form-item">
-                <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+                <label class="layui-form-label "><span class="text">密级：</span></label>
                 <div class="layui-input-block">
                   <input type="hidden" id="secretLevel" >
-                  <input type="text" name="secretLevelText" placeholder="" autocomplete="off" class="layui-input">
+                  <input type="text" name="secretLevelText" placeholder="" autocomplete="off" class="layui-input" disabled>
                 </div>
               </div>
           </div>  
@@ -37,7 +39,8 @@
           </div>
                
       </div>
-
+      <!-- 知悉范围 -->
+      <div id="scope_list_layout"></div>
       <div class="secret-level-line"></div>
 
      <div class="layui-row layui-col-space20">
@@ -45,7 +48,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">单位名称：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="unitNameText"  readonly="true" class="layui-input">
+             <input type="text" name="unitNameText"  disabled="true" class="layui-input">
            </div>
          </div>
        </div>
@@ -54,7 +57,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">登记日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="recordDate"   readonly="true" class="layui-input">
+              <input type="text" name="recordDate"   disabled="true" class="layui-input">
             </div>
           </div>
         </div>
@@ -63,7 +66,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">登记号：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="registerNumber"  readonly="true" class="layui-input">
+            <input type="text" name="registerNumber"  disabled="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -72,7 +75,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">技术领域：</span></label>
           <div class="layui-input-block">
-              <select name="technicalField" dic-base-data="ROOT_KJPT_JSLY" xm-select="technicalField" xm-select-skin="normal"></select>
+              <select name="technicalField" dic-base-data="ROOT_KJPT_JSLY" xm-select="technicalField" xm-select-skin="normal" disabled></select>
           </div>
         </div>
       </div>
@@ -80,7 +83,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">开发完成日期：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="developFinishDate"  autocomplete="off" class="layui-input">
+            <input type="text" name="developFinishDate"  autocomplete="off" class="layui-input" disabled>
           </div>
         </div>
       </div>
@@ -89,7 +92,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">软件名称：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="softwareName"  readonly="true" class="layui-input">
+            <input type="text" name="softwareName"  disabled="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -98,7 +101,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">软件介绍：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="softwareIntro"  readonly="true" class="layui-input">
+            <input type="text" name="softwareIntro"  disabled="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -108,7 +111,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">著作权人：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="copyrightOwner"  readonly="true" class="layui-input">
+            <input type="text" name="copyrightOwner"  disabled="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -118,7 +121,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">录入人：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="entryPeople"  readonly="true" class="layui-input">
+            <input type="text" name="entryPeople"  disabled="true" class="layui-input">
           </div>
         </div>
       </div>
@@ -127,7 +130,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">版本号：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="versionNumber" readonly="true" class="layui-input">
+              <input type="text" name="versionNumber" disabled="true" class="layui-input">
             </div>
           </div>
         </div>
@@ -136,7 +139,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">录入日期：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="entryTime"  readonly="true" class="layui-input">
+             <input type="text" name="entryTime"  disabled="true" class="layui-input">
            </div>
          </div>
        </div>
@@ -146,7 +149,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">备注：</span></label>
            <div class="layui-input-block">
-             <textarea name="notes" placeholder="请输入内容"  readonly="true" class="layui-textarea"></textarea>
+             <textarea name="notes" placeholder="请输入内容"  disabled="true" class="layui-textarea"></textarea>
            </div>
          </div>
        </div>
@@ -180,11 +183,12 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
+<script>var scope_disabled = true;  </script>
 <script src="edit.js"></script>
 
 
 <script > 
-
+        gray()
         file_readonly = true;
 </script>
 

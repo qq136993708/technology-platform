@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中核集团科技管理平台</title>
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico?aa=a" />
     <link rel="stylesheet" href="common/css/base.css">
     <link rel="stylesheet" href="common/css/common.css">
     <link rel="stylesheet" href="./control/animate/animate.css">
@@ -33,32 +34,32 @@
         <!-- 头部 -->
         <div class="header-layout" id="header">
             <div class="top-header" id="top-header-nav">
-                <div class="header_left">
+                <div class="header_main">
                     <div class="left_tab">
                         <div class="location tab_button transL btnactive" href="main"><span>首页</span></div>
                         <div class="location tab_button transL" children="projectPage" href="project"><span>项 目</span></div>
                         <div class="location tab_button transL" href="project_zscq"><span>知识产权</span></div>
-                        <div class="location tab_button transL" children="achievements" href="achieve_appraisal"><span>成果信息</span></div>
+                        <div class="location tab_button transL" href="achieve_transform"><span>成果转化</span></div>
+                        <!-- <div class="location tab_button transL" children="achievements" href="achieve_appraisal"><span>成果信息</span></div> -->
                     </div>
-                </div>
-                <div class="header_main">
                     <div class="logo_text">
                         <span class="text_cn">中核集团科技管理平台</span>
                     </div>
-                </div>
-                <div class="header_right">
                     <div class="right_tab">
                         <div class="location tab_button transR" href="intelligent_team"><span>科技人才</span></div>
                         <div class="location tab_button transR" href="kypt"><span>科研平台</span></div>
                         <div class="location tab_button transR" children="zlyjyfkPage" href="quality"><span>质量与经验反馈</span></div>
                     </div>
                 </div>
-                <div class="header_date">
+
+                <div class="header_date middle-block">
+                    <img src="img/time.png" style="width: 14px;height: 14px;" alt="">
                     <span>截止到：</span>
                     <span id="formatDate">2019年5月23日  10:20:36 </span>
                 </div>
-                <div class="header_user">
+                <div class="header_user middle-block">
                     <span>中核集团用户</span>
+                    <img src="img/exit.png" style="width: 14px;height: 14px;" alt="">
                 </div>
             </div>
             <div class="header-bottom-bg"></div>
@@ -71,11 +72,11 @@
                     <div class="project_btn" href="project_jzjcg"><span>进展及成果</span></div>
                     <div class="project_btn" href="project_xmqd"><span>项目清单</span></div>
                 </div>
-                <div class="two_nav_item achievements disNone">
+                <!-- <div class="two_nav_item achievements disNone">
                     <div class="project_btn projectActive" href="achieve_appraisal"><span>成果鉴定</span></div>
                     <div class="project_btn" href="achieve_award"><span>成果报奖</span></div>
                     <div class="project_btn" href="achieve_transform"><span>成果转化</span></div>
-                </div>
+                </div> -->
                 <div class="two_nav_item zlyjyfkPage disNone">
                     <div class="project_btn projectActive" href="quality"><span>质量信息</span></div>
                     <div class="project_btn" href="quality_experience"><span>质量经验反馈</span></div>
@@ -96,7 +97,7 @@
 		        $(".loading-container").addClass("loading-inactive");
 		    }, 0);
 
-            $('#mainframe').attr('src', '/jsc_web/front/main.html');
+            $('#mainframe').attr('src', 'front/main.html');
 
             var $twoNavItem = $('#twoNavItem'),
             $topHeaderNav = $('#top-header-nav');
@@ -128,15 +129,14 @@
                         }
                     })
                     $activeSubItem.removeClass('disNone').find('.project_btn').eq(0).addClass('projectActive');
+                    $('#wrapper').css({ 'padding-top': '8rem'});
                 } else {
                     $twoNavItem.find('.two_nav_item').addClass('disNone');
+                    $('#wrapper').css({ 'padding-top': '6.8rem'});
                 }
 
-                var headerHeight = $('#header').outerHeight();
-                $('#wrapper').css({ 'padding-top': headerHeight });
-
                 // 添加链接显示页面
-                pageHref = '/jsc_web/front/'+ pageName +'.html';
+                pageHref = 'front/'+ pageName +'.html';
                 setTimeout(function() {
                     $('#mainframe').attr('src', pageHref);
                 }, 60);
@@ -154,22 +154,9 @@
                     $(this).addClass("projectActive");
 
                     // 添加链接显示页面
-                    pageHref = '/jsc_web/front/'+ pageName +'.html';
+                    pageHref = 'front/'+ pageName +'.html';
                     $('#mainframe').attr('src', pageHref);
                 }
-            });
-
-            var windResize = null;
-            $(window).resize(function() {
-                if (windResize || windResize === 0) {
-                    clearTimeout(windResize);
-                }
-                windResize = setTimeout(function() {
-                    autofont();
-
-                    var headerHeight = $('#header').outerHeight();
-                    $('#wrapper').css({ 'padding-top': headerHeight });
-                }, 120);
             });
         });
     </script>

@@ -35,7 +35,7 @@ public interface PlatformService {
      */
     Integer delete(String id);
 
-    List<Map> selectPaltinfoCount(String id);
+    List<Map> selectPaltinfoCount(Map param);
 
     /**
      *excel导入
@@ -53,5 +53,5 @@ public interface PlatformService {
      */
     PageInfo scienceStatistics(Map param);
 
-
+    List<Map> scienceStatisticsNoPage(Map param);
 }

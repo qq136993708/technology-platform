@@ -11,15 +11,14 @@ html,body,#LAY_app{height:100%;}
 .layui-layout-body{overflow: auto;}
 body{background: white;}
 #LAY-user-login,
-.layadmin-user-display-show{display: block !important;} 
+.layadmin-user-display-show{display: block !important;}
 #login-form,
 .layadmin-user-login{
   display: block;
   height: 100% !important;
   overflow: visible;
 }
-
-.layadmin-user-login{overflow:hidden;background: url("/layuiadmin/layui/images/login-bj.png") no-repeat 0 0 #144d99;background-size:100% 100%;position: relative;}
+.layadmin-user-login{overflow:hidden;background: url("/layuiadmin/layui/images/login-bj.png") no-repeat 0 0 #144d99;background-size:100% 100%;position: relative;height: 100%;}
 .user-login{position: absolute; right: 0; box-sizing: border-box;width: 312px;
   background: #fff; top:50%; transform: translate(0, -50%);-ms-transform: translate(0, -50%);
 }
@@ -123,4 +122,6 @@ body{background: white;}
   .layadmin-user-login-footer{font-size: 18px;line-height: 32px;}
   .layadmin-user-login-body{bottom: 160px;}
 }
-
+.layui-err{color: #FF2020;
+  position: relative;
+  top: -15px;}

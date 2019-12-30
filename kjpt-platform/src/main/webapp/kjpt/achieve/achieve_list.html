@@ -96,17 +96,16 @@
 <script type="text/javascript">
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
-$('#functionId').val(functionId);
+$('#functionId').val(parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code"));
 var roleCodes = "";
 var unitCodes = "";
 var postCodes = "";
-
 function dealFlow(id) 
 {
 	 $('#id').val(id);
-	console.log("functionId="+functionId+" id="+id); 
+	console.log("functionId="+parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code")+" id="+id);
 	var nunits="";
-	 var json = {functionId:functionId,branchFlag: "0"};
+	 var json = {functionId:parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code"),branchFlag: "0"};
 	 $.ajax({
          type : 'POST',
          url : "/workflow/start/audit-type",
@@ -191,6 +190,7 @@ function handleTask(userIds)
     var url="/achieve-api/start_workflow?v_date="+v_date;
     var backurl="/achieve/achieve_list?v_date="+v_date;
     ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+
 }
 
 
@@ -224,6 +224,7 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	                      function () 
 	                      {
                               queryTable('');
+                              $('#flow').removeAttr("disabled");
                               top.layer.closeAll(); // 关闭弹窗
 	                      });
 	        	  

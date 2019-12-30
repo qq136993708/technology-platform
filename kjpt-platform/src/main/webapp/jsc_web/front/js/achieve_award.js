@@ -158,12 +158,21 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'appraisal_five',
           type: 'pie',
-          legend: { top: 'center' },
+          legendPosition: 'left',
+          legend: { top: 'center', formatter: 'name|value'},
           label: false,
           labelColor: '#fff',
-          radius: ['48%', '66%'],
+          radius: ['44%', '66%'],
           borderColor: '#001e38',
           title: ' 研究院占比',
+          totalTitle: true,
+          title: {
+            textStyle: {
+              color: '#fff',
+              fontSize: 30,
+              width: '100%'
+            }
+          },
           series: chartData,
           color: ['#81FF5B', '#FFF04E', '#DF5DFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
         });

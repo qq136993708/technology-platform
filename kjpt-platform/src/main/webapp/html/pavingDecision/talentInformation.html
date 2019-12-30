@@ -102,7 +102,7 @@
 
   <div class="view-title-layout" id="opations-btn">
     <div class="right">
-      <button class="layui-btn border-blue" id="importData">导出excel</button>
+      <button class="layui-btn border-blue" id="importData">导出Excel</button>
     </div>
   </div>
 
@@ -129,23 +129,23 @@ layui.use(['form', 'table', 'formSelects'], function(){
         // ,url: '/platform-api/query' //数据接口
         ,data: []
         ,cols: [[ //表头
-          ,{field: 'platformName', title: '姓名'}
-          ,{field: 'supportingInstitutionsText', title: '性别', sort: true }
-          ,{field: 'personLiable', title: '年龄', sort: true}
-          ,{field: 'typeText', title: '学历'} 
-          ,{field: 'researchFieldText', title: '技术领域'}
-          ,{field: 'experience', title: '所在单位', sort: true}
-          ,{field: 'overallSituation', title: '职称', sort: true}
-          ,{field: 'researchFunds', title: '职务'}
-          ,{field: 'platformScoring', title: '工作经历', width: 94 , sort: true}
-          ,{field: 'researchFunds', title: '联系方式'}
-          ,{field: 'researchFunds', title: '邮箱'}
-          ,{field: 'researchFunds', title: '人物简介'}
-          ,{field: 'researchFunds', title: '人物成就'}
-          ,{field: 'researchFunds', title: '项目数量'}
-          ,{field: 'researchFunds', title: '成果数量'}
-          ,{field: 'researchFunds', title: '专利数量'}
-          ,{field: 'researchFunds', title: '奖励数量'}
+          ,{field: 'platformName', title: '姓名', width: 90}
+          ,{field: 'supportingInstitutionsText', title: '性别', width: 50}
+          ,{field: 'personLiable', title: '年龄', width: 50}
+          ,{field: 'typeText', title: '学历', width: 90} 
+          ,{field: 'researchFieldText', title: '技术领域', width: 100}
+          ,{field: 'experience', title: '所在单位', width: 120}
+          ,{field: 'overallSituation', title: '职称', width: 100}
+          ,{field: 'researchFunds', title: '职务', width: 100}
+          ,{field: 'platformScoring', title: '工作经历', width: 120}
+          ,{field: 'researchFunds', title: '联系方式', width: 100}
+          ,{field: 'researchFunds', title: '邮箱', width: 100}
+          ,{field: 'researchFunds', title: '人物简介', width: 120}
+          ,{field: 'researchFunds', title: '人物成就', width: 120}
+          ,{field: 'researchFunds', title: '项目数量', width: 80}
+          ,{field: 'researchFunds', title: '成果数量', width: 80}
+          ,{field: 'researchFunds', title: '专利数量', width: 80}
+          ,{field: 'researchFunds', title: '奖励数量' }
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -183,6 +183,8 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   // 导出
   $('#importData').click(function() {
+    top.layer.msg('当前页面暂无数据源，无法导出数据！');
+    return;
     var name = $('[name="platformName"]').val();
     name ? name = name.trim() : name = '';
     window.open('/platform-api/export?level=01&platformName=', '_blank');

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../common/css/base.css">
     <link rel="stylesheet" href="../common/css/common.css">
     <link rel="stylesheet" href="../common/css/main.css">
+    <link rel="stylesheet" href="../common/css/yc1.css">
 </head>
 <body >
     <!-- 左边 -->
@@ -17,24 +18,24 @@
             <div class="main_content">
                 <div class="zscq">
                     <div class="circle">
-                        <div class="bounce1"><span>226</span></div>
+                        <div class="bounce1" id="cgsj_num"><span>0</span></div>
                         <div class="bounce2"></div>
                     </div>
                     <div class="circle_desc"><span>成果数量</span></div>
                 </div>
                 <div class="zscq">
                     <div class="circle">
-                        <div class="bounce1"><span>226</span></div>
+                        <div class="bounce1" id="zhuanl_num"><span>0</span></div>
                         <div class="bounce2"></div>
                     </div>
-                    <div class="circle_desc"><span>成果数量</span></div>
+                    <div class="circle_desc"><span>专利</span></div>
                 </div>
                 <div class="zscq">
                     <div class="circle">
-                        <div class="bounce1"><span>226</span></div>
+                        <div class="bounce1" id="rjzzq_num"><span>0</span></div>
                         <div class="bounce2"></div>
                     </div>
-                    <div class="circle_desc"><span>成果数量</span></div>
+                    <div class="circle_desc"><span>软件著作权</span></div>
                 </div>
                 
             </div>
@@ -43,13 +44,13 @@
             <div class="title"><span>成果信息</span></div>
             <div class="main_content">
                 <div class="cgxx_charts">
-                    <div id="cgxx_charts1" style="width: 100%;height:170px;"></div>
+                    <div id="cgxx_charts1" class="chart"></div>
                 </div>
                 <div class="cgxx_charts">
-                    <div id="cgxx_charts2" style="width: 100%;height:170px;"></div>
+                    <div id="cgxx_charts2" class="chart"></div>
                 </div>
                 <div class="cgxx_charts">
-                    <div id="cgxx_charts3" style="width: 100%;height:170px;"></div>
+                    <div id="cgxx_charts3" class="chart"></div>
                 </div>
             </div>
         </div>
@@ -58,7 +59,60 @@
     <div class="main_middle">
         <div class="title"><span>项目数量</span></div>
         <div class="main_content">
-            <div class="charts"></div>
+            <div class="main_charts">
+                <div class="chart-block" id="main_charts"></div>
+                <div class="light-text-list">
+                    <i class="text">14</i>
+                    <i class="text">11</i>
+                    <i class="text">14</i>
+                    <i class="text">12</i>
+                </div>
+            </div>
+            <div class="desc">
+                <ul class="ring">
+                    <li>
+                        <div class="value-item">
+                            <h3><i class='value' id="xmsl_num1">0</i></h3>
+                            <span class="retate_icon"></span>
+                            <span class="light_bot"></span>
+                            <span class="light_mid"></span>
+                            <span class="light_top"></span>
+                            <span class="value-name">科研平台</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="value-item">
+                            <h3><i class='value' id="xmsl_num2">0</i></h3>
+                            <span class="retate_icon"></span>
+                            <span class="light_bot"></span>
+                            <span class="light_mid"></span>
+                            <span class="light_top"></span>
+                            <span class="value-name">科技人才</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="value-item">
+                            <h3><i class='value' id="xmsl_num3">0</i></h3>
+                            <span class="retate_icon"></span>
+                            <span class="light_bot"></span>
+                            <span class="light_mid"></span>
+                            <span class="light_top"></span>
+                            <span class="value-name">行业标准</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="value-item">
+                            <h3><i class='value' id="xmsl_num4">0</i></h3>
+                            <span class="retate_icon"></span>
+                            <span class="light_bot"></span>
+                            <span class="light_mid"></span>
+                            <span class="light_top"></span>
+                            <span class="value-name">经验反馈</span>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
         </div>
     </div>
     <!-- 右边 -->
@@ -67,16 +121,16 @@
             <div class="title"><span>质量信息</span></div>
             <div class="main_content">
                 <div class="zlxx">
-                    <div class="zlxx_desc"><span>226</span></div>
+                    <div class="zlxx_desc" id="zlxx_num1"><span>0</span></div>
                     <div><i>填报报表数</i></div>
                 </div>
                 <div class="zlxx">
-                    <div class="zlxx_desc"><span>226</span></div>
-                    <div><i>填报报表数</i></div>
+                    <div class="zlxx_desc" id="zlxx_num2"><span>0</span></div>
+                    <div><i>即时事故数</i></div>
                 </div>
                 <div class="zlxx">
-                    <div class="zlxx_desc"><span>226</span></div>
-                    <div><i>填报报表数</i></div>
+                    <div class="zlxx_desc" id="zlxx_num3"><span>0</span></div>
+                    <div><i>参与单位数</i></div>
                 </div>
         
             </div>
@@ -88,28 +142,28 @@
                     <div id="xmtz_charts1" style="width: 100%;height:170px;"></div>
                     <div class="xmtz_desc">
                         <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
+                        <div class="desc1"><span>实际完成：184.11 </span></div>
                     </div>
                 </div>
                 <div class="xmtz_charts" >
                     <div id="xmtz_charts2" style="width: 100%;height:170px;"></div>
                     <div class="xmtz_desc">
                         <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
+                        <div class="desc1"><span>实际完成：184.11 </span></div>
                     </div>
                 </div>
                 <div class="xmtz_charts" >
                     <div id="xmtz_charts3" style="width: 100%;height:170px;"></div>
                     <div class="xmtz_desc">
                         <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
+                        <div class="desc1"><span>实际完成：184.11 </span></div>
                     </div>
                 </div>
                 <div class="xmtz_charts" >
                     <div id="xmtz_charts4" style="width: 100%;height:170px;"></div>
                     <div class="xmtz_desc">
                         <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
+                        <div class="desc1"><span>实际完成：184.11 </span></div>
                     </div>
                 </div>
             </div>
@@ -118,12 +172,15 @@
     
     <script src="../common/js/jquery-1.10.1.min.js"></script>
     <script src="../common/js/echarts.min.js"></script>
-    <script src="../common/js/autofont.js"></script>
+    <script src="/layuiadmin/js/chartOption.js"></script>
     <script src="../common/js/main.js"></script>
     <script >
-        window.onload=window.onresize = function(){
-            autofont();
+        window.onload = window.onresize = function(){
+            main_charts.resize();
         }
     </script>
+    <script>
+        // $("#main_charts").load("echarts1.html");
+  </script>
 </body>
 </html>

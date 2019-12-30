@@ -158,9 +158,9 @@ html{ background-color: #F9F9F9; color: #666;}
 .deal-content span.layui-icon-span img{ vertical-align:top;margin-top: -4px;}
 .deal-content span.layui-text-span{width: 58%;    white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
 .deal-content span.layui-date{float: right;margin-right: 10px;color: #6c757d;}
-.layui-nav-itemnew a span{ background-color: #de111a;    border-radius: 5px;height: 14px;
+.layui-nav-itemnew a span{ background-color: #FF2626;    border-radius: 10px;height: 14px;
     line-height: 14px;font-size: 12px;color: white;padding: 0 5px;position: relative;top: -10px;
-    font-family: Arial;text-align: center;right: 10px;}
+    font-family: Arial;text-align: center;left: 10px;}
 /*顶部搜索框*/
 .stpSearchBox{width: 100%;height:28px;margin-top: 11px;}
 .stpSearchBox span{display: inline-block;background: #45b5c6;padding-left: 10px;height: 28px;
@@ -858,7 +858,6 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-header-nav .layui-nav-bar{top: 55px !important;}
 .information{
     position: absolute;
-    width: calc(100% - 26px);
     right: 12px;
 }
 .layui-layout-right .information a{color: #666 !important;padding: 0 20px;}
@@ -1131,7 +1130,14 @@ height: 100%;
 .layui-nav-item dd .item-row-block > .icon_name{
     opacity: 0;
 }
-
+.layui-nav-item .item-row-block > .menu_index{
+    /* 首页 */
+    background-image: url('../../images/menu_index.png');
+}
+.layui-nav-item.layui-this .item-row-block > .menu_index{
+    /* 首页 */
+    background-image: url('../../images/menu_index_this.png');
+}
 .layui-nav-item .item-row-block > .spcl_icon{
     /* 审批处理 */
     background-image: url('../../images/spcl_icon.png');
@@ -1212,7 +1218,18 @@ height: 100%;
     /* 系统-日志 */
     background-image: url('../../images/sy_log_icon.png');
 }
-
+.layui-nav-item .item-row-block > .jsz_jslx_icon{
+    /* 系统-日志 */
+    background-image: url('../../images/jsz_jslx.png');
+}
+.layui-nav-item.layui-this .item-row-block > .jsz_jsrd_icon{
+    /* 系统-日志 */
+    background-image: url('../../images/jsz_jsrd_this.png');
+}
+.layui-nav-item .item-row-block > .jsz_jsrd_icon{
+    /* 系统-日志 */
+    background-image: url('../../images/jsz_jsrd.png');
+}
 
 .item-row-block > .item-title {
     width: calc(100% - 21px);
@@ -1254,7 +1271,9 @@ height: 100%;
     background-color: #e3f4ff;
     color: #0AA1FF;
 }
-
+.layui-layer-setwin{
+    right: 40px !important;
+  }
 
 /* 侧边收缩模式 */
 .layadmin-side-shrink .layui-layout-admin .layui-side,

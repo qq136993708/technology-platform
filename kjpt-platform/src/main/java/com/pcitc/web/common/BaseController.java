@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +24,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,7 +35,12 @@ import java.util.UUID;
 @Controller
 public class BaseController implements ErrorController
 {
+	/**
+	 * 查询白名单
+	 */
+	private static final String WHITE_LIST = "http://kjpt-zuul/system-proxy/user-provider/whiteList/";
 
+	private static final String WHITE_LIST_KEY = "isWhiteList";
 //    @Autowired
 //    public HttpServletRequest request;
 //
@@ -59,17 +66,40 @@ public class BaseController implements ErrorController
 		Cookie[] cookies = getCurrentRequest().getCookies();
 		for (Cookie c : cookies) {
 			c.setHttpOnly(true);
-
 			if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
 				token = c.getValue();
-				// 此cookies重新计时
-				c.setMaxAge(1 * 60 * 60); // 设置有效期为一小时
-				c.setPath("/");
-				getCurrentResponse().addCookie(c);
 				break;
 			}
 		}
 		return JwtTokenUtil.getUserFromTokenByValue(token);
+	}
+
+	public void setBaseParam(Map condition){
+		SysUser sysUserInfo = this.getUserProfile();
+		this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+		this.setParam(condition,"userName",sysUserInfo.getUserName());
+
+
+		if(this.getCurrentRequest().getSession().getAttribute(sysUserInfo.getUserName()) == null){
+			setIsWhiteList();
+		}
+
+		this.setParam(condition,"skipKnowledgeScope",this.getCurrentRequest().getSession().getAttribute(sysUserInfo.getUserName()));
+	}
+
+
+	public void setIsWhiteList(){
+		//是否是白名单 0否1是
+		String isWhiteList = "0";
+		SysUser sysUserInfo = this.getUserProfile();
+		String userName = sysUserInfo.getUserName();
+		Map param = new HashMap(2);
+		param.put("userName",userName);
+		ResponseEntity<Integer> response = restTemplate.exchange(WHITE_LIST+userName, HttpMethod.GET,new HttpEntity<>(this.httpHeaders),Integer.class);
+		if(response.getBody() > 0){
+			isWhiteList = "1";
+		}
+		this.getCurrentRequest().getSession().setAttribute(userName,isWhiteList);
 	}
 
 

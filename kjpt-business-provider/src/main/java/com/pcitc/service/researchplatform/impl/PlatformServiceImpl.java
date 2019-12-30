@@ -64,8 +64,8 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
-    public List<Map> selectPaltinfoCount(String id) {
-        return platformServiceMapper.selectPaltinfoCount(id);
+    public List<Map> selectPaltinfoCount(Map param) {
+        return platformServiceMapper.selectPaltinfoCount(param);
     }
 
     @Override
@@ -107,5 +107,10 @@ public class PlatformServiceImpl implements PlatformService {
         List dataList = platformServiceMapper.scienceStatistics(param);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
+    }
+
+    @Override
+    public List<Map> scienceStatisticsNoPage(Map param) {
+        return platformServiceMapper.scienceStatistics(param);
     }
 }

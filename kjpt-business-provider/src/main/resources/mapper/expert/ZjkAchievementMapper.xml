@@ -19,13 +19,13 @@
     <result column="flag" jdbcType="VARCHAR" property="flag" />
       <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
      <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+     
+    <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+    <result column="create_user"              jdbcType="VARCHAR" property="createUser" />
     
      
   </resultMap>
-  <sql id="Base_Column_List">
-    id, expert_id, source_type, del_status, achieve_name, apply_year, apply_unit, achieve_type, 
-    create_time, out_system_id,flag
-  </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_achievement
@@ -34,7 +34,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
     insert into zjk_achievement (id,expert_id, source_type, del_status, 
       achieve_name, apply_year, apply_unit, 
-      achieve_type, create_time, out_system_id,flag,secret_level
+      achieve_type, create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
       )
     values (
       #{id,jdbcType=VARCHAR},
@@ -42,6 +42,10 @@
       #{achieveName,jdbcType=VARCHAR}, #{applyYear,jdbcType=VARCHAR}, #{applyUnit,jdbcType=VARCHAR}, 
       #{achieveType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
       #{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
+      
+      ,#{knowledgeScope,jdbcType=VARCHAR}
+      ,#{knowledgePerson,jdbcType=VARCHAR}
+      ,#{createUser,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
@@ -77,13 +81,20 @@
       <if test="flag != null">
         flag,
       </if>
-      
-     
-      
-      
       <if test="secretLevel != null">
         secret_level,
       </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+    
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="expertId != null">
@@ -119,6 +130,17 @@
       <if test="secretLevel != null">
         #{secretLevel,jdbcType=VARCHAR},
       </if>  
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+     
+    
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkAchievement">
@@ -157,6 +179,15 @@
       <if test="secretLevel != null">
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -170,14 +201,17 @@
       achieve_name = #{achieveName,jdbcType=VARCHAR},
       apply_year = #{applyYear,jdbcType=VARCHAR},
       apply_unit = #{applyUnit,jdbcType=VARCHAR},
+      
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      
       achieve_type = #{achieveType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       out_system_id = #{outSystemId,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-  
   
   
   
@@ -206,11 +240,18 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="achieveName != null and achieveName  !='' ">      AND t.achieve_name like CONCAT('%',#{achieveName},'%')</if>
-	     <if test="sourceType != null      and sourceType !=''  ">    AND t.source_type = #{sourceType}</if>
+	     <if test="achieveName != null and achieveName  !='' ">        AND t.achieve_name like CONCAT('%',#{achieveName},'%')</if>
+	     <if test="sourceType != null      and sourceType !=''  ">     AND t.source_type = #{sourceType}</if>
 	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
-	     <if test="outSystemId != null     and outSystemId !=''  ">  AND t.out_system_id = #{outSystemId}</if>
-	     <if test="expertId != null        and expertId !=''  ">  AND t.expert_id = #{expertId}</if>
+	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
+	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	     <if test="createUser != null      and createUser !=''  ">     AND t.create_user = #{createUser}</if>
+	     <if test="knowledgeScope != null  and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
+	     </if>
+	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
 	 </trim>
 	</sql>
 	

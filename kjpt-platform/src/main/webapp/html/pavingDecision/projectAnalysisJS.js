@@ -47,11 +47,15 @@ layui.use(['laydate'], function() {
   kyptCharts.render({
     id: 'addProjectYear',
     type: 'bar',
+    legendPosition: 'top',
     itemName: 'labelName',
+    barGap: '50%',
+    barWidth: 28,
+    // grid: { top: 50 },
     series: [
-      { name: '2019', valueKey: 'value2019'},
-      { name: '2018', valueKey: 'value2018'},
-      { name: '2017', valueKey: 'value2017'}
+      { name: '2019年', valueKey: 'value2019'},
+      { name: '2018年', valueKey: 'value2018'},
+      { name: '2017年', valueKey: 'value2017'}
     ],
     data: (function() {
       var chartData = [];
@@ -103,6 +107,7 @@ layui.use(['laydate'], function() {
     elem: '#projectMonth',
     type: 'year',
     value: '2019',
+    trigger: 'click',
     done: function(value, date, endDate) {
       loadMonthChart(value);
     }
@@ -121,6 +126,7 @@ layui.use(['laydate'], function() {
       kyptCharts.render({
         id: 'projectTypeRatio',
         type: 'pie',
+        legendPosition: 'left',
         title: ' 项目计划投资按项目类型占比分析',
         series: chartData,
         color: ['#FFDF29', '#2370A3', '#009186', '#9EBE4A']
@@ -133,6 +139,7 @@ layui.use(['laydate'], function() {
   laydate.render({
     elem: '#TypeRatioDate',
     type: 'month',
+    trigger: 'click',
     value: '2019-12',
     done: function(value, date, endDate) {
       loadTypeRatioChart(value);
@@ -161,6 +168,7 @@ layui.use(['laydate'], function() {
       kyptCharts.render({
         id: 'projectAgenciesRatio',
         type: 'pie',
+        legendPosition: 'left',
         title: ' 项目投资计划按机构占比分析',
         series: chartData,
         color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -173,6 +181,7 @@ layui.use(['laydate'], function() {
   laydate.render({
     elem: '#AgenciesRatioDate',
     type: 'month',
+    trigger: 'click',
     value: '2019-12',
     done: function(value, date, endDate) {
       loadagenciesRatioChart(value);

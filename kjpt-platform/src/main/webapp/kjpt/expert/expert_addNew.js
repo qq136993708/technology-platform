@@ -15,7 +15,12 @@ layui.config({
     /*学历*/
     createElement("ROOT_KJPT_XL","education","option","education")
     /*职称*/
-    createElement("ROOT_KJPT_ZWJB","title","option","title")
+    createElement("ROOT_KJPT_JSZC","title","option","title")
+    /*分组*/
+    createElement("ROOT_KJPT_ZJFZ","groupType","option","groupType")
+    /*专家分类*/
+    createElement("ROOT_KJPT_GCCRCLB","expertType","option","expertType")
+
     /*出生年*/
     laydate.render({
         elem: '#appDate', //指定元素
@@ -96,10 +101,11 @@ layui.config({
         httpModule({
             url: '/expert-api/get/'+variable.id,
             type: 'GET',
+            async:false,
             success: function(relData) {
                 if (relData.success === true) {
                     // 给form表单赋初始值
-                    console.log(relData.data)
+                    var formData = relData.data;
                     form.val('formPlatform', relData.data);
                     if(relData.data.headPic!=''){
                         $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
@@ -108,7 +114,8 @@ layui.config({
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
-                    achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
+                    formSelects.value('groupType', relData.data.groupType.split(','));
+                    /*achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
                     patentName=JSON.parse(relData.data.zjkPatentJsonList)
                     projectName=JSON.parse(relData.data.zjkProjectJsonList)
                     rewardName=JSON.parse(relData.data.zjkRewardJsonList)
@@ -147,11 +154,28 @@ layui.config({
                         var num=$(this).parent('li').index()
                         $(this).parent('li').remove()
                         rewardName.splice(num,1)
-                    })
-                    form.render()
+                    })*/
+                    form.render();
+
+                    // 添加知悉范围
+                    setJurisdictionScope({
+                        elem: 'scope_list_layout',
+                        knowledgeScope: formData.knowledgeScope,
+                        knowledgePerson: formData.knowledgePerson,
+                        secretLevel: formData.secretLevel,
+                        disabled: false
+                    });
+
                 }
             }
         });
+    } else {
+        // 添加知悉范围
+        setJurisdictionScope({
+            elem: 'scope_list_layout',
+            disabled: false
+        });
+
     }
 
     var $ = layui.$, active = {
@@ -297,7 +321,7 @@ layui.config({
             layer.msg("性别必为填项不能为空！", {icon: 2});
             return false
         }
-        if(data.field.belongUnit==undefined){
+        if(data.field.belongUnit==''){
             layer.msg("所在单位必为选项不能为空！", {icon: 2});
             return false
         }
@@ -312,10 +336,10 @@ layui.config({
             data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1)
         }
         data.field.headPic=headPic
-        data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
+        /*data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
         data.field.zjkProjectJsonList=JSON.stringify(projectName)
         data.field.zjkPatentJsonList=JSON.stringify(patentName)
-        data.field.zjkRewardJsonList=JSON.stringify(rewardName)
+        data.field.zjkRewardJsonList=JSON.stringify(rewardName)*/
         if(variable!=null){
             data.field.id=variable.id
         }

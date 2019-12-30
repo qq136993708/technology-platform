@@ -59,7 +59,7 @@
 
   <div class="view-title-layout" id="opations-btn">
     <div class="right">
-      <button class="layui-btn border-blue" id="importData">导出</button>
+      <button class="layui-btn border-blue" id="importData">导出Excel</button>
     </div>
   </div>
 
@@ -130,6 +130,8 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   // 导出
   $('#importData').click(function() {
+    top.layer.msg('当前页面暂无数据源，无法导出数据！');
+    return;
     var name = $('[name="platformName"]').val();
     name ? name = name.trim() : name = '';
     window.open('/platform-api/export?level=01&platformName=', '_blank');

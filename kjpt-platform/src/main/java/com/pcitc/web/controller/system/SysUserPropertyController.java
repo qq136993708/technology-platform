@@ -53,7 +53,7 @@ public class SysUserPropertyController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = { "/userProperty/getOrgTree" }, method = { RequestMethod.POST })
 	public String getOrgTree() {
-		System.out.println("----------getOrgTree");
+		//System.out.println("----------getOrgTree");
 		ResponseEntity<List> responseEntity = restTemplate.exchange(FIRST_LEVEL_NODE, HttpMethod.POST, new HttpEntity<String>("", this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
@@ -166,8 +166,8 @@ public class SysUserPropertyController extends BaseController {
 	@RequestMapping(value = "/userProperty/function/config/post/save")
 	@ResponseBody
 	public int saveFunctionConfigPost(SysFunctionProperty sysFunctionProperty) throws Exception {
-		System.out.println("sysFunctionProperty------"+sysFunctionProperty);
-		System.out.println("sysFunctionProperty------"+sysFunctionProperty.getPostId());
+		//System.out.println("sysFunctionProperty------"+sysFunctionProperty);
+		//System.out.println("sysFunctionProperty------"+sysFunctionProperty.getPostId());
 		SysUser sysUserInfo = getUserProfile();
 		sysFunctionProperty.setCreateUserId(sysUserInfo.getUserId());
 		HttpEntity<SysFunctionProperty> entity = new HttpEntity<SysFunctionProperty>(sysFunctionProperty, this.httpHeaders);

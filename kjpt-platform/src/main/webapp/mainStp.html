@@ -27,111 +27,15 @@
 				<span class="right-btn itemBtn active"></span>
 			</div>
 		</div>
-
-
-		<!-- <div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon011.png" alt=""></span>
-					<span class="text-title">科技人才</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" id="expertNumber" num-label="zik">121</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon002.png" alt=""></span>
-					<span class="text-title">科研平台</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="kypt">90</span><span class="text">家</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon003.png" alt=""></span>
-					<span class="text-title">科技成果</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="kycg">95.5</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon007.png" alt=""></span>
-					<span class="text-title">成果转化</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="">95.5</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon010.png" alt=""></span>
-					<span class="text-title">专利数量</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="patent">60</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon008.png" alt=""></span>
-					<span class="text-title">核行业标准</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="">32</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon009.png" alt=""></span>
-					<span class="text-title">质量报表</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="">0</span><span class="text">个</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="top-item">
-			<div class="item-cell">
-				<div class="title-cl-item">
-					<span class="text-icon"><img src="/images/icon006.png" alt=""></span>
-					<span class="text-title">经验反馈</span>
-				</div>
-				<div class="number-cl-item">
-					<span class="number" num-label="">86</span><span class="text">条</span>
-				</div>
-			</div>
-		</div> -->
-
 	</div>
 	<div class="home-middle-layout">
 		<div class="layui-row">
 			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
 				<div class="middle-item oneItem">
 					<div class="middle-title">我的待办</div>
-					<div class="middle-content middle-block"><span class="ib-block">90</span></div>
+					<div class="middle-content middle-block">
+						<a lay-href="/task/pending/list/ini" lay-text="待办任务">
+						<span class="ib-block" id="oneItem"></span><span class="text" id="text"></span></a></div>
 				</div>
 			</div>
 			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
@@ -144,7 +48,7 @@
 						</div>
 						<div class="chart-item">
 							<div class="chart-box" id="thisWeek"></div>
-							<div class="chart-title">项目经费</div>
+							<div class="chart-title">项目投资</div>
 						</div>
 					</div>
 				</div>
@@ -181,7 +85,7 @@
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
 							<ul class="details-list" id="transform_tab_list"></ul>
-							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/homeMore/achieveTransformList.html" lay-text="成果转化公示">查看更多>></a></div>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/kjpt/achieve/formula_view.html" lay-text="成果转化公示">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="patent_tab_list"></ul>

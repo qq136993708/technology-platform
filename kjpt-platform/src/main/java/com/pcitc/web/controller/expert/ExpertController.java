@@ -107,7 +107,9 @@ public class ExpertController extends BaseController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
+        
     })
     @RequestMapping(value = "/expert-api/list", method = RequestMethod.POST)
 	public String getExpertPage(
@@ -115,6 +117,7 @@ public class ExpertController extends BaseController {
 			@RequestParam(required = true) Integer page,
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) String expertTypes,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
      	SysUser sysUserInfo = this.getUserProfile();
@@ -123,12 +126,18 @@ public class ExpertController extends BaseController {
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
+    	param.getParam().put("expertTypes", expertTypes);
+    	String userName=sysUserInfo.getUserName();
+    	if(!userName.equals(Constant.USER_CONFIGADMIN))
+    	{
+    		//默认查询小于等于用户密级的专家
+        	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
+    	}
+    	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
     	
-    	//默认查询小于等于用户密级的专家
-    	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
     	//默认查询当前人所在机构及子机构的所有专家
-    	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-    	param.getParam().put("childUnitIds", childUnitIds);
+    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+    	//param.getParam().put("childUnitIds", childUnitIds);
     	
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -139,7 +148,7 @@ public class ExpertController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家列表（分页） " + result.toString());
+		//logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
     
@@ -160,7 +169,12 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "technicalFieldIndex",       value = "技术索引",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "technicalFieldName",        value = "技术名称",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "secretLevel",               value = "信息密级",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertType",                 value = "高层次人才类别",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
+        
+        
+    
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -179,6 +193,8 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String technicalFieldName,
             @RequestParam(required = false) String secretLevel,
             @RequestParam(required = false) String groupType,
+            @RequestParam(required = false) String expertType,
+            @RequestParam(required = false) String expertTypes,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -196,14 +212,16 @@ public class ExpertController extends BaseController {
     	param.getParam().put("sex", sex);
     	param.getParam().put("education", education);
     	param.getParam().put("secretLevel", secretLevel);
+    	param.getParam().put("expertType", expertType);
+    	param.getParam().put("expertTypes", expertTypes);
+    	
 		 SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
     	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
+    	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
     	//默认查询当前人所在机构及子机构的所有专家
-    	String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-    	param.getParam().put("childUnitIds", childUnitIds);
-    	
-    	
+    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+    	//param.getParam().put("childUnitIds", childUnitIds);
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -213,7 +231,7 @@ public class ExpertController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家列表（分页） " + result.toString());
+		//logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
     
@@ -312,10 +330,6 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "headPic", value = "头像", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息(外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 )", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form")
         
@@ -355,13 +369,39 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setPersonnelNum(zjkBase.getPersonnelNum());
 			oldZjkBase.setUseStatus(zjkBase.getUseStatus());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
-			oldZjkBase.setZjkAchievementJsonList(zjkBase.getZjkAchievementJsonList());
-			oldZjkBase.setZjkPatentJsonList(zjkBase.getZjkPatentJsonList());
-			oldZjkBase.setZjkProjectJsonList(zjkBase.getZjkProjectJsonList());
-			oldZjkBase.setZjkRewardJsonList(zjkBase.getZjkRewardJsonList());
+			
+			
 			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
+			oldZjkBase.setName(zjkBase.getName());
+			
+			
+			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
+			String knowledgeScope=zjkBase.getKnowledgeScope();
+			String knowledgePerson=zjkBase.getKnowledgePerson();
+			
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				oldZjkBase.setKnowledgeScope(userName);
+				oldZjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else 
+			{
+				if(!knowledgeScope.contains(userName))
+				{
+					oldZjkBase.setKnowledgeScope(knowledgeScope+","+userName);
+					oldZjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					oldZjkBase.setKnowledgeScope(knowledgeScope);
+					oldZjkBase.setKnowledgePerson(knowledgePerson);
+				}
+				 
+			}
+			
+			
+			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
@@ -400,6 +440,35 @@ public class ExpertController extends BaseController {
 			zjkBase.setAuditStatus(Constant.AUDIT_STATUS_DRAFT);
 			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
 			zjkBase.setCreateUnitName(sysUserInfo.getUserUnitName());
+			
+			
+			
+			
+			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
+			String knowledgeScope=zjkBase.getKnowledgeScope();
+			String knowledgePerson=zjkBase.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				zjkBase.setKnowledgeScope(userName);
+				zjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else 
+			{
+				if(!knowledgeScope.contains(userName))
+				{
+					zjkBase.setKnowledgeScope(knowledgeScope+","+userName);
+					zjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					zjkBase.setKnowledgeScope(knowledgeScope);
+					zjkBase.setKnowledgePerson(knowledgePerson);
+				}
+			}
+			
+			
+			
+			
+		
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();
@@ -556,8 +625,8 @@ public class ExpertController extends BaseController {
 		  	            String aname=String.valueOf(lo.get(0));
 		  	            String agestr=String.valueOf(lo.get(3));
 		  	          
-		  	            System.out.println(i+"----------"+aname);
-		  	            System.out.println(i+"----------"+agestr);
+		  	            //System.out.println(i+"----------"+aname);
+		  	            //System.out.println(i+"----------"+agestr);
 		  	  			ZjkBase obj = new ZjkBase();
 		  	  			Integer count=Integer.valueOf(Math.round(Float.valueOf(agestr)));
 		  	  		    Integer year=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));

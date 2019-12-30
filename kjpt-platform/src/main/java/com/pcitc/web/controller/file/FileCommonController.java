@@ -53,13 +53,15 @@ public class FileCommonController extends BaseController {
     /**
      * 获取pdf页码
      */
-    private static final String getPdfPageCount = "http://10.102.111.142:8099/preview/localPageCount?fileName=%s&filePath=%s";
+    //private static final String getPdfPageCount = "http://localhost:8099/preview/localPageCount?fileName=%s&filePath=%s";
     //http://10.102.111.142:8099/preview/local?fileName=1&filePath=1
 
     /**
      * 预览
      */
-    private static final String getPrepareContent = "http://10.102.111.142:8099/preview/local?fileName=%s&filePath=%s&page=%s";
+    //private static final String getPrepareContent = "http://localhost:8099/preview/local?fileName=%s&filePath=%s&page=%s";
+
+
 
     @Autowired
     private FileUtil fileUtil;
@@ -70,6 +72,12 @@ public class FileCommonController extends BaseController {
     private String prepareServerUserName;
     @Value("${prepareServerPassword}")
     private String prepareServerPassword;
+
+    @Value("${getPdfPageCount}")
+    private String getPdfPageCount;
+
+    @Value("${getPrepareContent}")
+    private String getPrepareContent;
 
 
 
@@ -89,7 +97,6 @@ public class FileCommonController extends BaseController {
     @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
     @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
     public String upload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "secretLevel") String secretLevel){
-
         try {
             String fileSecretLevel = checkSecretLevel(secretLevel,file.getOriginalFilename());
             FileModel f = fileUtil.upload(file);
@@ -120,7 +127,7 @@ public class FileCommonController extends BaseController {
      * @return
      */
     private String checkSecretLevel(String secretLevel,String fileName){
-        //如果是0的话就不进行校验
+        //如果是X的话就不进行校验
         if("X".equals(secretLevel)){
             return "0";
         }else{
@@ -159,14 +166,14 @@ public class FileCommonController extends BaseController {
 
     @ApiOperation(value = "文件下载", notes = "文件下载")
     @RequestMapping(value="/downLoadFile/{fileId}",method = RequestMethod.GET)
-    public void downLoadFile(@PathVariable String fileId) {
+    public void downLoadFile(@PathVariable String fileId) throws Exception {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         fileUtil.responseFile(responseEntity.getBody(),true,this.getCurrentResponse());
     }
 
     @ApiOperation(value = "预览附件图片展示", notes = "预览附件图片展示")
     @RequestMapping(value="/imgFile/{fileId}",method = RequestMethod.GET)
-    public void imgFile(@PathVariable String fileId){
+    public void imgFile(@PathVariable String fileId) throws Exception {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         fileUtil.responseFile(responseEntity.getBody(),false,this.getCurrentResponse());
     }
@@ -199,7 +206,7 @@ public class FileCommonController extends BaseController {
 
     @ApiOperation(value = "获取预览内容", notes = "获取预览内容")
     @RequestMapping(value="/getPdfPageContent/{fileId}/{pageNum}",method = RequestMethod.GET)
-    public void getPrepareContent(@PathVariable String fileId,@PathVariable Integer pageNum) {
+    public void getPrepareContent(@PathVariable String fileId,@PathVariable Integer pageNum) throws Exception {
         ResponseEntity<FileModel> responseEntity = this.restTemplate.exchange(downLoad+fileId, HttpMethod.GET, new HttpEntity<String>(fileId,this.httpHeaders), FileModel.class);
         FileModel f = responseEntity.getBody();
         RestTemplate template = new RestTemplate();
@@ -217,7 +224,7 @@ public class FileCommonController extends BaseController {
 
         File file =new File(dirPath+path);
         if  (!file .exists()  && !file .isDirectory())
-            {
+        {
             file.mkdirs();
         }
         return dirPath+path;

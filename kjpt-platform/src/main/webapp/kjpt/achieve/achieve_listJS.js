@@ -128,16 +128,17 @@ layui.use(['table', 'form','laydate'], function() {
           top.layer.msg('当前申请状态不能上报！');
           return false;
       }
+      $('#flow').attr('disabled',"true")
   })
   
   // 新增、编辑、查看
   $('.openLayerPage').on('click', function() {
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;
     var optionType = $(this).data('type'),
-    dialogTitle = '新增申请',
+    dialogTitle = '新增',
     url = '/kjpt/achieve/apply.html?type=' + optionType+"&index="+index;
     if (optionType === 'edit') {
-      dialogTitle = '编辑申请';
+      dialogTitle = '编辑';
     } else if (optionType === 'view') {
       dialogTitle = '查看';
         url = '/kjpt/achieve/apply_view.html?type=' + optionType+"&index="+index;
@@ -165,9 +166,14 @@ layui.use(['table', 'form','laydate'], function() {
       }
     }else if (optionType == 'view') {
         var listData = table.checkStatus('tableDemo').data;
+        if (listData.length) {
         url += '&id='+listData[0].id+"&index="+index;
         parent.layui.index.openTabsPage(url, dialogTitle + '申请');
         return false
+        }else{
+            top.layer.msg('请选择要'+dialogTitle+'的数据！');
+            return false;
+        }
     }else {
         parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }

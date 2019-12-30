@@ -45,6 +45,11 @@
 		<result column="unit_name"   property="unitName" jdbcType="VARCHAR" />
 		<result column="unit_path"   property="unitPath" jdbcType="VARCHAR" />
 		<result column="unit_id"   property="unitId" jdbcType="VARCHAR" />
+		<result column="user_head_pic"   property="userHeadPic" jdbcType="VARCHAR" />
+		
+		
+		
+		
 		
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -118,7 +123,8 @@
 		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
 		login_error_number,
 		login_check_code, user_config1, user_config2, user_config3, user_config4,
-		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,user_unit_name,user_unit_path
+		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,
+		user_unit_name,user_unit_path,user_head_pic
 	</sql>
 	
 	
@@ -172,7 +178,8 @@
 		user_level, user_delflag, user_relation,
 		user_extend, user_comment, is_domain,
 		login_error_number, login_check_code, user_config1,
-		user_config2, user_config3, user_config4,secret_level,unify_identity_id,post_name,user_unit_name,user_unit_path
+		user_config2, user_config3, user_config4,secret_level,
+		unify_identity_id,post_name,user_unit_name,user_unit_path,user_head_pic
 		)
 		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
 		#{userPassword,jdbcType=VARCHAR},
@@ -189,6 +196,7 @@
 		#{userConfig2,jdbcType=VARCHAR}, #{userConfig3,jdbcType=VARCHAR},
 		#{userConfig4,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
 		,#{postName,jdbcType=VARCHAR},#{userUnitName,jdbcType=VARCHAR},#{userUnitPath,jdbcType=VARCHAR}
+		,#{userHeadPic,jdbcType=VARCHAR}
 		
 		)
 	</insert>
@@ -291,8 +299,11 @@
 			<if test="userUnitPath != null">
 				user_unit_path,
 			</if>
+			<if test="userHeadPic != null">
+				user_head_pic,
+			</if>
 			
-			
+		
 			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -392,7 +403,9 @@
 			<if test="userUnitPath != null">
 				#{userUnitPath,jdbcType=VARCHAR},
 			</if>
-			
+			<if test="userHeadPic != null">
+				#{userHeadPic,jdbcType=VARCHAR},
+			</if>
 			
 			
 		</trim>
@@ -437,6 +450,8 @@
 		user_config3 = #{userConfig3,jdbcType=VARCHAR},
 		user_unit_name = #{userUnitName,jdbcType=VARCHAR},
 		user_config4 = #{userConfig4,jdbcType=VARCHAR},
+		user_head_pic = #{userHeadPic,jdbcType=VARCHAR},
+		
 		secret_level = #{secretLevel,jdbcType=VARCHAR},
 		unify_identity_id = #{unifyIdentityId,jdbcType=VARCHAR},
 		user_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
@@ -559,6 +574,20 @@
 	     </if>
 	     <if test="postName != null              and postName !=''  ">             AND t.post_name like CONCAT('%',#{postName},'%') </if>
 	     <if test="userUnitName != null          and userUnitName !=''  ">         AND t.user_unit_name like CONCAT('%',#{userUnitName},'%') </if>
+	     <if test="recodeLevel != null          and recodeLevel !=''  ">    
+	      and t.secret_level &gt;=  #{recodeLevel}
+	     </if>
+
+
+
+		 <if test="name != null   and name !=''  ">
+		 	and (t.user_disp like CONCAT('%',#{name},'%')  or   t.user_unit_name like CONCAT('%',#{name},'%') )
+		 </if>
+	
+	
+	
+	
+	
 	 </trim>
 	</sql>
 	<sql id="view_user">
@@ -593,6 +622,8 @@
 	</select>
 	
 	
-   
+   <select id="selectWhiteList" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(*) from view_white_list where user_name = #{userName}
+   </select>
 	
 </mapper>

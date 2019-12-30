@@ -18,14 +18,14 @@
             <div class="check_query">
                 <div class="query1">
                     <form class="layui-form" action="">
-                        <select name="city" lay-verify="">
+                        <select name="city" lay-verify="" id="check_date">
                             <option value="010">2019年</option>
                             <option value="021">2018年</option>
                             <option value="0571">2017年</option>
                         </select>   
                     </form> 
                 </div>
-                <div class="query"><span>核能开发</span></div>
+                <div class="query qActive"><span>核能开发</span></div>
                 <div class="query"><span>集中研发</span></div>
                 <div class="query"><span>国防基础</span></div>
                 <div class="query"><span>国防技术基础</span></div>
@@ -38,19 +38,25 @@
             <table class="table-left" id="down_table" cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>
-                        <td class="name">名称</td>
-                        <td>2011年</td>
-                        <td>2012年</td>
-                        <td>2013年</td>
-                        <td>2014年</td>
-                        <td>2015年</td>
+                        <td class="name">项目名称</td>
+                        <td>项目承担单位</td>
+                        <td>节点名称</td>
+                        <td>节点内容</td>
+                        <td>完成时间</td>
+                        <td>主持部门/单位</td>
+                        <td>检查形式</td>
+                        <td>需提交的材料和实物清单</td>
+                        <td>状态</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="check_table">
                     <tr>
                         <td class="name">技术</td>
                         <td>23.10</td>
                         <td>28.41</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
                         <td>15.39</td>
                         <td>3.47</td>
                         <td>1.83</td>
@@ -62,6 +68,9 @@
                         <td>1361.02</td>
                         <td>1312.20</td>
                         <td>964.42</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
                     </tr>
                     <tr >
                         <td>煤炭</td>
@@ -70,6 +79,9 @@
                         <td>189.82</td>
                         <td>184.14</td>
                         <td>133.72</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
                     </tr>
                     <tr >
                         <td>材料</td>
@@ -78,6 +90,9 @@
                         <td>258.68</td>
                         <td>210.70</td>
                         <td>166.14</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
                     </tr>
                     <tr >
                         <td>设备</td>
@@ -86,6 +101,9 @@
                         <td>499.51</td>
                         <td>438.86</td>
                         <td>341.29</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
                     </tr>
                     <tr >
                         <td>物资采购总额</td>
@@ -94,6 +112,9 @@
                         <td>2324.42</td>
                         <td>2149.37</td>
                         <td>1607.39</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
                     </tr>
                 </tbody>
             </table>

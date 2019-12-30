@@ -98,6 +98,10 @@ public class OutProjectController extends BaseController {
             @RequestParam(required = false) String setupYear,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
+    	
+    	
+		System.out.println(">>>>>>>>>projectName "+projectName);
+		System.out.println(">>>>>>>>>setupYear "+setupYear);
 
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("techType", techType);
@@ -114,7 +118,7 @@ public class OutProjectController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============查询外系统- " + result.toString());
+		//logger.info("============查询外系统- " + result.toString());
 		return result.toString();
 	}
 

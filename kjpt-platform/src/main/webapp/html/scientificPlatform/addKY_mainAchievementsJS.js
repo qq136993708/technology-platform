@@ -24,6 +24,14 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 					if (formData.applicantUnit) {
 						layui.formSelects.value('applicantUnit', [formData.applicantUnit]);
 					}
+					// 添加知悉范围
+          setJurisdictionScope({
+            elem: 'scope_list_layout',
+            knowledgeScope: formData.knowledgeScope,
+            knowledgePerson: formData.knowledgePerson,
+            secretLevel: formData.secretLevel,
+            disabled: false
+          });
 				}
 			}
 		});

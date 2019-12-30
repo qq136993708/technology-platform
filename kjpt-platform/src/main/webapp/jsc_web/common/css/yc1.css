@@ -1,0 +1,257 @@
+.ring li {
+    width: 25%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    padding-bottom: 24px;
+}
+.ring li .value-item{
+    display: inline-block;
+    vertical-align: top;
+    min-width: 120px;
+    height: 160px;
+    position: relative;
+}
+.ring li h3 {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 96px;
+    z-index: 9;
+}
+.ring li h3 i {
+    font-size: 30px;
+    font-family: 'Impact'; 
+    font-weight: 400;
+    color:rgba(170,237,255,1);
+    font-style: normal;
+}
+.ring li .value-item span {
+    display: block;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% auto;
+}
+
+.ring li span.retate_icon{
+    height: calc(100% - 2rem);
+    width: 102px;
+    margin: 0 auto;
+    background-image: url(../../img/yc1_ring.gif);
+}
+
+.ring li span.light_bot {
+    position: absolute;
+    left: 50%;
+    margin-left: -30px;
+    bottom: calc(2rem + 18px);
+    width: 60px;
+    height: 25px;
+    background-image: url(../../img/light_bot.png);
+}
+
+.ring li span.light_mid {
+    position: absolute;
+    width: 76px;
+    height: 30px;
+    left: 50%;
+    bottom: calc(2rem + 30px);
+    margin-left: -38px;
+    background-image: url(../../img/light_mid.png);
+}
+
+.ring li span.light_top {
+    position: absolute;
+    width: 92px;
+    height: 77px;
+    left: 50%;
+    bottom: calc(2rem + 30px);
+    margin-left: -46px;
+    background-image: url(../../img/light_top.png);
+    animation: light 2s infinite linear;
+}
+.ring li span.value-name {
+    height: 2rem;
+    line-height: 2rem;
+    text-align:  center;
+    font-size: .8rem;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    font-family: 'myFont3';
+}
+@keyframes light {
+    0% {
+        opacity: .7
+    }
+
+    50% {
+        opacity: 0.5
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+.line {
+    width: 96px;
+    height: 52px;
+    position: absolute;
+    transform: rotate(-165deg);
+    background: url(../../img/yc1_line.png) no-repeat;
+    left: 1418px;
+    top: 337px;
+    transform-origin: 9px 9px;
+    animation: line 1s;
+    transition: 1s;
+}
+
+@keyframes line {
+    0% {
+        transform: rotate(-243deg)
+    }
+
+    100% {
+        transform: rotate(-165deg)
+    }
+}
+
+.yc1_data li {
+    position: absolute;
+    font-size: 20px;
+    font-family: 'britannic bold';
+    width: 70px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    color: #2dffb2;
+}
+
+.yc1_data li:nth-child(3n+2) {
+    color: #ffae11;
+}
+
+.yc1_data li:nth-child(3n) {
+    color: #ff5c2a;
+}
+
+.yc1_data li:first-child {
+    left: 79px;
+    top: 204px;
+}
+
+.yc1_data li:nth-child(2) {
+    left: 159px;
+    top: 204px;
+}
+
+.yc1_data li:nth-child(3) {
+    left: 239px;
+    top: 204px;
+}
+
+.yc1_data li:nth-child(4) {
+    left: 672px;
+    top: 204px;
+}
+
+.yc1_data li:nth-child(5) {
+    left: 752px;
+    top: 204px;
+}
+
+.yc1_data li:nth-child(6) {
+    left: 832px;
+    top: 204px;
+}
+
+.yc1_data li:nth-child(7) {
+    left: 80px;
+    top: 410px;
+}
+
+.yc1_data li:nth-child(8) {
+    left: 159px;
+    top: 410px;
+}
+
+.yc1_data li:nth-child(9) {
+    left: 239px;
+    top: 410px;
+}
+
+.yc1_data li:nth-child(10) {
+    left: 672px;
+    top: 410px;
+}
+
+.yc1_data li:nth-child(11) {
+    left: 752px;
+    top: 410px;
+}
+
+.yc1_data li:nth-child(12) {
+    left: 832px;
+    top: 410px;
+}
+
+.yc1_data li:nth-child(13) {
+    left: 79px;
+    top: 614px;
+}
+
+.yc1_data li:nth-child(14) {
+    left: 159px;
+    top: 614px;
+}
+
+.yc1_data li:nth-child(15) {
+    left: 239px;
+    top: 614px;
+}
+
+.yc1_data li:nth-child(16) {
+    left: 672px;
+    top: 614px;
+}
+
+.yc1_data li:nth-child(17) {
+    left: 752px;
+    top: 614px;
+}
+
+.yc1_data li:nth-child(18) {
+    left: 832px;
+    top: 614px;
+}
+
+.yc1_data li:nth-child(19) {
+    left: 79px;
+    top: 819px;
+}
+
+.yc1_data li:nth-child(20) {
+    left: 159px;
+    top: 819px;
+}
+
+.yc1_data li:nth-child(21) {
+    left: 239px;
+    top: 819px;
+}
+
+p {
+    font-size: 24px;
+    line-height: 30px;
+    color: #00d6ff;
+    position: absolute;
+    left: 1020px;
+    bottom: 80px;
+    width: 816px;
+}
+.main_left .pie-legend-list .legend-item > .lenend-item-name {
+    width: 88px;
+}

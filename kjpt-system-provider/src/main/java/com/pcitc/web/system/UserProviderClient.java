@@ -286,6 +286,10 @@ public class UserProviderClient {
 	}
 	
 	
+	
+	
+	
+	
 	@ApiOperation(value = "获取用户列表", notes = "获取用户列表")
 	@RequestMapping(value = "/user-provider/list", method = RequestMethod.POST)
 	public JSONArray list(@RequestBody Map param)throws Exception
@@ -303,6 +307,12 @@ public class UserProviderClient {
 	public Integer update_User(@RequestBody SysUser user)throws Exception {
 		logger.info("update user.... "+JSON.toJSONString(user));
 		return userService.updateSysUser(user);
+	}
+
+	@ApiOperation(value="查询当前用户是否在白名单",notes="查询当前用户是否在白名单")
+	@RequestMapping(value = "/user-provider/whiteList/{userName}", method = RequestMethod.GET)
+	public Integer whiteList(@PathVariable String userName)throws Exception {
+		return userService.selectWhiteList(userName);
 	}
 
 	

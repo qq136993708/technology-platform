@@ -5,7 +5,7 @@ layui.use(['laydate'], function() {
       // 成果转化数量趋势分析
       var time = date || '2019',
       chartData = [],
-      initYear = 2017;
+      initYear = 2016;
 
       for (var i = 1; i < 4; i++) {
         chartData.push({
@@ -16,29 +16,35 @@ layui.use(['laydate'], function() {
         })
       }
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_one',
-          type: 'line',
-          itemName: 'name',
-          legend: { show: false },
-          grid: { top: 70 },
-          legend: { show: true, left: 'right', top: 40},
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '待转化', valueKey: 'value1'},
-            { name: '拟转化', valueKey: 'value2'},
-            { name: '已转化', valueKey: 'value3'},
-          ],
-          data: chartData,
-          color: ['#FFF04E', '#81FF5B', '#2BF3FF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_one', {data: chartData});
-      }
+      kyptCharts.render({
+        id: 'appraisal_one',
+        type: 'line',
+        itemName: 'name',
+        legend: { show: false },
+        grid: { top: 70 },
+        legend: { show: true, left: 'right', top: 40},
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        series: [
+          { name: '待转化', valueKey: 'value1'},
+          { name: '拟转化', valueKey: 'value2'},
+          { name: '已转化', valueKey: 'value3'},
+        ],
+        data: chartData,
+        color: ['#FFF04E', '#81FF5B', '#2BF3FF']
+      })
+      
+      httpModule({
+        url: '/cockpit/results/conversion/numberIncentive',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            // kyptCharts.reload('appraisal_one', {data: res.data});
+          }
+        }
+      });
     },
     appraisalTwo: function (date) {
       // 各单位成果转化激励人数
@@ -49,53 +55,74 @@ layui.use(['laydate'], function() {
         });
       }
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_two',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: false },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '激励人数', valueKey: 'value1'},
-          ],
-          data: chartData,
-          color: ['#2BF3FF']
-        });
-      } else {
-        kyptCharts.reload('appraisal_two', {series: chartData});
-      }
+      kyptCharts.render({
+        id: 'appraisal_two',
+        type: 'bar',
+        itemName: 'name',
+        legend: { show: false },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        series: [
+          { name: '激励人数', valueKey: 'value1'},
+        ],
+        data: chartData,
+        color: ['#2BF3FF']
+      });
+
+      httpModule({
+        url: '/cockpit/results/conversion/numberIncentive',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            // kyptCharts.reload('appraisal_two', {data: res.data});
+          }
+        }
+      });
     },
     appraisalThree: function(date) {
       // 成果转化数量按成果类型分析
-      var chartData = [], itemName = [ '核心成果', '非核心成果' ];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i], value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
+      kyptCharts.render({
+        id: 'appraisal_three',
+        type: 'pie',
+        legendPosition: 'right',
+        legend: { top: 'center', right: 18, formatter: 'name|value'},
+        label: false,
+        labelColor: '#fff',
+        radius: ['44%', '66%'],
+        // center: ['32%', '50%'],
+        borderColor: '#001e38',
+        title: '成果类型分析',
+        totalTitle: true,
+        title: {
+          textStyle: {
+            color: '#fff',
+            fontSize: 30,
+            width: '100%'
+          }
+        },
+        series: [],
+        color: ['#45F0FF', '#2687FF']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_three',
-          type: 'pie',
-          legend: { top: 'center', left: '70%'},
-          label: false,
-          labelColor: '#fff',
-          radius: ['44%', '58%'],
-          center: ['32%', '50%'],
-          borderColor: '#001e38',
-          title: '成果类型分析',
-          series: chartData,
-          color: ['#45F0FF', '#2687FF']
-        });
-      } else {
-        kyptCharts.reload('appraisal_three', {series: chartData});
-      }
+      httpModule({
+        url: '/cockpit/results/conversion/numByResultsType',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            var chartData = [];
+            for (var i = 0; i < res.data.length; i++) {
+              chartData.push({
+                name: res.data[i].name,
+                value: res.data[i].num
+              });
+            }
+            kyptCharts.reload('appraisal_three', {series: chartData});
+          }
+        }
+      });
     },
     appraisalFour: function(date) {
       // 各单位成果转化金额/激励金额
@@ -110,27 +137,33 @@ layui.use(['laydate'], function() {
         })
       }
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_four',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right', top: 40},
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '转化金额', valueKey: 'value1'},
-            { name: '激励金额', valueKey: 'value2'}
-          ],
-          data: chartData,
-          color: ['#FF7F5D', '#FCFF00']
-        })
-      } else {
-        kyptCharts.reload('appraisal_four', {data: chartData});
-      }
+      kyptCharts.render({
+        id: 'appraisal_four',
+        type: 'bar',
+        itemName: 'name',
+        legend: { show: true, left: 'right', top: 40},
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        series: [
+          { name: '转化金额', valueKey: 'value1'},
+          { name: '激励金额', valueKey: 'value2'}
+        ],
+        data: chartData,
+        color: ['#FF7F5D', '#FCFF00']
+      })
+
+      httpModule({
+        url: '/cockpit/results/conversion/numByIncentiveAmount',
+        type: 'POST',
+        success: function(res) {
+          if (res.code === '0' || res.success === true) {
+            // kyptCharts.reload('appraisal_four', {data: res.data});
+          }
+        }
+      });
     }
   }
 

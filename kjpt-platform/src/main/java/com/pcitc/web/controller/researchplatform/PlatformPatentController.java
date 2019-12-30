@@ -75,13 +75,12 @@ public class PlatformPatentController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述"};
-        String[] cols =    {"patentName","patentTypeText","applicationDate","remark"};
-        SysUser sysUserInfo = this.getUserProfile();
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述","密级"};
+        String[] cols =    {"patentName","patentTypeText","applicationDate","remark","secretLevelText"};
+        this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformPatentModel.class);
@@ -105,7 +104,6 @@ public class PlatformPatentController extends RestBaseController {
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
     ) throws Exception {
-        SysUser userInfo = this.getUserProfile();
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -121,12 +119,11 @@ public class PlatformPatentController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",userInfo.getSecretLevel());
-
+        this.setBaseParam(condition);
 
         //默认查询当前人所在机构下所有的科研平台专利
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(userInfo.getUnitPath(), restTemplate, httpHeaders);
+        //this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.setParam(condition,"platformId",platformId);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

@@ -51,7 +51,12 @@ layui.use(['laydate'], function() {
       kyptCharts.render({
         id: 'cahrtOne',
         type: 'bar',
+        barGap: '50%',
+        barWidth: 28,
+        legendPosition: 'top',
         itemName: 'labelName',
+        legend: { top: 18 },
+        grid: {top: 20},
         series: [
           { name: '2019', valueKey: 'value2019'},
           { name: '2018', valueKey: 'value2018'},
@@ -86,6 +91,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartTwo',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 项目计划投资',
           series: chartData,
           color: ['#FFDF29', '#2370A3', '#009186', '#9EBE4A']
@@ -116,6 +122,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartThree',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 项目投资计划',
           series: chartData,
           color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -137,6 +144,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartFour',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 实际完成投资',
           series: chartData,
           color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -167,6 +175,7 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'chartFive',
           type: 'pie',
+          legendPosition: 'left',
           title: ' 实际完成投资',
           series: chartData,
           color: ['#FFDF29', '#9EBE4A', '#5DAC4A', '#009186', '#2370A3', '#845596', '#F07045', '#FCBD3B']
@@ -206,15 +215,18 @@ layui.use(['laydate'], function() {
         kyptCharts.render({
           id: 'addProjectMonth',
           type: 'bar',
+          barWidth: 28,
           itemName: 'name',
-          // legend: { show: false },
-          grid: { top: 24 },
+          barGap: '50%',
+          legendPosition: 'top',
+          legend: { top: 18 },
+          grid: {top: 20},
           series: [
             { name: '计划', valueKey: 'plannedvalue'},
             { name: '实际', valueKey: 'actualValue'},
             { name: '计划达成率', valueKey: 'completionRate', type: 'line', yIndex: 1},
           ],
-          yAxis: [null, { axisLabel: { show: true, formatter: '{value}%'}}],
+          yAxis: [{ max: 500, splitNumber: 4}, { splitNumber: 4, max: 500, axisLabel: { show: true, formatter: '{value}%'}}],
           data: chartData,
           color: ['#FCBD3B', '#0AA1FF', '#727272']
         })
@@ -233,6 +245,7 @@ layui.use(['laydate'], function() {
     elem: '#chartTwoDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartTwo(value);
     }
@@ -244,6 +257,7 @@ layui.use(['laydate'], function() {
     elem: '#chartThreeDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartFour(value);
     }
@@ -255,6 +269,7 @@ layui.use(['laydate'], function() {
     elem: '#chartFourDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartThree(value);
     }
@@ -266,6 +281,7 @@ layui.use(['laydate'], function() {
     elem: '#chartFiveDate',
     type: 'month',
     value: '2019-12',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartFive(value);
     }
@@ -277,6 +293,7 @@ layui.use(['laydate'], function() {
     elem: '#projectMonth',
     type: 'year',
     value: '2019',
+    trigger: 'click',
     done: function(value, date, endDate) {
       initChart.chartSix(value);
     }

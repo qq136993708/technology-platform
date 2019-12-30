@@ -288,7 +288,7 @@ public class SysLogController extends BaseController {
 	   				for(int i=0;i<list.size();i++)
 	   				{
 	   					SysLog zjkBase= list.get(i);
-	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_YYYY));
+	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_SS));
 	   				}
 	   			}
 	   		}
@@ -387,7 +387,7 @@ public class SysLogController extends BaseController {
 	   				for(int i=0;i<list.size();i++)
 	   				{
 	   					SysLog zjkBase= list.get(i);
-	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_YYYY));
+	   					zjkBase.setLogTimeStr(DateUtil.dateToStr(zjkBase.getLogTime(), DateUtil.FMT_SS));
 	   				}
 	   			}
 	   		}

@@ -37,6 +37,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
     itemDataUrl = '/SciencePlan/load/' + variable.id;
     msgTitle = '查看';
     readonlyFile = true;
+    gray()
   } else if (variable.type === 'add') {
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
@@ -69,13 +70,24 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         if (formData.researchField) {
           formSelects.value('researchField', formData.researchField.split(','));
         }
+
+        var scopeDisabled = false;
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
           form.render('select');
           $('#reportType').val(reportTypeVal);
           formSelects.disabled();
+          scopeDisabled = true;
         }
+        // 添加知悉范围
+        setJurisdictionScope({
+          elem: 'scope_list_layout',
+          knowledgeScope: formData.knowledgeScope,
+          knowledgePerson: formData.knowledgePerson,
+          secretLevel: formData.secretLevel,
+          disabled: scopeDisabled
+        });
       }
     }
   })

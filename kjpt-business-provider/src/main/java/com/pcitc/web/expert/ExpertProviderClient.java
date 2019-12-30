@@ -1,5 +1,6 @@
 package com.pcitc.web.expert;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -22,7 +24,7 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
-import com.pcitc.base.workflow.Constants;
+import com.pcitc.base.out.OutPerson;
 import com.pcitc.service.expert.IExpertService;
 
 import io.swagger.annotations.Api;
@@ -42,6 +44,28 @@ public class ExpertProviderClient {
 	
 	
 	/**===============================================专家===================================================*/
+	
+	
+	
+	@ApiOperation(value = "人才转为专家", notes = "人才转为专家")
+	@RequestMapping(value = "/expert/outPersonToZjkBase", method = RequestMethod.POST)
+	public Integer outPersonToZjkBase(@RequestBody  Map map)throws Exception
+	{
+
+		
+		
+	
+		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>>人才转为专家 参数: "+parma.toJSONString());
+		
+		Integer count=expertService.outPersonToZjkBase(map);
+		return count;
+	}
+	
+	
+	
+	
+	
 	
 	@ApiOperation(value = "获取专家（分页）", notes = "获取专家（分页）")
 	@RequestMapping(value = "/expert/page", method = RequestMethod.POST)

@@ -1,5 +1,8 @@
 package com.pcitc.web.controller.excelimport;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.ImportExcelUtil;
 import io.swagger.annotations.Api;
@@ -26,7 +29,6 @@ public class ExcelImportController extends RestBaseController {
      * 根据ID获取对象信息
      */
     private static final String importPath = "http://kjpt-zuul/stp-proxy/excelImport-api/import/%s/%s/%s";
-    //private static final String importPathNoPid = "http://kjpt-zuul/stp-proxy/excelImport-api/import/%s/%s";
 
     @ApiOperation(value="Excel导入")
     @RequestMapping(value = {"/excelImport/{importType}"}, method = RequestMethod.POST)
@@ -36,6 +38,11 @@ public class ExcelImportController extends RestBaseController {
         List dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
+        if(!responseEntity.getBody().isEmpty() && !"kgjimp".equals(importType)){
+            SysException sys = new SysException(JSON.toJSONString(responseEntity.getBody()));
+            sys.setCode("1");
+            throw sys;
+        }
         return responseEntity.getBody();
     }
 }

@@ -51,7 +51,7 @@
 /*左树右表*/
 .treeTableContainer{position:relative;height: 100%;width: 100%;}
 .treeBox{width: 260px;height: 100%;box-sizing:border-box;position: absolute;left: 10px;border: 1px solid #E6E6E6;background: #ffffff; padding-top: 34px;}
-.title-box{width: 100%;height: 34px;line-height: 34px;position: absolute;top: 0;align-items:center;background:#E7EBEC;box-sizing:border-box;
+.title-box{width: 100%;height: 34px;line-height: 34px;position: absolute;top: -1px;align-items:center;background:#ECF0F4;box-sizing:border-box;
     padding-left: 10px;border-top: 1px solid #ffffff;border-bottom: 1px solid #E6E6E6;z-index: 999999;}
 .title-btns span{float: right; text-align: right; margin-top: -2px;}
 .title-btns span .layui-btn{margin-left: -2px;margin-right: 2px;}
@@ -68,7 +68,6 @@
 .treeTableBoxBorder{border: 1px solid #E7E7Eb;height: 500px;}
 .treeFormBox{margin-left: 276px;height: 100%;overflow: hidden;border: 1px solid #e6e6e6;}
 .treeFormBox .tree-form-paddingBox{padding-top: 44px;padding-right: 10px;}
-
 /*左表右树*/
 .leftTable{margin-right: 276px;margin-left: 10px;}
 .left-side-tree,.right-side-tree{width:100%;height: 100%;padding-top: 34px;box-sizing: border-box;}
@@ -137,7 +136,7 @@
 .layui-btn-white{background-color: #fefefe;}
 .layui-btn-white:hover{color: #8E8E8E;background-color: #F2F2F2;}
 
-#ifrID{border-top: 1px solid #e6e6e6;padding-top: 6px;}
+#ifrID{border-top: dashed 1px #D4D7D8;padding-top: 6px;}
 /*5/5 list*/
 .twoListleft{width: 48.8%; float: left;margin-left: 10px;margin-top: 6px;}
 .twoListRight{width: 48.8%;float: right;margin-top: 6px; margin-right: 10px;}
@@ -195,7 +194,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-layer-lan .layui-layer-title {background: #1890ff !important;}
 .readOnlyBox,.layui-disabled{background: #F3F3F3 !important; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
 .readOnlyBox :focus,.layui-disabled:focus{border-color: #e6e6e6;}
-.layui-select-disabled .layui-disabled{border:1px solid #ccc !important;}
+.layui-select-disabled .layui-disabled{border:1px solid #ccc !important;color: rgb(84, 84, 84)!important;}
 .layui-form-onswitch {border-color: #1890ff;background-color: #1890ff;}
 .layui-form-checked span, .layui-form-checked:hover span {background: none;}
 .layui-form-checked i, .layui-form-checked:hover i {color: #1890ff;}
@@ -311,11 +310,11 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 /*.borderColor-blue:hover{color: #ffffff;background: #1890ff;}*/
 .layui-laypage .layui-laypage-curr .layui-laypage-em{background: #1890ff !important;}
 /*state按钮*/
-.borderStateColor-blue{border: 1px solid #e0ebf1;border-radius: 2px;background: none;
+.borderStateColor-blue{border: 1px solid #f2f2f2 !important;border-radius: 2px;background: none;
     float:left;padding: 0 6px 0 6px;margin-left: 10px;}
 .borderStateColor-blue:hover{border: 1px solid #1890ff;color: #1890ff;}
 .borderStateColor-blue.active{border: 1px solid #1890ff;color: #1890ff;}
-.btn-state{width: 16px; height: 16px;display:block;float:left;margin-right: 6px;margin-top: 5px;}
+.btn-state{width: 16px; height: 16px;display:block;float:left;margin-right: 6px;margin-top: 7px;}
 .btn-all{background: url("/layuiadmin/layui/images/All_Ball.png")  no-repeat;background-size: 16px}
 .btn-all-ryg{background: url("/layuiadmin/layui/images/All_Ball02.png")  no-repeat;background-size: 16px}
 .btn-two-state{background: url("/layuiadmin/layui/images/Two_Ball.png")  no-repeat;background-size: 16px}

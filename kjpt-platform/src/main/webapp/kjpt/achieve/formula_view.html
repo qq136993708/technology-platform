@@ -65,11 +65,11 @@
                         ,{type: 'numbers', title: '序号', width: 80}
                         ,{field: 'achieveName', title: '成果名称', sort: true }
                         ,{field: 'finishDate', title: '录入时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
-                        ,{ title: '操作', templet: function(d) {
+                        ,{ title: '操作',width: 100, templet: function(d) {
                                 return '<a href="/html/scientificMaterials/planDetails.html?id='+d.publicDoc+'" class="layui-table-link">详情</a>';
                             }}
                     ]],
-                    parseData: function(res) {return layuiParseData(res, null, 3);},
+                    parseData: function(res) {return layuiParseData(res);},
                     request: {
                         pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                         limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize

@@ -100,7 +100,7 @@
                                 return html
                             }}
                     ]],
-                    parseData: function(res) {return layuiParseData(res, null, 3);},
+                    parseData: function(res) {return layuiParseData(res, null, 15);},
                     request: {
                         pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                         limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -118,7 +118,8 @@
                                     // 弹窗销毁时获取弹窗返回数据
                                     var getData=getDialogData('dialog-data');
                                     if(getData){
-                                        queryTable('')
+
+                                        $('[lay-filter="formSubmit"]').click();
 
                                     }
                                 }
@@ -162,6 +163,10 @@
 
         $('.openLayerPage').on('click', function() {
             var listData = table.checkStatus('tableDemo').data;
+            if(undefined==listData||""==listData||undefined==listData[0].id||""==listData[0].id){
+                layer.msg('请选择需要查看的数据！');
+                return
+            }
             var index=parent.$("#LAY_app_body div.layui-show").index()-1;
             var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
             parent.layui.index.openTabsPage(url,  '查看');

@@ -21,12 +21,14 @@
     
      <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
      <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-    
+     <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+    <result column="create_user"              jdbcType="VARCHAR" property="createUser" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, patent_name, patent_type, `describe`, get_patent_time, 
-    create_time, out_system_id,flag,secret_level
+    create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -39,7 +41,7 @@
      
       id,expert_id, source_type, del_status, 
       patent_name, patent_type, `describe`, 
-      get_patent_time, create_time, out_system_id,flag,secret_level
+      get_patent_time, create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
       )
     values (
 	      #{id,jdbcType=VARCHAR},
@@ -47,7 +49,9 @@
 	      #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
 	      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
 	      #{flag,jdbcType=VARCHAR}, #{secretLevel,jdbcType=VARCHAR}
-      
+       ,#{knowledgeScope,jdbcType=VARCHAR}
+      ,#{knowledgePerson,jdbcType=VARCHAR}
+      ,#{createUser,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
@@ -89,7 +93,15 @@
        <if test="secretLevel != null">
         secret_level,
       </if>
-      
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
       
        
     </trim>
@@ -133,7 +145,15 @@
         #{secretLevel,jdbcType=VARCHAR},
       </if>
       
-       
+       <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkPatent">
@@ -177,7 +197,15 @@
       </if>
       
       
-      
+       <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
       
        
        
@@ -192,6 +220,10 @@
       secret_level = #{secretLevel,jdbcType=VARCHAR},
       patent_name = #{patentName,jdbcType=VARCHAR},
       patent_type = #{patentType,jdbcType=VARCHAR},
+       
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
       `describe` = #{describe,jdbcType=VARCHAR},
       get_patent_time = #{getPatentTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -208,7 +240,7 @@
      SELECT t1.*, DATE_FORMAT(t1.`get_patent_time`,'%Y-%m-%d') get_patent_time_str,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
-          AND t2.`code`=t1.`patent_type`
+          AND t2.`num_value`=t1.`patent_type`
       ) patent_type_str
       ,
       ( 
@@ -227,7 +259,18 @@
 	     <if test="delStatus != null       and delStatus !=''  ">         AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null     and outSystemId !=''  ">       AND t.out_system_id = #{outSystemId}</if>
 	     <if test="expertId != null        and expertId !=''  ">          AND t.expert_id = #{expertId}</if>
-	      <if test="secretLevel != null        and secretLevel !=''  ">          AND t.secret_level = #{secretLevel}</if>
+	     <if test="secretLevel != null        and secretLevel !=''  ">          AND t.secret_level = #{secretLevel}</if>
+	 <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
+	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
+	      </if>
+	      
+	      
+	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
+	     
+	 
 	 </trim>
 	</sql>
 	
@@ -281,7 +324,7 @@
      <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 	    select 
 	     *
-	    from (<include refid="view_zjk_patent" />)
+	    from (<include refid="view_zjk_patent" />) t
 	    where id = #{id,jdbcType=VARCHAR}
 	  </select>
   

@@ -6,7 +6,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     var variable = getQueryVariable(),id='',approvalDoc='',publicDoc='';
     /*判断id，回显*/
 
-    var fileCols = [
+   /* var fileCols = [
         {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
         {title: '操作', templet: function(d) {
                 var templet = '<div class="file-options">';
@@ -15,7 +15,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                 templet += '</div>';
                 return templet;
             }}
-    ]
+    ]*/
     laydate.render({
         elem: '#finishDate'
         ,trigger: 'click'
@@ -37,6 +37,9 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
         }
     });
     if(variable.type=='view'){
+        gray()
+        $(".file-options-delete").remove()
+        readonlyFile=true
         if(variable.flag==1){
             $("#close").hide()
         }
@@ -51,18 +54,31 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
             success: function(relData) {
                 if(relData.code==0){
                     /*回显tr*/
+                    var formData = relData.data;
                     relData.data.finishDate=dateFieldText(relData.data.finishDate)
                     form.val('formPlatform', relData.data);
                     formSelects.value('techType', relData.data.techType.split(','));
                     fileDoc=variable.id
                     backfill(relData.data.teamPerson,'achieveTable',variable.type)
                     approvalDoc=relData.data.approvalDoc
-                    publicDoc=relData.data.publicDoc
+                    publicDoc=relData.data.publicDoc;
+
+                    var scope_disabled = false;
                     if(variable.type=='view'){
-                        readonlyFile=true
                         formSelects.disabled(); // 禁用所有多选下拉框
+                        scope_disabled = true;
                     }
-                    console.log(relData)
+
+                    // 添加知悉范围
+                    setJurisdictionScope({
+                        elem: 'scope_list_layout',
+                        knowledgeScope: formData.knowledgeScope,
+                        knowledgePerson: formData.knowledgePerson,
+                        secretLevel: formData.secretLevel,
+                        disabled: scope_disabled
+                    });
+
+                    // console.log(relData)
                 }
             }
         });
@@ -76,9 +92,18 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
                 if(relData.code==0){
                     id=relData.data.id
                     approvalDoc=relData.data.approvalDoc
-                    publicDoc=relData.data.publicDoc
+                    publicDoc=relData.data.publicDoc;
+
+                    // 添加知悉范围
+                    setJurisdictionScope({
+                        elem: 'scope_list_layout',
+                        // knowledgeScope: formData.knowledgeScope,
+                        // knowledgePerson: formData.knowledgePerson,
+                        // secretLevel: formData.secretLevel,
+                        disabled: false
+                    });
+
                 }
-                console.log(relData)
             }
         });
 
@@ -86,7 +111,7 @@ layui.use(['jquery','table', 'form','formSelects','laydate'], function() {
     setFileUpload({
         id: 'file-filter-options1', // 附件上传作用域ID值 必传
         dataID: approvalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
-        cols: fileCols,
+        /*cols: fileCols,*/
         readonly: readonlyFile,
         secretLevel : function() {
             return $("#secretLevel").val();

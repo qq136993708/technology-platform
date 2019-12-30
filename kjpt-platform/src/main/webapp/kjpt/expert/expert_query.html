@@ -82,11 +82,11 @@
             </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">状态：</span></label>
+                    <label class="layui-form-label"><span class="text">年龄：</span></label>
                     <div class="layui-input-block">
-                        <select name="useStatus" id="useStatus">
-                            <option value=""></option>
-                        </select>
+                        <input style="width: 90px;float:left;" type="text" name="beginAage" id="beginAage" placeholder="请输入年龄" autocomplete="off" class="layui-input">
+                        <span style="float:left;margin: 5px 10px">-</span>
+                        <input style="width: 90px;float:left;" type="text" name="endAage" id="endAage" placeholder="请输入年龄" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -99,6 +99,9 @@
             </div>
         </div>
     </form>
+    <div class="view-title-layout text-right" id="opations-btn">
+        <button class="layui-btn border-blue" id="addItem">存入专家库</button>
+    </div>
     <table id="expertTable" lay-filter="expertTable"></table>
 </div>
 
@@ -117,23 +120,22 @@
                     tableRender = true;
                     table.render({
                         elem: '#expertTable' // 表格元素ID
-                        ,url: '/expert-api/query' //数据接口
-                        ,height:commonDislodgeTable()
+                        ,url: '/outPerson-api/page' //数据接口
                         ,cols: [[ //表头
-                            {type: 'radio' },
+                            {type: 'checkbox' },
                             {title: '序号',type:'numbers',width:55 },
-                            {field: 'name', title: '姓名',templet: function(d){
-                                    return ('<a href="./expert_view.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>')
-                                } },
+                            {field: 'name', title: '姓名' },
+                            {field: 'isExpert', title: '是否专家',templet: function(d){
+                                    if(d.isExpert==0){return "否"}else {return "是"}
+                                }},
                             {field: 'sexStr', title: '性别'},
-                            {field: 'titleStr', title: '职称'},
+                            {field: 'age', title: '年龄'},
                             {field: 'educationStr', title: '学历' },
-                            {field: 'belongUnitStr', title: '所在单位'},
-                            {field: 'technicalFieldName', title: '专业领域'},
-                            {field: 'contactWay', title: '联系方式'},
-                            {field: 'secretLevelStr', title: '密级'}
+                            {field: 'titleStr', title: '职称'},
+                            {field: 'belongUnitName', title: '所在单位'},
+                            {field: 'techTypeName', title: '技术领域'},
                         ]],
-                        method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                        method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                         where: where
                         ,request: {
                             page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
@@ -204,6 +206,40 @@
             console.log(data.field)
             obj.tableList(data.field)
             return false
+        })
+        $("#addItem").click(function () {
+            var activeData = table.checkStatus('expertTable').data;
+            if(activeData.length==0){
+                top.layer.msg('请选择要存入专家库的数据！');
+                return false
+            }
+            var id=''
+            activeData.map(function (item, index) {
+                if(item.isExpert==0){
+                    id+=item.id+","
+                }
+            })
+            id=id.substr(0, id.length - 1);
+            if(id==''){
+                layer.msg('已选择要存入专家库的数据都转为专家！');
+                return false
+            }
+            top.layer.open({
+                type: 2,
+                title: "选择分组",
+                content: "/kjpt/expert/expert_query_add.html?id="+id, // 全局弹窗页面地址
+                btn: null,
+                area: ['50%', '60%'],
+                end: function(lay, index) {
+                    // 弹窗销毁时获取弹窗返回数据
+                    var getData = getDialogData('dialog-data');
+                    if(getData){
+                        if(getData.success){
+                            obj.tableList("");
+                        }
+                    }
+                }
+            });
         })
     });
 </script>

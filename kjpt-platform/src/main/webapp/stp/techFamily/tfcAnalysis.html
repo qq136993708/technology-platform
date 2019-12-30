@@ -493,6 +493,10 @@
                     {
                         field: "applicationNumber",
                         title: "专利号", event: 'setActive', style: 'cursor: pointer;', width: 150
+                    },
+                    {
+                        field: "secretLevelText",
+                        title: "密级", event: 'setActive', style: 'cursor: pointer;', width: 150
                     }
                 ]],
                 method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
@@ -657,7 +661,6 @@
 
          pYear= e.name;
         typeName = days[e.value[1]];
-
         var temUrl = "/kjpt/out/out_projectList.html?typeName=" + typeName + "&pYear=" + pYear;
         top.layer.open({
             title: '项目列表',
@@ -665,7 +668,7 @@
             type: 2,
             fixed: false,
             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-            maxmin: true,
+            maxmin: false,
             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
             area: ['60%', '80%'],
             content: temUrl

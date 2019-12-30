@@ -106,7 +106,7 @@
 							  <div class="layui-input-block">
 								  <div class="selectTreeBox">
 									<!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
-									<input type="text" class="layui-input" lay-verify="" id="userUnit" name="userUnit" placeholder="请点击选择所属机构">
+									<input type="text" class="layui-input" lay-verify="" id="userUnit"  readonly name="userUnit" placeholder="请点击选择所属机构">
 									  <input type="text" class="layui-input layui-hide" lay-verify="" id="userUnitName" name="userUnitName">
 								  </div>
 							  </div>
@@ -371,9 +371,9 @@
 	        		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
 	        		
 	        		//头像
-	        		if($("#userExtend").val() != null && $("#userExtend").val() != ""){
+	        		if($("#userHeadPic").val() != null && $("#userHeadPic").val() != ""){
 						 //$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
-						 setImagesUploadState({imgID:$("#userExtend").val(), id: '#imgFileUpload'});
+						 setImagesUploadState({imgID:data.userHeadPic, id: '#imgFileUpload'});
 					}
 					 
 	           	 
@@ -526,7 +526,7 @@
 			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 			maxmin : false,
 			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-			area : [ '80%', '70%' ],
+			area : [ '80%', '90%' ],
 			content : "/unit/chooseUnitMultiV2"
 		});
 	});

@@ -18,12 +18,14 @@
       <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
      <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
     
-    
+     <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+    <result column="create_user"              jdbcType="VARCHAR" property="createUser" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, del_status, source_type, rewark_level, notes, awarding_unit, awarding_time, 
-    create_time, out_system_id,flag,secret_level
+    create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -34,7 +36,7 @@
     insert into zjk_reward (
       id,expert_id, del_status, source_type, 
       rewark_level, notes, awarding_unit, 
-      awarding_time, create_time, out_system_id,flag
+      awarding_time, create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
       )
     values (
       #{id,jdbcType=VARCHAR},
@@ -42,6 +44,9 @@
       #{rewarkLevel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{awardingUnit,jdbcType=VARCHAR}, 
       #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
       #{outSystemId,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
+       ,#{knowledgeScope,jdbcType=VARCHAR}
+      ,#{knowledgePerson,jdbcType=VARCHAR}
+      ,#{createUser,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
@@ -84,6 +89,15 @@
        <if test="secretLevel != null">
         secret_level,
       </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -122,6 +136,15 @@
       <if test="secretLevel != null">
         #{secretLevel,jdbcType=VARCHAR},
       </if>  
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkReward">
@@ -163,7 +186,15 @@
       <if test="secretLevel != null">
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if>
-      
+       <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -175,6 +206,10 @@
       rewark_level = #{rewarkLevel,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
       secret_level = #{secretLevel,jdbcType=VARCHAR},
+       
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
       awarding_unit = #{awardingUnit,jdbcType=VARCHAR},
       awarding_time = #{awardingTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -187,7 +222,7 @@
      SELECT t1.*, DATE_FORMAT(t1.`awarding_time`,'%Y-%m-%d') awarding_time_str,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_JLJB'
-          AND t2.`code`=t1.`rewark_level`
+          AND t2.`num_value`=t1.`rewark_level`
       ) rewark_level_str
        ,
       ( 
@@ -205,6 +240,13 @@
 	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
 	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	<if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
+	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
+	      </if>
+	<if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
 	 </trim>
 	</sql>
 	

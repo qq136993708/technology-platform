@@ -1,8 +1,11 @@
 package com.pcitc.web.controller.patent;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
+import com.pcitc.base.researchplatform.PlatformPatentModel;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
@@ -11,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -33,6 +37,8 @@ public class PatentController extends RestBaseController {
     private static final String QUERY = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_query";
 
     private static final String QUERY_PATENT = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_queryPatent";
+
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/queryNoPage";
 
     private static final String LOAD = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_load/";
 
@@ -139,14 +145,7 @@ public class PatentController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        SysUser sysUserInfo = this.getUserProfile();
-
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-
-        //默认查询当前人所在机构及子机构的所有专家
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition, "childUnitIds", childUnitIds);
+        this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -240,6 +239,66 @@ public class PatentController extends RestBaseController {
         arraylist.add(hashMap);
         return arraylist;
     }
+    /**
+     * 专利列表-导出
+     *
+     * @return PageInfo
+     */
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationType", value = "申请类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentType", value = "专利类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/exportExcel",  method = RequestMethod.GET)
+    @ResponseBody
+    public void queryPatent(
+            @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) String applicationType,
+            @RequestParam(required = false) String patentType,
+            @RequestParam(required = false) String applicationNumber,
+            @RequestParam(required = false) String patentName,
+            @RequestParam(required = false) String applicant,
+            @RequestParam(required = false) String inventor
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        if (!StringUtils.isEmpty(applicationType)) {
+            this.setParam(condition, "applicationType", applicationType);
+        }
+        if (!StringUtils.isEmpty(patentType)) {
+            this.setParam(condition, "patentType", patentType);
+        }
+        if (!StringUtils.isEmpty(patentName)) {
+            this.setParam(condition, "patentName", patentName);
+        }
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "applicant", applicant);
+        }
+        if (!StringUtils.isEmpty(inventor)) {
+            this.setParam(condition, "inventor", inventor);
+        }
+        if (!StringUtils.isEmpty(unitName)) {
+            this.setParam(condition, "unitName", unitName);
+        }
+        if (!StringUtils.isEmpty(applicationNumber)) {
+            this.setParam(condition, "applicationNumber", applicationNumber);
+        }
+        this.setBaseParam(condition);
+        String[] headers = { "单位名称",  "专利名称",    "申请类型"  , "专利类型","申请（专利）号","技术领域","专利范围","申请费用","申请人/专利权人","密级"};
+        String[] cols =    {"unitNameText","patentName","applicationTypeText","patentTypeText","applicationNumber","technicalFieldText","patentRange","applicationCost","applicant","secretLevelText"};
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PatentInfo.class);
+        String fileName = "专利明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
+    }
+
+
 
     /**
      * 根据ID查询专利信息
