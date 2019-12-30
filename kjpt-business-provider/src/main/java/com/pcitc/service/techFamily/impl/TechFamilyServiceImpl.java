@@ -19,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyExample;
 import com.pcitc.base.stp.techFamily.TechFamilyExample.Criteria;
@@ -68,6 +69,9 @@ public class TechFamilyServiceImpl implements TechFamilyService {
      * @throws Exception
      */
     public List<TreeNode> selectTreeNodeByLevel(TechFamily techType) {
+    	
+    	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(techType));
+		System.out.println(">>>>>>>>>>selectTreeNodeByLevel 参数: "+parma.toJSONString());
         return techFamilyMapper.selectTreeNodeByLevel(techType);
     }
 
@@ -228,9 +232,113 @@ public class TechFamilyServiceImpl implements TechFamilyService {
     	return techFamilyMapper.selectByPrimaryKey(tfmTypeId);
     }
     
+    /**
+	  * 获取专家专利（分页）
+	*/
+	public LayuiTableData getFamilyPage(LayuiTableParam param)throws Exception
+	{
+		
+	        //每页显示条数
+			int pageSize = param.getLimit();
+			//从第多少条开始
+			int pageStart = (param.getPage()-1)*pageSize;
+			//当前是第几页
+			int pageNum = pageStart/pageSize + 1;
+			// 1、设置分页信息，包括当前页数和每页显示的总计数
+			PageHelper.startPage(pageNum, pageSize);
+		 
+			String typeName=getTableParam(param,"typeName","");
+			String tfmTypeId=getTableParam(param,"tfmTypeId","");
+			String typeCode=getTableParam(param,"typeCode","");
+			String parentId=getTableParam(param,"parentId","");
+			String parentCode=getTableParam(param,"parentCode","");
+			String knowledgeScope=getTableParam(param,"knowledgeScope","");
+			String userSecretLevel=getTableParam(param,"userSecretLevel","");
+			
+			
+			String secretLevel=getTableParam(param,"secretLevel","");
+			String status=getTableParam(param,"status","");
+			String levelCode=getTableParam(param,"levelCode","");
+			String typeIndex=getTableParam(param,"typeIndex","");
+			
+			Map map=new HashMap();
+			map.put("typeName", typeName);
+			map.put("tfmTypeId", tfmTypeId);
+			map.put("typeCode", typeCode);
+			map.put("parentId", parentId);
+			map.put("parentCode", parentCode);
+			map.put("knowledgeScope", knowledgeScope);
+			map.put("userSecretLevel", userSecretLevel);
+			
+			map.put("secretLevel", secretLevel);
+			map.put("status", status);
+			map.put("levelCode", levelCode);
+			map.put("typeIndex", typeIndex);
+			
+			List<TechFamily> list = techFamilyMapper.getList(map);
+			PageInfo<TechFamily> pageInfo = new PageInfo<TechFamily>(list);
+			System.out.println(">>>>>>>>Family查询分页结果 "+pageInfo.getList().size());
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+	}
+	
+	
+	public List getFamilyList(Map map)throws Exception
+	{
+		return techFamilyMapper.getList(map);
+	}
+	public List getTreeNodeList(Map map)throws Exception
+	{
+		return techFamilyMapper.getTreeNodeList(map);
+	}
     
-    
-    
+	
+	
+	public String getMaxTechTypeCodeByParentId(String parentId)
+	{
+		return techFamilyMapper.getMaxTechTypeCodeByParentId(parentId);
+	}
+	
+	public int deleteTechFamilyTypeById(String tfmTypeId)throws Exception
+	{
+		return techFamilyMapper.deleteByPrimaryKey(tfmTypeId);
+	}
+	
+	
+	
+	
+	public int deleteByParentId(String tfmTypeId)throws Exception
+	{
+		return techFamilyMapper.deleteByParentId(tfmTypeId);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
     
     
 }

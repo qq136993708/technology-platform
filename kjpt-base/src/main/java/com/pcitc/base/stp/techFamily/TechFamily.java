@@ -50,10 +50,27 @@ public class TechFamily {
     
     private String secretLevel;
     private String secretLevelStr;
+    private String knowledgeScope="";
+    private String knowledgePerson="";
     
     
-    
-    public String getSecretLevel() {
+    public String getKnowledgeScope() {
+		return knowledgeScope;
+	}
+
+	public void setKnowledgeScope(String knowledgeScope) {
+		this.knowledgeScope = knowledgeScope;
+	}
+
+	public String getKnowledgePerson() {
+		return knowledgePerson;
+	}
+
+	public void setKnowledgePerson(String knowledgePerson) {
+		this.knowledgePerson = knowledgePerson;
+	}
+
+	public String getSecretLevel() {
 		return secretLevel;
 	}
 

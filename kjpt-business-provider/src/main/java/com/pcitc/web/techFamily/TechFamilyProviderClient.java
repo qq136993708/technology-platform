@@ -439,15 +439,9 @@ public class TechFamilyProviderClient {
         return rt;
     }
     
-    
-    
-    
-    
-    
     @ApiOperation(value = "根据编码（多个）查询技术族列表", notes = "根据编码（多个）查询技术族列表，返回LIST")
     @RequestMapping(value = "/tech-family-provider/getListByCodes", method = RequestMethod.POST)
 	public List<TechFamily> getTechFamilyListByCodes(@RequestBody List<String> list)throws Exception{
-		logger.info("=============================list-by-ids Equipemnt =================");
 		return techFamilyService.getTechFamilyListByCodes(list);
 	}
     
@@ -459,8 +453,96 @@ public class TechFamilyProviderClient {
 	}
 	
     
+    @ApiOperation(value = "查询技术族列表", notes = "查询技术族列表，返回LIST")
+    @RequestMapping(value = "/tech_family_provider/getFamilyList", method = RequestMethod.POST)
+	public JSONArray getFamilyList(@RequestBody Map map)throws Exception{
+    	List<TechFamily> list= techFamilyService.getFamilyList(map);
+    	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+    	return json;
+	}
     
     
+    @ApiOperation(value = "查询技术族树", notes = "查询技术族树")
+    @RequestMapping(value = "/tech_family_provider/getTreeNodeList", method = RequestMethod.POST)
+	public JSONArray getTreeNodeList(@RequestBody Map map)throws Exception{
+    	List<TreeNode> list= techFamilyService.getTreeNodeList(map);
+    	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+    	return json;
+	}
+
+	@ApiOperation(value = "获取技术族（分页）", notes = "获取技术族（分页）")
+	@RequestMapping(value = "/tech_family_provider/page", method = RequestMethod.POST)
+	public LayuiTableData getpage(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return techFamilyService.getFamilyPage(param);
+	}
+	
     
     
+	@ApiOperation(value = "保存技术族分类", notes = "保存技术族分类")
+	@RequestMapping(value = "/tech_family_provider/save", method = RequestMethod.POST)
+	public Integer saveTechFamilyType(@RequestBody TechFamily techType) throws Exception
+	{
+		int count=0;
+		TechFamily parentVo = techFamilyService.getTechFamilyById(techType.getParentId());
+		techType.setParentCode(parentVo.getTypeCode());
+		techType.setTypeIndex(parentVo.getTypeIndex() + techType.getTypeCode() + "@");
+		techType.setLevelCode(String.valueOf(Integer.valueOf(parentVo.getLevelCode()) + 1));
+		techType.setTfmTypeId(UUID.randomUUID().toString().replaceAll("-", ""));
+		count=techFamilyService.saveTechFamilyType(techType);
+		// 修改原节点isParent 属性
+		if(parentVo.getIsParent().equals("0")) 
+		{
+			parentVo.setIsParent("1");
+			techFamilyService.updateTechFamilyType(parentVo);
+		}
+		return count;
+	}
+	
+	
+	
+	
+	@ApiOperation(value = "获取当前节点孩子的最大编码", notes = "新增数据时，编码+1")
+	@RequestMapping(value = "/tech_family_provider/getMaxCodeByParentId", method = RequestMethod.POST)
+	public JSONObject getMaxTechTypeCodeByParentId(@RequestBody HashMap<String, String> map) throws Exception{
+		
+		String parentId=map.get("parentId");
+		String maxTypeCode = techFamilyService.getMaxTechTypeCodeByParentId(parentId);
+		String retCode = "";
+		JSONObject retJson = new JSONObject();
+		if (maxTypeCode != null) {
+			// 取后四位+1
+			String temcode = maxTypeCode.substring(maxTypeCode.length() - 4, maxTypeCode.length());
+			int l = Integer.parseInt(temcode) + 1;
+            String str = "";
+            for (int i = 0; i < 4-(l+"").length(); i++) {
+                str = str+"0";
+            }
+			retCode = maxTypeCode.substring(0, maxTypeCode.length() - 4) + str+l;
+		}else 
+		{
+			TechFamily techFamily= techFamilyService.getTechFamilyById(parentId);
+            retCode = techFamily.getTypeCode()+"0001";
+        }
+		retJson.put("maxTypeCode", retCode);
+		return retJson;
+	}
+	
+	
+	
+	
+	
+	
+	@ApiOperation(value = "删除技术族分类", notes = "删除技术族分类")
+	@RequestMapping(value = "/tech_family_provider/delete/{tfmTypeId}", method = RequestMethod.POST)
+	public Integer delTechFamily(@PathVariable("tfmTypeId") String tfmTypeId) throws Exception
+	{
+		techFamilyService.deleteTechFamilyTypeById(tfmTypeId);
+		int count=techFamilyService.deleteByParentId(tfmTypeId);
+		return count;
+	}
+	
+	
+	
+
 }

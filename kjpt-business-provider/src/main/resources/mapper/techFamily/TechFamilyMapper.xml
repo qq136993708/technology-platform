@@ -25,6 +25,10 @@
 		<result column="direction_info" property="directionInfo" jdbcType="VARCHAR" />
 		<result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
         <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+        
+         <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+         <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+    
 		
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -432,12 +436,97 @@
        </foreach>
      </select>
      
-     
-     
-     
      <select id="getTechFamilyList" resultMap="BaseResultMap"  >
       select * from tfm_type t where  status =  #{status}
      </select>
      
+     
+     
+     <sql id="view_tfm_type">
+      SELECT t1.*
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
+     FROM tfm_type t1
+	</sql>
+	
+       <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="typeName != null       and typeName  !='' ">            AND t.type_name like CONCAT('%',#{typeName},'%')</if>
+	     <if test="tfmTypeId != null      and tfmTypeId !=''  ">           AND t.tfm_type_id = #{tfmTypeId}</if>
+	     <if test="typeCode != null       and typeCode !=''  ">            AND t.del_status = #{typeCode}</if>
+	     <if test="parentId != null       and parentId !=''  ">            AND t.parent_id = #{parentId}</if>
+	     <if test="parentCode != null        and parentCode !=''  ">       AND t.parent_code = #{parentCode}</if>
+	     <if test="secretLevel != null        and secretLevel !=''  ">      AND t.secret_level = #{secretLevel}</if>
+	     <if test="knowledgeScope != null     and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
+	      </if>
+	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
+	      <if test="status != null            and status !=''  ">              AND t.status = #{status}</if>
+	      <if test="levelCode != null         and levelCode !=''  ">           AND t.level_code = #{levelCode}</if>
+	      <if test="typeIndex != null         and typeIndex !=''  ">           AND t.type_index = #{typeIndex}</if>
+	 </trim>
+	</sql>
+     
+     
+     <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from (<include refid="view_tfm_type" />)  t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+       ORDER  BY t.level_code,t.type_index ASC 
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM tfm_type t <include refid="selectCondition"/>
+    </select>
+    
+     <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from tfm_type t <include refid="selectCondition" />
+     </select>
+  
+     
+     <select id="getTreeNodeList" resultType="com.pcitc.base.common.TreeNode">
+     select
+	      t.tfm_type_id AS id,
+		  t.parent_id AS pId,
+		  t.type_name AS NAME,
+		  t.level_code AS levelCode,
+		  t.type_code AS CODE,
+		  t.is_parent AS parentFlag,
+		  t.type_index AS nodePath
+	  from tfm_type  t  <include refid="selectCondition" />  
+        ORDER BY t.level_code,t.type_index ASC 
+	</select>
+     
+     
+     <select id="getMaxTechTypeCodeByParentId" resultType="java.lang.String" parameterType="string">
+		select max(type_code)
+		from tfm_type
+		where parent_id = #{parentId}
+		group by parent_id
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<delete id="deleteByParentId" parameterType="java.lang.String">
+		delete from tfm_type where parent_id = #{parentId}
+	</delete>
+	
+	
+	
      
 </mapper>

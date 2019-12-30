@@ -90,7 +90,7 @@ public class TechFamilyController extends BaseController {
 		treeNode.setName("技术族");
 		json.add(treeNode);
 
-		//System.out.println("----"+json.toString());
+		System.out.println("----"+json.toString());
 		return json.toString();
 	}
 
@@ -145,16 +145,13 @@ public class TechFamilyController extends BaseController {
 	@RequestMapping(value = "/tech-family/type/ini-add")
 	public String iniAddTechFamilyType(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser sysUserInfo = getUserProfile();
-		System.out.println("========/tech-family/type/ini-add=========");
 		request.setAttribute("userInfo", sysUserInfo);
-
 		// 获取当前节点孩子的最大编码，新节点编码在原有基础上加1
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("parentId", request.getParameter("tfmTypeId"));
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(TECH_TYPE_STR, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-
 		request.setAttribute("typeCode", retJson.get("maxTypeCode"));
 		return "/stp/techFamily/techType_add";
 	}

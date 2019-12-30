@@ -74,4 +74,17 @@ public interface TechFamilyMapper {
 	
 	public List<TechFamily> getTechFamilyList(Map map);
 	
+	
+	
+	public List getList(Map map);
+	    
+	public   int getCount(Map map);
+	
+	
+	public List getTreeNodeList(Map map);
+	
+	public String getMaxTechTypeCodeByParentId(String parentId);
+	
+	 int deleteByParentId(String tfmTypeId);
+	
 }
