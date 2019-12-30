@@ -253,7 +253,7 @@ layui.config({
   getTabContentList({
     id: '#transform_tab_list',
     url: '/achieve-api/query',
-    data: { page: 1, limit: 10, isPublic:3 },
+    data: { page: 1, limit: 10, isPublic:2 },
     name: 'achieveName',
     href: '/html/scientificMaterials/planDetails.html',
     hrefData: ['id'],

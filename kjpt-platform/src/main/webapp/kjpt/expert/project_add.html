@@ -136,6 +136,7 @@
             type: 'GET',
             async:false,
             success: function(relData) {
+                console.log(relData)
                 formSelects.data('chargeUnit', 'local', { arr: relData.children });
                 formSelects.btns('chargeUnit', ['remove']);
             }
@@ -170,7 +171,7 @@
                 /*模拟关闭标签页事件*/
                 var e={success:true}
                 top.layer.closeAll(); // 关闭弹窗
-                setDialogData();
+                setDialogData(e);
             }
         }
         $('.layui-btn').on('click', function(){

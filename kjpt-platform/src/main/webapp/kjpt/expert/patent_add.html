@@ -157,8 +157,9 @@
         var $ = layui.$, active = {
             close:function () {
                 /*模拟关闭标签页事件*/
-                setDialogData('');
+                var e={success:true}
                 top.layer.closeAll(); // 关闭弹窗
+                setDialogData(e);
             }
         }
         $('.layui-btn').on('click', function(){

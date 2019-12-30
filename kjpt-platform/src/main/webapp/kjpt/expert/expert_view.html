@@ -357,6 +357,17 @@
                 }
                 openLayer(obj)
             },
+            patentDelete:function(){
+                var obj={
+                    id:'patent',
+                    tableName:'patent',
+                    url:'/expert-patent-api/delete/',
+                    arr:patentArr,
+                    tableUrl:'/expert-patent-api/page'
+                }
+                deleData(obj)
+
+            },
             rewardAdd:function () {
                 var obj={
                     title:'添加奖励',
