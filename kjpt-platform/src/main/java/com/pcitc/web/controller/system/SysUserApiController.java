@@ -128,7 +128,7 @@ public class SysUserApiController extends BaseController{
 	    	
 	    	
 	    	param.getParam().put("userDelflag", 0);
-	    	param.getParam().put("recodeLevel", String.valueOf(Integer.valueOf(recodeLevel).intValue()+1));
+	    	param.getParam().put("recodeLevel", String.valueOf(Integer.valueOf(recodeLevel).intValue()));
 	    	param.getParam().put("name",name);
 	    	
 			LayuiTableData layuiTableData = new LayuiTableData();
