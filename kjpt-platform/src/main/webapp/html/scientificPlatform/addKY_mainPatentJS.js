@@ -27,6 +27,15 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 						formData.applicationDate =  new Date(formData.applicationDate).format('yyyy-MM-dd');
 					}
 					form.val('formProject', formData);
+
+					// 添加知悉范围
+          setJurisdictionScope({
+            elem: 'scope_list_layout',
+            knowledgeScope: formData.knowledgeScope,
+            knowledgePerson: formData.knowledgePerson,
+            secretLevel: formData.secretLevel,
+            disabled: false
+          });
 				}
 			}
 		});
