@@ -517,8 +517,6 @@
 			   </foreach>
 	     </if>
 	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
-	     <if test="knowledgeScope != null       and knowledgeScope !=''  ">       AND t.knowledge_scope = #{knowledgeScope}</if>
-	     <if test="knowledgePerson != null     and knowledgePerson !=''  ">     AND t.knowledge_person = #{knowledgePerson}</if>
 	     <if test="expertTypes != null       and expertTypes !=''  ">   
 	         AND t.expert_type in 
 	           <foreach item="item"  collection="expertTypes.split(',')"  open="(" separator="," close=")">
