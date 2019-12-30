@@ -1,6 +1,7 @@
 package com.pcitc.filepreview.controller;
 
 import com.pcitc.filepreview.service.FileService;
+import com.pcitc.filepreview.utils.AESFileUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -110,6 +111,18 @@ public class PreviewController {
     @GetMapping("/localPageCount")
     public int proView(@RequestParam("fileName") String fileName, @RequestParam("filePath") String filePath) throws Exception {
         return this.fileService.getProViewPageCount(fileName, filePath);
+    }
+
+    @GetMapping("/localEncrypt")
+    public String encryptFile(@RequestParam("sourceFile") String sourceFile, @RequestParam("outFile") String outFile) throws Exception {
+        AESFileUtils.encryptFile(sourceFile, outFile);
+        return "ok";
+    }
+
+    @GetMapping("/localDecrypt")
+    public String decryptFile(@RequestParam("sourceFile") String sourceFile, @RequestParam("outFile") String outFile) throws Exception {
+        AESFileUtils.decryptFile(sourceFile, outFile);
+        return "ok";
     }
 
     //该方法应该已存在

@@ -1,5 +1,6 @@
 package com.pcitc.filepreview.service;
 
+import com.pcitc.filepreview.utils.AESFileUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.jodconverter.DocumentConverter;
@@ -30,7 +31,7 @@ public class FileServiceImpl implements FileService {
         }
 
         //计算预览图片的路径，= 原始文件-页码
-        String imgPath = filePath + "-" + page.toString() + ".jpg";
+        String imgPath = filePath + "-" + page.toString();
         File file = null;
 
         try {
@@ -71,7 +72,9 @@ public class FileServiceImpl implements FileService {
         try {
             File file = this.getProViewPdf(fileName, filePath);
             if (file != null && file.exists()) {
-                PDDocument pdDocument = PDDocument.load(file);
+
+                byte[] source = AESFileUtils.decryptFileToData(file);
+                PDDocument pdDocument = PDDocument.load(source);
                 return pdDocument.getNumberOfPages();
             } else {
                 throw new RuntimeException("预览PDF生成错误");
@@ -102,8 +105,12 @@ public class FileServiceImpl implements FileService {
                     return file;
                 }
                 File sourceFile  = new File(filePath);
+                byte[] source = AESFileUtils.decryptFileToData(sourceFile);
+                ByteArrayInputStream in = new ByteArrayInputStream(source);
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
                 if(sourceFile.exists()) {
-                    documentConverter.convert(sourceFile).as(inputType).to(file).as(DefaultDocumentFormatRegistry.PDF).execute();
+                    documentConverter.convert(in).as(inputType).to(out).as(DefaultDocumentFormatRegistry.PDF).execute();
+                    AESFileUtils.encryptDataToFile(out.toByteArray(), file);
                     return file;
                 } else {
                   throw new RuntimeException("附件" + fileName + "不存在");
@@ -114,9 +121,6 @@ public class FileServiceImpl implements FileService {
         }
 
     }
-
-
-
 
     private boolean isImageFile(String fileName) {
         String ext = this.getFileExt(fileName);
@@ -146,7 +150,10 @@ public class FileServiceImpl implements FileService {
 
         try {
             int dpi = 296;
-            pdDocument = PDDocument.load(file);
+
+            byte[] source = AESFileUtils.decryptFileToData(file);
+            pdDocument = PDDocument.load(source);
+
             PDFRenderer renderer = new PDFRenderer(pdDocument);
             int pageCount = pdDocument.getNumberOfPages();
             /* dpi越大转换后越清晰，相对转换速度越慢 */
@@ -154,7 +161,10 @@ public class FileServiceImpl implements FileService {
             if (page < pageCount){
                 File outFile = new File(path);
                 BufferedImage image = renderer.renderImageWithDPI(page, dpi);
-                ImageIO.write(image, "jpg", outFile);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                ImageIO.write(image, "jpg", out);
+                AESFileUtils.encryptDataToFile(out.toByteArray(), outFile);
             }  else {
                 throw new RuntimeException("已到达最后一页，共" + pageCount + "页");
             }
