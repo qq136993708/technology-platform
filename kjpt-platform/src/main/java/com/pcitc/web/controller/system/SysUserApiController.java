@@ -259,6 +259,7 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserName(sysUser.getUserName());
+			oldSysUser.setUserHeadPic(sysUser.getUserHeadPic());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
