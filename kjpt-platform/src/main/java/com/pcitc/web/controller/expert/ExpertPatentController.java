@@ -196,18 +196,33 @@ public class ExpertPatentController extends BaseController {
 			oldZjkPatent.setSecretLevel(zjkPatent.getSecretLevel());
 			
 			
+			
 			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkPatent.getKnowledgeScope();
 			String knowledgePerson=zjkPatent.getKnowledgePerson();
+			
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				oldZjkPatent.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkPatent.setKnowledgeScope(userName);
 				oldZjkPatent.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				oldZjkPatent.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				oldZjkPatent.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					oldZjkPatent.setKnowledgeScope(knowledgeScope+","+userName);
+					oldZjkPatent.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					oldZjkPatent.setKnowledgeScope(knowledgeScope);
+					oldZjkPatent.setKnowledgePerson(knowledgePerson);
+				}
+				 
 			}
+			
+			
+			
+			
 			
 			
 			oldZjkPatent.setGetPatentTime(date);
@@ -234,18 +249,30 @@ public class ExpertPatentController extends BaseController {
 			zjkPatent.setGetPatentTime(date);
 			zjkPatent.setCreateUser(sysUserInfo.getUserId());
 			
+			
 			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkPatent.getKnowledgeScope();
 			String knowledgePerson=zjkPatent.getKnowledgePerson();
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				zjkPatent.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkPatent.setKnowledgeScope(userName);
 				zjkPatent.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				zjkPatent.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				zjkPatent.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					zjkPatent.setKnowledgeScope(knowledgeScope+","+userName);
+					zjkPatent.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					zjkPatent.setKnowledgeScope(knowledgeScope);
+					zjkPatent.setKnowledgePerson(knowledgePerson);
+				}
 			}
+			
+			
+			
 			
 			
 			
