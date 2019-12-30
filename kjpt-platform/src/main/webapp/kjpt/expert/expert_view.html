@@ -141,12 +141,7 @@
                 type: 'GET',
                 success: function(relData) {
                     if (relData.success === true) {
-                        relData.data.achievementNum=JSON.parse(relData.data.zjkAchievementJsonList).length
-                        relData.data.patent=JSON.parse(relData.data.zjkPatentJsonList).length
-                        relData.data.project=JSON.parse(relData.data.zjkProjectJsonList).length
-                        relData.data.reward=JSON.parse(relData.data.zjkRewardJsonList).length
                         if(relData.data.headPic!=''){
-                            console.log(relData.data.headPic)
                             $("#img img").attr("src",'/file/imgFile/'+relData.data.headPic)
                         }
                         setTargetNameValue(relData.data)
@@ -308,7 +303,7 @@
                 var activeData = table.checkStatus('achievements').data;
                 console.log(activeData)
                 if(activeData.length==0){
-                    layer.msg('请选择要删除的数据!');
+                    layer.msg('请选择要编辑的数据!');
                     return false
                 }
                 var obj={
@@ -345,7 +340,7 @@
                 var activeData = table.checkStatus('patent').data;
                 console.log(activeData)
                 if(activeData.length==0){
-                    layer.msg('请选择要删除的数据!');
+                    layer.msg('请选择要编辑的数据!');
                     return false
                 }
                 var obj={
@@ -374,10 +369,37 @@
                     url:'/kjpt/expert/reward_add.html?expertId='+variable.id,
                     tableName:'reward',
                     arr:rewardArr,
-                    tableUrl:'/expert-patent-api/page'
+                    tableUrl:'/expert-reward-api/page'
                 }
                 openLayer(obj)
-            }
+            },
+            rewardEdit:function () {
+                var activeData = table.checkStatus('reward').data;
+                console.log(activeData)
+                if(activeData.length==0){
+                    layer.msg('请选择要编辑的数据!');
+                    return false
+                }
+                var obj={
+                    title:'编辑奖励',
+                    url:'/kjpt/expert/reward_add.html?expertId='+variable.id+"&id="+activeData[0].id,
+                    tableName:'reward',
+                    arr:rewardArr,
+                    tableUrl:'/expert-reward-api/page'
+                }
+                openLayer(obj)
+            },
+            rewardDelete:function(){
+                var obj={
+                    id:'reward',
+                    tableName:'reward',
+                    url:'/expert-reward-api/delete/',
+                    arr:rewardArr,
+                    tableUrl:'/expert-reward-api/page'
+                }
+                deleData(obj)
+
+            },
         }
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
