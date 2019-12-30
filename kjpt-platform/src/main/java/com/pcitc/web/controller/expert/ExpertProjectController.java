@@ -187,8 +187,22 @@ public class ExpertProjectController extends BaseController {
 			oldZjkProject.setChargeUnit(zjkProject.getChargeUnit());
 			oldZjkProject.setResearchTarget(zjkProject.getResearchTarget());
 			oldZjkProject.setSecretLevel(zjkProject.getSecretLevel());
-			oldZjkProject.setSeeUserIds(zjkProject.getSeeUserIds());
-			oldZjkProject.setSeeUserNames(zjkProject.getSeeUserNames());
+			
+			
+
+			//处理知悉范围
+			String knowledgeScope=zjkProject.getKnowledgeScope();
+			String knowledgePerson=zjkProject.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				oldZjkProject.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkProject.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				oldZjkProject.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				oldZjkProject.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+			}
+			
 			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkProject>(oldZjkProject, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -207,12 +221,22 @@ public class ExpertProjectController extends BaseController {
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkProject.setId(dateid);
 			zjkProject.setCreateUser(sysUserInfo.getUserId());
-			String seeUserIds=zjkProject.getSeeUserIds();
-   			if(seeUserIds==null || "".equals(seeUserIds))
+			
+			//处理知悉范围
+			String knowledgeScope=zjkProject.getKnowledgeScope();
+			String knowledgePerson=zjkProject.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-   				zjkProject.setSeeUserIds(sysUserInfo.getUserId());
-   				zjkProject.setSeeUserNames(sysUserInfo.getUserDisp());
+				zjkProject.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkProject.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				zjkProject.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				zjkProject.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
 			}
+			
+			
+			
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkProject>(zjkProject, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();

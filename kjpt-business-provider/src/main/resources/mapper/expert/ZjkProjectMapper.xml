@@ -19,14 +19,14 @@
       <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
      <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
      
-      <result column="see_user_ids"             jdbcType="VARCHAR" property="seeUserIds" />
-    <result column="see_user_names"           jdbcType="VARCHAR" property="seeUserNames" />
+      <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
     <result column="create_user"              jdbcType="VARCHAR" property="createUser" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id,  expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
-    del_status, source_type, out_system_id,flag,secret_level,see_user_ids,see_user_names,create_user
+    del_status, source_type, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -36,7 +36,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
     insert into zjk_project (id,expert_id, project_name, charge_unit, 
       research_target, setup_yeat, create_time, 
-      del_status, source_type, out_system_id,flag,secret_level,see_user_ids,see_user_names,create_user
+      del_status, source_type, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
       )
     values (
       #{id,jdbcType=VARCHAR}, 
@@ -44,8 +44,8 @@
       #{researchTarget,jdbcType=VARCHAR}, #{setupYeat,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR},
       #{flag,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
-       ,#{seeUserIds,jdbcType=VARCHAR}
-      ,#{seeUserNames,jdbcType=VARCHAR}
+       ,#{knowledgeScope,jdbcType=VARCHAR}
+      ,#{knowledgePerson,jdbcType=VARCHAR}
       ,#{createUser,jdbcType=VARCHAR}
       )
   </insert>
@@ -89,11 +89,11 @@
        <if test="secretLevel != null">
         secret_level,
       </if>
-      <if test="seeUserIds != null">
-        see_user_ids,
+      <if test="knowledgeScope != null">
+        knowledge_scope,
       </if>
-      <if test="seeUserNames != null">
-        see_user_names,
+      <if test="knowledgePerson != null">
+        knowledge_person,
       </if>
       <if test="createUser != null">
         create_user,
@@ -137,11 +137,11 @@
       <if test="secretLevel != null">
         #{secretLevel,jdbcType=VARCHAR},
       </if>  
-      <if test="seeUserIds != null">
-        #{seeUserIds,jdbcType=VARCHAR},
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
       </if>
-      <if test="seeUserNames != null">
-        #{seeUserNames,jdbcType=VARCHAR},
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
@@ -189,11 +189,11 @@
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if>
       
-       <if test="seeUserIds != null">
-        see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
+       <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
       </if>
-      <if test="seeUserNames != null">
-        see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=VARCHAR},
@@ -211,8 +211,8 @@
       setup_yeat = #{setupYeat,jdbcType=VARCHAR},
       secret_level = #{secretLevel,jdbcType=VARCHAR},
        
-      see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
-      see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       create_user = #{createUser,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       del_status = #{delStatus,jdbcType=VARCHAR},
@@ -253,8 +253,8 @@
 	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
 	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
 	<if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <if test="seeUserIds != null        and seeUserIds !=''  "> 
-	            AND FIND_IN_SET(#{seeUserIds},t.`see_user_ids`) 
+	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
 	      </if>
 	
 	

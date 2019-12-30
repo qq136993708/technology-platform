@@ -165,14 +165,30 @@ public class ZjkBase  {
     
     
     private String expertType="";
-    private String seeUserIds="";
-    private String seeUserNames="";
+    private String knowledgeScope="";
+    private String knowledgePerson="";
     private String expertTypes;
     
     private String  expertTypeStr;
     
     
     
+	public String getKnowledgeScope() {
+		return knowledgeScope;
+	}
+
+	public void setKnowledgeScope(String knowledgeScope) {
+		this.knowledgeScope = knowledgeScope;
+	}
+
+	public String getKnowledgePerson() {
+		return knowledgePerson;
+	}
+
+	public void setKnowledgePerson(String knowledgePerson) {
+		this.knowledgePerson = knowledgePerson;
+	}
+
 	public String getExpertTypeStr() {
 		return expertTypeStr;
 	}
@@ -197,21 +213,7 @@ public class ZjkBase  {
 		this.expertType = expertType;
 	}
 
-	public String getSeeUserIds() {
-		return seeUserIds;
-	}
-
-	public void setSeeUserIds(String seeUserIds) {
-		this.seeUserIds = seeUserIds;
-	}
-
-	public String getSeeUserNames() {
-		return seeUserNames;
-	}
-
-	public void setSeeUserNames(String seeUserNames) {
-		this.seeUserNames = seeUserNames;
-	}
+	
 
 	public String getSecretLevel() {
 		return secretLevel;
