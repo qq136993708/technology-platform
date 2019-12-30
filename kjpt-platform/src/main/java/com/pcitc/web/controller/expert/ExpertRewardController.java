@@ -193,17 +193,27 @@ public class ExpertRewardController extends BaseController {
    			oldZjkReward.setSecretLevel(zjkReward.getSecretLevel());
    			
    			
-   		    //处理知悉范围
+
+			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkReward.getKnowledgeScope();
 			String knowledgePerson=zjkReward.getKnowledgePerson();
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				oldZjkReward.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkReward.setKnowledgeScope(userName);
 				oldZjkReward.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				oldZjkReward.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				oldZjkReward.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					oldZjkReward.setKnowledgeScope(knowledgeScope+","+userName);
+					oldZjkReward.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					oldZjkReward.setKnowledgeScope(knowledgeScope);
+					oldZjkReward.setKnowledgePerson(knowledgePerson);
+				}
+				 
 			}
 			
 			
@@ -228,18 +238,30 @@ public class ExpertRewardController extends BaseController {
    			zjkReward.setCreateUser(sysUserInfo.getUserId());
    			
    			
-   		    //处理知悉范围
+   			
+
+			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkReward.getKnowledgeScope();
 			String knowledgePerson=zjkReward.getKnowledgePerson();
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				zjkReward.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkReward.setKnowledgeScope(userName);
 				zjkReward.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				zjkReward.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				zjkReward.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					zjkReward.setKnowledgeScope(knowledgeScope+","+userName);
+					zjkReward.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					zjkReward.setKnowledgeScope(knowledgeScope);
+					zjkReward.setKnowledgePerson(knowledgePerson);
+				}
 			}
+			
+			
    			
    			Date date=DateUtil.strToDate(zjkReward.getAwardingTimeStr(), DateUtil.FMT_DD);
    			zjkReward.setAwardingTime(date);

@@ -200,18 +200,32 @@ public class ExpertAchievementController extends BaseController {
 			oldZjkAchievement.setApplyYear(zjkAchievement.getApplyYear());
 			
 			
+
 			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkAchievement.getKnowledgeScope();
 			String knowledgePerson=zjkAchievement.getKnowledgePerson();
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				oldZjkAchievement.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkAchievement.setKnowledgeScope(userName);
 				oldZjkAchievement.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				oldZjkAchievement.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				oldZjkAchievement.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					oldZjkAchievement.setKnowledgeScope(knowledgeScope+","+userName);
+					oldZjkAchievement.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					oldZjkAchievement.setKnowledgeScope(knowledgeScope);
+					oldZjkAchievement.setKnowledgePerson(knowledgePerson);
+				}
+				 
 			}
+			
+			
+			
+			
 		
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkAchievement>(oldZjkAchievement, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -232,17 +246,26 @@ public class ExpertAchievementController extends BaseController {
 			zjkAchievement.setCreateUser(sysUserInfo.getUserId());
 			
 			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkAchievement.getKnowledgeScope();
 			String knowledgePerson=zjkAchievement.getKnowledgePerson();
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				zjkAchievement.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkAchievement.setKnowledgeScope(userName);
 				zjkAchievement.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				zjkAchievement.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				zjkAchievement.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					zjkAchievement.setKnowledgeScope(knowledgeScope+","+userName);
+					zjkAchievement.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					zjkAchievement.setKnowledgeScope(knowledgeScope);
+					zjkAchievement.setKnowledgePerson(knowledgePerson);
+				}
 			}
+			
 			
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkAchievement, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();

@@ -441,23 +441,34 @@ public class ExpertController extends BaseController {
 			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
 			zjkBase.setCreateUnitName(sysUserInfo.getUserUnitName());
 			
+			
+			
+			
 			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkBase.getKnowledgeScope();
 			String knowledgePerson=zjkBase.getKnowledgePerson();
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				zjkBase.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkBase.setKnowledgeScope(userName);
 				zjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				
-				
-				
-				
-				zjkBase.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				zjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					zjkBase.setKnowledgeScope(knowledgeScope+","+userName);
+					zjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					zjkBase.setKnowledgeScope(knowledgeScope);
+					zjkBase.setKnowledgePerson(knowledgePerson);
+				}
 			}
-	
+			
+			
+			
+			
+		
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();
