@@ -462,10 +462,11 @@
 }
 
 .ztree li a.curSelectedNode {
-    padding-top: 0px !important;
-    background-color: #3783C8 !important;
-    color: #fff !important;
-    opacity: 0.8 !important;
+    padding-top: .2rem;
+    background-color: #3783C8;
+    opacity: 0.8;
+    height: auto;
+    border-width: 0;
 }
 
 

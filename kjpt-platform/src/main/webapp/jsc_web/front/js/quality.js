@@ -1,443 +1,513 @@
 layui.use(['laydate'], function() {
   var laydate = layui.laydate,
   chartInit = {
+    getChartData: function(config) {
+      if (config.strKey) {
+        var dateValue = new Date().getTime(),
+        httpUrl = '/qims-api/qualityStatistics/query?';
+        dateValue = (dateValue - 1000*60*60*24);
+        dateValue = new Date(dateValue).format('yyyy-MM-dd') + ' 00:00:00';
+        httpUrl = httpUrl + 'key=' + config.strKey + '&date=' + dateValue;
+  
+        httpModule({
+          url: httpUrl,
+          success: function(res) {
+            if (res && res[0]) {
+              var relData = res[0].indicatorDataList,
+              chartType = res[0].indicatorDefine.chartType,
+              chartConfig = {series: []},
+              subTitle = '';
+  
+              if (chartType === 'pie') {
+                var pieData = relData[0],
+                legendData = pieData.legend.split(','),
+                valueData = pieData.ydata.split(',');
+                $.each(legendData, function(i, item) {
+                  chartConfig.series.push({
+                    name: item, value: valueData[i]
+                  });
+                })
+                subTitle = pieData.subtext;
+              } else {
+                chartConfig.data = [];
+                subTitle = relData[0].subtext;
+
+                var legendData = relData[0].legend.split(',');
+                $.each(legendData, function(i, item) {
+                  chartConfig.series.push({name: item, valueKey: ('value_' + i) });
+                });
+                $.each(relData, function(i ,item) {
+                  var rowItem = switchHttpData(item),
+                  _value = (function() {
+                    if (typeof(rowItem.ydata) === 'string') {
+                      return rowItem.ydata.split(',');
+                    } else if (typeof(rowItem.ydata) === 'number') {
+                      return [rowItem.ydata]
+                    } else {
+                      return ['-']
+                    }
+                  })();
+                  $.each(_value, function(id, val) {
+                    rowItem['value_'+id] = (function() {
+                      if (!val && val !== 0) {
+                        return '-';
+                      } else {
+                        return val;
+                      }
+                    })();
+                  });
+                  chartConfig.data.push(rowItem);
+                })
+              }
+              if (config.callback) {
+                if (config.legend && chartConfig.series) {
+                  $.each(chartConfig.series, function(i, item) {
+                    for (var key in config.legend[i]) {
+                      if (!item[key]) {
+                        chartConfig.series[i][key] = config.legend[i][key];
+                      }
+                    }
+                  })
+                }
+                config.callback(chartConfig, subTitle);
+              }
+            }
+          }
+        });
+      }
+    },
     qualityOne: function(date) {
       // 同位素产品质量趋势图
-      var time = date || '2019',
-      chartData = [];
+      var legendData = [
+        { name: '月度非计划停推次数', valueKey: 'value1'},
+        { name: '人因失误导致的运行事件数', valueKey: 'value2'},
+        { name: '累计平均人因失误导致的运行事件数', valueKey: 'value3'}
+      ];
 
-      for (var i = 0; i < 12; i++) {
-        chartData.push({
-          name:  (i+ 1)+'月',
-          value1: (parseInt(Math.random() * 100) + 0), // 100 ~ 500
-          value2: (parseInt(Math.random() * 100) + 0),
-          value3: (parseInt(Math.random() * 100) + 0)
-        })
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'quality_one',
+        type: 'line',
+        itemName: 'xdata',
+        legend: { left: 0, top: 60 },
+        grid: { top: 100 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        series: legendData,
+        data: [],
+        color: ['#EAFF74', '#00FF32', '#42FDFF', '#D300E0', '#FF7F5D', '#00ABE9']
+      })
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'quality_one',
-          type: 'line',
-          itemName: 'name',
-          legend: { left: 0, top: 60 },
-          grid: { top: 100 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '月度非计划停推次数', valueKey: 'value1'},
-            { name: '人因失误导致的运行事件数', valueKey: 'value2'},
-            { name: '累计平均人因失误导致的运行事件数', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#EAFF74', '#00FF32', '#42FDFF', '#D300E0', '#FF7F5D', '#00ABE9']
-        })
-      } else {
-        kyptCharts.reload('quality_one', {data: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-HD-01', // 核电运行质量趋势图
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('quality_one', configData);
+          if (text) {
+            $('#quality_one').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     qualityTwo: function (date) {
-      // gb/t19001认证审核的主要不符合项条款
-      var time = date || '2019',
-      chartData = [],
-      labelArr = ['漳州核电1、2号机组', '霞浦核电工程']
+      // 2019年3季度工程建设|| 、|||类不合符项关闭率
+      var legendData = [
+        { name: '工程（%）', valueKey: 'value1'},
+        { name: '设备（%）', valueKey: 'value2'},
+        { name: '调试（%）', valueKey: 'value3'}
+      ];
 
-      for (var i = 0; i < labelArr.length; i++) {
-        chartData.push({
-          name: labelArr[i],
-          value1: (parseInt(Math.random() * 100) + 0), // 工程
-          value2: (parseInt(Math.random() * 100) + 0), // 设备
-          value3: (parseInt(Math.random() * 100) + 0) // 调试
-        })
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'quality_two',
+        type: 'bar',
+        itemName: 'xdata',
+        legend: { show: true, left: 'right' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        barWidth: 18,
+        label: false,
+        series: legendData,
+        data: [],
+        color: ['#FFF04E', '#2687FF', '#FF7F5D']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'quality_two',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          barWidth: 18,
-          label: false,
-          series: [
-            { name: '工程（%）', valueKey: 'value1'},
-            { name: '设备（%）', valueKey: 'value2'},
-            { name: '调试（%）', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#FFF04E', '#2687FF', '#FF7F5D']
-        })
-      } else {
-        kyptCharts.reload('quality_two', {data: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-GC-00', // 2019年3季度工程建设|| 、|||类不合符项关闭率
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('quality_two', configData);
+          if (text) {
+            $('#quality_two').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     qualityThree: function(date) {
-      // gjb/t19001认证审核的主要不符合项条款
-      var time = date || '2019',
-      chartData = [];
+      // 核材料/核燃料质量趋势图
+      var legendData = [
+        { name: '产品161一次交检合格率（%）', valueKey: 'value1'},
+        { name: '产品162一次交检合格率（%）', valueKey: 'value2'},
+        { name: '压水堆核燃料组件一次交检合格率（%）', valueKey: 'value3'}
+      ];
 
-      for (var i = 1; i < 10; i++) {
-        chartData.push({
-          name: i+'月',
-          value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value2: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value3: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'quality_three',
+        type: 'line',
+        itemName: 'xdata',
+        legend: { show: true, left: '0' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        barWidth: 18,
+        series: legendData,
+        data: [],
+        color: ['#EAFF74', '#00FF32', '#42FDFF']
+      })
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'quality_three',
-          type: 'line',
-          itemName: 'name',
-          legend: { show: true, left: '0' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          barWidth: 18,
-          series: [
-            { name: '产品161一次交检合格率（%）', valueKey: 'value1'},
-            { name: '产品162一次交检合格率（%）', valueKey: 'value2'},
-            { name: '压水堆核燃料组件一次交检合格率（%）', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#EAFF74', '#00FF32', '#42FDFF']
-        })
-      } else {
-        kyptCharts.reload('quality_three', {data: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-YZ-01', // 核材料/核燃料质量趋势图
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('quality_three', configData);
+          if (text) {
+            $('#quality_three').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     qualityFour: function(date) {
-      // 最新季度内、外部质量损失占比（%）
-      var chartData = [], itemName = ['511矿床', '巴彦乌拉铀矿床', '513矿床', '510矿床'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value1: (parseInt(Math.random() * 400) + 100),
-          value2: (parseInt(Math.random() * 400) + 100),
-          value3: (parseInt(Math.random() * 400) + 100)
-        });
-      }
+      // 地浸质量数据统计
+      var legendData = [
+        { name: '浸采率（%）', valueKey: 'value1'},
+        { name: '回收率（%）', valueKey: 'value2'},
+        { name: '损失率（%）', valueKey: 'value3'}
+      ];
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'quality_four',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          barWidth: 18,
-          label: false,
-          series: [
-            { name: '浸采率（%）', valueKey: 'value1'},
-            { name: '回收率（%）', valueKey: 'value2'},
-            { name: '损失率（%）', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#FFF04E', '#2687FF', '#FF7F5D']
-        });
-      } else {
-        kyptCharts.reload('quality_four', {series: chartData});
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'quality_four',
+        type: 'bar',
+        itemName: 'xdata',
+        legend: { show: true, left: 'right' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        barWidth: 18,
+        label: false,
+        series: legendData,
+        data: [],
+        color: ['#FFF04E', '#2687FF', '#FF7F5D']
+      });
+
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-HD-01', // 地浸质量数据统计
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('quality_four', configData);
+          if (text) {
+            $('#quality_four').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     qualityFive: function (date) {
-      // 最新季度内部质量损失各科目占比（%）
-      var chartData = [], itemName = ['第一季度', '第二季度', '第三季度'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value1: (parseInt(Math.random() * 400) + 100),
-          value2: (parseInt(Math.random() * 400) + 100)
-        });
-      }
+      // 地质勘探质量趋势图
+      var legendData = [
+        { name: '累计完成钻孔数', valueKey: 'value1'},
+        { name: '平均优质孔率（%）', valueKey: 'value2', type: 'line', yIndex: 1},
+      ];
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'quality_five',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          barWidth: 18,
-          label: false,
-          series: [
-            { name: '累计完成钻孔数', valueKey: 'value1'},
-            { name: '平均优质孔率（%）', valueKey: 'value2'},
-          ],
-          data: chartData,
-          color: ['#FFF04E', '#2687FF', '#FF7F5D']
-        });
-      } else {
-        kyptCharts.reload('quality_five', {series: chartData});
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'quality_five',
+        type: 'bar',
+        itemName: 'xdata',
+        legend: { show: true, left: 'right' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        barWidth: 18,
+        label: false,
+        yAxis: [null, {formatter: '{value}%'}],
+        series: legendData,
+        data: [],
+        color: ['#FFF04E', '#2687FF', '#FF7F5D']
+      });
+
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-DZ-01', // 地质勘探质量趋势图
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('quality_five', configData);
+          if (text) {
+            $('#quality_five').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     qualitySix: function (date) {
-      // 最新季度外部质量损失各科目占比（%）
-      var chartData = [], itemName = ['1', '2', '3', '4', '5', '6', '7'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i] + '月',
-          value1: (parseInt(Math.random() * 400) + 100),
-          value2: (parseInt(Math.random() * 400) + 100),
-          value3: (parseInt(Math.random() * 400) + 100)
-        });
-      }
+      // 装备制造与仪器仪表生产质量趋势图
+      var legendData = [
+        { name: '产品161一次交检合格率（%）', valueKey: 'value1'},
+        { name: '产品162一次交检合格率（%）', valueKey: 'value2'},
+        { name: '压水堆核燃料组件一次交检合格率（%）', valueKey: 'value3'}
+      ];
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'quality_six',
-          type: 'line',
-          itemName: 'name',
-          legend: { show: true, left: '0' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          barWidth: 18,
-          series: [
-            { name: '产品161一次交检合格率（%）', valueKey: 'value1'},
-            { name: '产品162一次交检合格率（%）', valueKey: 'value2'},
-            { name: '压水堆核燃料组件一次交检合格率（%）', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#EAFF74', '#00FF32', '#42FDFF']
-        });
-      } else {
-        kyptCharts.reload('quality_six', {series: chartData});
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'quality_six',
+        type: 'line',
+        itemName: 'xdata',
+        legend: { show: true, left: '0' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        barWidth: 18,
+        series: legendData,
+        data: [],
+        color: ['#EAFF74', '#00FF32', '#42FDFF']
+      });
+
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-PY-01', // 装备制造与仪器仪表生产质量趋势图
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('quality_six', configData);
+          if (text) {
+            $('#quality_six').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
 
     appraisalOne: function(date) {
       // 同位素产品质量趋势图
-      var time = date || '2019',
-      chartData = [];
+      var legendData = [
+        { name: '医疗器械一次检验合格率（%）', valueKey: 'value1'},
+        { name: '医疗器械出厂检验合格率（%）', valueKey: 'value2'},
+        { name: '放射源一次检验合格率（%）', valueKey: 'value3'},
+        { name: '放射源出厂检验合格率（%）', valueKey: 'value4'},
+        { name: '放射性药品一次检验合格率（%）', valueKey: 'value5'},
+        { name: '放射性药品出厂检验合格率（%）', valueKey: 'value6'}
+      ];
 
-      for (var i = 0; i < 12; i++) {
-        chartData.push({
-          name:  (i+ 1)+'月',
-          value1: (parseInt(Math.random() * 100) + 0), // 100 ~ 500
-          value2: (parseInt(Math.random() * 100) + 0),
-          value3: (parseInt(Math.random() * 100) + 0),
-          value4: (parseInt(Math.random() * 100) + 0),
-          value5: (parseInt(Math.random() * 100) + 0),
-          value6: (parseInt(Math.random() * 100) + 0)
-        })
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'appraisal_one',
+        type: 'line',
+        itemName: 'xdata',
+        legend: { left: 0 },
+        grid: { top: 85 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        series: legendData,
+        data: [],
+        color: ['#EAFF74', '#00FF32', '#42FDFF', '#D300E0', '#FF7F5D', '#00ABE9']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_one',
-          type: 'line',
-          itemName: 'name',
-          legend: { left: 0 },
-          grid: { top: 85 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '医疗器械一次检验合格率（%）', valueKey: 'value1'},
-            { name: '医疗器械出厂检验合格率（%）', valueKey: 'value2'},
-            { name: '放射源一次检验合格率（%）', valueKey: 'value3'},
-            { name: '放射源出厂检验合格率（%）', valueKey: 'value4'},
-            { name: '放射性药品一次检验合格率（%）', valueKey: 'value5'},
-            { name: '放射性药品出厂检验合格率（%）', valueKey: 'value6'}
-          ],
-          data: chartData,
-          color: ['#EAFF74', '#00FF32', '#42FDFF', '#D300E0', '#FF7F5D', '#00ABE9']
-        })
-      } else {
-        kyptCharts.reload('appraisal_one', {data: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'F-TF-01', // 同位素产品质量趋势图
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('appraisal_one', configData);
+          if (text) {
+            $('#appraisal_one').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     appraisalTwo: function (date) {
-      // gb/t19001认证审核的主要不符合项条款
-      var time = date || '2019',
-      chartData = [];
+      // GB/T19001认证审核的主要不符合项条款
+      var legendData = [
+        { name: '数量', valueKey: 'value'}
+      ];
 
-      for (var i = 1; i < 13; i++) {
-        chartData.push({
-          name: i+'-成文信息',
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'appraisal_two',
+        type: 'bar',
+        itemName: 'xdata',
+        legend: { show: true, left: 'right' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        barWidth: 18,
+        label: false,
+        series: legendData,
+        data: [],
+        color: ['#FFF04E', '#00AEFF', '#93E9FF']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_two',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          barWidth: 18,
-          label: false,
-          series: [
-            { name: '数量', valueKey: 'value'}
-          ],
-          data: chartData,
-          color: ['#FFF04E', '#00AEFF', '#93E9FF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_two', {data: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'A213-a', // GB/T19001认证审核的主要不符合项条款
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('appraisal_two', configData);
+          if (text) {
+            $('#appraisal_two').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     appraisalThree: function(date) {
-      // gjb/t19001认证审核的主要不符合项条款
-      var time = date || '2019',
-      chartData = [];
+      // GJB/T19001认证审核的主要不符合项条款
+      var legendData = [
+        { name: '数量', valueKey: 'value'}
+      ];
 
-      for (var i = 1; i < 7; i++) {
-        chartData.push({
-          name: i+'-质量目标及其实现的策划',
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_three',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          barWidth: 18,
-          series: [
-            { name: '数量', valueKey: 'value'}
-          ],
-          data: chartData,
-          color: ['#81FF5B', '#00AEFF', '#93E9FF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_three', {data: chartData});
-      }
+      // 初始化配置图表参数
+      kyptCharts.render({
+        id: 'appraisal_three',
+        type: 'bar',
+        itemName: 'xdata',
+        legend: { show: true, left: 'right' },
+        grid: { top: 70 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#fff',
+        label: false,
+        barWidth: 18,
+        series: legendData,
+        data: [],
+        color: ['#81FF5B', '#00AEFF', '#93E9FF']
+      });
+      
+      // 获取数据
+      this.getChartData({
+        strKey: 'A213-b', // GJB/T19001认证审核的主要不符合项条款
+        legend: legendData,
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('appraisal_three', configData);
+          if (text) {
+            $('#appraisal_three').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     appraisalFour: function(date) {
-      // 最新季度内、外部质量损失占比（%）
-      var chartData = [], itemName = ['内部', '外部'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
+      // 最新季度内、外部质量损失占比
+      kyptCharts.render({
+        id: 'appraisal_four',
+        type: 'pie',
+        legendPosition: 'right',
+        legend: { top: 'center', right:18, formatter: 'name|value'},
+        label: false,
+        labelColor: '#fff',
+        radius: ['44%', '66%'],
+        borderColor: '#001e38',
+        title: '损失占比',
+        series: [],
+        color: ['#45F0FF', '#2687FF', '#2687FF']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_four',
-          type: 'pie',
-          legendPosition: 'right',
-          legend: { top: 'center', right:18, formatter: 'name|value'},
-          label: false,
-          labelColor: '#fff',
-          radius: ['44%', '66%'],
-          borderColor: '#001e38',
-          title: ' 损失占比',
-          series: chartData,
-          color: ['#45F0FF', '#2687FF', '#2687FF']
-        });
-      } else {
-        kyptCharts.reload('appraisal_four', {series: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'A214-08', // 最新季度内、外部质量损失占比
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('appraisal_four', configData);
+          if (text) {
+            $('#appraisal_four').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     appraisalFive: function (date) {
-      // 最新季度内部质量损失各科目占比（%）
-      var chartData = [], itemName = ['报废', '返修（工）', '降级', '停工', '成品质量事故处理', '其他'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i], value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
+      // 最新季度内部质量损失各科目占比
+      kyptCharts.render({
+        id: 'appraisal_five',
+        type: 'pie',
+        legendPosition: 'right',
+        legend: { top: 'center', right:18, formatter: 'name|value'},
+        label: false,
+        labelColor: '#fff',
+        radius: ['44%', '66%'],
+        borderColor: '#001e38',
+        title: '科目损失占比',
+        series: [],
+        color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_five',
-          type: 'pie',
-          legendPosition: 'right',
-          legend: { top: 'center', right:18, formatter: 'name|value'},
-          label: false,
-          labelColor: '#fff',
-          radius: ['44%', '66%'],
-          borderColor: '#001e38',
-          title: '科目损失占比',
-          series: chartData,
-          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
-        });
-      } else {
-        kyptCharts.reload('appraisal_five', {series: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'A214-09', // 最新季度内部质量损失各科目占比
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('appraisal_five', configData);
+          if (text) {
+            $('#appraisal_five').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     },
     appraisalSix: function (date) {
-      // 最新季度外部质量损失各科目占比（%）
-      var chartData = [], itemName = ['索赔', '退货', '折价', '保修', '其他'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i], value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
+      // 最新季度外部质量损失各科目占比 A214-10
+      kyptCharts.render({
+        id: 'appraisal_six',
+        type: 'pie',
+        legendPosition: 'right',
+        legend: { top: 'center', right:18, formatter: 'name|value'},
+        label: false,
+        labelColor: '#fff',
+        radius: ['44%', '66%'],
+        borderColor: '#001e38',
+        title: '科目损失占比',
+        series: [],
+        color: ['#FFF04E', '#81FF5B', '#42FDFF', '#FF7F5D', '#2687FF']
+      });
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_six',
-          type: 'pie',
-          legendPosition: 'right',
-          legend: { top: 'center', right:18, formatter: 'name|value'},
-          label: false,
-          labelColor: '#fff',
-          radius: ['44%', '66%'],
-          borderColor: '#001e38',
-          title: '科目损失占比',
-          series: chartData,
-          color: ['#FFF04E', '#81FF5B', '#42FDFF', '#FF7F5D', '#2687FF']
-        });
-      } else {
-        kyptCharts.reload('appraisal_six', {series: chartData});
-      }
+      // 获取数据
+      this.getChartData({
+        strKey: 'A214-10', // 最新季度外部质量损失各科目占比
+        callback: function(configData, text) {
+          // 更新图表渲染
+          kyptCharts.reload('appraisal_six', configData);
+          if (text) {
+            $('#appraisal_six').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+          }
+        }
+      });
     }
   }
 
+  // 运行报表渲染数据添加
   for (var key in chartInit) {
-    chartInit[key]();
+    if (key !== 'getChartData') {
+      chartInit[key]();
+    }
   }
-
-  // // 同位素产品质量趋势图
-  // chartInit.appraisalOne();
-
-  // // gb/t19001认证审核的主要不符合项条款
-  // chartInit.appraisalTwo();
-
-  // // gjb/t19001认证审核的主要不符合项条款
-  // chartInit.appraisalThree();
-
-  // // 最新季度内、外部质量损失占比（%）
-  // chartInit.appraisalFour();
-
-  // // 最新季度内部质量损失各科目占比（%）
-  // chartInit.appraisalFive();
-
-  // // 最新季度外部质量损失各科目占比（%）
-  // chartInit.appraisalSix();
   
   $('.scroll-layout:eq(0)').on('click', '.scroll-btn', function(e) {
     if ($(this).hasClass('active')) {
