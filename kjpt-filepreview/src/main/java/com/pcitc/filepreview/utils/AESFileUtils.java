@@ -36,20 +36,29 @@ public class AESFileUtils {
      * @return
      * @throws Exception
      */
-    private static byte[] getSecretKey(String seed) {
+    private static byte[] getSecretKey(String seed)   {
+
         KeyGenerator keyGenerator = null;
         try {
             keyGenerator = KeyGenerator.getInstance(ALGORITHM);
+            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG" );
+            if (seed != null && !"".equals(seed)) {
+                secureRandom.setSeed(seed.getBytes());
+            }
+            keyGenerator.init(KEY_SIZE, secureRandom);
+            SecretKey secretKey = keyGenerator.generateKey();
+
+            byte[] data = secretKey.getEncoded();
+            return data;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        SecureRandom secureRandom = new SecureRandom();
-        if (seed != null && !"".equals(seed)) {
-            secureRandom.setSeed(seed.getBytes());
-        }
-        keyGenerator.init(KEY_SIZE, secureRandom);
-        SecretKey secretKey = keyGenerator.generateKey();
-        return secretKey.getEncoded();
+
+        return null;
+
+        //byte[] data = new byte[] {30, -64, 122, -75, 32, 89, -78, -12, 93, -126, 73, 33, 102, -64, 8, -84};
+
+
     }
 
     /**
