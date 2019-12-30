@@ -16,22 +16,22 @@ public class ZjkReward implements Serializable {
     /**
      * 专家ID
      */
-    private String expertId;
+    private String expertId="";
 
     /**
      * 删除状态（0未删除，1删除）
      */
-    private String delStatus;
+    private String delStatus="";
 
     /**
      * 数据来源（1本系统，2外系统）
      */
-    private String sourceType;
+    private String sourceType="";
 
     /**
      * 奖励级别
      */
-    private String rewarkLevel;
+    private String rewarkLevel="";
     
     private String  rewarkLevelStr;
     
@@ -51,12 +51,12 @@ public class ZjkReward implements Serializable {
 	/**
      * 奖励描述
      */
-    private String notes;
+    private String notes="";
 
     /**
      * 授奖单位
      */
-    private String awardingUnit;
+    private String awardingUnit="";
 
     /**
      * 奖励时间
@@ -77,7 +77,7 @@ public class ZjkReward implements Serializable {
     /**
      * 外系统ID
      */
-    private String outSystemId;
+    private String outSystemId="";
 
     /*
      * 录入/导入标识

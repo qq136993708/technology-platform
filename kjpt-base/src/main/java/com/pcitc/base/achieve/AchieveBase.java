@@ -76,7 +76,7 @@ public class AchieveBase extends RecordModel implements Serializable {
     /**
      * 是否公示：1已公示，0未公示
      */
-    private String isPublic="";
+    private String isPublic="0";
 
     /**
      * 成果转化工作情况
