@@ -31,7 +31,6 @@ public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
     
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-    	System.out.println("+++++++++++++++++++++++++");
     	//当前主机的网络地址
     	Set<String> hostSet = HostUtil.getLocalHostAddressSet();
     	System.out.println(JSON.toJSONString(hostSet));
@@ -41,8 +40,6 @@ public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
     	acceptSet.retainAll(hostSet);
     	if(acceptSet.size() > 0)
     	{
-    		
-    		System.out.println("+++++++++++++++++++++++++");
     		sysJobService.startJobs();
     	}
     }
