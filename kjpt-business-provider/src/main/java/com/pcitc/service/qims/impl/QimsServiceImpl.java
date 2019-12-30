@@ -6,6 +6,7 @@ import com.pcitc.base.qims.QualityStatistics;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.mapper.qims.QualityStatisticsMapper;
 import com.pcitc.service.qims.QimsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>接口类</p>
@@ -39,17 +41,17 @@ public class QimsServiceImpl implements QimsService {
     }
 
     @Override
-    public PageInfo queryQualityStatisticsList(Map param) {
-        int pageNum = (int)param.get("pageNum");
-        int pageSize = (int)param.get("pageSize");
-        PageHelper.startPage(pageNum, pageSize);
+    public String queryQualityStatisticsList(Map param) {
         List<QualityStatistics> dataList = qualityStatisticsMapper.queryQualityStatisticsList(param);
         dataList.forEach(qualityStatistics ->{
             qualityStatistics.setDateStr(DateUtils.format(qualityStatistics.getDate(),DateUtils.FMT_SS));
             System.out.println(qualityStatistics);
         });
-        PageInfo pageInfo = new PageInfo(dataList);
+        if(Objects.nonNull(dataList)&&!dataList.isEmpty()){
+            return dataList.get(0).getContent();
+        }else{
+            return "";
+        }
 
-        return pageInfo;
     }
 }

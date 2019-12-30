@@ -114,6 +114,7 @@ layui.config({
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
+                    formSelects.value('groupType', relData.data.groupType.split(','));
                     /*achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
                     patentName=JSON.parse(relData.data.zjkPatentJsonList)
                     projectName=JSON.parse(relData.data.zjkProjectJsonList)
