@@ -83,6 +83,12 @@ public class EquipmentUtils {
 	
 	
 	
+	
+	
+	
+		
+		
+	
 	public static SysUserProperty getSysUserProperty(String userId,String dataType,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
 		SysUserProperty	SysUserProperty = null;

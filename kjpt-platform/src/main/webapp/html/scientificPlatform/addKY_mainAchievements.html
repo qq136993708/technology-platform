@@ -57,7 +57,9 @@
 					</div>
 							
 				</div>
-			
+				
+				<!-- 知悉范围 -->
+				<div id="scope_list_layout"></div>
 				<div class="secret-level-line"></div>
 
 			<div class="layui-row layui-col-space20">
@@ -66,7 +68,7 @@
 						<label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
 						<div class="layui-input-block">
 							<input type="text" name="achievementName" lay-verify="required"
-								placeholder="" autocomplete="off" class="layui-input">
+								placeholder="" lay-filter="secretLevel" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 				</div>

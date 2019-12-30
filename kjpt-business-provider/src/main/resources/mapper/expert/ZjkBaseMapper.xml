@@ -44,8 +44,8 @@
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
    
     <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
-    <result column="see_user_ids"             jdbcType="VARCHAR" property="seeUserIds" />
-    <result column="see_user_names"           jdbcType="VARCHAR" property="seeUserNames" />
+    <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
     <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     
   </resultMap>
@@ -56,8 +56,8 @@
     out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
     create_unit_id,create_unit_name,secret_level,secret_level_str,group_type_str
     ,expert_type
-    ,see_user_ids
-    ,see_user_names
+    ,knowledge_scope
+    ,knowledge_person
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -74,7 +74,7 @@
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
       audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
-     ,see_user_ids,see_user_names
+     ,knowledge_scope,knowledge_person
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -90,8 +90,8 @@
       , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
       , #{secretLevel,jdbcType=VARCHAR}
       , #{expertType,jdbcType=VARCHAR}
-      , #{seeUserIds,jdbcType=VARCHAR}
-      , #{seeUserNames,jdbcType=VARCHAR}
+      , #{knowledgeScope,jdbcType=VARCHAR}
+      , #{knowledgePerson,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -200,11 +200,11 @@
       <if test="expertType != null">
         expert_type,
       </if>
-      <if test="seeUserIds != null">
-        see_user_ids,
+      <if test="knowledgeScope != null">
+        knowledge_scope,
       </if>
-      <if test="seeUserNames != null">
-        see_user_names,
+      <if test="knowledgePerson != null">
+        knowledge_person,
       </if>
     
    
@@ -315,11 +315,11 @@
       <if test="expertType != null">
         #{expertType,jdbcType=VARCHAR},
       </if> 
-      <if test="seeUserIds != null">
-        #{seeUserIds,jdbcType=VARCHAR},
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
       </if> 
-      <if test="seeUserNames != null">
-        #{seeUserNames,jdbcType=VARCHAR},
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
       </if> 
        
     
@@ -427,11 +427,11 @@
       <if test="expertType != null">
         expert_type = #{expertType,jdbcType=VARCHAR},
       </if> 
-      <if test="seeUserIds != null">
-        see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
+      <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
       </if> 
-      <if test="seeUserNames != null">
-        see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       </if>  
       
     </set>
@@ -471,8 +471,8 @@
       group_type = #{groupType,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       expert_type = #{expertType,jdbcType=VARCHAR},
-      see_user_ids = #{seeUserIds,jdbcType=VARCHAR},
-      see_user_names = #{seeUserNames,jdbcType=VARCHAR},
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -517,8 +517,8 @@
 			   </foreach>
 	     </if>
 	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
-	     <if test="seeUserIds != null       and seeUserIds !=''  ">       AND t.see_user_ids = #{seeUserIds}</if>
-	     <if test="seeUserNames != null     and seeUserNames !=''  ">     AND t.see_user_names = #{seeUserNames}</if>
+	     <if test="knowledgeScope != null       and knowledgeScope !=''  ">       AND t.knowledge_scope = #{knowledgeScope}</if>
+	     <if test="knowledgePerson != null     and knowledgePerson !=''  ">     AND t.knowledge_person = #{knowledgePerson}</if>
 	     <if test="expertTypes != null       and expertTypes !=''  ">   
 	         AND t.expert_type in 
 	           <foreach item="item"  collection="expertTypes.split(',')"  open="(" separator="," close=")">
@@ -526,8 +526,8 @@
 			   </foreach>
 	     </if>
 	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <if test="seeUserIds != null        and seeUserIds !=''  "> 
-	            AND FIND_IN_SET(#{seeUserIds},t.`see_user_ids`) 
+	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
 	     </if>
 	 </trim>
 	</sql>

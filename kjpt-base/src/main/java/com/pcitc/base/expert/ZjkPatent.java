@@ -43,27 +43,28 @@ public class ZjkPatent implements Serializable {
      * */
     private String  flag = "";
     
-    private String seeUserIds="";
-    private String seeUserNames="";
+    
+    private String knowledgeScope="";
+    private String knowledgePerson="";
     private String createUser="";
     
     
     
 
-    public String getSeeUserIds() {
-		return seeUserIds;
+	public String getKnowledgeScope() {
+		return knowledgeScope;
 	}
 
-	public void setSeeUserIds(String seeUserIds) {
-		this.seeUserIds = seeUserIds;
+	public void setKnowledgeScope(String knowledgeScope) {
+		this.knowledgeScope = knowledgeScope;
 	}
 
-	public String getSeeUserNames() {
-		return seeUserNames;
+	public String getKnowledgePerson() {
+		return knowledgePerson;
 	}
 
-	public void setSeeUserNames(String seeUserNames) {
-		this.seeUserNames = seeUserNames;
+	public void setKnowledgePerson(String knowledgePerson) {
+		this.knowledgePerson = knowledgePerson;
 	}
 
 	public String getCreateUser() {

@@ -43,6 +43,15 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 						}
 					}
 					form.val('formProject', formData);
+
+					// 添加知悉范围
+          setJurisdictionScope({
+            elem: 'scope_list_layout',
+            knowledgeScope: formData.knowledgeScope,
+            knowledgePerson: formData.knowledgePerson,
+            secretLevel: formData.secretLevel,
+            disabled: false
+          });
 				}
 			}
 		});
@@ -152,7 +161,10 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 							"updateDate": (item.updateTime ? new Date(item.updateTime).format('yyyy-MM-dd'): ''),
 							"updator": (item.updator ? item.updator : ''),
 							"workUnit": item.belongUnit,
-							"workUnitText": item.belongUnitStr
+							"workUnitText": item.belongUnitStr,
+							"knowledgeScope": item.knowledgeScope,
+            	"knowledgePerson": item.knowledgePerson,
+							"secretLevel": item.secretLevel
 						}
 					} else {
 						return {
@@ -168,7 +180,10 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 							"updateDate": (item.updateTime ? new Date(item.updateTime).format('yyyy-MM-dd'): ''),
 							"updator": (item.updator ? item.updator : ''),
 							"workUnit": item.belongUnit,
-							"workUnitText": item.belongUnitStr
+							"workUnitText": item.belongUnitStr,
+							"knowledgeScope": item.knowledgeScope,
+            	"knowledgePerson": item.knowledgePerson,
+							"secretLevel": item.secretLevel
 						}
 					}
 				})

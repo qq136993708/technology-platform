@@ -189,8 +189,22 @@ public class ExpertPatentController extends BaseController {
 			oldZjkPatent.setPatentType(zjkPatent.getPatentType());
 			oldZjkPatent.setPatentName(zjkPatent.getPatentName());
 			oldZjkPatent.setSecretLevel(zjkPatent.getSecretLevel());
-			oldZjkPatent.setSeeUserIds(zjkPatent.getSeeUserIds());
-			oldZjkPatent.setSeeUserNames(zjkPatent.getSeeUserNames());
+			
+			
+			//处理知悉范围
+			String knowledgeScope=zjkPatent.getKnowledgeScope();
+			String knowledgePerson=zjkPatent.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
+			{
+				oldZjkPatent.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkPatent.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				oldZjkPatent.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				oldZjkPatent.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+			}
+			
+			
 			oldZjkPatent.setGetPatentTime(date);
 			oldZjkPatent.setDescribe(zjkPatent.getDescribe());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkPatent>(oldZjkPatent, this.httpHeaders), Integer.class);
@@ -214,12 +228,22 @@ public class ExpertPatentController extends BaseController {
 			zjkPatent.setId(dateid);
 			zjkPatent.setGetPatentTime(date);
 			zjkPatent.setCreateUser(sysUserInfo.getUserId());
-			String seeUserIds=zjkPatent.getSeeUserIds();
-   			if(seeUserIds==null || "".equals(seeUserIds))
+			
+			//处理知悉范围
+			String knowledgeScope=zjkPatent.getKnowledgeScope();
+			String knowledgePerson=zjkPatent.getKnowledgePerson();
+			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-   				zjkPatent.setSeeUserIds(sysUserInfo.getUserId());
-   				zjkPatent.setSeeUserNames(sysUserInfo.getUserDisp());
+				zjkPatent.setKnowledgeScope(sysUserInfo.getUserName());
+				zjkPatent.setKnowledgePerson(sysUserInfo.getUserDisp()); 
+			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			{
+				zjkPatent.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
+				zjkPatent.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
 			}
+			
+			
+			
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkPatent, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();
