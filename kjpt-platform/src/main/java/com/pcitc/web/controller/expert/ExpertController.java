@@ -378,17 +378,28 @@ public class ExpertController extends BaseController {
 			
 			
 			//处理知悉范围
+			String userName=sysUserInfo.getUserName();
 			String knowledgeScope=zjkBase.getKnowledgeScope();
 			String knowledgePerson=zjkBase.getKnowledgePerson();
+			
 			if(knowledgeScope==null || "".equals(knowledgeScope))
 			{
-				oldZjkBase.setKnowledgeScope(sysUserInfo.getUserName());
+				oldZjkBase.setKnowledgeScope(userName);
 				oldZjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
-			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
+			}else 
 			{
-				oldZjkBase.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
-				oldZjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
+				if(!knowledgeScope.contains(userName))
+				{
+					oldZjkBase.setKnowledgeScope(knowledgeScope+","+userName);
+					oldZjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp());
+				}else
+				{
+					oldZjkBase.setKnowledgeScope(knowledgeScope);
+					oldZjkBase.setKnowledgePerson(knowledgePerson);
+				}
+				 
 			}
+			
 			
 			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(oldZjkBase, this.httpHeaders), Integer.class);
@@ -439,6 +450,10 @@ public class ExpertController extends BaseController {
 				zjkBase.setKnowledgePerson(sysUserInfo.getUserDisp()); 
 			}else if(!knowledgeScope.contains(sysUserInfo.getUserName()))
 			{
+				
+				
+				
+				
 				zjkBase.setKnowledgeScope(knowledgeScope+","+sysUserInfo.getUserName());
 				zjkBase.setKnowledgePerson(knowledgePerson+","+sysUserInfo.getUserDisp()); 
 			}

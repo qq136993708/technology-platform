@@ -49,16 +49,7 @@
     <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     
   </resultMap>
-  <sql id="Base_Column_List">
-    id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
-    technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
-    achievement, head_pic, create_time, create_user, update_time, update_user, 
-    out_system_id,use_status,technical_field_name,technical_field_index,group_type,audit_status,
-    create_unit_id,create_unit_name,secret_level,secret_level_str,group_type_str
-    ,expert_type
-    ,knowledge_scope
-    ,knowledge_person
-  </sql>
+  
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_base
