@@ -107,9 +107,33 @@ layui.use(['laydate'], function() {
         callback: function(configData, text) {
           // 更新图表渲染
           kyptCharts.reload('quality_one', configData);
+
+          var $title = $('#quality_one').siblings('.chart-title-layout');
           if (text) {
-            $('#quality_one').siblings('.chart-title-layout').find('.sub_title_text').text(text);
+            $title.find('.sub_title_text').text(text);
           }
+          var key1 = configData.series[0].valueKey,
+          key2 =  configData.series[1].valueKey,
+          total1 = 0, total2 = 0;
+          $.each(configData.data, function(i, item) {
+            total1 += (function() {
+              if (item[key1] === '-') {
+                return 0;
+              } else {
+                return parseFloat(item[key1]);
+              }
+            })();
+            total2 += (function() {
+              if (item[key2] === '-') {
+                return 0;
+              } else {
+                return parseFloat(item[key2]);
+              }
+            })();
+          });
+
+          $title.find('.item-value').eq(0).text(total1);
+          $title.find('.item-value').eq(1).text(total2);
         }
       });
     },
