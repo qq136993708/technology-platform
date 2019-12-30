@@ -28,5 +28,5 @@ public interface QimsService {
      * @param param
      * @return
      */
-    PageInfo queryQualityStatisticsList(Map param);
+    String queryQualityStatisticsList(Map param);
 }

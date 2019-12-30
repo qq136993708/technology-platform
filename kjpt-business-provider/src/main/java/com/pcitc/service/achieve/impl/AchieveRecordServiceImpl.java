@@ -75,8 +75,6 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         }
         else{
             handlerFile(aRecord.getFiles(),aRecord.getSecretLevel());
-            aRecord.setKnowledgePerson(as.getKnowledgePerson());
-            aRecord.setKnowledgeScope(as.getKnowledgeScope());
             arm.update(aRecord);
         }
 
@@ -126,8 +124,6 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             arm.add(aRecord);
         }
         else{
-            aRecord.setKnowledgePerson(as.getKnowledgePerson());
-            aRecord.setKnowledgeScope(as.getKnowledgeScope());
             arm.update(aRecord);
         }
         if(aReward != null){
