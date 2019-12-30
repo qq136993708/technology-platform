@@ -403,7 +403,7 @@ public class UnitProviderClient
 	
 	
 	
-	@ApiOperation(value="查询未删除的机构",notes="查询未删除的机构")
+	@ApiOperation(value="查询未删除的机 构",notes="查询未删除的机 构")
 	@RequestMapping(value = "/unit-provider/unit/getAllList", method = RequestMethod.POST)
 	public JSONArray getAllList(@RequestBody Map map) throws Exception
 	{

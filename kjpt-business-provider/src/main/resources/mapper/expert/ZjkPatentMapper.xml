@@ -264,6 +264,12 @@
 	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
 	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
 	      </if>
+	      
+	      
+	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
+	     
 	 
 	 </trim>
 	</sql>

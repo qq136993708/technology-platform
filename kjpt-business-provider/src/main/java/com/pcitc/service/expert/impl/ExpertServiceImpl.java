@@ -344,7 +344,7 @@ public class ExpertServiceImpl implements IExpertService {
 			String createUnitName=getTableParam(param,"createUnitName","");
 			String expertType=getTableParam(param,"expertType","");
 			String expertTypes=getTableParam(param,"expertTypes","");
-			String seeUserIds=getTableParam(param,"seeUserIds","");
+			String knowledgeScope=getTableParam(param,"knowledgeScope","");
 			
 			
 			Map map=new HashMap();
@@ -369,7 +369,7 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("createUnitName", createUnitName);
 			map.put("expertType", expertType);
 			map.put("expertTypes", expertTypes);
-			map.put("seeUserIds", seeUserIds);
+			map.put("knowledgeScope", knowledgeScope);
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
 			
@@ -533,15 +533,16 @@ public class ExpertServiceImpl implements IExpertService {
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
 			String expertId=getTableParam(param,"expertId","");
-			String seeUserIds=getTableParam(param,"seeUserIds","");
+			String knowledgeScope=getTableParam(param,"knowledgeScope","");
+			String userSecretLevel=getTableParam(param,"userSecretLevel","");
 			Map map=new HashMap();
 			map.put("projectName", projectName);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
 			map.put("expertId", expertId);
-			map.put("seeUserIds",seeUserIds);
-			
+			map.put("userSecretLevel",userSecretLevel);
+			map.put("knowledgeScope",knowledgeScope);
 			List<ZjkProject> list = zjkProjectMapper.getList(map);
 			PageInfo<ZjkProject> pageInfo = new PageInfo<ZjkProject>(list);
 			System.out.println(">>>>>>>>>专家项目查询分页结果 "+pageInfo.getList().size());
@@ -624,8 +625,8 @@ public class ExpertServiceImpl implements IExpertService {
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
 			String expertId=getTableParam(param,"expertId","");
-			String seeUserIds=getTableParam(param,"seeUserIds","");
-			
+			String knowledgeScope=getTableParam(param,"knowledgeScope","");
+			String userSecretLevel=getTableParam(param,"userSecretLevel","");
 			
 			
 			Map map=new HashMap();
@@ -634,7 +635,8 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
 			map.put("expertId", expertId);
-			map.put("seeUserIds", seeUserIds);
+			map.put("knowledgeScope", knowledgeScope);
+			map.put("userSecretLevel", userSecretLevel);
 			List<ZjkAchievement> list = zjkAchievementMapper.getList(map);
 			PageInfo<ZjkAchievement> pageInfo = new PageInfo<ZjkAchievement>(list);
 			System.out.println(">>>>>>>>>专家成果查询分页结果 "+pageInfo.getList().size());
@@ -716,14 +718,18 @@ public class ExpertServiceImpl implements IExpertService {
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
 			String expertId=getTableParam(param,"expertId","");
-			String seeUserIds=getTableParam(param,"seeUserIds","");
+			String knowledgeScope=getTableParam(param,"knowledgeScope","");
+			String userSecretLevel=getTableParam(param,"userSecretLevel","");
+			
 			Map map=new HashMap();
 			map.put("patentName", patentName);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
 			map.put("expertId", expertId);
-			map.put("seeUserIds", seeUserIds);
+			map.put("knowledgeScope", knowledgeScope);
+			map.put("userSecretLevel", userSecretLevel);
+			
 			List<ZjkPatent> list = zjkPatentMapper.getList(map);
 			PageInfo<ZjkPatent> pageInfo = new PageInfo<ZjkPatent>(list);
 			System.out.println(">>>>>>>>>专家专利查询分页结果 "+pageInfo.getList().size());
@@ -804,15 +810,17 @@ public class ExpertServiceImpl implements IExpertService {
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
 			String expertId=getTableParam(param,"expertId","");
-			String seeUserIds=getTableParam(param,"seeUserIds","");
+			String knowledgeScope=getTableParam(param,"knowledgeScope","");
+			String userSecretLevel=getTableParam(param,"userSecretLevel","");
+			
 			Map map=new HashMap();
 			map.put("rewarkLevel", rewarkLevel);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
 			map.put("expertId", expertId);
-			map.put("seeUserIds", seeUserIds);
-			
+			map.put("knowledgeScope", knowledgeScope);
+			map.put("userSecretLevel", userSecretLevel);
 			
 			List<ZjkReward> list = zjkRewardMapper.getList(map);
 			PageInfo<ZjkReward> pageInfo = new PageInfo<ZjkReward>(list);
