@@ -198,6 +198,7 @@ public class SysJobServiceImpl implements SysJobService {
 	@Override
 	public Integer executeJob(String dataId) {
 		SysJob sysJob = sysJobMapper.selectByPrimaryKey(dataId);
+		System.out.println(">>>>>>>>>>>>>>>执行定时任务："+sysJob.getJobName());
 		Integer ret = 0;
 		try {
 			if (sysJob != null) {
