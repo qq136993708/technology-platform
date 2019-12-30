@@ -147,15 +147,12 @@ public class SysDictionaryApiController extends BaseController {
 		Map techType = new HashMap();
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST,new HttpEntity<Map>(techType, this.httpHeaders), JSONArray.class);
 		JSONArray temparray = responseEntity.getBody();
+		System.out.println(">>>>>>>>>temparray条数:"+temparray.toString());
+		
 		List<SysUnit> list = JSONObject.parseArray(temparray.toJSONString(), SysUnit.class);
-		
-		
 		List<FormSelectNode> alllist =TreeUtils.sysUnitToSelectNodeList(list);
 		
-		
-		JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(alllist));
-		
-		//System.out.println(">>>>>>>>>nodeList条数:"+trreeJsovvn.toString());		
+		//JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(alllist));
 		JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(TreeUtils.recursiveTree(Constant.UNIT_ROOT_ID,alllist)));
 		//System.out.println("-----------------树形结构："+trreeJson.toString());
 		return trreeJson.toString();

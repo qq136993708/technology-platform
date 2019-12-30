@@ -100,6 +100,11 @@ public class ExpertPatentController extends BaseController {
     	param.getParam().put("expertId", expertId);
     	param.setLimit(limit);
     	param.setPage(page);
+    	//默认查询小于等于用户密级的
+    	SysUser sysUserInfo = this.getUserProfile();
+    	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
+    	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
+    	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);

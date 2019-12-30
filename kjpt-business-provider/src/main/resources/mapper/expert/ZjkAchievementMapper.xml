@@ -240,16 +240,18 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="achieveName != null and achieveName  !='' ">      AND t.achieve_name like CONCAT('%',#{achieveName},'%')</if>
-	     <if test="sourceType != null      and sourceType !=''  ">    AND t.source_type = #{sourceType}</if>
+	     <if test="achieveName != null and achieveName  !='' ">        AND t.achieve_name like CONCAT('%',#{achieveName},'%')</if>
+	     <if test="sourceType != null      and sourceType !=''  ">     AND t.source_type = #{sourceType}</if>
 	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
-	     <if test="outSystemId != null     and outSystemId !=''  ">  AND t.out_system_id = #{outSystemId}</if>
-	     <if test="expertId != null        and expertId !=''  ">  AND t.expert_id = #{expertId}</if>
-	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
+	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	     <if test="createUser != null      and createUser !=''  ">     AND t.create_user = #{createUser}</if>
+	     <if test="knowledgeScope != null  and knowledgeScope !=''  "> 
 	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) 
-	      </if>
-	     
+	     </if>
+	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	     </if>
 	 </trim>
 	</sql>
 	
