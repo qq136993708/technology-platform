@@ -410,8 +410,9 @@ public class ExpertController extends BaseController {
 			zjkBase.setAuditStatus(Constant.AUDIT_STATUS_DRAFT);
 			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
 			zjkBase.setCreateUnitName(sysUserInfo.getUserUnitName());
-			zjkBase.setSeeUserIds(sysUserInfo.getUserId());
-			zjkBase.setSeeUserNames(sysUserInfo.getUserDisp());
+			
+			
+	
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			String dataId = responseEntity.getBody();

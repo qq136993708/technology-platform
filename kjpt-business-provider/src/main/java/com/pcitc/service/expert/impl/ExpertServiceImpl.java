@@ -66,36 +66,7 @@ public class ExpertServiceImpl implements IExpertService {
 	public ZjkBase selectZjkBase(String id) throws Exception
 	{
 		
-		List rewardList=zjkRewardMapper.getListByExpertId(id);
-		List projectList=zjkProjectMapper.getListByExpertId(id);
-		List patentList=zjkPatentMapper.getListByExpertId(id);
-		List achievementList=zjkAchievementMapper.getListByExpertId(id);
-		
 		ZjkBase zjkBase= zjkBaseMapper.selectByPrimaryKey(id);
-		
-		
-		JSONArray j1 = JSONArray.parseArray(JSON.toJSONString(achievementList));
-		String zjkAchievementJsonList=j1.toString();
-		
-		JSONArray j2 = JSONArray.parseArray(JSON.toJSONString(projectList));
-		String zjkProjectJsonList=j2.toString();
-		
-		
-		JSONArray j3 = JSONArray.parseArray(JSON.toJSONString(rewardList));
-		String zjkRewardJsonList=j3.toString();
-		
-		
-		JSONArray j4 = JSONArray.parseArray(JSON.toJSONString(patentList));
-		String zjkPatentJsonList=j4.toString();
-		
-		
-		
-		
-		zjkBase.setZjkAchievementJsonList(zjkAchievementJsonList);
-		zjkBase.setZjkPatentJsonList(zjkPatentJsonList);
-		zjkBase.setZjkProjectJsonList(zjkProjectJsonList);
-		zjkBase.setZjkRewardJsonList(zjkRewardJsonList);
-		
 		return zjkBase;
 	}
 
