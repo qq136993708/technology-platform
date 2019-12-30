@@ -52,35 +52,21 @@ public class QimsController extends BaseController {
 	 */
 	@ApiOperation(value = "查询质量接口", notes = "查询质量接口")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
-			@ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
 			@ApiImplicitParam(name = "key", value = "键值", dataType = "String", paramType = "query"),
 			@ApiImplicitParam(name = "date", value = "日期", dataType = "Date", paramType = "query")
 	})
 	@ResponseBody
 	@RequestMapping(value = "/qims-api/qualityStatistics/query", method = RequestMethod.GET)
-	public PageInfo query( @RequestParam(required = false) Integer pageNum,
-						   @RequestParam(required = false) Integer pageSize,
-						   @RequestParam(required = false) String key,
-						   @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date date) throws Exception {
+	public String query( @RequestParam(required = true) String key,
+						   @RequestParam(required = true) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date date) throws Exception {
 		Map<String, Object> condition = new HashMap<>(6);
-		if (pageNum == null) {
-			this.setParam(condition, "pageNum", 1);
-		}else {
-			this.setParam(condition, "pageNum", pageNum);
-		}
-		if (pageSize == null) {
-			this.setParam(condition, "pageSize", 10);
-		}else {
-			this.setParam(condition, "pageSize", pageSize);
-		}
 		if (!StringUtils.isEmpty(key)) {
 			this.setParam(condition, "key", key);
 		}
 		if (!StringUtils.isEmpty(DateUtil.format(date,DateUtil.FMT_SS))) {
 			this.setParam(condition, "date", DateUtil.format(date,DateUtil.FMT_SS));
 		}
-		ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
+		ResponseEntity<String> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), String.class);
 		return responseEntity.getBody();
 	}
 }

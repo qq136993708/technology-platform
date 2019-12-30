@@ -88,7 +88,7 @@ public class QimsClient {
 	 */
 	@ApiOperation(value = "质量接口-分页查询", notes = "质量接口-分页查询")
 	@RequestMapping(value = "/qims-provider/qualityStatistics/qualityStatistics_query", method = RequestMethod.POST)
-	public PageInfo queryQualityStatisticsByPage(@RequestBody(required = false) Map param) {
+	public String queryQualityStatisticsByPage(@RequestBody(required = false) Map param) {
 		return qimsService.queryQualityStatisticsList(param);
 	}
 }
