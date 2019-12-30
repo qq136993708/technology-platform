@@ -19,8 +19,8 @@
     padding-left: 6.8rem;
 }
 .main_top {
-    height: 16.5rem;
-    padding-bottom: 3.5rem;
+    height: 13.5rem;
+    padding-bottom: 1rem;
 }
 .main_right .main_top {
     height: 12.5rem;
@@ -34,7 +34,7 @@
     padding: 0 1.5rem;
 }
 .main_bottom{
-    height: calc(100% - 16.5rem);
+    height: calc(100% - 13.5rem);
 }
 
 .main_content{

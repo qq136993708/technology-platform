@@ -506,7 +506,7 @@ function setXMTZData(result){
         json1.name=result.data[0].name.split('-')[1];
         json1.value=result.data[0].num;
         data1.push(json1);
-        xmtz_option.series[0].data=data1;
+        xmtz_option.series[0].data = data1;
         xmtz_charts1.setOption(xmtz_option);
         //第二个
         json2.name=result.data[1].name.split('-')[1];
