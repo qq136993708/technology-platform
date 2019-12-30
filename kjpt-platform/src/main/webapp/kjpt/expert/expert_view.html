@@ -37,19 +37,19 @@
             <div class="item-details-list middle-block">
                 <div class="item-box-list middle-block">
                     <div class="icon-item ib-block icon001"></div>
-                    <div class="item-text  ib-block font16">相关项目<span class="font20" diy-form-value="project"></span>个</div>
+                    <div class="item-text  ib-block font16">相关项目<span class="font20 project" diy-form-value="project"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon003"></div>
-                    <div class="item-text  ib-block font16">相关成果<span class="font20" diy-form-value="achievementNum"></span>个</div>
+                    <div class="item-text  ib-block font16">相关成果<span class="font20 achievements" diy-form-value="achievementNum"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon002"></div>
-                    <div class="item-text  ib-block font16">相关奖励<span class="font20" diy-form-value="reward"></span>个</div>
+                    <div class="item-text  ib-block font16">相关奖励<span class="font20 reward" diy-form-value="achievementNum"></span>个</div>
                 </div>
                 <div class="item-box-list middle-block">
                     <div class="icon-item  ib-block icon004"></div>
-                    <div class="item-text  ib-block font16">专利数量<span class="font20" diy-form-value="patent"></span>个</div>
+                    <div class="item-text  ib-block font16">专利数量<span class="font20 patent" diy-form-value="patent"></span>个</div>
                 </div>
             </div>
         </div>
@@ -159,7 +159,7 @@
             {field: 'chargeUnitStr', title: '负责单位'},
             {field: 'researchTarget', title: '研究目标' },
             {field: 'setupYeat', title: '立项年度'},
-            {field: 'secretLevelStr', title: '密级'},/user/user_page_list
+            {field: 'secretLevelStr', title: '密级'},
         ]
         tableRender('project',projectArr,'/expert-project-api/page',variable.id)
         var achievementsArr=[
@@ -209,6 +209,8 @@
                 },
                 done:function (res, curr, count) {
                     console.log(res)
+                    console.log($("." +id))
+                    $("." +id).html(res.count)
                 }
                 , page: true //开启分页
                 , limit: 15
