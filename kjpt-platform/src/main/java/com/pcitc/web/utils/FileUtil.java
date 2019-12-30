@@ -34,20 +34,6 @@ public class FileUtil {
     @Value("${baseFilePath}")
     private String fileBasePath;
 
-    private static String seed ="kjptFile";
-
-    private static String key;
-
-    //private static Key key;
-
-    static {
-        try {
-             key = AESFileUtils.getSecretKey(seed);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * 删除文件夹里面的所有文件
      *
@@ -104,7 +90,7 @@ public class FileUtil {
         //文件加密
         ///////////////////////////
         byte[] encryptByte;
-        encryptByte = AESFileUtils.encrypt(file.getBytes(),key);
+        encryptByte = AESFileUtils.encrypt(file.getBytes());
         OutputStream output = new FileOutputStream(targetFile);
 
         BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
@@ -321,7 +307,7 @@ public class FileUtil {
             out = res.getOutputStream();
             in = new FileInputStream(file);
 
-            AESFileUtils.downLoadDecryptFile(key,in,out);
+            AESFileUtils.decrypt(in,out);
 
 //            byte[] b = new byte[1000];
 //            int len;
@@ -360,7 +346,7 @@ public class FileUtil {
             //输出
             OutputStream os = res.getOutputStream();
             //解密输出
-            AESFileUtils.downLoadDecryptFile(key,in,os);
+            AESFileUtils.decrypt(in,os);
         }
 
 
