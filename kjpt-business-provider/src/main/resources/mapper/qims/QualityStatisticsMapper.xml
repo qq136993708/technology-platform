@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.qims.QualityStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.qims.QualityStatistics">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="key_str" jdbcType="VARCHAR" property="key" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+    <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List">
+    qs.id, qs.key_str,qs.date,qs.content,
+    qs.secret_level,
+    sd.name as secret_level_text
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from quality_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from quality_statistics
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update quality_statistics set deleted = '1'
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.patent.PatentInfoExample">
+    delete from quality_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.qims.QualityStatistics">
+    insert into kjpt_bi.quality_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="key != null">
+        key_str,
+      </if>
+      <if test="content!= null">
+        content,
+      </if>
+      <if test="secretLevel != null">
+        secret_level,
+      </if>
+      <if test="date != null">
+        date
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultType="java.lang.Long">
+    select count(*) from kjpt_bi.quality_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <select id="queryQualityStatisticsList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List"/> from kjpt_bi.quality_statistics qs
+    left join kjpt_test.sys_dictionary sd on sd.num_value = qs.secret_level
+    AND (
+    sd.parent_code = 'ROOT_KJPT_XXMJ'
+    )
+    where 1=1
+    <include refid="selectByParam" />
+  </select>
+
+  <select id="queryQualityStatisticsList_COUNT" parameterType="java.util.Map" resultType="Long">
+    select count(*) from kjpt_bi.quality_statistics qs
+    left join kjpt_test.sys_dictionary sd on sd.num_value = qs.secret_level
+    AND (
+    sd.parent_code = 'ROOT_KJPT_XXMJ'
+    )
+    where 1=1
+    <include refid="selectByParam" />
+
+
+  </select>
+
+  <sql id="selectByParam">
+    <if test="key != null and key != '' " >
+      and key_str = #{key}
+    </if>
+
+    <if test="date != null and date != '' " >
+      and date = #{date}
+    </if>
+  </sql>
+</mapper>

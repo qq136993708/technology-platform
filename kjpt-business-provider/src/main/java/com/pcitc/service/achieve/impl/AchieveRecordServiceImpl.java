@@ -69,10 +69,14 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             aRecord.setCreateDate(as.getUpdateDate());
             aRecord.setCreator(as.getUpdator());
             handlerFile(aRecord.getFiles(),aRecord.getSecretLevel());
+            aRecord.setKnowledgePerson(as.getKnowledgePerson());
+            aRecord.setKnowledgeScope(as.getKnowledgeScope());
             arm.add(aRecord);
         }
         else{
             handlerFile(aRecord.getFiles(),aRecord.getSecretLevel());
+            aRecord.setKnowledgePerson(as.getKnowledgePerson());
+            aRecord.setKnowledgeScope(as.getKnowledgeScope());
             arm.update(aRecord);
         }
 
@@ -117,9 +121,13 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
             aRecord.setCreator(as.getUpdator());
             aRecord.setCreateUnitName(as.getCreateUnitName());
             aRecord.setCreateUnitId(as.getCreateUnitId());
+            aRecord.setKnowledgePerson(as.getKnowledgePerson());
+            aRecord.setKnowledgeScope(as.getKnowledgeScope());
             arm.add(aRecord);
         }
         else{
+            aRecord.setKnowledgePerson(as.getKnowledgePerson());
+            aRecord.setKnowledgeScope(as.getKnowledgeScope());
             arm.update(aRecord);
         }
         if(aReward != null){
