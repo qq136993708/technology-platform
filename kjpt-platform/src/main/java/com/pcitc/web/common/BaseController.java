@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.exception.SysException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +103,13 @@ public class BaseController implements ErrorController
 		this.getCurrentRequest().getSession().setAttribute(userName,isWhiteList);
 	}
 
+	public void checkIsWhiteList(Map param){
+		if(!"1".equals(param.get("skipKnowledgeScope"))){
+			SysException sys = new SysException("非白名单账号，无权查看数据！");
+			sys.setCode("-1");
+			throw sys;
+		}
+	}
 
 	/**
 	 * 返回当前Request对象
