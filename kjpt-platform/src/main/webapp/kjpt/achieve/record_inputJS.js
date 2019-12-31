@@ -275,7 +275,7 @@ layui.use(['table', 'form', 'layer'], function() {
           });
         })
 
-        var scope_disabled = false;
+        var scope_disabled = true;
         if (variable.type === 'transfrom' || variable.type === 'view') {
           // 维护
           $('form[lay-filter="RecordInputForm"] .view-row-title').remove();
@@ -298,9 +298,9 @@ layui.use(['table', 'form', 'layer'], function() {
     }
   });
 
-  // 新建整体提交
+  // 上报
   var subFormData = null;
-  form.on('submit(formSave)', function(data) {
+  form.on('submit(formFlow)', function(data) {
     subFormData = data.field;
     
     var achieveTeamPerson = getTableData('teamPersonList'); // 科技成果完成团队情况
@@ -363,8 +363,11 @@ layui.use(['table', 'form', 'layer'], function() {
 
     var baseUrl = '/achieveReward-api/save', allData = null;
     if (variable.type === 'input') {
-      // 备案信息录入
-      baseUrl = '/achieveRecord-api/submit';
+      // 激励方案密级与备案密级保持一致;
+      transfromData.secretLevel = subFormData.secretLevel;
+
+      // 备案信息录入 上报前需先暂存且所有必填项不能为空
+      baseUrl = '/achieveRecord-api/save';
       allData = {
         creator: null,
         createDate: new Date().getTime(),
@@ -380,35 +383,47 @@ layui.use(['table', 'form', 'layer'], function() {
       // 奖励方案维护
       allData = transfromData;
       tipsTitle = '转化收益维护提交';
+      // 激励方案密级与备案密级保持一致;
+      allData.secretLevel = form.val('RecordInputForm').secretLevel;
     }
     
     // 发起http请求
     var submitIndex = top.layer.load(2);
-    $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
+    $('[lay-filter="formFlow"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
     httpModule({
       url: baseUrl,
       type: 'POST',
       data: allData,
       success: function(res) {
         top.layer.close(submitIndex);
-        $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
         if (res.code === '0' || res.success === true) {
-          top.layer.msg(tipsTitle + '成功。', {icon: 1});
-
-          // 提交成功刷新页面为读取状态；
-          window.location.href = window.location.pathname+ '?id='+variable.id+'&type=view';
+          // top.layer.msg(tipsTitle + '成功。', {icon: 1});
+          // 上报暂存成功刷新页面为读取状态；
+          var viewUrl =  window.location.pathname+ '?id='+variable.id+'&type=view';
+          viewUrl += '&flow_input='+variable.id; // 上报
+          if (variable.functionId) {
+            // 查找审批记录
+            viewUrl += '&functionId='+variable.functionId;
+          }
+          // 刷新页面
+          window.location.href = viewUrl;
         } else {
           top.layer.msg(tipsTitle + '失败！', {icon: 2});
+          $('[lay-filter="formFlow"], [lay-filter="editTranfromMaintain"]').prop('disabled', false);
         }
       },
       error: function(err) {
         top.layer.close(submitIndex);
-        $('[lay-filter="formSave"], [lay-filter="editTranfromMaintain"]').prop('disabled', true);
+        $('[lay-filter="formFlow"], [lay-filter="editTranfromMaintain"]').prop('disabled', false);
       }
     });
-
     return false;
-  })
+  });
+
+  // 页面上报暂存完成后走流程
+  if (variable['flow_input']) {
+    dealFlow(variable['flow_input']);
+  }
 
   // 暂存
   $('[lay-filter="formTempSave"]').on('click', function() {
@@ -434,6 +449,8 @@ layui.use(['table', 'form', 'layer'], function() {
     }
     achieveRewardData.files = JSON.stringify(newNtFile);
     achieveRewardData.teamPerson = teamPerson;
+    // 激励方案密级与备案密级保持一致;
+    achieveRewardData.secretLevel = achieveRecordData.secretLevel;
 
     var saveData = {
       achieveRecord: achieveRecordData,

@@ -148,7 +148,8 @@ layui.use(['table', 'form','laydate'], function() {
       top.layer.msg('请选择需要删除的数据！');
     }
   })
-  
+
+  var functionId = parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code");
   // 备案详情，查看，录入，转化
   $('#record_list_table').on('click', '.recordDetails', function(e) {
     var index=parent.$("#LAY_app_body div.layui-show").index()-1;
@@ -162,25 +163,6 @@ layui.use(['table', 'form','laydate'], function() {
     }
     parent.layui.index.openTabsPage(url, dialogTitle + '申请');
   })
-
-  
-  //流程
-  $('#flow').on('click', function() {
-    var activeData = table.checkStatus('tableDemo').data;
-    if (activeData.length > 1) {
-      top.layer.msg('不能同时上报多个单据！');
-    } else if (activeData.length === 1) {
-      if (activeData[0].auditStatus === '0' || activeData[0].auditStatus === '3') {
-        dealFlow(activeData[0].id);
-      } else {
-        top.layer.msg('审批中、审批通过的单据不能上报！');
-      }
-    } else {
-      top.layer.msg('请选择需要上报的单据！');
-    }
-      $('#flow').attr('disabled',"true")
-  })
-  
   
   // 新增、编辑、查看
   $('.openLayerPage').on('click', function() {
@@ -263,5 +245,5 @@ layui.use(['table', 'form','laydate'], function() {
     console.log(formValue);
     // 附件下载
     window.open(exportUrl, '_blank');
-  })
+  });
 })

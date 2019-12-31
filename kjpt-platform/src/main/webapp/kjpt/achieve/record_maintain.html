@@ -7,7 +7,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">转化收入：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="transIncome" lay-verify="required"
+          <input type="text" name="transIncome" lay-verify="required|number"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -43,7 +43,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励额度：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="rewardQuota" lay-verify="required"
+          <input type="text" name="rewardQuota" lay-verify="required|number"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -61,7 +61,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label label-required"><span class="text">激励总和：</span></label>
         <div class="layui-input-block">
-          <input type="text" name="budgetAllMoney" lay-verify="required"
+          <input type="text" name="budgetAllMoney" lay-verify="required|number"
             placeholder="请填写..." autocomplete="off" class="layui-input">
         </div>
       </div>
@@ -162,4 +162,5 @@
   <input type="hidden" name="createUnitId"><!-- 所属单位ID -->
   <input type="hidden" name="createUnitName"><!-- 所属单位名称 -->
   <input type="hidden" name="files"><!-- 附件ID集合 -->
+  <input type="hidden" name="secretLevel"><!-- 密级 -->
 </form>

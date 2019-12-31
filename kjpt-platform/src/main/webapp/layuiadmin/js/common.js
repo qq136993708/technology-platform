@@ -1273,8 +1273,20 @@ function setJurisdictionScope(config) {
 					});
 				},
 				initActiveValue: function() {
-					var tempID = config.knowledgeScope.split(','),
-					tempName = config.knowledgePerson.split(',');
+					var tempID = (function() {
+						if (config.knowledgeScope.indexOf(',') !== 0) {
+							return config.knowledgeScope.split(',');
+						} else {
+							return config.knowledgeScope.substring(1).split(',');
+						}
+					})(),
+					tempName = (function() {
+						if (config.knowledgePerson.indexOf(',') !== 0) {
+							return config.knowledgePerson.split(',');
+						} else {
+							return config.knowledgePerson.substring(1).split(',');
+						}
+					})();
 					$.each(tempID, function(i, item) {
 						initScope.activeListData[item] = {};
 						initScope.activeListData[item][initScope.idkey] = item;
