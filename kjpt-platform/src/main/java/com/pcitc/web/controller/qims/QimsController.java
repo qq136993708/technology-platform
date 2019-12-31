@@ -12,9 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,21 +29,22 @@ import java.util.Map;
 @RestController
 public class QimsController extends BaseController {
 
-	//private static final String QualityStatistics = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_excute/";
-	private static final String QUERY = "http://kjpt-zuul/system-proxy/qims-provider/qualityStatistics/qualityStatistics_query";
+	private static final String QualityStatistics = "http://localhost:8765/qims-provider/qualityStatistics/qualityStatistics_excute/";
+	private static final String QUERY = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_query";
 
-	/*@Value("${keyStr}")
-	private String keyStr;*/
+	@Value("${keyStr}")
+	private String keyStr;
 
 	/**
 	 *查询外系统-项目
 	 */
-/*	@ApiOperation(value = "请求外系统-质量接口", notes = "请求外系统-质量接口")
+	@ApiOperation(value = "请求外系统-质量接口", notes = "请求外系统-质量接口")
 	@RequestMapping(value = "/qims-api/qualityStatistics", method = RequestMethod.GET)
 	public JSONObject qualityStatistics(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(QualityStatistics+keyStr, HttpMethod.GET, new HttpEntity<String>(this.httpHeaders), JSONObject.class);
+		RestTemplate restTemplate_req = new RestTemplate();
+		ResponseEntity<JSONObject> responseEntity = restTemplate_req.exchange(QualityStatistics+keyStr, HttpMethod.GET, new HttpEntity<String>(new HttpHeaders()), JSONObject.class);
 		return responseEntity.getBody();
-	}*/
+	}
 
 
 	/**

@@ -28,7 +28,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**")
 				.excludePathPatterns("/login")
 				.excludePathPatterns("/sso")
-				.excludePathPatterns("/error");
+				.excludePathPatterns("/error")
+				.excludePathPatterns("/qims-api/qualityStatistics");
 		super.addInterceptors(registry);
 	}
 	
