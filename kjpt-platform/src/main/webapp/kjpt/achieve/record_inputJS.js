@@ -36,7 +36,10 @@ layui.use(['table', 'form', 'layer'], function() {
   }
   // 添加 转化净收益及激励方案
   function addTransfromMaintain(data, auditStatus) {
-    var wrapID = 'init_transfrom_maintain';
+    var wrapID = 'init_transfrom_maintain', yearData = null;
+
+
+
     if (typeof(data) === 'object' && data.length && auditStatus != '0' && auditStatus != '3') {
       wrapID = 'edit_transfrom_maintain';
       $('#init_transfrom_maintain').empty();
@@ -45,12 +48,15 @@ layui.use(['table', 'form', 'layer'], function() {
         $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
       });
 
-      var year = new Date().format('yyyy'),
+      var year = new Date().format('yyyy');
       yearData = data.filter(function(item, i) {
         if (item.rewardYear == year) {
           return item;
         }
       });
+
+      console.log('yearData =>', yearData);
+
     }
     if (variable.type !== 'view') {
       $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
