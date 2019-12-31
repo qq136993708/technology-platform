@@ -41,7 +41,6 @@
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
                         <button class="layui-btn layui-btn-normal margin24" data-type="searchEvent">查询</button>
-                        <button class="layui-btn layui-btn-primary" data-type="resetEvent">重置</button>
                     </div>
                 </div>
             </div>
@@ -125,6 +124,11 @@
                 }
                 renderTable(obj);
             },
+            alertEvent: function() { //点击重置按钮
+                $('#typeName').val("");
+                layer.msg('保存数据成功！');
+                active.searchEventNew();
+            },
             searchEventNew:function(){
                 var obj={
                     typeName: $('#typeName').val(),
@@ -139,8 +143,9 @@
             },
             deleteEvent: function(){ //点击删除按钮
                 var activeData = table.checkStatus('showTable').data;
+                console.log(activeData)
                 httpModule({
-                    url: '/techFamily-api/getFamilyCountByParentId?parentId='+temTypeId,
+                    url: '/techFamily-api/getFamilyCountByParentId?parentId='+activeData[0].tfmTypeId,
                     type: 'get',
                     success: function(res) {
                         if(res.data<=0){
@@ -148,12 +153,13 @@
                                 top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
                                     top.layer.close(index);
                                     httpModule({
-                                        url: '/techFamily-api/delete/' + temTypeId,
+                                        url: '/techFamily-api/delete/' + activeData[0].tfmTypeId,
                                         type: 'get',
                                         success: function(res) {
-                                            if (res.code === '0') {
+                                            if (res.success) {
                                                 layer.msg('删除成功。', {icon: 1});
-                                                active.searchEvent();
+                                                ztreeAsyncChildNodes();
+                                                active.searchEventNew();
                                             } else {
                                                 layer.msg('删除失败。', {icon: 2});
                                             }
