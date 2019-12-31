@@ -1,18 +1,25 @@
 package com.pcitc.web.common;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 
 @Controller
-public class MappingContrller {
+public class MappingContrller extends BaseController{
 	
 	
-
+	private static final String TECH_TYPE_STR = "http://kjpt-zuul/stp-proxy/tech_family_provider/getMaxCodeByParentId";
 	@RequestMapping(value = "/syslog/to_list")
 	public String syslog_list(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -178,5 +185,23 @@ public class MappingContrller {
 		{
 			return "/error_404";
 		}
+		
+		
+		
+		@RequestMapping(value = "/tech_family/to_add_family")
+		public String iniAddTechFamilyType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			SysUser sysUserInfo = this.getUserProfile();
+			request.setAttribute("userInfo", sysUserInfo);
+			// 获取当前节点孩子的最大编码，新节点编码在原有基础上加1
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("parentId", request.getParameter("tfmTypeId"));
+			HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
+			ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(TECH_TYPE_STR, HttpMethod.POST, entity, JSONObject.class);
+			JSONObject retJson = responseEntity.getBody();
+			request.setAttribute("typeCode", retJson.get("maxTypeCode"));
+			request.setAttribute("parentId", request.getParameter("tfmTypeId"));
+			return "/stp/techFamily/techType_add";
+		}
+		
 
 }

@@ -81,10 +81,21 @@ public class TreeNode extends RecordModel implements Serializable {
     
     private String bak3;
     
+    private String secretLevelStr;
+    
+    
     
     private List<TreeNode> childNodes = new ArrayList<TreeNode>();
     
     
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+
 	public List<TreeNode> getChildNodes() {
 		return childNodes;
 	}

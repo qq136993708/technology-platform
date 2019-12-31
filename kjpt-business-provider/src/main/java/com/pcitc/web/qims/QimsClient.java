@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +36,13 @@ public class QimsClient {
 
 	private final static Logger logger = LoggerFactory.getLogger(QimsClient.class);
 
-	private static final String QIMS_URL = "http://10.102.111.112/qims/a/interface/indicator/";
+//	private static final String QIMS_URL = "http://10.102.111.112/qims/a/interface/indicator/";
 
 	@Autowired
 	QimsService qimsService;
+
+	@Value("${QIMS_URL}")
+	private String QIMS_URL;
 
 	/**
 	 * 保存

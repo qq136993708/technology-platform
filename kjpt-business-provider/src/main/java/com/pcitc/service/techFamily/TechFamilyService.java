@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.stp.techFamily.TechFamily;
 
 public interface TechFamilyService {
@@ -76,6 +77,10 @@ public interface TechFamilyService {
     public List<TechFamily> getTechFamilyList(Map map)throws Exception;   
     
     public TechFamily getTechFamilyById(String tfmTypeId)throws Exception;
-    
-    
+    public LayuiTableData getFamilyPage(LayuiTableParam param)throws Exception;
+    public List getFamilyList(Map map)throws Exception;
+    public String getMaxTechTypeCodeByParentId(String parentId);
+    public List getTreeNodeList(Map map)throws Exception;
+    public int deleteByParentId(String tfmTypeId)throws Exception;
+    public int deleteTechFamilyTypeById(String tfmTypeId)throws Exception;
 }
