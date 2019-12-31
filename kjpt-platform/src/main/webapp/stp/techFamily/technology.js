@@ -69,7 +69,7 @@ function onClickMenu(event,treeId,treeNode,clickFlag) {
     temTypeName = treeNode.name;
     temFunUrl = treeNode.treeUrl;
     $('#nodePath').val(treeNode.nodePath);
-    active.searchEvent();
+    active.searchEventNew();
 }
 
 $(document).ready(function () {

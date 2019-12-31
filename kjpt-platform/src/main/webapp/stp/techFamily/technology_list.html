@@ -121,8 +121,15 @@
             },
             searchEvent: function() { //点击查询按钮
                 var obj={
+                    typeName: $('#typeName').val()
+                }
+                renderTable(obj);
+            },
+            searchEventNew:function(){
+                var obj={
                     typeName: $('#typeName').val(),
-                    typeIndex:$("#nodePath").val()
+                    typeIndex:$("#nodePath").val(),
+                    isCloudParentId:"1"
                 }
                 renderTable(obj);
             },
@@ -146,7 +153,7 @@
                                         success: function(res) {
                                             if (res.code === '0') {
                                                 layer.msg('删除成功。', {icon: 1});
-                                                $('[lay-filter="formSubmit"]').click();
+                                                active.searchEvent();
                                             } else {
                                                 layer.msg('删除失败。', {icon: 2});
                                             }
