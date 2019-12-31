@@ -157,7 +157,8 @@ public class TechFamilyApiController extends BaseController
         @ApiImplicitParam(name = "parentId",            value = "父节点id", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "parentCode",          value = "父节点编码", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "levelCode",           value = "层级", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "typeIndex",           value = "检索辅助字段", dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "typeIndex",           value = "检索辅助字段", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "isCloudParentId",     value = "参数如有parentId时，是否包含parentId本身", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/techFamily-api/page", method = RequestMethod.POST)
 	public String getExpertPage(
@@ -172,6 +173,7 @@ public class TechFamilyApiController extends BaseController
             @RequestParam(required = false) String parentCode,
             @RequestParam(required = false) String levelCode,
             @RequestParam(required = false) String typeIndex,
+            @RequestParam(required = false) String isCloudParentId,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -184,6 +186,7 @@ public class TechFamilyApiController extends BaseController
     	param.getParam().put("levelCode", levelCode);
     	param.getParam().put("typeIndex", typeIndex);
     	param.getParam().put("status", "1");
+    	param.getParam().put("isCloudParentId", isCloudParentId);
     	param.setLimit(limit);
     	param.setPage(page);
     	//默认查询小于等于用户密级的
