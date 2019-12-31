@@ -78,3 +78,124 @@
     width: 12px;
     height: 12px;
 }
+
+/* 知悉范围* --- start --- */
+.item-list-data {
+    padding-top: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    min-height: 28px;
+}
+.item-list-input{
+    display: inline-block;
+    vertical-align: middle;
+    border: none;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    color: #333;
+}
+.sed-item-list{
+    display: inline-block;
+    vertical-align: top;
+    padding: 2px 4px;
+    padding-right: 20px;
+    position: relative;
+    background-color: #E6F4FF;
+    margin-right: 5px;
+    margin-bottom: 4px;
+}
+.sed-item-list .name-item {
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    white-space: nowrap;
+    max-width: 80px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.sed-item-list .delete-item {
+    display: block;
+    position: absolute;
+    right: 6px;
+    width: 7px;
+    height: 8px;
+    top: 6px;
+    cursor: pointer;
+    zoom: 1;
+    opacity: .7;
+    background: url('../images/dialog-close.png') no-repeat center center;
+    background-size: 100% 100%;
+}
+.scope-layout .table-page-layout {
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 1px;
+}
+.scope-layout .layui-laypage {
+    margin: 0;
+}
+.scope-layout .layui-laypage a,
+.scope-layout .layui-laypage span {
+    margin-bottom: 0;
+}
+.scope-layout.layui-row {
+    padding-bottom: 0;
+}
+.layui-input-block-scope{
+    position: relative;
+}
+.layui-input-block-scope .layui-input{
+    position: relative;
+    background: none !important;
+    border-width: 0 !important;
+    padding: 1px;
+    padding-left: 10px;
+    font-size: 0 !important;
+    height: auto;
+}
+.layui-input-block-scope > input {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0;
+    margin: 0;
+    font-size: 0 !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px #D4D7D8 solid;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* 知悉范围* --- end --- */
+
+@media screen and (max-width: 1366px) {
+    .pie-legend-list .legend-item > span {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .pie-legend-list .lenend-item-icon {
+        width: 12px;
+        height: 12px;
+    }
+}
+.link-text {
+    color: #0AA1FF;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity .24s ease-out;
+}
+.layui-input-block-scope .layui-input {
+    position: relative;
+    background: none !important;
+    border-width: 0 !important;
+    padding: 1px;
+    padding-left: 10px;
+    font-size: 0 !important;
+    height: auto;
+}
+.layui-input-block-scope {
+    position: relative;
+}

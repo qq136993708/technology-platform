@@ -121,7 +121,8 @@
             },
             searchEvent: function() { //点击查询按钮
                 var obj={
-                    typeName: $('#typeName').val()
+                    typeName: $('#typeName').val(),
+                    typeIndex:$("#nodePath").val()
                 }
                 renderTable(obj);
             },
@@ -131,26 +132,38 @@
             },
             deleteEvent: function(){ //点击删除按钮
                 var activeData = table.checkStatus('showTable').data;
-                console.log(activeData)
-                if (activeData.length) {
-                    top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
-                        top.layer.close(index);
-                        httpModule({
-                            url: '/techFamily-api/delete/' + temTypeId,
-                            type: 'DELETE',
-                            success: function(res) {
-                                if (res.code === '0') {
-                                    layer.msg('删除成功。', {icon: 1});
-                                    $('[lay-filter="formSubmit"]').click();
-                                } else {
-                                    layer.msg('删除失败。', {icon: 2});
-                                }
+                httpModule({
+                    url: '/techFamily-api/getFamilyCountByParentId?parentId='+temTypeId,
+                    type: 'get',
+                    success: function(res) {
+                        if(res.data<=0){
+                            if (activeData.length) {
+                                top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
+                                    top.layer.close(index);
+                                    httpModule({
+                                        url: '/techFamily-api/delete/' + temTypeId,
+                                        type: 'get',
+                                        success: function(res) {
+                                            if (res.code === '0') {
+                                                layer.msg('删除成功。', {icon: 1});
+                                                $('[lay-filter="formSubmit"]').click();
+                                            } else {
+                                                layer.msg('删除失败。', {icon: 2});
+                                            }
+                                        }
+                                    });
+                                });
+                            }else {
+                                top.layer.msg('请选择需要删除的数据！');
                             }
-                        });
-                    });
-                }else {
-                    top.layer.msg('请选择需要删除的数据！');
-                }
+                        }else {
+                            top.layer.msg('当前节点有子节点不能删除！');
+                        }
+                        console.log(res)
+                    }
+                });
+
+
 
             }
         }
