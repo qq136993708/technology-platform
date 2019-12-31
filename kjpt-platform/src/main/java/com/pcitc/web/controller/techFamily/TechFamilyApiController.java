@@ -100,8 +100,7 @@ public class TechFamilyApiController extends BaseController
 		public String saetechFamily(@RequestBody  TechFamily techFamily,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		    	Result resultsDate = new Result();
-		    	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(techFamily));
-				System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
+		    	
 				SysUser sysUserInfo = this.getUserProfile();
 				String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 				techFamily.setTfmTypeId(dateid);
@@ -129,6 +128,9 @@ public class TechFamilyApiController extends BaseController
 						techFamily.setKnowledgePerson(knowledgePerson);
 					}
 				}
+				JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(techFamily));
+				System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
+				
 				ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_FAMILY, HttpMethod.POST, new HttpEntity<TechFamily>(techFamily, this.httpHeaders), String.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				String dataId = responseEntity.getBody();
@@ -157,10 +159,11 @@ public class TechFamilyApiController extends BaseController
         @ApiImplicitParam(name = "parentId",            value = "父节点id", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "parentCode",          value = "父节点编码", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "levelCode",           value = "层级", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "typeIndex",           value = "检索辅助字段", dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "typeIndex",           value = "检索辅助字段", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "isCloudParentId",     value = "参数如有parentId时，是否包含parentId本身", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/techFamily-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public String page(
 			
 
 			@RequestParam(required = false) Integer page,
@@ -172,6 +175,7 @@ public class TechFamilyApiController extends BaseController
             @RequestParam(required = false) String parentCode,
             @RequestParam(required = false) String levelCode,
             @RequestParam(required = false) String typeIndex,
+            @RequestParam(required = false) String isCloudParentId,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -184,6 +188,7 @@ public class TechFamilyApiController extends BaseController
     	param.getParam().put("levelCode", levelCode);
     	param.getParam().put("typeIndex", typeIndex);
     	param.getParam().put("status", "1");
+    	param.getParam().put("isCloudParentId", isCloudParentId);
     	param.setLimit(limit);
     	param.setPage(page);
     	//默认查询小于等于用户密级的
@@ -296,6 +301,26 @@ public class TechFamilyApiController extends BaseController
 	   		
 	}
     
+    
+    @ApiOperation(value = "查询技术族(树)列表", notes = "查询技术族(树)列表")
+    @RequestMapping(value = "/techFamily-api/getTreeNodeListByParntId", method = RequestMethod.GET)
+	public String getTreeNodeListByParntId(HttpServletRequest request, HttpServletResponse response)throws Exception
+    {
+            String tfmTypeId=CommonUtil.getParameter(request, "id", "");
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("parentId", tfmTypeId);
+	   	    paramMap.put("status", "1");
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_TREE_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+  	   		JSONArray jSONArray=null;
+  	   		if (statusCode == 200)
+  	   		{
+  	   			jSONArray = responseEntity.getBody();
+  	   		}
+	   		return jSONArray.toString();
+	   		
+	}
     
     
 	

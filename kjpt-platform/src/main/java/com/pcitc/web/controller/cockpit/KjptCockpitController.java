@@ -280,13 +280,4 @@ public class KjptCockpitController extends RestBaseController {
         return responseEntity.getBody();
     }
 
-
-    private void checkIsWhiteList(Map param){
-        if(!"1".equals(param.get("skipKnowledgeScope"))){
-            SysException sys = new SysException("非白名单账号，无权查看数据！");
-            sys.setCode("-1");
-            throw sys;
-        }
-    }
-
 }

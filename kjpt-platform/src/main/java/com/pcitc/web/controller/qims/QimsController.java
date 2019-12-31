@@ -71,6 +71,8 @@ public class QimsController extends BaseController {
 		if (!StringUtils.isEmpty(DateUtil.format(date,DateUtil.FMT_SS))) {
 			this.setParam(condition, "date", DateUtil.format(date,DateUtil.FMT_SS));
 		}
+		this.setBaseParam(condition);
+		checkIsWhiteList(condition);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), String.class);
 		return responseEntity.getBody();
 	}

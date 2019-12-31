@@ -34,7 +34,8 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
     insert into zjk_achievement (id,expert_id, source_type, del_status, 
       achieve_name, apply_year, apply_unit, 
-      achieve_type, create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
+      achieve_type, create_time, out_system_id,flag,
+      secret_level,knowledge_scope,knowledge_person,create_user
       )
     values (
       #{id,jdbcType=VARCHAR},

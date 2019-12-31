@@ -104,7 +104,7 @@
 		create_user_id,
 		create_date, update_date,
 		update_user, audit_status, is_hot, develop_info,
-		direction_info,secret_level,secret_level_str
+		direction_info,secret_level,secret_level_str,knowledge_person,create_user
 	</sql>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.pcitc.base.stp.techFamily.TechFamilyExample">
@@ -114,7 +114,7 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from view_tfm_type
+		from (<include refid="view_tfm_type" />) t
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -126,7 +126,7 @@
 		parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
-		from view_tfm_type
+		from (<include refid="view_tfm_type" />) t
 		where tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -149,7 +149,7 @@
 		create_user, create_user_id, create_date,
 		update_date, update_user,
 		audit_status,
-		is_hot, develop_info, direction_info, secret_level
+		is_hot, develop_info, direction_info, secret_level,knowledge_scope,knowledge_person
 		)
 		values
 		(#{tfmTypeId,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},
@@ -166,6 +166,8 @@
 		#{updateUser,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR},
 		#{isHot,jdbcType=VARCHAR}, #{developInfo,jdbcType=VARCHAR},
 		#{directionInfo,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR}
+		 ,#{knowledgeScope,jdbcType=VARCHAR}
+      ,#{knowledgePerson,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
@@ -237,10 +239,12 @@
 			<if test="secretLevel != null">
 				secret_level,
 			</if>
-			
-			
-			
-			
+			<if test="knowledgeScope != null">
+		        knowledge_scope,
+		    </if>
+		    <if test="knowledgePerson != null">
+		        knowledge_person,
+		    </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="tfmTypeId != null">
@@ -309,6 +313,13 @@
 			<if test="secretLevel != null">
 				#{secretLevel,jdbcType=VARCHAR},
 			</if>
+			<if test="knowledgeScope != null">
+		        #{knowledgeScope,jdbcType=VARCHAR},
+		      </if>
+		      <if test="knowledgePerson != null">
+		        #{knowledgePerson,jdbcType=VARCHAR},
+		      </if>
+      
 			
 		</trim>
 	</insert>
@@ -327,6 +338,9 @@
 		set type_code = #{typeCode,jdbcType=VARCHAR},
 		type_name =
 		#{typeName,jdbcType=VARCHAR},
+		   
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
 		parent_id = #{parentId,jdbcType=VARCHAR},
 		parent_code = #{parentCode,jdbcType=VARCHAR},
 		is_parent =
@@ -472,7 +486,7 @@
 	       AND t.type_index like CONCAT(#{typeIndex},'%')
 	      </if>
 	      
-	      <if test="isCloudParentId != null  and isCloudParentId !=''  ">           
+	      <if test="isCloudParentId != null  and isCloudParentId !='' and parentId != null       and parentId !=''  ">           
 	          OR t.tfm_type_id = #{parentId}
 	      </if>
 	 </trim>

@@ -23,9 +23,9 @@
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">密级:</span></label>
+          <label class="layui-form-label label-required"><span class="must-fill">*</span><span class="text">密级：</span></label>
           <div class="layui-input-block">
-            <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
+            <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
             </select>
           </div>
         </div>
@@ -39,7 +39,8 @@
       </div>
 
     </div>
-
+    <!-- 知悉范围 -->
+    <div id="scope_list_layout"></div>
     <div class="secret-level-line"></div>
   	<div class="layui-row layui-col-space10">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -130,11 +131,26 @@
                 type: 'GET',
                 success: function(relData) {
                     if (relData.success === true) {
+                        var newData=relData.data
                         // 给form表单赋初始值
                         $("#parentId").attr("value", variable.tfmTypeId);
                         $("#parentTypeName").attr("value", relData.data.typeName);
+                        // 添加知悉范围
+                        setJurisdictionScope({
+                            elem: 'scope_list_layout',
+                            knowledgeScope: newData.knowledgeScope,
+                            knowledgePerson: newData.knowledgePerson,
+                            secretLevel: newData.secretLevel,
+                            disabled: false
+                        });
                     }
                 }
+            });
+        }else {
+            // 添加知悉范围
+            setJurisdictionScope({
+                elem: 'scope_list_layout',
+                disabled: false
             });
         }
         form.render(null, 'component-form-group');
@@ -163,7 +179,7 @@
         form.on('submit(form-submit)', function(data){
             $.ajax({
                 type : 'POST',
-                url : "/tech-family/type/save",
+                url : "/techFamily-api/save",
                 data : JSON.stringify(data.field),
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
@@ -179,6 +195,7 @@
                 success : function(data) { //请求成功后处理函数。
                     console.log(data)
                     if(data.success){
+                        layer.msg('保存成功!', {icon: 1});
                         setDialogData(data); // 通知上层页面状态 - 弹窗中使用
                         top.layer.closeAll(); // 关闭弹窗
                     }
