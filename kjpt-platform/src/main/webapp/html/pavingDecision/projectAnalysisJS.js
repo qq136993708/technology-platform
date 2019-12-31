@@ -18,6 +18,9 @@ layui.use(['laydate'], function() {
     { name: '国防技术基础', valueKey: 'defenseTechnology'}
   ];
 
+  console.log('kyptCharts =>', kyptCharts);
+
+
   // 模拟数据 年度趋势分析
   var projectData = [
     {

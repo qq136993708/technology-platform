@@ -534,7 +534,7 @@ var kyptCharts = {
       return _this.getPieChartOption(config);
     }
   },
-  transformData(data) {
+  transformData: function(data) {
     var valueData = null, _this = this;
     if (data && typeof(data) === 'object') {
       if (data.length || data.length === 0) {
@@ -563,4 +563,4 @@ var kyptCharts = {
     return valueData;
   },
   chart: {}
-}
+};

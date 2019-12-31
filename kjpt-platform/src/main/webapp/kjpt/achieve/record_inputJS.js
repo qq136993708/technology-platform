@@ -43,11 +43,21 @@ layui.use(['table', 'form', 'layer'], function() {
       $('#all_page_submit').remove();
       $.each(data, function(i, val) {
         $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
-      })
+      });
+
+      var year = new Date().format('yyyy'),
+      yearData = data.filter(function(item, i) {
+        if (item.rewardYear == year) {
+          return item;
+        }
+      });
+
     }
     if (variable.type !== 'view') {
       $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
     }
+
+
 
     $('.maintain_list').each(function(index, elem) {
       var $layoutItem = $(this),
