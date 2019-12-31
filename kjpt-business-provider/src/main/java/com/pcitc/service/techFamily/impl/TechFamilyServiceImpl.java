@@ -254,6 +254,7 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 			String parentCode=getTableParam(param,"parentCode","");
 			String knowledgeScope=getTableParam(param,"knowledgeScope","");
 			String userSecretLevel=getTableParam(param,"userSecretLevel","");
+			String isCloudParentId=getTableParam(param,"isCloudParentId","");
 			
 			
 			String secretLevel=getTableParam(param,"secretLevel","");
@@ -269,7 +270,7 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 			map.put("parentCode", parentCode);
 			map.put("knowledgeScope", knowledgeScope);
 			map.put("userSecretLevel", userSecretLevel);
-			
+			map.put("isCloudParentId", isCloudParentId);
 			map.put("secretLevel", secretLevel);
 			map.put("status", status);
 			map.put("levelCode", levelCode);
@@ -291,7 +292,7 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 	{
 		return techFamilyMapper.getList(map);
 	}
-	public List getTreeNodeList(Map map)throws Exception
+	public List<TreeNode> getTreeNodeList(Map map)throws Exception
 	{
 		return techFamilyMapper.getTreeNodeList(map);
 	}

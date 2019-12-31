@@ -52,9 +52,18 @@ public class TechFamily {
     private String secretLevelStr;
     private String knowledgeScope="";
     private String knowledgePerson="";
+    private String isCloudParentId="";
     
     
-    public String getKnowledgeScope() {
+    public String getIsCloudParentId() {
+		return isCloudParentId;
+	}
+
+	public void setIsCloudParentId(String isCloudParentId) {
+		this.isCloudParentId = isCloudParentId;
+	}
+
+	public String getKnowledgeScope() {
 		return knowledgeScope;
 	}
 

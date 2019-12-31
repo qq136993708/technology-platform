@@ -468,7 +468,13 @@
 	     </if>
 	      <if test="status != null            and status !=''  ">              AND t.status = #{status}</if>
 	      <if test="levelCode != null         and levelCode !=''  ">           AND t.level_code = #{levelCode}</if>
-	      <if test="typeIndex != null         and typeIndex !=''  ">           AND t.type_index = #{typeIndex}</if>
+	      <if test="typeIndex != null         and typeIndex !=''  ">           
+	       AND t.type_index like CONCAT(#{typeIndex},'%')
+	      </if>
+	      
+	      <if test="isCloudParentId != null  and isCloudParentId !=''  ">           
+	          OR t.tfm_type_id = #{parentId}
+	      </if>
 	 </trim>
 	</sql>
      
@@ -491,15 +497,30 @@
      <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from tfm_type t <include refid="selectCondition" />
      </select>
+     
+     
+     
+     
+     
+     <resultMap id="TreeNodeBaseResultMap" type="com.pcitc.base.common.TreeNode">
+		<id column="id"       property="id" jdbcType="VARCHAR" />
+		<result column="pId"  property="pId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="parentFlag" property="parentFlag" jdbcType="VARCHAR" />
+		<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
   
      
-     <select id="getTreeNodeList" resultType="com.pcitc.base.common.TreeNode">
+     <select id="getTreeNodeList" resultMap="TreeNodeBaseResultMap"  >
      select
 	      t.tfm_type_id AS id,
 		  t.parent_id AS pId,
-		  t.type_name AS NAME,
+		  t.type_name AS name,
 		  t.level_code AS levelCode,
-		  t.type_code AS CODE,
+		  t.type_code AS code,
 		  t.is_parent AS parentFlag,
 		  t.type_index AS nodePath
 	  from tfm_type  t  <include refid="selectCondition" />  
