@@ -102,6 +102,14 @@ var __base_dic_store = {
 								</div>
 							</a>
 						</li>
+						<!--<li class="layui-nav-item">
+							<a lay-href="/stp/techFamily/technology_list.html" lay-text="技术族">
+								<div class="item-row-block">
+									<span class="icon_name menu_index"></span>
+									<span class="item-title">技术族</span>
+								</div>
+							</a>
+						</li>-->
 						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
 						<li class="layui-nav-item"></#if> <#if gztFlag=="1">
 						<li class="layui-nav-item"></#if> <a href="javascript:void(0);" title="${grgzt.name}">

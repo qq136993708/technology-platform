@@ -7,11 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <!-- 多选下拉框样式，根据需求添加 -->
     <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
-
+    <link rel="stylesheet" href="/css/technology.css">
     <!-- 更多样式在此引入 -->
 </head>
 <body>
@@ -45,20 +46,120 @@
                 </div>
             </div>
         </div>
-        <div class="tableToolBox" id="userDiv">
+        <div class="tableToolBox" style="margin-bottom: 15px">
             <div class="whiteLine"></div>
-            <div  class="tableBtns" id="rightBtn">
+            <div  class="tableBtns text-right" >
                 <button class="layui-btn border-blue " data-type="addEvent">新增</button>
                 <button class="layui-btn border-red margin12" data-type="deleteEvent" >删除</button>
             </div>
         </div>
-        <table id="showTable" class="layui-hide" lay-filter="tableEvent"></table>
+        <input type="text" name="nodePath"  id="nodePath" class="layui-hide">
+        <table id="showTable" class="layui-hide" lay-filter="showTable"></table>
     </div>
-
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="./technology.js"></script>
+<script>
+    layui.use(['table', 'form', 'layer'], function() {
+        var form = layui.form, layer = layui.layer, table = layui.table;
+        function renderTable(where){
+            table.render({
+                elem: '#showTable' // 表格元素ID
+                ,url: '/techFamily-api/page' //数据接口
+                ,cols: [[ //表头
+                    {type: 'radio' },
+                    {title: '序号',type:'numbers',width:55 },
+                    {field:'typeName',   title:'分类名称',  style:'cursor: pointer;'},
+                    {field:'typeCode',      title:'分类编码', style:'cursor: pointer;'},
+                    {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100}
+                ]],
+                method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                where:where
+                ,done:function (res) {
 
+                }
+                ,request: {
+                    page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                    limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                }
+                , page: true //开启分页
+                , limit: 15
+                , limits: [15, 30, 45, 60], // 配置分页数据条数
+            });
+        }
+        renderTable();
+        active = {
+            addEvent: function(){ //点击新增按钮
+                if (typeof(temTypeId) == "undefined") {
+                    layer.msg("请先选择左侧技术族分类节点");
+                } else {
+                    var temUrl="/tech-family/type/ini-add?tfmTypeId="+temTypeId;
+                    top.layer.open({
+                        title:'新增',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: false,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['60%', '60%'],
+                        content:  temUrl,
+                        end: function(lay, index) {
+                            // 弹窗销毁时获取弹窗返回数据
+                            var getData = getDialogData('dialog-data');
+                            if(getData){
+                                messageInfo = getData.message;
+                                active.alertEvent();
+                                ztreeAsyncChildNodes();
+                            }
+                        }
+                    });
+                }
+            },
+            searchEvent: function() { //点击查询按钮
+                var obj={
+                    typeName: $('#typeName').val()
+                }
+                renderTable(obj);
+            },
+            resetEvent: function() { //点击重置按钮
+                $('#typeName').val("");
+                active.searchEvent();
+            },
+            deleteEvent: function(){ //点击删除按钮
+                var activeData = table.checkStatus('showTable').data;
+                console.log(activeData)
+                if (activeData.length) {
+                    top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
+                        top.layer.close(index);
+                        httpModule({
+                            url: '/techFamily-api/delete/' + temTypeId,
+                            type: 'DELETE',
+                            success: function(res) {
+                                if (res.code === '0') {
+                                    layer.msg('删除成功。', {icon: 1});
+                                    $('[lay-filter="formSubmit"]').click();
+                                } else {
+                                    layer.msg('删除失败。', {icon: 2});
+                                }
+                            }
+                        });
+                    });
+                }else {
+                    top.layer.msg('请选择需要删除的数据！');
+                }
+
+            }
+        }
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    })
+</script>
 </body>
 </html>
