@@ -81,7 +81,7 @@ public interface TechFamilyMapper {
 	public   int getCount(Map map);
 	
 	
-	public List getTreeNodeList(Map map);
+	public List<TreeNode> getTreeNodeList(Map map);
 	
 	public String getMaxTechTypeCodeByParentId(String parentId);
 	

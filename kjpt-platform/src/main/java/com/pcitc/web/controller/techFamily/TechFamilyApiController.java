@@ -222,14 +222,15 @@ public class TechFamilyApiController extends BaseController
 	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_List_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 	   		int statusCode = responseEntity.getStatusCodeValue();
-	   		List<TechFamily> list =new ArrayList();
+	   		
   	   		JSONArray jSONArray=null;
   	   		if (statusCode == 200)
   	   		{
   	   			jSONArray = responseEntity.getBody();
   	   		    resultsDate.setData(jSONArray);
   	   		}
-  	   		return resultsDate.toString();
+  	      	 JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+  	   		 return result.toString();
 	   		
 	}
     
@@ -259,7 +260,8 @@ public class TechFamilyApiController extends BaseController
   	   			  resultsDate.setData(jSONArray.size());
   	   			}
   	   		}
-  	   		return resultsDate.toString();
+  	   	   JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+	   		 return result.toString();
 	   		
 	}
     
@@ -268,28 +270,29 @@ public class TechFamilyApiController extends BaseController
     @RequestMapping(value = "/techFamily-api/getTreeNodeList", method = RequestMethod.GET)
 	public String getTreeNodeList(HttpServletRequest request, HttpServletResponse response)throws Exception
     {
-    	    Result resultsDate = new Result();
-            String parentId=CommonUtil.getParameter(request, "parentId", "");
+            String parentId=CommonUtil.getParameter(request, "parentId", "10");
             String levelCode=CommonUtil.getParameter(request, "levelCode", "");
             String typeIndex=CommonUtil.getParameter(request, "typeIndex", "");
+            String isCloudParentId=CommonUtil.getParameter(request, "isCloudParentId", "");
             
-    	    this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+            
+            
+            
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 	   		paramMap.put("typeIndex", typeIndex);
 	   	    paramMap.put("levelCode", levelCode);
 	   	    paramMap.put("parentId", parentId);
+	   	    paramMap.put("isCloudParentId", isCloudParentId);
 	   	    paramMap.put("status", "1");
 	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_TREE_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 	   		int statusCode = responseEntity.getStatusCodeValue();
-	   		List<TechFamily> list =new ArrayList();
   	   		JSONArray jSONArray=null;
   	   		if (statusCode == 200)
   	   		{
   	   			jSONArray = responseEntity.getBody();
-  	   		    resultsDate.setData(jSONArray);
   	   		}
-  	   		return resultsDate.toString();
+	   		return jSONArray.toString();
 	   		
 	}
     

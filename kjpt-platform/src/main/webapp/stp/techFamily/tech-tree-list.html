@@ -89,7 +89,7 @@
 	
 	$(function() {
 		$.ajax({
-			url: "/tech-family/type/tech-type-tree",//这个就是请求地址对应sAjaxSource
+			url: "/techFamily-api/getTreeNodeList?parrentId=10&isCloudParentId=1",//这个就是请求地址对应sAjaxSource
             type : 'get',
             headers: {'Content-Type' : 'application/json'},
             dataType : 'json',

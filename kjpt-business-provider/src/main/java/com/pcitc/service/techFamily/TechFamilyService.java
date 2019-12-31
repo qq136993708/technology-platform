@@ -80,7 +80,7 @@ public interface TechFamilyService {
     public LayuiTableData getFamilyPage(LayuiTableParam param)throws Exception;
     public List getFamilyList(Map map)throws Exception;
     public String getMaxTechTypeCodeByParentId(String parentId);
-    public List getTreeNodeList(Map map)throws Exception;
+    public List<TreeNode> getTreeNodeList(Map map)throws Exception;
     public int deleteByParentId(String tfmTypeId)throws Exception;
     public int deleteTechFamilyTypeById(String tfmTypeId)throws Exception;
 }
