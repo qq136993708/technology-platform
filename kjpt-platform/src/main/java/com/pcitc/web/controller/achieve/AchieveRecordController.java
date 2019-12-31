@@ -247,8 +247,9 @@ public class AchieveRecordController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-        this.setParam(condition,"userName",sysUserInfo.getUserName());
+       /* this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
+        this.setParam(condition,"userName",sysUserInfo.getUserName());*/
+       this.setBaseParam(condition);
 
         //默认查询当前人所在机构下所有的成果备案
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
