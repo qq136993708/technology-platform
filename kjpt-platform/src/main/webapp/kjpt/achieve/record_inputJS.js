@@ -51,7 +51,6 @@ layui.use(['table', 'form', 'layer'], function() {
           return item;
         }
       });
-
     }
     if (variable.type !== 'view') {
       $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
