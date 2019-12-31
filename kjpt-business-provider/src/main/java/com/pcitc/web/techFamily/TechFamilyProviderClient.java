@@ -464,8 +464,29 @@ public class TechFamilyProviderClient {
     
     @ApiOperation(value = "查询技术族树", notes = "查询技术族树")
     @RequestMapping(value = "/tech_family_provider/getTreeNodeList", method = RequestMethod.POST)
-	public JSONArray getTreeNodeList(@RequestBody Map map)throws Exception{
+	public JSONArray getTreeNodeList(@RequestBody Map map)throws Exception
+    {
     	List<TreeNode> list= techFamilyService.getTreeNodeList(map);
+    	if(list!=null)
+    	{
+    		for (int i = 0; i < list.size(); i++) 
+			{
+				TreeNode tree = list.get(i);
+				// 前几层默认打开
+				if (tree.getLevelCode() < 2)
+				{
+					tree.setOpen("true");
+				} else {
+					tree.setOpen("false");
+				}
+				// 判断节点是否有孩子（异步加载用）
+				if (tree.getParentFlag().equals("0")) {
+					tree.setIsParent(false);
+				} else {
+					tree.setIsParent(true);
+				}
+			}
+    	}
     	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
     	return json;
 	}

@@ -270,7 +270,6 @@ public class TechFamilyApiController extends BaseController
     @RequestMapping(value = "/techFamily-api/getTreeNodeList", method = RequestMethod.GET)
 	public String getTreeNodeList(HttpServletRequest request, HttpServletResponse response)throws Exception
     {
-    	    Result resultsDate = new Result();
             String parentId=CommonUtil.getParameter(request, "parentId", "10");
             String levelCode=CommonUtil.getParameter(request, "levelCode", "");
             String typeIndex=CommonUtil.getParameter(request, "typeIndex", "");
@@ -292,10 +291,8 @@ public class TechFamilyApiController extends BaseController
   	   		if (statusCode == 200)
   	   		{
   	   			jSONArray = responseEntity.getBody();
-  	   		    resultsDate.setData(jSONArray);
   	   		}
-  	   	   JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-	   		 return result.toString();
+	   		return jSONArray.toString();
 	   		
 	}
     
