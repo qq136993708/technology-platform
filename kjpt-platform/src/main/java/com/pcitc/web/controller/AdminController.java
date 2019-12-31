@@ -222,13 +222,15 @@ public class AdminController extends BaseController {
         HttpServletResponse response = this.getCurrentResponse();
 
         SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-        List<SysFunction> funList = userDetails.getFunList();
+        List<SysFunction> aLLList = userDetails.getFunList();
         List<SysFunction> upList = new ArrayList<SysFunction>();
         // 个人工作台菜单
         List<SysFunction> grgztList = new ArrayList<SysFunction>();
         HashSet authSet = new HashSet();
-        for (SysFunction sysfun : funList) {
-            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
+        for (SysFunction sysfun : aLLList) 
+        {
+            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) 
+            {
                 upList.add(sysfun);
             }
             // 个人工作台的二级、三级菜单
@@ -243,7 +245,7 @@ public class AdminController extends BaseController {
         // 收藏的菜单
         List<SysCollect> scList = userDetails.getScList();
         request.setAttribute("scList", scList);
-        request.setAttribute("funList", funList);
+        request.setAttribute("funList", aLLList);
         request.setAttribute("grgztList", grgztList);
         request.setAttribute("upList", upList);
         request.setAttribute("userInfo", userDetails);

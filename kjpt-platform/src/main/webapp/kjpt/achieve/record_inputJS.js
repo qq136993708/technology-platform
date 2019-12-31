@@ -25,9 +25,15 @@ layui.use(['table', 'form', 'layer'], function() {
     }}
   ]
   ];
-    if(variable.flag==1){
-        $("#all_page_submit").hide()
-    }
+
+  // 添加上报参数
+  if (variable.functionId) {
+    $('#functionId').val(variable.functionId);
+  }
+
+  if(variable.flag==1){
+    $("#all_page_submit").hide();
+  }
   // 添加 转化净收益及激励方案
   function addTransfromMaintain(data, auditStatus) {
     var wrapID = 'init_transfrom_maintain';
@@ -124,8 +130,6 @@ layui.use(['table', 'form', 'layer'], function() {
               return $("#secretLevel").val();
             },
             cols: (function() {
-              console.log('formFilter =>', formFilter);
-
               if (formFilter === 'newTransfrom') {
                 return fileCols[0];
               } else {
@@ -164,6 +168,11 @@ layui.use(['table', 'form', 'layer'], function() {
       // 尽职调查报告：
       fileTemp = fileData[data.grantDoc] || '';
       fileValue.grantDoc = ['尽职调查报告', fileTemp];
+    }
+    if (data.hasOwnProperty('transPublicDoc')) {
+      // 合同（协议）文本：
+      fileTemp = fileData[data.transPublicDoc] || '';
+      fileValue.transPublicDoc = ['公示及结果材料', fileTemp];
     }
     if (data.hasOwnProperty('transContractDoc')) {
       // 合同（协议）文本：
@@ -405,6 +414,11 @@ layui.use(['table', 'form', 'layer'], function() {
             // 查找审批记录
             viewUrl += '&functionId='+variable.functionId;
           }
+          if (variable.index) {
+            // 上层iframe的index
+            viewUrl += '&index='+variable.index;
+          }
+
           // 刷新页面
           window.location.href = viewUrl;
         } else {
@@ -492,8 +506,6 @@ layui.use(['table', 'form', 'layer'], function() {
 
   // 查询审批记录
   if (variable.functionId) {
-    $('#functionId').val(variable.functionId);
-
     $('#approvalRecord_layout').show();
     //渲染
     table.render({
