@@ -185,7 +185,8 @@
     cursor: pointer;
     font-size: 14px;
     text-decoration: none;
-    transition: opacity .24s ease-out;
+    transition: opacity .24s ease-out;    position: relative;
+    top: 6px;
 }
 .layui-input-block-scope .layui-input {
     position: relative;
@@ -199,3 +200,6 @@
 .layui-input-block-scope {
     position: relative;
 }
+.layui-input-block{min-height: 28px}
+#scope_list_layout .layui-input:hover{border-color:#fff !important;box-shadow:none}
+#scope_list_layout  .layui-input-block-scope .layui-input{box-shadow:none}
