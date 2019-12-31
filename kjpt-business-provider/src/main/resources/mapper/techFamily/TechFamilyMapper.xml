@@ -481,7 +481,9 @@
 	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
 	     </if>
 	      <if test="status != null            and status !=''  ">              AND t.status = #{status}</if>
-	      <if test="levelCode != null         and levelCode !=''  ">           AND t.level_code = #{levelCode}</if>
+	      <if test="levelCode != null         and levelCode !=''  ">  
+	               AND t.level_code &lt;= #{levelCode}
+	      </if>
 	      <if test="typeIndex != null         and typeIndex !=''  ">           
 	       AND t.type_index like CONCAT(#{typeIndex},'%')
 	      </if>

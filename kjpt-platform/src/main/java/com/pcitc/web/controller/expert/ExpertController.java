@@ -214,7 +214,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("secretLevel", secretLevel);
     	param.getParam().put("expertType", expertType);
     	param.getParam().put("expertTypes", expertTypes);
-    	
+    	param.getParam().put("groupType", groupType);
 		 SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
     	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
