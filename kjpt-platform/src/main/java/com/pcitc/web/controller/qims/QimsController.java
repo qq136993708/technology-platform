@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -22,24 +23,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Api(value = "Qims-API",tags = {"请求外系统-质量接口"})
+@Api(value = "Qims-API",tags = {"外系统-质量接口"})
 @RestController
 public class QimsController extends BaseController {
 
-	private static final String QualityStatistics = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_excute/";
-	private static final String QUERY = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_query";
+	//private static final String QualityStatistics = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_excute/";
+	private static final String QUERY = "http://kjpt-zuul/system-proxy/qims-provider/qualityStatistics/qualityStatistics_query";
 
+	/*@Value("${keyStr}")
+	private String keyStr;*/
 
 	/**
 	 *查询外系统-项目
 	 */
-	@ApiOperation(value = "请求外系统-质量接口", notes = "请求外系统-质量接口")
+/*	@ApiOperation(value = "请求外系统-质量接口", notes = "请求外系统-质量接口")
 	@RequestMapping(value = "/qims-api/qualityStatistics", method = RequestMethod.GET)
 	public JSONObject qualityStatistics(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String keyStr = "F-HD-01,F-YZ-01,F-PY-01,F-TF-01,A213-b,A214-09,A214-10,F-GC-00,F-HD-01,F-DZ-01,A213-a,A214-08";
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(QualityStatistics+keyStr, HttpMethod.GET, new HttpEntity<String>(this.httpHeaders), JSONObject.class);
 		return responseEntity.getBody();
-	}
+	}*/
 
 
 	/**
