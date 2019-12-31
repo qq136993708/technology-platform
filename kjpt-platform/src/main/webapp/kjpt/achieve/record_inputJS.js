@@ -488,9 +488,12 @@ layui.use(['table', 'form', 'layer'], function() {
   })
   $("#reset").click(function () {
       closeTabsPage(variable.index);
-  })
+  });
+
   // 查询审批记录
   if (variable.functionId) {
+    $('#functionId').val(variable.functionId);
+
     $('#approvalRecord_layout').show();
     //渲染
     table.render({

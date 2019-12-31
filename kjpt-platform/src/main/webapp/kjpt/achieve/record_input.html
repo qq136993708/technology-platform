@@ -398,8 +398,6 @@
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
 <script type="text/javascript">
-  var functionId = sessionStorage.getItem("_functionId");
-  $('#functionId').val(functionId);
   var roleCodes = "";
   var unitCodes = "";
   var postCodes = "";
@@ -407,8 +405,10 @@
   function dealFlow(id) {
     $('#id').val(id);
 
-    var nunits="";
-    var json = {functionId: functionId, branchFlag: "0"};
+    var nunits="",
+    _functionId = $('#functionId').val(),
+    json = {functionId: _functionId, branchFlag: "0"};
+
     $.ajax({
       type : 'POST',
       url : "/workflow/start/audit-type",

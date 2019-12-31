@@ -158,9 +158,7 @@ layui.use(['table', 'form','laydate'], function() {
     id = $(this).data('id'),
     auditStatus = $(this).data('auditstatus');
     url = '/kjpt/achieve/record_input.html?type=' + optionType + '&id='+ id+"&index="+index;
-    if (functionId && auditStatus !== 0 && auditStatus !== '0') {
-      url += '&functionId=' + functionId;
-    }
+    url += '&functionId=' + functionId;
     parent.layui.index.openTabsPage(url, dialogTitle + '申请');
   })
   
