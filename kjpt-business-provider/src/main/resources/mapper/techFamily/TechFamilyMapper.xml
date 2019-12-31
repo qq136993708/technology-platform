@@ -114,7 +114,7 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from view_tfm_type
+		from (<include refid="view_tfm_type" />) t
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -126,7 +126,7 @@
 		parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
-		from view_tfm_type
+		from (<include refid="view_tfm_type" />) t
 		where tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
