@@ -16,7 +16,7 @@ $(function() {
     });
 });
 /*设置setting*/
-var temUrl = '/tech-family/type/tech-type-tree';
+var temUrl = '/techFamily-api/getTreeNodeListByParntId';
 var setting = {
     // 异步动态加载
     async: {
@@ -25,7 +25,7 @@ var setting = {
         dataType :'json',
         type : 'get',
         //异步查询时，把节点code传递后台，查询此节点下的节点。
-        autoParam:["code"]
+        autoParam:["id"]
     },
     data: {
         simpleData: {
