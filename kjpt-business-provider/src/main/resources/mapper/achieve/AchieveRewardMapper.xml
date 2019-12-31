@@ -76,6 +76,7 @@
             and FIND_IN_SET(#{userName}, knowledge_scope)
         </if>
         ))
+        order by create_time desc
     </select>
 
     <select id="getByRecordId" parameterType="java.lang.String" resultMap="AchieveRewardMap">

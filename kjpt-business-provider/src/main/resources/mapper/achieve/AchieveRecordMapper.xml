@@ -147,7 +147,7 @@
         <if test="secretLevel != null and secretLevel != '' ">
             and secretLevel = #{secretLevel}
         </if>
-        and (secret_level = '0' or (
+        and (secretLevel = '0' or (
         secretLevel <![CDATA[<=]]> #{userSecretLevel}
         <if test='skipKnowledgeScope=="0"'>
             and FIND_IN_SET(#{userName}, knowledgeScope)
@@ -160,6 +160,7 @@
         select  * from view_achieve_record where 1=1
             and del_status != '1'
         <include refid="selectByParam" />
+        order by create_time desc
     </select>
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from achieve_record where 1=1
