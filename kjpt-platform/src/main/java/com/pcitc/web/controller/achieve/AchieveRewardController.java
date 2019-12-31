@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -132,11 +133,13 @@ public class AchieveRewardController extends RestBaseController {
     @ResponseBody
     public AchieveReward newInit() {
         AchieveReward a = new AchieveReward();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        Date date = new Date();
         a.setId(UUID.randomUUID().toString().replace("-",""));
         a.setAssignPlanDoc(UUID.randomUUID().toString().replace("-",""));
         a.setIncomeReportDoc(UUID.randomUUID().toString().replace("-",""));
         a.setRewardAccountingDoc(UUID.randomUUID().toString().replace("-",""));
-        a.setCreateDate(new Date());
+        a.setRewardYear(sdf.format(date));
         return a;
     }
 }

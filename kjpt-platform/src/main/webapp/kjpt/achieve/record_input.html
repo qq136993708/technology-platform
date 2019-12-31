@@ -401,6 +401,7 @@
   var roleCodes = "";
   var unitCodes = "";
   var postCodes = "";
+  var variable = getQueryVariable();
   
   function dealFlow(id) {
     $('#id').val(id);
@@ -408,6 +409,8 @@
     var nunits="",
     _functionId = $('#functionId').val(),
     json = {functionId: _functionId, branchFlag: "0"};
+
+    console.log('_functionId =>', _functionId);
 
     $.ajax({
       type : 'POST',
@@ -497,6 +500,7 @@
           top.layer.alert(successMsg, {icon: 1,closeBtn: 0 }, function () {
             top.layer.closeAll(); // 关闭弹窗
             // 返回上一页
+            closeTabsPage(variable.index);
           });
         } else {
           top.layer.alert(failMsg);

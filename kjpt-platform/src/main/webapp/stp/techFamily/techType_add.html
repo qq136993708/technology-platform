@@ -23,9 +23,9 @@
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="must-fill">*</span><span class="text">密级：</span></label>
+          <label class="layui-form-label label-required"><span class="text">密级:</span></label>
           <div class="layui-input-block">
-            <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
+            <select id="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
             </select>
           </div>
         </div>
@@ -39,8 +39,6 @@
       </div>
 
     </div>
-    <!-- 知悉范围 -->
-    <div id="scope_list_layout"></div>
 
     <div class="secret-level-line"></div>
   	<div class="layui-row layui-col-space10">
@@ -135,23 +133,8 @@
                         // 给form表单赋初始值
                         $("#parentId").attr("value", variable.tfmTypeId);
                         $("#parentTypeName").attr("value", relData.data.typeName);
-
-                        // 添加知悉范围
-                        setJurisdictionScope({
-                            elem: 'scope_list_layout',
-                            knowledgeScope: relData.data.knowledgeScope,
-                            knowledgePerson: relData.data.knowledgePerson,
-                            secretLevel: relData.data.secretLevel,
-                            disabled: false
-                        });
                     }
                 }
-            });
-        }else {
-            // 添加知悉范围
-            setJurisdictionScope({
-                elem: 'scope_list_layout',
-                disabled: false
             });
         }
         form.render(null, 'component-form-group');
@@ -178,16 +161,7 @@
 
     	/* 监听提交 */
         form.on('submit(form-submit)', function(data){
-            console.log(data.field)
-            httpModule({
-                url: "/techFamily-api/save",
-                type: 'post',
-                dat:data.field,
-                success: function(relData) {
-                  console.log(relData)
-                }
-            })
-            /*$.ajax({
+            $.ajax({
                 type : 'POST',
                 url : "/tech-family/type/save",
                 data : JSON.stringify(data.field),
@@ -210,9 +184,9 @@
                     }
 
                 }
-            });*/
-            /*var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);*/
+            });
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
             return false;
         });
 

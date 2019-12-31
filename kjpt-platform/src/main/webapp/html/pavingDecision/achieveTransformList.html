@@ -85,7 +85,6 @@
         </div>
       </div>
     </div>
-    <input type="hidden" name="functionId" value="32927d91316c4fb6a87ad0c8e0b4b261">
   </form>
 
   <div class="view-title-layout" id="opations-btn">
@@ -173,7 +172,7 @@ layui.use(['form', 'table', 'laydate', 'layer'], function(){
               return '-';
             }
           }}
-          ,{field: 'achieveTransType', title: '成果转换方式', width: 120}
+          ,{field: 'achieveTransTypeText', title: '成果转换方式', width: 120}
           ,{field: 'transPriceWay', title: '定价方式', width: 100}
           ,{field: 'transPriceBasis', title: '定价原则及依据', width: 120}
           ,{field: 'transContractDoc', title: '合同（协议）情况', width: 120, templet: function(d) {
@@ -299,12 +298,12 @@ layui.use(['form', 'table', 'laydate', 'layer'], function(){
   $('#importData').click(function() {
     var formValue = form.val('pavingDecision'),
     searchData = {
-      achieveName: formValue.achieveName, // 成果名称
-      finishUnitName: formValue.finishUnitName, // 完成单位、持有单位
-      auditStatus: formValue.auditStatus, // 备案状态
-      startDate: formValue.startDate, // 录入开始时间
-      endDate: formValue.endDate, // 录入结束时间
-      achieveType: formValue.achieveType, // 成果类型、是否为核心成果
+      achieveName: formValue.achieveName || '', // 成果名称
+      finishUnitName: formValue.finishUnitName || '', // 完成单位、持有单位
+      auditStatus: formValue.auditStatus || '', // 备案状态
+      startDate: formValue.startDate || '', // 录入开始时间
+      endDate: formValue.endDate || '', // 录入结束时间
+      achieveType: formValue.achieveType || '', // 成果类型、是否为核心成果
       aboutCompleteInfo: formValue.aboutCompleteInfo, // 完成情况
       grantUnitName: '', // 成果受让单位
       achieveTransType: '', // 转化方式
