@@ -41,7 +41,6 @@ function selectFileUpload(config) {
 }
 
 function setFileUpload(config) {
-  console.log(config)
   var configOption = {
     id: '', // 作用域ID;
     dataID: '', // 单据ID;
