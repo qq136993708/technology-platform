@@ -486,7 +486,7 @@
 	       AND t.type_index like CONCAT(#{typeIndex},'%')
 	      </if>
 	      
-	      <if test="isCloudParentId != null  and isCloudParentId !=''  ">           
+	      <if test="isCloudParentId != null  and isCloudParentId !='' and parentId != null       and parentId !=''  ">           
 	          OR t.tfm_type_id = #{parentId}
 	      </if>
 	 </trim>
