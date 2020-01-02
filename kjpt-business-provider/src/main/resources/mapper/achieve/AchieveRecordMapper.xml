@@ -154,6 +154,8 @@
         </if>
         ))
 
+        order by createTime desc
+
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="AchieveRecordMap">

@@ -44,7 +44,7 @@ layui.use(['table', 'form','laydate'], function() {
             if (d.auditStatus == 1 || d.auditStatus == 2){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
-            if (d.auditStatus == 2){
+            if (d.auditStatus == 2 && !d.rewardYear){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
             }
             templet += '</div></div>';
