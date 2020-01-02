@@ -370,12 +370,7 @@ public class AchieveRecordController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
-        this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
-
-        //默认查询当前人所在机构下所有的成果备案
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-        //this.setParam(condition,"childUnitIds",childUnitIds);
-
+        this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(queryAchieveSubsidiarity, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
