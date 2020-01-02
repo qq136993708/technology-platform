@@ -10,19 +10,21 @@ layui.use(['table', 'form','laydate'], function() {
       table.render({
         width: '100%'
         ,elem: '#tableDemo'
-        ,url: '/achieveRecord-api/query' //数据接口
+        // ,url: '/achieveRecord-api/query' //数据接口
+        ,url: '/achieveRecord-api/queryAchieveSubsidiarity'
         ,cols: [[ //表头
           {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
           ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
-                      if(d.auditStatus!=0){
-                          return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
-                      }else {
-                          return d.auditStatusText
-                      }
-                  }}
+            if(d.auditStatus!=0){
+              return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
+            }else {
+              return d.auditStatusText
+            }
+          }}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitName', title: '成果持有单位', width: 120 }
+          ,{field: 'achieveInfo', title: '成果基本情况', width: 120 }
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
           ,{field: 'achieveTransTypeText', title: '拟转化方式', width: 120 }
@@ -42,7 +44,7 @@ layui.use(['table', 'form','laydate'], function() {
             if (d.auditStatus == 1 || d.auditStatus == 2){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
-            if (d.auditStatus == 2){
+            if (d.auditStatus == 2 && !d.rewardYear){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
             }
             templet += '</div></div>';

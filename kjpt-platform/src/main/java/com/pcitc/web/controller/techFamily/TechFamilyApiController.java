@@ -243,7 +243,7 @@ public class TechFamilyApiController extends BaseController
     
     
     
-    @ApiOperation(value = "根据父ID查询技术族个数", notes = "根据父ID查询技术族个数")
+    @ApiOperation(value = "根据父ID查询技术族下级树", notes = "根据父ID查询技术族下级树")
     @RequestMapping(value = "/techFamily-api/getFamilyCountByParentId", method = RequestMethod.GET)
 	public String getFamilyListByParentId(HttpServletRequest request, HttpServletResponse response)throws Exception
     {
@@ -275,7 +275,7 @@ public class TechFamilyApiController extends BaseController
     @RequestMapping(value = "/techFamily-api/getTreeNodeList", method = RequestMethod.GET)
 	public String getTreeNodeList(HttpServletRequest request, HttpServletResponse response)throws Exception
     {
-            String parentId=CommonUtil.getParameter(request, "parentId", "10");
+            String parentId=CommonUtil.getParameter(request, "parentId", "");
             String levelCode=CommonUtil.getParameter(request, "levelCode", "");
             String typeIndex=CommonUtil.getParameter(request, "typeIndex", "");
             String isCloudParentId=CommonUtil.getParameter(request, "isCloudParentId", "");

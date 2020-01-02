@@ -2,7 +2,7 @@ var zNodes,treeId,treeName,temTypeId,temTypeCode,temTypeName,temFunUrl='',select
 /*技术族树*/
 $(function() {
     $.ajax({
-        url: "/techFamily-api/getTreeNodeList?parrentId=10&isCloudParentId=1",//这个就是请求地址对应sAjaxSource
+        url: "/techFamily-api/getTreeNodeList?parentId=10&isCloudParentId=1",//这个就是请求地址对应sAjaxSource
         type : 'get',
         headers: {'Content-Type' : 'application/json'},
         dataType : 'json',
