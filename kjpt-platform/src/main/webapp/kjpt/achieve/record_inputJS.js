@@ -29,31 +29,80 @@ layui.use(['table', 'form', 'layer'], function() {
   if(variable.flag==1){
     $("#all_page_submit").hide();
   }
+
+  // 获取激励方案初始数据
+  function getNewInitAchieveReward() {
+    var newInit = null;
+    httpModule({
+      async: false, // 同步请求
+      url: '/achieveReward-api/newInit',
+      success: function(res) {
+        if (res.code === '0' || res.success === true) {
+          newInit = res.data;
+          newInit.achieveRecordId = variable.id;
+        }
+      }
+    });
+    return newInit;
+  }
+
   // 添加 转化净收益及激励方案
   function addTransfromMaintain(data, auditStatus) {
-    var wrapID = 'init_transfrom_maintain', yearData = null;
+    var wrapID = 'init_transfrom_maintain',
+      yearData = null, // 当前年的激励方案
+      excitationData = [];
 
-
-
-    if (typeof(data) === 'object' && data.length && auditStatus != '0' && auditStatus != '3') {
+    if (variable.type === 'transfrom') {
       var year = new Date().format('yyyy');
-      yearData = data.filter(function(item, i) {
-        if (item.rewardYear == year) {
-          return item;
+      // 判断是否有当前年激励方案
+      for (var i = 0; i < data.length; i++) {
+        if (year === data[i].rewardYear) {
+          yearData = switchHttpData(data[i]);
+        } else {
+          excitationData.push(data[i]);
         }
-      });
-      //
-      wrapID = 'edit_transfrom_maintain';
+      }
+
+      // 添加显示以往激励方案的 HTML
       $('#init_transfrom_maintain').empty();
       $('#all_page_submit').remove();
-      $.each(data, function(i, val) {
+      $.each(excitationData, function(i, val) {
+        $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
+      });
+
+      // 维护新增激励方案
+      wrapID = 'edit_transfrom_maintain';
+      if (yearData.status == 0 || yearData.status == 2) {
+        excitationData.unshift(yearData);
+      } else {
+        excitationData.unshift(getNewInitAchieveReward());
+      }
+
+    } else if (variable.type === 'input') {
+      if (!data || !data.length) {
+        // 录入新增激励方案
+        excitationData.unshift(getNewInitAchieveReward());
+      } else {
+        excitationData = switchHttpData(data);
+        $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
+      }
+    } else {
+      excitationData = switchHttpData(data);
+    }
+
+    if (variable.type !== 'view') {
+      if (!yearData || (yearData.status == 0 || yearData.status == 2)) {
+        $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
+      }
+    } else {
+      // 添加显示以往激励方案的 HTML
+      $('#init_transfrom_maintain').empty();
+      $('#all_page_submit').remove();
+      $.each(excitationData, function(i, val) {
         $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
       });
     }
-    if (variable.type !== 'view' && !yearData) {
-      $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
-    }
-    
+
     $('.maintain_list').each(function(index, elem) {
       var $layoutItem = $(this),
       htmlIndex = index,
@@ -83,40 +132,20 @@ layui.use(['table', 'form', 'layer'], function() {
             deleTr(groupTableId);
           })
 
-          if (typeof(data) === 'object' && data.length === 1 && (auditStatus === '0' || auditStatus === '3')) {
-            // 草稿
-            form.val('newTransfrom', data[0]);
-            if ( data[0].teamPerson ) {
-              backfill(data[0].teamPerson, groupTableId);
-            }
-          } else {
-            httpModule({
-              async: false, // 同步请求
-              url: '/achieveReward-api/newInit',
-              success: function(res) {
-                if (res.code === '0' || res.success === true) {
-                  var newTransfromData =  res.data;
-                  newTransfromData.achieveRecordId = variable.id;
-                  form.val('newTransfrom', newTransfromData);
-                }
-              }
-            });
+          // 草稿
+          form.val('newTransfrom', excitationData[htmlIndex]);
+          if ( excitationData[htmlIndex].teamPerson ) {
+            backfill(excitationData[htmlIndex].teamPerson, groupTableId);
           }
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
-
-          var dataIndex = htmlIndex;
-          if (variable.type === 'transfrom') {
-            dataIndex = (dataIndex - 1);
-          }
-
           // 给当前激励方案赋值回显
-          form.val(formFilter, data[dataIndex]);
+          form.val(formFilter, data[htmlIndex]);
 
           // 回显团队成员
-          if ( data[dataIndex].teamPerson ) {
-            backfill(data[dataIndex].teamPerson, tempTableId, 'view');
+          if ( excitationData[htmlIndex].teamPerson ) {
+            backfill(excitationData[htmlIndex].teamPerson, tempTableId, 'view');
           }
         }
 
@@ -421,13 +450,13 @@ layui.use(['table', 'form', 'layer'], function() {
           var viewUrl =  window.location.pathname+ '?id='+variable.id+'&type=view';
           if (variable.type === 'input') {
             // 备案信息ID
-            viewUrl += '&flow=1&flowid=' + variable.id;
+            viewUrl += '&flow=1&billId=' + variable.id;
           } else if ( variable.type === 'transfrom') {
             // 激励方案信息ID
-            viewUrl += '&flow=2&flowid=' + transfromData.id;
+            viewUrl += '&flow=2&billId=' + transfromData.id;
           }
           if (variable.functionId) {
-            // 查找审批记录 、流程ID
+            // 流程ID
             viewUrl += '&functionId='+ variable.functionId;
           }
           if (variable.index) {
@@ -451,22 +480,19 @@ layui.use(['table', 'form', 'layer'], function() {
 
   // 页面上报暂存完成后走流程
   if (variable.flow) {
-    console.log('variable => ', variable);
-    var submitIndex = top.layer.load(2),
-    flowID = riable.flowid; // 流程ID
+    var submitIndex = top.layer.load(2);
     if (variable.flow == '1') {
-      // 备案上报流程
+      // 备案上报流程 billId
       $('#functionId').val(variable.functionId); // 备案上报ID
-      $('#flow_id').val(variable.flowid); // 备案ID
-      dealFlow(flowID, submitIndex);
+      $('#flow_id').val(variable.billId); // 备案ID
+      dealFlow('/workflow/start/audit-type', variable.functionId, submitIndex);
     } else if (variable.flow == '2') {
       // 激励上报流程
       var excitationID = top.$('a[lay-href="/achieveReward_list_flow"]').data('id');
-      console.log('excitationID => ', excitationID);
       if (excitationID) {
         $('#functionId').val(excitationID); // 激励上报ID
-        $('#flow_id').val(variable.flowid); // 激励ID
-        dealFlow(flowID, submitIndex);
+        $('#flow_id').val(variable.billId); // 激励ID
+        dealFlow('/achieveReward-api/start_workflow', excitationID, submitIndex);
       } else {
         dialogError({
           code: '-1',
@@ -543,48 +569,50 @@ layui.use(['table', 'form', 'layer'], function() {
   });
 
   // 查询审批记录
-  if (variable.functionId) {
-    $('#approvalRecord_layout').show();
-    //渲染
-    table.render({
-      url: '/task/process/list/' + variable.functionId
-      ,elem: '#approvalRecord'
-      ,method : "POST"
-      ,cols : [[
-        { title : '序号', type : 'numbers', width : 45 }, {
-          field : 'activityState',
-          title : '状态',
-          style : 'cursor: pointer;',
-          align : 'center'
-        }, {
-          field : 'activityName',
-          title : '任务节点名称',
-          width : '15%',
-          style : 'cursor: pointer;'
-        }, {
-          field : 'taskName',
-          title : '任务名称',
-          width : '20%',
-          style : 'cursor: pointer;'
-        }, {
-          field : 'assigneeName',
-          title : '处理人',
-          width : '15%',
-          style : 'cursor: pointer;'
-        }, {
-          field : 'endTime',
-          title : '处理时间',
-          width : '20%',
-          style : 'cursor: pointer;',
-          templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
-          align : 'center'
-        }, {
-          field : 'suggestion',
-          title : '处理意见'
-        }
-      ]]
-    })
-  } else {
-    $('#approvalRecord_layout').hide();
-  }
+  $('#approvalRecord_layout').hide();
+  // if (variable.functionId) {
+  //   $('#approvalRecord_layout').show();
+  //   //渲染
+  //   table.render({
+  //     url: '/task/process/list/' + variable.functionId
+  //     ,elem: '#approvalRecord'
+  //     ,method : "POST"
+  //     ,cols : [[
+  //       { title : '序号', type : 'numbers', width : 45 }, {
+  //         field : 'activityState',
+  //         title : '状态',
+  //         style : 'cursor: pointer;',
+  //         align : 'center'
+  //       }, {
+  //         field : 'activityName',
+  //         title : '任务节点名称',
+  //         width : '15%',
+  //         style : 'cursor: pointer;'
+  //       }, {
+  //         field : 'taskName',
+  //         title : '任务名称',
+  //         width : '20%',
+  //         style : 'cursor: pointer;'
+  //       }, {
+  //         field : 'assigneeName',
+  //         title : '处理人',
+  //         width : '15%',
+  //         style : 'cursor: pointer;'
+  //       }, {
+  //         field : 'endTime',
+  //         title : '处理时间',
+  //         width : '20%',
+  //         style : 'cursor: pointer;',
+  //         templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
+  //         align : 'center'
+  //       }, {
+  //         field : 'suggestion',
+  //         title : '处理意见'
+  //       }
+  //     ]]
+  //   })
+  // } else {
+  //   $('#approvalRecord_layout').hide();
+  // }
+
 })
