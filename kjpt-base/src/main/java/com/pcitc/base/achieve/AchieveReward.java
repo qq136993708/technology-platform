@@ -88,7 +88,11 @@ public class AchieveReward extends RecordModel implements Serializable {
      * 附件
      */
     private  String files="";
-    
+    /**
+     * 状态
+     */
+    private  String status="";
+
     private  String auditStatus="";
     
     
@@ -252,5 +256,13 @@ public class AchieveReward extends RecordModel implements Serializable {
 
     public void setTeamPersonCount(Integer teamPersonCount) {
         this.teamPersonCount = teamPersonCount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

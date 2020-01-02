@@ -26,6 +26,7 @@
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="team_person_count" jdbcType="INTEGER" property="teamPersonCount"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
     </resultMap>
 
 
@@ -52,7 +53,8 @@
         team_person,
         create_unit_id,
         create_unit_name,
-        team_person_count
+        team_person_count,
+        status
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRewardMap">
@@ -95,7 +97,7 @@
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveReward">
         insert into achieve_reward( <include refid="AchieveReward_Column_List" /> )
          values(#{id},#{achieveRecordId},#{achieveId},#{rewardYear},#{createDate},#{creator},#{transIncome},#{checkBasis},#{incomeCalculation},#{rewardRecord},#{rewardQuota},
-         #{budgetSources},#{budgetPerson},#{budgetAllMoney},#{assignPlan},#{rewardAccountingDoc},#{incomeReportDoc},#{deleted},#{assignPlanDoc},#{teamPerson},#{createUnitId},#{createUnitName},#{teamPersonCount} )
+         #{budgetSources},#{budgetPerson},#{budgetAllMoney},#{assignPlan},#{rewardAccountingDoc},#{incomeReportDoc},#{deleted},#{assignPlanDoc},#{teamPerson},#{createUnitId},#{createUnitName},#{teamPersonCount},#{status} )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveReward">
@@ -150,7 +152,10 @@
                 create_unit_name = #{createUnitName,jdbcType=VARCHAR},
             </if>
             <if test="teamPersonCount != null and teamPersonCount != ''" >
-                team_person_count = #{teamPersonCount}
+                team_person_count = #{teamPersonCount},
+            </if>
+            <if test="status != null and status != ''" >
+                status = #{status}
             </if>
         </trim>
 
