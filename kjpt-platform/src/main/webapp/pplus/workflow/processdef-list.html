@@ -9,9 +9,15 @@
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
 <link rel="stylesheet" href="/css/layui-common.css">
 <script src="/layuiadmin/layui/layui.js"></script>
-</head>
+<link rel="stylesheet" href="/css/layui-common.css">
+<link rel="stylesheet" href="/css/common.css">
 <style>
-	.layui-input{width: 95%}
+	.layui-input{width: 90%}
+	.layout-view-content.min-label .layui-form-label {
+		width: 122px;
+		max-width: 122px;
+	}
+	.layout-view-content.min-label .layui-input-block{margin-left: 122px}
 </style>
 
 <body>
@@ -118,7 +124,7 @@
 						theme : '#0F9EE0'
 					},
 					cols : [ [ {
-						type : 'checkbox',
+						type : 'radio',
 						event : 'changeEvents',
 						width : 45
 					}, {
@@ -211,7 +217,7 @@
 							shadeClose : true,
 							type : 2,
 							fixed : false,
-							maxmin : true,
+							maxmin : false,
 							area : [ '70%', '90%' ],
 							content : temUrl
 						});
@@ -332,7 +338,7 @@
 					shadeClose : true,
 					type : 2,
 					fixed : false,
-					maxmin : true,
+					maxmin : false,
 					area : [ '70%', '90%' ],
 					content : temUrl
 				});

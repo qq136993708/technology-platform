@@ -516,7 +516,7 @@ public class AchieveRecordController extends RestBaseController {
     }
 
 
-    @ApiOperation(value="成果进展情况流程")
+    @ApiOperation(value="成果转化备案流程")
     @RequestMapping(value = "/achieveRecord-api/start_workflow",method = RequestMethod.POST)
 	public Object start_workflow(HttpServletRequest request, HttpServletResponse response ) throws Exception
 	{
@@ -534,7 +534,7 @@ public class AchieveRecordController extends RestBaseController {
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
-		paramMap.put("processInstanceName", "成果进展情况->"+achieveBase.getAchieveName());
+		paramMap.put("processInstanceName", "成果转化备案->"+achieveBase.getAchieveName());
 		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("auditor", userIds);
@@ -565,7 +565,7 @@ public class AchieveRecordController extends RestBaseController {
 						    	String postCode=sysPost.getPostCode();
 						    	String postName=sysPost.getPostName();
 						    	System.out.println("============ postName ="+ postName);
-						    	if(postName.contains("核心成果转化"))
+						    	if(postName.contains("成果转化备案"))
 						    	{
 						    		specialAuditor1_sb.append(postCode).append("-");
 						    	}

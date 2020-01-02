@@ -2,7 +2,10 @@ package com.pcitc.web.achieve;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
+import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.workflow.Constants;
 import com.pcitc.service.achieve.AchieveBaseService;
 import com.pcitc.service.achieve.AchieveRewardService;
 import io.swagger.annotations.Api;
@@ -49,5 +52,48 @@ public class AchieveRewardClient {
     public Integer delete(@PathVariable String id){
          return ars.delete(id);
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+	
+	@ApiOperation(value="流程处理-激励方案上报",notes="流程处理-激励方案上报")
+	@RequestMapping(value = "/task/start_activity/{id}", method = RequestMethod.POST)
+	public Result dealWorkFlow(@PathVariable("id") String id,@RequestBody Map map)throws Exception 
+	{
+		return ars.dealWorkFlow(id,map);
+	}
+	
+	
+	@ApiOperation(value="流程处理-驳回",notes="流程处理-驳回")
+	@RequestMapping(value = "/task/reject/{id}", method = RequestMethod.POST)
+	public Integer taskreject(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		AchieveReward ar=ars.load(id); 
+		ar.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
+		Integer count=ars.update(ar); 
+		return count;
+	}
+	
+	@ApiOperation(value="流程处理-同意",notes="流程处理-同意")
+	@RequestMapping(value = "/task/agree/{id}", method = RequestMethod.POST)
+	public Integer taskagree(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		System.out.println(">>>>>taskagree>>id="+id);
+		AchieveReward ar=ars.load(id);
+		ar.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
+		Integer count=ars.update(ar) ;
+		return count;
+	}
+	
+	
+	
 
 }

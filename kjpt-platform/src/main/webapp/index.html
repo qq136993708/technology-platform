@@ -59,7 +59,15 @@ var __base_dic_store = {
 				
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-					
+					<li class="header-nav-item layui-nav-itemnew chat" title="消息" style="margin-right: 20px">
+						<a lay-href="/base/system/notice_list.html" lay-text="消息">
+							<span id="numberChat" class="number layui-hide"></span>
+							<span id="nc" style="visibility: hidden"></span>
+						</a>
+						<div class="chat-content layui-hide">
+							<dl id="message_box" class="layui-nav-child-dl"></dl>
+						</div>
+					</li>
 					<li class="header-nav-item layui-nav-itemnew deal" title="待办任务" style="margin-right: 20px">
 						<a lay-href="/task/pending/list/ini" lay-text="待办任务">
 							<span id="pendingCount" class="number"></span>
@@ -338,8 +346,18 @@ var __base_dic_store = {
 					}
 				}, 120);
 			}
-
-
+			/*消息*/
+            httpModule({
+                url: '/sysNotice/getSysNoticeList?page=1&limit=1',
+                type: 'post',
+                success: function(res) {
+                    if(res.code==0){
+                        $("#numberChat").html(res.count)
+                        $("#numberChat").removeClass("layui-hide")
+					}
+					console.log(res)
+                }
+            });
 			var $ = layui.jquery, publicMethods = layui.publicMethods;
 			$('.dowebok').liMarquee();
 			// var headerNav = $(".layui-header-nav ul.layui-layout-left").html();

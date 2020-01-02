@@ -279,14 +279,14 @@ public class TechFamilyApiController extends BaseController
             String levelCode=CommonUtil.getParameter(request, "levelCode", "");
             String typeIndex=CommonUtil.getParameter(request, "typeIndex", "");
             String isCloudParentId=CommonUtil.getParameter(request, "isCloudParentId", "");
-            
-            
+            String typeName=CommonUtil.getParameter(request, "typeName", "");
             
             
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 	   		paramMap.put("typeIndex", typeIndex);
 	   	    paramMap.put("levelCode", levelCode);
 	   	    paramMap.put("parentId", parentId);
+	   	    paramMap.put("typeName", typeName);
 	   	    paramMap.put("isCloudParentId", isCloudParentId);
 	   	    paramMap.put("status", "1");
 	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);

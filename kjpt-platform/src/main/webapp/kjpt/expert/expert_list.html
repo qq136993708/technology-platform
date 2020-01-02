@@ -7,27 +7,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <!-- 多选下拉框样式，根据需求添加 -->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
 <div class="layout-view-content dialog">
-    <div class="layui-row layui-col-space20">
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">专家姓名：</span></label>
-                <div class="layui-input-block">
-                    <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off" class="layui-input">
+    <form class="layui-form layui-form-screen" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">专家姓名：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">专家分组：</span></label>
+                    <div class="layui-input-block">
+                        <select name="groupType" xm-select="groupType" xm-select-skin="normal" dic-base-data="ROOT_KJPT_ZJFZ" >
+                            <!-- dic-base-data="DIC_DEMO_DATA" 自动渲染字典数据 dic-base-data的值找开发人员要 -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-normal"lay-submit lay-filter="newSubmit">查询</button>
+                    <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
                 </div>
             </div>
         </div>
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-            <div class="layui-form-item">
-                <button class="layui-btn layui-btn-normal" id="queryData" data-type="queryData">查询</button>
-                <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
-            </div>
-        </div>
-    </div>
+    </form>
     <div class="view-title-layout">
         <div class="right">
             <button class="layui-btn border-blue" id="addItem" data-type="addItem" button-role="add">新增</button>
@@ -65,7 +79,7 @@
                     parent.layui.index.openTabsPage(url, title);
                 }
             },
-            tableList:function (name) {
+            tableList:function (where) {
                 /*列表展示*/
                 table.render({
                     elem: '#expertTable' // 表格元素ID
@@ -85,11 +99,7 @@
                         {field: 'secretLevelStr', title: '密级'}
                     ]],
                     method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
-                    where: {
-                        useID: 'admin' // 表格请求时传递的参数
-                        ,name:name
-                        //  默认请求参数 页码 => page, 每页条数 => limit
-                    }
+                    where: where
                     ,request: {
                         page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
                         limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -112,6 +122,11 @@
             callback: function (data, type) {
                 obj.tableList('');
             }
+        })
+        form.on('submit(newSubmit)', function(data) {
+            console.log(data.field)
+            obj.tableList(data.field)
+            return false
         })
         var $ = layui.$, active = {
             queryData:function () {
