@@ -203,5 +203,16 @@ public class MappingContrller extends BaseController{
 			return "/stp/techFamily/techType_add";
 		}
 		
+		
+		
+		
+		@RequestMapping(value = "/tech_family/ini_chart")
+		public String iniTechFamily_Tree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			SysUser sysUserInfo = getUserProfile();
+			request.setAttribute("userInfo", sysUserInfo);
+			return "/stp/techFamily/iniTechTypeTree";
+		}
+		
+		
 
 }
