@@ -253,7 +253,13 @@
       </if>
 
       <if test="secretLevel != null">
-        secret_level
+        secret_level,
+      </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person
       </if>
 
     </trim>
@@ -311,7 +317,13 @@
       </if>
 
       <if test="secretLevel != null">
-        #{secretLevel,jdbcType=VARCHAR}
+        #{secretLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR}
       </if>
 
     </trim>
