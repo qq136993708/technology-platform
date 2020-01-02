@@ -402,13 +402,12 @@
   var postCodes = "";
   var variable = getQueryVariable();
   
-  function dealFlow(functionId, msgID) {
+  function dealFlow(flowUrl, functionId, msgID) {
     var json = {functionId: functionId, branchFlag: "0"},
         nunits="";
-
     $.ajax({
       type : 'POST',
-      url : "/workflow/start/audit-type",
+      url : flowUrl,
       contentType: "application/json;charset=UTF-8",
       data : JSON.stringify(json),
       //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
