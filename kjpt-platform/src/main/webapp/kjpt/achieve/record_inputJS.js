@@ -26,11 +26,6 @@ layui.use(['table', 'form', 'layer'], function() {
   ]
   ];
 
-  // 添加上报参数
-  if (variable.functionId) {
-    $('#functionId').val(variable.functionId);
-  }
-
   if(variable.flag==1){
     $("#all_page_submit").hide();
   }
@@ -41,29 +36,24 @@ layui.use(['table', 'form', 'layer'], function() {
 
 
     if (typeof(data) === 'object' && data.length && auditStatus != '0' && auditStatus != '3') {
-      wrapID = 'edit_transfrom_maintain';
-      $('#init_transfrom_maintain').empty();
-      $('#all_page_submit').remove();
-      $.each(data, function(i, val) {
-        $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
-      });
-
       var year = new Date().format('yyyy');
       yearData = data.filter(function(item, i) {
         if (item.rewardYear == year) {
           return item;
         }
       });
-
-      console.log('yearData =>', yearData);
-
+      //
+      wrapID = 'edit_transfrom_maintain';
+      $('#init_transfrom_maintain').empty();
+      $('#all_page_submit').remove();
+      $.each(data, function(i, val) {
+        $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
+      });
     }
-    if (variable.type !== 'view') {
+    if (variable.type !== 'view' && !yearData) {
       $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
     }
-
-
-
+    
     $('.maintain_list').each(function(index, elem) {
       var $layoutItem = $(this),
       htmlIndex = index,
@@ -322,7 +312,7 @@ layui.use(['table', 'form', 'layer'], function() {
     }
   });
 
-  // 上报
+  // 成果转化备案上报
   var subFormData = null;
   form.on('submit(formFlow)', function(data) {
     subFormData = data.field;
@@ -385,8 +375,11 @@ layui.use(['table', 'form', 'layer'], function() {
       transfromData.files = JSON.stringify(newFileValue);
     }
 
-    var baseUrl = '/achieveReward-api/save', allData = null;
+    var baseUrl = '/achieveReward-api/save',
+      allData = null;
+
     if (variable.type === 'input') {
+      // 录入备案信息上报
       // 激励方案密级与备案密级保持一致;
       transfromData.secretLevel = subFormData.secretLevel;
 
@@ -403,12 +396,14 @@ layui.use(['table', 'form', 'layer'], function() {
         achieveRecord: subFormData,
         achieveReward: transfromData
       };
-    } else {
+    } else if (variable.type === 'transfrom') {
       // 奖励方案维护
       allData = transfromData;
       tipsTitle = '转化收益维护提交';
       // 激励方案密级与备案密级保持一致;
       allData.secretLevel = form.val('RecordInputForm').secretLevel;
+    } else {
+      return false;
     }
     
     // 发起http请求
@@ -424,16 +419,21 @@ layui.use(['table', 'form', 'layer'], function() {
           // top.layer.msg(tipsTitle + '成功。', {icon: 1});
           // 上报暂存成功刷新页面为读取状态；
           var viewUrl =  window.location.pathname+ '?id='+variable.id+'&type=view';
-          viewUrl += '&flow_input='+variable.id; // 上报
+          if (variable.type === 'input') {
+            // 备案信息ID
+            viewUrl += '&flow=1&flowid=' + variable.id;
+          } else if ( variable.type === 'transfrom') {
+            // 激励方案信息ID
+            viewUrl += '&flow=2&flowid=' + transfromData.id;
+          }
           if (variable.functionId) {
-            // 查找审批记录
-            viewUrl += '&functionId='+variable.functionId;
+            // 查找审批记录 、流程ID
+            viewUrl += '&functionId='+ variable.functionId;
           }
           if (variable.index) {
             // 上层iframe的index
-            viewUrl += '&index='+variable.index;
+            viewUrl += '&index=' + variable.index;
           }
-
           // 刷新页面
           window.location.href = viewUrl;
         } else {
@@ -450,8 +450,31 @@ layui.use(['table', 'form', 'layer'], function() {
   });
 
   // 页面上报暂存完成后走流程
-  if (variable['flow_input']) {
-    dealFlow(variable['flow_input']);
+  if (variable.flow) {
+    console.log('variable => ', variable);
+    var submitIndex = top.layer.load(2),
+    flowID = riable.flowid; // 流程ID
+    if (variable.flow == '1') {
+      // 备案上报流程
+      $('#functionId').val(variable.functionId); // 备案上报ID
+      $('#flow_id').val(variable.flowid); // 备案ID
+      dealFlow(flowID, submitIndex);
+    } else if (variable.flow == '2') {
+      // 激励上报流程
+      var excitationID = top.$('a[lay-href="/achieveReward_list_flow"]').data('id');
+      console.log('excitationID => ', excitationID);
+      if (excitationID) {
+        $('#functionId').val(excitationID); // 激励上报ID
+        $('#flow_id').val(variable.flowid); // 激励ID
+        dealFlow(flowID, submitIndex);
+      } else {
+        dialogError({
+          code: '-1',
+          msg: '激励方案上报失败！',
+          data: '没有查找到流程，请确认是否已配置流程权限。'
+        });
+      }
+    }
   }
 
   // 暂存
