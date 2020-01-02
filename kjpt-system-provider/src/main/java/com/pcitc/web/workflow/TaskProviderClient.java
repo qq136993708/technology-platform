@@ -1148,9 +1148,8 @@ public class TaskProviderClient {
 	@ApiOperation(value = "判断下一个是否需要选择审批人", notes = "此接口是发起时调用，当前还没有任务。返回的string字符串，role、unit、post分别代表角色、组织机构、岗位")
 	@RequestMapping(value = "/task-provider/workflow/start/audit-type", method = RequestMethod.POST)
 	public String processAuditFlag(@RequestBody JSONObject json) throws Exception {
-		System.out.println("==-=-=-=" + json.toJSONString());
+		System.out.println(">>>>>>>>>>>>>>>>>判断下一个是否需要选择审批人:" + json.toJSONString());
 		String retS = "0";
-
 		String functionId = "";
 		String projectId = "";
 		String unitId = "";
@@ -1183,43 +1182,44 @@ public class TaskProviderClient {
 			// 未配置工作流，以后可以有一个公共的工作流，目前是按照菜单进行的配置
 			return "error-con";
 		}
-		// System.out.println("1==-=-=-="+processDefineId);
 		// 校验流程定义是否存在（latestVersion().）
 		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefineId).active().singleResult();
 		if (processDefinitionEntity == null)
 			return "error-exist-" + processDefineId;
-
 		// 获取BpmnModel对象
 		BpmnModel bpmnModel = processEngine.getRepositoryService().getBpmnModel(processDefineId);
-
 		// Process对象封装了全部的节点、连线、以及关口等信息
 		org.activiti.bpmn.model.Process process = bpmnModel.getProcesses().get(0);
-
 		// 获取全部的FlowElement信息
 		Collection<FlowElement> flowElements = process.getFlowElements();
-		
+		System.out.println("\n\n\n");
 		outer:
-		for (FlowElement flowElement : flowElements) {
-			if (flowElement.getClass().getName().contains("StartEvent")) {
+		for (FlowElement flowElement : flowElements) 
+		{
+			System.out.println("-----flowelement id:" + flowElement.getId() + "  name:" + flowElement.getName() + "   class:" + flowElement.getClass().toString());
+			if (flowElement.getClass().getName().contains("StartEvent")) 
+			{
 				FlowNode fn = (FlowNode) flowElement;
 				List<SequenceFlow> startNodeOutList = fn.getOutgoingFlows();
-				// System.out.println("21------------------------============="+fn.getId()+"============"+fn.getName());
-				for (SequenceFlow start : startNodeOutList) {
+				for (SequenceFlow start : startNodeOutList) 
+				{
+					System.out.println("=========StartEvent 出线信息：:" + start.getConditionExpression()+"  TargetRef: "+start.getTargetRef());
 					// 开始时间后的第一个节点，发起人节点
 					FlowNode firstNode = (FlowNode) process.getFlowElement(start.getTargetRef());
-					// System.out.println("22------------------------============="+firstNode.getId()+"============"+firstNode.getName());
-					if (firstNode instanceof org.activiti.bpmn.model.UserTask) {
+					if (firstNode instanceof org.activiti.bpmn.model.UserTask) 
+					{
 
 						// 第一个节点的下一个节点就是第一个审批节点
 						List<SequenceFlow> firstNodeOutList = firstNode.getOutgoingFlows();
-						for (SequenceFlow first : firstNodeOutList) {
-							System.out.println("1==========" + first.getConditionExpression());
-							System.out.println("2==========" + first.getTargetRef());
+						for (SequenceFlow first : firstNodeOutList) 
+						{
+							System.out.println("=========第一个节点出线信息 :" + first.getConditionExpression()+"  TargetRef: "+first.getTargetRef());
 							FlowNode auditNode = (FlowNode) process.getFlowElement(first.getTargetRef());
-							System.out.println("3==========" + auditNode.getId());
-							System.out.println("4==========" + auditNode.getClass().toString());
-							if (auditNode instanceof org.activiti.bpmn.model.UserTask) {
-								if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
+							System.out.println("==========FlowNodeId:" + auditNode.getId()+" getClass:"+auditNode.getClass().toString());
+							if (auditNode instanceof org.activiti.bpmn.model.UserTask)
+							{
+								if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post"))
+								{
 									retS = auditNode.getId();
 									break outer;
 								}
