@@ -13,12 +13,12 @@ layui.use(['table', 'form','laydate'], function() {
           {type: 'radio', field: 'id'}
           ,{type: 'numbers', title: '序号', width: 80}
           ,{field: 'auditStatusText', title: '申请状态',templet:function(d) {
-              if(d.auditStatus!=0){
-                  return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
-              }else {
-                  return d.auditStatusText
-              }
-                  }}
+            if(d.auditStatus!=0){
+              return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
+            }else {
+              return d.auditStatusText
+            }
+          }}
           ,{field: 'achieveName', title: '成果名称', sort: true }
           ,{field: 'finishUnitName', title: '完成单位', sort: true}
           ,{field: 'brief', title: '科技成果介绍'}
@@ -27,9 +27,8 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'secretLevelText', title: '密级', sort: true} 
         ]],
         parseData: function(res) {
-            console.log(res)
-            return layuiParseData(res, null, 15);
-            },
+          return layuiParseData(res);
+        },
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize

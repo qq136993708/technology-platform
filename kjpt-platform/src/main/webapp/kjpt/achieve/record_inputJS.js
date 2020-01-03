@@ -23,8 +23,7 @@ layui.use(['table', 'form', 'layer'], function() {
       templet += '</div>';
       return templet;
     }}
-  ]
-  ];
+  ]];
 
   if(variable.flag==1){
     $("#all_page_submit").hide();
@@ -72,7 +71,7 @@ layui.use(['table', 'form', 'layer'], function() {
 
       // 维护新增激励方案
       wrapID = 'edit_transfrom_maintain';
-      if (yearData.status == 0 || yearData.status == 2) {
+      if (yearData && (yearData.status == 0 || yearData.status == 3)) {
         excitationData.unshift(yearData);
       } else {
         excitationData.unshift(getNewInitAchieveReward());
@@ -91,7 +90,7 @@ layui.use(['table', 'form', 'layer'], function() {
     }
 
     if (variable.type !== 'view') {
-      if (!yearData || (yearData.status == 0 || yearData.status == 2)) {
+      if (!yearData || (yearData.status == 0 || yearData.status == 3)) {
         $('#' + wrapID).empty().append('<div class="maintain_list" filter="newTransfrom"></div>');
       }
     } else {
@@ -110,20 +109,10 @@ layui.use(['table', 'form', 'layer'], function() {
 
       $layoutItem.load('record_maintain.html', function() {
         $layoutItem.find('.layui-form:eq(0)').attr('lay-filter', formFilter);
-        if (wrapID === 'edit_transfrom_maintain') {
-          if (formFilter !== 'newTransfrom') {
-            // 删除当前区域提交按钮
-            $layoutItem.find('.view-page-submit-btn-box, .view-row-title').remove();
-            setFomeDisabled(formFilter, '.disabled');
-          }
-        } else {
-          $layoutItem.find('.view-page-submit-btn-box').hide();
-        }
-
         // 添加人员
         var $groupTable = $layoutItem.find('.dy-add-table:eq(0)');
         if (formFilter === 'newTransfrom') {
-           groupTableId = randomID(); // 动态生产随机ID
+          groupTableId = randomID(); // 动态生产随机ID
            $groupTable.attr('id', groupTableId);
 
            /*添加tr*/
@@ -137,16 +126,25 @@ layui.use(['table', 'form', 'layer'], function() {
           if ( excitationData[htmlIndex].teamPerson ) {
             backfill(excitationData[htmlIndex].teamPerson, groupTableId);
           }
+
+          if (excitationData.length === 1) {
+            // 隐藏激励方案提交区域按钮
+            $layoutItem.find('.view-page-submit-btn-box').hide();
+          }
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
           // 给当前激励方案赋值回显
-          form.val(formFilter, data[htmlIndex]);
+          form.val(formFilter, excitationData[htmlIndex]);
 
           // 回显团队成员
           if ( excitationData[htmlIndex].teamPerson ) {
             backfill(excitationData[htmlIndex].teamPerson, tempTableId, 'view');
           }
+
+          // 当前激励方案为只读状态 删除附件按钮、删除提交按钮
+          $layoutItem.find('.view-page-submit-btn-box, .view-row-title').remove();
+          setFomeDisabled(formFilter, '.disabled');
         }
 
         // 绑定附件上传功能
@@ -184,6 +182,12 @@ layui.use(['table', 'form', 'layer'], function() {
           });
         })
 
+        // 判断是否显示激励方案审批状态
+        if (excitationData[htmlIndex].status) {
+          $layoutItem.find('.flow_link_id').text(excitationData[htmlIndex].statusText || '');
+        } else {
+          $layoutItem.find('.flow_link_id').remove();
+        }
         // 更新表单渲染
         form.render();
       })
@@ -570,49 +574,5 @@ layui.use(['table', 'form', 'layer'], function() {
 
   // 查询审批记录
   $('#approvalRecord_layout').hide();
-  // if (variable.functionId) {
-  //   $('#approvalRecord_layout').show();
-  //   //渲染
-  //   table.render({
-  //     url: '/task/process/list/' + variable.functionId
-  //     ,elem: '#approvalRecord'
-  //     ,method : "POST"
-  //     ,cols : [[
-  //       { title : '序号', type : 'numbers', width : 45 }, {
-  //         field : 'activityState',
-  //         title : '状态',
-  //         style : 'cursor: pointer;',
-  //         align : 'center'
-  //       }, {
-  //         field : 'activityName',
-  //         title : '任务节点名称',
-  //         width : '15%',
-  //         style : 'cursor: pointer;'
-  //       }, {
-  //         field : 'taskName',
-  //         title : '任务名称',
-  //         width : '20%',
-  //         style : 'cursor: pointer;'
-  //       }, {
-  //         field : 'assigneeName',
-  //         title : '处理人',
-  //         width : '15%',
-  //         style : 'cursor: pointer;'
-  //       }, {
-  //         field : 'endTime',
-  //         title : '处理时间',
-  //         width : '20%',
-  //         style : 'cursor: pointer;',
-  //         templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
-  //         align : 'center'
-  //       }, {
-  //         field : 'suggestion',
-  //         title : '处理意见'
-  //       }
-  //     ]]
-  //   })
-  // } else {
-  //   $('#approvalRecord_layout').hide();
-  // }
 
 })
