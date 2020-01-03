@@ -414,7 +414,7 @@
       success : function(data) {
         console.log("audit-type\n"+JSON.stringify(data)); 
         if (data.code == 'role') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           // 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
           // roleCodes，参数名必须一致，方便公共弹出页面调用
           roleCodes = data.data;  // 弹出页面的隐藏的查询条件
@@ -433,7 +433,7 @@
             content:  temUrl
           });
         } else if (data.code == 'unit' || data.code == 'post') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           // 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
           // unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
           if (data.code == 'unit') {
@@ -456,13 +456,13 @@
               content:  temUrl
           });
         } else if (data.code == 'int') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           top.layer.msg('启动参数不足');
         } else if (data.code == 'con') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           top.layer.msg('请给此功能菜单配置流程');
         } else if (data.code == 'exist') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           top.layer.msg('工作流部署异常，请联系管理员');
         } else {
           // 直接处理此任务
@@ -470,7 +470,7 @@
         }
       },
       error : function(msg) {//请求失败处理函数
-        top.layer.colse(msgID);
+        top.layer.close(msgID);
         dialogError(msg);
       }
     });
@@ -496,7 +496,7 @@
       cache: false,
       contentType: "application/x-www-form-urlencoded; charset=utf-8",
       success:function(data,status) {
-        top.layer.colse(msgID);
+        top.layer.close(msgID);
         if(data.success==true ||data.success=='true') {
           top.layer.alert(successMsg, {icon: 1,closeBtn: 0 }, function () {
             top.layer.closeAll(); // 关闭弹窗
@@ -508,7 +508,7 @@
         }
       },
       error:function() {
-        top.layer.colse(msgID);
+        top.layer.close(msgID);
         top.layer.alert("网络访问错误");
       }
     });
