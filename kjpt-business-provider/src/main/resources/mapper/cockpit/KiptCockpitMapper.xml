@@ -101,4 +101,16 @@
         ]]>
     </select>
 
+    <select id="queryBiData" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from ${tableName} where 1=1
+        and date_format(date,'%Y,%m,%d') = #{queryDate}
+        <if test="secretLevel !=null and secretLevel != ''">
+            and secret_level <![CDATA[<=]]> #{secretLevel}
+        </if>
+    </select>
+
+    <select id="data2Bi">
+            call sp_data_to_bi()
+    </select>
+
 </mapper>
