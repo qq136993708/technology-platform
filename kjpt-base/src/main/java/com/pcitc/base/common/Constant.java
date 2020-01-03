@@ -50,10 +50,10 @@ public class Constant {
     
     
     //信息--机密、秘密、内部 公开
-    public static String INFO_SECRET_LEVEL_HEIGHT     = "4";
-    public static String INFO_SECRET_LEVEL_SECRET = "3";
-    public static String INFO_SECRET_LEVEL_INNER = "2";
-    public static String INFO_SECRET_LEVEL_PUBLIC = "1";
+    public static String INFO_SECRET_LEVEL_HEIGHT     = "3";
+    public static String INFO_SECRET_LEVEL_SECRET = "2";
+    public static String INFO_SECRET_LEVEL_INNER = "1";
+    public static String INFO_SECRET_LEVEL_PUBLIC = "0";
     
     
     //是否公示：0未发起（或驳回），1未公示或（流程申请中），2已公示(手动)（正在公示），3公示结束(手动)（流程结束）

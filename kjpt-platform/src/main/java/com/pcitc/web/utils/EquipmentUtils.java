@@ -51,13 +51,14 @@ public class EquipmentUtils {
      public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
+    
 	
-	public static String getCurrentYear() throws Exception {
+	 public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		System.out.println(">>>>>year=" + year);
 		return String.valueOf(year);
-	}
+	 }
 	
 	
 	
@@ -403,6 +404,10 @@ public class EquipmentUtils {
 			}
 			return sb.toString();
 		}
+		
+		
+		
+		
 	
 	/*
 	 * public static void main(String[] args) {
