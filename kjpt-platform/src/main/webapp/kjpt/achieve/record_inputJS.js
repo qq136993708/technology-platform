@@ -140,7 +140,7 @@ layui.use(['table', 'form', 'layer'], function() {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
           // 给当前激励方案赋值回显
-          form.val(formFilter, data[htmlIndex]);
+          form.val(formFilter, excitationData[htmlIndex]);
 
           // 回显团队成员
           if ( excitationData[htmlIndex].teamPerson ) {
@@ -183,6 +183,12 @@ layui.use(['table', 'form', 'layer'], function() {
           });
         })
 
+        // 判断是否显示激励方案审批状态
+        if (excitationData[htmlIndex].status) {
+          $layoutItem.find('.flow_link_id').text(excitationData[htmlIndex].statusText || '');
+        } else {
+          $layoutItem.find('.flow_link_id').remove();
+        }
         // 更新表单渲染
         form.render();
       })
