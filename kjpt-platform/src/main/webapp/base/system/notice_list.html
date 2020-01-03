@@ -77,25 +77,7 @@
                 {field:'isPublished', title:'是否发布' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
 	                	if(d.isPublished == 1){
-	                		return "<span style='color:green'>是<span>";
-	                	} else {
-	                		return "否";
-	                	}
-                	}
-                },
-                {field:'isVariable', title:'是否可用' ,event: 'setActive',style:'cursor: pointer;'
-                	,templet: function(d){
-	                	if(d.isVariable == 1){
-	                		return "<span style='color:green'>是<span>";
-	                	} else {
-	                		return "否";
-	                	}
-                	}
-                },
-                {field:'isTopRoll', title:'是否首页滚动' ,event: 'setActive',style:'cursor: pointer;'
-                	,templet: function(d){
-	                	if(d.isTopRoll == 1){
-	                		return "<span style='color:green'>是<span>";
+	                		return "<span>是<span>";
 	                	} else {
 	                		return "否";
 	                	}
