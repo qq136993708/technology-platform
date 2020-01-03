@@ -1,12 +1,16 @@
 package com.pcitc.web.controller.cockpit;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,10 +96,12 @@ public class KjptCockpitController extends RestBaseController {
     private static final String FOURSUMMARYCOUNT = "http://kjpt-zuul/stp-proxy/cockpit/index/allSummaryCount";
 
     /**
+<<<<<<< HEAD
      * 查询BI数据
      */
     private static final String QUERY_BI_DATA = "http://kjpt-zuul/stp-proxy/cockpit/results/queryBiData";
 
+    private static final String DATATOBI = "http://localhost:8765/cockpit/bi-provider/dataToBi/dataToBi_excute";
 
     @ApiOperation(value = "知识产权-专利数量按专利类型占比分析")
     @RequestMapping(value = "/knowledgeRight/numOrType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -297,4 +303,14 @@ public class KjptCockpitController extends RestBaseController {
         return responseEntity.getBody();
     }
 
+    /**
+     *BI数据灌入
+     */
+    @ApiOperation(value = "BI数据灌入", notes = "请求外系统-质量接口BI数据灌入")
+    @RequestMapping(value = "/bi-api/dataToBi", method = RequestMethod.GET)
+    public JSONObject DATATOBI(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RestTemplate restTemplate_req = new RestTemplate();
+        ResponseEntity<JSONObject> responseEntity = restTemplate_req.exchange(DATATOBI, HttpMethod.GET, new HttpEntity<String>(new HttpHeaders()), JSONObject.class);
+        return responseEntity.getBody();
+    }
 }

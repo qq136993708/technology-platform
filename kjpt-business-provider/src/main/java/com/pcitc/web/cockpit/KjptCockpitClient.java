@@ -1,13 +1,12 @@
 package com.pcitc.web.cockpit;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.service.cockpit.KjptCockpitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -206,4 +205,13 @@ public class KjptCockpitClient {
         return kjptCockpitService.queryData(param);
     }
 
+    @RequestMapping(value = "/bi-provider/dataToBi/dataToBi_excute", method = RequestMethod.GET)
+    public JSONObject save() {
+        JSONObject jsonObject = new JSONObject(3);
+        kjptCockpitService.dataToBi();
+        jsonObject.put("code","success");
+        jsonObject.put("message","成功");
+        jsonObject.put("data","");
+        return jsonObject;
+    }
 }

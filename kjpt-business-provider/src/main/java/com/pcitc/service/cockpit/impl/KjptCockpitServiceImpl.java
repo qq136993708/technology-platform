@@ -138,4 +138,11 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
     }
 
 
+    /**
+     * BI数据灌入
+     */
+    @Override
+    public void dataToBi() {
+        kjptCockpitMapper.dataToBi();
+    }
 }

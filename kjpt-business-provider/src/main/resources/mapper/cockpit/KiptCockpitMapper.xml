@@ -113,7 +113,7 @@
         </if>
     </select>
 
-    <select id="data2Bi">
+    <select id="dataToBi">
             call sp_data_to_bi()
     </select>
 
