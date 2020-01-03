@@ -296,7 +296,7 @@ public class AdminController extends BaseController {
         		SysFunction sf=aLLList.get(i);
         		String str=sf.getName();
         		//看不到以上菜单
-        		if(!str.equals("领导驾驶舱") && str.equals("科技人才") && str.equals("科研项目"))
+        		if(!str.equals("领导驾驶舱") && !str.equals("科技人才") && !str.equals("科研项目"))
         		{
         			relustList.add(sf);
         		}
