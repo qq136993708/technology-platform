@@ -240,7 +240,7 @@ layui.use(['laydate'], function() {
 
       // 获取数据
       this.getChartData({
-        strKey: 'F-HD-01', // 地浸质量数据统计
+        strKey: 'F-DJ-01', // 地浸质量数据统计
         legend: legendData,
         callback: function(configData, text) {
           // 更新图表渲染
