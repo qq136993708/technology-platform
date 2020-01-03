@@ -18,6 +18,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.base.system.SysRole;
@@ -251,6 +252,13 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public Integer addUserRoleRel(String roleId, List<String> userIds) 
 	{
+		SysRole sysRole=roleMapper.selectByPrimaryKey(roleId);
+		String roleName=sysRole.getRoleName();
+		if(roleName==null)
+		{
+			roleName="";
+		}
+		
 		
 		Integer rs = 0;
 		try
@@ -279,8 +287,11 @@ public class RoleServiceImpl implements RoleService {
 			SysUserExample.Criteria uc = ue.createCriteria();
 			uc.andUserIdIn(userIds);
 			List<SysUser>users = userMapper.selectByExample(ue);
-			for(SysUser u:users) {
+			StringBuffer sb=new StringBuffer();
+			for(SysUser u:users) 
+			{
 				String role = u.getUserRole()+"";
+				String roleText =u.getUserRoleText();
 				if(role.contains(roleId)) 
 				{
 					continue;
@@ -288,10 +299,13 @@ public class RoleServiceImpl implements RoleService {
 				if(role.length() ==0) 
 				{
 					role += roleId;
+					roleText += sysRole.getRoleName();
 				}else {
 					role += (","+roleId);
+					roleText += (","+roleName);
 				}
 				u.setUserRole(role);
+				u.setUserRoleText(roleText);
 				userMapper.updateByPrimaryKey(u);
 			}
 		}catch(Exception e){
@@ -465,23 +479,10 @@ public class RoleServiceImpl implements RoleService {
 		return false;
 	}
 	
-	public static void main(String [] args) 
+	public List<SysRole> getList(Map map)throws Exception
 	{
-		String a = "e";
-		String roleId = "a,b,c,d";
-		String [] rs = roleId.split(",");
-		StringBuffer sb = new StringBuffer();
-		for(String r:rs) {
-			if(!r.equals(a)) 
-			{
-				if(sb.length()>0) {
-					sb.append(",");
-				}
-				sb.append(r);
-			}
-			
-		}
-		System.out.println(sb.toString());
+		List<SysRole> list = roleMapper.getList(map);
+	    return list;
 	}
 }
 

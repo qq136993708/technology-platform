@@ -1,6 +1,8 @@
 package com.pcitc.mapper.system;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.pcitc.base.system.SysUserRole;
@@ -94,4 +96,6 @@ public interface SysUserRoleMapper {
      * @mbg.generated Wed Apr 18 13:18:39 CST 2018
      */
     int updateByPrimaryKey(SysUserRole record);
+    
+    
 }

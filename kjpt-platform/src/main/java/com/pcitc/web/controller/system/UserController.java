@@ -481,7 +481,7 @@ public class UserController extends BaseController {
 		}
 		JSONObject reJson = JSONObject.parseObject(params);
 		//System.out.println("===updateSelfConfig---"+reJson.getString("userConfig1"));
-		user.setUserConfig1(reJson.getString("userConfig1"));
+		//user.setUserConfig1(reJson.getString("userConfig1"));
 		Integer count=	EquipmentUtils.updateSysUser(user, restTemplate, httpHeaders);
 		if (count<=0) {
 			return new Result(false, "个人设置失败！");

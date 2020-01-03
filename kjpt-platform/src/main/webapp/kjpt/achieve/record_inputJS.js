@@ -96,7 +96,7 @@ layui.use(['table', 'form', 'layer'], function() {
     } else {
       // 添加显示以往激励方案的 HTML
       $('#init_transfrom_maintain').empty();
-      $('#all_page_submit').remove();
+      $('#all_page_submit .layui-btn-normal').remove();
       $.each(excitationData, function(i, val) {
         $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
       });
@@ -121,15 +121,18 @@ layui.use(['table', 'form', 'layer'], function() {
             deleTr(groupTableId);
           })
 
+          if (excitationData.length === 1) {
+            // 隐藏激励方案提交区域按钮
+            $layoutItem.find('.view-page-submit-btn-box').hide();
+          } else {
+            // 给当前激励方案审批状态赋初始值
+            excitationData[htmlIndex].status = '0';
+          }
+
           // 草稿
           form.val('newTransfrom', excitationData[htmlIndex]);
           if ( excitationData[htmlIndex].teamPerson ) {
             backfill(excitationData[htmlIndex].teamPerson, groupTableId);
-          }
-
-          if (excitationData.length === 1) {
-            // 隐藏激励方案提交区域按钮
-            $layoutItem.find('.view-page-submit-btn-box').hide();
           }
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
@@ -144,7 +147,7 @@ layui.use(['table', 'form', 'layer'], function() {
 
           // 当前激励方案为只读状态 删除附件按钮、删除提交按钮
           $layoutItem.find('.view-page-submit-btn-box, .view-row-title').remove();
-          setFomeDisabled(formFilter, '.disabled');
+          setFomeDisabled(formFilter, '.close-iframe-page');
         }
 
         // 绑定附件上传功能
@@ -184,7 +187,19 @@ layui.use(['table', 'form', 'layer'], function() {
 
         // 判断是否显示激励方案审批状态
         if (excitationData[htmlIndex].status) {
-          $layoutItem.find('.flow_link_id').text(excitationData[htmlIndex].statusText || '');
+          $layoutItem.find('.flow_link_id').text(excitationData[htmlIndex].statusText || '').click(function () {
+            var temUrl = "/task/process_bussinessId/" + excitationData[htmlIndex].id;
+            top.layer.open({
+              title : '详情',
+              shadeClose : true,
+              type : 2,
+              fixed : false,
+              maxmin : false,
+              area : [ '70%', '50%' ],
+              content : temUrl
+            });
+            return false
+          })
         } else {
           $layoutItem.find('.flow_link_id').remove();
         }
@@ -266,17 +281,16 @@ layui.use(['table', 'form', 'layer'], function() {
         var detailsData = res.data;
         if (!detailsData.auditStatus) {
           detailsData.auditStatus = '0';
-        } else {
-          detailsData.achieveTransStatus = detailsData.auditStatus;
         }
 
+        // 显示成果转化备案信息
         form.val('RecordInputForm', detailsData);
-        setTargetNameValue({auditStatus: detailsData.auditStatus});
 
-        // 草稿、被驳回状态
         if (detailsData.achieveRewards.length) {
+          // 回显激励方案信息
           addTransfromMaintain(detailsData.achieveRewards, detailsData.auditStatus);
         } else {
+          // 新建激励方案
           addTransfromMaintain();
         }
 
@@ -322,12 +336,10 @@ layui.use(['table', 'form', 'layer'], function() {
           });
         })
 
-        var scope_disabled = true;
         if (variable.type === 'transfrom' || variable.type === 'view') {
-          // 维护
+          // 维护激励方案时删除备案上报区域按钮
           $('form[lay-filter="RecordInputForm"] .view-row-title').remove();
-          setFomeDisabled('RecordInputForm', '.disabled');
-          scope_disabled = true;
+          setFomeDisabled('RecordInputForm', '.close-iframe-page');
         }
 
         // 更新表单状态
@@ -339,7 +351,7 @@ layui.use(['table', 'form', 'layer'], function() {
           knowledgeScope: detailsData.knowledgeScope,
           knowledgePerson: detailsData.knowledgePerson,
           secretLevel: detailsData.secretLevel,
-          disabled: scope_disabled
+          disabled: true
         });
       }
     }
@@ -489,7 +501,7 @@ layui.use(['table', 'form', 'layer'], function() {
       // 备案上报流程 billId
       $('#functionId').val(variable.functionId); // 备案上报ID
       $('#flow_id').val(variable.billId); // 备案ID
-      dealFlow('/workflow/start/audit-type', variable.functionId, submitIndex);
+      dealFlow('/achieveRecord-api/start_workflow', variable.functionId, submitIndex);
     } else if (variable.flow == '2') {
       // 激励上报流程
       var excitationID = top.$('a[lay-href="/achieveReward_list_flow"]').data('id');
@@ -565,11 +577,11 @@ layui.use(['table', 'form', 'layer'], function() {
         $this.prop('disabled', false);
       }
     })
-
-    // console.log(form.val('RecordInputForm'), form.val('newTransfrom'));
   })
-  $("#reset").click(function () {
-      closeTabsPage(variable.index);
+
+  // 关闭当前页面
+  $(".record_input_page").on('click', '.close-iframe-page', function () {
+    closeTabsPage(variable.index);
   });
 
   // 查询审批记录

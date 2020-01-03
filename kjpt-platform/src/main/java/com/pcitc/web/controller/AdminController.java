@@ -25,6 +25,7 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysRole;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
@@ -223,6 +224,7 @@ public class AdminController extends BaseController {
 
         SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
         List<SysFunction> aLLList = userDetails.getFunList();
+        aLLList= setUpList( userDetails, aLLList);
         List<SysFunction> upList = new ArrayList<SysFunction>();
         // 个人工作台菜单
         List<SysFunction> grgztList = new ArrayList<SysFunction>();
@@ -255,7 +257,7 @@ public class AdminController extends BaseController {
         response.addCookie(loginCookie);
         request.setAttribute("userId", userDetails.getUserId());
 
-        String userName = userDetails.getUserName();
+    	String userName = userDetails.getUserName();
         if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
             request.setAttribute("userName", userName);
             return "/adminIndex";
@@ -263,6 +265,47 @@ public class AdminController extends BaseController {
             return "/index";
         }
 
+    }
+    
+    private List setUpList(SysUser userDetails, List<SysFunction>  aLLList)
+    {
+    	
+    	List<SysFunction> relustList = new ArrayList<SysFunction>();
+    	List<SysRole> roleList=  userDetails.getRoleList();
+        boolean isHas=false;
+        if(roleList!=null)
+        {
+        
+        	for(int i=0;i<roleList.size();i++)
+        	{
+        		SysRole sysRole=roleList.get(i);
+        		String str=sysRole.getRoleFlag();
+        		System.out.println("--------角色:"+str);
+        		if(str.equals(Constant.ROLE_WHITE_USER))//知悉范围白名单
+        		{
+        			isHas=true;//在白名单
+        		}
+        		
+        	}
+        }
+        //如果不在白名单，则不要 领导驾驶舱 和 辅助（人才和项目）
+        if(isHas==false)
+        {
+        	for(int i=0;i<aLLList.size();i++)
+        	{
+        		SysFunction sf=aLLList.get(i);
+        		String str=sf.getName();
+        		//看不到以上菜单
+        		if(!str.equals("领导驾驶舱") && str.equals("科技人才") && str.equals("科研项目"))
+        		{
+        			relustList.add(sf);
+        		}
+        	}
+        }else
+        {
+        	relustList =aLLList;
+        }
+        return relustList;
     }
 
     @RequestMapping(value = "/instituteRedrect")
@@ -301,8 +344,7 @@ public class AdminController extends BaseController {
         request.setAttribute("scShowList", scShowList);
         request.setAttribute("scList", scList);
 
-        // 获取登录人员职务
-        request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
+       
         request.setAttribute("userId", sysUserInfo.getUserId());
         return "/mainStp";
     }

@@ -1,6 +1,7 @@
 package com.pcitc.service.system;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -116,4 +117,6 @@ public interface RoleService
 	 * @return
 	 */
 	String getRoleCode(SysRole role);
+	
+	public List<SysRole> getList(Map map)throws Exception;
 }
