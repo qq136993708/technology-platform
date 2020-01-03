@@ -126,4 +126,16 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
         return kjptCockpitMapper.numByIncentiveAmount(param);
     }
 
+    @Override
+    public List<Map> queryData(Map<String,String> param) {
+        Map configMap = kjptCockpitMapper.getConfig(param.get("type"));
+        if(configMap.get("tableName") == null){
+            return null;
+        }
+        String tableName = configMap.get("tableName").toString();
+        param.put("tableName",tableName);
+        return kjptCockpitMapper.queryBiData(param);
+    }
+
+
 }

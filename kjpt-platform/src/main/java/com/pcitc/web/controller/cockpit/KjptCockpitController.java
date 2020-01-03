@@ -91,6 +91,11 @@ public class KjptCockpitController extends RestBaseController {
      */
     private static final String FOURSUMMARYCOUNT = "http://kjpt-zuul/stp-proxy/cockpit/index/allSummaryCount";
 
+    /**
+     * 查询BI数据
+     */
+    private static final String QUERY_BI_DATA = "http://kjpt-zuul/stp-proxy/cockpit/results/queryBiData";
+
 
     @ApiOperation(value = "知识产权-专利数量按专利类型占比分析")
     @RequestMapping(value = "/knowledgeRight/numOrType", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -277,6 +282,18 @@ public class KjptCockpitController extends RestBaseController {
         String userSecretLevel = this.getUserProfile().getSecretLevel();
         this.setParam(condition, "param_secret_level", userSecretLevel);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(NUMBYINCENTIVEAMOUNT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+
+
+    @ApiOperation(value = "查询BI数据")
+    @RequestMapping(value = "/results/queryBIData/{type}", method = RequestMethod.GET)
+    public List<Map> queryBIData(@PathVariable String type) {
+        Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
+        this.setParam(condition,"type",type);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_BI_DATA, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 

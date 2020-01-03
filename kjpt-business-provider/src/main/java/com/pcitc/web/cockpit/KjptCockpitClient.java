@@ -193,4 +193,17 @@ public class KjptCockpitClient {
     public List<Map> numByIncentiveAmount(@RequestBody(required = false) Map param) {
         return kjptCockpitService.numByIncentiveAmount(param);
     }
+
+    /**
+     *功能描述 查询BI数据显示
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "查询BI数据显示", notes = "查询BI数据显示")
+    @RequestMapping(value = "/results/queryBiData", method = RequestMethod.POST)
+    public List<Map> queryBiData(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.queryData(param);
+    }
+
 }

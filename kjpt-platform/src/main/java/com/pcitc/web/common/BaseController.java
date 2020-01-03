@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +43,9 @@ public class BaseController implements ErrorController
 	private static final String WHITE_LIST = "http://kjpt-zuul/system-proxy/user-provider/whiteList/";
 
 	private static final String WHITE_LIST_KEY = "isWhiteList";
+
+	@Value("${whiteRoleId}")
+	private String roleId;
 //    @Autowired
 //    public HttpServletRequest request;
 //
@@ -93,11 +97,12 @@ public class BaseController implements ErrorController
 		//是否是白名单 0否1是
 		String isWhiteList = "0";
 		SysUser sysUserInfo = this.getUserProfile();
+		String role = sysUserInfo.getUserRole();
 		String userName = sysUserInfo.getUserName();
-		Map param = new HashMap(2);
-		param.put("userName",userName);
-		ResponseEntity<Integer> response = restTemplate.exchange(WHITE_LIST+userName, HttpMethod.GET,new HttpEntity<>(this.httpHeaders),Integer.class);
-		if(response.getBody() > 0){
+		//Map param = new HashMap(2);
+		//param.put("userName",userName);
+		//ResponseEntity<Integer> response = restTemplate.exchange(WHITE_LIST+userName, HttpMethod.GET,new HttpEntity<>(this.httpHeaders),Integer.class);
+		if(roleId.contains(role)){
 			isWhiteList = "1";
 		}
 		this.getCurrentRequest().getSession().setAttribute(userName,isWhiteList);
