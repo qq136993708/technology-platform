@@ -105,7 +105,7 @@ public class AchieveRecordClient {
 	public Integer taskRejectSreProjectTaskInner(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		AchieveRecord ar=ars.load(id); 
-		ar.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
+		ar.setAuditStatus(String.valueOf(Constants.FLOW_STATE_CLOSE)); 
 		int count=ars.saveAchieveRecord(ar);
 		return count;
 	}

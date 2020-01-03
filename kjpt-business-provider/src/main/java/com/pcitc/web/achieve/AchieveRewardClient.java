@@ -77,7 +77,7 @@ public class AchieveRewardClient {
 	public Integer taskreject(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		AchieveReward ar=ars.load(id); 
-		ar.setStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
+		ar.setStatus(String.valueOf(Constants.FLOW_STATE_CLOSE)); 
 		Integer count=ars.update(ar); 
 		return count;
 	}

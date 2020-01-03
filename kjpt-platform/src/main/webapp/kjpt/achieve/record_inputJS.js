@@ -96,7 +96,7 @@ layui.use(['table', 'form', 'layer'], function() {
     } else {
       // 添加显示以往激励方案的 HTML
       $('#init_transfrom_maintain').empty();
-      $('#all_page_submit').remove();
+      $('#all_page_submit .layui-btn-normal').remove();
       $.each(excitationData, function(i, val) {
         $('#init_transfrom_maintain').append('<div class="maintain_list" filter="oldTransfrom_'+i+'"></div>');
       });
@@ -147,7 +147,7 @@ layui.use(['table', 'form', 'layer'], function() {
 
           // 当前激励方案为只读状态 删除附件按钮、删除提交按钮
           $layoutItem.find('.view-page-submit-btn-box, .view-row-title').remove();
-          setFomeDisabled(formFilter, '.disabled');
+          setFomeDisabled(formFilter, '.close-iframe-page');
         }
 
         // 绑定附件上传功能
@@ -339,7 +339,7 @@ layui.use(['table', 'form', 'layer'], function() {
         if (variable.type === 'transfrom' || variable.type === 'view') {
           // 维护激励方案时删除备案上报区域按钮
           $('form[lay-filter="RecordInputForm"] .view-row-title').remove();
-          setFomeDisabled('RecordInputForm', '.disabled');
+          setFomeDisabled('RecordInputForm', '.close-iframe-page');
         }
 
         // 更新表单状态
@@ -577,11 +577,11 @@ layui.use(['table', 'form', 'layer'], function() {
         $this.prop('disabled', false);
       }
     })
-
-    // console.log(form.val('RecordInputForm'), form.val('newTransfrom'));
   })
-  $("#reset").click(function () {
-      closeTabsPage(variable.index);
+
+  // 关闭当前页面
+  $(".record_input_page").on('click', '.close-iframe-page', function () {
+    closeTabsPage(variable.index);
   });
 
   // 查询审批记录

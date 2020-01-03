@@ -83,7 +83,7 @@ public class AchieveClient {
 		
 		AchieveBase achieveBase=abs.load(id);
 		achieveBase.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
-		achieveBase.setIsPublic(Constant.IS_PUBLIC_DRAFT);
+		achieveBase.setIsPublic(Constant.IS_PUBLIC_END);
 		int count=abs.save(achieveBase) ;
 		return count;
 	}
