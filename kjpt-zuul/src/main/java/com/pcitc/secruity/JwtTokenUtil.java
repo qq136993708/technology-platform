@@ -41,6 +41,8 @@ public class JwtTokenUtil implements Serializable {
 	private static final String CLAIM_KEY_USER_ID_CARD = "unifyIdentityId";
 	private static final String CLAIM_KEY_USER_UNIT_PATH = "userUnitPath";
 	private static final String CLAIM_KEY_USER_UNIT_ID = "userUnit";
+	private static final String CLAIM_KEY_USER_UNIT_ROLE = "userRole";
+	private static final String CLAIM_KEY_USER_UNIT_ROLE_TEXT = "userRoleText";
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -130,6 +132,10 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_USER_ID_CARD, user.getUnifyIdentityId());
 		claims.put(CLAIM_KEY_USER_UNIT_PATH, user.getUserUnitPath());
 		claims.put(CLAIM_KEY_USER_UNIT_ID, user.getUserUnit());
+		claims.put(CLAIM_KEY_USER_UNIT_ROLE, user.getUserRole());
+		claims.put(CLAIM_KEY_USER_UNIT_ROLE_TEXT, user.getUserRoleText());
+		
+		
 		///System.out.println("142==---====generateToken------" + user.getFunList().size());
 		System.out.println("******************"+JSON.toJSON(claims).toString());
 		return generateToken(claims);
