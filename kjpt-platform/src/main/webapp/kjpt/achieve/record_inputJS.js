@@ -121,15 +121,18 @@ layui.use(['table', 'form', 'layer'], function() {
             deleTr(groupTableId);
           })
 
+          if (excitationData.length === 1) {
+            // 隐藏激励方案提交区域按钮
+            $layoutItem.find('.view-page-submit-btn-box').hide();
+          } else {
+            // 给当前激励方案审批状态赋初始值
+            excitationData[htmlIndex].status = '0';
+          }
+
           // 草稿
           form.val('newTransfrom', excitationData[htmlIndex]);
           if ( excitationData[htmlIndex].teamPerson ) {
             backfill(excitationData[htmlIndex].teamPerson, groupTableId);
-          }
-
-          if (excitationData.length === 1) {
-            // 隐藏激励方案提交区域按钮
-            $layoutItem.find('.view-page-submit-btn-box').hide();
           }
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
