@@ -71,7 +71,7 @@ layui.use(['table', 'form', 'layer'], function() {
 
       // 维护新增激励方案
       wrapID = 'edit_transfrom_maintain';
-      if (yearData.status == 0 || yearData.status == 3) {
+      if (yearData && (yearData.status == 0 || yearData.status == 3)) {
         excitationData.unshift(yearData);
       } else {
         excitationData.unshift(getNewInitAchieveReward());
@@ -109,10 +109,6 @@ layui.use(['table', 'form', 'layer'], function() {
 
       $layoutItem.load('record_maintain.html', function() {
         $layoutItem.find('.layui-form:eq(0)').attr('lay-filter', formFilter);
-        if (formFilter !== 'newTransfrom') {
-          
-        } else {
-        }
         // 添加人员
         var $groupTable = $layoutItem.find('.dy-add-table:eq(0)');
         if (formFilter === 'newTransfrom') {
@@ -131,8 +127,10 @@ layui.use(['table', 'form', 'layer'], function() {
             backfill(excitationData[htmlIndex].teamPerson, groupTableId);
           }
 
-          // 隐藏激励方案提交区域按钮
-          $layoutItem.find('.view-page-submit-btn-box').hide();
+          if (excitationData.length === 1) {
+            // 隐藏激励方案提交区域按钮
+            $layoutItem.find('.view-page-submit-btn-box').hide();
+          }
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
