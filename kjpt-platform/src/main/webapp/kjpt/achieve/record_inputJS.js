@@ -109,20 +109,14 @@ layui.use(['table', 'form', 'layer'], function() {
 
       $layoutItem.load('record_maintain.html', function() {
         $layoutItem.find('.layui-form:eq(0)').attr('lay-filter', formFilter);
-        if (wrapID === 'edit_transfrom_maintain') {
-          if (formFilter !== 'newTransfrom') {
-            // 删除当前区域提交按钮
-            $layoutItem.find('.view-page-submit-btn-box, .view-row-title').remove();
-            setFomeDisabled(formFilter, '.disabled');
-          }
+        if (formFilter !== 'newTransfrom') {
+          
         } else {
-          $layoutItem.find('.view-page-submit-btn-box').hide();
         }
-
         // 添加人员
         var $groupTable = $layoutItem.find('.dy-add-table:eq(0)');
         if (formFilter === 'newTransfrom') {
-           groupTableId = randomID(); // 动态生产随机ID
+          groupTableId = randomID(); // 动态生产随机ID
            $groupTable.attr('id', groupTableId);
 
            /*添加tr*/
@@ -136,6 +130,9 @@ layui.use(['table', 'form', 'layer'], function() {
           if ( excitationData[htmlIndex].teamPerson ) {
             backfill(excitationData[htmlIndex].teamPerson, groupTableId);
           }
+
+          // 隐藏激励方案提交区域按钮
+          $layoutItem.find('.view-page-submit-btn-box').hide();
         } else {
           var tempTableId = randomID(); // 动态生产随机ID
           $groupTable.attr('id', tempTableId);
@@ -146,6 +143,10 @@ layui.use(['table', 'form', 'layer'], function() {
           if ( excitationData[htmlIndex].teamPerson ) {
             backfill(excitationData[htmlIndex].teamPerson, tempTableId, 'view');
           }
+
+          // 当前激励方案为只读状态 删除附件按钮、删除提交按钮
+          $layoutItem.find('.view-page-submit-btn-box, .view-row-title').remove();
+          setFomeDisabled(formFilter, '.disabled');
         }
 
         // 绑定附件上传功能

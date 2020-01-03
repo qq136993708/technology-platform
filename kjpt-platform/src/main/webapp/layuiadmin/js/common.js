@@ -971,7 +971,6 @@ function deleTr(id){
 function backfill(data, id, type) {
 	var readonly='';
     type=="view" ?  readonly='true': readonly='false'
-    console.log(readonly)
     var dataArr=data.split("$")
 
     if(dataArr.length>0){
