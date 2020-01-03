@@ -92,6 +92,7 @@ public class AchieveReward extends RecordModel implements Serializable {
      * 状态
      */
     private  String status="";
+    private  String statusText="";
 
     private  String auditStatus="";
     
@@ -264,5 +265,13 @@ public class AchieveReward extends RecordModel implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStatusText() {
+        return statusText;
+    }
+
+    public void setStatusText(String statusText) {
+        this.statusText = statusText;
     }
 }

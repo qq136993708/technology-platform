@@ -27,6 +27,7 @@
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="team_person_count" jdbcType="INTEGER" property="teamPersonCount"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="status_text" jdbcType="VARCHAR" property="statusText"/>
     </resultMap>
 
 
@@ -54,15 +55,16 @@
         create_unit_id,
         create_unit_name,
         team_person_count,
-        status
+        status,
+        status_text
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRewardMap">
-        select <include refid="AchieveReward_Column_List" /> from achieve_reward where id = #{id} and del_status != '1'
+        select <include refid="AchieveReward_Column_List" /> from view_achieve_reward where id = #{id} and del_status != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="AchieveRewardMap">
-        select  <include refid="AchieveReward_Column_List" />  from achieve_reward where 1=1
+        select  <include refid="AchieveReward_Column_List" />  from view_achieve_reward where 1=1
             and del_status != '1'
         AND create_unit_id in
         <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
@@ -82,8 +84,8 @@
     </select>
 
     <select id="getByRecordId" parameterType="java.lang.String" resultMap="AchieveRewardMap">
-        select  <include refid="AchieveReward_Column_List" />  from achieve_reward where 1=1 and achieve_record_id = #{aRecordId}
-            and del_status != '1'
+        select  <include refid="AchieveReward_Column_List" />  from view_achieve_reward where 1=1 and achieve_record_id = #{aRecordId}
+            and del_status != '1' order by reward_year
     </select>
 
 
