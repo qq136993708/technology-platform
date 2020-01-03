@@ -94,18 +94,7 @@ public class AchieveReward extends RecordModel implements Serializable {
     private  String status="";
     private  String statusText="";
 
-    private  String auditStatus="";
     
-    
-    
-
-    public String getAuditStatus() {
-		return auditStatus;
-	}
-
-	public void setAuditStatus(String auditStatus) {
-		this.auditStatus = auditStatus;
-	}
 
 	public String getId() {
         return id;

@@ -63,10 +63,9 @@ public class WorkflowController extends BaseController {
 	@ResponseBody
 	public Object processAuditFlag(@RequestBody String param, HttpServletRequest request) throws Exception {
 		JSONObject reJson = JSONObject.parseObject(param);
-
+		System.out.println("==============判断是否需要选择审批人======" + reJson.toString());
 		// param中有functionId（projectId、departmentId等属性）
 		HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(reJson, this.httpHeaders);
-
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(AUDIT_FLAG_URL, HttpMethod.POST, entity, String.class);
 		String auditFlag = responseEntity.getBody();
 

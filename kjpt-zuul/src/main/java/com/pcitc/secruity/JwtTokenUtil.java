@@ -124,7 +124,7 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_SECRET_LEVEL, user.getSecretLevel());
 		claims.put(CLAIM_KEY_POSTID, user.getUserPost());
 		claims.put(CLAIM_KEY_LEVEL, user.getUserLevel());
-		claims.put(CLAIM_KEY_POSITION, user.getUserConfig2());
+		//claims.put(CLAIM_KEY_POSITION, user.getUserConfig2());
 		claims.put(CLAIM_KEY_USER_UNIT_NAME, user.getUserUnitName());
 		claims.put(CLAIM_KEY_SECRET_LEVEL, user.getSecretLevel());
 		claims.put(CLAIM_KEY_USER_ID_CARD, user.getUnifyIdentityId());

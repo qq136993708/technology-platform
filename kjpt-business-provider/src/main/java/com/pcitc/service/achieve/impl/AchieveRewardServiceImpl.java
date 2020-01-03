@@ -163,7 +163,7 @@ public class AchieveRewardServiceImpl implements AchieveRewardService {
 	    	System.out.println("=====远程调用结束");
 			if("true".equals(str)) 
 			{
-				achieveReward.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+				achieveReward.setStatus(Constant.AUDIT_STATUS_SUBMIT);
 				arm.update(achieveReward);
 				return new Result(true,"操作成功!");
 			}else 

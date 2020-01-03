@@ -25,10 +25,6 @@
 		<result column="is_domain"        property="isDomain"        jdbcType="INTEGER" />
 		<result column="login_error_number" property="loginErrorNumber" jdbcType="INTEGER" />
 		<result column="login_check_code"   property="loginCheckCode"   jdbcType="VARCHAR" />
-		<result column="user_config1"       property="userConfig1"      jdbcType="VARCHAR" />
-		<result column="user_config2"       property="userConfig2"      jdbcType="VARCHAR" />
-		<result column="user_config3"       property="userConfig3"      jdbcType="VARCHAR" />
-		<result column="user_config4"       property="userConfig4"      jdbcType="VARCHAR" />
 		<result column="user_comment"       property="userComment"      jdbcType="VARCHAR" />
 		<result column="user_comment"       property="userComment"      jdbcType="VARCHAR" />
 		<result column="user_login_ip"       property="lastLoginIp"     jdbcType="VARCHAR" />
@@ -46,6 +42,7 @@
 		<result column="unit_path"   property="unitPath" jdbcType="VARCHAR" />
 		<result column="unit_id"   property="unitId" jdbcType="VARCHAR" />
 		<result column="user_head_pic"   property="userHeadPic" jdbcType="VARCHAR" />
+		<result column="user_role_text"   property="userRoleText" jdbcType="VARCHAR" />
 		
 		
 		
@@ -122,12 +119,12 @@
 		user_create_time,
 		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
 		login_error_number,
-		login_check_code, user_config1, user_config2, user_config3, user_config4,
+		login_check_code, 
 		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,
-		user_unit_name,user_unit_path,user_head_pic
+		user_unit_name,user_unit_path,user_head_pic,user_role_text
 	</sql>
 	
-	
+		
 	
 
 	<select id="selectByExample" resultMap="BaseResultMap"
@@ -177,9 +174,8 @@
 		user_phone, user_sign, user_create_time,
 		user_level, user_delflag, user_relation,
 		user_extend, user_comment, is_domain,
-		login_error_number, login_check_code, user_config1,
-		user_config2, user_config3, user_config4,secret_level,
-		unify_identity_id,post_name,user_unit_name,user_unit_path,user_head_pic
+		login_error_number, login_check_code, secret_level,
+		unify_identity_id,post_name,user_unit_name,user_unit_path,user_head_pic,user_role_text
 		)
 		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
 		#{userPassword,jdbcType=VARCHAR},
@@ -192,12 +188,11 @@
 		#{userLevel,jdbcType=INTEGER}, #{userDelflag,jdbcType=INTEGER}, #{userRelation,jdbcType=VARCHAR},
 		#{userExtend,jdbcType=VARCHAR}, #{userComment,jdbcType=VARCHAR},
 		#{isDomain,jdbcType=INTEGER},
-		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}, #{userConfig1,jdbcType=VARCHAR},
-		#{userConfig2,jdbcType=VARCHAR}, #{userConfig3,jdbcType=VARCHAR},
-		#{userConfig4,jdbcType=VARCHAR},#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
+		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}
+		,#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
 		,#{postName,jdbcType=VARCHAR},#{userUnitName,jdbcType=VARCHAR},#{userUnitPath,jdbcType=VARCHAR}
 		,#{userHeadPic,jdbcType=VARCHAR}
-		
+		,#{userRoleText,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.pcitc.base.system.SysUser">
@@ -272,18 +267,7 @@
 			<if test="loginCheckCode != null">
 				login_check_code,
 			</if>
-			<if test="userConfig1 != null">
-				user_config1,
-			</if>
-			<if test="userConfig2 != null">
-				user_config2,
-			</if>
-			<if test="userConfig3 != null">
-				user_config3,
-			</if>
-			<if test="userConfig4 != null">
-				user_config4,
-			</if>
+			
 			<if test="secretLevel != null">
 				secret_level,
 			</if>
@@ -302,7 +286,9 @@
 			<if test="userHeadPic != null">
 				user_head_pic,
 			</if>
-			
+			<if test="userRoleText != null">
+				user_role_text,
+			</if>
 		
 			
 		</trim>
@@ -376,18 +362,7 @@
 			<if test="loginCheckCode != null">
 				#{loginCheckCode,jdbcType=VARCHAR},
 			</if>
-			<if test="userConfig1 != null">
-				#{userConfig1,jdbcType=VARCHAR},
-			</if>
-			<if test="userConfig2 != null">
-				#{userConfig2,jdbcType=VARCHAR},
-			</if>
-			<if test="userConfig3 != null">
-				#{userConfig3,jdbcType=VARCHAR},
-			</if>
-			<if test="userConfig4 != null">
-				#{userConfig4,jdbcType=VARCHAR},
-			</if>
+			
 			<if test="secretLevel != null">
 				#{secretLevel,jdbcType=VARCHAR},
 			</if>
@@ -406,7 +381,9 @@
 			<if test="userHeadPic != null">
 				#{userHeadPic,jdbcType=VARCHAR},
 			</if>
-			
+			<if test="userRoleText != null">
+				#{userRoleText,jdbcType=VARCHAR},
+			</if>
 			
 		</trim>
 	</insert>
@@ -428,6 +405,7 @@
 		user_kind = #{userKind,jdbcType=VARCHAR},
 		user_flag = #{userFlag,jdbcType=VARCHAR},
 		user_unit = #{userUnit,jdbcType=VARCHAR},
+		user_role_text = #{userRoleText,jdbcType=VARCHAR},
 		user_post = #{userPost,jdbcType=VARCHAR},
 		user_role = #{userRole,jdbcType=VARCHAR},
 		user_order = #{userOrder,jdbcType=INTEGER},
@@ -445,11 +423,8 @@
 		is_domain = #{isDomain,jdbcType=INTEGER},
 		login_error_number = #{loginErrorNumber,jdbcType=INTEGER},
 		login_check_code = #{loginCheckCode,jdbcType=VARCHAR},
-		user_config1 = #{userConfig1,jdbcType=VARCHAR},
-		user_config2 = #{userConfig2,jdbcType=VARCHAR},
-		user_config3 = #{userConfig3,jdbcType=VARCHAR},
+		
 		user_unit_name = #{userUnitName,jdbcType=VARCHAR},
-		user_config4 = #{userConfig4,jdbcType=VARCHAR},
 		user_head_pic = #{userHeadPic,jdbcType=VARCHAR},
 		
 		secret_level = #{secretLevel,jdbcType=VARCHAR},
@@ -601,6 +576,13 @@
 	    FROM  sys_user  t3   LEFT JOIN sys_unit t2 ON t3.user_unit=t2.`unit_id` 
 	    
 	</sql>
+	
+	
+     
+     
+     
+   
+   
 	
     <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
       select * from  (<include refid="view_user" />)   t <include refid="selectCondition" />    

@@ -97,9 +97,17 @@
 
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveReward">
-        insert into achieve_reward( <include refid="AchieveReward_Column_List" /> )
-         values(#{id},#{achieveRecordId},#{achieveId},#{rewardYear},#{createDate},#{creator},#{transIncome},#{checkBasis},#{incomeCalculation},#{rewardRecord},#{rewardQuota},
-         #{budgetSources},#{budgetPerson},#{budgetAllMoney},#{assignPlan},#{rewardAccountingDoc},#{incomeReportDoc},#{deleted},#{assignPlanDoc},#{teamPerson},#{createUnitId},#{createUnitName},#{teamPersonCount},#{status} )
+         insert into achieve_reward( <include refid="AchieveReward_Column_List" /> )
+         values
+         (
+	         #{id},#{achieveRecordId},#{achieveId},
+	         #{rewardYear},#{createDate},#{creator},#{transIncome},
+	         #{checkBasis},#{incomeCalculation},#{rewardRecord},#{rewardQuota},
+	         #{budgetSources},#{budgetPerson},#{budgetAllMoney},#{assignPlan},
+	         #{rewardAccountingDoc},#{incomeReportDoc},#{deleted},#{assignPlanDoc},
+	         #{teamPerson},#{createUnitId},#{createUnitName},
+	         #{teamPersonCount},#{status}
+         )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveReward">

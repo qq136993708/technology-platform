@@ -423,6 +423,7 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBase.setTechnicalFieldName(outPerson.getTechTypeName());
 				zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
 				zjkBase.setSourceType(Constant.SOURCE_TYPE_OUTER);//数据来源（1本系统，2外系统）
+				zjkBase.setSecretLevel(Constant.INFO_SECRET_LEVEL_PUBLIC);
 				String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 				zjkBase.setId(dateid);
 				zjkBase.setGroupType(groups);

@@ -38,16 +38,30 @@
   font-size: 18px;
   color: #46484B;
 }
+.view-title-layout .text .flow_link_id{
+  font-size: 14px;
+  font-weight: normal;
+  padding-left: 30px;
+  text-decoration: underline;
+}
+
 .maintain_list > .view-title-layout::before,
 .record_input_page form > .view-title-layout::before {
   content: '';
   display: block;
   left: 0;
-  top: 54px;
+  top: 56px;
   position: absolute;
   width: 100%;
   border-top: 1px #D4D7D8 dashed;
 }
+.view-title-layout > .right.flow_link {
+  position: relative;
+  padding-right: 16px;
+  padding-left: 16px;
+  background-color: #fff;
+}
+
 .options-list .link-text{
   height: 18px;
   line-height: 18px;

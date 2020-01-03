@@ -44,8 +44,10 @@ layui.use(['table', 'form','laydate'], function() {
             if (d.auditStatus == 1 || d.auditStatus == 2){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
-            if (d.auditStatus == 2 && !d.rewardYear){
-              templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
+            if (d.auditStatus == 2){
+              if (!d.rewardYear || d.status == 0 || d.status == 3 ) {
+                templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
+              }
             }
             templet += '</div></div>';
             return templet;
@@ -181,7 +183,7 @@ layui.use(['table', 'form','laydate'], function() {
       if (listData.length) {
         if (listData.length === 1) {
           if (optionType === 'edit') {
-            if (listData[0].auditStatus == 0 || listData[0].auditStatus == 2) {
+            if (listData[0].auditStatus == 0 || listData[0].auditStatus == 3) {
               url += '&id='+listData[0].id;
             } else {
               top.layer.msg('审批中或审批通过的数据不能' + dialogTitle);

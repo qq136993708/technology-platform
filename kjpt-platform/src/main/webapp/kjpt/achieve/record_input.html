@@ -82,9 +82,10 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果转化状态：</span></label>
           <div class="layui-input-block">
-            <span class="layui-input" diy-form-value="auditStatus" diy-dic-data="ROOT_UNIVERSAL_LCZT"></span>
-            <input type="hidden" name="auditStatus" lay-verify="required" />
-            <input type="hidden" name="achieveTransStatus" lay-verify="required" />
+            <select name="achieveTransStatus" dic-base-data="ROOT_KJPT_KJCG_CGZHZT"
+              lay-filter="achieveTransStatus" placeholder="请选择" lay-verify="required"></select>
+            <!-- <span class="layui-input" diy-form-value="auditStatus" diy-dic-data="ROOT_UNIVERSAL_LCZT"></span>
+            <input type="hidden" name="achieveTransStatus" lay-verify="required" /> -->
           </div>
         </div>
       </div>
@@ -374,6 +375,7 @@
     <input type="hidden" name="creator"><!-- 创建人 -->
     <input type="hidden" name="createDate"><!-- 创建时间 -->
     <input type="hidden" name="files"><!-- 附件ID集合 -->
+    <input type="hidden" name="auditStatus" /><!-- 审批状态 -->
   </form>
 
   <div id="init_transfrom_maintain"></div>
@@ -402,21 +404,21 @@
   var postCodes = "";
   var variable = getQueryVariable();
   
-  function dealFlow(functionId, msgID) {
+  function dealFlow(flowUrl, functionId, msgID) {
     var json = {functionId: functionId, branchFlag: "0"},
-        nunits="";
+    nunits="";
 
     $.ajax({
       type : 'POST',
-      url : "/workflow/start/audit-type",
+      url : '/workflow/start/audit-type',
       contentType: "application/json;charset=UTF-8",
       data : JSON.stringify(json),
       //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
       success : function(data) {
         console.log("audit-type\n"+JSON.stringify(data)); 
         if (data.code == 'role') {
-          top.layer.colse(msgID);
-          // 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+          top.layer.close(msgID);
+          // 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds, flowUrl, msgID)方法
           // roleCodes，参数名必须一致，方便公共弹出页面调用
           roleCodes = data.data;  // 弹出页面的隐藏的查询条件
           console.log("roleCodes:\n"+roleCodes);
@@ -434,8 +436,8 @@
             content:  temUrl
           });
         } else if (data.code == 'unit' || data.code == 'post') {
-          top.layer.colse(msgID);
-          // 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+          top.layer.close(msgID);
+          // 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds, flowUrl, msgID)方法
           // unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
           if (data.code == 'unit') {
             unitCodes = data.data;  // 弹出页面的隐藏的查询条件
@@ -457,37 +459,35 @@
               content:  temUrl
           });
         } else if (data.code == 'int') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           top.layer.msg('启动参数不足');
         } else if (data.code == 'con') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           top.layer.msg('请给此功能菜单配置流程');
         } else if (data.code == 'exist') {
-          top.layer.colse(msgID);
+          top.layer.close(msgID);
           top.layer.msg('工作流部署异常，请联系管理员');
         } else {
           // 直接处理此任务
-          handleTask('', msgID);
+          handleTask('', flowUrl, msgID);
         }
       },
       error : function(msg) {//请求失败处理函数
-        top.layer.colse(msgID);
+        top.layer.close(msgID);
         dialogError(msg);
       }
     });
   }
   
   //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-  function handleTask(userIds, msgID) {
+  function handleTask(userIds, optUrl, msgID) {
     $('#userIds').val(userIds);
-    console.log("userIds:\n"+userIds);
     var v_date=(new Date()).getTime();
-    var url="/achieveRecord-api/start_workflow?v_date="+v_date;
-    var backurl="/achieve/record_list?v_date="+v_date;
-    ajaxOpt(url, 'flow_form', "POST", backurl, "提交成功", "提交失败", msgID);
+    var url = optUrl + "?v_date="+v_date;
+    ajaxOpt(url, 'flow_form', "POST", "提交成功", "提交失败", msgID);
   }
   
-  function ajaxOpt(url, formID, type, backurl, successMsg, failMsg, msgID) {
+  function ajaxOpt(url, formID, type, successMsg, failMsg, msgID) {
     $.ajax({
       type:type,
       url: url,
@@ -497,7 +497,7 @@
       cache: false,
       contentType: "application/x-www-form-urlencoded; charset=utf-8",
       success:function(data,status) {
-        top.layer.colse(msgID);
+        top.layer.close(msgID);
         if(data.success==true ||data.success=='true') {
           top.layer.alert(successMsg, {icon: 1,closeBtn: 0 }, function () {
             top.layer.closeAll(); // 关闭弹窗
@@ -509,7 +509,7 @@
         }
       },
       error:function() {
-        top.layer.colse(msgID);
+        top.layer.close(msgID);
         top.layer.alert("网络访问错误");
       }
     });

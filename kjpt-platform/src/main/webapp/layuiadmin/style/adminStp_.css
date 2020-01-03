@@ -1083,6 +1083,10 @@ height: 100%;
     background: none !important;
     background-image: none !important;
 }
+/* 不显示成果转化备案激励方案审批流菜单 */
+.layui-side-menu dd > a[lay-href="/achieveReward_list_flow"] {
+    display: none !important;
+}
 .layui-nav-item .item-row-block{
     font-size: 0;
     padding-left: 12px;
