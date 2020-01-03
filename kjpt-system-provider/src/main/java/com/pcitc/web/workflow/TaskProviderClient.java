@@ -1,12 +1,10 @@
 package com.pcitc.web.workflow;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +17,6 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.SequenceFlow;
-import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
@@ -56,7 +53,6 @@ import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.image.ProcessDiagramGenerator;
-import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,13 +72,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysMessage;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.util.DateUtil;
@@ -96,10 +90,10 @@ import com.pcitc.base.workflow.TaskDoneVo;
 import com.pcitc.base.workflow.TaskVo;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.system.SysUserMapper;
+import com.pcitc.service.system.SysMessageService;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
-import com.pcitc.utils.BpmnModelImageUtil;
 import com.pcitc.utils.ImageGenerator;
 
 import io.swagger.annotations.Api;
@@ -143,7 +137,8 @@ public class TaskProviderClient {
 	
 	@Autowired
     public RestTemplate restTemplate;
-
+	@Autowired
+	private SysMessageService sysMessageService;
 	/**
 	 * 查询任务委托单信息
 	 * 
@@ -660,6 +655,40 @@ public class TaskProviderClient {
 		return retData;
 	}
 
+	
+	
+	
+	private void saveSysMessage(WorkflowVo workflowVo,String processInstanceName,String processInstanceId)
+	{
+		
+		
+		Map<String, Object> map = workflowVo.getVariables();
+		String agree=(String)map.get("agree");
+		String comment=(String)map.get("comment");
+		if(agree.equals("1"))
+		{
+			agree="同意";
+		}else
+		{
+			agree="驳回";
+		}
+		SysMessage sysMessage = new SysMessage();
+		sysMessage.setDataId(UUID.randomUUID().toString().replace("-", ""));
+		sysMessage.setMessageType("审批消息");
+		sysMessage.setMessageTitle(processInstanceName);
+		sysMessage.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		sysMessage.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		sysMessage.setIsRead("0");
+		sysMessage.setReadTotal(0);
+		sysMessage.setSts("1");
+		sysMessage.setAuditStatus("1");
+		sysMessage.setRemarks("审核内容("+agree+")："+comment);
+		sysMessage.setMessageContent("审核内容("+agree+")："+comment);
+		sysMessage.setUserId(workflowVo.getAuditorId());
+		sysMessage.setUserName(workflowVo.getAuditorName());
+		sysMessage.setMessageUrl("/task/process/"+processInstanceId);
+		sysMessageService.insertSysMessage(sysMessage);
+	}
 	/**
 	 * 任务处理，主要是任务处理时间、处理意见、是否同意
 	 * 
@@ -670,6 +699,12 @@ public class TaskProviderClient {
 	@ApiOperation(value = "任务处理", notes = "任务处理时间、处理意见、是否同意，考虑委托等情况")
 	@RequestMapping(value = "/task-provider/task/complete", method = RequestMethod.POST)
 	public JSONObject completeTask(@RequestBody WorkflowVo workflowVo) throws Exception {
+		
+		//{"variables":{"comment":"同意","agree":"1"},"auditorId":"123","auditorName":"超级管理员","taskId":"2185036"}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(workflowVo));
+		System.out.println("===========任务处理=----------" + result.toString());
+		
+		
 		Date date1 = new Date();
 		// 此任务节点会签标识
 		boolean signFlag = false;
@@ -684,6 +719,9 @@ public class TaskProviderClient {
 		
 		String processInstanceId = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult().getProcessInstanceId();
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).orderByProcessInstanceId().active().desc().singleResult();
+		//保存审批消息
+	    saveSysMessage(workflowVo,processInstance.getName(),processInstanceId);
+		
 		// String businessKey = processInstance.getBusinessKey();BusinessKey一般放(业务模块名称_id)
 		// 本次任务的可用变量
 		Map<String, Object> taskVar = taskService.getVariables(workflowVo.getTaskId());
