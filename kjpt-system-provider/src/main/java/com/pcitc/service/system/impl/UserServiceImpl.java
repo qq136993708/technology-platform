@@ -250,15 +250,15 @@ public class UserServiceImpl implements UserService {
 	 */
 	// @Cacheable(key = "'userDetails_'+#userId", value = "userCache")
 	public SysUser selectUserDetailsByUserId(String userId) throws Exception {
+		
 		SysUser user = userMapper.selectByPrimaryKey(userId);
-		// System.out.println(user+"======selectUserDetailsByUserId------------"+userId);
-
 		// 此人有哪些菜单权限，每个菜单对应的数据控制项
 		List<SysFunction> funList = functionMapper.selectFuntionByUserId(userId);
-
-		// System.out.println("======funList------------"+funList);
 		user.setFunList(funList);
-
+		Map map=new HashMap();
+		map.put("ids", user.getUserRole());
+		List<SysRole> roleList=sysRoleMapper.getList(map);
+		user.setRoleList(roleList); 
 		// 此人收藏的菜单
 		SysCollectExample sysCollectExample = new SysCollectExample();
 		Criteria cri = sysCollectExample.createCriteria();

@@ -63,6 +63,10 @@ public class Constant {
     public static String IS_PUBLIC_END = "3";
     
     public static String USER_CONFIGADMIN = "configadmin";
+    
+    public static String ROLE_WHITE_USER = "ZXBMD";//知悉范围白名单
+
+ 
 
     /**
                * 默认文件上传类型

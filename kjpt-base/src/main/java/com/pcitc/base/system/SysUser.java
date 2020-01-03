@@ -54,13 +54,15 @@ public class SysUser {
 
 	private String loginCheckCode;
 
-	private String userConfig1;
-
-	private String userConfig2;
-
-	private String userConfig3;
-
-	private String userConfig4;
+	/*
+	 * private String userConfig1;
+	 * 
+	 * private String userConfig2;
+	 * 
+	 * private String userConfig3;
+	 * 
+	 * private String userConfig4;
+	 */
 
 	//用户登录IP
 	private String lastLoginIp;
@@ -113,10 +115,17 @@ public class SysUser {
 	
 	private String  recodeLevel;
 	
+	private   List<SysRole> roleList=new ArrayList<SysRole>();;
 	
 
-	
 
+	public List<SysRole> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<SysRole> roleList) {
+		this.roleList = roleList;
+	}
 
 	public String getRecodeLevel() {
 		return recodeLevel;
@@ -542,35 +551,25 @@ public class SysUser {
 		this.loginCheckCode = loginCheckCode;
 	}
 
-	public String getUserConfig1() {
-		return userConfig1;
-	}
-
-	public void setUserConfig1(String userConfig1) {
-		this.userConfig1 = userConfig1;
-	}
-
-	public String getUserConfig2() {
-		return userConfig2;
-	}
-
-	public void setUserConfig2(String userConfig2) {
-		this.userConfig2 = userConfig2;
-	}
-
-	public String getUserConfig3() {
-		return userConfig3;
-	}
-
-	public void setUserConfig3(String userConfig3) {
-		this.userConfig3 = userConfig3;
-	}
-
-	public String getUserConfig4() {
-		return userConfig4;
-	}
-
-	public void setUserConfig4(String userConfig4) {
-		this.userConfig4 = userConfig4;
-	}
+	/*
+	 * public String getUserConfig1() { return userConfig1; }
+	 * 
+	 * public void setUserConfig1(String userConfig1) { this.userConfig1 =
+	 * userConfig1; }
+	 * 
+	 * public String getUserConfig2() { return userConfig2; }
+	 * 
+	 * public void setUserConfig2(String userConfig2) { this.userConfig2 =
+	 * userConfig2; }
+	 * 
+	 * public String getUserConfig3() { return userConfig3; }
+	 * 
+	 * public void setUserConfig3(String userConfig3) { this.userConfig3 =
+	 * userConfig3; }
+	 * 
+	 * public String getUserConfig4() { return userConfig4; }
+	 * 
+	 * public void setUserConfig4(String userConfig4) { this.userConfig4 =
+	 * userConfig4; }
+	 */
 }
