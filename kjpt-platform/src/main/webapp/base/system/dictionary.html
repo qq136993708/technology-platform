@@ -246,9 +246,10 @@
                             // 弹窗销毁时获取弹窗返回数据
                             var getData = getDialogData('dialog-data');
                             /*判断成功刷新table*/
-                            if(getData){
-                                table.reload('dicTable',null)
-                            }
+                            table.reload('dictionary', {});
+                            //dictionaryTree.removeNode(dicTreeNode);
+                            initTree();
+
 
                         }
                     });
@@ -299,9 +300,9 @@
                             // 弹窗销毁时获取弹窗返回数据
                             var getData = getDialogData('dialog-data');
                             /*判断成功刷新table*/
-                            if(getData){
-                                table.reload('dicTable',null)
-                            }
+                            table.reload('dictionary', {});
+                            //dictionaryTree.removeNode(dicTreeNode);
+                            initTree();
 
                         }
                     });
