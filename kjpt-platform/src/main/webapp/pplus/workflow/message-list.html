@@ -189,6 +189,21 @@
 			});
 
 		});
+		
+		
+		function viewInstance(processInstanceId)
+		{
+			var temUrl = "/task/process/" + processInstanceId;
+			top.layer.open({
+				title : '详情',
+				shadeClose : true,
+				type : 2,
+				fixed : false,
+				maxmin : false,
+				area : [ '70%', '50%' ],
+				content : temUrl
+			});
+		}
 	</script>
 
 </body>
