@@ -102,12 +102,12 @@
     </select>
 
     <select id="getConfig" parameterType="java.lang.String" resultType="java.util.Map">
-        select * from  kjpt_bi.bi_data_config where kind = #{type}
+        select kind,table_name tableName from kjpt_bi.bi_data_config where kind = #{type}
     </select>
 
     <select id="queryBiData" parameterType="java.util.Map" resultType="java.util.Map">
         select * from kjpt_bi.${tableName} where 1=1
-        and date >= DATE_SUB(CURDATE(),INTERVAL -1 DAY)
+        and DATE_SUB(CURDATE(), INTERVAL 1 DAY) <![CDATA[<=]]> date(date)
         <if test="secretLevel !=null and secretLevel != ''">
             and secret_level <![CDATA[<=]]> #{userSecretLevel}
         </if>

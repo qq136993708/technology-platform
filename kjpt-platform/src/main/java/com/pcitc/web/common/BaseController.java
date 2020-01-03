@@ -98,11 +98,14 @@ public class BaseController implements ErrorController
 		String isWhiteList = "0";
 		SysUser sysUserInfo = this.getUserProfile();
 		String role = sysUserInfo.getUserRole();
+		if(StringUtils.isBlank(role)){
+			return;
+		}
 		String userName = sysUserInfo.getUserName();
 		//Map param = new HashMap(2);
 		//param.put("userName",userName);
 		//ResponseEntity<Integer> response = restTemplate.exchange(WHITE_LIST+userName, HttpMethod.GET,new HttpEntity<>(this.httpHeaders),Integer.class);
-		if(roleId.contains(role)){
+		if(role.contains(roleId)){
 			isWhiteList = "1";
 		}
 		this.getCurrentRequest().getSession().setAttribute(userName,isWhiteList);
