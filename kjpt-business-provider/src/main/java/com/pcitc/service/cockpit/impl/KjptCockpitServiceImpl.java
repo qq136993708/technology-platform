@@ -126,4 +126,11 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
         return kjptCockpitMapper.numByIncentiveAmount(param);
     }
 
+    /**
+     * BI数据灌入
+     */
+    @Override
+    public void dataToBi() {
+        kjptCockpitMapper.dataToBi();
+    }
 }

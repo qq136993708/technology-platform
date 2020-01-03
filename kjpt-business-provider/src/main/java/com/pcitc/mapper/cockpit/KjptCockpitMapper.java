@@ -81,4 +81,9 @@ public interface KjptCockpitMapper {
      * 成果信息-成果转化-各单位成果转化金额/激励金额
      */
     List<Map> numByIncentiveAmount(Map<String, Object> param);
+
+    /**
+     * BI数据灌入
+     */
+    void dataToBi();
 }

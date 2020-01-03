@@ -77,4 +77,9 @@ public interface KjptCockpitService {
      */
     List<Map> numByIncentiveAmount(Map<String, Object> param);
 
+    /**
+     * BI数据灌入
+     */
+    void dataToBi();
+
 }
