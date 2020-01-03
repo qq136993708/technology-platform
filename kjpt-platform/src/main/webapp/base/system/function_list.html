@@ -298,9 +298,9 @@
 							area : [ '70%', '90%' ],
 							content : temUrl
 						});*/
-					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+					} /*else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
 						layer.msg("工作台不允许新增");
-					} else {
+					}*/ else {
 						var temUrl = "/function/edit?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
 						temUrl = encodeURI(temUrl);
 						top.layer.open({
@@ -340,9 +340,9 @@
 				editEvent : function() { //点击编辑按钮
 					if (typeof (nodeId) == "undefined" || isBlank(nodeId)) {
 						layer.msg("请先选择一个编辑项");
-					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+					} /*else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
 						layer.msg("工作台不允许编辑");
-					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
+					}*/ else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
 						var temUrl = "/function/function_edit_desk?id=" + nodeId;
 						temUrl = encodeURI(temUrl);
 						/*layer.open({
