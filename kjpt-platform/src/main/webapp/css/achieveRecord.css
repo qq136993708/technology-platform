@@ -38,6 +38,13 @@
   font-size: 18px;
   color: #46484B;
 }
+.view-title-layout .text .flow_link_id{
+  font-size: 14px;
+  font-weight: normal;
+  padding-left: 30px;
+  text-decoration: underline;
+}
+
 .maintain_list > .view-title-layout::before,
 .record_input_page form > .view-title-layout::before {
   content: '';

@@ -183,7 +183,7 @@ layui.use(['table', 'form','laydate'], function() {
       if (listData.length) {
         if (listData.length === 1) {
           if (optionType === 'edit') {
-            if (listData[0].auditStatus == 0 || listData[0].auditStatus == 2) {
+            if (listData[0].auditStatus == 0 || listData[0].auditStatus == 3) {
               url += '&id='+listData[0].id;
             } else {
               top.layer.msg('审批中或审批通过的数据不能' + dialogTitle);
