@@ -30,6 +30,11 @@ public interface ComputerSoftwareService {
      */
     Integer delete(String id);
 
+    /**
+     * 查询计算机软件项目
+     * @param paramMap
+     * @return
+     */
     List queryNoPage(Map paramMap);
 
 }

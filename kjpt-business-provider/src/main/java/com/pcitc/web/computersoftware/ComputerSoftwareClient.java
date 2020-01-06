@@ -29,6 +29,7 @@ public class ComputerSoftwareClient {
 
     }
 
+
     @ApiOperation(value = "计算机软件信息保存", notes = "计算机软件信息保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ComputerSoftware save(@RequestBody ComputerSoftware computerSoftware) {
@@ -45,8 +46,8 @@ public class ComputerSoftwareClient {
 
     @ApiOperation(value = "计算机软件平台信息查询列表", notes = "计算机软件平台信息查询列表")
     @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
-    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
-        List list=computerSoftwareService.queryNoPage(param);
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param) {
+        List list = computerSoftwareService.queryNoPage(param);
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
         return json;
     }
@@ -57,5 +58,6 @@ public class ComputerSoftwareClient {
     public Integer delete(@PathVariable String id) {
         return computerSoftwareService.delete(id);
     }
+
 
 }

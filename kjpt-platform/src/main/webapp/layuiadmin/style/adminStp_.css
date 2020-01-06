@@ -433,7 +433,8 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-card{box-shadow:0 0 3px #dadcde;border-radius:6px;margin-bottom: 10px;}
 /*.layui-card:last-child{margin-bottom: 10px}*/
 .layui-card-header .layui-icon{line-height: initial; position: absolute; right: 15px; top: 50%; margin-top: -7px;}
-.layui-body .layadmin-iframe{width: 100%; height: 100%; background-color:#fff;border-radius: 3px; box-shadow:0px 2px 4px 0px rgba(203,205,207,0.5);}
+.layui-body .layadmin-iframe{width: 100%; height: 100%; background-color:#fff;border-radius: 3px;
+    box-shadow:0px 2px 4px 0px rgba(203,205,207,0.5);}
 .layui-body .layadmin-tabsbody-item:nth-child(1) .layadmin-iframe{background: none;width: 100%; box-shadow: none;}
 
 /*

@@ -45,6 +45,7 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
         return computerSoftware;
     }
 
+
     @Override
     public PageInfo query(Map paramMap) {
         int pageNum = paramMap.get("pageNum") !=null? (int)paramMap.get("pageNum"):1;

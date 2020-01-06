@@ -17,6 +17,10 @@
   line-height: 40px;
   white-space: nowrap;
 }
+.layui-input-block .layui-table-view .layui-table-cell {
+  height: 28px;
+  line-height: 28px;
+}
 .layui-table-cell .options-list{
   height: 40px;
   font-size: 0;

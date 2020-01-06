@@ -2,8 +2,7 @@ package com.pcitc.service.system;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysCronExceptionLog;
-import com.pcitc.base.system.SysCronRecord;
+import com.pcitc.base.system.SysQrtzLog;
 import com.pcitc.base.system.SysJob;
 
 /**
@@ -26,7 +25,7 @@ public interface SysJobService {
      * @param map
      * @return
      */
-    public LayuiTableData findSysExcepJob(LayuiTableParam param);
+   // public LayuiTableData findSysExcepJob(LayuiTableParam param);
 
     /**
      * 按id查询
@@ -46,7 +45,7 @@ public interface SysJobService {
      * @param sysCronRecord
      * @return
      */
-    Integer saveSysExcepJob(SysCronRecord sysCronRecord);
+  //  Integer saveSysExcepJob(SysCronRecord sysCronRecord);
 
     /**
      * 删除一条记录
@@ -95,13 +94,13 @@ public interface SysJobService {
      * 作业异常信息
      */
     
-    public SysCronExceptionLog selectSysCronExceptionLog(String id) throws Exception;
+    public SysQrtzLog selectSysCronExceptionLog(String id) throws Exception;
 
-	public Integer updateSysCronExceptionLog(SysCronExceptionLog record)throws Exception;
+	public Integer updateSysCronExceptionLog(SysQrtzLog record)throws Exception;
 
 	public int deleteSysCronExceptionLog(String id)throws Exception;
 
-	public Integer insertSysCronExceptionLog(SysCronExceptionLog record)throws Exception;
+	public Integer insertSysCronExceptionLog(SysQrtzLog record)throws Exception;
 	
 	public LayuiTableData getSysCronExceptionLogPage(LayuiTableParam param)throws Exception;
 	
