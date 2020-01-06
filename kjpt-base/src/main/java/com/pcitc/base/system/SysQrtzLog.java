@@ -7,24 +7,44 @@ import java.util.Date;
  * sys_cron_exception_log
  * @author 
  */
-public class SysCronExceptionLog implements Serializable {
+public class SysQrtzLog implements Serializable {
+	 private static final long serialVersionUID = 1L;
     private String id;
 
     private Date createTime;
 
-    private String content;
+    private String content="";
 
-    private String jobClass;
+    private String jobClass="";
 
-    private String jobName;
+    private String jobName="";
 
-    private String remark;
+    private String remark="";
 
     private Date jobBiginTime;
+    private String title="";
+    private String logType="";
+    
 
-    private static final long serialVersionUID = 1L;
+   
 
-    public String getId() {
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getLogType() {
+		return logType;
+	}
+
+	public void setLogType(String logType) {
+		this.logType = logType;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -91,7 +111,7 @@ public class SysCronExceptionLog implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        SysCronExceptionLog other = (SysCronExceptionLog) that;
+        SysQrtzLog other = (SysQrtzLog) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))

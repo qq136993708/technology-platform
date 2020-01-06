@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.system.SysCronExceptionLogMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysCronExceptionLog">
+<mapper namespace="com.pcitc.mapper.system.SysQrtzLogMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysQrtzLog">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="job_class" jdbcType="VARCHAR" property="jobClass" />
-    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time"    jdbcType="TIMESTAMP" property="createTime" />
+    <result column="content"        jdbcType="VARCHAR"   property="content" />
+    <result column="job_class"      jdbcType="VARCHAR"   property="jobClass" />
+    <result column="job_name"       jdbcType="VARCHAR"   property="jobName" />
+    <result column="remark"         jdbcType="VARCHAR"   property="remark" />
     <result column="job_bigin_time" jdbcType="TIMESTAMP" property="jobBiginTime" />
+    <result column="log_type"       jdbcType="VARCHAR"   property="logType" />
+    <result column="title"          jdbcType="VARCHAR"   property="title" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, create_time, content, job_class, job_name, remark, job_bigin_time
+    id, create_time, content, job_class, job_name, remark, job_bigin_time,log_type,title
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sys_cron_exception_log
+    from sys_qrtz_log
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from sys_cron_exception_log
+    delete from sys_qrtz_log
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.system.SysCronExceptionLog">
-    insert into sys_cron_exception_log (id, create_time, content, 
-      job_class, job_name, remark, 
-      job_bigin_time)
+  <insert id="insert" parameterType="com.pcitc.base.system.SysQrtzLog">
+    insert into sys_qrtz_log (id, create_time, content, 
+      job_class, job_name, remark, job_bigin_time,log_type,title)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, 
       #{jobClass,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{jobBiginTime,jdbcType=TIMESTAMP})
+      #{jobBiginTime,jdbcType=TIMESTAMP}
+      , #{logType,jdbcType=VARCHAR}
+      , #{title,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysCronExceptionLog">
-    insert into sys_cron_exception_log
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysQrtzLog">
+    insert into sys_qrtz_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -55,6 +59,13 @@
       <if test="jobBiginTime != null">
         job_bigin_time,
       </if>
+      <if test="logType != null">
+        log_type,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -78,10 +89,17 @@
       <if test="jobBiginTime != null">
         #{jobBiginTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="logType != null">
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+    
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysCronExceptionLog">
-    update sys_cron_exception_log
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysQrtzLog">
+    update sys_qrtz_log
     <set>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -101,13 +119,23 @@
       <if test="jobBiginTime != null">
         job_bigin_time = #{jobBiginTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="logType != null">
+        log_type = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysCronExceptionLog">
-    update sys_cron_exception_log
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysQrtzLog">
+    update sys_qrtz_log
     set create_time = #{createTime,jdbcType=TIMESTAMP},
+      log_type = #{logType,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       job_class = #{jobClass,jdbcType=VARCHAR},
       job_name = #{jobName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
@@ -120,11 +148,13 @@
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="jobName != null and jobName  !='' ">               AND t.job_name like CONCAT('%',#{jobName},'%')</if>
+	     <if test="title != null and title  !='' ">               AND t.title like CONCAT('%',#{title},'%')</if>
+	 
 	 </trim>
 	</sql>
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sys_cron_exception_log t <include refid="selectCondition" />    
+     select * from sys_qrtz_log t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -135,7 +165,7 @@
    </select>
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
-      SELECT count(*) FROM sys_cron_exception_log t <include refid="selectCondition"/>
+      SELECT count(*) FROM sys_qrtz_log t <include refid="selectCondition"/>
     </select>
   
 </mapper>

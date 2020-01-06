@@ -22,7 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysCronExceptionLog;
+import com.pcitc.base.system.SysQrtzLog;
 import com.pcitc.base.system.SysJob;
 import com.pcitc.web.common.BaseController;
 
@@ -83,10 +83,10 @@ public class SysJobController extends BaseController {
 	
 	@RequestMapping(value = "/getExcep/{id}", method = RequestMethod.GET)
 	public String viewget(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ResponseEntity<SysCronExceptionLog> responseEntity = this.restTemplate.exchange(getExcep + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysCronExceptionLog.class);
+		ResponseEntity<SysQrtzLog> responseEntity = this.restTemplate.exchange(getExcep + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysQrtzLog.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
-		SysCronExceptionLog sysCronExceptionLog = responseEntity.getBody();
+		SysQrtzLog sysCronExceptionLog = responseEntity.getBody();
 		request.setAttribute("sysCronExceptionLog", sysCronExceptionLog);
 		return "/base/system/jobExcepDetail";
 	}
