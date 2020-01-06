@@ -23,7 +23,7 @@
     <label class="dateInput">
         <span>日志时间:</span>
         <input style="margin-left: 10px;width: 24%" type="text" name="createTimeStr"
-               placeholder="请选择申请日期!" class="  laydate-input form-control" id="createTimeStr">
+               placeholder="请选择日期!" class="  laydate-input form-control" id="createTimeStr">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -151,12 +151,11 @@ var table,selectRowData;
            },
            cols: [[
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'jobName',        title : '日志名称', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
-	            {field : 'jobClass', title : '日志类名', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true},
+	            {field : 'jobName',        title : '日志名称', style : 'cursor: pointer;', align : 'center',width:'20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
+	            {field : 'jobClass', title : '日志类名', style : 'cursor: pointer;', align : 'center',width:'33%',sort : true},
                 {field : 'logType', title : '日志类别', style : 'cursor: pointer;', align : 'center',width:'80',sort : true,templet:function(d){
-                    if(d.logType=='1'){return '成功'}else {return "失败"}
+                    if(d.logType=='1'){return '成功'}else {return "<span style='color:red' >失败</span>"}
                     }},
-	            {field : 'jobBiginTime', title : '任务开始时间', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true, templet : '#dateTp2'},
 	            {field : 'createTime', title : '日志时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'20%',sort : true}
            ]],
            done: function (res, curr, count) {

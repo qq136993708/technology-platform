@@ -38,9 +38,4 @@ public interface SysConfigService {
      */
     public Integer deleteSysConfig(SysConfig sysconfig);
     
-    /** 
-	 * @author zhf
-	 * 领导的显示配置功能
-	 */
-	public List selectUserShowConfigList(String userId);
 }
