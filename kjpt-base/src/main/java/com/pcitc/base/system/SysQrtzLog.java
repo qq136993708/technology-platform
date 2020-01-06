@@ -25,10 +25,19 @@ public class SysQrtzLog implements Serializable {
     private String title="";
     private String logType="";
     
+    private String createTimeStr="";
+    
+    
 
-   
+    public String getCreateTimeStr() {
+		return createTimeStr;
+	}
 
-    public String getTitle() {
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
+	public String getTitle() {
 		return title;
 	}
 
