@@ -108,8 +108,8 @@
     <select id="queryBiData" parameterType="java.util.Map" resultType="java.util.Map">
         select * from kjpt_bi.${tableName} where 1=1
         and DATE_SUB(CURDATE(), INTERVAL 1 DAY) <![CDATA[<=]]> date(date)
-        <if test="secretLevel !=null and secretLevel != ''">
-            and secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test="userSecretLevel !=null and userSecretLevel != ''">
+            and secretLevel <![CDATA[<=]]> #{userSecretLevel}
         </if>
     </select>
 
