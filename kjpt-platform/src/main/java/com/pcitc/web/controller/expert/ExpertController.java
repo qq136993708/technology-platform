@@ -394,7 +394,7 @@ public class ExpertController extends BaseController {
 					oldZjkBase.setKnowledgeScope(knowledgeScope);
 					oldZjkBase.setKnowledgePerson(knowledgePerson);
 				}
-				 
+
 			}
 			
 			
