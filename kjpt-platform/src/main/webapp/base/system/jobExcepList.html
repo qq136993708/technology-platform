@@ -12,13 +12,18 @@
        <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
-<body>
+<body style="padding: 15px">
 
-<div class="searchBox">
+<div class="searchBox" style="margin-bottom: 15px">
     <!--查询条件-->
+    <label class="dateInput" >
+        <span>日志名称:</span>
+        <input style="margin-left: 10px" type="text" name="jobName" placeholder="请输入日志名称" jobName="日志名称" autocomplete="off" class="form-control" id="jobName">
+    </label>
     <label class="dateInput">
-        <span>日志名称</span>
-        <input type="text" name="jobName" placeholder="请输入日志名称" jobName="日志名称" autocomplete="off" class="form-control" id="jobName">
+        <span>日志时间:</span>
+        <input style="margin-left: 10px;width: 24%" type="text" name="createTimeStr"
+               placeholder="请选择申请日期!" class="  laydate-input form-control" id="createTimeStr">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -73,15 +78,19 @@
 
 <script>
 var table,selectRowData;
-    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+    layui.use(['jquery','table','laypage','layer','laytpl','laydate'], function(){
            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
+            laydate=layui.laydate,
             laypage = layui.laypage;
 	     //加载表格      
 	     renderTable();
-	     
-	     
+
+        laydate.render({
+            elem: "#createTimeStr"
+            ,trigger: 'click'
+        });
 	     
 	     //移除表头的复选框,去掉全选
 	     $(".layui-table-header table thead th input").remove();  
@@ -129,10 +138,9 @@ var table,selectRowData;
            elem: '#processdef-table',
            url: '/sysJob/sys_job_excep_list',
            method:"POST",
-           where: {param: {"jobName":$("#jobName").val()}},
+           where: {param: {"jobName":$("#jobName").val(),'createTimeStr':$("#createTimeStr").val()}},
            limit: 15,
            id: 'processdef-table',
-           height: commonDislodgeTable(),
            page: {
                groups: 5,
                limits: [15,30,45,60],
@@ -142,10 +150,12 @@ var table,selectRowData;
                theme: '#0F9EE0'
            },
            cols: [[
-	           	{type : 'checkbox', event: 'changeEvents', width : 55},
 	           	{title : '序号', type : 'numbers', width : 55},
 	            {field : 'jobName',        title : '日志名称', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
 	            {field : 'jobClass', title : '日志类名', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true},
+                {field : 'logType', title : '日志类别', style : 'cursor: pointer;', align : 'center',width:'80',sort : true,templet:function(d){
+                    if(d.logType=='1'){return '成功'}else {return "失败"}
+                    }},
 	            {field : 'jobBiginTime', title : '任务开始时间', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true, templet : '#dateTp2'},
 	            {field : 'createTime', title : '日志时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'20%',sort : true}
            ]],
