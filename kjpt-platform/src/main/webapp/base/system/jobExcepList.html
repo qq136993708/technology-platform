@@ -17,8 +17,8 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>异常名称</span>
-        <input type="text" name="jobName" placeholder="请输入异常名称" jobName="异常名称" autocomplete="off" class="form-control" id="jobName">
+        <span>日志名称</span>
+        <input type="text" name="jobName" placeholder="请输入日志名称" jobName="日志名称" autocomplete="off" class="form-control" id="jobName">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -144,10 +144,10 @@ var table,selectRowData;
            cols: [[
 	           	{type : 'checkbox', event: 'changeEvents', width : 55},
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'jobName',        title : '异常名称', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
-	            {field : 'jobClass', title : '异常类名', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true},
+	            {field : 'jobName',        title : '日志名称', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
+	            {field : 'jobClass', title : '日志类名', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true},
 	            {field : 'jobBiginTime', title : '任务开始时间', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true, templet : '#dateTp2'},
-	            {field : 'createTime', title : '异常时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'20%',sort : true}
+	            {field : 'createTime', title : '日志时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'20%',sort : true}
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

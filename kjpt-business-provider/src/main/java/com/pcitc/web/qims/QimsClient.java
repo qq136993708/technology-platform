@@ -55,7 +55,7 @@ public class QimsClient {
 	@RequestMapping(value = "/qims-provider/qualityStatistics/qualityStatistics_excute/{keyStr}", method = RequestMethod.GET)
 	public JSONObject save(@PathVariable String keyStr) {
 		JSONObject jsonObject = new JSONObject(3);
-
+        StringBuffer sb=new StringBuffer();
 		String [] keyArray = keyStr.split(",");
 		for(String str:keyArray){
 			RestTemplate restTemplate = new RestTemplate();
@@ -68,10 +68,11 @@ public class QimsClient {
 			qualityStatistics.setDate(DateUtil.dateAdd(new Date(),-1));
 			qualityStatistics.setSecretLevel("4");
 			qimsService.save(qualityStatistics);
+			sb.append(QIMS_URL+str+"/kjpt").append(",");
 		}
 		jsonObject.put("code","success");
 		jsonObject.put("message","成功");
-		jsonObject.put("data","");
+		jsonObject.put("data",sb.toString());
 		return jsonObject;
 	}
 
