@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysCronExceptionLog;
-import com.pcitc.base.system.SysCronRecord;
+import com.pcitc.base.system.SysQrtzLog;
 import com.pcitc.base.system.SysJob;
 import com.pcitc.service.system.SysJobService;
 
@@ -46,11 +45,12 @@ public class SysJobProviderClient {
      * @param job
      * @return
      */
-    @RequestMapping(value = "/findSysExcepJob")
-    public Object findSysExcepJob(@RequestBody LayuiTableParam param){
-
-        return sysJobService.findSysExcepJob(param);
-    }
+	/*
+	 * @RequestMapping(value = "/findSysExcepJob") public Object
+	 * findSysExcepJob(@RequestBody LayuiTableParam param){
+	 * 
+	 * return sysJobService.findSysExcepJob(param); }
+	 */
     /**
      * 查询作业异常列表数据
      * @param job
@@ -68,7 +68,7 @@ public class SysJobProviderClient {
     
     
     @RequestMapping(value = "/getExcep/{id}", method = RequestMethod.GET)
-	public SysCronExceptionLog selectSysCronExceptionLogById(@PathVariable(value = "id", required = true) String id) throws Exception {
+	public SysQrtzLog selectSysCronExceptionLogById(@PathVariable(value = "id", required = true) String id) throws Exception {
 		logger.info("===============================get selectSysCronExceptionLogById id "+id+"===========");
 		return sysJobService.selectSysCronExceptionLog(id);
 	}
@@ -97,18 +97,13 @@ public class SysJobProviderClient {
      * @param sysCronRecord
      * @return
      */
-    @RequestMapping(value = "/saveSysExcepJob", method = RequestMethod.POST)
-    public int saveSysExcepJob(@RequestBody SysCronRecord sysCronRecord){
-        int result = 1;
-        try {
-            sysJobService.saveSysExcepJob(sysCronRecord);
-        } catch (Exception ex) {
-            result = -1;
-            logger.error("保存失败，错误信息："+ex.getMessage());
-            ex.printStackTrace();
-        }
-        return result;
-    }
+	/*
+	 * @RequestMapping(value = "/saveSysExcepJob", method = RequestMethod.POST)
+	 * public int saveSysExcepJob(@RequestBody SysCronRecord sysCronRecord){ int
+	 * result = 1; try { sysJobService.saveSysExcepJob(sysCronRecord); } catch
+	 * (Exception ex) { result = -1; logger.error("保存失败，错误信息："+ex.getMessage());
+	 * ex.printStackTrace(); } return result; }
+	 */
 
     /**
      * 根据id查询作业
