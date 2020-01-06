@@ -1,27 +1,30 @@
 package com.pcitc.service.job;
 
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.utils.RestfulHttpClient;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.pcitc.base.system.SysQrtzLog;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.config.SpringContextUtil;
+import com.pcitc.service.system.SysJobService;
+import com.pcitc.utils.RestfulHttpClient;
 
-
-@Component
 //质量系统获取数据
+@Service
 public class OutDataToBiJob implements Job, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String DATATOBI = "http://localhost:8080/cockpit/bi-api/dataToBi";
+	
+	public	SysJobService sysJobService = SpringContextUtil.getApplicationContext().getBean(SysJobService.class);
+	
 
 	@Override
 	public void execute(JobExecutionContext context) {
@@ -32,9 +35,23 @@ public class OutDataToBiJob implements Job, Serializable {
 					.get()              //设置post请求
 					.request();
 		} catch (IOException e) {
+			
 			e.printStackTrace();
 		}
-
+		
+		
+		
+		SysQrtzLog sysQrtzLog=new SysQrtzLog();
+		sysQrtzLog.setCreateTime(new Date());
+		sysQrtzLog.setJobBiginTime(new Date());
+		sysQrtzLog.setTitle("质量系统获取数据");
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		sysQrtzLog.setId(id);
+		try {
+			sysJobService.insertSysCronExceptionLog(sysQrtzLog);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println(response.getCode());     //响应状态码
 		System.out.println(response.getRequestUrl());//最终发起请求的地址
 		if(response.getCode() == 200){

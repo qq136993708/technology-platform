@@ -44,12 +44,16 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 			String token = null;
 			Cookie[] cookies = request.getCookies();
-			for (Cookie c : cookies) {
-				if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
-					token = c.getValue();
-					break;
+			if(cookies!=null)
+			{
+				for (Cookie c : cookies) {
+					if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
+						token = c.getValue();
+						break;
+					}
 				}
 			}
+			
 			//System.out.println(">>>>>>>token:"+token);
 			if (token != null && !token.equals("null")) {
 				httpHeaders.set("Authorization", "Bearer " + token);
