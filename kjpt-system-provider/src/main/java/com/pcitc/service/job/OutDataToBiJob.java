@@ -18,7 +18,7 @@ import java.util.List;
 
 @Component
 //质量系统获取数据
-public class OutBiDataJob implements Job, Serializable {
+public class OutDataToBiJob implements Job, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String DATATOBI = "http://localhost:8080/cockpit/bi-api/dataToBi";
