@@ -147,9 +147,14 @@
   
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="jobName != null and jobName  !='' ">               AND t.job_name like CONCAT('%',#{jobName},'%')</if>
+	     <if test="jobName != null and jobName  !='' ">           AND t.job_name like CONCAT('%',#{jobName},'%')</if>
 	     <if test="title != null and title  !='' ">               AND t.title like CONCAT('%',#{title},'%')</if>
-	 
+	     <if test="createTimeStr != null and createTimeStr  !='' ">     
+	     
+	               AND t.title like CONCAT('%',#{title},'%')
+	               
+	      </if>
+	     <if test="logType != null and logType !='' ">            AND t.log_type = #{logType}</if>
 	 </trim>
 	</sql>
     
