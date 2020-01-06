@@ -51,7 +51,7 @@
         <div  class="tableBtns">
             <button class="layui-btn border-blue" data-type="addEvent">新增</button>
             <button class="layui-btn border-blue"  data-type="editEvent">编辑</button>
-            <button class="layui-btn border-blue" data-type="deleteEvent" >删除</button>
+            <button class="layui-btn border-red" data-type="deleteEvent" >删除</button>
         </div>
     </div>
     <table id="dicTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -167,7 +167,6 @@
             where: {param: {"name":$("#name").val(),"parentId": '10001'}},
             limit: param.selfRownum,
             id: 'dictionary',
-            height: commonDislodgeTable(),  
             page: {
                 count: 500, //数据总数，从服务端得到
                 groups: 5,
