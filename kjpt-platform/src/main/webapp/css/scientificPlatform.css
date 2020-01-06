@@ -50,6 +50,9 @@
   line-height: 32px;
   color: #333;
   padding-bottom: 28px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .item-details-img .text-box .text-list li{
   line-height: 16px;

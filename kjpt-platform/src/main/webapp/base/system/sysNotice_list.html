@@ -23,7 +23,7 @@
 	<div class="layui-row searchBox">
 		<!--查询条件-->
 		<label class="dateInput">
-			<span>公告标题</span>
+			<span>公告标题:</span>
 			<input type="text" id="noticeTitle" name="noticeTitle" placeholder="请输入公告标题" title="公告标题" autocomplete="off" class="form-control">
 		</label>
 		<!--按钮组-->
@@ -81,7 +81,7 @@
                 {field:'isPublished', title:'是否发布' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
 	                	if(d.isPublished == 1){
-	                		return "<span style='color:green'>是<span>";
+	                		return "是";
 	                	} else {
 	                		return "否";
 	                	}
@@ -90,7 +90,7 @@
                 {field:'isVariable', title:'是否可用' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
 	                	if(d.isVariable == 1){
-	                		return "<span style='color:green'>是<span>";
+	                		return "是";
 	                	} else {
 	                		return "否";
 	                	}
@@ -99,7 +99,7 @@
                 {field:'isTopRoll', title:'是否首页滚动' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
 	                	if(d.isTopRoll == 1){
-	                		return "<span style='color:green'>是<span>";
+	                		return "是";
 	                	} else {
 	                		return "否";
 	                	}

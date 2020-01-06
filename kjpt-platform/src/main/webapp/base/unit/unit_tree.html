@@ -16,9 +16,8 @@
 	<script src="/layuiadmin/js/common.js"></script>
 </head>
 <style>
-    .rowForm{height: 226px;border-top:1px solid #e6e6e6;padding-right: 30px;}
+    .rowForm{height: 230px;border-top:1px solid #e6e6e6;padding-right: 30px;}
     .layui-textarea{min-height:28px;}
-    .treeBox{height: 100%;top: 0;}
     .layui-input, .layui-select{height: 28px;}
     .layui-input-block{min-height: 28px;}
 	.layui-side-scroll{height: 92%;}
@@ -41,8 +40,7 @@
 			<ul id="unitTree" class="ztree"></ul>
 		</div>
 	</div>
-    <div class="treeTableBox" style="margin-top: 10px;">
-   		<div class="tableToolBox"></div>
+    <div class="treeTableBox">
     	<form id="unit-form" name="unit-form" action="" lay-filter="unit-form" class="form-horizontal layui-form">
     	<div class="rowForm">
 	       <!--  <div class="layui-row">
@@ -206,6 +204,7 @@
 	    </div>
 	</form>    
     	<div class="tableToolBox">
+			<span style="    position: relative;top: 25px;">岗位设置</span>
 	        <div  class="tableBtns">
 	         	<button class="layui-btn border-blue" data-type="addPostEvent">新增</button>
             	<button class="layui-btn border-blue" data-type="editPostEvent">编辑</button>
@@ -359,10 +358,10 @@
 	            elem: '#postTable',
 	            url: '/post/get-post-by-unit',
 	            method:"POST",
+                height: 'full',
 	            where: {param: {"unitId":"00"}},
 	            limit : param.selfRownum,
 	            id: 'postTable',
-				height: "full-330",
 	            page: {
 	                groups: 5,
 	                limits : [ param.selfRownum, 15, 30, 45, 60 ],
