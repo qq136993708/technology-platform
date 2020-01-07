@@ -1,20 +1,21 @@
 package com.pcitc.web.controller.system;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,21 +27,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.system.SysCollect;
-import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.system.SysRole;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 import com.pcitc.web.utils.TokenInterUtils;
 
 import io.swagger.annotations.Api;
@@ -91,16 +91,43 @@ public class SysUserApiController extends BaseController{
 	
 	private static final String GET_POST_LIST_BYUNIT = "http://kjpt-zuul/system-proxy/post-provider/post/get-post-list";
 	
-	
+	private static final String ROLE_LIST_DATA = "http://kjpt-zuul/system-proxy/role_provider/list";
 
-	   // 待办任务数
-		private static final String PENDING_COUNT_URL = "http://kjpt-zuul/system-proxy/task-provider/getPendingCountByUserId/";
-
-	
-	/**
-	 * 我的收藏
-	 */
-	 private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/getSysCollectListByUserId/";
+	// 待办任务数
+	private static final String PENDING_COUNT_URL = "http://kjpt-zuul/system-proxy/task-provider/getPendingCountByUserId/";
+	private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/getSysCollectListByUserId/";
+	 
+	 
+	    @ApiOperation(value = "角色列表", notes = "角色列表")
+	    @ApiImplicitParams({
+	        @ApiImplicitParam(name = "roleName",           value = "角色名",      dataType = "string", paramType = "query"),
+	    })
+	    @RequestMapping(value = "/role-api/getRoleList", method = RequestMethod.GET)
+	   	public String getRolelist( @RequestParam(required = false) String roleName, HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	    	Result resultsDate = new Result();
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("roleName", roleName);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(ROLE_LIST_DATA, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<SysRole> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			resultsDate.setData(jSONArray);
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), SysRole.class);
+	   		}
+	   		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+	   	    return result.toString();
+	   	}
+	    
+	    
+	    
 	 
 	 
 	 
@@ -354,17 +381,14 @@ public class SysUserApiController extends BaseController{
 	
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserRole")
-	public String updateRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String updateRole(@RequestBody  SysUser sysUser,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
     	Result resultsDate = new Result();
-		String userId=CommonUtil.getParameter(request, "userId", "");
-		String userRole=CommonUtil.getParameter(request, "userRole", "");
-		String userRoleText=CommonUtil.getParameter(request, "userRoleText", "");
-	    System.out.println(">>>>>>>>>> 参数userPost: "+userRole);
-		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
+		
+		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + sysUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 		SysUser oldSysUser = se.getBody();
-		oldSysUser.setUserRole(userRole);
-		oldSysUser.setUserRoleText(userRoleText);
+		oldSysUser.setUserRole(sysUser.getUserRole());
+		oldSysUser.setUserRoleText(sysUser.getUserRoleText());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_ROLE_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		Integer dataId = responseEntity.getBody();
