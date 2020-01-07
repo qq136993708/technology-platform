@@ -151,9 +151,9 @@ var table,selectRowData;
            },
            cols: [[
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'jobName',        title : '日志名称', style : 'cursor: pointer;', align : 'center',width:'20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
-	            {field : 'jobClass', title : '日志类名', style : 'cursor: pointer;', align : 'center',width:'33%',sort : true},
-                {field : 'logType', title : '日志类别', style : 'cursor: pointer;', align : 'center',width:'80',sort : true,templet:function(d){
+	            {field : 'jobName',        title : '日志名称', style : 'cursor: pointer;', align : 'center',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.jobName+'</span>'},sort : true},
+	            {field : 'jobClass', title : '日志类名', style : 'cursor: pointer;', align : 'center',sort : true},
+                {field : 'logType', title : '日志类别', style : 'cursor: pointer;', align : 'center',width:"10%",sort : true,templet:function(d){
                     if(d.logType=='1'){return '成功'}else {return "<span style='color:red' >失败</span>"}
                     }},
 	            {field : 'createTime', title : '日志时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'20%',sort : true}
