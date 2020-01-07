@@ -79,6 +79,13 @@ public class BaseController implements ErrorController
 		return JwtTokenUtil.getUserFromTokenByValue(token);
 	}
 
+	public SysUser getUserProfile(String token) {
+		if(StringUtils.isBlank(token)){
+			return null;
+		}
+		return JwtTokenUtil.getUserFromTokenByValue(token);
+	}
+
 	public void setBaseParam(Map condition){
 		SysUser sysUserInfo = this.getUserProfile();
 		this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
@@ -118,6 +125,7 @@ public class BaseController implements ErrorController
 			throw sys;
 		}
 	}
+
 
 	/**
 	 * 返回当前Request对象
