@@ -19,22 +19,19 @@
     padding-left: 6.8rem;
 }
 .main_top {
-    height: 13.5rem;
-    padding-bottom: 1rem;
+    height: 10rem;
+    padding-bottom: 1.2rem;
 }
 .main_right .main_top {
-    height: 12.5rem;
     padding-bottom: 0;
 }
 .main_top .title {
-    margin-left: 1.7rem;
+    /* margin-left: 1.7rem; */
 }
 .main_bottom{
-    height: 30%;
-    padding: 0 1.5rem;
-}
-.main_bottom{
-    height: calc(100% - 13.5rem);
+    height: calc(100% - 10rem);
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
 .main_content{
@@ -44,6 +41,10 @@
 .main_left .main_content {
     padding-left: 1rem;
 }
+.main_left .main_top .main_content {
+    padding-left: 0;
+}
+
 .main_right .main_content {
     padding-top: 1.3rem;
     height: calc(100% - 2rem);
@@ -98,25 +99,20 @@
     float: left;
     width: 33.33%;
     height: 100%;
-    padding: .7rem .75rem 0;
+    padding: .7rem .75rem 0 0;
 }
 .circle{
-    height: calc(100% - 1.1rem);
+    height: 3.6rem;
     position: relative;
+    text-align: left;
 }
 .circle .bounce1{
-    width: 4.6rem;
-    height: 4.6rem;
-    line-height: 4.6rem;
-    background:#0060ab;
-    text-align: center;
-    border-radius: 2.3rem;
-    position:  absolute;
-    top: 50%;
-    margin-top: -2.3rem;
-    left: 50%;
-    margin-left: -2.3rem;
-    z-index: 1;
+    display: inline-block;
+    vertical-align: middle;
+    height: 2.4rem;
+    line-height: 2.4rem;
+    text-align: left;
+    text-shadow: 0 0 12px #0060ab;
 }
 .circle .bounce1 span{
     font-size: 2.2rem;
@@ -137,9 +133,9 @@
     left: 50%;
 }
 .circle_desc{
-    height: 1.1rem;
-    line-height: 1.1rem;
-    text-align: center;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: left;
 }
 .circle_desc span{
     font-size: 0.8rem;
@@ -152,9 +148,9 @@
     float: left;
     width: 33.3%;
     height: 100%;
-	justify-content: center;
+	justify-content: left;
 	flex-direction: column;
-	text-align: center;
+	text-align: left;
 }
 .zlxx_desc{
     height: 3.6rem;
