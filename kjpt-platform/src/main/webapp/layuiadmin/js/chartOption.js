@@ -12,8 +12,8 @@ var kyptCharts = {
     labelColor: '#46484B' // 图形上的文本标签（label） 的文字颜色
     label: true, // 是否显示文本标签; 默认为 true
     labelRotate: 0, // 类名轴显示文字旋转度数；默认为0
-    labelLenth: 8, // 类名轴显示文本超出多少长度时行显示
-    labelMaxNumber: 8, // 类名轴最多显示少个类名，超出滚动条
+    labelLenth: number, // 类名轴显示文本超出多少长度时行显示
+    labelMaxNumber: number, // 类名轴最多显示少个类名，超出滚动条
     color: Array<string|[string, string]> | string, // 图例对应的颜色，顺序与series对应；
     yAxis: Array<{}|null>, // {} 配置与官网数值轴一致； 当有两个数值轴时 yAxis必填； yAxis内对应的数值轴不配置传null;
     series: Array<{
