@@ -11,7 +11,7 @@
 .layui-table thead th:last-child {
   border-right: none;
 }
-.layui-table-view .layui-table-cell {
+.layui-table-view .layui-table-body .layui-table-cell {
   min-width: calc(100% - 5px);
   height: 40px;
   line-height: 40px;
