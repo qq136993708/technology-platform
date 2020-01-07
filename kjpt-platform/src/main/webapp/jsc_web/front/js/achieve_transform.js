@@ -46,14 +46,14 @@ layui.use(['laydate'], function() {
         }
       });
     },
-    appraisalTwo: function (date) {
+    appraisalTwo: function () {
       // 各单位成果转化激励人数
-      var chartData = [], itemName = ['研究院1', '研究院2', '研究院3', '研究院4', '研究院5', '研究院6', '研究院7', '研究院8', '研究院9'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i], value1: (parseInt(Math.random() * 100) + 100) // 100 ~ 200
-        });
-      }
+      // var chartData = [], itemName = ['研究院1', '研究院2', '研究院3', '研究院4', '研究院5', '研究院6', '研究院7', '研究院8', '研究院9'];
+      // for (var i = 0; i < itemName.length; i++) {
+      //   chartData.push({
+      //     name: itemName[i], value1: (parseInt(Math.random() * 100) + 100) // 100 ~ 200
+      //   });
+      // }
 
       kyptCharts.render({
         id: 'appraisal_two',
@@ -68,16 +68,16 @@ layui.use(['laydate'], function() {
         series: [
           { name: '激励人数', valueKey: 'value1'},
         ],
-        data: chartData,
+        data: [],
         color: ['#2BF3FF']
       });
 
       httpModule({
-        url: '/cockpit/results/conversion/numberIncentive',
-        type: 'POST',
+        url: '/cockpit/results/queryBIData/resultsConversionNumberincentive',
         success: function(res) {
+          debugger
           if (res.code === '0' || res.success === true) {
-            // kyptCharts.reload('appraisal_two', {data: res.data});
+            kyptCharts.reload('appraisal_two', {data: res.data});
           }
         }
       });
@@ -108,8 +108,7 @@ layui.use(['laydate'], function() {
       });
 
       httpModule({
-        url: '/cockpit/results/conversion/numByResultsType',
-        type: 'POST',
+        url: '/cockpit/results/queryBIData/resultsConversionNumbyresultstype',
         success: function(res) {
           if (res.code === '0' || res.success === true) {
             var chartData = [];
@@ -126,16 +125,16 @@ layui.use(['laydate'], function() {
     },
     appraisalFour: function(date) {
       // 各单位成果转化金额/激励金额
-      var time = date || '2019',
-      chartData = [];
+      // var time = date || '2019',
+      // chartData = [];
 
-      for (var i = 1; i < 13; i++) {
-        chartData.push({
-          name: i+'月',
-          value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value2: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
+      // for (var i = 1; i < 13; i++) {
+      //   chartData.push({
+      //     name: i+'月',
+      //     value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
+      //     value2: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
+      //   })
+      // }
 
       kyptCharts.render({
         id: 'appraisal_four',
@@ -151,16 +150,15 @@ layui.use(['laydate'], function() {
           { name: '转化金额', valueKey: 'value1'},
           { name: '激励金额', valueKey: 'value2'}
         ],
-        data: chartData,
+        data: [],
         color: ['#FF7F5D', '#FCFF00']
       })
 
       httpModule({
-        url: '/cockpit/results/conversion/numByIncentiveAmount',
-        type: 'POST',
+        url: '/cockpit/results/queryBIData/resultsOnversionNumbyincentiveamount',
         success: function(res) {
           if (res.code === '0' || res.success === true) {
-            // kyptCharts.reload('appraisal_four', {data: res.data});
+            kyptCharts.reload('appraisal_four', {data: res.data});
           }
         }
       });
