@@ -24,7 +24,7 @@ kyptCharts.render({
     id: 'chartsBox2',
     type: 'bar',
     valueIndex: 'x', // 横向配置
-    itemName: 'application_type_text',
+    itemName: 'applicationTypeText',
     legend: { left: 'right' },
     grid: { left: 40, top: 40, right: 20 },
     lineColor: '#1E5389',
@@ -45,7 +45,7 @@ kyptCharts.render({
 kyptCharts.render({
     id: 'chartsBox3',
     type: 'bar',
-    itemName: 'unit_name_text',
+    itemName: 'unitNameText',
     legend: { left: 'right' },
     grid: { left: 40, top: 40, right: 15 },
     lineColor: '#1E5389',
@@ -63,29 +63,26 @@ kyptCharts.render({
     color: ['#4526FF','#93E9FF','#EAFF74']
 })
 
-var api = {
-    numOrType: '/cockpit/knowledgeRight/numOrType', //专利类型占比
-    numOrUnit: '/cockpit/knowledgeRight/numOrUnit', //单位同比
-    numYearTrend: '/cockpit/knowledgeRight/numYearTrend' //年度趋势分析
+var api = {             
+    numOrType: '/cockpit/results/queryBIData/knowledgePatentInfoByPatenttype', //专利类型占比
+    numOrUnit: '/cockpit/results/queryBIData/knowledgePatentInfoByUnit', //单位同比
+    numYearTrend: '/cockpit/results/queryBIData/knowledgePatentInfoByApptype' //年度趋势分析
 }
 
 httpModule({
     url: api.numOrType,
-    type: 'POST',
     success: setNumOrType,
     error: msgErr
 })
 
 httpModule({
     url: api.numYearTrend,
-    type: 'POST',
     success: setNumYearTrend,
     error: msgErr
 })
 
 httpModule({
     url: api.numOrUnit,
-    type: 'POST',
     success: setNumOrUnit,
     error: msgErr
     
@@ -99,7 +96,7 @@ function msgErr (){
 function setNumOrType(result){
     if(result.code == 0){
         var relData = $.map(result.data, function(item, i) {
-            return { name: item.patent_type_text, value: item.count };
+            return { name: item.patentTypeText, value: item.count };
         });
         kyptCharts.reload('chartsBox1', {series: relData});
     }else{
