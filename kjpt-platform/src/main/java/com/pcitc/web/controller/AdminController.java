@@ -153,6 +153,9 @@ public class AdminController extends BaseController {
         String token = retJson.getString("token");
         SysUser su = JwtTokenUtil.getUserFromTokenByValue(token);
         String role = su.getUserRole();
+        if(StringUtils.isBlank(role)){
+            return false;
+        }
         if(role.contains(roleId)){
             return true;
         }
