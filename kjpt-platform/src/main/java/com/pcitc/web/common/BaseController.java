@@ -79,12 +79,6 @@ public class BaseController implements ErrorController
 		return JwtTokenUtil.getUserFromTokenByValue(token);
 	}
 
-	public SysUser getUserProfile(String token) {
-		if(StringUtils.isBlank(token)){
-			return null;
-		}
-		return JwtTokenUtil.getUserFromTokenByValue(token);
-	}
 
 	public void setBaseParam(Map condition){
 		SysUser sysUserInfo = this.getUserProfile();
@@ -98,7 +92,6 @@ public class BaseController implements ErrorController
 
 		this.setParam(condition,"skipKnowledgeScope",this.getCurrentRequest().getSession().getAttribute(sysUserInfo.getUserName()));
 	}
-
 
 	public void setIsWhiteList(){
 		//是否是白名单 0否1是
