@@ -180,28 +180,29 @@ kyptCharts.render({
     valueColor: '#fff',
     labelColor: '#fff',
     label: false,
-    itemName: 'name',
+    itemName: 'typeName',
     borderColor: '#001e38',
     title: '科研平台数量',
-    data: [
-        {name: '技术领域1', value: 143},
-        {name: '技术领域2', value: 423},
-        {name: '技术领域3', value: 63},
-        {name: '技术领域4', value: 93},
-        {name: '技术领域5', value: 113},
-        {name: '技术领域6', value: 203},
-        {name: '技术领域7', value: 120},
-        {name: '技术领域8', value: 69},
-        {name: '技术领域9', value: 91},
-        {name: '技术领域10', value: 210},
-        {name: '技术领域11', value: 150},
-        {name: '技术领域12', value: 50}
-    ],
-    series: [
-        {name: '数量', valueKey: 'value'},
-    ],
+    barMinHeight: 2,
+    // labelRotate: 30,
+    labelLenth: 9,
+    labelMaxNumber: 10,
+    data: [],
+    series: [ {name: '数量', valueKey: 'num'} ],
     color: [['#4E00FF', '#43F0FF']]
 });
+
+// 获取远端数据源
+httpModule({
+    url: '/cockpit/results/queryBIData/scientificResearchNumscientifictechnology',
+    success: function(res) {
+        if (res.code === '0' || res.success === true) {
+            kyptCharts.reload('kypt_charts5', {data: res.data}); 
+        }
+    }
+});
+
+
 
 
 
