@@ -879,8 +879,8 @@ public class UserServiceImpl implements UserService {
 				updateUserRole(user);
 			}
 		}
-		
 		oluser.setUserRole(user.getUserRole());
+		oluser.setUserRoleText(user.getUserRoleText());
 		return userMapper.updateByPrimaryKey(oluser);
 	}
 	

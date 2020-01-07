@@ -349,7 +349,9 @@ public class SysUserApiController extends BaseController{
     @ApiOperation(value = "修改角色信息", notes = "修改角色信息")
     @ApiImplicitParams({
     @ApiImplicitParam(name = "userId",       value = "主键", dataType = "string", paramType = "form",required=true),
-    @ApiImplicitParam(name = "userRole",     value = "用户角色编码（多个逗号分开）", dataType = "string", paramType = "form",required=true)
+    @ApiImplicitParam(name = "userRole",     value = "用户角色编码（多个逗号分开）", dataType = "string", paramType = "form",required=true),
+    @ApiImplicitParam(name = "userRoleText", value = "用户角色名称（多个逗号分开）", dataType = "string", paramType = "form",required=true)
+	
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/user-api/updateUserRole")
 	public String updateRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -357,10 +359,12 @@ public class SysUserApiController extends BaseController{
     	Result resultsDate = new Result();
 		String userId=CommonUtil.getParameter(request, "userId", "");
 		String userRole=CommonUtil.getParameter(request, "userRole", "");
+		String userRoleText=CommonUtil.getParameter(request, "userRoleText", "");
 	    System.out.println(">>>>>>>>>> 参数userPost: "+userRole);
 		ResponseEntity<SysUser> se = this.restTemplate.exchange(GET_USER_URL + userId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 		SysUser oldSysUser = se.getBody();
 		oldSysUser.setUserRole(userRole);
+		oldSysUser.setUserRoleText(userRoleText);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_ROLE_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		Integer dataId = responseEntity.getBody();
