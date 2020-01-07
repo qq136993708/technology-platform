@@ -187,6 +187,10 @@ kyptCharts.render({
     // labelRotate: 30,
     labelLenth: 9,
     labelMaxNumber: 10,
+    dataZoom:{
+        fillerColor: '#5074ca', // 滚动条颜色
+        backgroundColor: '#0d2b4f', // 滚动条背景色
+    },
     data: [],
     series: [ {name: '数量', valueKey: 'num'} ],
     color: [['#4E00FF', '#43F0FF']]
