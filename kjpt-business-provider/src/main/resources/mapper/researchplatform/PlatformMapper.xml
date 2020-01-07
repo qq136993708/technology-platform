@@ -68,11 +68,8 @@
     <select id="scienceStatistics" parameterType="java.util.Map" resultType="java.util.Map">
         select * from view_science_plan_report
         where 1=1
-        <if test="startYear != null and startYear != '' " >
-            and annualYear <![CDATA[>=]]> #{startYear}
-        </if>
-        <if test="endYear != null and endYear != '' " >
-            and annualYear <![CDATA[<=]]> #{endYear}
+        <if test="year != null and year != '' " >
+            and annualYear = #{year}
         </if>
         <if test="unitId != null and unitId != '' " >
             and unitId = #{unitId}
