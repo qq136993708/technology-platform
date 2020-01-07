@@ -385,14 +385,12 @@ $(document).ready(function() {
 
 //知识产权
 function loadZSCQData(){
-    $.ajax({
-        url: "/cockpit/index/knowledgeRightCount",
-        type: 'POST',
-        dataType: 'JSON',
+    httpModule({
+        url: "/cockpit/results/queryBIData/indexKnowledgeRightCount",
         success: function(result){
+            console.log(result)
             if(result.success==true){
                 $("#cgsj_num span").html(result.data[0].count);//成果数量
-                
                 $("#zhuanl_num span").html(result.data[1].count);//专利
                 $("#rjzzq_num span").html(result.data[2].count);//软件著作权
             }else{
@@ -415,7 +413,7 @@ function loadMAINData(type){
         dataType: 'JSON',
         success: function(result){
             if(result.success == true){
-                console.log(result);
+                // console.log(result);
 
                 if(type=="2"){
                     //成果信息 数据不对
