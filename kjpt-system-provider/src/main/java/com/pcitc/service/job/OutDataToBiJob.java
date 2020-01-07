@@ -7,17 +7,16 @@ import java.util.UUID;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.stereotype.Service;
+import org.quartz.JobKey;
 
 import com.pcitc.base.system.SysQrtzLog;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.system.SysJobService;
+import com.pcitc.utils.QrtzUtils;
 import com.pcitc.utils.RestfulHttpClient;
 
 //质量系统获取数据
-@Service
 public class OutDataToBiJob implements Job, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,29 +33,23 @@ public class OutDataToBiJob implements Job, Serializable {
 			response = RestfulHttpClient.getClient(DATATOBI)
 					.get()              //设置post请求
 					.request();
+			
+			//保存任务日志
+			QrtzUtils.saveSysQrtzLog(context, sysJobService, "1", "com.pcitc.service.job.OutDataToBiJob", "");
 		} catch (IOException e) {
 			
 			e.printStackTrace();
+			//保存任务日志
+			QrtzUtils.saveSysQrtzLog(context, sysJobService, "2", "com.pcitc.service.job.OutDataToBiJob", e.getMessage());
+			
 		}
 		
 		
-		
-		SysQrtzLog sysQrtzLog=new SysQrtzLog();
-		sysQrtzLog.setCreateTime(new Date());
-		sysQrtzLog.setJobBiginTime(new Date());
-		sysQrtzLog.setTitle("质量系统获取数据");
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		sysQrtzLog.setId(id);
-		try {
-			sysJobService.insertSysCronExceptionLog(sysQrtzLog);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println(response.getCode());     //响应状态码
-		System.out.println(response.getRequestUrl());//最终发起请求的地址
+		//System.out.println(response.getCode());     //响应状态码
+		//System.out.println(response.getRequestUrl());//最终发起请求的地址
 		if(response.getCode() == 200){
 			//请求成功
-			System.out.println(response.getContent());  //响应内容
+			System.out.println("响应内容:"+response.getContent());  //响应内容
 		}
 	}
 

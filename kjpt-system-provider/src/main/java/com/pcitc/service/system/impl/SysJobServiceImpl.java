@@ -40,8 +40,6 @@ public class SysJobServiceImpl implements SysJobService {
 
 	@Autowired
 	private SysJobMapper sysJobMapper;
-	//@Autowired
-	//private SysCronRecordMapper sysCronRecordMapper;
 	@Autowired
 	private SysQrtzLogMapper sysCronExceptionLogMapper;
 	
@@ -317,9 +315,15 @@ public class SysJobServiceImpl implements SysJobService {
 				PageHelper.startPage(pageNum, pageSize);
 						
 				String jobName=getTableParam(param,"jobName","");
+				String jobClass=getTableParam(param,"jobClass","");
+				String logType=getTableParam(param,"logType","");
+				String createTimeStr=getTableParam(param,"createTimeStr","");
 				
 				Map map=new HashMap();
 				map.put("jobName", jobName);
+				map.put("createTimeStr", createTimeStr);
+				map.put("logType", logType);
+				map.put("jobClass", jobClass);
 				
 				
 				List<SysQrtzLog> list = sysCronExceptionLogMapper.getList(map);

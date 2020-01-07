@@ -25,14 +25,14 @@
                 <input type="hidden" name="id" id="id" value="${sysCronExceptionLog.id}">
                 <input type="hidden" name="meetingDoc" id="meetingDoc" value="${sysCronExceptionLog.meetingDoc}">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">异常名称<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">日志名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" id="jobName" name="jobName" lay-verify="required"
                                value="${sysCronExceptionLog.jobName}" type="text">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">异常时间</label>
+                    <label class="layui-form-label">日志时间</label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" name="createTime" id="createTime" readonly="readonly"
                                value="${(sysCronExceptionLog.createTime?string('yyyy-MM-dd HH:mm:ss'))!}"
@@ -42,7 +42,7 @@
                 </div>
                
                 <div class="layui-form-item">
-                    <label class="layui-form-label">异常内容</label>
+                    <label class="layui-form-label">日志内容</label>
                     <div class="layui-input-block">
                         <textarea name="content" id="content" rows="20" style="height:90%"  class="layui-textarea readOnlyBox">${sysCronExceptionLog.content}</textarea>
                     </div>

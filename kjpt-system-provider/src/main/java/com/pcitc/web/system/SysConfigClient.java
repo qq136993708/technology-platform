@@ -84,17 +84,6 @@ public class SysConfigClient {
 		return rInt;
 	}
 	
-	/**
-	* @author zhf
-	* 领导的显示配置功能（统计、业务功能）
-	*/
-	@ApiOperation(value = "领导的显示配置功能", notes = "显示统计、业务功能")
-	@RequestMapping(value = "/sysconfig-provider/user/show/config/{userId}", method = RequestMethod.POST)
-	public Object selectUserShowConfigList(@PathVariable(value = "userId", required = true) String userId) {
-		System.out.println("selectUserShowConfigList==============领导的显示配置功能");
-		Object tem = sysConfigService.selectUserShowConfigList(userId);
-		return tem;
-	}
 	
 	
 }
