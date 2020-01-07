@@ -63,13 +63,17 @@
                 tableRender = true;
                 table.render({
                     elem: '#tableDemo'
-                    ,url: '/role/role-list' //数据接口
+                    ,url: '/user-api/query' //数据接口
                     ,cols: [[ //表头
-                        {type: 'radio', event: 'roleCheckboxEvent',width : 55}
-                        ,{title:'序号', type:'numbers',width : 55}
-                        , {field: 'roleName', title: '名称', style: 'cursor: pointer;'}
-                        , {field: 'roleFlag', title: '角色编码', style: 'cursor: pointer;'}
-                        , {field: 'roleComment', title: '备注', style: 'cursor: pointer;'}
+                        {type: 'numbers', title: '序号', width: 80}
+                        ,{field: 'userName', title: '登录名称'}
+                        ,{field: 'userDisp', title: '展示名称', sort: true }
+                        ,{field: 'userUnitName', title: '所属机构', sort: true }
+                        ,{field: 'postName', title: '所属岗位', sort: true}
+                        ,{field: 'userRoleText', title: '所属角色', sort: true}
+                        ,{field: 'userMail', title: '邮箱'}
+                        ,{field: 'userPhone', title: '座机号', sort: true}
+                        ,{field: 'userMobile', title: '手机号', sort: true}
                         ,{title: '操作', templet: function(d) {
                                 var html='<a id="'+d.userId+'" class="distribution link-text recordDetails">分配</a>'
                                 return html
@@ -89,7 +93,7 @@
                             top.layer.open({
                                 type: 2,
                                 title: "岗位分配",
-                                content: "/base/user/user_post_edit.html?id="+$(this).attr("id"), // 全局弹窗页面地址
+                                content: "/base/auth/assign_edit.html?id="+$(this).attr("id"), // 全局弹窗页面地址
                                 btn: null,
                                 area: ['40%', '60%'],
                                 end: function(lay, index) {
