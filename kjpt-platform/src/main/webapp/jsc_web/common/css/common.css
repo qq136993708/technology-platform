@@ -560,7 +560,20 @@ html {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
+.jsc_wrapper .header_user .link{
+    cursor: pointer;
+    font-size: .7rem;
+}
+.jsc_wrapper .header_user .link:hover {
+    text-decoration: underline;
+    opacity: .8;
+}
+.jsc_wrapper .header_user .use-text{
+    font-size: 12px;
+}
+.jsc_wrapper .header_user > .ib-block{
+    display: block;
+}
 
 
 

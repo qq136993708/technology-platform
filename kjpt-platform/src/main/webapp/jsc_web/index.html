@@ -59,9 +59,12 @@
                     <span>截止到：</span>
                     <span id="formatDate">2019年5月23日  10:20:36 </span>
                 </div>
-                <div class="header_user middle-block">
-                    <span>中核集团用户</span>
-                    <img src="/jsc_web/img/exit.png" style="width: 14px;height: 14px;" alt="">
+                <div class="header_user">
+                    <div class="ib-block">
+                        <span class="use-text">中核集团用户</span>
+                        <img src="/jsc_web/img/exit.png" style="width: 14px; height: 14px;" alt="">
+                    </div>
+                    <div class="ib-block link">进入管理平台>></div>
                 </div>
             </div>
             <div class="header-bottom-bg"></div>
@@ -165,6 +168,11 @@
                     $('#mainframe').attr('src', pageHref);
                 }
             });
+
+            // 跳转到科技平台管理页面
+            $('.header_user').on('click', '.link', function() {
+                window.open('/index', 'kjpt_webapp');
+            })
         });
     </script>
 </body>
