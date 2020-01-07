@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -120,5 +122,15 @@ public class RoleProviderClient {
 	public String getRoleCode(@RequestBody SysRole role) {
 		
 		return roleService.getRoleCode(role);
+	}
+	
+	
+	@ApiOperation(value="获取角色列表(不分页)",notes="获取所有角色信息，不分页。")
+	@RequestMapping(value = "/role_provider/list", method = RequestMethod.POST)
+	public JSONArray getList(@RequestBody Map map)throws Exception
+	{
+		List list=roleService.getList(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
 	}
 }

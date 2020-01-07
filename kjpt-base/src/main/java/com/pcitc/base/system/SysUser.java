@@ -54,15 +54,7 @@ public class SysUser {
 
 	private String loginCheckCode;
 
-	/*
-	 * private String userConfig1;
-	 * 
-	 * private String userConfig2;
-	 * 
-	 * private String userConfig3;
-	 * 
-	 * private String userConfig4;
-	 */
+	
 
 	//用户登录IP
 	private String lastLoginIp;
