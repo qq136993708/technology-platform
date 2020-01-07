@@ -12,6 +12,8 @@ var kyptCharts = {
     labelColor: '#46484B' // 图形上的文本标签（label） 的文字颜色
     label: true, // 是否显示文本标签; 默认为 true
     labelRotate: 0, // 类名轴显示文字旋转度数；默认为0
+    labelLenth: 8, // 类名轴显示文本超出多少长度时行显示
+    labelMaxNumber: 8, // 类名轴最多显示少个类名，超出滚动条
     color: Array<string|[string, string]> | string, // 图例对应的颜色，顺序与series对应；
     yAxis: Array<{}|null>, // {} 配置与官网数值轴一致； 当有两个数值轴时 yAxis必填； yAxis内对应的数值轴不配置传null;
     series: Array<{
@@ -23,6 +25,7 @@ var kyptCharts = {
     }>,
     data: Array<any>, // type = 'line'|'bar'时有效；图例数据源
     barWidth: number, // 柱子的宽度
+    barMinHeight: 0, // 柱子的最小高度
     barGap: 0, // 同一类名区域有多个柱子时柱子间的间隔； 默认为0；
     valueIndex: 'y' | 'x', // 用哪个轴作为数值轴； 默认为y轴
     legendPosition: 'left|right|top|bottom',
@@ -164,6 +167,7 @@ var kyptCharts = {
         // type: 'pictorialBar',
         barMaxWidth: config.barWidth || barMaxWidth,
         barWidth: config.barWidth || barMaxWidth,
+        barMinHeight: config.barMinHeight || 0,
         barGap: config.barGap || 0,
         label: {
           show: true,
@@ -190,9 +194,22 @@ var kyptCharts = {
       }
       seriesData.push(seriesItem);
     })
-  
+    
+    // 超出长度换行显示
+    var textLenth = config.labelLenth;
     $.each(config.data, function(i, item) {
-      categoryData.push(item[config.itemName]);
+      var itemName = item[config.itemName],
+      newText = '';
+      if (textLenth && itemName.length > textLenth) {
+        var maxLenth = Math.ceil(itemName.length / textLenth);
+        for (var i = 0; i < maxLenth; i++) {
+          newText += (itemName.substr(i*textLenth, textLenth) + '\n');
+        }
+        newText = newText.substring(0, newText.length - 2);
+      } else {
+        newText = itemName;
+      }
+      categoryData.push(newText);
     })
   
     var itemCategory = [{
@@ -312,6 +329,45 @@ var kyptCharts = {
     } else {
       option.xAxis = itemCategory;
       option.yAxis = itemValueAxis;
+
+      // 是否添加横向滚动条
+      if (config.labelMaxNumber) {
+        for(var i = 0; i < option.xAxis.length; i++) {
+          // 显示所有类目名
+          option.xAxis[i].axisLabel.interval = 0;
+        }
+
+        if (categoryData.length > config.labelMaxNumber) {
+          option.dataZoom = {
+            show: true,
+            realtime: true,
+            type: 'slider',
+            left: option.grid.left,
+            right: option.grid.right,
+            startValue: 0,
+            endValue: (config.labelMaxNumber - 1),
+            showDetail: false,
+            showDataShadow: false,
+            filterMode: 'none',
+            height: 18,
+            fillerColor: '#f00',
+            handleStyle: { opacity: 0 },
+            dataBackground: { lineStyle: {opacity: 0}, areaStyle: {opacity: 0} },
+            backgroundColor: '#fff'
+          };
+
+          if (config.dataZoom) {
+            for (var key in config.dataZoom) {
+              option.dataZoom[key] = config.dataZoom[key];
+            }
+          }
+          if (typeof(option.grid.bottom) === 'number') {
+            option.grid.bottom += 30;
+          } else {
+            option.grid.bottom = 60;
+          }
+        }
+      }
     }
     return option;
   },
