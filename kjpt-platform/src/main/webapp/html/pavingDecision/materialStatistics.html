@@ -18,17 +18,11 @@
 <div class="layout-view-content min-label">
   <form class="layui-form" action="" lay-filter="pavingDecision">
     <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md5">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">年度：</span></label>
-          <div class="layui-input-block font0">
-            <div class="ib-block" style="width: calc(50% - 15px)">
-              <input type="text" name="startYear" id="startYear" autocomplete="off" class="laydate-input">
-            </div>
-            <div class="ib-block text-center font14" style="width: 30px;">-</div>
-            <div class="ib-block" style="width: calc(50% - 15px)">
-              <input type="text" name="endYear" id="endYear" autocomplete="off" class="laydate-input">
-            </div>
+          <div class="layui-input-block">
+            <input type="text" name="year" id="startYear" autocomplete="off" class="laydate-input">
           </div>
         </div>
       </div>
@@ -44,7 +38,7 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="submitBtn">查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
       </div>
@@ -111,7 +105,6 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
   }
 
   laydate.render({elem: '#startYear', type: 'year'});
-  laydate.render({elem: '#endYear', type: 'year'});
 
   form.on('submit(submitBtn)', function(data) {
     var searchData = data.field;
@@ -139,8 +132,7 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
           return '';
         }
       })(),
-      startYear: formValue.startYear,
-      endYear: formValue.endYear
+      year: formValue.year
     },
     exportUrl = '';
 
