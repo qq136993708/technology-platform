@@ -1,6 +1,7 @@
 package com.pcitc.service.expert.impl;
 
 import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.service.expert.ExpertPatentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,11 @@ public class ExpertPatentServiceImpl implements ExpertPatentService {
 
     @Override
     public List<ZjkPatent> queryNoPage(Map paramMap) {
-        return  zjkPatentMapper.query(paramMap);
+        List<ZjkPatent> zjkPatentList = zjkPatentMapper.query(paramMap);
+        zjkPatentList.forEach(zjkPatent -> {
+            zjkPatent.setGetPatentTimeStr(DateUtil.format(zjkPatent.getGetPatentTime(),DateUtil.FMT_SS));
+        });
+        return zjkPatentList;
     }
 
 }
