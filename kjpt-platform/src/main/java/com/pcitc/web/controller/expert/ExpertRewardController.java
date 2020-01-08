@@ -84,7 +84,7 @@ public class ExpertRewardController extends RestBaseController {
         
     })
     @RequestMapping(value = "/expert-reward-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public JSONArray getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
@@ -110,7 +110,7 @@ public class ExpertRewardController extends RestBaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家奖励列表（分页） " + result.toString());
-		return result.toString();
+		return result.getJSONArray("data");
 	}
 
     

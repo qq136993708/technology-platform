@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
-import com.pcitc.base.researchplatform.PlatformProjectModel;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
@@ -21,13 +21,9 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.RestMessage;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -87,7 +83,7 @@ public class ExpertPatentController extends RestBaseController {
         
     })
     @RequestMapping(value = "/expert-patent-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public JSONArray getExpertPage(
 			
 
 			@RequestParam(required = false) Integer page,
@@ -114,7 +110,7 @@ public class ExpertPatentController extends RestBaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家专利列表（分页） " + result.toString());
-		return result.toString();
+		return result.getJSONArray("data");
 	}
 
     

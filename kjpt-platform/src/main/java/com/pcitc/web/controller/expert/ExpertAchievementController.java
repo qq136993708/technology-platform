@@ -89,7 +89,7 @@ public class ExpertAchievementController extends RestBaseController {
     })
     
     @RequestMapping(value = "/expert-achievement-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public JSONArray getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
@@ -115,7 +115,7 @@ public class ExpertAchievementController extends RestBaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家成果列表（分页） " + result.toString());
-		return result.toString();
+		return result.getJSONArray("data");
 	}
 
     

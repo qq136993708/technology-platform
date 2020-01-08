@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.*;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
@@ -81,7 +82,7 @@ public class ExpertProjectController extends RestBaseController {
         
     })
     @RequestMapping(value = "/expert-project-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public JSONArray getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
@@ -107,7 +108,7 @@ public class ExpertProjectController extends RestBaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家项目列表（分页） " + result.toString());
-		return result.toString();
+		return result.getJSONArray("data");
 	}
 
     
