@@ -817,7 +817,6 @@ if (WebComponents.flags.shadow) {
     }
     function getTreeScope(node) {
       if (node instanceof scope.wrappers.Window) {
-        debugger;
       }
       if (node.treeScope_) return node.treeScope_;
       var parent = node.parentNode;

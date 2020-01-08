@@ -287,7 +287,6 @@
                     var selectedArr=$("#tree").data("treeview").getSelected();
                     var selectedNode=selectedArr.length>0?selectedArr[0]:null;
                     console.log(action);
-//                    debugger;
 
                     switch (action) {
 					case 'addRoot':
@@ -336,7 +335,6 @@
 						formReadonly();
 						$(".box-header button[data-btn-type='delete']").removeClass("btn-default").addClass("btn-primary");
                             console.log(selectedNode.nodes);
-//                        debugger;
 					    if(selectedNode.nodes!=0){
 					    	modals.info('该节点含有子节点，请先删除子节点');
 					    	return false;
@@ -429,7 +427,6 @@
 //					$("input[name='menuOrder']").val(getNextCode(selectedNode.menuOrder,menuOrder,6));
 			    }else{
 					var parentNode=$("#tree").data("treeview").getNode(0);
-//                    debugger;
 //                    $("input[name='menuParentid']").val(selectedNode.id);
 //					var menuOrder = "000000";
 					if (parentNode) {

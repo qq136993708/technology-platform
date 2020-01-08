@@ -75,7 +75,6 @@ layui.use(['laydate'], function() {
       httpModule({
         url: '/cockpit/results/queryBIData/resultsConversionNumberincentive',
         success: function(res) {
-          debugger
           if (res.code === '0' || res.success === true) {
             kyptCharts.reload('appraisal_two', {data: res.data});
           }
