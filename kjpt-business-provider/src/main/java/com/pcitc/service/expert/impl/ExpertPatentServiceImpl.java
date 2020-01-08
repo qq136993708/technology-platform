@@ -1,0 +1,25 @@
+package com.pcitc.service.expert.impl;
+
+import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.mapper.expert.ZjkPatentMapper;
+import com.pcitc.service.expert.ExpertPatentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author ty
+ */
+@Service
+public class ExpertPatentServiceImpl implements ExpertPatentService {
+    @Autowired
+    private ZjkPatentMapper zjkPatentMapper;
+
+    @Override
+    public List<ZjkPatent> queryNoPage(Map paramMap) {
+        return  zjkPatentMapper.query(paramMap);
+    }
+
+}
