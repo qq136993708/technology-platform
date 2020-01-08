@@ -172,7 +172,7 @@ public class ExpertProjectController extends RestBaseController {
     })
    
     @RequestMapping(method = RequestMethod.POST, value = "/expert-project-api/save")
-	public String saveExpertpatent(@RequestBody  ZjkProject zjkProject,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject saveExpertpatent(@RequestBody  ZjkProject zjkProject,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	Result resultsDate = new Result();
     	String id=zjkProject.getId();
@@ -271,7 +271,7 @@ public class ExpertProjectController extends RestBaseController {
 			}
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result;
     }
 
 	@ApiOperation(value="导出excel")
