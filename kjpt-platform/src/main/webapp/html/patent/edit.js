@@ -151,11 +151,18 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
     }
  
-  
+    // 申请日期
     laydate.render({
       elem: '#applicationDate' //指定元素
       ,trigger: 'click'
     });
+
+    // 失效日期
+    laydate.render({
+      elem: '#expirationDate' //指定元素
+      ,trigger: 'click'
+    });
+    
 
     laydate.render({
         elem: '#entryDate' //指定元素

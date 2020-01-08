@@ -217,11 +217,10 @@ layui.config({
       if (res.code === '0' || res.code === 0) {
         $('#expertNumber').text(res.count)
       } else {
-        $('#expertNumber').text(0)
+        $('#expertNumber').text(0);
       }
     }
   })
-
   
   // 获取科研平台数量
   httpModule({
