@@ -119,7 +119,7 @@ public class ExpertRewardController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID删除专家奖励信息", notes = "根据ID删除专家奖励信息")
 	@RequestMapping(value = "/expert-reward-api/delete/{id}", method = RequestMethod.GET)
-	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -132,7 +132,7 @@ public class ExpertRewardController extends RestBaseController {
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return ob.toString();
+		return ob;
 	}
     
     
@@ -141,7 +141,7 @@ public class ExpertRewardController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID获取专家奖励信息详情", notes = "根据ID获取专家奖励信息详情")
 	@RequestMapping(value = "/expert-reward-api/get/{id}", method = RequestMethod.GET)
-	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
     	ResponseEntity<ZjkReward> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkReward.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -154,7 +154,7 @@ public class ExpertRewardController extends RestBaseController {
 			resultsDate = new Result(false, "根据ID获取专家奖励信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result.getJSONObject("data");
 	}
     
     
@@ -171,7 +171,7 @@ public class ExpertRewardController extends RestBaseController {
         @ApiImplicitParam(name = "secretLevel",     value = "信息密级",                 dataType = "string", paramType = "form",required=true)
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-reward-api/save")
-   	public String saveExpertpatent(@RequestBody  ZjkReward zjkReward,HttpServletRequest request, HttpServletResponse response) throws Exception {
+   	public JSONObject saveExpertpatent(@RequestBody  ZjkReward zjkReward,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
        	Result resultsDate = new Result();
        	String id=zjkReward.getId();
@@ -275,7 +275,7 @@ public class ExpertRewardController extends RestBaseController {
    			}
    		}
    		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-   		return result.toString();
+   		return result;
        }
 
 
@@ -288,8 +288,8 @@ public class ExpertRewardController extends RestBaseController {
 	public void export(@RequestParam String expertId) throws Exception {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
-		String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述","密级"};
-		String[] cols =    {"patentName","patentTypeText","applicationDate","remark","secretLevelText"};
+		String[] headers = { "奖励级别",  "奖励描述",    "授奖单位"  , "奖励时间","密级"};
+		String[] cols =    {"rewarkLevelStr","notes","awardingUnit","awardingTimeStr","secretLevelStr"};
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);

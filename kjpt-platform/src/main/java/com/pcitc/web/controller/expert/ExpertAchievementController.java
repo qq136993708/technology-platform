@@ -124,7 +124,7 @@ public class ExpertAchievementController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID删除专家成果信息", notes = "根据ID删除专家成果信息")
 	@RequestMapping(value = "/expert-achievement-api/delete/{id}", method = RequestMethod.GET)
-	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -137,7 +137,7 @@ public class ExpertAchievementController extends RestBaseController {
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return ob.toString();
+		return ob;
 	}
     
     
@@ -146,7 +146,7 @@ public class ExpertAchievementController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID获取专家成果信息详情", notes = "根据ID获取专家成果信息详情")
 	@RequestMapping(value = "/expert-achievement-api/get/{id}", method = RequestMethod.GET)
-	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
     	ResponseEntity<ZjkAchievement> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkAchievement.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -159,7 +159,7 @@ public class ExpertAchievementController extends RestBaseController {
 			resultsDate = new Result(false, "根据ID获取专家成果信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result.getJSONObject("data");
 	}
     
     
@@ -183,7 +183,7 @@ public class ExpertAchievementController extends RestBaseController {
     })
    
     @RequestMapping(method = RequestMethod.POST, value = "/expert-achievement-api/save")
-	public String saveExpert(@RequestBody  ZjkAchievement zjkAchievement,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject saveExpert(@RequestBody  ZjkAchievement zjkAchievement,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	Result resultsDate = new Result();
     	String id=zjkAchievement.getId();
@@ -280,7 +280,7 @@ public class ExpertAchievementController extends RestBaseController {
 			}
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result;
     }
 
 	@ApiOperation(value="导出excel")
@@ -290,12 +290,12 @@ public class ExpertAchievementController extends RestBaseController {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
 		String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度","密级"};
-		String[] cols =    {"achievementName","applicantUnitText","achievementTypeText","applicantYear","secretLevelText"};
+		String[] cols =    {"achieveName","applyUnitStr","achieveTypeStr","applyYear","secretLevelStr"};
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
 		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ZjkAchievement.class);
-		String fileName = "科研平台成果表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+		String fileName = "专家信息管理成果表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
 		this.exportExcel(headers,cols,fileName,list);
 	}
 }

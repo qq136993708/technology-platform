@@ -68,7 +68,7 @@ public class ExpertProjectController extends RestBaseController {
 	/**
 	 * 查询专家信息管理项目列表不分页
 	 */
-	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertPorject-api/queryNoPage";
+	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertProject-api/queryNoPage";
 	
 	
 	/**
@@ -117,7 +117,7 @@ public class ExpertProjectController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID删除专家项目信息", notes = "根据ID删除专家项目信息")
 	@RequestMapping(value = "/expert-project-api/delete/{id}", method = RequestMethod.GET)
-	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -130,7 +130,7 @@ public class ExpertProjectController extends RestBaseController {
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return ob.toString();
+		return ob;
 	}
     
     
@@ -139,7 +139,7 @@ public class ExpertProjectController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID获取专家项目信息详情", notes = "根据ID获取专家项目信息详情")
 	@RequestMapping(value = "/expert-project-api/get/{id}", method = RequestMethod.GET)
-	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
     	ResponseEntity<ZjkProject> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkProject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -152,7 +152,7 @@ public class ExpertProjectController extends RestBaseController {
 			resultsDate = new Result(false, "根据ID获取专家项目信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result.getJSONObject("data");
 	}
     
     
@@ -281,11 +281,11 @@ public class ExpertProjectController extends RestBaseController {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
 		String[] headers = { "项目名称",  "负责单位",    "立项年度","密级" };
-		String[] cols =    {"projectName","dutyInstitutionsText","approvalYear","secretLevelText"};
+		String[] cols =    {"projectName","chargeUnitStr","setupYeat","secretLevelStr"};
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
-		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformProjectModel.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ZjkProject.class);
 		String fileName = "专家信息管理项目表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
 		this.exportExcel(headers,cols,fileName,list);
 	}

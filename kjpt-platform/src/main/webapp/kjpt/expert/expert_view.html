@@ -86,7 +86,7 @@
                             <a class="layui-btn border-blue openDialog" data-type="projectEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="projectDelete" button-role="delete">删除</a>
                             <button class="layui-btn border-blue exportDown" download-templet="zjxxglxm_template" button-role="import">模版下载</button>
-                            <button class="layui-btn border-blue importData" data-item="6" button-role="export">导出</button>
+                            <button class="layui-btn border-blue importData" data-item="1" button-role="export">导出</button>
                             <div class="ib-button" id="export_zl" export-type="zjxxglProjectImp">
                                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
                             </div>
@@ -102,7 +102,7 @@
                             <a class="layui-btn border-blue openDialog" data-type="achievementsEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="achievementsDelete" button-role="delete">删除</a>
                             <button class="layui-btn border-blue exportDown" download-templet="zjxxglcg_template" button-role="import">模版下载</button>
-                            <button class="layui-btn border-blue importData" data-item="6" button-role="export">导出</button>
+                            <button class="layui-btn border-blue importData" data-item="2" button-role="export">导出</button>
                             <div class="ib-button" id="export_zl" export-type="zjxxglAchievementImp">
                                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
                             </div>
@@ -118,7 +118,7 @@
                             <a class="layui-btn border-blue openDialog" data-type="patentEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="patentDelete" button-role="delete">删除</a>
                             <button class="layui-btn border-blue exportDown" download-templet="zjxxglzl_template" button-role="import">模版下载</button>
-                            <button class="layui-btn border-blue importData" data-item="6" button-role="export">导出</button>
+                            <button class="layui-btn border-blue importData" data-item="3" button-role="export">导出</button>
                             <div class="ib-button" id="export_zl" export-type="zjxxglPatentImp">
                                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
                             </div>
@@ -134,7 +134,7 @@
                             <a class="layui-btn border-blue openDialog" data-type="rewardEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="rewardDelete" button-role="delete">删除</a>
                             <button class="layui-btn border-blue exportDown" download-templet="zjxxgljl_template" button-role="import">模版下载</button>
-                            <button class="layui-btn border-blue importData" data-item="6" button-role="export">导出</button>
+                            <button class="layui-btn border-blue importData" data-item="4" button-role="export">导出</button>
                             <div class="ib-button" id="export_zl" export-type="zjxxglRewardImp">
                                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
                             </div>
@@ -455,19 +455,19 @@
             switch ($(this).data('item')+'') {
                 case '1':
                     // 项目
-                    importUrl =  '/platformProject-api/export?expertId='+ variable.id;
+                    importUrl =  '/expertProject-api/export?expertId='+ variable.id;
                     break;
                 case '2':
                     // 成果
-                    importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
+                    importUrl =  '/expertAchievement-api/export?expertId='+ variable.id;
                     break;
                 case '3':
                     // 专利
-                    importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
+                    importUrl =  '/expertPatent-api/export?expertId='+ variable.id;
                     break;
                 case '4':
                     // 奖励
-                    importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
+                    importUrl =  '/expertReward-api/export?expertId='+ variable.id;
                     break;
             }
             window.open(importUrl, '_blank');

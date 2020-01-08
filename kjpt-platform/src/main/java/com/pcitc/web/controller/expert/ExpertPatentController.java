@@ -119,7 +119,7 @@ public class ExpertPatentController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID删除专家专利信息", notes = "根据ID删除专家专利信息")
 	@RequestMapping(value = "/expert-patent-api/delete/{id}", method = RequestMethod.GET)
-	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -132,7 +132,7 @@ public class ExpertPatentController extends RestBaseController {
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return ob.toString();
+		return ob;
 	}
     
     
@@ -141,7 +141,7 @@ public class ExpertPatentController extends RestBaseController {
 	 */
     @ApiOperation(value = "根据ID获取专家专利信息详情", notes = "根据ID获取专家专利信息详情")
 	@RequestMapping(value = "/expert-patent-api/get/{id}", method = RequestMethod.GET)
-	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
     	ResponseEntity<ZjkPatent> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkPatent.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -154,7 +154,7 @@ public class ExpertPatentController extends RestBaseController {
 			resultsDate = new Result(false, "根据ID获取专家专利信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result.getJSONObject("data");
 	}
     
     
@@ -175,7 +175,7 @@ public class ExpertPatentController extends RestBaseController {
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-patent-api/save")
-	public String saveExpertpatent(@RequestBody  ZjkPatent zjkPatent,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject saveExpertpatent(@RequestBody  ZjkPatent zjkPatent,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	Result resultsDate = new Result();
     	String id=zjkPatent.getId();
@@ -283,7 +283,7 @@ public class ExpertPatentController extends RestBaseController {
 			}
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result;
     }
 
 	@ApiOperation(value="导出excel")
@@ -293,7 +293,7 @@ public class ExpertPatentController extends RestBaseController {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
 		String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述","密级"};
-		String[] cols =    {"patentName","patentTypeText","applicationDate","remark","secretLevelText"};
+		String[] cols =    {"patentName","patentTypeStr","getPatentTimeStr","describe","secretLevelStr"};
 		this.setBaseParam(condition);
 		//默认查询当前人所在机构下所有的科研平台
 		//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
@@ -301,7 +301,7 @@ public class ExpertPatentController extends RestBaseController {
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
 		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ZjkPatent.class);
-		String fileName = "科研平台专利表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+		String fileName = "专家信息管理专利表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
 		this.exportExcel(headers,cols,fileName,list);
 	}
 }
