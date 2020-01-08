@@ -79,6 +79,7 @@ public class BaseController implements ErrorController
 		return JwtTokenUtil.getUserFromTokenByValue(token);
 	}
 
+
 	public void setBaseParam(Map condition){
 		SysUser sysUserInfo = this.getUserProfile();
 		this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
@@ -91,7 +92,6 @@ public class BaseController implements ErrorController
 
 		this.setParam(condition,"skipKnowledgeScope",this.getCurrentRequest().getSession().getAttribute(sysUserInfo.getUserName()));
 	}
-
 
 	public void setIsWhiteList(){
 		//是否是白名单 0否1是
@@ -118,6 +118,7 @@ public class BaseController implements ErrorController
 			throw sys;
 		}
 	}
+
 
 	/**
 	 * 返回当前Request对象

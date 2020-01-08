@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.eetrust.security.MessageConstants;
 import com.eetrust.security.SIDPlugin;
+import com.itextpdf.text.log.SysoCounter;
+import com.pcitc.web.common.JwtTokenUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -74,6 +76,9 @@ public class AdminController extends BaseController {
     @Value("${sosPortlURL}")
     private String sosPortlURL;
 
+    @Value("${whiteRoleId}")
+    private String roleId;
+
     private Integer TIME_OUT = 1 * 60 * 60;
 
     @RequestMapping(value = "/login")
@@ -99,6 +104,10 @@ public class AdminController extends BaseController {
         }
 
         boolean result = buildTokenByPassword(userName, MD5Util.MD5Encode(password));
+        boolean isWhite = isWhite(userName, MD5Util.MD5Encode(password));
+        if(isWhite){
+            return "redirect:/jsc_web/index.html";
+        }
         if(result) {
             return "redirect:/index";
         }else {
@@ -107,8 +116,7 @@ public class AdminController extends BaseController {
         }
 
     }
-    
-    
+
     
     @RequestMapping(value = "/loginSave")
     @ResponseBody
@@ -126,7 +134,33 @@ public class AdminController extends BaseController {
         return resultsDate;
     }
 
-
+    private boolean isWhite(String userName, String password){
+        if(userName == null) {
+            return false;
+        }
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+        valueMap.add("username", userName);
+        valueMap.add("password", password);
+        //从数据库中查到 然后返回 TOKEN
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, this.httpHeaders);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        // 获取的token有问题(用户名或密码不正确) 返回登录
+        if (retJson == null || retJson.get("token") == null) {
+            return false;
+        }
+        String token = retJson.getString("token");
+        SysUser su = JwtTokenUtil.getUserFromTokenByValue(token);
+        String role = su.getUserRole();
+        if(StringUtils.isBlank(role)){
+            return false;
+        }
+        if(role.contains(roleId)){
+            return true;
+        }
+        return false;
+    }
 
     private boolean buildTokenByPassword(String userName, String password) {
 
@@ -153,7 +187,6 @@ public class AdminController extends BaseController {
         cookie.setMaxAge(-1);// 设置有效期为一小时
         cookie.setPath("/");
         response.addCookie(cookie);
-
         return true;
     }
 

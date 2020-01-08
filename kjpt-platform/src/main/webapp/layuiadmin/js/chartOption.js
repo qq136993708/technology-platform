@@ -350,15 +350,19 @@ var kyptCharts = {
             showDataShadow: false,
             filterMode: 'none',
             height: 18,
-            fillerColor: '#f00',
+            fillerColor: '#ccc',
             handleStyle: { opacity: 0 },
             dataBackground: { lineStyle: {opacity: 0}, areaStyle: {opacity: 0} },
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
+            borderColor: '#fff'
           };
 
           if (config.dataZoom) {
             for (var key in config.dataZoom) {
               option.dataZoom[key] = config.dataZoom[key];
+              if (key === 'backgroundColor') {
+                option.dataZoom.borderColor = config.dataZoom.backgroundColor;
+              }
             }
           }
           if (typeof(option.grid.bottom) === 'number') {

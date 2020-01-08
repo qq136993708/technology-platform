@@ -239,8 +239,7 @@ public class PlatformController extends RestBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "startYear", value = "开始年份", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "endYear", value = "结束年份", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "year", value = "年份", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "unitId", value = "单位ID", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/scienceStatistics", method = RequestMethod.GET)
@@ -248,8 +247,7 @@ public class PlatformController extends RestBaseController {
     public PageInfo scienceStatistics(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
-            @RequestParam(required = false,value = "startYear") String startYear,
-            @RequestParam(required = false,value = "endYear") String endYear,
+            @RequestParam(required = false,value = "year") String year,
             @RequestParam(required = false,value = "unitId") String unitId
     ) {
 
@@ -264,11 +262,8 @@ public class PlatformController extends RestBaseController {
         }else {
             this.setParam(condition, "pageSize", pageSize);
         }
-        if (!StringUtils.isEmpty(startYear)) {
-            this.setParam(condition, "startYear", startYear);
-        }
-        if (!StringUtils.isEmpty(endYear)) {
-            this.setParam(condition, "endYear", endYear);
+        if (!StringUtils.isEmpty(year)) {
+            this.setParam(condition, "year", year);
         }
         if (!StringUtils.isEmpty(unitId)) {
             this.setParam(condition, "unitId", unitId);

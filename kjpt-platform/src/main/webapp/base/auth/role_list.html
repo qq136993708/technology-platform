@@ -14,8 +14,8 @@
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
 </head>
-<body>
-<div class="twoListleft layout-view-content dialog">
+<body style="padding: 15px">
+<div class=" layout-view-content dialog">
 	<div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
@@ -46,16 +46,16 @@
         <table id="role_table" class="layui-hide" lay-filter="roleCheckboxEvent"></table>
     </div>
 </div>
-<div class="twoListRight">
+<!--<div class="twoListRight">
 	<div class="searchBox">
-        <!--查询条件-->
+        &lt;!&ndash;查询条件&ndash;&gt;
         <label class="dateInput">
             <span>姓名:</span>
             <input type="text" name="userName" placeholder="请输入姓名"
                    title="姓名" autocomplete="off"
                    class="form-control" id="userName">
         </label>
-        <!--按钮组-->
+        &lt;!&ndash;按钮组&ndash;&gt;
         <div class="btnGroup">
             <button class="layui-btn layui-btn-normal" data-type="userSearchEvent">查询
             </button>
@@ -68,14 +68,14 @@
                 <button class="layui-btn border-blue"
                         data-type="userRoleEvent">赋角色
                 </button>
-               <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+               &lt;!&ndash;  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                         data-type="deleteEvent">删除
-                </button> -->
+                </button> &ndash;&gt;
             </div>
         </div>
         <table id="user_table" class="layui-hide" lay-filter="tableDataTwo"></table>
     </div>
-</div>
+</div>-->
 </body>
 <script type="text/javascript">
 	var selectRowData,table;
@@ -98,7 +98,6 @@
 	        , url: '/role/role-list' //请求的url地址
 	        , limit : param.selfRownum //每页默认显示的数量
 	        , id: 'roleListTable'
-	        , height: commonDislodgeTable()
 	        , method:"POST"
 	        ,loading:true
 	        , page: {
