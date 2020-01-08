@@ -34,5 +34,11 @@ public interface ZjkRewardMapper {
     
     
     List getListByExpertId(String expertId);
-    
+
+    /**
+     * 查询专家信息管理奖励列表
+     */
+    List<ZjkReward> query(Map paramMap);
+
+
 }

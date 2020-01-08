@@ -1,20 +1,19 @@
 package com.pcitc.web.controller.expert;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
+import com.pcitc.web.common.RestBaseController;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
@@ -38,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertPatent-API",tags = {"专家库-专利接口"})
 @RestController
-public class ExpertPatentController extends BaseController {
+public class ExpertPatentController extends RestBaseController {
 	
 	
 	/**
@@ -72,10 +71,11 @@ public class ExpertPatentController extends BaseController {
 	 */
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_patent/get/";
 
-    
-	
-	
-	
+	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertPatent-api/queryNoPage";
+
+
+
+
 	/**
 	  * 获取专家专利（分页）
 	 */
@@ -289,8 +289,23 @@ public class ExpertPatentController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
     }
-    
-    
-    
 
+	@ApiOperation(value="导出excel")
+	@RequestMapping(value = "/expertPatent-api/export", method = RequestMethod.GET)
+	@ResponseBody
+	public void export(@RequestParam String expertId) throws Exception {
+		Map<String, Object> condition = new HashMap<>(2);
+		this.setParam(condition, "expertId", expertId);
+		String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述","密级"};
+		String[] cols =    {"patentName","patentTypeText","applicationDate","remark","secretLevelText"};
+		this.setBaseParam(condition);
+		//默认查询当前人所在机构下所有的科研平台
+		//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+		//this.setParam(condition,"childUnitIds",childUnitIds);
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ZjkPatent.class);
+		String fileName = "科研平台专利表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+		this.exportExcel(headers,cols,fileName,list);
+	}
 }

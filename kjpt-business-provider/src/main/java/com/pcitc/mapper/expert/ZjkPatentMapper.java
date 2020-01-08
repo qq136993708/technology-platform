@@ -38,4 +38,10 @@ public interface ZjkPatentMapper {
     int  deleteLogicZjkPatentById(String expertId);
     
     List getListByExpertId(String expertId);
+
+
+    /**
+     * 查询专家信息管理项目列表
+     */
+    List<ZjkPatent> query(Map paramMap);
 }

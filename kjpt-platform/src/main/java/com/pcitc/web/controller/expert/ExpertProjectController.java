@@ -1,32 +1,25 @@
 package com.pcitc.web.controller.expert;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.pcitc.base.common.*;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
+import com.pcitc.web.common.RestBaseController;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Constant;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CommonUtil;
-import com.pcitc.web.common.BaseController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertProject-API",tags = {"专家库-项目接口"})
 @RestController
-public class ExpertProjectController extends BaseController {
+public class ExpertProjectController extends RestBaseController {
 	
 	
 	/**
@@ -70,8 +63,11 @@ public class ExpertProjectController extends BaseController {
 	 */
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_project/get/";
 
-    
-	
+
+	/**
+	 * 查询专家信息管理项目列表不分页
+	 */
+	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertPorject-api/queryNoPage";
 	
 	
 	/**
@@ -276,13 +272,20 @@ public class ExpertProjectController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
     }
-    
-    
-    
-    
-    
-    
-    
-    
 
+	@ApiOperation(value="导出excel")
+	@RequestMapping(value = "/expertProject-api/export", method = RequestMethod.GET)
+	@ResponseBody
+	public void export(@RequestParam String expertId) throws Exception {
+		Map<String, Object> condition = new HashMap<>(2);
+		this.setParam(condition, "expertId", expertId);
+		String[] headers = { "项目名称",  "负责单位",    "立项年度","密级" };
+		String[] cols =    {"projectName","dutyInstitutionsText","approvalYear","secretLevelText"};
+		this.setBaseParam(condition);
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformProjectModel.class);
+		String fileName = "专家信息管理项目表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+		this.exportExcel(headers,cols,fileName,list);
+	}
 }

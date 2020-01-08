@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 @Api(value = "Qims-API",tags = {"外系统-质量接口"})
 @RestController
-public class QimsController extends BaseController {
+public class QimsController extends RestBaseController {
 
 	private static final String QualityStatistics = "http://localhost:8765/qims-provider/qualityStatistics/qualityStatistics_excute/";
 	private static final String QUERY = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_query";
@@ -62,8 +63,11 @@ public class QimsController extends BaseController {
 	})
 	@ResponseBody
 	@RequestMapping(value = "/qims-api/qualityStatistics/query", method = RequestMethod.GET)
-	public String query( @RequestParam(required = true) String key,
+	public JSONObject query( @RequestParam(required = true) String key,
 						   @RequestParam(required = true) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date date) throws Exception {
+		JSONObject jsonObject = new JSONObject(3);
+		jsonObject.put("code","0");
+		jsonObject.put("message","success");
 		Map<String, Object> condition = new HashMap<>(6);
 		if (!StringUtils.isEmpty(key)) {
 			this.setParam(condition, "key", key);
@@ -74,6 +78,7 @@ public class QimsController extends BaseController {
 		this.setBaseParam(condition);
 		checkIsWhiteList(condition);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), String.class);
-		return responseEntity.getBody();
+		jsonObject.put("data",responseEntity.getBody());
+		return jsonObject;
 	}
 }

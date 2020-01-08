@@ -90,13 +90,19 @@ public class ZjkReward implements Serializable {
     private String knowledgeScope="";
     private String knowledgePerson="";
     private String createUser="";
-    
-    
-    
-    
-    
 
-	public String getKnowledgeScope() {
+    private String awardingUnitStr;
+
+
+    public String getAwardingUnitStr() {
+        return awardingUnitStr;
+    }
+
+    public void setAwardingUnitStr(String awardingUnitStr) {
+        this.awardingUnitStr = awardingUnitStr;
+    }
+
+    public String getKnowledgeScope() {
 		return knowledgeScope;
 	}
 
