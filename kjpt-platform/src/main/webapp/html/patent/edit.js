@@ -45,7 +45,11 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             data.technicalField = [];
           }
           //data.technicalField = data.technicalField.split(',');
-           
+          if (data.expirationDate) {
+            // 失效日期
+            data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
+          }
+
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
 
