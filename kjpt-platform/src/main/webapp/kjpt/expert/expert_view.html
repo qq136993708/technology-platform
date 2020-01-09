@@ -85,6 +85,7 @@
                             <a class="layui-btn border-blue openDialog"  data-type="projectAdd" button-role="add">新增</a>
                             <a class="layui-btn border-blue openDialog" data-type="projectEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="projectDelete" button-role="delete">删除</a>
+                            <a class="layui-btn border-blue openDialog" data-type="projectExport" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="project" lay-filter="project"></table>
@@ -96,6 +97,7 @@
                             <a class="layui-btn border-blue openDialog"  data-type="achievementsAdd" button-role="add">新增</a>
                             <a class="layui-btn border-blue openDialog" data-type="achievementsEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="achievementsDelete" button-role="delete">删除</a>
+                            <a class="layui-btn border-blue openDialog" data-type="achievementsExport" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="achievements" lay-filter="achievements"></table>
@@ -107,6 +109,7 @@
                             <a class="layui-btn border-blue openDialog"  data-type="patentAdd" button-role="add">新增</a>
                             <a class="layui-btn border-blue openDialog" data-type="patentEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="patentDelete" button-role="delete">删除</a>
+                            <a class="layui-btn border-blue openDialog" data-type="patentExport" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="patent" lay-filter="patent"></table>
@@ -118,6 +121,7 @@
                             <a class="layui-btn border-blue openDialog"  data-type="rewardAdd" button-role="add">新增</a>
                             <a class="layui-btn border-blue openDialog" data-type="rewardEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="rewardDelete" button-role="delete">删除</a>
+                            <a class="layui-btn border-blue openDialog" data-type="rewardExport" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="reward" lay-filter="reward"></table>
@@ -294,6 +298,18 @@
                 }
                 deleData(obj)
 
+            },
+            projectExport:function(){
+                window.location.href="/expertProject-api/export?expertId="+variable.id
+            },
+            achievementsExport:function(){
+                window.location.href="/expertAchievement-api/export?expertId="+variable.id
+            },
+            patentExport:function(){
+                window.location.href="/expertPatent-api/export?expertId="+variable.id
+            },
+            rewardExport:function(){
+                window.location.href="/expertReward-api/export?expertId="+variable.id
             },
             achievementsAdd:function () {
                 var obj={
