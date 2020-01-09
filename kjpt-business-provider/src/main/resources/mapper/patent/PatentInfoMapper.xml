@@ -53,6 +53,7 @@
     <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
     <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
     <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+    <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -145,7 +146,8 @@
     secret_level,
     secret_level_text,
     knowledge_scope,
-    knowledge_person
+    knowledge_person,
+    expiration_date
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -219,7 +221,8 @@
     technical_field_text,
     secret_level,
     knowledge_scope,
-    knowledge_person
+    knowledge_person,
+    expiration_date
       )
     values (
     #{userId,jdbcType=VARCHAR},
@@ -259,7 +262,8 @@
     #{technicalFieldText,jdbcType=VARCHAR},
     #{secretLevel,jdbcType=VARCHAR},
     #{knowledgeScope},
-    #{knowledgePerson}
+    #{knowledgePerson},
+    #{expirationDate,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.patent.PatentInfo">
@@ -391,9 +395,11 @@
         knowledge_scope,
       </if>
       <if test="knowledgePerson != null">
-        knowledge_person
+        knowledge_person,
       </if>
-
+      <if test="expirationDate != null">
+        expiration_date
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -520,9 +526,11 @@
         #{knowledgeScope,jdbcType=VARCHAR},
       </if>
       <if test="knowledgePerson != null">
-        #{knowledgePerson,jdbcType=VARCHAR}
+        #{knowledgePerson,jdbcType=VARCHAR},
       </if>
-
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=TIMESTAMP}
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultType="java.lang.Long">
@@ -842,9 +850,10 @@
 	  create_unit_name = #{createUnitName,jdbcType=VARCHAR},
 	  secret_level = #{secretLevel,jdbcType=VARCHAR},
 	  knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
-	  knowledge_person = #{knowledgePerson,jdbcType=VARCHAR}
+	  knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+	  expiration_date = #{expirationDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
-  </update>
+</update>
 
   <select id="queryPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List"/> from view_patent_info where 1=1

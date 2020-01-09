@@ -328,8 +328,8 @@
 	    where id = #{id,jdbcType=VARCHAR}
 	  </select>
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-      select  * from view_zjk_patent where 1=1 and expertId = #{expertId}
-      and deleted != '1'
+      select  * from view_zjk_patent where 1=1 and expert_id = #{expertId}
+      and del_status != '1'
       <if test="secretLevel != null and secretLevel != '' ">
         and secret_level = #{secretLevel}
       </if>

@@ -52,6 +52,7 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         List<PatentInfo> dataList = patentInfoMapper.queryPatentList(param);
         dataList.forEach(patentInfo ->{
             patentInfo.setApplicationDateStr(DateUtils.format(patentInfo.getApplicationDate(),DateUtils.FMT_SS));
+            patentInfo.setExpirationDateStr(DateUtils.format(patentInfo.getExpirationDate(),DateUtils.FMT_SS));
             System.out.println(patentInfo);
         });
         PageInfo pageInfo = new PageInfo(dataList);

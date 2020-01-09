@@ -146,7 +146,7 @@ main_area_map.hideLoading();
 
 var fx_option = {
     title: {
-        text: '/ 中核宝原投资 /',
+        text: '/ 中核宝原经费 /',
         x:'center',
         textStyle: {
             color: '#ffffff',

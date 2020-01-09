@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Api(value = "expertPorject-api", description = "专家信息管理项目接口")
 @RestController
-@RequestMapping(value = "/expertPorject-api")
+@RequestMapping(value = "/expertProject-api")
 public class ExpertProjectClient {
 
     @Autowired

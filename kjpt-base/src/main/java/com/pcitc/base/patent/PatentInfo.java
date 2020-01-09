@@ -247,6 +247,16 @@ public class PatentInfo extends RecordModel implements Serializable {
      */
     private String secretLevelText;
 
+    /**
+     * 失效日期
+     */
+    private Date expirationDate;
+
+    /**
+     * 失效日期翻译
+     */
+    private String expirationDateStr;
+
 
     public String getId() {
         return id;
@@ -623,6 +633,22 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public void setSecretLevelText(String secretLevelText) {
         this.secretLevelText = secretLevelText;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public String getExpirationDateStr() {
+        return expirationDateStr;
+    }
+
+    public void setExpirationDateStr(String expirationDateStr) {
+        this.expirationDateStr = expirationDateStr;
     }
 
     @Override

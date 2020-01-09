@@ -209,6 +209,19 @@ layui.config({
   //   }
   // });
 
+  // 科技人才数量
+  httpModule({
+    url: '/outPerson-api/page',
+    data: {page: 1, limit: 1},
+    success: function(res) {
+      if (res.code === '0' || res.code === 0) {
+        $('#expertNumber').text(res.count)
+      } else {
+        $('#expertNumber').text(0);
+      }
+    }
+  })
+  
   // 获取科研平台数量
   httpModule({
     url: '/platform-api/query',
