@@ -328,7 +328,7 @@
 	       <if test="techType != null   and techType !=''  ">   
 	          AND
 	          <foreach item="item"  collection="techType.split(',')"  open="(" separator=" or " close=")">
-			    FIND_IN_SET(#{item},t.`tech_type`) 
+			    FIND_IN_SET(#{item},t.`tech_type`) &lt; 0
 			   </foreach>
 	       </if>
 	       <if test="userNo != null              and userNo !=''  ">            AND t.user_no = #{userNo}</if>

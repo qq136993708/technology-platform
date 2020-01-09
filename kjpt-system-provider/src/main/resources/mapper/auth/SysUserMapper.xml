@@ -521,7 +521,7 @@
 			and user_disp like '%${userDisp}%' 
 		</if>
 		<if test="userUnit != null and userUnit != ''">
-		   and FIND_IN_SET(#{userUnit},user_unit)
+		   and FIND_IN_SET(#{userUnit},user_unit) &lt; 0
 		</if>
 			order by user_disp desc 
    </select>

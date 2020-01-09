@@ -3,18 +3,18 @@ package com.pcitc.web.controller.achieve;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveRecord;
 import com.pcitc.base.achieve.AchieveReward;
 import com.pcitc.base.achieve.AchieveSubmit;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.researchplatform.PlatformAchievementModel;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.BeanToMap;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.WordUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +99,18 @@ public class AchieveRecordController extends RestBaseController {
     public AchieveRecord load(@PathVariable String id) {
         ResponseEntity<AchieveRecord> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveRecord.class);
         return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="备案信息的导出")
+    @RequestMapping(value = "/achieveRecord-api/wordExport/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public void wordExport(@PathVariable String id) throws Exception {
+        ResponseEntity<AchieveRecord> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveRecord.class);
+        AchieveRecord ar = responseEntity.getBody();
+        BeanToMap<AchieveRecord> btm = new BeanToMap<>();
+        Map<String,Object> hm = btm.getMap(ar);
+        //WordUtils.writeTemp("D:\\opt\\备案信息下载模版.docx",hm,null,"测试.docx",this.getCurrentResponse());
+        WordUtils.getWord("D:\\opt\\备案信息下载模版.docx",hm,null,"测试.docx",this.getCurrentResponse());
     }
 
 
@@ -456,7 +469,6 @@ public class AchieveRecordController extends RestBaseController {
             as.getAchieveReward().setCreateUnitName(sysUserInfo.getUnitName());
         }
     }
-
 
     @ApiOperation(value="删除")
     @RequestMapping(value = "/achieveRecord-api/delete/{ids}", method = RequestMethod.DELETE)

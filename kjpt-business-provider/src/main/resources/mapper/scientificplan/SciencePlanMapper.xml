@@ -126,7 +126,7 @@
         <if test="researchField != null  and researchField !=''  ">
         AND
         <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
-            FIND_IN_SET(#{item},`RESEARCH_FIELD`)
+            FIND_IN_SET(#{item},`RESEARCH_FIELD`) &lt; 0
         </foreach>
     </if>
 
@@ -141,7 +141,7 @@
         <if test="researchField != null  and researchField !=''  ">
             AND
             <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`RESEARCH_FIELD`)
+                FIND_IN_SET(#{item},`RESEARCH_FIELD`) &lt; 0
             </foreach>
         </if>
 
@@ -215,7 +215,7 @@
         and (secret_level = '0' or (
         secret_level <![CDATA[<=]]> #{userSecretLevel}
         <if test='skipKnowledgeScope=="0"'>
-            and FIND_IN_SET(#{userName}, knowledge_scope)
+            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
         </if>
         ))
 

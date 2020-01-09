@@ -154,7 +154,7 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	       <if test="projectType != null     and projectType !=''  ">   AND FIND_IN_SET(#{projectType},t.`project_type`) </if>
+	       <if test="projectType != null     and projectType !=''  ">   AND FIND_IN_SET(#{projectType},t.`project_type`) &lt; 0 </if>
 	       <if test="projectName != null     and projectName  !='' ">   AND t.project_name like CONCAT('%',#{projectName},'%')</if>
 	       <if test="setupYear != null       and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
 	       <if test="techTypeIndex != null   and techTypeIndex !=''  "> AND t.tech_type_index like CONCAT(#{techTypeIndex},'%')</if>

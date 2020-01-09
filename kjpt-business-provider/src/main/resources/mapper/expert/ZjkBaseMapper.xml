@@ -504,7 +504,7 @@
 	     <if test="technicalField != null        and technicalField !=''  ">   
 	      AND
 	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
-			    FIND_IN_SET(#{item},t.`technical_field`) 
+			    FIND_IN_SET(#{item},t.`technical_field`) &lt; 0
 			   </foreach>
 	     </if>
 	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
@@ -516,7 +516,7 @@
 	     </if>
 	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
 	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
-	            AND (FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) OR  t.secret_level ='0')
+	            AND (FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) &lt; 0 OR  t.secret_level ='0')
 	     </if>
 	 </trim>
 	</sql>

@@ -524,7 +524,7 @@
     and (secret_level = '0' or (
     secret_level <![CDATA[<=]]> #{userSecretLevel}
     <if test='skipKnowledgeScope=="0"'>
-      and FIND_IN_SET(#{userName}, knowledge_scope)
+      and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
     </if>
     ))
 
