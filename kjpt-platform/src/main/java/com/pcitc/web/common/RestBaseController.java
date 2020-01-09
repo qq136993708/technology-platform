@@ -40,31 +40,4 @@ public class RestBaseController extends BaseController{
         }
     }
 
-
-    public void exportExcel(String[] headers, String[] cols, String fileName, List dataList) throws Exception {
-        HttpServletResponse response =  this.getCurrentResponse();
-        response.reset();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
-        try {
-            OutputStream os = response.getOutputStream();
-            PoiExcelExportUitl<Object> pee = new PoiExcelExportUitl<Object>(fileName, headers, cols, dataList,os);
-            pee.exportExcel();
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            // 如果是ExcelException,则直接抛出
-            if (e instanceof ExcelException)
-            {
-                throw (ExcelException) e;
-            } else
-            {
-                // 否则将其他异常包装成ExcelException再抛出
-                throw new ExcelException("导出excel失败");
-            }
-        }
-    }
-
 }

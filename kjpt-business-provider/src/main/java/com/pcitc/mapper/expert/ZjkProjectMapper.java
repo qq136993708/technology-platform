@@ -32,5 +32,10 @@ public interface ZjkProjectMapper  {
     int  deleteLogicZjkProjectById(String id);
     
     List getListByExpertId(String expertId);
+
+    /**
+     * 查询专家信息管理项目列表
+     */
+    List<ZjkProject> query(Map paramMap);
     
 }

@@ -1,20 +1,18 @@
 package com.pcitc.web.controller.expert;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.pcitc.web.common.RestBaseController;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
@@ -37,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertAchievement-API",tags = {"专家库-成果接口"})
 @RestController
-public class ExpertAchievementController extends BaseController {
+public class ExpertAchievementController extends RestBaseController {
 	
 	
 	/**
@@ -71,8 +69,12 @@ public class ExpertAchievementController extends BaseController {
 	 */
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/get/";
 
-    
-	
+
+
+	/**
+	 * 查询专家信息管理成果列表不分页
+	 */
+	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertAchievement-api/queryNoPage";
 	
 	
 	/**
@@ -87,7 +89,7 @@ public class ExpertAchievementController extends BaseController {
     })
     
     @RequestMapping(value = "/expert-achievement-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public JSONArray getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
@@ -113,7 +115,7 @@ public class ExpertAchievementController extends BaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家成果列表（分页） " + result.toString());
-		return result.toString();
+		return result.getJSONArray("data");
 	}
 
     
@@ -122,7 +124,7 @@ public class ExpertAchievementController extends BaseController {
 	 */
     @ApiOperation(value = "根据ID删除专家成果信息", notes = "根据ID删除专家成果信息")
 	@RequestMapping(value = "/expert-achievement-api/delete/{id}", method = RequestMethod.GET)
-	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -135,7 +137,7 @@ public class ExpertAchievementController extends BaseController {
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return ob.toString();
+		return ob;
 	}
     
     
@@ -144,7 +146,7 @@ public class ExpertAchievementController extends BaseController {
 	 */
     @ApiOperation(value = "根据ID获取专家成果信息详情", notes = "根据ID获取专家成果信息详情")
 	@RequestMapping(value = "/expert-achievement-api/get/{id}", method = RequestMethod.GET)
-	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
     	ResponseEntity<ZjkAchievement> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkAchievement.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -157,7 +159,7 @@ public class ExpertAchievementController extends BaseController {
 			resultsDate = new Result(false, "根据ID获取专家成果信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result.getJSONObject("data");
 	}
     
     
@@ -181,7 +183,7 @@ public class ExpertAchievementController extends BaseController {
     })
    
     @RequestMapping(method = RequestMethod.POST, value = "/expert-achievement-api/save")
-	public String saveExpert(@RequestBody  ZjkAchievement zjkAchievement,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject saveExpert(@RequestBody  ZjkAchievement zjkAchievement,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	Result resultsDate = new Result();
     	String id=zjkAchievement.getId();
@@ -278,14 +280,22 @@ public class ExpertAchievementController extends BaseController {
 			}
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result;
     }
-    
-    
-    
-	
-    
-    
-    
 
+	@ApiOperation(value="导出excel")
+	@RequestMapping(value = "/expertAchievement-api/export", method = RequestMethod.GET)
+	@ResponseBody
+	public void export(@RequestParam String expertId) throws Exception {
+		Map<String, Object> condition = new HashMap<>(2);
+		this.setParam(condition, "expertId", expertId);
+		String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度","密级"};
+		String[] cols =    {"achieveName","applyUnitStr","achieveTypeStr","applyYear","secretLevelStr"};
+		this.setBaseParam(condition);
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ZjkAchievement.class);
+		String fileName = "专家信息管理成果表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+		this.exportExcel(headers,cols,fileName,list);
+	}
 }

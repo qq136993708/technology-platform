@@ -157,7 +157,6 @@ kypt_charts1.setOption({
         data: [1, 2, 3, 4, 5],
     }]
 });
-// kypt_charts1._model.option.series[0].data=[1,2,3,4,5,6];
 
 // 获取远端数据源
 httpModule({

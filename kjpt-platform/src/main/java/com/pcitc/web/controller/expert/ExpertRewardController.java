@@ -1,20 +1,18 @@
 package com.pcitc.web.controller.expert;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.pcitc.web.common.RestBaseController;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
@@ -37,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertReward-API",tags = {"专家库-奖励接口"})
 @RestController
-public class ExpertRewardController extends BaseController {
+public class ExpertRewardController extends RestBaseController {
 	
 	
 	/**
@@ -71,10 +69,11 @@ public class ExpertRewardController extends BaseController {
 	 */
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_reward/get/";
 
-    
-	
-	
-	
+	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertReward-api/queryNoPage";
+
+
+
+
 	/**
 	  * 获取专家奖励（分页）
 	 */
@@ -85,7 +84,7 @@ public class ExpertRewardController extends BaseController {
         
     })
     @RequestMapping(value = "/expert-reward-api/page", method = RequestMethod.POST)
-	public String getExpertPage(
+	public JSONArray getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
@@ -111,7 +110,7 @@ public class ExpertRewardController extends BaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家奖励列表（分页） " + result.toString());
-		return result.toString();
+		return result.getJSONArray("data");
 	}
 
     
@@ -120,7 +119,7 @@ public class ExpertRewardController extends BaseController {
 	 */
     @ApiOperation(value = "根据ID删除专家奖励信息", notes = "根据ID删除专家奖励信息")
 	@RequestMapping(value = "/expert-reward-api/delete/{id}", method = RequestMethod.GET)
-	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -133,7 +132,7 @@ public class ExpertRewardController extends BaseController {
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return ob.toString();
+		return ob;
 	}
     
     
@@ -142,7 +141,7 @@ public class ExpertRewardController extends BaseController {
 	 */
     @ApiOperation(value = "根据ID获取专家奖励信息详情", notes = "根据ID获取专家奖励信息详情")
 	@RequestMapping(value = "/expert-reward-api/get/{id}", method = RequestMethod.GET)
-	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONObject getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
     	ResponseEntity<ZjkReward> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkReward.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -155,7 +154,7 @@ public class ExpertRewardController extends BaseController {
 			resultsDate = new Result(false, "根据ID获取专家奖励信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		return result.getJSONObject("data");
 	}
     
     
@@ -172,7 +171,7 @@ public class ExpertRewardController extends BaseController {
         @ApiImplicitParam(name = "secretLevel",     value = "信息密级",                 dataType = "string", paramType = "form",required=true)
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-reward-api/save")
-   	public String saveExpertpatent(@RequestBody  ZjkReward zjkReward,HttpServletRequest request, HttpServletResponse response) throws Exception {
+   	public JSONObject saveExpertpatent(@RequestBody  ZjkReward zjkReward,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
        	Result resultsDate = new Result();
        	String id=zjkReward.getId();
@@ -276,13 +275,27 @@ public class ExpertRewardController extends BaseController {
    			}
    		}
    		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-   		return result.toString();
+   		return result;
        }
-       
-    
-    
-    
-    
-    
+
+
+
+
+
+	@ApiOperation(value="导出excel")
+	@RequestMapping(value = "/expertReward-api/export", method = RequestMethod.GET)
+	@ResponseBody
+	public void export(@RequestParam String expertId) throws Exception {
+		Map<String, Object> condition = new HashMap<>(2);
+		this.setParam(condition, "expertId", expertId);
+		String[] headers = { "奖励级别",  "奖励描述",    "授奖单位"  , "奖励时间","密级"};
+		String[] cols =    {"rewarkLevelStr","notes","awardingUnit","awardingTimeStr","secretLevelStr"};
+		this.setBaseParam(condition);
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ZjkReward.class);
+		String fileName = "专家信息管理奖励表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+		this.exportExcel(headers,cols,fileName,list);
+	}
 
 }
