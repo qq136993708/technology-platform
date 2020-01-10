@@ -12,31 +12,33 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
-import com.pcitc.web.utils.BeanToMap;
 import com.pcitc.web.utils.EquipmentUtils;
-import com.pcitc.web.utils.WordUtils;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+import org.xhtmlrenderer.pdf.ITextFontResolver;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.net.URLEncoder;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.BaseFont;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 
 /**
  * <p>成果转换备案</p>
@@ -90,8 +92,12 @@ public class AchieveRecordController extends RestBaseController {
      */
     private static final String queryAchieveSubsidiarityExport = "http://kjpt-zuul/stp-proxy/achieveRecord-api/queryAchieveSubsidiarityExport";
 
-    
-
+    @Value("${achieveFtlPath}")
+    private String achieveFtlPath;
+    @Value("${achieveFtlName}")
+    private String achieveFtlName;
+    @Value("${fontPath}")
+    private String fontPath;
 
     @ApiOperation(value="读取")
     @RequestMapping(value = "/achieveRecord-api/load/{id}", method = RequestMethod.GET)
@@ -107,13 +113,139 @@ public class AchieveRecordController extends RestBaseController {
     public void wordExport(@PathVariable String id) throws Exception {
         ResponseEntity<AchieveRecord> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveRecord.class);
         AchieveRecord ar = responseEntity.getBody();
-        BeanToMap<AchieveRecord> btm = new BeanToMap<>();
-        Map<String,Object> hm = btm.getMap(ar);
-        //WordUtils.writeTemp("D:\\opt\\备案信息下载模版.docx",hm,null,"测试.docx",this.getCurrentResponse());
-        WordUtils.getWord("D:\\opt\\备案信息下载模版.docx",hm,null,"测试.docx",this.getCurrentResponse());
+        String htmlContent = parseDataToHtml(achieveFtlPath,achieveFtlName,ar);
+        htmlConvertPDF(htmlContent);
     }
 
+//    private void parseDataToHtml(String ftlFilePath,String ftlName,String htmlFilePath, AchieveRecord ar) throws IOException {
+//        /** 获取文件路径参数 */
+//        // 模板所在路径
+//       // String filePath = ftlFilePath.substring(0, ftlFilePath.lastIndexOf("/"));
+//        // 模板名称
+//        // String templateFile = achieveFtlPath.substring(ftlFilePath.lastIndexOf("/") + 1);
+//
+//        Writer out = null;
+//        /** Freemarker 基础配置 */
+//        Configuration freemarkerConfig = new Configuration();
+//        try {
+//            //File file = new File("D:\\opt");
+//            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + ftlFilePath);
+//            freemarkerConfig.setDirectoryForTemplateLoading(file);
+//            freemarkerConfig.setDefaultEncoding("UTF-8");
+//            /** 匹配映射模板数据 */
+//            Map<String, Object> dataMap = new HashMap<String, Object>(2);
+//            dataMap.put("achieveRecord",ar);
+//            /** 输出流处理 */
+//            out = new OutputStreamWriter(new FileOutputStream(htmlFilePath), "UTF-8");
+//            Template template = freemarkerConfig.getTemplate(ftlName);
+//            template.process(dataMap, out);
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }finally {
+//            out.close();
+//        }
+//    }
 
+
+
+    private String parseDataToHtml(String ftlFilePath,String ftlName,AchieveRecord ar) throws IOException {
+        /** 获取文件路径参数 */
+        StringWriter  out = new StringWriter();
+        /** Freemarker 基础配置 */
+        Configuration freemarkerConfig = new Configuration();
+        try {
+            File file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + ftlFilePath);
+            freemarkerConfig.setDirectoryForTemplateLoading(file);
+            freemarkerConfig.setDefaultEncoding("UTF-8");
+            /** 匹配映射模板数据 */
+            Map<String, Object> dataMap = new HashMap<String, Object>(2);
+            dataMap.put("achieveRecord",ar);
+            /** 输出流处理 */
+            Template template = freemarkerConfig.getTemplate(ftlName);
+            template.process(dataMap, out);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            out.close();
+        }
+        return out.toString();
+    }
+
+    /**
+     * 转换为pdf文件
+     *
+     * @param htmlPath
+     *            HTML文件所在路径
+     * @return
+     */
+//    private void htmlConvertPDF(String htmlPath) throws IOException {
+//        String pdfFileName = htmlPath.substring(htmlPath.lastIndexOf("/") + 1, htmlPath.lastIndexOf(".html"));// PDF文件名称
+//        boolean convertResult = false;
+//        String outputFile = null;
+//        OutputStream os = null;
+//        try {
+//            os = new FileOutputStream("D:\\opt\\dex.pdf");
+//
+//            String inputFile = htmlPath;
+//            String url = new File(inputFile).toURI().toURL().toString();
+//            ITextRenderer renderer = new ITextRenderer();
+//            // 解决中文支持问题
+//            ITextFontResolver fontResolver = renderer.getFontResolver();
+//            fontResolver.addFont("C:/Windows/Fonts/simsun.ttc", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+//             renderer.getSharedContext().setBaseURL("D:\\opt\\dex.pdf");
+//            //renderer.setDocument(url);
+//            renderer.setDocumentFromString(htmlPath);
+//            renderer.layout();
+//            renderer.createPDF(os);
+//
+//            os.close();
+//            renderer.getWriter().close();
+//        } catch (IOException e1) {
+//            e1.printStackTrace();
+//        } catch (DocumentException e) {
+//            e.printStackTrace();
+//        }finally {
+//            os.close();
+//        }
+//    }
+
+    private void htmlConvertPDF(String htmlPath) throws IOException {
+        OutputStream os = null;
+        try {
+            os = this.getCurrentResponse().getOutputStream();
+
+            String inputFile = htmlPath;
+            ITextRenderer renderer = new ITextRenderer();
+            // 解决中文支持问题
+            ITextFontResolver fontResolver = renderer.getFontResolver();
+            fontResolver.addFont(getFontPath(), BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            renderer.setDocumentFromString(htmlPath);
+            renderer.layout();
+            renderer.createPDF(os);
+            os.close();
+            renderer.getWriter().close();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }finally {
+            os.close();
+        }
+    }
+
+    public static String getFontPath() {
+        String OS = System.getProperty("os.name").toLowerCase();
+        String fontPath = null;
+        if (OS.indexOf("mac") >= 0) {
+            fontPath = "/library/fonts/Arial Unicode.ttf";
+        } else if (OS.indexOf("linux") >= 0) {
+            fontPath = "/usr/share/fonts/TTF/SIMSUN.TTC";
+        } else if (OS.indexOf("windows") >= 0) {
+            fontPath = "C:/Windows/Fonts/simsun.ttc";
+        }
+        return fontPath;
+    }
 
 
     @ApiOperation(value = "查询列表", notes = "查询列表")
