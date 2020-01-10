@@ -240,7 +240,7 @@ public class AchieveRecordController extends RestBaseController {
         if (OS.indexOf("mac") >= 0) {
             fontPath = "/library/fonts/Arial Unicode.ttf";
         } else if (OS.indexOf("linux") >= 0) {
-            fontPath = "/usr/share/fonts/TTF/SIMSUN.TTC";
+            fontPath = "/usr/share/fonts/chinese/simsun.ttc";
         } else if (OS.indexOf("windows") >= 0) {
             fontPath = "C:/Windows/Fonts/simsun.ttc";
         }
