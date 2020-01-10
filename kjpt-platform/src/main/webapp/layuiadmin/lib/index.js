@@ -158,11 +158,11 @@ layui.extend({
   });
 
   var $layuiHeaderNav = $('#layuiHeaderNav');
-  $layuiHeaderNav.on('click', '.header-nav-item', function() {
+  $layuiHeaderNav.on('click', '.header-nav-item a', function() {
     $layuiHeaderNav.find('.header-nav-item').removeClass('layui-this');
-    $(this).addClass('layui-this');
-    if (!$(this).hasClass('home-item')) {
-        var navId = $(this).find('a').attr('id');
+    $(this).parent('.header-nav-item').addClass('layui-this');
+    if (!$(this).parent('.header-nav-item').hasClass('home-item')) {
+        var navId = $(this).attr('id');
         $('#nav'+navId+ ' .layui-nav-item').removeClass('layui-nav-itemed');
         $('#nav'+navId).find('a[lay-href]').eq(0).click().closest('.layui-nav-item').addClass('layui-nav-itemed');
     }
