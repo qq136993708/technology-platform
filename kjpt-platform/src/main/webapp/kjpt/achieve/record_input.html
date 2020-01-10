@@ -17,7 +17,7 @@
 <body>
 <div class="layout-view-content record_input_page">
   <div id="edit_transfrom_maintain"></div>
-
+  <div class="record_pdf"><a href='#' id="loadPdf">导出到pdf</a></div>
 
 	<form class="layui-form" action="" lay-filter="RecordInputForm" id="RecordInputForm">
     <div class="view-title-layout view-pt0">
@@ -403,7 +403,13 @@
   var unitCodes = "";
   var postCodes = "";
   var variable = getQueryVariable();
-  
+  $('#loadPdf').attr('href','/achieveRecord-api/wordExport/' + variable.id)
+  // console.log(variable);
+  //下载pdf
+    // $('#loadPdf').click(function(){
+    //   $(this).attr('href','/achieveRecord-api/wordExport/' + variable.id)
+
+    // })  
   function dealFlow(flowUrl, functionId, msgID) {
     var json = {functionId: functionId, branchFlag: "0"},
     nunits="";
