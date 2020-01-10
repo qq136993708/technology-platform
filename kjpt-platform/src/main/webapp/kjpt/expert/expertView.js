@@ -75,8 +75,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
                 limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
             },
             done:function (res, curr, count) {
-                console.log(res)
-                console.log($("." +id))
                 $("." +id).html(res.count)
             }
             , page: true //开启分页
@@ -126,11 +124,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     }
     var activeTab = 0;
     // 监控tab签切换
-    element.on('tab(platformDetails)', function(data) {
+    element.on('tab(gjj_kyxq)', function(data) {
         activeTab = data.index;
-        if (activeTab) {
-            table.reload(tableFilterArr[activeTab].tableId);
-        }
     })
     var tableFilterArr = [
         {tableName: '', title: '人物简介',arr:[],tableUrl:'' },
@@ -149,6 +144,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             id: buttonId,
             url: '/excelImport/'+ exportType +'?pid=' + variable.id,
             callback: function(res, type) {
+                console.log(activeTab)
                 if (res.code === '0') {
                     layer.msg('数据导入成功!', {icon: 1});
                     tableRender(tableFilterArr[activeTab].tableName,tableFilterArr[activeTab].arr,tableFilterArr[activeTab].tableUrl,variable.id)
