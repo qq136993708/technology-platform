@@ -94,5 +94,8 @@
   box-shadow: 0 1px 7px -1px rgba(0,0,0, .1);
 }
 .record_pdf{
-  /* float: right; */
+  padding-bottom: 0 !important;
+}
+.view-pt0{
+  padding-top: 0 !important;
 }
