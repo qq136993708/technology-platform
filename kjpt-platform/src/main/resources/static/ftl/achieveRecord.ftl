@@ -90,20 +90,22 @@
             <td class="auto-no">所在单位</td>
             <td class="auto-no">职务和贡献</td>
           </tr>
-		  <#list achieveRecord.teamPerson?split("$") as person>
-				<tr>
-				<#assign recordPerson=person?split("#")>
-                        <td class="auto-no">${recordPerson[0]?if_exists}</td>
-						<#if recordPerson[1] == "1">
-								<td class="auto-no">男</td>
-							<#else>
-								<td class="auto-no">女</td>
-						</#if>
-						<td class="auto-no">${recordPerson[2]?if_exists}</td>
-						<td class="auto-no">${recordPerson[3]?if_exists}</td>
+          <#if achieveRecord.teamPerson?? && achieveRecord.teamPerson!="">
+            <#list achieveRecord.teamPerson?split("$") as person>
+                  <tr>
+                  <#assign recordPerson=person?split("#")>
+                          <td class="auto-no">${recordPerson[0]?if_exists}</td>
+                          <#if recordPerson[1] == "1">
+                                  <td class="auto-no">男</td>
+                              <#else>
+                                  <td class="auto-no">女</td>
+                          </#if>
+                          <td class="auto-no">${recordPerson[2]?if_exists}</td>
+                          <td class="auto-no">${recordPerson[3]?if_exists}</td>
 
-                </tr>
-            </#list>
+                  </tr>
+              </#list>
+          </#if>
         </table>
       </tr>
     </table>
@@ -204,6 +206,7 @@
             <td class="auto-no">所在单位</td>
             <td class="auto-no">职务和贡献</td>
           </tr>
+          <#if achieveReward.teamPerson?? && achieveReward.teamPerson!="">
 		  <#list achieveReward.teamPerson?split("$") as achieveRewardPerson>
                 <tr>
 				<#assign rewardPerson=achieveRewardPerson?split("#")>
@@ -218,6 +221,7 @@
 
                 </tr>
             </#list>
+            </#if>
         </table>
       </tr>
     </table>

@@ -27,6 +27,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
@@ -233,17 +234,20 @@ public class AchieveRecordController extends RestBaseController {
         }
     }
 
-    public static String getFontPath() {
-        String OS = System.getProperty("os.name").toLowerCase();
-        String fontPath = null;
-        if (OS.indexOf("mac") >= 0) {
-            fontPath = "/library/fonts/Arial Unicode.ttf";
-        } else if (OS.indexOf("linux") >= 0) {
-            fontPath = "/usr/share/fonts/chinese/simsun.ttc";
-        } else if (OS.indexOf("windows") >= 0) {
-            fontPath = "C:/Windows/Fonts/simsun.ttc";
-        }
-        return fontPath;
+    private String getFontPath() {
+
+        String resourcePath= ClassUtils.getDefaultClassLoader().getResource("").getPath();
+
+//        String OS = System.getProperty("os.name").toLowerCase();
+        String path = resourcePath+fontPath;
+//        if (OS.indexOf("mac") >= 0) {
+//            fontPath = "/library/fonts/Arial Unicode.ttf";
+//        } else if (OS.indexOf("linux") >= 0) {
+//            fontPath = "/usr/share/fonts/chinese/simsun.ttc";
+//        } else if (OS.indexOf("windows") >= 0) {
+//            fontPath = "C:/Windows/Fonts/simsun.ttc";
+//        }
+        return path;
     }
 
 
