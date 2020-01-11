@@ -171,16 +171,8 @@
 
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>
-			<artifactId>core-renderer</artifactId>
-			<version>R8</version>
-
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcprov-jdk14</artifactId>
-				</exclusion>
-			</exclusions>
-
+			<artifactId>flying-saucer-pdf</artifactId>
+			<version>9.1.19</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
