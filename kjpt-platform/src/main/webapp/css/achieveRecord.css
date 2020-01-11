@@ -95,7 +95,7 @@
 }
 
 .maintain_list > .view-title-layout::before, .record_input_page form > .view-title-layout::before {
-  right: 0 !important;
-  width: 78%;
-  left: auto;
+  /* right: 0 !important; */
+  width: 91%;
+  /* left: auto; */
 }
