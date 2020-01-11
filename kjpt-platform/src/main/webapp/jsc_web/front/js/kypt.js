@@ -157,7 +157,31 @@ kypt_charts1.setOption({
         data: [1, 2, 3, 4, 5],
     }]
 });
-
+function loadHtml(){
+    var htmlStr ='';
+    htmlStr='<p class="chart-mask-item">'+
+    '<span class="chart-mask-item-left"></span>'+
+    '<span class="chart-mask-item-right">集团级</span>'+
+    '</p>'+
+    '<p class="chart-mask-item">'+
+    '<span class="chart-mask-item-left"></span>'+
+    '<span class="chart-mask-item-right">国家级</span>'+
+    '</p>'+
+    '<p class="chart-mask-item">'+
+    '<span class="chart-mask-item-left"></span>'+
+    '<span class="chart-mask-item-right">省部级</span>'+
+    '</p>'+
+    '<p class="chart-mask-item">'+
+    '<span class="chart-mask-item-left"></span>'+
+    '<span class="chart-mask-item-right">部委级</span>'+
+    '</p>'+
+    '<p class="chart-mask-item">'+
+    '<span class="chart-mask-item-left"></span>'+
+    '<span class="chart-mask-item-right">板块级</span>'+
+    '</p>'
+    $('.chart-mask').append(htmlStr);
+};
+loadHtml();
 // 获取远端数据源
 httpModule({
     url: '/cockpit/results/queryBIData/scientificResearchNumscientifictype',
