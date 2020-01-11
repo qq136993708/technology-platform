@@ -93,9 +93,9 @@
   border-top: 1px #e8e8e8 solid;
   box-shadow: 0 1px 7px -1px rgba(0,0,0, .1);
 }
-.record_pdf{
-  padding-bottom: 0 !important;
-}
-.view-pt0{
-  padding-top: 0 !important;
+
+.maintain_list > .view-title-layout::before, .record_input_page form > .view-title-layout::before {
+  right: 0 !important;
+  width: 78%;
+  left: auto;
 }
