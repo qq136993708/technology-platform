@@ -173,6 +173,14 @@
 			<groupId>org.xhtmlrenderer</groupId>
 			<artifactId>core-renderer</artifactId>
 			<version>R8</version>
+
+			<exclusions>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcprov-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
+
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>

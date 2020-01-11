@@ -215,7 +215,6 @@ public class AchieveRecordController extends RestBaseController {
         try {
             os = this.getCurrentResponse().getOutputStream();
 
-            String inputFile = htmlPath;
             ITextRenderer renderer = new ITextRenderer();
             // 解决中文支持问题
             ITextFontResolver fontResolver = renderer.getFontResolver();
