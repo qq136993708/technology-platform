@@ -56,14 +56,12 @@
             url: "/user-api/get/"+variable.id,
             type: 'GET',
             success: function(relDataForm) {
-                console.log(relDataForm)
                 if(relDataForm.success){
                     httpModule({
                         url: "/role-api/getRoleList",
                         type: 'GET',
                         async:false,
                         success: function(relData) {
-                            console.log(relData)
                             if(relData.success){
                                 relData.data.map(function (item,index) {
                                     $("#userRole").append("<option value='"+item.roleId+"' name='"+item.roleId+"'>"+item.roleName+"</option>")

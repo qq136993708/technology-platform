@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="renderer" content="webkit">
@@ -9,12 +10,20 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
-  <link rel="stylesheet" href="/css/common.css"> 
- 
-
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/query.css">
 </head>
+
 <body>
   <div class="layout-view-content min-label">
+    <div class="home-header-layout">
+      <div class="itemScroll-box" id="homeHeaderItem">
+        <div class="itemScroll">
+          <ul class="itemBlock">
+          </ul>
+        </div>
+      </div>
+    </div>
     <form class="layui-form layui-form-screen" action="" lay-filter="patentFormDemo">
       <div class="layui-row layui-col-space20">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
@@ -32,12 +41,8 @@
             <label class="layui-form-label"><span class="text">单位名称：</span></label>
             <div class="layui-input-block">
 
-                <select name="unitName"
-                xm-select="supportingInstitutions"
-                xm-select-skin="normal"
-                xm-select-radio=""
-                dic-base-data="ROOT_KJPT_YTDW"
-                placeholder="请选择"></select>
+              <select name="unitName" xm-select="supportingInstitutions" xm-select-skin="normal" xm-select-radio=""
+                dic-base-data="ROOT_KJPT_YTDW" placeholder="请选择"></select>
 
             </div>
           </div>
@@ -47,12 +52,13 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">申请类型：</span></label>
             <div class="layui-input-block">
-              <select name="applicationType" lay-filter="applicationType" dic-base-data="ROOT_KJPT_SQLX" placeholder="请选择">
+              <select name="applicationType" lay-filter="applicationType" dic-base-data="ROOT_KJPT_SQLX"
+                placeholder="请选择">
               </select>
             </div>
           </div>
         </div>
-        
+
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">申请(专利)号：</span></label>
@@ -67,11 +73,13 @@
             <label class="layui-form-label"><span class="text">申请日期：</span></label>
             <div class="layui-input-block font0">
               <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                <input type="text" name="applicationDateStart" id="applicationDateStart" autocomplete="off" placeholder="请选择" class="laydate-input">
+                <input type="text" name="applicationDateStart" id="applicationDateStart" autocomplete="off"
+                  placeholder="请选择" class="laydate-input">
               </div>
               <span class="ib-block font14 text-center" style="width: 30px;">至</span>
               <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                <input type="text" name="applicationDateEnd" id="applicationDateEnd" autocomplete="off" placeholder="请选择" class="laydate-input">
+                <input type="text" name="applicationDateEnd" id="applicationDateEnd" autocomplete="off"
+                  placeholder="请选择" class="laydate-input">
               </div>
             </div>
           </div>
@@ -81,13 +89,13 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">专利类型：</span></label>
             <div class="layui-input-block">
-              <select name="patentType"  lay-filter="patentType" dic-base-data="ROOT_KJPT_ZLZL" placeholder="请选择"> 
+              <select name="patentType" lay-filter="patentType" dic-base-data="ROOT_KJPT_ZLZL" placeholder="请选择">
               </select>
             </div>
           </div>
         </div>
-        
-        
+
+
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">申请人：</span></label>
@@ -96,30 +104,27 @@
             </div>
           </div>
         </div>
-        
+
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">发明人：</span></label>
             <div class="layui-input-block">
               <input type="text" name="inventor" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
-             
+
           </div>
         </div>
- 
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
-            <div class="layui-form-item text-right"> 
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <span class="layui-fold-btn"></span>
-            </div>
-        </div>
 
-        
-        
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
+          <div class="layui-form-item text-right">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <span class="layui-fold-btn"></span>
+          </div>
+        </div>
       </div>
     </form>
-  
+
     <div class="view-title-layout">
       <div class="right">
         <button class="layui-btn border-blue" id="addItem" button-role="add">新增</button>
@@ -128,24 +133,78 @@
         <button class="layui-btn border-red" id="delItem" button-role="delete">删除</button>
       </div>
     </div>
-    
-    <table id="tableDemo"  lay-filter="tableDemo"></table>
+
+    <table id="tableDemo" lay-filter="tableDemo"></table>
   </div>
-  
-<script type="text/html" id="showUserTpl">
-	<a href="javascript:shouUser('{{d.id}}')" class="layui-table-link">{{d.inventor}}</a>
-</script>
- 
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script src="query.js"></script>
 
-<script type="text/html" id="applicationDateText">
-	{{ dateFieldText(d.applicationDate) }}
+  <script type="text/html" id="showUserTpl">
+    <a href="javascript:shouUser('{{d.id}}')" class="layui-table-link">{{d.inventor}}</a>
+  </script>
+
+  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/layuiadmin/js/common.js"></script>
+  <script src="query.js"></script>
+
+  <script type="text/html" id="applicationDateText">
+    {{ dateFieldText(d.applicationDate) }}
+  </script>
+<script>
+commonItemInto({
+    elem: '#homeHeaderItem',
+    itemMinWidth: 104,
+    cols: [{
+      title: '专利总数量',
+      id: 'expertNumber',
+      label: 'zik',
+      unit: '个',
+      url: '#'
+    }, {
+      title: '最近三年',
+      
+    }, {
+      title: '2018年',
+      id: 'year18',
+      label: 'kycg',
+      unit: '个',
+      url: '#'
+    }, {
+      title: '2019年',
+      id: 'year19',
+      label: '',
+      unit: '个',
+      url: '#'
+    }, {
+      title: '2020年',
+      id: 'year20',
+      label: '',
+      unit: '个',
+      url: '#'
+    }, {
+      title: '专利类型',
+    }, {
+      title: '发明专利',
+      id: 'patentType01',
+      label: '',
+      unit: '个',
+      url: '#'
+    }, {
+      title: '实用新型专利',
+      id: 'patentType02',
+      label: '',
+      unit: '个',
+      url: '#'
+    }, {
+      title: '外观设计专利',
+      id: 'patentType03',
+      label: '',
+      unit: '个',
+      url: '#'
+    }]
+  });
 </script>
 
- 
- 
+
 </body>
+
 </html>
