@@ -62,6 +62,16 @@ public class UserProviderClient {
 	public SysUser selectUserByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserByUserId(userId);
 	}
+	
+	
+	@ApiOperation(value = "根据唯一标识查询用户信息")
+	@RequestMapping(value = "/user_provider/selectUserByIdentityId/{unifyIdentityId}", method = RequestMethod.GET)
+	public SysUser getUserByIdentityId(@PathVariable(value = "unifyIdentityId", required = true) String unifyIdentityId) {
+		return userService.selectUserByIdentityId(unifyIdentityId);
+	}
+	
+	
+	
 
 //	@ApiOperation(value="获取当前用户信息",notes="获取当前用户信息")
 //	@RequestMapping(value = "/user-provider/user/currentUserInfo/{userId}", method = RequestMethod.GET)

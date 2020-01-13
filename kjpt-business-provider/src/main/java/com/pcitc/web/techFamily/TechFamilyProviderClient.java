@@ -490,6 +490,11 @@ public class TechFamilyProviderClient {
     	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
     	return json;
 	}
+    
+    
+    
+    
+    
 
 	@ApiOperation(value = "获取技术族（分页）", notes = "获取技术族（分页）")
 	@RequestMapping(value = "/tech_family_provider/page", method = RequestMethod.POST)
