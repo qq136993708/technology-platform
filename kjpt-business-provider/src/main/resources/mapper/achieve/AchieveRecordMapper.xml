@@ -16,6 +16,7 @@
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="achieve_info" jdbcType="VARCHAR" property="achieveInfo"/>
         <result column="finish_unit_name" jdbcType="VARCHAR" property="finishUnitName"/>
+        <result column="finish_unit_name_text" jdbcType="VARCHAR" property="finishUnitNameText"/>
         <result column="income_money" jdbcType="FLOAT" property="incomeMoney"/>
         <result column="trans_money" jdbcType="FLOAT" property="transMoney"/>
         <result column="reward_money" jdbcType="FLOAT" property="rewardMoney"/>
@@ -103,7 +104,8 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        finish_unit_name_text
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRecordMap">

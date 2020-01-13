@@ -94,8 +94,9 @@
   box-shadow: 0 1px 7px -1px rgba(0,0,0, .1);
 }
 
-.maintain_list > .view-title-layout::before, .record_input_page form > .view-title-layout::before {
-  /* right: 0 !important; */
-  width: 91%;
-  /* left: auto; */
+.record_pdf{
+  padding-top: 10px !important;
+}
+.view-pt0{
+  padding-top: 0 !important;
 }

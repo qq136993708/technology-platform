@@ -28,7 +28,6 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
     });
   }
 
-  console.log(variable);
   if (variable.type === 'view') {
     $('[lay-submit]').remove();
     itemInitApi = '/achieveRecord-api/load/' + variable.id
@@ -63,7 +62,9 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
           laydate.render({elem: '#estimate'})
         }
         form.render();
-
+        if (res.finishUnitName) {
+          formSelects.value('finishUnitName', [res.finishUnitName]);
+         }
         var scope_disabled = false;
 
         // 监听是否为核心成果

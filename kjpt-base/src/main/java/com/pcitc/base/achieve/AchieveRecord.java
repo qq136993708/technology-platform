@@ -65,6 +65,10 @@ public class AchieveRecord extends RecordModel implements Serializable {
      */
     private String finishUnitName="";
     /**
+     * 完成单位名称翻译
+     */
+    private String finishUnitNameText="";
+    /**
      * 预计净收入
      */
     private BigDecimal incomeMoney = new BigDecimal("0");
@@ -543,5 +547,13 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setAboutCompleteInfoText(String aboutCompleteInfoText) {
         this.aboutCompleteInfoText = aboutCompleteInfoText;
+    }
+
+    public String getFinishUnitNameText() {
+        return finishUnitNameText;
+    }
+
+    public void setFinishUnitNameText(String finishUnitNameText) {
+        this.finishUnitNameText = finishUnitNameText;
     }
 }

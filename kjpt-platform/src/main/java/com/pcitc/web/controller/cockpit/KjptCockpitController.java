@@ -96,7 +96,6 @@ public class KjptCockpitController extends RestBaseController {
     private static final String FOURSUMMARYCOUNT = "http://kjpt-zuul/stp-proxy/cockpit/index/allSummaryCount";
 
     /**
-<<<<<<< HEAD
      * 查询BI数据
      */
     private static final String QUERY_BI_DATA = "http://kjpt-zuul/stp-proxy/cockpit/results/queryBiData";
