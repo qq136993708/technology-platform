@@ -435,7 +435,6 @@ function _commonLoadDic(dicKindCode, callback) {
 }
   
 function bindSelectorDic(selector, dicKindCode, form, filter, type) {
- 
 	var __dicData = _getDicStore(dicKindCode, 'form');
 	if (type === 'xm-select') {
 		if (__dicData.length) {
