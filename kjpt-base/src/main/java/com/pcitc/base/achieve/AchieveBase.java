@@ -33,6 +33,10 @@ public class AchieveBase extends RecordModel implements Serializable {
      */
     private String finishUnitName="";
     /**
+     * 完成单位名称
+     */
+    private String finishUnitNameText="";
+    /**
      * 完成时间
      */
     @DateTimeFormat
@@ -258,5 +262,13 @@ public class AchieveBase extends RecordModel implements Serializable {
 
     public void setFileDoc(String fileDoc) {
         this.fileDoc = fileDoc;
+    }
+
+    public String getFinishUnitNameText() {
+        return finishUnitNameText;
+    }
+
+    public void setFinishUnitNameText(String finishUnitNameText) {
+        this.finishUnitNameText = finishUnitNameText;
     }
 }

@@ -8,6 +8,7 @@
         <result column="achieve_name" jdbcType="VARCHAR" property="achieveName"/>
         <result column="tech_type" jdbcType="VARCHAR" property="techType"/>
         <result column="finish_unit_name" jdbcType="VARCHAR" property="finishUnitName"/>
+        <result column="finish_unit_name_text" jdbcType="VARCHAR" property="finishUnitNameText"/>
         <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate"/>
         <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
         <result column="brief" jdbcType="VARCHAR" property="brief"/>
