@@ -136,7 +136,7 @@
       </if>
       <if test="knowledgePerson != null">
         #{knowledgePerson,jdbcType=VARCHAR},
-      </if>
+    </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
       </if>

@@ -93,6 +93,10 @@
   border-top: 1px #e8e8e8 solid;
   box-shadow: 0 1px 7px -1px rgba(0,0,0, .1);
 }
+
 .record_pdf{
-  /* float: right; */
+  padding-top: 10px !important;
+}
+.view-pt0{
+  padding-top: 0 !important;
 }

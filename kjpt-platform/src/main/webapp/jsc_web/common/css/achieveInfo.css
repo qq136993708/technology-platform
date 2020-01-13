@@ -1,23 +1,28 @@
-.layout-view-content{
+.layout-view-content {
   background-color: #001e38;
   padding: 0 1rem .5rem;
   height: 100%;
 }
+
 .chart-layout.jscWeb {
   height: 100%;
 }
+
 .left-date-block {
   position: absolute;
   left: 0;
   top: 100%;
   z-index: 9;
 }
+
 .left-date-block .layui-input-inline {
   width: 120px;
 }
-.left-date-block .layui-form-label > .text{
+
+.left-date-block .layui-form-label>.text {
   color: #fff;
 }
+
 .left-date-block .laydate-input {
   border-radius: 3px;
   border-color: #00EAFF;
@@ -32,32 +37,38 @@
   height: 44%;
   font-size: 0;
 }
+
 .bottom-chart-layout {
   height: 56%;
   padding-top: .8rem;
   font-size: 0;
 }
-.chart-item-layout{
+
+.chart-item-layout {
   display: inline-block;
   vertical-align: top;
   width: 26%;
   height: 100%;
 }
+
 .sub_title_text {
   font-size: 12px;
   color: #3B6C9A;
   padding-left: .4rem;
 }
+
 /* 知识产权 */
 .zscq_content .chartsBox1 {
   width: 35%;
   padding-right: 3rem;
 }
+
 .zscq_content .chartsBox2 {
   width: 65%;
   padding-right: 1.5rem;
 }
-.zscq_content .chartsBox3{
+
+.zscq_content .chartsBox3 {
   width: 100%;
   padding-right: 1.5rem;
 }
@@ -67,6 +78,7 @@
   width: 48%;
   padding-right: 2rem;
 }
+
 .achieve_appraisal .appraisal_four {
   width: 100%;
 }
@@ -77,27 +89,32 @@
   width: 32%;
   padding: 0;
 }
+
 .achieve_transform .appraisal_two,
-.achieve_transform .appraisal_four{
+.achieve_transform .appraisal_four {
   width: 68%;
   padding-left: 2rem;
 }
 
 /* 成果报奖 */
-.achieve_award .top-chart-layout{
+.achieve_award .top-chart-layout {
   height: 52%;
 }
-.achieve_award .bottom-chart-layout{
+
+.achieve_award .bottom-chart-layout {
   height: 48%;
 }
+
 .achieve_award .appraisal_one,
-.achieve_award .appraisal_two{
+.achieve_award .appraisal_two {
   /* width: 30%; */
   padding-right: 2rem;
 }
+
 .achieve_award .appraisal_three {
   width: 48%;
 }
+
 .achieve_award .appraisal_four {
   width: 74%;
   padding-right: 2rem;
@@ -108,42 +125,49 @@
   width: 40%;
   padding-right: 2rem;
 }
+
 .intelligent_team .appraisal_two {
   width: 32%;
   padding-right: 2rem;
 }
+
 .intelligent_team .appraisal_three {
   width: 28%;
 }
+
 .intelligent_team .appraisal_four {
   width: 100%;
 }
 
 /* 科研平台 */
-.kypt_content .chart-item-layout{
+.kypt_content .chart-item-layout {
   width: 25%;
 }
+
 .kypt_content .kyptCharts5 {
   width: 100%;
 }
-.kypt_content .bottom-chart-layout{
+
+.kypt_content .bottom-chart-layout {
   padding-top: 1.5rem;
 }
 
 /* 质量信息 */
 .quality .scroll-layout,
 .quality .scroll-object,
-.quality .scroll-object > li{
+.quality .scroll-object>li {
   height: 100%;
   margin: 0;
   padding: 0;
   font-size: 0;
 }
+
 .quality .scroll-layout {
   overflow: hidden;
   position: relative;
 }
-.quality .scroll-object  {
+
+.quality .scroll-object {
   display: inline-block;
   vertical-align: top;
   white-space: nowrap;
@@ -152,12 +176,14 @@
   left: 0;
   transition: left .36s ease-out;
 }
-.quality .scroll-object > li {
+
+.quality .scroll-object>li {
   display: inline-block;
   vertical-align: top;
   width: 50%;
 }
-.quality .scroll-btn{
+
+.quality .scroll-btn {
   position: absolute;
   top: 50%;
   width: 2rem;
@@ -170,17 +196,21 @@
   transition: all .18s ease-out;
   display: none;
 }
+
 .quality .scroll-btn.left {
   left: .5rem;
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
+
 .quality .scroll-btn.right {
   right: .5rem;
 }
+
 .quality .scroll-btn.active {
   display: block;
 }
+
 .quality .scroll-btn:hover {
   background-color: rgba(0, 0, 0, .5);
 }
@@ -189,22 +219,27 @@
   padding-right: 1rem;
   padding-left: 2.5rem;
 }
-.quality .top-chart-layout{
+
+.quality .top-chart-layout {
   height: 56%;
 }
+
 .quality .bottom-chart-layout {
   height: 44%;
 }
+
 .quality .chart-item-layout {
   width: 33.33%;
   padding-right: 2rem;
 }
+
 .quality ul.left-date-block {
   width: 100%;
   font-size: 0;
   white-space: nowrap;
   background-color: #093D6D;
 }
+
 .quality ul.left-date-block li {
   display: inline-block;
   vertical-align: middle;
@@ -215,18 +250,21 @@
   line-height: 14px;
   color: #fff;
 }
-.quality ul.left-date-block .item-value{
+
+.quality ul.left-date-block .item-value {
   display: inline-block;
   vertical-align: top;
   max-width: 1.5rem;
   text-align: right;
 }
-.quality ul.left-date-block .dot-text{
+
+.quality ul.left-date-block .dot-text {
   display: inline-block;
   vertical-align: top;
   width: 6px;
 }
-.quality ul.left-date-block .item-text{
+
+.quality ul.left-date-block .item-text {
   display: inline-block;
   vertical-align: top;
   max-width: calc(100% - 2rem - 6px);
@@ -241,29 +279,79 @@
 .quality_experience .top-chart-layout {
   height: 100%;
 }
+
 .quality_experience .chart-item-layout {
   width: 50%;
 }
-.quality_experience .chart-title-layout{
+
+.quality_experience .chart-title-layout {
   text-align: center;
 }
 
 
 /* 饼图图例最小宽度 */
-.pie-legend-list .legend-item > .lenend-item-name{
+.pie-legend-list .legend-item>.lenend-item-name {
   min-width: 64px;
 }
-.quality_experience .pie-legend-list{
+
+.quality_experience .pie-legend-list {
   white-space: normal;
   height: 44%;
 }
-.quality_experience .pie-legend-list .legend-item{
+
+.quality_experience .pie-legend-list .legend-item {
   margin: 0;
   padding-bottom: 1rem;
   width: 50%;
   padding-left: 1.2rem;
   white-space: nowrap;
 }
-.quality_experience .pie-legend-list .legend-item > .lenend-item-name{
+
+.quality_experience .pie-legend-list .legend-item>.lenend-item-name {
   width: calc(100% - 4rem);
+}
+
+.chart-mask {
+  height: 1rem;
+  font-size: 12px;
+}
+
+.chart-mask-item {
+  display: inline-block;
+  height: 0.5rem;
+  margin: 0.25rem 0;
+  width: 18%;
+}
+
+.chart-mask-item span {
+  display: inline-block;
+  float: left;
+  width: 70%;
+  height: 100%;
+}
+
+.chart-mask-item .chart-mask-item-left {
+  width: 30%;
+}
+
+.chart-mask-item .chart-mask-item-right {
+  color: #3B6C9A;
+  line-height: 0.5rem;
+  padding-left: 4px;
+}
+
+.chart-mask .chart-mask-item:nth-of-type(1) .chart-mask-item-left {
+  background-image: linear-gradient(#FE486D, #FFA164);
+}
+.chart-mask .chart-mask-item:nth-of-type(2) .chart-mask-item-left {
+  background-image: linear-gradient(#6E03E5, #AE3AFF);
+}
+.chart-mask .chart-mask-item:nth-of-type(3) .chart-mask-item-left {
+  background-image: linear-gradient(#00C8DD, #07EDE2);
+}
+.chart-mask .chart-mask-item:nth-of-type(4) .chart-mask-item-left {
+  background-image: linear-gradient(#FFC600, #FFEA00);
+}
+.chart-mask .chart-mask-item:nth-of-type(5) .chart-mask-item-left {
+  background-image: linear-gradient(#0AFF16, #A1FF01);
 }

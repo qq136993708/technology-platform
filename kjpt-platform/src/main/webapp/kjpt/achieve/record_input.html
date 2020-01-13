@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="renderer" content="webkit">
@@ -14,109 +15,116 @@
   <link rel="stylesheet" href="/css/achieveRecord.css">
   <!-- 更多样式在此引入 -->
 </head>
+
 <body>
-<div class="layout-view-content record_input_page">
-  <div id="edit_transfrom_maintain"></div>
-  <div class="record_pdf"><a href='#' id="loadPdf">导出到pdf</a></div>
+  <div class="layout-view-content record_input_page">
+    <div id="edit_transfrom_maintain"></div>
+    <div class="view-title-layout record_pdf" >
+      <div class="right">
+          <a class="layui-btn border-blue openLayerPage" id="exportData" target="_blank">导出Pdf</a>
+      </div>
+  </div>
 
-	<form class="layui-form" action="" lay-filter="RecordInputForm" id="RecordInputForm">
-    <div class="view-title-layout view-pt0">
-      <div class="text">科技成果基本信息</div>
-    </div>
+    <form class="layui-form" action="" lay-filter="RecordInputForm" id="RecordInputForm">
+      <div class="view-title-layout view-pt0">
+        <div class="text">科技成果基本信息</div>
+        
+      </div>
 
-    <div class="layui-row layui-col-space20">
+      <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-            <div class="layui-form-item">
-              <label class="layui-form-label label-required"><span class="text">密级：</span></label>
-              <div class="layui-input-block">
-                <select id="secretLevel" disabled="disabled" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
-                </select>
-              </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+            <div class="layui-input-block">
+              <select id="secretLevel" disabled="disabled" lay-filter="secretLevel" name="secretLevel"
+                dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
+              </select>
             </div>
-        </div>  
-      
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-            <div class="layui-form-item">
-                <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
-                <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>  
-            </div>
+          </div>
         </div>
-             
-    </div>
-    <!-- 知悉范围 -->
-    <div id="scope_list_layout"></div>
-    <div class="secret-level-line"></div>
 
-    
-    <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="achieveName" lay-verify="required"
-              placeholder="请填写..." readonly="readonly" autocomplete="off" class="layui-input">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+            <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>
           </div>
         </div>
+
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">是否成为集团公司核心技术成果：</span></label>
-          <div class="layui-input-block">
-            <select name="achieveType" disabled="disabled" lay-verify="required" lay-filter="achieveType">
-              <option value="0">否</option>
-              <option value="1">是</option>
-            </select>
+      <!-- 知悉范围 -->
+      <div id="scope_list_layout"></div>
+      <div class="secret-level-line"></div>
+
+
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="achieveName" lay-verify="required" placeholder="请填写..." readonly="readonly"
+                autocomplete="off" class="layui-input">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">成果完成单位：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="finishUnitName" lay-verify="required"
-              placeholder="请填写..." readonly="readonly" autocomplete="off" class="layui-input">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">是否成为集团公司核心技术成果：</span></label>
+            <div class="layui-input-block">
+              <select name="achieveType" disabled="disabled" lay-verify="required" lay-filter="achieveType">
+                <option value="0">否</option>
+                <option value="1">是</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">成果转化状态：</span></label>
-          <div class="layui-input-block">
-            <select name="achieveTransStatus" dic-base-data="ROOT_KJPT_KJCG_CGZHZT"
-              lay-filter="achieveTransStatus" placeholder="请选择" lay-verify="required"></select>
-            <!-- <span class="layui-input" diy-form-value="auditStatus" diy-dic-data="ROOT_UNIVERSAL_LCZT"></span>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果完成单位：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="finishUnitName" lay-verify="required" placeholder="请填写..." readonly="readonly"
+                autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果转化状态：</span></label>
+            <div class="layui-input-block">
+              <select name="achieveTransStatus" dic-base-data="ROOT_KJPT_KJCG_CGZHZT" lay-filter="achieveTransStatus"
+                placeholder="请选择" lay-verify="required"></select>
+              <!-- <span class="layui-input" diy-form-value="auditStatus" diy-dic-data="ROOT_UNIVERSAL_LCZT"></span>
             <input type="hidden" name="achieveTransStatus" lay-verify="required" /> -->
+            </div>
           </div>
         </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">经费支持渠道：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="projectChannel" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">经费支持渠道：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="projectChannel" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">项目来源：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="projectSource" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">项目来源：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="projectSource" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">知识产权情况：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="intellectualInfo" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">知识产权情况：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="intellectualInfo" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
           </div>
         </div>
-      </div>
-      <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果完成团队：</span></label>
           <div class="layui-input-block">
@@ -126,334 +134,316 @@
         </div>
       </div> -->
 
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-        <div class="view-row-title">
-          <span class="link-text dy-add-btn" id="addTeamPersonList">+ 添加</span>
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+          <div class="view-row-title">
+            <span class="link-text dy-add-btn" id="addTeamPersonList">+ 添加</span>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">科技成果完成团队情况（按贡献度排序）：</span></label>
+            <div class="layui-input-block">
+              <table class="layui-table dy-add-table" id="teamPersonList">
+                <thead>
+                  <tr>
+                    <th width="80">序号</th>
+                    <th width="120">姓名</th>
+                    <th width="100">性别</th>
+                    <th>所在单位</th>
+                    <th>职务和贡献</th>
+                    <th width="100">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="layui-none">
+                    <td colspan="6">
+                      <div style="text-align: center">暂无数据,请添加！</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">科技成果完成团队情况（按贡献度排序）：</span></label>
-          <div class="layui-input-block">
-            <table class="layui-table dy-add-table" id="teamPersonList">
-              <thead>
-                <tr>
-                  <th width="80">序号</th>
-                  <th width="120">姓名</th>
-                  <th width="100">性别</th>
-                  <th>所在单位</th>
-                  <th>职务和贡献</th>
-                  <th width="100">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="layui-none">
-                  <td colspan="6"><div style="text-align: center">暂无数据,请添加！</div></td>
-                </tr>
-              </tbody>
-            </table>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">知识产权状况或科技成果评价报告：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="appraisalDoc" />
+              <table></table>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">知识产权状况或科技成果评价报告：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="appraisalDoc" />
-            <table></table>
-          </div>
-        </div>
+      <div class="view-title-layout">
+        <div class="text">成果受让单位情况</div>
       </div>
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">单位基本信息：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="grantUnitName" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">选择单位的方式和理由：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="grantChooseWay" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">对受让单位的尽职调查情况：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="grantInvest" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">选择单位的原因：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="grantReason" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">尽职调查报告：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="grantDoc">
+              <table></table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="view-title-layout">
+        <div class="text">成果转化价格确定</div>
+      </div>
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果转化方式：</span></label>
+            <div class="layui-input-block">
+              <input type="radio" name="achieveTransType" value="1" title="技术转让">
+              <input type="radio" name="achieveTransType" value="2" title="技术许可" checked>
+              <input type="radio" name="achieveTransType" value="3" title="技术合作投资">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">定价原则和依据：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="transPriceBasis" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">定价方式（含价值评估）：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="transPriceWay" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">公示及结果材料：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="transPublicDoc">
+              <table></table>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">合同（协议）文本：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="transContractDoc">
+              <table></table>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">资产评估报告及评估备案表：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="transAssessDoc">
+              <table></table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="view-title-layout">
+        <div class="text">本单位内部决策情况</div>
+      </div>
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">内部决策流程：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="decisionFlow" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">决策事项和结果：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="decisionResult" lay-verify="required" placeholder="请填写..." autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">内部决策会议纪要：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="decisionMeetingDoc">
+              <table></table>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
+          <div class="view-title-layout view-row-title">
+            <div class="right">
+              <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">单位内部科技成果转化规章制度：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" class="fileValue" name="decisionRuleDoc">
+              <table></table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="view-page-submit-btn-box" id="all_page_submit">
+        <button class="layui-btn layui-btn-normal" type="button" lay-filter="formTempSave">保存</button>
+        <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="formFlow">上报</button>
+        <button type="button" class="layui-btn layui-btn-primary close-iframe-page">关闭</button>
+      </div>
+
+      <input type="hidden" name="id"><!-- 备案ID -->
+      <input type="hidden" name="achieveId"><!-- 成果ID -->
+      <input type="hidden" name="createUnitId"><!-- 创建人单位ID -->
+      <input type="hidden" name="createUnitName"><!-- 创建人单位名称 -->
+      <input type="hidden" name="updator"><!-- 更新人 -->
+      <input type="hidden" name="updateDate"><!-- 更新时间 -->
+      <input type="hidden" name="deleted"><!-- 是否删除 -->
+      <input type="hidden" name="creator"><!-- 创建人 -->
+      <input type="hidden" name="createDate"><!-- 创建时间 -->
+      <input type="hidden" name="files"><!-- 附件ID集合 -->
+      <input type="hidden" name="auditStatus" /><!-- 审批状态 -->
+    </form>
+
+    <div id="init_transfrom_maintain"></div>
+
+    <div id="approvalRecord_layout">
+      <div class="view-title-layout">
+        <div class="text">审批记录</div>
+      </div>
+      <table id="approvalRecord"></table>
     </div>
 
-    <div class="view-title-layout">
-      <div class="text">成果受让单位情况</div>
-    </div>
-    <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">单位基本信息：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="grantUnitName" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">选择单位的方式和理由：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="grantChooseWay" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">对受让单位的尽职调查情况：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="grantInvest" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">选择单位的原因：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="grantReason" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">尽职调查报告：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="grantDoc">
-            <table></table>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="view-title-layout">
-      <div class="text">成果转化价格确定</div>
-    </div>
-    <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">成果转化方式：</span></label>
-          <div class="layui-input-block">
-            <input type="radio" name="achieveTransType" value="1" title="技术转让">
-            <input type="radio" name="achieveTransType" value="2" title="技术许可" checked>
-            <input type="radio" name="achieveTransType" value="3" title="技术合作投资">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">定价原则和依据：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="transPriceBasis" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">定价方式（含价值评估）：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="transPriceWay" lay-verify="required"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">公示及结果材料：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="transPublicDoc">
-            <table></table></div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">合同（协议）文本：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="transContractDoc">
-            <table></table></div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">资产评估报告及评估备案表：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="transAssessDoc">
-            <table></table></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="view-title-layout">
-      <div class="text">本单位内部决策情况</div>
-    </div>
-    <div class="layui-row layui-col-space20">
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">内部决策流程：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="decisionFlow" lay-verify="required"
-            placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">决策事项和结果：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="decisionResult" lay-verify="required"
-            placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">内部决策会议纪要：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="decisionMeetingDoc">
-            <table></table></div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 file-filter-options">
-        <div class="view-title-layout view-row-title">
-          <div class="right">
-            <button type="button" class="layui-btn border-blue layui-hide">模版下载</button>
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">单位内部科技成果转化规章制度：</span></label>
-          <div class="layui-input-block">
-            <input type="hidden" class="fileValue" name="decisionRuleDoc">
-            <table></table></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="view-page-submit-btn-box" id="all_page_submit">
-      <button class="layui-btn layui-btn-normal" type="button" lay-filter="formTempSave">保存</button>
-      <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="formFlow">上报</button>
-      <button type="button" class="layui-btn layui-btn-primary close-iframe-page">关闭</button>
-    </div>
-
-    <input type="hidden" name="id"><!-- 备案ID -->
-    <input type="hidden" name="achieveId"><!-- 成果ID -->
-    <input type="hidden" name="createUnitId"><!-- 创建人单位ID -->
-    <input type="hidden" name="createUnitName"><!-- 创建人单位名称 -->
-    <input type="hidden" name="updator"><!-- 更新人 -->
-    <input type="hidden" name="updateDate"><!-- 更新时间 -->
-    <input type="hidden" name="deleted"><!-- 是否删除 -->
-    <input type="hidden" name="creator"><!-- 创建人 -->
-    <input type="hidden" name="createDate"><!-- 创建时间 -->
-    <input type="hidden" name="files"><!-- 附件ID集合 -->
-    <input type="hidden" name="auditStatus" /><!-- 审批状态 -->
-  </form>
-
-  <div id="init_transfrom_maintain"></div>
-
-  <div id="approvalRecord_layout">
-    <div class="view-title-layout">
-      <div class="text">审批记录</div>
-    </div>
-    <table id="approvalRecord"></table>
+    <!-- 备案信息、激励方案上报表单 -->
+    <form action="" id="flow_form" name="flow_form">
+      <input name="functionId" id="functionId" type="hidden">
+      <input name="userIds" id="userIds" type="hidden">
+      <input name="id" id="flow_id" type="hidden">
+    </form>
   </div>
+  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/layuiadmin/js/common.js"></script>
+  <script src="/layuiadmin/js/fileUpload.js"></script>
+  <script type="text/javascript">
+    var roleCodes = "";
+    var unitCodes = "";
+    var postCodes = "";
+    var variable = getQueryVariable();
+    $('#exportData').attr('href', '/achieveRecord-api/wordExport/' + variable.id)
 
-  <!-- 备案信息、激励方案上报表单 -->
-  <form action="" id="flow_form" name="flow_form">
-    <input  name="functionId"     id="functionId"      type="hidden">
-    <input  name="userIds"        id="userIds"         type="hidden">
-    <input  name="id"             id="flow_id"          type="hidden" >
-  </form>
-</div>
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script src="/layuiadmin/js/fileUpload.js"></script>
-<script type="text/javascript">
-  var roleCodes = "";
-  var unitCodes = "";
-  var postCodes = "";
-  var variable = getQueryVariable();
-  $('#loadPdf').attr('href','/achieveRecord-api/wordExport/' + variable.id)
-  // console.log(variable);
-  //下载pdf
-    // $('#loadPdf').click(function(){
-    //   $(this).attr('href','/achieveRecord-api/wordExport/' + variable.id)
+    function dealFlow(flowUrl, functionId, msgID) {
+      var json = {
+          functionId: functionId,
+          branchFlag: "0"
+        },
+        nunits = "";
 
-    // })  
-  function dealFlow(flowUrl, functionId, msgID) {
-    var json = {functionId: functionId, branchFlag: "0"},
-    nunits="";
-
-    $.ajax({
-      type : 'POST',
-      url : '/workflow/start/audit-type',
-      contentType: "application/json;charset=UTF-8",
-      data : JSON.stringify(json),
-      //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-      success : function(data) {
-        console.log("audit-type\n"+JSON.stringify(data)); 
-        if (data.code == 'role') {
-          top.layer.close(msgID);
-          // 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds, flowUrl, msgID)方法
-          // roleCodes，参数名必须一致，方便公共弹出页面调用
-          roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-          console.log("roleCodes:\n"+roleCodes);
-          var temUrl="/task/deal/users/ini";
-          top.layer.open({
-            title:'选择审批人',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-            maxmin: true,
-            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-            area: ['800px', '550px'],
-            content:  temUrl
-          });
-        } else if (data.code == 'unit' || data.code == 'post') {
-          top.layer.close(msgID);
-          // 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds, flowUrl, msgID)方法
-          // unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-          if (data.code == 'unit') {
-            unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-          } else  {
-            postCodes = data.data;  // 弹出页面的隐藏的查询条件
-          }
-          console.log("隐藏的查询条件\n"+data.data);
-          var temUrl="/task/deal/user/unit/ini";
-          top.layer.open({
-              title:'选择审批人',
+      $.ajax({
+        type: 'POST',
+        url: '/workflow/start/audit-type',
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(json),
+        //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+        success: function (data) {
+          console.log("audit-type\n" + JSON.stringify(data));
+          if (data.code == 'role') {
+            top.layer.close(msgID);
+            // 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds, flowUrl, msgID)方法
+            // roleCodes，参数名必须一致，方便公共弹出页面调用
+            roleCodes = data.data; // 弹出页面的隐藏的查询条件
+            console.log("roleCodes:\n" + roleCodes);
+            var temUrl = "/task/deal/users/ini";
+            top.layer.open({
+              title: '选择审批人',
               skin: 'layui-layer-lan',
               shadeClose: true,
               type: 2,
@@ -462,65 +452,92 @@
               maxmin: true,
               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
               area: ['800px', '550px'],
-              content:  temUrl
-          });
-        } else if (data.code == 'int') {
+              content: temUrl
+            });
+          } else if (data.code == 'unit' || data.code == 'post') {
+            top.layer.close(msgID);
+            // 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds, flowUrl, msgID)方法
+            // unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+            if (data.code == 'unit') {
+              unitCodes = data.data; // 弹出页面的隐藏的查询条件
+            } else {
+              postCodes = data.data; // 弹出页面的隐藏的查询条件
+            }
+            console.log("隐藏的查询条件\n" + data.data);
+            var temUrl = "/task/deal/user/unit/ini";
+            top.layer.open({
+              title: '选择审批人',
+              skin: 'layui-layer-lan',
+              shadeClose: true,
+              type: 2,
+              fixed: false,
+              //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+              maxmin: true,
+              //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+              area: ['800px', '550px'],
+              content: temUrl
+            });
+          } else if (data.code == 'int') {
+            top.layer.close(msgID);
+            top.layer.msg('启动参数不足');
+          } else if (data.code == 'con') {
+            top.layer.close(msgID);
+            top.layer.msg('请给此功能菜单配置流程');
+          } else if (data.code == 'exist') {
+            top.layer.close(msgID);
+            top.layer.msg('工作流部署异常，请联系管理员');
+          } else {
+            // 直接处理此任务
+            handleTask('', flowUrl, msgID);
+          }
+        },
+        error: function (msg) { //请求失败处理函数
           top.layer.close(msgID);
-          top.layer.msg('启动参数不足');
-        } else if (data.code == 'con') {
-          top.layer.close(msgID);
-          top.layer.msg('请给此功能菜单配置流程');
-        } else if (data.code == 'exist') {
-          top.layer.close(msgID);
-          top.layer.msg('工作流部署异常，请联系管理员');
-        } else {
-          // 直接处理此任务
-          handleTask('', flowUrl, msgID);
+          dialogError(msg);
         }
-      },
-      error : function(msg) {//请求失败处理函数
-        top.layer.close(msgID);
-        dialogError(msg);
-      }
-    });
-  }
-  
-  //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-  function handleTask(userIds, optUrl, msgID) {
-    $('#userIds').val(userIds);
-    var v_date=(new Date()).getTime();
-    var url = optUrl + "?v_date="+v_date;
-    ajaxOpt(url, 'flow_form', "POST", "提交成功", "提交失败", msgID);
-  }
-  
-  function ajaxOpt(url, formID, type, successMsg, failMsg, msgID) {
-    $.ajax({
-      type:type,
-      url: url,
-      dataType: "json",
-      data: $("#" + formID).serialize(),
-      async: false, 
-      cache: false,
-      contentType: "application/x-www-form-urlencoded; charset=utf-8",
-      success:function(data,status) {
-        top.layer.close(msgID);
-        if(data.success==true ||data.success=='true') {
-          top.layer.alert(successMsg, {icon: 1,closeBtn: 0 }, function () {
-            top.layer.closeAll(); // 关闭弹窗
-            // 返回上一页
-            closeTabsPage(variable.index);
-          });
-        } else {
-          top.layer.alert(failMsg);
+      });
+    }
+
+    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+    function handleTask(userIds, optUrl, msgID) {
+      $('#userIds').val(userIds);
+      var v_date = (new Date()).getTime();
+      var url = optUrl + "?v_date=" + v_date;
+      ajaxOpt(url, 'flow_form', "POST", "提交成功", "提交失败", msgID);
+    }
+
+    function ajaxOpt(url, formID, type, successMsg, failMsg, msgID) {
+      $.ajax({
+        type: type,
+        url: url,
+        dataType: "json",
+        data: $("#" + formID).serialize(),
+        async: false,
+        cache: false,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        success: function (data, status) {
+          top.layer.close(msgID);
+          if (data.success == true || data.success == 'true') {
+            top.layer.alert(successMsg, {
+              icon: 1,
+              closeBtn: 0
+            }, function () {
+              top.layer.closeAll(); // 关闭弹窗
+              // 返回上一页
+              closeTabsPage(variable.index);
+            });
+          } else {
+            top.layer.alert(failMsg);
+          }
+        },
+        error: function () {
+          top.layer.close(msgID);
+          top.layer.alert("网络访问错误");
         }
-      },
-      error:function() {
-        top.layer.close(msgID);
-        top.layer.alert("网络访问错误");
-      }
-    });
-  }
-</script>
-<script src="record_inputJS.js"></script>
+      });
+    }
+  </script>
+  <script src="record_inputJS.js"></script>
 </body>
+
 </html>
