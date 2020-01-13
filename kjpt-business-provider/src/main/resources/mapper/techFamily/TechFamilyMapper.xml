@@ -525,6 +525,8 @@
 		<result column="code" property="code" jdbcType="VARCHAR" />
 		<result column="parentFlag" property="parentFlag" jdbcType="VARCHAR" />
 		<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+		<result column="parentCode" property="parentCode" jdbcType="VARCHAR" />
+		<result column="secretLevel" property="secretLevel" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	
@@ -542,6 +544,39 @@
 	  from tfm_type  t  <include refid="selectCondition" />  
         ORDER BY t.level_code,t.type_index ASC 
 	</select>
+	
+	
+	
+	
+	<resultMap id="TreeNodeApiBaseResultMap" type="com.pcitc.base.common.TreeNodeApi">
+		<id column="id"       property="id" jdbcType="VARCHAR" />
+		<result column="pId"  property="pId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="parentCode" property="parentCode" jdbcType="VARCHAR" />
+		<result column="secretLevel" property="secretLevel" jdbcType="VARCHAR" />
+		<result column="levelCode" property="levelCode" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	
+	  <select id="getTreeNodeApiList" resultMap="TreeNodeApiBaseResultMap"  >
+     select
+	      t.tfm_type_id AS id,
+		  t.parent_id AS pId,
+		  t.type_name AS name,
+		  t.level_code AS levelCode,
+		  t.type_code AS code,
+		  t.`parent_code` AS parentCode,
+		  t.`secret_level` AS secretLevel
+	  from tfm_type  t  <include refid="selectCondition" />  
+        ORDER BY t.level_code,t.type_index ASC 
+	</select>
+	
+	
+	
+	
+	
      
      
      <select id="getMaxTechTypeCodeByParentId" resultType="java.lang.String" parameterType="string">

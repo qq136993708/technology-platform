@@ -36,7 +36,7 @@ public class LocalApiController extends BaseController
 	
 	    @Value("${localApiRouteHosts}")
 	    private String localApiRouteHosts;
-	    private static final String GET_FAMILY_TREE_URL = "http://kjpt-zuul/stp-proxy/tech_family_provider/getTreeNodeList";
+	    private static final String GET_FAMILY_URL = "http://kjpt-zuul/stp-proxy/tech_family_provider/getTreeNodeApiList";
 	    
 	    @ApiOperation(value = "查询技术族列表（不分页）", notes = "查询技术族列表（不分页）")
 	    @ApiImplicitParams({
@@ -55,7 +55,7 @@ public class LocalApiController extends BaseController
 	            String userSecretLevel=CommonUtil.getParameter(request, "userSecretLevel", "");
 	            String levelCode=CommonUtil.getParameter(request, "levelCode", "");
 	            String parentId=CommonUtil.getParameter(request, "parentId", "");
-	            String host= request.getRemoteHost();
+	            String host= EquipmentUtils.getRemoteHost(request);
 	            
 	    		System.out.println(">>>>>>>>>>身份证号: "+unifyIdentityId);
 	    		System.out.println(">>>>>>>>>>用户密级（4核心，3重要，2一般，1非密）: "+userSecretLevel);
@@ -89,7 +89,7 @@ public class LocalApiController extends BaseController
 			   	    paramMap.put("knowledgeScope", user.getUserName());
 			   	 
 			   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
-			   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_TREE_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+			   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 			   		int statusCode = responseEntity.getStatusCodeValue();
 		  	   		JSONArray jSONArray=null;
 		  	   		if (statusCode == 200)

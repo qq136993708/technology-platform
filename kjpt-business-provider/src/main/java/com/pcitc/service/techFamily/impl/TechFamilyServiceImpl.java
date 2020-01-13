@@ -19,7 +19,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.common.TreeNodeApi;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyExample;
 import com.pcitc.base.stp.techFamily.TechFamilyExample.Criteria;
@@ -295,6 +295,10 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 	public List<TreeNode> getTreeNodeList(Map map)throws Exception
 	{
 		return techFamilyMapper.getTreeNodeList(map);
+	}
+	public List<TreeNodeApi> getTreeNodeApiList(Map map)throws Exception
+	{
+		return techFamilyMapper.getTreeNodeApiList(map);
 	}
     
 	
