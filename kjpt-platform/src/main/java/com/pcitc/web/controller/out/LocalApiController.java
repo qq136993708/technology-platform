@@ -1,6 +1,6 @@
 package com.pcitc.web.controller.out;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
@@ -120,7 +122,7 @@ public class LocalApiController extends BaseController
 	        @ApiImplicitParam(name = "userSecretLevel",        value = "用户密级（4核心，3重要，2一般，1非密）",   dataType = "string", paramType = "query"),
 	        @ApiImplicitParam(name = "id",                     value = "ID",                              dataType = "string", paramType = "query"),
 	        @ApiImplicitParam(name = "platformName",            value = "平台名称",                           dataType = "string", paramType = "query"),
-	        @ApiImplicitParam(name = "level",                  value = "平台等级",                           dataType = "string", paramType = "query")
+	        @ApiImplicitParam(name = "level",                  value = "平台等级(01：国家级科研平台、02：部委级科研平台、03：省部级科研平台、04：集团级科研平台、05：板块级科研平台)",                           dataType = "string", paramType = "query")
 	    })
 	    @RequestMapping(value = "/getPlatformListForOutApi", method = RequestMethod.GET)
 		public String getPlatformListForOutApi(HttpServletRequest request, HttpServletResponse response)throws Exception
@@ -174,6 +176,7 @@ public class LocalApiController extends BaseController
 		  	   		if (statusCode == 200)
 		  	   		{
 		  	   			jSONArray = responseEntity.getBody();
+		  	   		    jSONArray=getJSONArray(jSONArray);
 		  	   		    results.setData(jSONArray);
 		  	   		}else
 		  	   		{
@@ -191,6 +194,35 @@ public class LocalApiController extends BaseController
 		}
 	    
 	    
+	    //实体转换
+	    private JSONArray getJSONArray(JSONArray jSONArray)
+	    {
+	    	    List<PlatformInfoModel> resault =new ArrayList<PlatformInfoModel>();
+	   		    List<PlatformInfoModel> list = JSONObject.parseArray(jSONArray.toJSONString(), PlatformInfoModel.class);
+	   		    if(list!=null)
+	   		    {
+	   		    	for(int i=0;i<list.size();i++)
+	   		    	{
+	   		    	     PlatformInfoModel platformInfoModel=list.get(i);
+	   		    	     PlatformInfoModel pm=new  PlatformInfoModel();
+	   		    	     pm.setId(platformInfoModel.getId());
+	   		             pm.setPlatformName(platformInfoModel.getPlatformName());
+	   		             pm.setLevel(platformInfoModel.getLevel());
+	   		             pm.setResearchFieldText(platformInfoModel.getResearchFieldText());
+	   		             pm.setResearchField(platformInfoModel.getResearchField());
+	   		             pm.setPlatformIntroduction(platformInfoModel.getPlatformIntroduction());
+	   		             pm.setPlatformScoring(platformInfoModel.getPlatformScoring());
+	   		             pm.setTeamIntroduction(platformInfoModel.getTeamIntroduction());
+	   		             pm.setOverallSituation(platformInfoModel.getOverallSituation());
+	   		             pm.setSecretLevel(platformInfoModel.getSecretLevel());
+	   		             pm.setCreateUnitId(platformInfoModel.getCreateUnitId());
+	   		             pm.setCreateUnitName(platformInfoModel.getCreateUnitName());
+	   		        	 resault.add(pm);
+	   		    	}
+	   		    }
+	   		 JSONArray array= JSONArray.parseArray(JSON.toJSONString(resault));
+	   	     return  array;
+	    }
 	    
 	
 
