@@ -119,7 +119,7 @@ public class LocalApiController extends BaseController
 	        @ApiImplicitParam(name = "unifyIdentityId",        value = "统一身份ID(身份证号)",                 dataType = "string", paramType = "query"),
 	        @ApiImplicitParam(name = "userSecretLevel",        value = "用户密级（4核心，3重要，2一般，1非密）",   dataType = "string", paramType = "query"),
 	        @ApiImplicitParam(name = "id",                     value = "ID",                              dataType = "string", paramType = "query"),
-	        @ApiImplicitParam(name = "supportingInstitutions", value = "依托单位",                           dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "platformName",            value = "平台名称",                           dataType = "string", paramType = "query"),
 	        @ApiImplicitParam(name = "level",                  value = "平台等级",                           dataType = "string", paramType = "query")
 	    })
 	    @RequestMapping(value = "/getPlatformListForOutApi", method = RequestMethod.GET)
@@ -130,7 +130,7 @@ public class LocalApiController extends BaseController
 	    	    Result results = new Result();
 	            String unifyIdentityId=CommonUtil.getParameter(request, "unifyIdentityId", "");
 	            String userSecretLevel=CommonUtil.getParameter(request, "userSecretLevel", "");
-	            String supportingInstitutions=CommonUtil.getParameter(request, "supportingInstitutions", "");
+	            String platformName=CommonUtil.getParameter(request, "platformName", "");
 	            String level=CommonUtil.getParameter(request, "level", "");
 	            String host= EquipmentUtils.getRemoteHost(request);
 	            
@@ -159,7 +159,7 @@ public class LocalApiController extends BaseController
 	            {
 	            	Map<String ,Object> paramMap = new HashMap<String ,Object>();
 			   	    paramMap.put("level", level);
-			   	    paramMap.put("supportingInstitutions", supportingInstitutions);
+			   	    paramMap.put("platformName", platformName);
 			   	    paramMap.put("userSecretLevel", userSecretLevel);
 			   	    paramMap.put("knowledgeScope", user.getUserName());
 			   	    paramMap.put("deleted", "0");
@@ -185,6 +185,7 @@ public class LocalApiController extends BaseController
 	            	results.setSuccess(false);
 	            	results.setMessage("没有此用户");
 	            }
+	            
 	  	   	    JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
 			    return ob.toString();
 		}
