@@ -494,6 +494,19 @@ public class TechFamilyProviderClient {
 	public JSONArray getTreeNodeApiList(@RequestBody Map map)throws Exception
     {
     	List<TreeNodeApi> list= techFamilyService.getTreeNodeApiList(map);
+    	if(list!=null)
+    	{
+    		for (int i = 0; i < list.size(); i++) 
+			{
+    			TreeNodeApi tree = list.get(i);
+				// 判断节点是否有孩子（异步加载用）
+				if (tree.getParentFlag().equals("0")) {
+					tree.setIsParent(false);
+				} else {
+					tree.setIsParent(true);
+				}
+			}
+    	}
     	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
     	return json;
 	}

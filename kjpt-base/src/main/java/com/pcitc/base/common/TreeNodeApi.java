@@ -2,7 +2,9 @@ package com.pcitc.base.common;
 
 import java.io.Serializable;
 
-public class TreeNodeApi implements Serializable{
+public class TreeNodeApi implements Serializable
+{
+	
 	    private static final long serialVersionUID = 1L;
 	    private String id;
 	    private int levelCode;
@@ -11,8 +13,17 @@ public class TreeNodeApi implements Serializable{
 	    private String name;
 	    private String parentCode;
 	    private String secretLevel;
+	    private boolean isParent;
+	    private String parentFlag;
 	    
 	    
+	  
+		public String getParentFlag() {
+			return parentFlag;
+		}
+		public void setParentFlag(String parentFlag) {
+			this.parentFlag = parentFlag;
+		}
 		public String getId() {
 			return id;
 		}
@@ -56,7 +67,13 @@ public class TreeNodeApi implements Serializable{
 		public void setSecretLevel(String secretLevel) {
 			this.secretLevel = secretLevel;
 		}
-	    
+		public boolean getIsParent() {
+			return isParent;
+		}
+
+		public void setIsParent(boolean isParent) {
+			this.isParent = isParent;
+		}
 	    
 	    
 }

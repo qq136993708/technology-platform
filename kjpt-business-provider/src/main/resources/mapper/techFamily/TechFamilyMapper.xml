@@ -552,6 +552,7 @@
 		<id column="id"       property="id" jdbcType="VARCHAR" />
 		<result column="pId"  property="pId" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="parentFlag" property="parentFlag" jdbcType="VARCHAR" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
 		<result column="parentCode" property="parentCode" jdbcType="VARCHAR" />
 		<result column="secretLevel" property="secretLevel" jdbcType="VARCHAR" />
@@ -565,6 +566,7 @@
 	      t.tfm_type_id AS id,
 		  t.parent_id AS pId,
 		  t.type_name AS name,
+		  t.is_parent AS parentFlag,
 		  t.level_code AS levelCode,
 		  t.type_code AS code,
 		  t.`parent_code` AS parentCode,
