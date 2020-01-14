@@ -217,6 +217,10 @@ public class LocalApiController extends BaseController
 	   		             pm.setSecretLevel(platformInfoModel.getSecretLevel());
 	   		             pm.setCreateUnitId(platformInfoModel.getCreateUnitId());
 	   		             pm.setCreateUnitName(platformInfoModel.getCreateUnitName());
+	   		             pm.setLevelText(platformInfoModel.getLevelText());
+	   		             pm.setSecretLevelText(platformInfoModel.getSecretLevelText());
+	   		             pm.setSupportingInstitutions(platformInfoModel.getSupportingInstitutions());
+	   		             pm.setSupportingInstitutionsText(platformInfoModel.getSupportingInstitutionsText());
 	   		        	 resault.add(pm);
 	   		    	}
 	   		    }
