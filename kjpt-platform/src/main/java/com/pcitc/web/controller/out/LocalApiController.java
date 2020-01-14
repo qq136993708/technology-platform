@@ -36,6 +36,8 @@ public class LocalApiController extends BaseController
 	
 	    @Value("${localApiRouteHosts}")
 	    private String localApiRouteHosts;
+	    
+	    private static final String getPlatformListForOutApi = "http://kjpt-zuul/stp-proxy/researchPlatform-api/queryNoPage";
 	    private static final String GET_FAMILY_URL = "http://kjpt-zuul/stp-proxy/tech_family_provider/getTreeNodeApiList";
 	    
 	    @ApiOperation(value = "查询技术族列表（不分页）", notes = "查询技术族列表（不分页）")
@@ -109,6 +111,85 @@ public class LocalApiController extends BaseController
 	  	   	    JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
 			    return ob.toString();
 		}
+	    
+	    
+	    
+	    @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
+	    @ApiImplicitParams({
+	        @ApiImplicitParam(name = "unifyIdentityId",        value = "统一身份ID(身份证号)",                 dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "userSecretLevel",        value = "用户密级（4核心，3重要，2一般，1非密）",   dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "id",                     value = "ID",                              dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "supportingInstitutions", value = "依托单位",                           dataType = "string", paramType = "query"),
+	        @ApiImplicitParam(name = "level",                  value = "平台等级",                           dataType = "string", paramType = "query")
+	    })
+	    @RequestMapping(value = "/getPlatformListForOutApi", method = RequestMethod.GET)
+		public String getPlatformListForOutApi(HttpServletRequest request, HttpServletResponse response)throws Exception
+	    {
+	    	
+	    	
+	    	    Result results = new Result();
+	            String unifyIdentityId=CommonUtil.getParameter(request, "unifyIdentityId", "");
+	            String userSecretLevel=CommonUtil.getParameter(request, "userSecretLevel", "");
+	            String supportingInstitutions=CommonUtil.getParameter(request, "supportingInstitutions", "");
+	            String level=CommonUtil.getParameter(request, "level", "");
+	            String host= EquipmentUtils.getRemoteHost(request);
+	            
+	    		System.out.println(">>>>>>>>>>身份证号: "+unifyIdentityId);
+	    		System.out.println(">>>>>>>>>>用户密级（4核心，3重要，2一般，1非密）: "+userSecretLevel);
+	    		System.out.println(">>>>>>>>>>合法主机: "+localApiRouteHosts);
+	    		System.out.println(">>>>>>>>>>远程主机: "+host);
+	    		
+	            if(localApiRouteHosts!=null && !"".equals(localApiRouteHosts) && localApiRouteHosts.contains(host)==false)
+          	    {
+	            	results.setSuccess(false);
+	            	results.setMessage("请求的IP不合法");
+	            	JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
+				    return ob.toString();
+          	    }
+	            
+	            if(unifyIdentityId.equals("") || userSecretLevel.equals("") )
+	            {
+	            	results.setSuccess(false);
+	            	results.setMessage("参数为空");
+	            	JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
+				    return ob.toString();
+	            }
+	            SysUser user= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+	            if(user!=null)
+	            {
+	            	Map<String ,Object> paramMap = new HashMap<String ,Object>();
+			   	    paramMap.put("level", level);
+			   	    paramMap.put("supportingInstitutions", supportingInstitutions);
+			   	    paramMap.put("userSecretLevel", userSecretLevel);
+			   	    paramMap.put("knowledgeScope", user.getUserName());
+			   	    paramMap.put("deleted", "0");
+			   	 
+			   	    
+			   	 
+			   	    
+			   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+			   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getPlatformListForOutApi, HttpMethod.POST, httpEntity, JSONArray.class);
+			   		int statusCode = responseEntity.getStatusCodeValue();
+		  	   		JSONArray jSONArray=null;
+		  	   		if (statusCode == 200)
+		  	   		{
+		  	   			jSONArray = responseEntity.getBody();
+		  	   		    results.setData(jSONArray);
+		  	   		}else
+		  	   		{
+		  	   		  results.setSuccess(false);
+		  	   		  results.setMessage("网络有误");
+		  	   		}
+	            }else
+	            {
+	            	results.setSuccess(false);
+	            	results.setMessage("没有此用户");
+	            }
+	  	   	    JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
+			    return ob.toString();
+		}
+	    
+	    
 	    
 	
 
