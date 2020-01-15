@@ -219,6 +219,10 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 	{
 		return techFamilyMapper.getTechFamilyListByCodes(list);
 	}
+    public List<TreeNode> getListByCodesForApi(List<String> list)throws Exception
+    {
+    	return techFamilyMapper.getListByCodesForApi(list);
+    }
 	
     public List<TechFamily> getTechFamilyList(Map map)throws Exception
     {

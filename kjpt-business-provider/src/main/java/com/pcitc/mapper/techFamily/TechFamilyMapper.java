@@ -71,6 +71,12 @@ public interface TechFamilyMapper {
 	public List<TechFamily> getTechFamilyListByCodes(List list);
 	
 	
+	
+	
+	public List<TreeNode> getListByCodesForApi(List<String> list);
+	
+	
+	
 	public List<TechFamily> getTechFamilyList(Map map);
 	
 	

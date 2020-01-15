@@ -70,6 +70,7 @@ public interface TechFamilyService {
     
     
     
+    public List<TreeNode> getListByCodesForApi(List<String> list)throws Exception;    
     
     public List<TechFamily> getTechFamilyListByCodes(List<String> list)throws Exception;    
     

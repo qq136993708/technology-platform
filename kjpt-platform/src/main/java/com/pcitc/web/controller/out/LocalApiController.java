@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.out;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +15,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
+import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
@@ -41,7 +45,8 @@ public class LocalApiController extends BaseController
 	    
 	    private static final String getPlatformListForOutApi = "http://kjpt-zuul/stp-proxy/researchPlatform-api/queryNoPage";
 	    private static final String GET_FAMILY_URL = "http://kjpt-zuul/stp-proxy/tech_family_provider/getTreeNodeApiList";
-	    
+	    private static final String LIST_BY_IDS_URL = "http://kjpt-zuul/stp-proxy/tech-family-provider/getListByCodesForApi";
+		
 	    @ApiOperation(value = "查询技术族列表（不分页）", notes = "查询技术族列表（不分页）")
 	    @ApiImplicitParams({
 	        @ApiImplicitParam(name = "unifyIdentityId", value = "统一身份ID(身份证号)",                dataType = "string", paramType = "query",required=true),
@@ -192,6 +197,69 @@ public class LocalApiController extends BaseController
 	  	   	    JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
 			    return ob.toString();
 		}
+	    
+	    
+	    
+	    
+	    
+	    
+	    @ApiOperation(value = "根据编码（多个）查询技术族列表", notes = "根据编码（多个）查询技术族列表")
+		@ApiImplicitParams({
+	        @ApiImplicitParam(name = "codes",           value = "编码(多个用逗号分开)", dataType = "string", paramType = "query",required=true)
+	    })
+		@RequestMapping(value = "/getTechFamilyListByCodesForOutApi", method = RequestMethod.GET)
+		public String getTechFamilyListByCodesForOutApi(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result resultsDate = new Result();
+		    String host= EquipmentUtils.getRemoteHost(request);
+    		System.out.println(">>>>>>>>>>合法主机: "+localApiRouteHosts);
+    		System.out.println(">>>>>>>>>>远程主机: "+host);
+            if(localApiRouteHosts!=null && !"".equals(localApiRouteHosts) && localApiRouteHosts.contains(host)==false)
+    	    {
+            	resultsDate.setSuccess(false);
+            	resultsDate.setMessage("请求的IP不合法");
+            	JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			    return ob.toString();
+    	    }
+			String codes=CommonUtil.getParameter(request, "codes", "");
+			List returnlist = new ArrayList();
+			if (!codes.equals("")) 
+			{
+				String chkbox[] = codes.split(",");
+				if (chkbox != null && chkbox.length > 0) {
+					List<String> list = Arrays.asList(chkbox);
+					JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
+					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+					ResponseEntity<List> responseEntity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, List.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) {
+						returnlist = responseEntity.getBody();
+
+					}
+				}
+			}
+			resultsDate.setData(returnlist);
+			SimplePropertyPreFilter filter = new SimplePropertyPreFilter(TechFamily.class, "createDate","typeIndex");  
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate,filter));
+			return result.toString();
+		}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 	    
 	    
 	    //实体转换

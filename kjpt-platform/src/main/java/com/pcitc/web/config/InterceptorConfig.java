@@ -33,7 +33,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/cockpit/bi-api/dataToBi")
 				.excludePathPatterns("/getTreeNodeListForOutApi")
 				.excludePathPatterns("/getPlatformListForOutApi")
-				
+				.excludePathPatterns("/getTechFamilyListByCodesForOutApi")
 				;
 		super.addInterceptors(registry);
 	}
