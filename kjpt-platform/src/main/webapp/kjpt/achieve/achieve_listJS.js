@@ -20,7 +20,7 @@ layui.use(['table', 'form','laydate'], function() {
             }
           }}
           ,{field: 'achieveName', title: '成果名称', sort: true }
-          ,{field: 'finishUnitName', title: '完成单位', sort: true}
+          ,{field: 'finishUnitNameText', title: '完成单位', sort: true}
           ,{field: 'brief', title: '科技成果介绍'}
           ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
           ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}

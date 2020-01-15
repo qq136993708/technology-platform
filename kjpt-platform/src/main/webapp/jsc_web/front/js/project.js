@@ -1,17 +1,19 @@
 var main_area_map = echarts.init(document.getElementById('main_area_map'));
 /**风险***/
-var fx_chart1 = echarts.init(document.getElementById('fx_chart1'));
-var fx_chart2 = echarts.init(document.getElementById('fx_chart2'));
-var fx_chart3 = echarts.init(document.getElementById('fx_chart3'));
-var fx_chart4 = echarts.init(document.getElementById('fx_chart4'));
-var fx_chart5 = echarts.init(document.getElementById('fx_chart5'));
-var fx_chart6 = echarts.init(document.getElementById('fx_chart6'));
+// var fx_chart1 = echarts.init(document.getElementById('fx_chart1'));
+// var fx_chart2 = echarts.init(document.getElementById('fx_chart2'));
+// var fx_chart3 = echarts.init(document.getElementById('fx_chart3'));
+// var fx_chart4 = echarts.init(document.getElementById('fx_chart4'));
+// var fx_chart5 = echarts.init(document.getElementById('fx_chart5'));
+// var fx_chart6 = echarts.init(document.getElementById('fx_chart6'));
 
 /**项目投资***/
-var xmtz_charts1 = echarts.init(document.getElementById('xmtz_charts1'));
-var xmtz_charts2 = echarts.init(document.getElementById('xmtz_charts2'));
-var xmtz_charts3 = echarts.init(document.getElementById('xmtz_charts3'));
-var xmtz_charts4 = echarts.init(document.getElementById('xmtz_charts4'));
+// var xmtz_charts1 = echarts.init(document.getElementById('xmtz_charts1'));
+// var xmtz_charts2 = echarts.init(document.getElementById('xmtz_charts2'));
+// var xmtz_charts3 = echarts.init(document.getElementById('xmtz_charts3'));
+// var xmtz_charts4 = echarts.init(document.getElementById('xmtz_charts4'));
+
+
 main_area_map.showLoading({
     text: '数据加载中',
     color: 'rgba(35,245,253)',
@@ -230,20 +232,162 @@ var fx_option = {
     ]
 };
 
-fx_chart1.setOption(fx_option);
-fx_chart2.setOption(fx_option);
-fx_chart3.setOption(fx_option);
-fx_chart4.setOption(fx_option);
-fx_chart5.setOption(fx_option);
-fx_chart6.setOption(fx_option);
+// fx_chart1.setOption(fx_option);
+// fx_chart2.setOption(fx_option);
+// fx_chart3.setOption(fx_option);
+// fx_chart4.setOption(fx_option);
+// fx_chart5.setOption(fx_option);
+// fx_chart6.setOption(fx_option);
+
+var option1 = {
+    tooltip: {
+        trigger: 'axis', 
+        formatter: "{b}： {c}",
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        show: false,
+        x: 'left',
+        textStyle: {
+            color: '#fff'
+        },
+    },
+    grid: {
+        top: '5%',
+        left: '10',
+        right: '4%',
+        bottom: '1%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+        axisLabel: {
+            textStyle: {
+                color: '#fff',
+                fontSize: '14'
+            }
+        },
+        splitLine: {
+            show: false,
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: false
+        },
+        data: ['动力院', '原子能院', '核能院', '核化工', '地研院']
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            show: false
+        },
+        splitLine: {
+            show: false
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: false
+        }
+    },
+    series: [{
+        name: '2019年',
+        type: 'bar',
+        barWidth: '15',
+        inverse: true,
+        label: {
+            normal: {
+                show: false
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: function (params) {
+                    return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#F6DA67'
+                    }, {
+                        offset: 1,
+                        color: '#F6B667'
+                    }]);
+                }
+                }
+            },
+        data: [120, 200, 150, 80, 70],
+    }]
+};
+/**单位分布柱状图***/
+var dwfb_charts = echarts.init(document.getElementById('dwfb_charts'));
+dwfb_charts.setOption(option1);
+/**单位分布柱状图***/
+var dwmoney_charts = echarts.init(document.getElementById('dwmoney_charts'));
+dwmoney_charts.setOption(option1);
+dwmoney_charts.setOption({
+    tooltip: {
+        show: true,
+        trigger: 'axis',
+        formatter: '{c0}亿',
+    },
+    series: [{
+        label: {
+            show: true,
+            position: 'top',
+            color:'#fff',
+            formatter: '{c0}亿',
+        },
+        itemStyle: {
+            normal: {
+                color: function (params) {
+                    return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#2D70DF'
+                    }, {
+                        offset: 1,
+                        color: '#20BDFF'
+                    }]);
+                }
+                }
+            },
+        data: [0.8, 4.3, 1, 2, 4]
+    }]
+});
+/**按项目分布圆形图***/
+// var xmfb_charts = echarts.init(document.getElementById('xmfb_charts'));
+var chartData = [{value: 1245, name: "项目1"},{value: 1245, name: "项目2"},{value: 1245, name: "项目3"},{value: 1245, name: "项目4"}];
+function appraisalXmfb () {
+    // 科技人才数量按职称
+    kyptCharts.render({
+      id: 'xmfb_charts',
+      type: 'pie',
+      legendPosition: 'left',
+      legend: { top: 'center', formatter: 'name|value'},
+      label: false,
+      labelColor: '#fff',
+      radius: ['44%', '66%'],
+      borderColor: '#001e38',
+      series: [],
+      totalTitle: true,
+      title: {
+        textStyle: { fontSize: 30, color: '#fff' }
+      },
+      color: ['#FFF04E', '#81FF5B', '#42FDFF', '#DF5DFF', '#2687FF', '#FF7F5D']
+    });
+    kyptCharts.reload('xmfb_charts', {series: chartData});
+  }
+appraisalXmfb()
 
 
 // 投资执行情况Option
 $(document).ready(function() {
-    gaugeimg('xmtz_charts1', '核能开发', 0, 100, 42, 'μg/m3');
-    gaugeimg('xmtz_charts2', '集中研发', 0, 100, 90, 'μg/m3');
-    gaugeimg('xmtz_charts3', '国防基础', 0, 100, 50, 'μg/m3');
-    gaugeimg('xmtz_charts4', '国防技术基础', 0, 100, 80, 'μg/m3');
+    // gaugeimg('xmtz_charts1', '核能开发', 0, 100, 42, 'μg/m3');
+    // gaugeimg('xmtz_charts2', '集中研发', 0, 100, 90, 'μg/m3');
+    // gaugeimg('xmtz_charts3', '国防基础', 0, 100, 50, 'μg/m3');
+    // gaugeimg('xmtz_charts4', '国防技术基础', 0, 100, 80, 'μg/m3');
     
     /*
 		 *id:id;
@@ -254,7 +398,8 @@ $(document).ready(function() {
 		 *unit:单位符号
 		 */
 		function gaugeimg(id, title, min, max, val, unit) {
-			var myChart = echarts.init(document.getElementById(id)); //初始化
+            var myChart = echarts.init(document.getElementById(id)); //初始化
+           
 
 			option = {
 				title: {

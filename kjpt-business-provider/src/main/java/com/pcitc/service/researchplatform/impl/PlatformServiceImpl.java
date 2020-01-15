@@ -56,6 +56,16 @@ public class PlatformServiceImpl implements PlatformService {
         List dataList = platformServiceMapper.query(paramMap);
         return dataList;
     }
+    
+    
+    public List<PlatformInfoModel> queryPlatformListApi(Map paramMap) {
+        List dataList = platformServiceMapper.queryPlatformListApi(paramMap);
+        return dataList;
+    }
+    
+    
+    
+    
 
 
     @Override

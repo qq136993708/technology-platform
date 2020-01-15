@@ -54,8 +54,21 @@ public class TechFamily {
     private String knowledgePerson="";
     private String isCloudParentId="";
     
+    private String userSecretLevel;
     
-    public String getIsCloudParentId() {
+    
+    
+    
+    
+    public String getUserSecretLevel() {
+		return userSecretLevel;
+	}
+
+	public void setUserSecretLevel(String userSecretLevel) {
+		this.userSecretLevel = userSecretLevel;
+	}
+
+	public String getIsCloudParentId() {
 		return isCloudParentId;
 	}
 

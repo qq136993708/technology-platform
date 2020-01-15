@@ -48,6 +48,7 @@ public class EquipmentUtils {
 	
      private static final String GET_USERPROPERTY = "http://kjpt-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
      public static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
+     public static final String GET_USER_URL = "http://kjpt-zuul/system-proxy/user_provider/selectUserByIdentityId/";
      public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
@@ -196,6 +197,19 @@ public class EquipmentUtils {
 		
 		SysUser sysUser = null;
 		ResponseEntity<SysUser> responseEntity = restTemplate.exchange(USER_GET_URL + userId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			sysUser = responseEntity.getBody();
+		}
+		return sysUser;
+	}
+	
+    //获取用户信息
+	public static SysUser getUserByIdentityId(String unifyIdentityId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		SysUser sysUser = null;
+		ResponseEntity<SysUser> responseEntity = restTemplate.exchange(GET_USER_URL + unifyIdentityId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{

@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.common.TreeNodeApi;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyExample;
 
@@ -72,6 +71,12 @@ public interface TechFamilyMapper {
 	public List<TechFamily> getTechFamilyListByCodes(List list);
 	
 	
+	
+	
+	public List<TreeNode> getListByCodesForApi(List<String> list);
+	
+	
+	
 	public List<TechFamily> getTechFamilyList(Map map);
 	
 	
@@ -82,6 +87,9 @@ public interface TechFamilyMapper {
 	
 	
 	public List<TreeNode> getTreeNodeList(Map map);
+	
+	public List<TreeNodeApi> getTreeNodeApiList(Map map);
+	
 	
 	public String getMaxTechTypeCodeByParentId(String parentId);
 	

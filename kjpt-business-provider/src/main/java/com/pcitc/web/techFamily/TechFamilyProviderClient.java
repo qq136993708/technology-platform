@@ -7,19 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -28,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.common.TreeNodeApi;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.service.techFamily.TechFamilyService;
@@ -446,6 +441,16 @@ public class TechFamilyProviderClient {
 	}
     
     
+    
+    @ApiOperation(value = "根据编码（多个）查询技术族列表", notes = "根据编码（多个）查询技术族列表，返回LIST")
+    @RequestMapping(value = "/tech-family-provider/getListByCodesForApi", method = RequestMethod.POST)
+	public List<TreeNode> getListByCodesForApi(@RequestBody List<String> list)throws Exception{
+		return techFamilyService.getListByCodesForApi(list);
+	}
+    
+    
+    
+    
     @ApiOperation(value = "根据ID技术族信息", notes = "根据ID技术族信息")
 	@RequestMapping(value = "/tech-family-provider/getTechFamilyById/{id}", method = RequestMethod.GET)
 	public TechFamily getTechFamilyById(@PathVariable("id") String id)throws Exception{
@@ -490,6 +495,37 @@ public class TechFamilyProviderClient {
     	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
     	return json;
 	}
+    
+    
+    
+    
+    @ApiOperation(value = "查询技术族树", notes = "查询技术族树")
+    @RequestMapping(value = "/tech_family_provider/getTreeNodeApiList", method = RequestMethod.POST)
+	public JSONArray getTreeNodeApiList(@RequestBody Map map)throws Exception
+    {
+    	List<TreeNodeApi> list= techFamilyService.getTreeNodeApiList(map);
+    	if(list!=null)
+    	{
+    		for (int i = 0; i < list.size(); i++) 
+			{
+    			TreeNodeApi tree = list.get(i);
+				// 判断节点是否有孩子（异步加载用）
+				if (tree.getParentFlag().equals("0")) {
+					tree.setIsParent(false);
+				} else {
+					tree.setIsParent(true);
+				}
+			}
+    	}
+    	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+    	return json;
+	}
+    
+    
+  
+    
+    
+    
 
 	@ApiOperation(value = "获取技术族（分页）", notes = "获取技术族（分页）")
 	@RequestMapping(value = "/tech_family_provider/page", method = RequestMethod.POST)

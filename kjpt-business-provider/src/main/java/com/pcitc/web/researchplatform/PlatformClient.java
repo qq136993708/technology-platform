@@ -61,6 +61,17 @@ public class PlatformClient {
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
         return json;
     }
+    
+    @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
+    @RequestMapping(value = "/queryPlatformListApi", method = RequestMethod.POST)
+    public JSONArray queryPlatformListApi(@RequestBody(required = false) Map param){
+        List list=ps.queryPlatformListApi(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+    
+    
+    
 
 
     @ApiOperation(value = "科研平台删除", notes = "科研平台删除")

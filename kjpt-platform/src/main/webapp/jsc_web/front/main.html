@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,47 +9,68 @@
     <link rel="stylesheet" href="../common/css/base.css">
     <link rel="stylesheet" href="../common/css/common.css">
     <link rel="stylesheet" href="../common/css/main.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="../common/css/yc1.css">
 </head>
-<body >
+
+<body>
     <!-- 左边 -->
     <div class="main_left">
+        <div class="layui-row">
+            <form class="layui-form" action="">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-input-block select-block">
+                        <select id="selectAll" placeholder="请选择...">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
         <div class="main_top">
-            <div class="title"><span>知识产权</span></div>
+            <div class="title"><span>基本信息</span></div>
             <div class="main_content">
                 <div class="zscq">
                     <div class="circle middle-block">
-                        <div class="bounce1" id="cgsj_num"><span>0</span></div>
-                        <!-- <div class="bounce2"></div> -->
+                        <div class="bounce1" id="cgsj_num"><span>691</span></div>
                     </div>
-                    <div class="circle_desc"><span>成果数量</span></div>
+                    <div class="circle_desc"><span>科技人才</span></div>
                 </div>
                 <div class="zscq">
                     <div class="circle middle-block">
-                        <div class="bounce1" id="zhuanl_num"><span>0</span></div>
-                        <!-- <div class="bounce2"></div> -->
+                        <div class="bounce1" id="zhuanl_num"><span>226</span></div>
                     </div>
-                    <div class="circle_desc"><span>专利</span></div>
+                    <div class="circle_desc"><span>科研平台</span></div>
                 </div>
                 <div class="zscq">
                     <div class="circle middle-block">
-                        <div class="bounce1" id="rjzzq_num"><span>0</span></div>
-                        <!-- <div class="bounce2"></div> -->
+                        <div class="bounce1" id="rjzzq_num"><span>1069</span></div>
                     </div>
-                    <div class="circle_desc"><span>软件著作权</span></div>
+                    <div class="circle_desc"><span>行业标准</span></div>
+                </div>
+                <div class="zscq">
+                    <div class="circle middle-block">
+                        <div class="bounce1" id="jyfk_num"><span>61</span></div>
+                    </div>
+                    <div class="circle_desc"><span>经验反馈</span></div>
                 </div>
             </div>
         </div>
         <div class="main_bottom">
-            <div class="title"><span>成果信息</span></div>
-            <div class="main_content">
+            <div class="title"><span>知识产权</span></div>
+            <div class="main_content main-x">
                 <div class="cgxx_charts">
+                    <div class="title title-x"><span>成果信息</span></div>
                     <div id="cgxx_charts1" class="chart"></div>
                 </div>
                 <div class="cgxx_charts">
+                    <div class="title title-x"><span>专利数量</span></div>
                     <div id="cgxx_charts2" class="chart"></div>
                 </div>
                 <div class="cgxx_charts">
+                    <div class="title title-x"><span>软件著作权数量</span></div>
                     <div id="cgxx_charts3" class="chart"></div>
                 </div>
             </div>
@@ -67,7 +89,7 @@
                     <i class="text">12</i>
                 </div>
             </div>
-            <div class="desc">
+            <div class="desc" style="display: none;">
                 <ul class="ring">
                     <li>
                         <div class="value-item">
@@ -110,7 +132,27 @@
                         </div>
                     </li>
                 </ul>
-
+            </div>
+            <div class="desc">
+                <div class="title"><span>预研项目信息</span></div>
+                <div class="zscq desc-num">
+                    <div class="circle middle-block">
+                        <div class="bounce1" id="xmsl_num"><span>26</span></div>
+                    </div>
+                    <div class="circle_desc"><span>十三五项目数量</span></div>
+                </div>
+                <div class="zscq desc-num">
+                    <div class="circle middle-block">
+                        <div class="bounce1" id="htsl_num"><span>109</span></div>
+                    </div> 
+                    <div class="circle_desc"><span>十三五合同数量</span></div>
+                </div>
+                <div class="zscq desc-num">
+                    <div class="circle middle-block">
+                        <div class="bounce1" id="zjf_num"><span>96</span></div>
+                    </div>
+                    <div class="circle_desc"><span>十三五总经费</span></div>
+                </div>
             </div>
         </div>
     </div>
@@ -131,56 +173,88 @@
                     <div class="zlxx_desc" id="zlxx_num3"><span>0</span></div>
                     <div><i>参与单位数</i></div>
                 </div>
-        
+
             </div>
         </div>
         <div class="main_bottom">
-            <div class="title"><span>项目投资</span></div>
+            <div class="title"><span>科研项目经费</span></div>
             <div class="main_content">
-                <div class="xmtz_charts" >
-                    <div id="xmtz_charts1" style="width: 100%;height:170px;"></div>
-                    <div class="xmtz_desc">
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>实际完成：184.11 </span></div>
-                    </div>
+                <div class="xmtz_charts">
+                    <div class="title title-x"><span>项目经费占比</span></div>
+                    <div id="xmjf_charts" style="width: 100%;height:170px;"></div>
                 </div>
-                <div class="xmtz_charts" >
-                    <div id="xmtz_charts2" style="width: 100%;height:170px;"></div>
-                    <div class="xmtz_desc">
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>实际完成：184.11 </span></div>
+                <div class="xmtz_charts">
+                    <div class="title title-x"><span>年度计划和实际完成情况</span></div>
+                    <br>
+                    <div class="layui-row">
+                        <div class="layui-col-md3 layui-title-main">
+                            核能开发
+                        </div>
+                        <div class="layui-col-md9">
+                            <div class="layui-progress layui-progress-big hnkf" lay-filter="hnkf">
+                                <div class="layui-progress-bar hnkf-child layui-bg-hnkf" lay-percent="0%"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="xmtz_charts" >
-                    <div id="xmtz_charts3" style="width: 100%;height:170px;"></div>
-                    <div class="xmtz_desc">
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>实际完成：184.11 </span></div>
+                    <br>
+                    <div class="layui-row">
+                        <div class="layui-col-md3 layui-title-main">
+                            集中开发
+                        </div>
+                        <div class="layui-col-md9">
+                            <div class="layui-progress layui-progress-big" lay-filter="jzkf">
+                                <div class="layui-progress-bar layui-bg-jzkf" lay-percent="50%"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="xmtz_charts" >
-                    <div id="xmtz_charts4" style="width: 100%;height:170px;"></div>
-                    <div class="xmtz_desc">
-                        <div class="desc1"><span>年度计划：283.99 </span></div>
-                        <div class="desc1"><span>实际完成：184.11 </span></div>
+                    <br>
+                    <div class="layui-row">
+                        <div class="layui-col-md3 layui-title-main">
+                            国防基础
+                        </div>
+                        <div class="layui-col-md9">
+                            <div class="layui-progress layui-progress-big" lay-filter="gfjc">
+                                <div class="layui-progress-bar layui-bg-gfjc" lay-percent="80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="layui-row">
+                        <div class="layui-col-md3 layui-title-main">
+                            国防技术基础
+                        </div>
+                        <div class="layui-col-md9">
+                            <div class="layui-progress layui-progress-big" lay-filter="gfjcjs">
+                                <div class="layui-progress-bar layui-bg-gfjsjc" lay-percent="80%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script src="../common/js/jquery-1.10.1.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
     <script src="../common/js/echarts.min.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
     <script src="/layuiadmin/js/chartOption.js"></script>
     <script src="../common/js/main.js"></script>
-    <script >
-        window.onload = window.onresize = function(){
+    <script>
+        window.onload = window.onresize = function () {
             main_charts.resize();
         }
+        layui.use(['element'], function () {
+            var element = layui.element;
+            element.progress('hnkf', '20%');
+            element.progress('jzkf', '80%');
+            element.progress('gfjc', '60%');
+            element.progress('gfjcjs', '30%');
+        })
     </script>
     <script>
         // $("#main_charts").load("echarts1.html");
-  </script>
+    </script>
 </body>
+
 </html>

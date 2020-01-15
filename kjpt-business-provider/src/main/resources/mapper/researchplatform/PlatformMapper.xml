@@ -134,7 +134,6 @@
         </if>
 
 
-
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
@@ -146,6 +145,62 @@
         ))
 
     </sql>
+    
+    
+    <!-- 新加 对外接口 -->
+    <sql id="selectCondition">
+        <if test="platformName != null and platformName != '' " >
+            and platform_name like CONCAT('%',#{platformName},'%')
+        </if>
+        <if test="supportingInstitutions != null and supportingInstitutions != '' " >
+            and supporting_institutions = #{supportingInstitutions}
+        </if>
+        <if test="personLiable != null and personLiable != '' " >
+            and person_liable = #{personLiable}
+        </if>
+        <if test="researchField != null and researchField != '' " >
+            and  exists (select 1 from tfm_type a join (
+            select type_index from tfm_type where status = 1 and FIND_IN_SET(type_code, #{researchField}) >0
+            ) b on a.type_index like CONCAT(b.type_index, '%')
+            where a.status = 1
+            and FIND_IN_SET(a.type_code, research_field) > 0)
+        </if>
+        <if test="platformScorinHigh != null and platformScorinHigh != '' " >
+            and platform_scoring &lt;= #{platformScorinHigh}
+        </if>
+        <if test="platformScorinLow != null and platformScorinLow != '' " >
+            and platform_scoring &gt;= #{platformScorinLow}
+        </if>
+        <if test="level != null and level != '' " >
+            and level = #{level,jdbcType=VARCHAR}
+        </if>
+
+        <if test="childUnitIds != null          and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        <if test="userSecretLevel != null and userSecretLevel !=''  ">        
+	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	    </if>
+    </sql>
+    <select id="queryPlatformListApi" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  t1.*,(SELECT count(*) FROM kypt_project  WHERE kypt_project.platform_id = t1.id ) AS project_count,
+        (SELECT count(*) FROM kypt_achievement  WHERE kypt_achievement.platform_id = t1.id ) AS achievement_count
+        from view_kypt_info t1 where 1=1
+        and deleted != '1'
+        <include refid="selectCondition" />
+    </select>
+    <!-- 新加 对外接口  end -->
+    
+    
+   
+    
+    
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">

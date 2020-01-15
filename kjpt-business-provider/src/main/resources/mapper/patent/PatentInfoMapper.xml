@@ -54,6 +54,30 @@
     <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
     <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
     <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
+
+
+    <result column="out_id" jdbcType="VARCHAR" property="outId" />
+    <result column="input_type" jdbcType="VARCHAR" property="inputType" />
+    <result column="authorization_date" jdbcType="TIMESTAMP" property="authorizationDate" />
+    <result column="termination_date" jdbcType="TIMESTAMP" property="terminationDate" />
+    <result column="legal_status_update_time" jdbcType="TIMESTAMP" property="legalStatusUpdateTime" />
+    <result column="application_technology_technology" jdbcType="VARCHAR" property="applicationTechnologyTechnology" />
+    <result column="project_background" jdbcType="VARCHAR" property="projectBackground" />
+    <result column="establishment_department" jdbcType="VARCHAR" property="establishmentDepartment" />
+    <result column="project_number" jdbcType="VARCHAR" property="projectNumber" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="application_technology_products" jdbcType="VARCHAR" property="applicationTechnologyProducts" />
+    <result column="application_model_product_name" jdbcType="VARCHAR" property="applicationModelProductName" />
+    <result column="application_subsystem_name" jdbcType="VARCHAR" property="applicationSubsystemName" />
+    <result column="name_of_components_and_supporting_materials" jdbcType="VARCHAR" property="nameOfComponentsAndSupportingMaterials" />
+    <result column="main_classification_number" jdbcType="VARCHAR" property="mainClassificationNumber" />
+    <result column="sub_category_number" jdbcType="VARCHAR" property="subCategoryNumber" />
+    <result column="priority_right" jdbcType="VARCHAR" property="priorityRight" />
+    <result column="joint_applicant" jdbcType="VARCHAR" property="jointApplicant" />
+    <result column="public_announcement_no" jdbcType="VARCHAR" property="publicAnnouncementNo" />
+    <result column="explainer" jdbcType="VARCHAR" property="explain" />
+    <result column="legal_person_code" jdbcType="VARCHAR" property="legalPersonCode" />
+
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, unit_name,
@@ -89,7 +113,15 @@
     secret_level_text,
     knowledge_scope,
     knowledge_person,
-    expiration_date
+    expiration_date,out_id,input_type,authorization_date,
+    termination_date,legal_status_update_time,application_technology_technology,
+    project_background,establishment_department,
+    project_number,project_name,application_technology_products,
+    application_model_product_name,application_subsystem_name,
+    name_of_components_and_supporting_materials,main_classification_number
+    sub_category_number,priority_right,joint_applicant,
+    public_announcement_no,explainer,
+    legal_person_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -233,7 +265,72 @@
         knowledge_person,
       </if>
       <if test="expirationDate != null">
-        expiration_date
+        expiration_date,
+      </if>
+
+
+      <if test="outId != null">
+        out_id,
+      </if>
+      <if test="inputType != null">
+        input_type,
+      </if>
+      <if test="authorizationDate != null">
+        authorization_date,
+      </if>
+      <if test="terminationDate != null">
+        termination_date,
+      </if>
+      <if test="legalStatusUpdateTime != null">
+        legal_status_update_time,
+      </if>
+      <if test="applicationTechnologyTechnology != null">
+        application_technology_technology,
+      </if>
+      <if test="projectBackground != null">
+        project_background,
+      </if>
+      <if test="establishmentDepartment != null">
+        establishment_department,
+      </if>
+      <if test="projectNumber != null">
+        project_number,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="applicationTechnologyProducts != null">
+        application_technology_products,
+      </if>
+      <if test="applicationModelProductName != null">
+        application_model_productName,
+      </if>
+      <if test="applicationSubsystemName != null">
+        application_subsystemName,
+      </if>
+      <if test="nameOfComponentsAndSupportingMaterials != null">
+        name_of_components_and_supporting_materials,
+      </if>
+      <if test="mainClassificationNumber != null">
+        main_classification_number,
+      </if>
+      <if test="subCategoryNumber != null">
+        sub_category_number,
+      </if>
+      <if test="priorityRight != null">
+        priority_right,
+      </if>
+      <if test="jointApplicant != null">
+        joint_applicant,
+      </if>
+      <if test="publicAnnouncementNo != null">
+        public_announcement_no,
+      </if>
+      <if test="explain != null">
+        explainer,
+      </if>
+      <if test="legalPersonCode != null">
+        legal_person_code
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -364,7 +461,70 @@
         #{knowledgePerson,jdbcType=VARCHAR},
       </if>
       <if test="expirationDate != null">
-        #{expirationDate,jdbcType=TIMESTAMP}
+        #{expirationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outId != null">
+        #{outId,jdbcType=VARCHAR},
+      </if>
+      <if test="inputType != null">
+        #{inputType,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizationDate != null">
+        #{authorizationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="terminationDate != null">
+        #{terminationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="legalStatusUpdateTime != null">
+        #{legalStatusUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationTechnologyTechnology != null">
+        #{applicationTechnologyTechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBackground != null">
+        #{projectBackground,jdbcType=VARCHAR},
+      </if>
+      <if test="establishmentDepartment != null">
+        #{establishmentDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNumber != null">
+        #{projectNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTechnologyProducts != null">
+        #{applicationTechnologyProducts,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationModelProductName != null">
+        #{applicationModelProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationSubsystemName != null">
+        #{applicationSubsystemName,jdbcType=VARCHAR},
+      </if>
+      <if test="nameOfComponentsAndSupportingMaterials != null">
+        #{nameOfComponentsAndSupportingMaterials,jdbcType=VARCHAR},
+      </if>
+      <if test="mainClassificationNumber != null">
+        #{mainClassificationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="subCategoryNumber != null">
+        #{subCategoryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="priorityRight != null">
+        #{priorityRight,jdbcType=VARCHAR},
+      </if>
+      <if test="jointApplicant != null">
+        #{jointApplicant,jdbcType=VARCHAR},
+      </if>
+      <if test="publicAnnouncementNo != null">
+        #{publicAnnouncementNo,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCode != null">
+        #{legalPersonCode,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -411,7 +571,28 @@
 	  secret_level = #{secretLevel,jdbcType=VARCHAR},
 	  knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
 	  knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
-	  expiration_date = #{expirationDate,jdbcType=TIMESTAMP}
+	  expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+	  out_id = #{outId,jdbcType=VARCHAR},
+	  input_type = #{inputType,jdbcType=VARCHAR},
+	  authorization_date = #{authorizationDate,jdbcType=TIMESTAMP},
+	  termination_date = #{terminationDate,jdbcType=TIMESTAMP},
+	  legal_status_update_time = #{legalStatusUpdateTime,jdbcType=TIMESTAMP},
+	  application_technology_technology = #{applicationTechnologyTechnology,jdbcType=VARCHAR},
+	  project_background = #{projectBackground,jdbcType=VARCHAR},
+	  establishment_department = #{establishmentDepartment,jdbcType=VARCHAR},
+	  project_number = #{projectNumber,jdbcType=VARCHAR},
+	  project_name = #{projectName,jdbcType=VARCHAR},
+	  application_technology_products = #{applicationTechnologyProducts,jdbcType=VARCHAR},
+	  application_model_product_name = #{applicationModelProductName,jdbcType=VARCHAR},
+	  application_subsystem_name = #{applicationSubsystemName,jdbcType=VARCHAR},
+	  name_of_components_and_supporting_materials = #{nameOfComponentsAndSupportingMaterials,jdbcType=VARCHAR},
+	  main_classification_number = #{mainClassificationNumber,jdbcType=VARCHAR},
+	  sub_category_number = #{subCategoryNumber,jdbcType=VARCHAR},
+	  priority_right = #{priorityRight,jdbcType=VARCHAR},
+	  joint_applicant = #{jointApplicant,jdbcType=VARCHAR},
+	  public_announcement_no = #{publicAnnouncementNo,jdbcType=VARCHAR},
+	  explainer = #{explain,jdbcType=VARCHAR},
+	  legal_person_code = #{legalPersonCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
 </update>
 

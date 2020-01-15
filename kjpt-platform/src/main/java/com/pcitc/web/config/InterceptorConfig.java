@@ -30,7 +30,11 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/sso")
 				.excludePathPatterns("/error")
 				.excludePathPatterns("/qims-api/qualityStatistics")
-				.excludePathPatterns("/cockpit/bi-api/dataToBi");
+				.excludePathPatterns("/cockpit/bi-api/dataToBi")
+				.excludePathPatterns("/getTreeNodeListForOutApi")
+				.excludePathPatterns("/getPlatformListForOutApi")
+				.excludePathPatterns("/getTechFamilyListByCodesForOutApi")
+				;
 		super.addInterceptors(registry);
 	}
 	

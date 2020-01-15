@@ -23,7 +23,7 @@ layui.use(['table', 'form','laydate'], function() {
             }
           }}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
-          ,{field: 'finishUnitName', title: '成果持有单位', width: 120 }
+          ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
           ,{field: 'achieveInfo', title: '成果基本情况', width: 120 }
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}

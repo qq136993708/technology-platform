@@ -263,3 +263,81 @@ p {
 .main_left .pie-legend-list .legend-item > .lenend-item-name {
     width: 88px;
 }
+.zscq {
+    width: 25%;
+}
+.cgxx_charts {
+    height: 32.3%;
+}
+.cgxx_charts > div.chart {
+    height: 85%;
+}
+.main_top {
+    padding-bottom: 0;
+}
+.main_content {
+    height: calc(100% - 4rem);
+}
+.xmtz_charts{
+    width: 100%;
+}
+.layui-progress-big, .layui-progress-big .layui-progress-bar {
+    height: 12px;
+    line-height: 12px;
+}
+.title-x span,
+.layui-title-main{
+    font-size: 12px;
+}
+.main_left .main-x{
+    padding-left: 0;
+}
+.circle_desc span,
+.zlxx i {
+    font-size: 0.9rem;
+}
+ .layui-bg-hnkf{
+    background-color: #44A5FF;
+ }
+ .layui-bg-jzkf{
+    background-color: #F6C667;
+ }
+ .layui-bg-gfjc{
+    background-color: #EF9562;
+ }
+ .layui-bg-gfjsjc{
+    background-color: #62C36A;
+ }
+  #selectAll{
+     width: 100%;
+     height: 1.5rem;
+     outline: none;
+     color: #fff;
+     border-radius: 0;
+ }
+ .select-block{
+     margin-left: 0;
+ } 
+ .layui-input{
+    background: rgba(4, 30, 54, 1);
+    border: 1px solid #367DBF;
+}
+.desc-num{
+    width: 33.33%;
+}
+.desc-num .circle .bounce1 span{
+    padding-left: 2rem;
+    color: #26b9fe;
+    position: relative;
+}
+.desc-num .circle .bounce1 span::before{
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #26b9fe;
+    position: absolute;
+    top: 40%;
+    left: 0;
+}

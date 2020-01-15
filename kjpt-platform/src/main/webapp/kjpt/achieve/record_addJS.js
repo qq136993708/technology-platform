@@ -62,8 +62,8 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
           laydate.render({elem: '#estimate'})
         }
         form.render();
-        if (res.finishUnitName) {
-          formSelects.value('finishUnitName', [res.finishUnitName]);
+        if (newData.finishUnitName) {
+          formSelects.value('finishUnitName', [newData.finishUnitName]);
          }
         var scope_disabled = false;
 

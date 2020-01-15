@@ -266,23 +266,28 @@
 			<scope>system</scope>
 			<systemPath> ${project.basedir}/lib/eetrust-security-crypto-2.2.jar</systemPath>
 		</dependency>
+        <dependency>
+            <groupId>org.docx4j</groupId>
+            <artifactId>xhtmlrenderer</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
 
-		<!--<dependency>
-			<groupId>com.eetrust</groupId>
-			<artifactId>security-plugin</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath> ${project.basedir}/lib/eetrust-plug.jar</systemPath>
-		</dependency>
+        <!--<dependency>
+            <groupId>com.eetrust</groupId>
+            <artifactId>security-plugin</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath> ${project.basedir}/lib/eetrust-plug.jar</systemPath>
+        </dependency>
 
-		<dependency>
-			<groupId>com.eetrust</groupId>
-			<artifactId>security-crypto</artifactId>
-			<version>2.2</version>
-			<scope>system</scope>
-			<systemPath> ${project.basedir}/lib/eetrust-security-crypto-2.2.jar</systemPath>
-		</dependency>-->
+        <dependency>
+            <groupId>com.eetrust</groupId>
+            <artifactId>security-crypto</artifactId>
+            <version>2.2</version>
+            <scope>system</scope>
+            <systemPath> ${project.basedir}/lib/eetrust-security-crypto-2.2.jar</systemPath>
+        </dependency>-->
 
 	</dependencies>
 

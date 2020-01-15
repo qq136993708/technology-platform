@@ -63,8 +63,8 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                     var formData = relData.data;
                     relData.data.finishDate = dateFieldText(relData.data.finishDate)
                     form.val('formPlatform', relData.data);
-                    if (relData.data.finishUnitName) {
-                       formSelects.value('finishUnitName', [relData.data.finishUnitName]);
+                    if (formData.finishUnitName) {
+                       formSelects.value('finishUnitName', [formData.finishUnitName]);
                       }
                     formSelects.value('techType', relData.data.techType.split(','));
                     fileDoc = variable.id
@@ -145,12 +145,19 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         deleTr('achieveTable')
     })
     form.on('submit(formSave)', function (data) {
+        debugger
         var techTypeText = '',
-            achieveTransTypeText = ''
+            achieveTransTypeText = '',
+            finishUnitNameText=''
         delete data.field.file;
         if (formSelects.value('techType')) {
             formSelects.value('techType').map(function (item, index) {
                 techTypeText += item.name + ','
+            })
+        }
+        if (formSelects.value('finishUnitName')) {
+            formSelects.value('finishUnitName').map(function (item, index) {
+                finishUnitNameText += item.name + ','
             })
         }
         data.field.id = id
@@ -158,6 +165,7 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         data.field.publicDoc = publicDoc
         data.field.teamPerson = getTableData('achieveTable')
         data.field.techTypeText = techTypeText.substring(0, techTypeText.length - 1)
+        data.field.finishUnitNameText = finishUnitNameText.substring(0, techTypeText.length - 1)
         data.field.achieveTransTypeText = $(".achieveTransType option:selected").text()
         var fileDocS = {}
         fileDocS[approvalDoc] = fileDoc

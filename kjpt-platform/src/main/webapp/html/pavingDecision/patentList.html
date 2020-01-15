@@ -11,11 +11,20 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/query.css">
   
   <!-- 更多样式在此引入 -->
 </head>
 <body>
 <div class="layout-view-content min-label">
+  <div class="home-header-layout">
+    <div class="itemScroll-box" id="homeHeaderItem">
+      <div class="itemScroll">
+        <ul class="itemBlock">
+        </ul>
+      </div>
+    </div>
+  </div>
   <form class="layui-form layui-form-screen" action="" lay-filter="pavingDecision">
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
@@ -113,6 +122,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="./patentList.js"></script>
 <script>
 // layui 使用说明 ----- 多个模块同时引用
 layui.use(['form', 'table', 'formSelects'], function(){
@@ -168,7 +178,138 @@ layui.use(['form', 'table', 'formSelects'], function(){
     queryTable(searchData);
     return false;
   })
-
+//专利总数量
+httpModule({
+  url: '/patentController/query',
+  data: {},
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#expertNumber').text(res.data.total)
+    } else {
+      $('#expertNumber').text(0);
+    }
+  }
+})
+//2018年
+httpModule({
+  url: '/patentController/query',
+  data: {
+    applicationDateStart: "2018-01-01",
+    applicationDateEnd: "2018-12-31",
+  },
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#year18').text(res.data.total)
+    } else {
+      $('#year18').text(0);
+    }
+  }
+})
+//2019年
+httpModule({
+  url: '/patentController/query',
+  data: {
+    applicationDateStart: "2019-01-01",
+    applicationDateEnd: "2019-12-31",
+  },
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#year19').text(res.data.total)
+    } else {
+      $('#year19').text(0);
+    }
+  }
+})
+//2020年
+// $('#patentType01').html(res.count);
+httpModule({
+  url: '/patentController/query',
+  data: {
+    applicationDateStart: "2020-01-01",
+    applicationDateEnd: "2020-12-31",
+  },
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#year20').text(res.data.total)
+    } else {
+      $('#year20').text(0);
+    }
+  }
+})
+//发明专利
+httpModule({
+  url: '/patentController/query',
+  data: {
+    patentType: "01",
+  },
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#patentType01').text(res.data.total)
+    } else {
+      $('#patentType01').text(0);
+    }
+  }
+})
+//发明专利
+httpModule({
+  url: '/patentController/query',
+  data: {
+    patentType: "02",
+  },
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#patentType02').text(res.data.total)
+    } else {
+      $('#patentType02').text(0);
+    }
+  }
+})
+//发明专利
+httpModule({
+  url: '/patentController/query',
+  data: {
+    patentType: "03",
+  },
+  success: function (res) {
+    if (res.code === '0' || res.code === 0) {
+      $('#patentType03').text(res.data.total)
+    } else {
+      $('#patentType03').text(0);
+    }
+  }
+})
+$('#homeHeaderItem .itemScroll .itemBlock').on('click', 'li', function () {
+  if ($(this).find('.text-title').text() == '专利总数量') {
+    queryTable({});
+  } else if ($(this).find('.text-title').text() == '2018年') {
+    queryTable({
+      applicationDateStart: "2018-01-01",
+      applicationDateEnd: "2018-12-31",
+    });
+  } else if ($(this).find('.text-title').text() == '2019年') {
+    queryTable({
+      applicationDateStart: "2019-01-01",
+      applicationDateEnd: "2019-12-31",
+    });
+  } else if ($(this).find('.text-title').text() == '2020年') {
+    queryTable({
+      applicationDateStart: "2020-01-01",
+      applicationDateEnd: "2020-12-31",
+    });
+  } else if ($(this).find('.text-title').text() == '发明专利') {
+    queryTable({
+      patentType: "01",
+    });
+  } else if ($(this).find('.text-title').text() == '实用新型专利') {
+    queryTable({
+      patentType: "02",
+    });
+  } else if ($(this).find('.text-title').text() == '外观设计专利') {
+    queryTable({
+      patentType: "03",
+    });
+  }
+})
   // 首次触发查询
   $('[lay-filter="submitBtn"]').click();
 
@@ -194,5 +335,59 @@ layui.use(['form', 'table', 'formSelects'], function(){
   })
 });
 </script>
+<script>
+  commonItemInto({
+      elem: '#homeHeaderItem',
+      itemMinWidth: 104,
+      cols: [{
+        title: '专利总数量',
+        id: 'expertNumber',
+        label: 'zik',
+        unit: '个',
+        url: '#'
+      }, {
+        title: '最近三年',
+        
+      }, {
+        title: '2018年',
+        id: 'year18',
+        label: 'kycg',
+        unit: '个',
+        url: '#'
+      }, {
+        title: '2019年',
+        id: 'year19',
+        label: '',
+        unit: '个',
+        url: '#'
+      }, {
+        title: '2020年',
+        id: 'year20',
+        label: '',
+        unit: '个',
+        url: '#'
+      }, {
+        title: '专利类型',
+      }, {
+        title: '发明专利',
+        id: 'patentType01',
+        label: '',
+        unit: '个',
+        url: '#'
+      }, {
+        title: '实用新型专利',
+        id: 'patentType02',
+        label: '',
+        unit: '个',
+        url: '#'
+      }, {
+        title: '外观设计专利',
+        id: 'patentType03',
+        label: '',
+        unit: '个',
+        url: '#'
+      }]
+    });
+  </script>
 </body>
 </html>

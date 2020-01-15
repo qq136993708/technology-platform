@@ -262,7 +262,7 @@
 	     <if test="secretLevel != null        and secretLevel !=''  ">          AND t.secret_level = #{secretLevel}</if>
 	 <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
 	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
-	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) &lt; 0
+	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) &gt; 0
 	      </if>
 	      
 	      
