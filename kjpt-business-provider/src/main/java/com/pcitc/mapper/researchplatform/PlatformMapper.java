@@ -19,8 +19,9 @@ public interface PlatformMapper {
      * 查询科研平台列表
      */
     List<PlatformInfoModel> query(Map paramMap);
+    List<PlatformInfoModel> queryPlatformListApi(Map paramMap);
 
-
+    
     /**
      * 修改科研平台
      */

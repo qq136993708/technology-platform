@@ -29,7 +29,8 @@ public interface PlatformService {
      * 查询科研平台列表
      */
     List<PlatformInfoModel> queryNoPage(Map paramMap);
-
+    //对外接口
+    List<PlatformInfoModel> queryPlatformListApi(Map paramMap);
     /**
      * 科研平台删除
      */

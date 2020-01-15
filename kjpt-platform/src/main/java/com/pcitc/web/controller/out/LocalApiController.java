@@ -43,7 +43,7 @@ public class LocalApiController extends BaseController
 	    @Value("${localApiRouteHosts}")
 	    private String localApiRouteHosts;
 	    
-	    private static final String getPlatformListForOutApi = "http://kjpt-zuul/stp-proxy/researchPlatform-api/queryNoPage";
+	    private static final String getPlatformListForOutApi = "http://kjpt-zuul/stp-proxy/researchPlatform-api/queryPlatformListApi";
 	    private static final String GET_FAMILY_URL = "http://kjpt-zuul/stp-proxy/tech_family_provider/getTreeNodeApiList";
 	    private static final String LIST_BY_IDS_URL = "http://kjpt-zuul/stp-proxy/tech-family-provider/getListByCodesForApi";
 		
