@@ -63,7 +63,8 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        finish_unit_name_text
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
@@ -141,6 +142,9 @@
             </if>
             <if test="finishDate != null" >
                 finish_date = #{finishDate},
+            </if>
+            <if test="finishUnitName != null" >
+                finish_unit_name = #{finishUnitName},
             </if>
             <if test="projectChannel != null and projectChannel != ''" >
                 project_channel = #{projectChannel},
