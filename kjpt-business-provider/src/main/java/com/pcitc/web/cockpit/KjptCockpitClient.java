@@ -204,6 +204,28 @@ public class KjptCockpitClient {
     public List<Map> queryBiData(@RequestBody(required = false) Map param) {
         return kjptCockpitService.queryData(param);
     }
+    /**
+     *功能描述 查询BI数据显示
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "根据单位查询BI数据显示", notes = "根据单位查询BI数据显示")
+    @RequestMapping(value = "/results/queryBiDataWithUnit", method = RequestMethod.POST)
+    public List<Map> queryBiDataWithUnit(@RequestBody(required = false) Map param) {
+        return kjptCockpitService.queryBiDataWithUnit(param);
+    }
+    /**
+     *功能描述 查询二级单位
+     * @author t-chengjia.chen
+     * @date 2019/12/14
+     * @return java.util.List<java.util.Map>
+     */
+    @ApiOperation(value = "查询二级单位", notes = "查询二级单位")
+    @RequestMapping(value = "/results/querySecondLevelUnit", method = RequestMethod.POST)
+    public List<Map> querySecondLevelUnit() {
+        return kjptCockpitService.querySecondLevelUnit();
+    }
 
     @RequestMapping(value = "/bi-provider/dataToBi/dataToBi_excute", method = RequestMethod.GET)
     public JSONObject save() {

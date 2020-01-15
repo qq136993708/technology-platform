@@ -137,6 +137,17 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
         return kjptCockpitMapper.queryBiData(param);
     }
 
+    @Override
+    public List<Map> queryBiDataWithUnit(Map<String, String> param) {
+        Map configMap = kjptCockpitMapper.getConfig(param.get("type"));
+        if(configMap.get("tableName") == null){
+            return null;
+        }
+        String tableName = configMap.get("tableName").toString();
+        param.put("tableName",tableName);
+        return kjptCockpitMapper.queryBiDataWithUnit(param);
+    }
+
 
     /**
      * BI数据灌入
@@ -144,5 +155,10 @@ public class KjptCockpitServiceImpl implements KjptCockpitService {
     @Override
     public void dataToBi() {
         kjptCockpitMapper.dataToBi();
+    }
+
+    @Override
+    public List<Map> querySecondLevelUnit() {
+        return kjptCockpitMapper.querySecondLevelUnit();
     }
 }

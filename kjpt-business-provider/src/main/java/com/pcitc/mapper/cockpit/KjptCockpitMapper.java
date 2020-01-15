@@ -85,8 +85,15 @@ public interface KjptCockpitMapper {
     Map getConfig(String type);
 
     List<Map> queryBiData(Map param);
+
+    List<Map> queryBiDataWithUnit(Map param);
     /**
      * BI数据灌入
      */
     void dataToBi();
+
+    /**
+     * 查询二级单位列表
+     */
+    List<Map> querySecondLevelUnit();
 }

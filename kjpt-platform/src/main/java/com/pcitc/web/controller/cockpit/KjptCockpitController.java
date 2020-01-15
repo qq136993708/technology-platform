@@ -5,6 +5,7 @@ import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -99,6 +100,15 @@ public class KjptCockpitController extends RestBaseController {
      * 查询BI数据
      */
     private static final String QUERY_BI_DATA = "http://kjpt-zuul/stp-proxy/cockpit/results/queryBiData";
+    /**
+     * 根据单位查询BI数据
+     */
+    private static final String QUERY_BI_DATA_WITH_UNIT = "http://kjpt-zuul/stp-proxy/cockpit/results/queryBiDataWithUnit";
+
+    /**
+     * 查询二级单位
+     */
+    private static final String QUERY_SECOND_UNIT = "http://kjpt-zuul/stp-proxy/cockpit/results/querySecondLevelUnit";
 
     private static final String DATATOBI = "http://localhost:8765/cockpit/bi-provider/dataToBi/dataToBi_excute";
 
@@ -301,6 +311,19 @@ public class KjptCockpitController extends RestBaseController {
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_BI_DATA, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
+    @ApiOperation(value = "查询BI数据根据单位")
+    @RequestMapping(value = "/results/queryBiDataWithUnit/{type}", method = RequestMethod.GET)
+    public List<Map> queryBiDataWithUnit(@PathVariable String type,@RequestParam(value="secondLevelUnit", required=false) String secondLevelUnit) {
+        Map<String, Object> condition = new HashMap<>(6);
+        this.setBaseParam(condition);
+        checkIsWhiteList(condition);
+        this.setParam(condition,"type",type);
+        if (!StringUtils.isEmpty(secondLevelUnit)) {
+            this.setParam(condition, "secondLevelUnit", secondLevelUnit);
+        }
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_BI_DATA_WITH_UNIT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
 
     /**
      *BI数据灌入
@@ -310,6 +333,16 @@ public class KjptCockpitController extends RestBaseController {
     public JSONObject DATATOBI(HttpServletRequest request, HttpServletResponse response) throws Exception {
         RestTemplate restTemplate_req = new RestTemplate();
         ResponseEntity<JSONObject> responseEntity = restTemplate_req.exchange(DATATOBI, HttpMethod.GET, new HttpEntity<String>(new HttpHeaders()), JSONObject.class);
+        return responseEntity.getBody();
+    }
+
+    /**
+     *查询二级单位
+     */
+    @ApiOperation(value = "查询二级单位", notes = "查询二级单位")
+    @RequestMapping(value = "/bi-api/querySecondLevelUnit", method = RequestMethod.GET)
+    public List<Map> querySecondLevelUnit(){
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_SECOND_UNIT, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 }
