@@ -68,8 +68,7 @@ public class LocalApiController extends BaseController
 	            
 	    		System.out.println(">>>>>>>>>>身份证号: "+unifyIdentityId);
 	    		System.out.println(">>>>>>>>>>用户密级（4核心，3重要，2一般，1非密）: "+userSecretLevel);
-	    		System.out.println(">>>>>>>>>>合法主机: "+localApiRouteHosts);
-	    		System.out.println(">>>>>>>>>>远程主机: "+host);
+	    		System.out.println(">>>>>>>>>>合法主机: "+localApiRouteHosts +" 远程主机:"+host);
 	    		
 	            if(localApiRouteHosts!=null && !"".equals(localApiRouteHosts) && localApiRouteHosts.contains(host)==false)
           	    {
@@ -78,7 +77,6 @@ public class LocalApiController extends BaseController
 	            	JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
 				    return ob.toString();
           	    }
-	            
 	            if(unifyIdentityId.equals("") || userSecretLevel.equals("") )
 	            {
 	            	results.setSuccess(false);
@@ -87,34 +85,35 @@ public class LocalApiController extends BaseController
 				    return ob.toString();
 	            }
 	            SysUser user= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+	            Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	            paramMap.put("status", "1");
+	            paramMap.put("unifyIdentityId", unifyIdentityId);
+		   	    paramMap.put("levelCode", levelCode);
+		   	    paramMap.put("parentId", parentId);
+	            //如果人员不存在，则返回非密数据
 	            if(user!=null)
 	            {
-	            	Map<String ,Object> paramMap = new HashMap<String ,Object>();
-			   		paramMap.put("unifyIdentityId", unifyIdentityId);
-			   	    paramMap.put("levelCode", levelCode);
-			   	    paramMap.put("parentId", parentId);
-			   	    paramMap.put("status", "1");
 			   	    paramMap.put("userSecretLevel", userSecretLevel);
 			   	    paramMap.put("knowledgeScope", user.getUserName());
-			   	 
-			   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
-			   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_URL, HttpMethod.POST, httpEntity, JSONArray.class);
-			   		int statusCode = responseEntity.getStatusCodeValue();
-		  	   		JSONArray jSONArray=null;
-		  	   		if (statusCode == 200)
-		  	   		{
-		  	   			jSONArray = responseEntity.getBody();
-		  	   		    results.setData(jSONArray);
-		  	   		}else
-		  	   		{
-		  	   		  results.setSuccess(false);
-		  	   		  results.setMessage("网络有误");
-		  	   		}
+			   		
 	            }else
 	            {
-	            	results.setSuccess(false);
-	            	results.setMessage("没有此用户");
+			   	    paramMap.put("secretLevel", "0");
 	            }
+	            
+	            HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_FAMILY_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+		   		int statusCode = responseEntity.getStatusCodeValue();
+	  	   		JSONArray jSONArray=null;
+	  	   		if (statusCode == 200)
+	  	   		{
+	  	   			jSONArray = responseEntity.getBody();
+	  	   		    results.setData(jSONArray);
+	  	   		}else
+	  	   		{
+	  	   		  results.setSuccess(false);
+	  	   		  results.setMessage("网络有误");
+	  	   		}
 	  	   	    JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
 			    return ob.toString();
 		}
@@ -143,8 +142,7 @@ public class LocalApiController extends BaseController
 	            
 	    		System.out.println(">>>>>>>>>>身份证号: "+unifyIdentityId);
 	    		System.out.println(">>>>>>>>>>用户密级（4核心，3重要，2一般，1非密）: "+userSecretLevel);
-	    		System.out.println(">>>>>>>>>>合法主机: "+localApiRouteHosts);
-	    		System.out.println(">>>>>>>>>>远程主机: "+host);
+	    		System.out.println(">>>>>>>>>>合法主机: "+localApiRouteHosts+ "远程主机:"+host);
 	    		
 	            if(localApiRouteHosts!=null && !"".equals(localApiRouteHosts) && localApiRouteHosts.contains(host)==false)
           	    {
@@ -162,37 +160,35 @@ public class LocalApiController extends BaseController
 				    return ob.toString();
 	            }
 	            SysUser user= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+	        	Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	        	paramMap.put("deleted", "0");
+	        	paramMap.put("level", level);
+		   	    paramMap.put("platformName", platformName);
 	            if(user!=null)
 	            {
-	            	Map<String ,Object> paramMap = new HashMap<String ,Object>();
-			   	    paramMap.put("level", level);
-			   	    paramMap.put("platformName", platformName);
+	            
 			   	    paramMap.put("userSecretLevel", userSecretLevel);
 			   	    paramMap.put("knowledgeScope", user.getUserName());
-			   	    paramMap.put("deleted", "0");
-			   	 
-			   	    
-			   	 
-			   	    
-			   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
-			   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getPlatformListForOutApi, HttpMethod.POST, httpEntity, JSONArray.class);
-			   		int statusCode = responseEntity.getStatusCodeValue();
-		  	   		JSONArray jSONArray=null;
-		  	   		if (statusCode == 200)
-		  	   		{
-		  	   			jSONArray = responseEntity.getBody();
-		  	   		    jSONArray=getJSONArray(jSONArray);
-		  	   		    results.setData(jSONArray);
-		  	   		}else
-		  	   		{
-		  	   		  results.setSuccess(false);
-		  	   		  results.setMessage("网络有误");
-		  	   		}
 	            }else
 	            {
-	            	results.setSuccess(false);
-	            	results.setMessage("没有此用户");
+	            	  paramMap.put("secretLevel", "0");
+	            	  
 	            }
+	            
+	            HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getPlatformListForOutApi, HttpMethod.POST, httpEntity, JSONArray.class);
+		   		int statusCode = responseEntity.getStatusCodeValue();
+	  	   		JSONArray jSONArray=null;
+	  	   		if (statusCode == 200)
+	  	   		{
+	  	   			jSONArray = responseEntity.getBody();
+	  	   		    jSONArray=getJSONArray(jSONArray);
+	  	   		    results.setData(jSONArray);
+	  	   		}else
+	  	   		{
+	  	   		  results.setSuccess(false);
+	  	   		  results.setMessage("网络有误");
+	  	   		}
 	            
 	  	   	    JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(results));
 			    return ob.toString();
