@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中核集团科技管理平台-项目-首页</title>
     <link rel="stylesheet" href="../common/css/base.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" href="../common/css/common.css">
     <link rel="stylesheet" href="../common/css/main.css">
     <link rel="stylesheet" href="../common/css/table.css">
 </head>
-<body >
+
+<body>
     <div class="project_main">
         <!-- 左边 -->
         <div class="project_main_left">
             <div class="project_main_left_xm">
-                <div class="title"><span>项目</span></div>
+                <div class="title"><span>科研项目</span></div>
                 <div class="xm_table">
                     <table class="table-left" id="down_table" cellpadding="0" cellspacing="0">
                         <thead>
                             <tr>
-                                <td >阶段</td>
+                                <td>阶段</td>
                                 <td>核能开发</td>
                                 <td>集中研发</td>
                                 <td>国防基础</td>
@@ -29,13 +32,13 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td >在研</td>
+                                <td>在研</td>
                                 <td>1</td>
                                 <td>4</td>
                                 <td>0</td>
                                 <td>0</td>
                             </tr>
-                            <tr >
+                            <tr>
                                 <td>已完成</td>
                                 <td>1</td>
                                 <td>1</td>
@@ -47,33 +50,141 @@
                 </div>
             </div>
             <div class="project_main_left_fx">
-                <div class="title"><span>风险</span></div>
-                <div class="fx_charts">
-                    <div class="fx">
+                <div class="title title-x"><span>年度计划和实际完成情况</span></div>
+                <br>
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        核能开发
+                    </div>
+                    <div class="layui-col-md9">
+                        <div class="layui-progress layui-progress-big hnkf" lay-filter="hnkf">
+                            <div class="layui-progress-bar hnkf-child layui-bg-hnkf" lay-percent="0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        集中开发
+                    </div>
+                    <div class="layui-col-md9">
+                        <div class="layui-progress layui-progress-big" lay-filter="jzkf">
+                            <div class="layui-progress-bar layui-bg-jzkf" lay-percent="50%"></div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        国防基础
+                    </div>
+                    <div class="layui-col-md9">
+                        <div class="layui-progress layui-progress-big" lay-filter="gfjc">
+                            <div class="layui-progress-bar layui-bg-gfjc" lay-percent="80%"></div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        国防技术基础
+                    </div>
+                    <div class="layui-col-md9">
+                        <div class="layui-progress layui-progress-big" lay-filter="gfjcjs">
+                            <div class="layui-progress-bar layui-bg-gfjsjc" lay-percent="80%"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="fx">
                         <div class="detail_chart">
                             <div id="fx_chart1"></div>
                         </div>
                         <div class="detail_chart">
                             <div id="fx_chart2"></div>
                         </div>
-                    </div>
-                    <div class="fx">
+                    </div> -->
+                <!-- <div class="fx">
                         <div class="detail_chart">
                             <div id="fx_chart3"></div>
                         </div>
                         <div class="detail_chart">
                             <div id="fx_chart4"></div>
                         </div>
-                    </div>
-                    <div class="fx">
+                    </div> -->
+                <!-- <div class="fx">
                         <div class="detail_chart">
                             <div id="fx_chart5"></div>
                         </div>
                         <div class="detail_chart">
                             <div id="fx_chart6"></div>
                         </div>
+                    </div> -->
+                <!-- </div> -->
+            </div>
+            <br>
+            <div class="project_main_left_fx">
+                <div class="title"><span>风险</span></div>
+                <div class="layui-row">
+                    <div class="layui-col-md2">
+                        <p class="danger danger-title">核动力</p>
+                        <p class="danger danger-text">15</p>
                     </div>
-                    
+                    <div class="layui-col-md2">
+                        <p class="danger danger-title">核能院</p>
+                        <p class="danger danger-text">10</p>
+                    </div>
+                    <div class="layui-col-md2">
+                        <p class="danger danger-title">核化院</p>
+                        <p class="danger danger-text">8</p>
+                    </div>
+                    <div class="layui-col-md2">
+                        <p class="danger danger-title">中核宝原</p>
+                        <p class="danger danger-text">6</p>
+                    </div>
+                    <div class="layui-col-md2">
+                        <p class="danger danger-title">核工业</p>
+                        <p class="danger danger-text">2</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="project_main_left_xm">
+                <div class="title title-x"><span>投资规模统计</span></div>
+                <div class="xm_table">
+                    <table class="table-left" id="down_table_total" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td>项目数</td>
+                                <td>核能开发</td>
+                                <td>集中研发</td>
+                                <td>国防基础</td>
+                                <td class="name">国防技术 基础</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> 5千万及以下 </td>
+                                <td>6</td>
+                                <td>10</td>
+                                <td>6</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td> 5千万～1亿</td>
+                                <td>21</td>
+                                <td>35</td>
+                                <td>21</td>
+                                <td>35</td>
+                            </tr>
+                            <tr>
+                                <td> 1亿～3亿</td>
+                                <td>30</td>
+                                <td>40</td>
+                                <td>30</td>
+                                <td>40</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -103,7 +214,7 @@
                             <td>周期1</td>
                             <td>总经费1</td>
                         </tr>
-                        <tr >
+                        <tr>
                             <td>2</td>
                             <td>项目名称2</td>
                             <td>项目类型2</td>
@@ -118,45 +229,81 @@
         <!-- 右边 -->
         <div class="project_main_right">
             <div class="project_main_right_tz1">
+                <div class="title"><span>预研项目</span></div>
+                <div class="layui-row">
+                    <div class="layui-col-md6">
+                        <p class="project_xm project_xm_title">预研项目数量</p>
+                        <p class="project_xm project_xm_text">1209 <span class="project_xm_dw">个</span></p>
+                    </div>
+                    <div class="layui-col-md6">
+                        <p class="project_xm project_xm_title">预研项目合同数量</p>
+                        <p class="project_xm project_xm_text">1069 <span class="project_xm_dw">个</span></p>
+                    </div>
+                </div>
+                <div class="title mask-title title-x"><span>按单位分布</span></div>
+                <div class="layui-row">
+                    <div class="layui-col-md12" >
+                        <div id="dwfb_charts" style="height: 120px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="project_main_right_tz1 project_main_right_tz_1">
+                <div class="title"><span>经费分布情况</span></div>
+                <div class="layui-row cgxx_charts">
+                    <div class="title mask-title title-x"><span>按项目分布</span></div>
+                    <div class="layui-row">
+                        <div class="layui-col-md12" >
+                            <div id="xmfb_charts" class="chart" style="height: 160px;width: 100%;" ></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title mask-title title-x"><span>按单位分布</span></div>
+                <div class="layui-row">
+                    <div class="layui-col-md12" >
+                        <div id="dwmoney_charts" style="height: 140px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="project_main_right_tz1">
                 <div class="title"><span>经费执行情况</span></div>
                 <div class="tz_tzzxqk">
-                    <div class="xmtz_charts" >
-                        <div id="xmtz_charts1" ></div>
+                    <div class="xmtz_charts">
+                        <div id="xmtz_charts1"></div>
                         <div class="xmtz_desc">
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                         </div>
                     </div>
-                    <div class="xmtz_charts" >
-                        <div id="xmtz_charts2" ></div>
+                    <div class="xmtz_charts">
+                        <div id="xmtz_charts2"></div>
                         <div class="xmtz_desc">
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                         </div>
                     </div>
-                    <div class="xmtz_charts" >
-                        <div id="xmtz_charts3" ></div>
+                    <div class="xmtz_charts">
+                        <div id="xmtz_charts3"></div>
                         <div class="xmtz_desc">
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                         </div>
                     </div>
-                    <div class="xmtz_charts" >
-                        <div id="xmtz_charts4" ></div>
+                    <div class="xmtz_charts">
+                        <div id="xmtz_charts4"></div>
                         <div class="xmtz_desc">
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                             <div class="desc1"><span>年度计划：283.99 </span></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="project_main_right_tz2">
+            </div> -->
+            <!-- <div class="project_main_right_tz2">
                 <div class="title"><span>经费规模统计</span></div>
                 <div class="tz_tzgmtj">
                     <table class="table-left" id="tzgmtj_table" cellpadding="0" cellspacing="0">
                         <thead>
                             <tr>
-                                <td >项目数</td>
+                                <td>项目数</td>
                                 <td>核能开发</td>
                                 <td>集中研发</td>
                                 <td>国防基础</td>
@@ -165,34 +312,34 @@
                         </thead>
                         <tbody class="tzgmtj_tbody">
                             <tr>
-                                <td >在研</td>
+                                <td>在研</td>
                                 <td>23.10</td>
                                 <td>28.41</td>
                                 <td>15.39</td>
                                 <td>3.47</td>
                             </tr>
-                            <tr >
+                            <tr>
                                 <td>已完成</td>
                                 <td>1547.80</td>
                                 <td>1446.97</td>
                                 <td>1361.02</td>
                                 <td>1312.20</td>
                             </tr>
-                            <tr >
+                            <tr>
                                 <td>已完成</td>
                                 <td>1547.80</td>
                                 <td>1446.97</td>
                                 <td>1361.02</td>
                                 <td>1312.20</td>
                             </tr>
-                            <tr >
+                            <tr>
                                 <td>已完成</td>
                                 <td>1547.80</td>
                                 <td>1446.97</td>
                                 <td>1361.02</td>
                                 <td>1312.20</td>
                             </tr>
-                            <tr >
+                            <tr>
                                 <td>已完成</td>
                                 <td>1547.80</td>
                                 <td>1446.97</td>
@@ -202,21 +349,34 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
-        
+
     </div>
-    
+
     <script src="../common/js/jquery-1.10.1.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
     <script src="../common/js/echarts.min.js"></script>
     <script src="../common/js/china.js"></script>
     <script src="../common/js/autofont.js"></script>
+    <script src="/layuiadmin/js/chartOption.js"></script>
     <script src="js/project.js"></script>
-    <script >
-        window.onload=window.onresize = function(){
+    <script>
+        window.onload = window.onresize = function () {
             autofont();
             main_area_map.resize();
+            $('#xmfb_charts').css('padding-left','0');
+            $('.pie-legend-list').removeClass('left');
+            $('.pie-legend-list').addClass('right');
         }
+        layui.use(['element'], function () {
+            var element = layui.element;
+            element.progress('hnkf', '20%');
+            element.progress('jzkf', '80%');
+            element.progress('gfjc', '60%');
+            element.progress('gfjcjs', '30%');
+        })
     </script>
 </body>
+
 </html>

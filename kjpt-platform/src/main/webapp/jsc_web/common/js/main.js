@@ -1,4 +1,4 @@
-// 成果鉴定
+// 成果信息
 kyptCharts.render({
     id: 'cgxx_charts1',
     type: 'pie',
@@ -21,22 +21,22 @@ kyptCharts.render({
         }
     },
     series: [{
-            name: '理论成果',
-            value: '10'
+            name: '成果鉴定',
+            value: '25'
         },
         {
-            name: '软科学成果',
-            value: '60'
+            name: '成果报奖',
+            value: '12'
         },
         {
-            name: '应用技术成果',
-            value: '30'
+            name: '成果转化',
+            value: '18'
         }
     ],
-    color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
+    color: ['#f9dd56','#ff9156','#1bc85e']
 });
 
-// 成果报奖
+// 专利数量
 kyptCharts.render({
     id: 'cgxx_charts2',
     type: 'pie',
@@ -71,56 +71,160 @@ kyptCharts.render({
             value: '30'
         }
     ],
-    color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
+    color: ['#f9dd56','#ff9156','#1bc85e']
 });
-
-// 成果转化
-kyptCharts.render({
-    id: 'cgxx_charts3',
-    type: 'pie',
-    legendPosition: 'right',
-    legend: {
-        top: 'center',
-        formatter: 'name|value'
+var option1 = {
+    tooltip: {
+        trigger: 'axis',
+        formatter: "{b}： {c}",
+        axisPointer: {
+            type: 'shadow'
+        }
     },
-    label: false,
-    labelColor: '#fff',
-    radius: ['62%', '84%'],
-    borderColor: '#001e38',
-    title: '成果转化',
-    totalTitle: true,
-    title: {
-        textStyle: {
-            color: '#fff',
-            fontSize: 24,
-            width: '100%'
+    grid: {
+        top: '5%',
+        left: '10',
+        right: '4%',
+        bottom: '1%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+        axisLabel: {
+            show: true,
+            interval: 0,
+            rotate: 0,
+            textStyle: {
+                color: '#fff',
+                fontSize: '12'
+            }
+        },
+        splitLine: {
+            show: false,
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: true
+        },
+        data: ['动力院', '原子能院', '核能院', '核化工', '地研院']
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            show: true,
+            textStyle: {
+                color: '#fff',
+                fontSize: '14'
+            }
+        },
+        splitLine: {
+            show: false
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: true
         }
     },
     series: [{
-            name: '待转化',
-            value: '10'
+        type: 'bar',
+        barWidth: '15',
+        // label: {
+        //     show: true,
+        //     // position: 'center',
+        //     color:'#fff',
+        //     // formatter: '{c0}亿',
+        // },
+        itemStyle: {
+            normal: {
+                color: function (params) {
+                    return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#25B9FE'
+                    }, {
+                        offset: 1,
+                        color: '#25B9FE'
+                    }]);
+                }
+            }
         },
-        {
-            name: '拟转化',
-            value: '60'
-        },
-        {
-            name: '已转化',
-            value: '30'
-        }
-    ],
-    color: ['#DF5DFF', '#81FF5B', '#42FDFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
-});
+        data: [10, 2, 15, 8, 7],
+    }]
+};
+/**单位分布柱状图***/
+var cgxx_charts3 = echarts.init(document.getElementById('cgxx_charts3'));
+cgxx_charts3.setOption(option1);
+
+
+
 
 
 /**项目投资***/
-var xmtz_charts1 = echarts.init(document.getElementById('xmtz_charts1'));
-var xmtz_charts2 = echarts.init(document.getElementById('xmtz_charts2'));
-var xmtz_charts3 = echarts.init(document.getElementById('xmtz_charts3'));
-var xmtz_charts4 = echarts.init(document.getElementById('xmtz_charts4'));
+// var xmtz_charts1 = echarts.init(document.getElementById('xmtz_charts1'));
+// var xmtz_charts2 = echarts.init(document.getElementById('xmtz_charts2'));
+// var xmtz_charts3 = echarts.init(document.getElementById('xmtz_charts3'));
+// var xmtz_charts4 = echarts.init(document.getElementById('xmtz_charts4'));
 /**项目数量***/
 var main_charts = echarts.init(document.getElementById('main_charts'));
-
+/**项目经费占比***/
+var xmjf_charts = echarts.init(document.getElementById('xmjf_charts'));
+xmjf_charts.setOption(option1);
+xmjf_charts.setOption({
+    tooltip: {
+        formatter: "{b}： {c}%",
+    },
+    xAxis:{
+        data:['核能开发','集中研发','国防基础','国防技术基础']
+    },
+    series:[{
+        data: [24, 95, 54, 32],
+            itemStyle: {
+                normal: {
+                    color: function (params) {
+                        if (params.dataIndex == 3) {
+                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#62C36A'
+                            }, {
+                                offset: 1,
+                                color: '#62C36A'
+                            }]);
+                        }
+                        if (params.dataIndex == 2) {
+                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#EF9562'
+                            }, {
+                                offset: 1,
+                                color: '#EF9562'
+                            }]);
+                        }
+                        if (params.dataIndex == 1) {
+                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#F6C667'
+                            }, {
+                                offset: 1,
+                                color: '#F6C667'
+                            }]);
+                        }
+                        if (params.dataIndex == 0) {
+                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#44A5FF'
+                            }, {
+                                offset: 1,
+                                color: '#44A5FF'
+                            }]);
+                        }
+                    }
+                }
+            }
+        }]
+});
 // 项目投资Option
 var xmtz_option = {
     tooltip: {
@@ -182,7 +286,7 @@ var xmtz_option = {
         },
         title: {
             textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                fontSize: 14,
+                fontSize: 12,
                 color: '#fff',
                 shadowColor: '#fff', //默认透明
                 shadowBlur: 10
@@ -197,10 +301,10 @@ var xmtz_option = {
 
 
 // 项目投资
-xmtz_charts1.setOption(xmtz_option);
-xmtz_charts2.setOption(xmtz_option);
-xmtz_charts3.setOption(xmtz_option);
-xmtz_charts4.setOption(xmtz_option);
+// xmtz_charts1.setOption(xmtz_option);
+// xmtz_charts2.setOption(xmtz_option);
+// xmtz_charts3.setOption(xmtz_option);
+// xmtz_charts4.setOption(xmtz_option);
 
 //项目数量
 var xmsl_option = {
@@ -237,7 +341,7 @@ var xmsl_option = {
         axisLabel: {
             textStyle: {
                 color: '#fff',
-                fontSize: '16'
+                fontSize: '12'
             },
             margin: 16,
             interval: 0
@@ -262,7 +366,7 @@ var xmsl_option = {
             // formatter: '{value} ml',
             textStyle: {
                 color: '#fff',
-                fontSize: '16'
+                fontSize: '12'
             }
         },
         axisLine: {
@@ -312,7 +416,7 @@ var xmsl_option = {
                 symbol: 'circle',
                 symbolSize: [40, 12],
                 itemStyle: {
-                    color: '#42fdff'
+                    color: '#25B9FE'
                 }
             }
         },
@@ -322,7 +426,7 @@ var xmsl_option = {
             stack: "采购",
             data: [10, 7, 10, 10],
             itemStyle: {
-                color: '#42fdff'
+                color: '#25B9FE'
             },
             label: {
                 normal: {
@@ -392,7 +496,7 @@ var xmsl_option = {
                 symbol: 'circle',
                 symbolSize: [40, 12],
                 itemStyle: {
-                    color: '#5cfdb7'
+                    color: '#1F2C54',
                 }
             }
         },
@@ -402,7 +506,16 @@ var xmsl_option = {
             stack: "采购",
             data: [4, 4, 4, 2],
             itemStyle: {
-                color: "#5cfdb7"
+                // color: "#5cfdb7"
+                color: function (params) {
+                    return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#F6C667'
+                    }, {
+                        offset: 1,
+                        color: '#1F2C54'
+                    }]);
+                }
             },
             label: {
                 normal: {
@@ -436,7 +549,7 @@ var xmsl_option = {
                 symbol: 'circle',
                 symbolSize: [40, 12],
                 itemStyle: {
-                    color: '#1ACB62'
+                    color: '#F6C667'
                 }
             }
         }
@@ -521,13 +634,13 @@ function loadMAINData(type) {
                     // kyptCharts.reload('cgxx_charts3', {series: chartData});
                 }
                 if (type == "1") {
-                    setXMSLData(result); //项目数量
+                    // setXMSLData(result); //项目数量
                 }
                 if (type == "4") {
-                    setZLXXData(result); //质量信息
+                    // setZLXXData(result); //质量信息
                 }
                 if (type == "5") {
-                    setXMTZData(result); //项目投资
+                    // setXMTZData(result); //项目投资
                 }
 
             }
@@ -597,7 +710,7 @@ function setXMTZData(result) {
         json1.value = result.data[0].num;
         data1.push(json1);
         xmtz_option.series[0].data = data1;
-        xmtz_charts1.setOption(xmtz_option);
+        // xmtz_charts1.setOption(xmtz_option);
         //第二个
         json2.name = result.data[1].name.split('-')[1];
         json2.value = result.data[1].num;
