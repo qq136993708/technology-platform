@@ -355,6 +355,10 @@ public class PatentInfo extends RecordModel implements Serializable {
      */
     private String legalPersonCode;
 
+    /**
+     * 自定义分类
+     */
+    private String customClassification;
     /**后期需求增加：新增字段 end*/
 
     public String getId() {
@@ -916,6 +920,14 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public void setLegalPersonCode(String legalPersonCode) {
         this.legalPersonCode = legalPersonCode;
+    }
+
+    public String getCustomClassification() {
+        return customClassification;
+    }
+
+    public void setCustomClassification(String customClassification) {
+        this.customClassification = customClassification;
     }
 
     @Override

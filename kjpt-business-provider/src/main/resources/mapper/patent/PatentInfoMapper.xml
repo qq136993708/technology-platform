@@ -77,7 +77,7 @@
     <result column="public_announcement_no" jdbcType="VARCHAR" property="publicAnnouncementNo" />
     <result column="explainer" jdbcType="VARCHAR" property="explain" />
     <result column="legal_person_code" jdbcType="VARCHAR" property="legalPersonCode" />
-
+    <result column="custom_classification" jdbcType="VARCHAR" property="customClassification" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, unit_name,
@@ -121,7 +121,8 @@
     name_of_components_and_supporting_materials,main_classification_number
     sub_category_number,priority_right,joint_applicant,
     public_announcement_no,explainer,
-    legal_person_code
+    legal_person_code,custom_classification
+
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -330,7 +331,10 @@
         explainer,
       </if>
       <if test="legalPersonCode != null">
-        legal_person_code
+        legal_person_code,
+      </if>
+      <if test="customClassification != null">
+        custom_classification
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -524,7 +528,10 @@
         #{explain,jdbcType=VARCHAR},
       </if>
       <if test="legalPersonCode != null">
-        #{legalPersonCode,jdbcType=VARCHAR}
+        #{legalPersonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customClassification != null">
+        #{customClassification,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -592,7 +599,8 @@
 	  joint_applicant = #{jointApplicant,jdbcType=VARCHAR},
 	  public_announcement_no = #{publicAnnouncementNo,jdbcType=VARCHAR},
 	  explainer = #{explain,jdbcType=VARCHAR},
-	  legal_person_code = #{legalPersonCode,jdbcType=VARCHAR}
+	  legal_person_code = #{legalPersonCode,jdbcType=VARCHAR},
+	  custom_classification = #{customClassification,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
 </update>
 
