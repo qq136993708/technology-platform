@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>中核集团科技管理平台-项目-项目清单</title>
+    <link rel="stylesheet" href="../common/css/base.css">
+    <link rel="stylesheet" href="../common/css/common.css">
+    <link rel="stylesheet" href="../control/layui/css/layui.css">
+    <link rel="stylesheet" href="../control/ztree/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="../common/css/table.css">
+    <link rel="stylesheet" href="../common/css/main.css">
+</head>
+<body >
+    <div class="project_jzjcg">
+        <div class="project_fx">
+            <div class="title"><span>项目清单</span></div>
+            <div class="check_query">
+                <!-- <div class="query1">
+                    <form class="layui-form" action="">
+                        <select name="city" lay-verify="">
+                            <option value="010">2019年</option>
+                            <option value="021">2018年</option>
+                            <option value="0571">2017年</option>
+                        </select>   
+                    </form> 
+                </div> -->
+                <div class="query"><span>十三五规划</span></div>
+                <div class="query"><span>十四五规划</span></div>
+                <!-- <div class="query"><span>国防基础</span></div>
+                <div class="query"><span>国防技术基础</span></div> -->
+                <!-- <div class="query2">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="radio" name="sex" value="全部" title="全部">
+                                <input type="radio" name="sex" value="在研" title="在研" checked>
+                                <input type="radio" name="sex" value="已完成" title="已完成" >
+                                <input type="radio" name="sex" value="终止" title="终止" >
+                            </div>
+                          </div>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+        <div class="fx_tree">
+            <div id="treeDemo" class="ztree"></div>
+        </div>
+        <div class="fx_table">
+            <table class="table-left" id="down_table" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td >项目字段</td>
+                        <td>项目编号</td>
+                        <td>项目名称</td>
+                        <td>研究目标及主要内容</td>
+                        <td>承研单位</td>
+                        <td>研究周期</td>
+                        <td>经概算费</td>
+                        <td>密级</td>
+                    </tr>
+                </thead>
+                <tbody id="xmqd_tbody">
+                    <tr>
+                        <td>23.10</td>
+                        <td>28.41</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
+                    </tr>
+                    <tr >
+                        <td>1547.80</td>
+                        <td>1446.97</td>
+                        <td>1361.02</td>
+                        <td>1312.20</td>
+                        <td>964.42</td>
+                        <td>15.39</td>
+                        <td>3.47</td>
+                        <td>1.83</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../common/js/jquery-1.10.1.min.js"></script>
+    <script src="../common/js/echarts.min.js"></script>
+    <script src="../control/layui/layui.js"></script>
+    <script src="../control/ztree/js/jquery.ztree.core.js"></script>
+    <script src="../common/js/autofont.js"></script>
+    <script src="js/project_yyxm.js"></script>
+    <script src="js/project_data.js"></script>
+    <script>
+        layui.use('form', function(){
+          var form = layui.form;
+        });
+    </script>
+</body>
+</html>

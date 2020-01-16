@@ -167,11 +167,29 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       ,trigger: 'click'
     });
     
-
+    //录入日期
     laydate.render({
         elem: '#entryDate' //指定元素
         ,trigger: 'click'
       });
+
+      //变更日期
+    laydate.render({
+      elem: '#legalStatusUpdateTime' //指定元素
+      ,trigger: 'click'
+    });
+
+      //终止日期
+    laydate.render({
+      elem: '#terminationDate' //指定元素
+      ,trigger: 'click'
+    });
+    
+      //授权日期
+    laydate.render({
+      elem: '#authorizationDate' //指定元素
+      ,trigger: 'click'
+    });
    
     
       function transToData(data, fields) {

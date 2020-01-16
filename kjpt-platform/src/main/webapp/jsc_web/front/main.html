@@ -17,17 +17,13 @@
 <body>
     <!-- 左边 -->
     <div class="main_left">
-        <div class="layui-row">
-            <form class="layui-form" action="">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-input-block select-block">
-                        <select id="selectAll" placeholder="请选择...">
-                            <option value="">全部</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-            
+        <div class="check_query">
+            <div class="query1">
+                <form class="layui-form" action="">
+                    <select id="secondLevel" lay-filter="secondLevel" name="secondLevel" placeholder="请选择...">
+                    </select>
+                </form>
+            </div>
         </div>
         <div class="main_top">
             <div class="title"><span>基本信息</span></div>
@@ -144,7 +140,7 @@
                 <div class="zscq desc-num">
                     <div class="circle middle-block">
                         <div class="bounce1" id="htsl_num"><span>109</span></div>
-                    </div> 
+                    </div>
                     <div class="circle_desc"><span>十三五合同数量</span></div>
                 </div>
                 <div class="zscq desc-num">
@@ -253,7 +249,36 @@
         })
     </script>
     <script>
-        // $("#main_charts").load("echarts1.html");
+         loadSeconSelect();
+        // layui js引用
+        layui.use(['form'], function () {
+            // 渲染表单相关插件 包含下拉框，单、复选框
+            var form = layui.form;
+            form.on('select(secondLevel)', function (data) {
+                console.log(data);
+               
+            });
+        });
+        /**
+         * 首页二级单位下拉框
+         */
+
+        function loadSeconSelect() {
+            httpModule({
+                url: '/cockpit/bi-api/querySecondLevelUnit',
+                type: 'GET',
+                success: function (relData) {
+                    if (relData.success === true) {
+                        var res = relData.data;
+                        for (var i = 0; i < res.length; i++) {
+                            $("#secondLevel").append("<option data-id=" + res[i].unitId + ">" + res[i]
+                                .unitName + "</option>");
+                        }
+                    }
+                }
+            });
+        }
+       
     </script>
 </body>
 

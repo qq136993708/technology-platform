@@ -33,7 +33,7 @@ kyptCharts.render({
             value: '18'
         }
     ],
-    color: ['#f9dd56','#ff9156','#1bc85e']
+    color: ['#f9dd56', '#ff9156', '#1bc85e']
 });
 
 // 专利数量
@@ -71,7 +71,7 @@ kyptCharts.render({
             value: '30'
         }
     ],
-    color: ['#f9dd56','#ff9156','#1bc85e']
+    color: ['#f9dd56', '#ff9156', '#1bc85e']
 });
 var option1 = {
     tooltip: {
@@ -176,54 +176,54 @@ xmjf_charts.setOption({
     tooltip: {
         formatter: "{b}： {c}%",
     },
-    xAxis:{
-        data:['核能开发','集中研发','国防基础','国防技术基础']
+    xAxis: {
+        data: ['核能开发', '集中研发', '国防基础', '国防技术基础']
     },
-    series:[{
+    series: [{
         data: [24, 95, 54, 32],
-            itemStyle: {
-                normal: {
-                    color: function (params) {
-                        if (params.dataIndex == 3) {
-                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#62C36A'
-                            }, {
-                                offset: 1,
-                                color: '#62C36A'
-                            }]);
-                        }
-                        if (params.dataIndex == 2) {
-                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#EF9562'
-                            }, {
-                                offset: 1,
-                                color: '#EF9562'
-                            }]);
-                        }
-                        if (params.dataIndex == 1) {
-                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#F6C667'
-                            }, {
-                                offset: 1,
-                                color: '#F6C667'
-                            }]);
-                        }
-                        if (params.dataIndex == 0) {
-                            return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                                offset: 0,
-                                color: '#44A5FF'
-                            }, {
-                                offset: 1,
-                                color: '#44A5FF'
-                            }]);
-                        }
+        itemStyle: {
+            normal: {
+                color: function (params) {
+                    if (params.dataIndex == 3) {
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#62C36A'
+                        }, {
+                            offset: 1,
+                            color: '#62C36A'
+                        }]);
+                    }
+                    if (params.dataIndex == 2) {
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#EF9562'
+                        }, {
+                            offset: 1,
+                            color: '#EF9562'
+                        }]);
+                    }
+                    if (params.dataIndex == 1) {
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#F6C667'
+                        }, {
+                            offset: 1,
+                            color: '#F6C667'
+                        }]);
+                    }
+                    if (params.dataIndex == 0) {
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#44A5FF'
+                        }, {
+                            offset: 1,
+                            color: '#44A5FF'
+                        }]);
                     }
                 }
             }
-        }]
+        }
+    }]
 });
 // 项目投资Option
 var xmtz_option = {
@@ -734,3 +734,4 @@ function setXMTZData(result) {
 
     }
 }
+
