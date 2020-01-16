@@ -566,22 +566,25 @@
 		<result column="secretLevel" property="secretLevel" jdbcType="VARCHAR" />
 		<result column="levelCode" property="levelCode" jdbcType="VARCHAR" />
 		<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+		<result column="secretLevelText" property="secretLevelText" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	
-	
 	 <select id="getTreeNodeApiList" resultMap="TreeNodeApiBaseResultMap"  >
-     select
+      SELECT
 	      t.tfm_type_id AS id,
 		  t.parent_id AS pId,
-		  t.type_name AS name,
+		  t.type_name AS NAME,
 		  t.is_parent AS parentFlag,
 		  t.level_code AS levelCode,
-		  t.type_code AS code,
+		  t.type_code AS CODE,
 		  t.`parent_code` AS parentCode,
 		  t.`secret_level` AS secretLevel,
-		  t.type_index AS nodePath
-	  from tfm_type  t  <include refid="selectCondition" />  
+		  t.type_index AS nodePath,
+		 ( 
+           SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+            AND t2.num_value =t.`secret_level`
+          )  secretLevelText
+	  FROM tfm_type  t <include refid="selectCondition" />  
         ORDER BY t.level_code,t.type_index ASC 
 	</select>
 	
@@ -597,6 +600,11 @@
 		  t.`parent_code`  AS parentCode,
 		  t.`secret_level` AS secretLevel,
 		  t.type_index     AS nodePath
+		  ,
+		 ( 
+           SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+            AND t2.num_value =t.`secret_level`
+          )  secretLevelText
        from tfm_type t where  t.type_code in
       <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
             #{item}

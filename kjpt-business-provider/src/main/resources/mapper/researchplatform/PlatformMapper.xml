@@ -185,7 +185,7 @@
             and secret_level = #{secretLevel}
         </if>
         <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
+	         AND (secret_level &lt;= #{userSecretLevel} OR  secret_level ='0')
 	    </if>
     </sql>
     <select id="queryPlatformListApi" parameterType="java.util.Map" resultMap="BaseResultMap">
