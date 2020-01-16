@@ -118,7 +118,7 @@
     project_background,establishment_department,
     project_number,project_name,application_technology_products,
     application_model_product_name,application_subsystem_name,
-    name_of_components_and_supporting_materials,main_classification_number
+    name_of_components_and_supporting_materials,main_classification_number,
     sub_category_number,priority_right,joint_applicant,
     public_announcement_no,explainer,
     legal_person_code,custom_classification
