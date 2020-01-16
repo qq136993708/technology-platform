@@ -303,10 +303,10 @@
         application_technology_products,
       </if>
       <if test="applicationModelProductName != null">
-        application_model_productName,
+        application_model_product_name,
       </if>
       <if test="applicationSubsystemName != null">
-        application_subsystemName,
+        application_subsystem_name,
       </if>
       <if test="nameOfComponentsAndSupportingMaterials != null">
         name_of_components_and_supporting_materials,
