@@ -49,6 +49,18 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             // 失效日期
             data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
           }
+          if(data.authorizationDate){
+            // 授权日期
+            data.authorizationDate = new Date(data.authorizationDate).format('yyyy-MM-dd');
+          }
+          if(data.terminationDate){
+            // 终止日期
+            data.terminationDate = new Date(data.terminationDate).format('yyyy-MM-dd');
+          }
+          if(data.legalStatusUpdateTime){
+            // 变更日期
+            data.legalStatusUpdateTime = new Date(data.legalStatusUpdateTime).format('yyyy-MM-dd');
+          }
 
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
@@ -184,7 +196,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       elem: '#terminationDate' //指定元素
       ,trigger: 'click'
     });
-    
+
       //授权日期
     laydate.render({
       elem: '#authorizationDate' //指定元素
