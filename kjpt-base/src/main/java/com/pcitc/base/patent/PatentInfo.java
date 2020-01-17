@@ -257,6 +257,109 @@ public class PatentInfo extends RecordModel implements Serializable {
      */
     private String expirationDateStr;
 
+    /**后期需求增加：新增字段 begin*/
+
+    /**
+     * 外系统id
+     */
+    private String outId;
+    /**
+     * 数据导入文件格式 1 xml 2 excel
+     */
+    private String inputType;
+
+    /**
+     * 授权日期
+     */
+    private Date authorizationDate;
+    /**
+     * 终止日期
+     */
+    private Date terminationDate;
+    /**
+     * 法律状态变更日期
+     */
+    private Date legalStatusUpdateTime;
+
+    /**
+     * 应用技术领域技术类
+     */
+    private String applicationTechnologyTechnology;
+
+    /**
+     * 项目背景
+     */
+    private String projectBackground;
+
+    //establishment_department project_number project_name
+    //application_technology_products application_model_product_name
+    //application_subsystem_name name_of_components_and_supporting_materials
+    //main_classification_number sub_category_number
+    //priority_right joint_applicant public_announcement_no explain legal_person_code
+
+    /**
+     * 立项部门
+     */
+    private String establishmentDepartment;
+    /**
+     * 项目号
+     */
+    private String projectNumber;
+    /**
+     * 项目名称
+     */
+    private String projectName;
+    /**
+     * 应用技术领域产品类
+     */
+    private String applicationTechnologyProducts;
+    /**
+     * 应用模型产品名称
+     */
+    private String applicationModelProductName;
+    /**
+     * 应用分系统名称
+     */
+    private String applicationSubsystemName;
+    /**
+     * 元器件及配套材料名称
+     */
+    private String nameOfComponentsAndSupportingMaterials;
+    /**
+     * 主分类号
+     */
+    private String mainClassificationNumber;
+    /**
+     * 副分类号
+     */
+    private String subCategoryNumber;
+    /**
+     * 优先权
+     */
+    private String priorityRight;
+    /**
+     * 联合申请人
+     */
+    private String jointApplicant;
+    /**
+     * 公开（公告）号
+     */
+    private String publicAnnouncementNo;
+    /**
+     * 说明
+     */
+
+    private String explain;
+    /**
+     * 法人代码
+     */
+    private String legalPersonCode;
+
+    /**
+     * 自定义分类
+     */
+    private String customClassification;
+    /**后期需求增加：新增字段 end*/
 
     public String getId() {
         return id;
@@ -649,6 +752,182 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public void setExpirationDateStr(String expirationDateStr) {
         this.expirationDateStr = expirationDateStr;
+    }
+
+    public String getOutId() {
+        return outId;
+    }
+
+    public void setOutId(String outId) {
+        this.outId = outId;
+    }
+
+    public String getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(String inputType) {
+        this.inputType = inputType;
+    }
+
+    public Date getAuthorizationDate() {
+        return authorizationDate;
+    }
+
+    public void setAuthorizationDate(Date authorizationDate) {
+        this.authorizationDate = authorizationDate;
+    }
+
+    public Date getTerminationDate() {
+        return terminationDate;
+    }
+
+    public void setTerminationDate(Date terminationDate) {
+        this.terminationDate = terminationDate;
+    }
+
+    public Date getLegalStatusUpdateTime() {
+        return legalStatusUpdateTime;
+    }
+
+    public void setLegalStatusUpdateTime(Date legalStatusUpdateTime) {
+        this.legalStatusUpdateTime = legalStatusUpdateTime;
+    }
+
+    public String getApplicationTechnologyTechnology() {
+        return applicationTechnologyTechnology;
+    }
+
+    public void setApplicationTechnologyTechnology(String applicationTechnologyTechnology) {
+        this.applicationTechnologyTechnology = applicationTechnologyTechnology;
+    }
+
+    public String getProjectBackground() {
+        return projectBackground;
+    }
+
+    public void setProjectBackground(String projectBackground) {
+        this.projectBackground = projectBackground;
+    }
+
+    public String getEstablishmentDepartment() {
+        return establishmentDepartment;
+    }
+
+    public void setEstablishmentDepartment(String establishmentDepartment) {
+        this.establishmentDepartment = establishmentDepartment;
+    }
+
+    public String getProjectNumber() {
+        return projectNumber;
+    }
+
+    public void setProjectNumber(String projectNumber) {
+        this.projectNumber = projectNumber;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getApplicationTechnologyProducts() {
+        return applicationTechnologyProducts;
+    }
+
+    public void setApplicationTechnologyProducts(String applicationTechnologyProducts) {
+        this.applicationTechnologyProducts = applicationTechnologyProducts;
+    }
+
+    public String getApplicationModelProductName() {
+        return applicationModelProductName;
+    }
+
+    public void setApplicationModelProductName(String applicationModelProductName) {
+        this.applicationModelProductName = applicationModelProductName;
+    }
+
+    public String getApplicationSubsystemName() {
+        return applicationSubsystemName;
+    }
+
+    public void setApplicationSubsystemName(String applicationSubsystemName) {
+        this.applicationSubsystemName = applicationSubsystemName;
+    }
+
+    public String getNameOfComponentsAndSupportingMaterials() {
+        return nameOfComponentsAndSupportingMaterials;
+    }
+
+    public void setNameOfComponentsAndSupportingMaterials(String nameOfComponentsAndSupportingMaterials) {
+        this.nameOfComponentsAndSupportingMaterials = nameOfComponentsAndSupportingMaterials;
+    }
+
+    public String getMainClassificationNumber() {
+        return mainClassificationNumber;
+    }
+
+    public void setMainClassificationNumber(String mainClassificationNumber) {
+        this.mainClassificationNumber = mainClassificationNumber;
+    }
+
+    public String getSubCategoryNumber() {
+        return subCategoryNumber;
+    }
+
+    public void setSubCategoryNumber(String subCategoryNumber) {
+        this.subCategoryNumber = subCategoryNumber;
+    }
+
+    public String getPriorityRight() {
+        return priorityRight;
+    }
+
+    public void setPriorityRight(String priorityRight) {
+        this.priorityRight = priorityRight;
+    }
+
+    public String getJointApplicant() {
+        return jointApplicant;
+    }
+
+    public void setJointApplicant(String jointApplicant) {
+        this.jointApplicant = jointApplicant;
+    }
+
+    public String getPublicAnnouncementNo() {
+        return publicAnnouncementNo;
+    }
+
+    public void setPublicAnnouncementNo(String publicAnnouncementNo) {
+        this.publicAnnouncementNo = publicAnnouncementNo;
+    }
+
+    public String getExplain() {
+        return explain;
+    }
+
+    public void setExplain(String explain) {
+        this.explain = explain;
+    }
+
+    public String getLegalPersonCode() {
+        return legalPersonCode;
+    }
+
+    public void setLegalPersonCode(String legalPersonCode) {
+        this.legalPersonCode = legalPersonCode;
+    }
+
+    public String getCustomClassification() {
+        return customClassification;
+    }
+
+    public void setCustomClassification(String customClassification) {
+        this.customClassification = customClassification;
     }
 
     @Override

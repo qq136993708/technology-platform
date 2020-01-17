@@ -111,10 +111,33 @@
         <if test="userSecretLevel !=null and userSecretLevel != ''">
             and secretLevel = #{userSecretLevel}
         </if>
+        <if test="secondLevelUnit !=null and secondLevelUnit != ''">
+            and unitId = #{secondLevelUnit}
+        </if>
+    </select>
+
+    <select id="queryBiDataWithUnit" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from kjpt_bi.${tableName} where 1=1
+        and DATE_SUB(CURDATE(), INTERVAL 1 DAY) <![CDATA[<=]]> date(date)
+        <if test="userSecretLevel !=null and userSecretLevel != ''">
+            and secretLevel = #{userSecretLevel}
+        </if>
+        <choose>
+            <when test="secondLevelUnit !=null and secondLevelUnit != ''">
+                and unitId = #{secondLevelUnit}
+            </when>
+            <otherwise>
+                and unitId = ''
+            </otherwise>
+        </choose>
     </select>
 
     <select id="dataToBi">
             call sp_data_to_bi()
+    </select>
+
+    <select id ="querySecondLevelUnit" resultType="java.util.Map">
+        select unit_id as unitId,unit_name as unitName from sys_unit where length(unit_path) = 12 and (unit_path like '10010001%' or unit_path like '10010003%')and unit_delflag != '1'
     </select>
 
 </mapper>
