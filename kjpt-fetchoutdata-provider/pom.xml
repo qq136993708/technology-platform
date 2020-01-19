@@ -80,16 +80,25 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<!-- alibaba的druid数据库连接池 -->
+		
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
+			<version>1.1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>1.1.5</version>
 		</dependency>
-
+		
+		<!-- -->
+		
+		
+		
+		
+		
+<!--  alibaba的druid数据库连接池
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -105,7 +114,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-parameter-names</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- 分页插件 -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
@@ -125,11 +134,6 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<!--swagger -->
@@ -183,81 +187,14 @@
 				</exclusion>
 			</exclusions> -->
 		</dependency>
-		
-		<!-- 
 		<dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.3</version>
+            <version>11.2.0.4.0</version>
         </dependency> 
-		<dependency>
-		   <groupId>com.oracle</groupId>
-		   <artifactId>ojdbc8</artifactId>
-		   <version>11.2.0.4.0</version>
-		</dependency>
-		
-		-->
-		
-
-		<!--操作word转PDF-->
-		<!--<dependency>
-			<groupId>com.aspose</groupId>
-			<artifactId>aspose-cells</artifactId>
-			<version>8.4.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.aspose</groupId>
-			<artifactId>aspose-words</artifactId>
-			<version>15.8.0</version>
-			<classifier>jdk16</classifier>
-		</dependency>-->
-        <!-- echarts -->
-        <!-- https://mvnrepository.com/artifact/com.github.abel533/ECharts -->
-        <!--<dependency>-->
-            <!--<groupId>com.github.abel533</groupId>-->
-            <!--<artifactId>ECharts</artifactId>-->
-            <!--<version>3.0.0.6</version>-->
-        <!--</dependency>-->
-
-
-        <!-- 事务lcn相关 -->
-		<!-- <dependency>
-			<groupId>com.codingapi</groupId>
-			<artifactId>transaction-springcloud</artifactId>
-			<version>${lcn.last.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.codingapi</groupId>
-			<artifactId>tx-plugins-db</artifactId>
-			<version>${lcn.last.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
-		<!-- 事务lcn相关 end -->
+		 
 		
 		
-		<!-- 多数据源配置 
-		<dependency>
-		  <groupId>com.baomidou</groupId>
-		  <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-		   <version>2.5.6</version>
-		</dependency>
-		<dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>2.3.1</version>
-        </dependency> -->
-		<!-- 多数据源配置 end  -->
 	</dependencies>
 	<build>
 		<finalName>kjpt-fetchoutdata-provider</finalName>
@@ -279,7 +216,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.pcitc.StpProviderApplication</mainClass>
+							<mainClass>com.pcitc.FetchOutDataApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

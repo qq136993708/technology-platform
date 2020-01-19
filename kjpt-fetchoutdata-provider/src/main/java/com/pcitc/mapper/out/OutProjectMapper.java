@@ -1,4 +1,4 @@
-package com.pcitc.mapper.project;
+package com.pcitc.mapper.out;
 
 import com.pcitc.base.out.OutProject;
 

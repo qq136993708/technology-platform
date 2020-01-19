@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.out.OutProjectMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.out.OutProject">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_level" jdbcType="VARCHAR" property="projectLevel" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="project_number" jdbcType="VARCHAR" property="projectNumber" />
+    <result column="national_input" jdbcType="DECIMAL" property="nationalInput" />
+    <result column="group_input" jdbcType="DECIMAL" property="groupInput" />
+    <result column="unit_input" jdbcType="DECIMAL" property="unitInput" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="administration" jdbcType="VARCHAR" property="administration" />
+    <result column="leadunit" jdbcType="VARCHAR" property="leadunit" />
+    <result column="research_arms" jdbcType="VARCHAR" property="researchArms" />
+    <result column="research_result" jdbcType="VARCHAR" property="researchResult" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="project_cycle" jdbcType="VARCHAR" property="projectCycle" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="start_time" jdbcType="DATE" property="startTime" />
+    <result column="end_time" jdbcType="DATE" property="endTime" />
+    <result column="organization_id" jdbcType="VARCHAR" property="organizationId" />
+    <result column="administration_id" jdbcType="VARCHAR" property="administrationId" />
+    <result column="leadunit_id" jdbcType="VARCHAR" property="leadunitId" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="project_leader" jdbcType="VARCHAR" property="projectLeader" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="corporator" jdbcType="VARCHAR" property="corporator" />
+    <result column="page_number" jdbcType="DECIMAL" property="pageNumber" />
+    <result column="five_year_plan" jdbcType="VARCHAR" property="fiveYearPlan" />
+    <result column="research_content" jdbcType="VARCHAR" property="researchContent" />
+    <result column="problem" jdbcType="VARCHAR" property="problem" />
+    <result column="jys_id" jdbcType="VARCHAR" property="jysId" />
+    <result column="acceptance_score" jdbcType="DECIMAL" property="acceptanceScore" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="jys_code" jdbcType="VARCHAR" property="jysCode" />
+    <result column="tech_code" jdbcType="VARCHAR" property="techCode" />
+    <result column="tech_name" jdbcType="VARCHAR" property="techName" />
+    <result column="tech_id" jdbcType="VARCHAR" property="techId" />
+    <result column="tech_path" jdbcType="VARCHAR" property="techPath" />
+  </resultMap>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+     <select id="fetch" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from PS_JH_PROJECT t where t.del_flag='0'
+     </select>
+  
+  
+  
+  
+  
+</mapper>
