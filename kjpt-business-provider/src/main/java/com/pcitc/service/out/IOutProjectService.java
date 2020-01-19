@@ -44,7 +44,7 @@ public interface IOutProjectService {
 	
 	
 	
-	
+	public int insertBatch(List<OutProject> list)throws Exception;
 	
 	
 	

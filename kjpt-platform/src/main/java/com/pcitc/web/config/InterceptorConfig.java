@@ -34,6 +34,9 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/getTreeNodeListForOutApi")
 				.excludePathPatterns("/getPlatformListForOutApi")
 				.excludePathPatterns("/getTechFamilyListByCodesForOutApi")
+				.excludePathPatterns("/out_project_fetch")
+				
+				
 				;
 		super.addInterceptors(registry);
 	}

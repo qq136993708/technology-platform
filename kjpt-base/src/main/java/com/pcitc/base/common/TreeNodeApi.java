@@ -16,8 +16,15 @@ public class TreeNodeApi implements Serializable
 	    private boolean isParent;
 	    private String parentFlag;
 	    private String nodePath;
+	    private String secretLevelText;
 	    
 	  
+		public String getSecretLevelText() {
+			return secretLevelText;
+		}
+		public void setSecretLevelText(String secretLevelText) {
+			this.secretLevelText = secretLevelText;
+		}
 		public String getNodePath() {
 			return nodePath;
 		}

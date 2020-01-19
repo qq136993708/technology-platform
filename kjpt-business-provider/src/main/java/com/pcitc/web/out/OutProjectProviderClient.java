@@ -63,6 +63,18 @@ public class OutProjectProviderClient {
 		return json;
 	}
 	
+	
+	@ApiOperation(value = "批量插入项目", notes = "批量插入项目")
+	@RequestMapping(value = "/out_project/insertBatch", method = RequestMethod.POST)
+	public int insertBatch(@RequestBody JSONArray jSONArray)throws Exception {
+		List<OutProject> list = JSONObject.parseArray(jSONArray.toJSONString(), OutProject.class);
+		return	outProjectService.insertBatch(list);
+	}
+	
+	
+	
+	
+	
 	@ApiOperation(value = "获取项目（分页）", notes = "获取项目（分页）")
 	@RequestMapping(value = "/out_project/page", method = RequestMethod.POST)
 	public LayuiTableData getOutProjectList(@RequestBody LayuiTableParam param)throws Exception

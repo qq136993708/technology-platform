@@ -2,29 +2,31 @@ package com.pcitc.service.out.impl;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.out.OutProject;
-import com.pcitc.mapper.out.OutPersonMapper;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.out.OutProjectMapper;
 import com.pcitc.service.out.IOutProjectService;
-
-import io.swagger.annotations.ApiImplicitParam;
 @Service("outProjectService")
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class OutProjectServiceImpl implements IOutProjectService {
 	
 	
@@ -130,6 +132,32 @@ public class OutProjectServiceImpl implements IOutProjectService {
 	}
 	
 	
+	//批量插入数据
+	public int insertBatch(List<OutProject> list)throws Exception
+	{
+		outProjectMapper.deleteAll();
+		long startTime = System.currentTimeMillis(); //获取开始时间
+		List<OutProject> all=new ArrayList();
+		if(list!=null && list.size()>0)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				OutProject outProject=list.get(i);
+				outProject.setSetupYear(DateUtil.dateToStr(outProject.getCreateDate(), DateUtil.FMT_YYYY));
+				outProject.setCreateDate(new Date());
+				all.add(outProject);
+				//String id = UUID.randomUUID().toString().replaceAll("-", "");
+				//outProject.setId(id);
+			}
+		}
+		int count= outProjectMapper.insertBatch(all);
+		long endTime = System.currentTimeMillis(); //获取结束时间
+		System.out.println("---->批量插入项目数据-程序运行时间：" + (endTime - startTime) + "ms(毫秒)"); //输出程序运行时间
+		return count;
+		
+	}
+	
+	
 
     public JSONObject getHotByTypeIndex(JSONObject obj)throws Exception {
         //查询
@@ -138,7 +166,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
         List<OutProject> list = outProjectMapper.getList(map_para);
         
         //map<typeIndex,typeName>
-        Map<String, String> map = list.stream().collect(Collectors.toMap(OutProject::getTechTypeIndex, OutProject::getProjectName, (entity1, entity2) -> entity1));
+        Map<String, String> map = list.stream().collect(Collectors.toMap(OutProject::getTechPath, OutProject::getProjectName, (entity1, entity2) -> entity1));
         //根据年去重
         List<OutProject> unique = list.stream().collect(
                 Collectors.collectingAndThen(
@@ -157,7 +185,7 @@ public class OutProjectServiceImpl implements IOutProjectService {
         }
 
         //map<typeIndex,List<对象>>
-        Map<String, List<OutProject>> infoGroupMap = list.stream().collect(Collectors.groupingBy(OutProject::getTechTypeIndex));
+        Map<String, List<OutProject>> infoGroupMap = list.stream().collect(Collectors.groupingBy(OutProject::getTechPath));
 
         //map<typeIndex,Map<年,数量>>
         Map<String, Map<String, Long>> mapCount = new LinkedHashMap<>();

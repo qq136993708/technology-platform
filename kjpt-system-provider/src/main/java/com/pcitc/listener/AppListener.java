@@ -36,7 +36,7 @@ public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
     	System.out.println(JSON.toJSONString(hostSet));
     	//可执行定时任务的主机 
     	Set<String> acceptSet = new HashSet<String>(Arrays.asList(jobRunHosts.split(",")));
-    	System.out.println(JSON.toJSONString(acceptSet));
+    	System.out.println("---------可执行定时任务的主机 >>>>>>>>"+JSON.toJSONString(acceptSet));
     	acceptSet.retainAll(hostSet);
     	if(acceptSet.size() > 0)
     	{

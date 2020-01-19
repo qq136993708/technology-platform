@@ -3,20 +3,59 @@
 <mapper namespace="com.pcitc.mapper.out.OutProjectMapper">
   <resultMap id="BaseResultMap" type="com.pcitc.base.out.OutProject">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="setup_year" jdbcType="VARCHAR" property="setupYear" />
-    <result column="project_cycle" jdbcType="VARCHAR" property="projectCycle" />
-    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="tech_type" jdbcType="VARCHAR" property="techType" />
-    <result column="tech_type_index" jdbcType="VARCHAR" property="techTypeIndex" />
-    <result column="project_type_text" jdbcType="VARCHAR" property="projectTypeText" />
-    
-    
-    
+    <result column="project_level" jdbcType="VARCHAR" property="projectLevel" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="project_number" jdbcType="VARCHAR" property="projectNumber" />
+    <result column="national_input" jdbcType="DECIMAL" property="nationalInput" />
+    <result column="group_input" jdbcType="DECIMAL" property="groupInput" />
+    <result column="unit_input" jdbcType="DECIMAL" property="unitInput" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="administration" jdbcType="VARCHAR" property="administration" />
+    <result column="leadunit" jdbcType="VARCHAR" property="leadunit" />
+    <result column="research_arms" jdbcType="VARCHAR" property="researchArms" />
+    <result column="research_result" jdbcType="VARCHAR" property="researchResult" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="project_cycle" jdbcType="VARCHAR" property="projectCycle" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="start_time" jdbcType="DATE" property="startTime" />
+    <result column="end_time" jdbcType="DATE" property="endTime" />
+    <result column="organization_id" jdbcType="VARCHAR" property="organizationId" />
+    <result column="administration_id" jdbcType="VARCHAR" property="administrationId" />
+    <result column="leadunit_id" jdbcType="VARCHAR" property="leadunitId" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="project_leader" jdbcType="VARCHAR" property="projectLeader" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="corporator" jdbcType="VARCHAR" property="corporator" />
+    <result column="page_number" jdbcType="DECIMAL" property="pageNumber" />
+    <result column="five_year_plan" jdbcType="VARCHAR" property="fiveYearPlan" />
+    <result column="research_content" jdbcType="VARCHAR" property="researchContent" />
+    <result column="problem" jdbcType="VARCHAR" property="problem" />
+    <result column="jys_id" jdbcType="VARCHAR" property="jysId" />
+    <result column="acceptance_score" jdbcType="DECIMAL" property="acceptanceScore" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="jys_code" jdbcType="VARCHAR" property="jysCode" />
+    <result column="tech_code" jdbcType="VARCHAR" property="techCode" />
+    <result column="tech_name" jdbcType="VARCHAR" property="techName" />
+    <result column="tech_id" jdbcType="VARCHAR" property="techId" />
+    <result column="tech_path" jdbcType="VARCHAR" property="techPath" />
+    <result column="setup_year" jdbcType="VARCHAR" property="setupYear" />
   </resultMap>
+  
   <sql id="Base_Column_List">
-    id, setup_year, project_cycle, project_type, project_name, create_time, tech_type,tech_type_index
+    id, project_name, project_level, project_type, project_number, national_input, group_input, 
+    unit_input, total_price, organization, administration, leadunit, research_arms, research_result, 
+    `STATUS`, project_cycle, create_by, create_date, update_by, update_date, remarks, 
+    del_flag, start_time, end_time, organization_id, administration_id, leadunit_id, 
+    major, project_leader, phone, corporator, page_number, five_year_plan, research_content, 
+    problem, jys_id, acceptance_score, province, jys_code, tech_code, tech_name, tech_id, 
+    tech_path,setup_year
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -29,126 +68,492 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutProject" useGeneratedKeys="true">
-    insert into out_project (id,setup_year, project_cycle, project_type, 
-      project_name, create_time, tech_type,tech_type_index
+    insert into out_project (id,project_name, project_level, project_type, 
+      project_number, national_input, group_input, 
+      unit_input, total_price, organization, 
+      administration, leadunit, research_arms, 
+      research_result, `STATUS`, project_cycle, 
+      create_by, create_date, update_by, 
+      update_date, remarks, del_flag, 
+      start_time, end_time, organization_id, 
+      administration_id, leadunit_id, major, 
+      project_leader, phone, corporator, 
+      page_number, five_year_plan, research_content, 
+      problem, jys_id, acceptance_score, 
+      province, jys_code, tech_code, 
+      tech_name, tech_id, tech_path,setup_year
       )
-    values (#{id,jdbcType=VARCHAR},#{setupYear,jdbcType=VARCHAR}, #{projectCycle,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
-      #{projectName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{techType,jdbcType=VARCHAR}, #{techTypeIndex,jdbcType=VARCHAR}
+    values (
+      #{id,jdbcType=VARCHAR},#{projectName,jdbcType=VARCHAR}, #{projectLevel,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{projectNumber,jdbcType=VARCHAR}, #{nationalInput,jdbcType=DECIMAL}, #{groupInput,jdbcType=DECIMAL}, 
+      #{unitInput,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, #{organization,jdbcType=VARCHAR}, 
+      #{administration,jdbcType=VARCHAR}, #{leadunit,jdbcType=VARCHAR}, #{researchArms,jdbcType=VARCHAR}, 
+      #{researchResult,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{projectCycle,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{organizationId,jdbcType=VARCHAR}, 
+      #{administrationId,jdbcType=VARCHAR}, #{leadunitId,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{projectLeader,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{corporator,jdbcType=VARCHAR}, 
+      #{pageNumber,jdbcType=DECIMAL}, #{fiveYearPlan,jdbcType=VARCHAR}, #{researchContent,jdbcType=VARCHAR}, 
+      #{problem,jdbcType=VARCHAR}, #{jysId,jdbcType=VARCHAR}, #{acceptanceScore,jdbcType=DECIMAL}, 
+      #{province,jdbcType=VARCHAR}, #{jysCode,jdbcType=VARCHAR}, #{techCode,jdbcType=VARCHAR}, 
+      #{techName,jdbcType=VARCHAR}, #{techId,jdbcType=VARCHAR}, #{techPath,jdbcType=VARCHAR}, #{setupYear,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutProject" useGeneratedKeys="true">
     insert into out_project
     <trim prefix="(" suffix=")" suffixOverrides=",">
-    
-      <if test="id != null">
-        id,
+      <if test="projectName != null">
+        project_name,
       </if>
-      <if test="setupYear != null">
-        setup_year,
-      </if>
-      <if test="projectCycle != null">
-        project_cycle,
+      <if test="projectLevel != null">
+        project_level,
       </if>
       <if test="projectType != null">
         project_type,
       </if>
-      <if test="projectName != null">
-        project_name,
+      <if test="projectNumber != null">
+        project_number,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="nationalInput != null">
+        national_input,
       </if>
-      <if test="techType != null">
-        tech_type,
+      <if test="groupInput != null">
+        group_input,
       </if>
-      <if test="techTypeIndex != null">
-        tech_type_index,
+      <if test="unitInput != null">
+        unit_input,
       </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="administration != null">
+        administration,
+      </if>
+      <if test="leadunit != null">
+        leadunit,
+      </if>
+      <if test="researchArms != null">
+        research_arms,
+      </if>
+      <if test="researchResult != null">
+        research_result,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="projectCycle != null">
+        project_cycle,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
+      <if test="administrationId != null">
+        administration_id,
+      </if>
+      <if test="leadunitId != null">
+        leadunit_id,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="projectLeader != null">
+        project_leader,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="corporator != null">
+        corporator,
+      </if>
+      <if test="pageNumber != null">
+        page_number,
+      </if>
+      <if test="fiveYearPlan != null">
+        five_year_plan,
+      </if>
+      <if test="researchContent != null">
+        research_content,
+      </if>
+      <if test="problem != null">
+        problem,
+      </if>
+      <if test="jysId != null">
+        jys_id,
+      </if>
+      <if test="acceptanceScore != null">
+        acceptance_score,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="jysCode != null">
+        jys_code,
+      </if>
+      <if test="techCode != null">
+        tech_code,
+      </if>
+      <if test="techName != null">
+        tech_name,
+      </if>
+      <if test="techId != null">
+        tech_id,
+      </if>
+      <if test="techPath != null">
+        tech_path,
+      </if>
+      <if test="setupYear != null">
+        setup_year,
+      </if>
+      
       
        
        
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-    
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="setupYear != null">
-        #{setupYear,jdbcType=VARCHAR},
-      </if>
-      <if test="projectCycle != null">
-        #{projectCycle,jdbcType=VARCHAR},
+      <if test="projectLevel != null">
+        #{projectLevel,jdbcType=VARCHAR},
       </if>
       <if test="projectType != null">
         #{projectType,jdbcType=VARCHAR},
       </if>
-      <if test="projectName != null">
-        #{projectName,jdbcType=VARCHAR},
+      <if test="projectNumber != null">
+        #{projectNumber,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="nationalInput != null">
+        #{nationalInput,jdbcType=DECIMAL},
       </if>
-      <if test="techType != null">
-        #{techType,jdbcType=VARCHAR},
+      <if test="groupInput != null">
+        #{groupInput,jdbcType=DECIMAL},
       </if>
-      
-      <if test="techTypeIndex != null">
-        #{techTypeIndex,jdbcType=VARCHAR},
+      <if test="unitInput != null">
+        #{unitInput,jdbcType=DECIMAL},
       </if>
-      
-      
-      
-      
-      
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="administration != null">
+        #{administration,jdbcType=VARCHAR},
+      </if>
+      <if test="leadunit != null">
+        #{leadunit,jdbcType=VARCHAR},
+      </if>
+      <if test="researchArms != null">
+        #{researchArms,jdbcType=VARCHAR},
+      </if>
+      <if test="researchResult != null">
+        #{researchResult,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCycle != null">
+        #{projectCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="administrationId != null">
+        #{administrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="leadunitId != null">
+        #{leadunitId,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeader != null">
+        #{projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="corporator != null">
+        #{corporator,jdbcType=VARCHAR},
+      </if>
+      <if test="pageNumber != null">
+        #{pageNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="fiveYearPlan != null">
+        #{fiveYearPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="researchContent != null">
+        #{researchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="problem != null">
+        #{problem,jdbcType=VARCHAR},
+      </if>
+      <if test="jysId != null">
+        #{jysId,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptanceScore != null">
+        #{acceptanceScore,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="jysCode != null">
+        #{jysCode,jdbcType=VARCHAR},
+      </if>
+      <if test="techCode != null">
+        #{techCode,jdbcType=VARCHAR},
+      </if>
+      <if test="techName != null">
+        #{techName,jdbcType=VARCHAR},
+      </if>
+      <if test="techId != null">
+        #{techId,jdbcType=VARCHAR},
+      </if>
+      <if test="techPath != null">
+        #{techPath,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null">
+        #{setupYear,jdbcType=VARCHAR},
+      </if>
+       
+       
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.out.OutProject">
     update out_project
     <set>
-      <if test="setupYear != null">
-        setup_year = #{setupYear,jdbcType=VARCHAR},
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="projectCycle != null">
-        project_cycle = #{projectCycle,jdbcType=VARCHAR},
+      <if test="projectLevel != null">
+        project_level = #{projectLevel,jdbcType=VARCHAR},
       </if>
       <if test="projectType != null">
         project_type = #{projectType,jdbcType=VARCHAR},
       </if>
-      <if test="projectName != null">
-        project_name = #{projectName,jdbcType=VARCHAR},
+      <if test="projectNumber != null">
+        project_number = #{projectNumber,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="nationalInput != null">
+        national_input = #{nationalInput,jdbcType=DECIMAL},
       </if>
-      <if test="techType != null">
-        tech_type = #{techType,jdbcType=VARCHAR},
+      <if test="groupInput != null">
+        group_input = #{groupInput,jdbcType=DECIMAL},
       </if>
-      <if test="techTypeIndex != null">
-        tech_type_index = #{techTypeIndex,jdbcType=VARCHAR},
+      <if test="unitInput != null">
+        unit_input = #{unitInput,jdbcType=DECIMAL},
       </if>
-      
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="administration != null">
+        administration = #{administration,jdbcType=VARCHAR},
+      </if>
+      <if test="leadunit != null">
+        leadunit = #{leadunit,jdbcType=VARCHAR},
+      </if>
+      <if test="researchArms != null">
+        research_arms = #{researchArms,jdbcType=VARCHAR},
+      </if>
+      <if test="researchResult != null">
+        research_result = #{researchResult,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCycle != null">
+        project_cycle = #{projectCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="administrationId != null">
+        administration_id = #{administrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="leadunitId != null">
+        leadunit_id = #{leadunitId,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeader != null">
+        project_leader = #{projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="corporator != null">
+        corporator = #{corporator,jdbcType=VARCHAR},
+      </if>
+      <if test="pageNumber != null">
+        page_number = #{pageNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="fiveYearPlan != null">
+        five_year_plan = #{fiveYearPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="researchContent != null">
+        research_content = #{researchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="problem != null">
+        problem = #{problem,jdbcType=VARCHAR},
+      </if>
+      <if test="jysId != null">
+        jys_id = #{jysId,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptanceScore != null">
+        acceptance_score = #{acceptanceScore,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="jysCode != null">
+        jys_code = #{jysCode,jdbcType=VARCHAR},
+      </if>
+      <if test="techCode != null">
+        tech_code = #{techCode,jdbcType=VARCHAR},
+      </if>
+      <if test="techName != null">
+        tech_name = #{techName,jdbcType=VARCHAR},
+      </if>
+      <if test="techId != null">
+        tech_id = #{techId,jdbcType=VARCHAR},
+      </if>
+      <if test="techPath != null">
+        tech_path = #{techPath,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null">
+        setup_year = #{setupYear,jdbcType=VARCHAR},
+      </if>
+       
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.out.OutProject">
     update out_project
-    set setup_year = #{setupYear,jdbcType=VARCHAR},
-      project_cycle = #{projectCycle,jdbcType=VARCHAR},
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      project_level = #{projectLevel,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=VARCHAR},
-      tech_type_index = #{techTypeIndex,jdbcType=VARCHAR},
-      project_name = #{projectName,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      tech_type = #{techType,jdbcType=VARCHAR}
+      setup_year = #{setupYear,jdbcType=VARCHAR},
+      project_number = #{projectNumber,jdbcType=VARCHAR},
+      national_input = #{nationalInput,jdbcType=DECIMAL},
+      group_input = #{groupInput,jdbcType=DECIMAL},
+      unit_input = #{unitInput,jdbcType=DECIMAL},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      organization = #{organization,jdbcType=VARCHAR},
+      administration = #{administration,jdbcType=VARCHAR},
+      leadunit = #{leadunit,jdbcType=VARCHAR},
+      research_arms = #{researchArms,jdbcType=VARCHAR},
+      research_result = #{researchResult,jdbcType=VARCHAR},
+      `STATUS` = #{status,jdbcType=VARCHAR},
+      project_cycle = #{projectCycle,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      organization_id = #{organizationId,jdbcType=VARCHAR},
+      administration_id = #{administrationId,jdbcType=VARCHAR},
+      leadunit_id = #{leadunitId,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      project_leader = #{projectLeader,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      corporator = #{corporator,jdbcType=VARCHAR},
+      page_number = #{pageNumber,jdbcType=DECIMAL},
+      five_year_plan = #{fiveYearPlan,jdbcType=VARCHAR},
+      research_content = #{researchContent,jdbcType=VARCHAR},
+      problem = #{problem,jdbcType=VARCHAR},
+      jys_id = #{jysId,jdbcType=VARCHAR},
+      acceptance_score = #{acceptanceScore,jdbcType=DECIMAL},
+      province = #{province,jdbcType=VARCHAR},
+      jys_code = #{jysCode,jdbcType=VARCHAR},
+      tech_code = #{techCode,jdbcType=VARCHAR},
+      tech_name = #{techName,jdbcType=VARCHAR},
+      tech_id = #{techId,jdbcType=VARCHAR},
+      tech_path = #{techPath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   
@@ -157,12 +562,11 @@
 	       <if test="projectType != null     and projectType !=''  ">   AND FIND_IN_SET(#{projectType},t.`project_type`) &lt; 0 </if>
 	       <if test="projectName != null     and projectName  !='' ">   AND t.project_name like CONCAT('%',#{projectName},'%')</if>
 	       <if test="setupYear != null       and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
-	       <if test="techTypeIndex != null   and techTypeIndex !=''  "> AND t.tech_type_index like CONCAT(#{techTypeIndex},'%')</if>
 	 </trim>
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from (select t.*,sd.name as project_type_text from out_project t left join sys_dictionary sd on t.project_type = sd.num_value and sd.parent_code='ROOT_KJPT_XMLX' <include refid="selectCondition" />
+     select * out_project t <include refid="selectCondition" />
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -177,25 +581,58 @@
       SELECT count(*) FROM out_project t <include refid="selectCondition"/>
     </select>
   
-  
-  
-  
-  <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+     <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from out_project t <include refid="selectCondition" />
      </select>
   
   
   
+  <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+	insert into out_project 
+	 (
+	  id,project_name, project_level, project_type, 
+      project_number, national_input, group_input, 
+      unit_input, total_price, organization, 
+      administration, leadunit, research_arms, 
+      research_result, `STATUS`, project_cycle, 
+      create_by, create_date, update_by, 
+      update_date, remarks, del_flag, 
+      start_time, end_time, organization_id, 
+      administration_id, leadunit_id, major, 
+      project_leader, phone, corporator, 
+      page_number, five_year_plan, research_content, 
+      problem, jys_id, acceptance_score, 
+      province, jys_code, tech_code, 
+      tech_name, tech_id, tech_path,setup_year
+      )
+    values
+     <foreach collection="list" item="item" index="index" separator=",">
+     (
+      #{item.id,jdbcType=VARCHAR}, #{item.projectName,jdbcType=VARCHAR}, #{item.projectLevel,jdbcType=VARCHAR}, #{item.projectType,jdbcType=VARCHAR}, 
+      #{item.projectNumber,jdbcType=VARCHAR}, #{item.nationalInput,jdbcType=DECIMAL}, #{item.groupInput,jdbcType=DECIMAL}, 
+      #{item.unitInput,jdbcType=DECIMAL}, #{item.totalPrice,jdbcType=DECIMAL}, #{item.organization,jdbcType=VARCHAR}, 
+      #{item.administration,jdbcType=VARCHAR}, #{item.leadunit,jdbcType=VARCHAR}, #{item.researchArms,jdbcType=VARCHAR}, 
+      #{item.researchResult,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR}, #{item.projectCycle,jdbcType=VARCHAR}, 
+      #{item.createBy,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR}, 
+      #{item.updateDate,jdbcType=TIMESTAMP}, #{item.remarks,jdbcType=VARCHAR}, #{item.delFlag,jdbcType=VARCHAR}, 
+      #{item.startTime,jdbcType=DATE}, #{item.endTime,jdbcType=DATE}, #{item.organizationId,jdbcType=VARCHAR}, 
+      #{item.administrationId,jdbcType=VARCHAR}, #{item.leadunitId,jdbcType=VARCHAR}, #{item.major,jdbcType=VARCHAR}, 
+      #{item.projectLeader,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.corporator,jdbcType=VARCHAR}, 
+      #{item.pageNumber,jdbcType=DECIMAL}, #{item.fiveYearPlan,jdbcType=VARCHAR}, #{item.researchContent,jdbcType=VARCHAR}, 
+      #{item.problem,jdbcType=VARCHAR}, #{item.jysId,jdbcType=VARCHAR}, #{item.acceptanceScore,jdbcType=DECIMAL}, 
+      #{item.province,jdbcType=VARCHAR}, #{item.jysCode,jdbcType=VARCHAR}, #{item.techCode,jdbcType=VARCHAR}, 
+      #{item.techName,jdbcType=VARCHAR}, #{item.techId,jdbcType=VARCHAR}, #{item.techPath,jdbcType=VARCHAR}
+      , #{item.setupYear,jdbcType=VARCHAR}
+      )
+	 </foreach>
+	</insert>
   
   
   
-  
-  
-  
-  
-  
-  
-  
+  <delete  id="deleteAll"  >
+    delete from out_project
+  </delete>
   
   
   

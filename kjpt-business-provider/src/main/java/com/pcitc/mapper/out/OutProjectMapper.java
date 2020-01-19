@@ -22,9 +22,8 @@ public interface OutProjectMapper {
     int updateByPrimaryKey(OutProject record);
     
     
-    
-    
-    
+    int insertBatch(List<OutProject> list);
+    int deleteAll();
     List getList(Map map);
     
     int getCount(Map map);
