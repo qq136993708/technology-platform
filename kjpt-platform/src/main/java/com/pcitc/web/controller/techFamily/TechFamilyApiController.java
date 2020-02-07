@@ -204,7 +204,7 @@ public class TechFamilyApiController extends BaseController
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取技术族列表（分页） " + result.toString());
+		//logger.info("============获取技术族列表（分页） " + result.toString());
 		return result.toString();
 	}
     

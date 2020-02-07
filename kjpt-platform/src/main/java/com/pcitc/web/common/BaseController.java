@@ -67,16 +67,22 @@ public class BaseController implements ErrorController
 //	}
 	
 	public SysUser getUserProfile() {
+		SysUser sysUser=null;
 		String token = "";
 		Cookie[] cookies = getCurrentRequest().getCookies();
-		for (Cookie c : cookies) {
-			c.setHttpOnly(true);
-			if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
-				token = c.getValue();
-				break;
+		if(cookies!=null)
+		{
+			for (Cookie c : cookies) {
+				c.setHttpOnly(true);
+				if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
+					token = c.getValue();
+					break;
+				}
 			}
+			sysUser=JwtTokenUtil.getUserFromTokenByValue(token);
 		}
-		return JwtTokenUtil.getUserFromTokenByValue(token);
+		
+		return sysUser;
 	}
 
 
