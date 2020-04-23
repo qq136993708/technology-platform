@@ -492,7 +492,7 @@ public class EquipmentUtils {
 				        }
 		    	}
 		        System.out.println("==========getSwSSOToken KOAL_CERT_CN=  "+value);
-		        return  value;//"110223198603270593";
+		        return  "110223198603270593";//value;
 		    }
 
 	
