@@ -113,7 +113,7 @@ public class JwtTokenUtil implements Serializable {
 	*/
 	public String generateToken(SysUser user) {
 		Map<String, Object> claims = new HashMap<>();
-		System.out.println("141==---====generateToken------" + user.getUserName());
+		System.out.println("==================---====generateToken------" + user.getUserName());
 		claims.put(CLAIM_KEY_USERNAME, user.getUserName());
 		claims.put(CLAIM_KEY_USERID, user.getUserId());
 		claims.put(CLAIM_KEY_ROLELIST, user.getRoles());
@@ -136,14 +136,14 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_USER_UNIT_ROLE_TEXT, user.getUserRoleText());
 		
 		
-		///System.out.println("142==---====generateToken------" + user.getFunList().size());
+		System.out.println("142==---====generateToken------" + user.getFunList().size());
 		System.out.println("******************"+JSON.toJSON(claims).toString());
 		return generateToken(claims);
 	}
 
 	String generateToken(Map<String, Object> claims) {
 		String token = Jwts.builder().setClaims(claims).setExpiration(generateExpirationDate()).signWith(SignatureAlgorithm.HS512, secret).compact();
-		System.out.println("token------"+token);
+		System.out.println(">>>>>>>>>>>>>>generateToken token------"+token);
 		return token;
 	}
 

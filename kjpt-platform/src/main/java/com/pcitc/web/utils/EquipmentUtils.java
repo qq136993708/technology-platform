@@ -92,11 +92,18 @@ public class EquipmentUtils {
 	            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
 	            ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 	            JSONObject retJson = responseEntity.getBody();
+	            
 	            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	            
+	            
+	        	JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(retJson));
+	        	System.out.println("=======111=====："+result.toString());
+	        	
 	            // 获取的token有问题(用户名或密码不正确) 返回登录
 	            if (retJson == null || retJson.get("token") == null) {
 	                return false;
 	            }
+	            System.out.println("=======222====retJson.token："+retJson.getString("token"));
 	            //token保存到Cookie
 	            Cookie cookie = new Cookie("token", retJson.getString("token"));
 	            cookie.setMaxAge(-1);// 设置有效期为一小时
@@ -418,7 +425,7 @@ public class EquipmentUtils {
 	
 	
 	
-	public static String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
+	public static String getRemoteHost(HttpServletRequest request) {
 		String ip = request.getHeader("x-forwarded-for");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
@@ -492,7 +499,7 @@ public class EquipmentUtils {
 				        }
 		    	}
 		        System.out.println("==========getSwSSOToken KOAL_CERT_CN=  "+value);
-		        return  "110223198603270593";//value;
+		        return  "110223198603270593";
 		    }
 
 	

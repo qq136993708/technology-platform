@@ -26,9 +26,9 @@ public class AuthController {
 	
 	@RequestMapping(value = "/auth/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestParam(value="username", required=true) String username, @RequestParam(value="password", required=true) String password) throws AuthenticationException {
-		System.out.println("============开始访问zuul-----"+username);
+		System.out.println("============createAuthenticationToken开始访问zuul-----"+username);
 		String token = authService.login(username, password);
-		
+		System.out.println("===========createAuthenticationToken-----"+token);
 		// Return the token
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}

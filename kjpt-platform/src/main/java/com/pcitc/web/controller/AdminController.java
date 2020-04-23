@@ -269,17 +269,13 @@ public class AdminController extends BaseController {
      */
     @RequestMapping(value = {"/sw_sso"})
     public String sw_sso(HttpServletRequest request,HttpServletResponse response)throws Exception {
-		/*
-		 * try { Cookie cookie = new Cookie("KOAL_CERT_CN", URLEncoder.encode(userId,
-		 * "utf-8")); response.addCookie(cookie); response.sendRedirect(redirectUrl); }
-		 * catch (IOException e) { e.printStackTrace(); }
-		 */
+		
     	String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
     	System.out.println("============sw_sso unifyIdentityId: "+unifyIdentityId);
     	if(unifyIdentityId!=null  &&  !unifyIdentityId.equals(""))
     	{
     		//JWT
-    		buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+    		EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders,response);
     		return "redirect:/index";
     	}else
     	{
@@ -301,48 +297,39 @@ public class AdminController extends BaseController {
     }    
     
    
-    public  boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception{
-
-        if(unifyIdentityId == null) {
-            return false;
-        }
-        
-        System.out.println("============name=====a=============== ");
-        
-        SysUser u=   EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
-        if(u!=null)
-        {
-        	System.out.println("============name: "+u.getUnifyIdentityId());
-            HttpServletResponse response = this.getCurrentResponse();
-
-            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
-            valueMap.add("username", u.getUserName());
-            valueMap.add("password", u.getUserPassword());
-            //从数据库中查到 然后返回 TOKEN
-            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
-            ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
-            JSONObject retJson = responseEntity.getBody();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-            // 获取的token有问题(用户名或密码不正确) 返回登录
-            if (retJson == null || retJson.get("token") == null) {
-                return false;
-            }
-            //token保存到Cookie
-            Cookie cookie = new Cookie("token", retJson.getString("token"));
-            cookie.setMaxAge(-1);// 设置有效期为一小时
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            return true;
-        }else
-        {
-        	 System.out.println("===========unifyIdentityId======== "+unifyIdentityId+" 不存在--");
-        	return false;
-        }
-        
-    }
-
-    
+	/*
+	 * public boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate
+	 * restTemplate,HttpHeaders httpHeaders) throws Exception{
+	 * 
+	 * if(unifyIdentityId == null) { return false; }
+	 * 
+	 * System.out.println("============name=====a=============== ");
+	 * 
+	 * SysUser u= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate,
+	 * httpHeaders); if(u!=null) {
+	 * System.out.println("============name: "+u.getUnifyIdentityId());
+	 * HttpServletResponse response = this.getCurrentResponse();
+	 * 
+	 * httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+	 * MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String,
+	 * String>(); valueMap.add("username", u.getUserName());
+	 * valueMap.add("password", u.getUserPassword()); //从数据库中查到 然后返回 TOKEN
+	 * HttpEntity<MultiValueMap<String, String>> entity = new
+	 * HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
+	 * ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL,
+	 * HttpMethod.POST, entity, JSONObject.class); JSONObject retJson =
+	 * responseEntity.getBody();
+	 * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8); //
+	 * 获取的token有问题(用户名或密码不正确) 返回登录 if (retJson == null || retJson.get("token") ==
+	 * null) { return false; } //token保存到Cookie Cookie cookie = new Cookie("token",
+	 * retJson.getString("token")); cookie.setMaxAge(-1);// 设置有效期为一小时
+	 * cookie.setPath("/"); response.addCookie(cookie); return true; }else {
+	 * System.out.println("===========unifyIdentityId======== "
+	 * +unifyIdentityId+" 不存在--"); return false; }
+	 * 
+	 * }
+	 * 
+	 */
     
     
     
@@ -453,7 +440,7 @@ public class AdminController extends BaseController {
         String url = CommonUtil.getParameter(request, "url", "");
         request.setAttribute("url", url);
 
-        url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
+        url = URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
         return url;
     }
 
