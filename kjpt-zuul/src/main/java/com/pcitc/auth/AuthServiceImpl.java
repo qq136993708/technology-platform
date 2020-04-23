@@ -52,6 +52,12 @@ public class AuthServiceImpl implements AuthService {
 		user.setRoles(roles);
 		return user;
 	}
+	
+	public String loginByUnifyIdentityId(String unifyIdentityId)
+	{
+		return null;
+	}
+	
 
 	@Override
 	public String login(String username, String password) {

@@ -28,4 +28,10 @@ public class ActivitiModelerController extends BaseController {
 		String modelId = responseEntity.getBody();
         return new ModelAndView("redirect:/modeler.html?modelId=" + modelId);
     }
+    
+    
+    
+    
+   
+    
 }

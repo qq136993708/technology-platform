@@ -2,19 +2,12 @@ package com.pcitc.web.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.net.URLDecoder;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,22 +16,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.web.common.JwtTokenUtil;
 
 
 public class EquipmentUtils {
@@ -53,7 +42,9 @@ public class EquipmentUtils {
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
     
-	
+     private static final String USER_IDENTITY_ID = "http://kjpt-zuul/system-proxy/user-provider/user/user-identityid/";
+     // 访问zuul中的登录方法
+     private static final String LOGIN_URL = "http://kjpt-zuul/auth/login";
 	 public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -84,7 +75,43 @@ public class EquipmentUtils {
 	}
 	
 	
-	
+	 public  static boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletResponse response ) throws Exception{
+
+	        if(unifyIdentityId == null) {
+	            return false;
+	        }
+	        SysUser u=   EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+	        if(u!=null)
+	        {
+
+	            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+	            MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+	            valueMap.add("username", u.getUserName());
+	            valueMap.add("password", u.getUserPassword());
+	            //从数据库中查到 然后返回 TOKEN
+	            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
+	            ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+	            JSONObject retJson = responseEntity.getBody();
+	            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	            // 获取的token有问题(用户名或密码不正确) 返回登录
+	            if (retJson == null || retJson.get("token") == null) {
+	                return false;
+	            }
+	            //token保存到Cookie
+	            Cookie cookie = new Cookie("token", retJson.getString("token"));
+	            cookie.setMaxAge(-1);// 设置有效期为一小时
+	            cookie.setPath("/");
+	            response.addCookie(cookie);
+	            return true;
+	        }else
+	        {
+	        	 System.out.println("===========系统unifyIdentityId："+unifyIdentityId+" 不存在  ");
+	        	 return false;
+	        }
+	        
+	    }
+
+	    
 	
 	
 	
@@ -107,7 +134,18 @@ public class EquipmentUtils {
 	
 	
 	
-	
+	public  static SysUser getSysUserByUnifyIdentityId(String unifyIdentityId,HttpServletResponse response,HttpHeaders httpHeaders,RestTemplate restTemplate)
+	{
+		
+		
+		
+		    SysUser u = new SysUser();
+	        u.setUnifyIdentityId(unifyIdentityId);
+		    ResponseEntity<SysUser> userDetailsString =restTemplate.exchange(USER_IDENTITY_ID, HttpMethod.POST, new HttpEntity<SysUser>(u, httpHeaders), SysUser.class);
+	        userDetailsString.getBody();
+	        SysUser user = userDetailsString.getBody();
+	        return user;
+	    }
 	
 	public static List<SysDictionary>  getSysDictionaryListByParentCode(String parentCode ,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
@@ -231,6 +269,8 @@ public class EquipmentUtils {
 	    		}
 	    		return dataId;
 	 }
+	
+	
 	
 	
 	
@@ -421,21 +461,45 @@ public class EquipmentUtils {
 		
 		
 		
-		
+		 public static  String getSwSSOToken(HttpServletRequest request,HttpServletResponse response)throws Exception 
+		 {
+			 
+			 
+		    	Cookie[] cookies = request.getCookies();
+		    	String value = "";
+		    	if(cookies!=null)
+		    	{
+		    		 for(int i = 0; i < cookies.length; i ++) 
+				        {
+				            Cookie cookie = cookies[i];
+				            String utf8=  new String(URLDecoder.decode(cookie.getValue()).getBytes("ISO-8859-1"), "utf-8"); 
+				             // System.out.println("  "+cookie.getName()+" utf-> "+utf8);
+				            if("KOAL_CERT_GN".equals(cookie.getName())) 
+				            {
+				            	if(utf8!=null)
+				            	{
+				            		String arr[]=utf8.split("\\|");
+					            	if(arr!=null)
+					            	{
+					            		String temp=arr[0];
+					            		if(temp!=null)
+					            		{
+					            			value=temp.trim();
+					            		}
+					            	}
+				            	}
+				            }
+				        }
+		    	}
+		        System.out.println("==========getSwSSOToken KOAL_CERT_CN=  "+value);
+		        return  "110223198603270593";
+		    }
+
 	
 	/*
-	 * public static void main(String[] args) {
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
+	 * public static void main(String[] args) { String atr="xxxx|aa"; String
+	 * arr[]=atr.split("\\|"); System.out.println(arr[0]); }
 	 */
-	
-	
 	
 	
 }

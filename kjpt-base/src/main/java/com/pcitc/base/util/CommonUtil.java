@@ -1,28 +1,27 @@
 package com.pcitc.base.util;
 
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.Constant;
-import com.pcitc.base.common.FileResult;
-import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -312,6 +311,27 @@ public class CommonUtil {
 			}
 			return pwd.toString();
 		}
-	
+		
+		
+		
+		
+		 
+		 
+	/*
+	 * public static String getSwSSOTokenEnumeration(HttpServletRequest
+	 * request,HttpServletResponse response)throws Exception {
+	 * 
+	 * Enumeration headers = request.getHeaderNames(); while
+	 * (headers.hasMoreElements()) { String name = (String)headers.nextElement();
+	 * String value = request.getHeader(header);
+	 * if("KOAL_CERT_CN".equalsIgnoreCase(header)) { name = "用户标识："; value = new
+	 * String(URLDecoder.decode(value).getBytes("ISO-8859-1"), "GBK"); }else
+	 * if("KOAL_CERT_O".equalsIgnoreCase(header)) { name = "组织："; value = new
+	 * String(URLDecoder.decode(value).getBytes("ISO-8859-1"), "GBK"); } else {
+	 * continue; } }
+	 * 
+	 * }
+	 */
+		 
 
 }

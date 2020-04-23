@@ -183,7 +183,8 @@ public class MappingContrller extends BaseController{
 		@RequestMapping(value = "/error")
 		public String error(HttpServletRequest request, HttpServletResponse response) throws Exception 
 		{
-			return "/error_404";
+			return "redirect:/index";
+			//return "/error_404";
 		}
 		
 		

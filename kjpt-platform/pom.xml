@@ -331,7 +331,7 @@
 						<target>1.8</target>
 						<encoding>UTF-8</encoding>-->
 						<warSourceExcludes>src/main/resources/**</warSourceExcludes>
-						<warName>stp</warName>
+						<warName>kjpt-platform</warName>
 						<webResources>
 							<!-- 第三方jar硬性引入 -->
 							<resource>

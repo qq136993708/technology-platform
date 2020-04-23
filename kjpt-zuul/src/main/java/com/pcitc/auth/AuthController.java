@@ -32,6 +32,16 @@ public class AuthController {
 		// Return the token
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}
+	
+	@RequestMapping(value = "/auth/login_sw", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationTokenlogin_sw(@RequestParam(value="unifyIdentityId", required=true) String unifyIdentityId) throws AuthenticationException {
+		System.out.println("============开始访问zuul-unifyIdentityId----"+unifyIdentityId);
+		String token = authService.loginByUnifyIdentityId(unifyIdentityId);
+		
+		// Return the token
+		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+	}
+	
 
 	@RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
 	public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) throws AuthenticationException {

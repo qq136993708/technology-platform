@@ -1,20 +1,26 @@
 package com.pcitc.web.controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.eetrust.security.MessageConstants;
-import com.eetrust.security.SIDPlugin;
-import com.itextpdf.text.log.SysoCounter;
-import com.pcitc.web.common.JwtTokenUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -22,7 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
+
 import com.alibaba.fastjson.JSONObject;
+import com.eetrust.security.MessageConstants;
+import com.eetrust.security.SIDPlugin;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysCollect;
@@ -32,10 +42,10 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
-import com.pcitc.web.utils.HanaUtil;
 
 /**
  * @author zhf 系统登录成功后的首页
@@ -79,13 +89,18 @@ public class AdminController extends BaseController {
     @Value("${whiteRoleId}")
     private String roleId;
 
-    private Integer TIME_OUT = 1 * 60 * 60;
+    
 
-    @RequestMapping(value = "/login")
+    
+    
+    private Integer TIME_OUT = 1 * 60 * 60;
+    //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
+   /* 
+    * @RequestMapping(value = "/login")
     public String login(@RequestParam(value="username", required = false) String userName,
                         @RequestParam(value="password", required = false) String password,
                         @RequestParam(value="error", required = false) String error) throws Exception {
-        //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
+       
         if (loginType != null && loginType.trim().equals("1")) {
             return "redirect:" + sosPortlURL;
         }
@@ -116,6 +131,7 @@ public class AdminController extends BaseController {
         }
 
     }
+    */
 
     
     @RequestMapping(value = "/loginSave")
@@ -191,10 +207,10 @@ public class AdminController extends BaseController {
     }
 
     /**
-             * 通过socket协议，5556端口连接CA平台，适用于中核集团
+     * 密网--通过socket协议，5556端口连接CA平台，适用于中核集团
      */
-    @RequestMapping(value = {"/sso"}, method = RequestMethod.GET)
-    public String sso(@RequestParam(value="ticket", required = false) String ticket) throws IOException {
+    @RequestMapping(value = {"/mw_sso"}, method = RequestMethod.GET)
+    public String mw_sso(@RequestParam(value="ticket", required = false) String ticket) throws IOException {
 
         HttpServletResponse response = this.getCurrentResponse();
 
@@ -241,6 +257,96 @@ public class AdminController extends BaseController {
         }
 
     }
+    
+    
+    @RequestMapping(value = "/")
+    public String inddex() {
+    	return "redirect:/index";
+    }
+    
+    /**
+            *商网
+     */
+    @RequestMapping(value = {"/sw_sso"})
+    public String sw_sso(HttpServletRequest request,HttpServletResponse response)throws Exception {
+		/*
+		 * try { Cookie cookie = new Cookie("KOAL_CERT_CN", URLEncoder.encode(userId,
+		 * "utf-8")); response.addCookie(cookie); response.sendRedirect(redirectUrl); }
+		 * catch (IOException e) { e.printStackTrace(); }
+		 */
+    	String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
+    	System.out.println("============sw_sso unifyIdentityId: "+unifyIdentityId);
+    	if(unifyIdentityId!=null  &&  !unifyIdentityId.equals(""))
+    	{
+    		//JWT
+    		buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+    		return "redirect:/index";
+    	}else
+    	{
+    		return "/sso_error_sw";
+    	}
+    	
+    }
+    
+    
+   
+    
+    /**
+     * 商网
+     */
+    @RequestMapping(value = "/sso_error_sw")
+    public String sso_error_sw() throws Exception
+    {
+    	return "/sso_error_sw";
+    }    
+    
+   
+    public  boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception{
+
+        if(unifyIdentityId == null) {
+            return false;
+        }
+        
+        System.out.println("============name=====a=============== ");
+        
+        SysUser u=   EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+        if(u!=null)
+        {
+        	System.out.println("============name: "+u.getUnifyIdentityId());
+            HttpServletResponse response = this.getCurrentResponse();
+
+            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+            valueMap.add("username", u.getUserName());
+            valueMap.add("password", u.getUserPassword());
+            //从数据库中查到 然后返回 TOKEN
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
+            ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+            JSONObject retJson = responseEntity.getBody();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+            // 获取的token有问题(用户名或密码不正确) 返回登录
+            if (retJson == null || retJson.get("token") == null) {
+                return false;
+            }
+            //token保存到Cookie
+            Cookie cookie = new Cookie("token", retJson.getString("token"));
+            cookie.setMaxAge(-1);// 设置有效期为一小时
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return true;
+        }else
+        {
+        	 System.out.println("===========unifyIdentityId======== "+unifyIdentityId+" 不存在--");
+        	return false;
+        }
+        
+    }
+
+    
+    
+    
+    
+    
 
     /**
      * 功能描述 跳转首页
@@ -474,7 +580,8 @@ public class AdminController extends BaseController {
 		if(serverHosts.size()>0) {
 			return new Result(true, "logout","./SSO/GLO/Redirect");
 		}*/
-        return new Result(true, "logout", "/login");
+        //return new Result(true, "logout", "/login");
+        return new Result(true, "logout", "/sw_sso");
     }
 
     @RequestMapping(value = "/admin/collect")
@@ -507,6 +614,11 @@ public class AdminController extends BaseController {
             return new Result(false, "操作失败,只能收藏系统级功能菜单!");
         }
     }
+    
+    
+    
+    
+    
 
     public void setLastLogin(String userId) throws Exception {
         SysUser userIpAndDate = EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);
