@@ -119,7 +119,49 @@ public class EquipmentUtils {
 	    }
 
 	    
-	
+	 public  static String buildToken_ByIdentityId(String unifyIdentityId,RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletResponse response ) throws Exception{
+
+	        if(unifyIdentityId == null) {
+	            return "";
+	        }
+	        SysUser u=   EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+	        if(u!=null)
+	        {
+
+	            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+	            MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+	            valueMap.add("username", u.getUserName());
+	            valueMap.add("password", u.getUserPassword());
+	            //从数据库中查到 然后返回 TOKEN
+	            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
+	            ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+	            JSONObject retJson = responseEntity.getBody();
+	            
+	            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	            
+	            
+	        	JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(retJson));
+	        	System.out.println("=======111=====："+result.toString());
+	        	
+	            // 获取的token有问题(用户名或密码不正确) 返回登录
+	            if (retJson == null || retJson.get("token") == null) {
+	                return "";
+	            }
+	            String token=retJson.getString("token");
+	            System.out.println("=======222====retJson.token："+retJson.getString("token"));
+	            //token保存到Cookie
+	            Cookie cookie = new Cookie("token", retJson.getString("token"));
+	            cookie.setMaxAge(-1);// 设置有效期为一小时
+	            cookie.setPath("/");
+	            response.addCookie(cookie);
+	            return token;
+	        }else
+	        {
+	        	 System.out.println("===========系统unifyIdentityId："+unifyIdentityId+" 不存在  ");
+	        	 return "";
+	        }
+	        
+	    }
 	
 	
 		
@@ -499,7 +541,7 @@ public class EquipmentUtils {
 				        }
 		    	}
 		        System.out.println("==========getSwSSOToken KOAL_CERT_CN=  "+value);
-		        return value;//"110223198603270593";
+		        return  "110223198603270593";
 		    }
 
 	

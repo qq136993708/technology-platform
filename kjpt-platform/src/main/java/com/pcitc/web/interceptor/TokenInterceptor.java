@@ -52,11 +52,11 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			response.setHeader("Cache-Control", "no-cache");
 			
 			//JWT
-			EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders, response);
+			String token=EquipmentUtils.buildToken_ByIdentityId(unifyIdentityId, restTemplate, httpHeaders, response);
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-			String token = null;
-			Cookie[] cookies = request.getCookies();
+			
+			/*Cookie[] cookies = request.getCookies();
 			if(cookies!=null)
 			{
 				for (Cookie c : cookies) {
@@ -65,7 +65,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 						break;
 					}
 				}
-			}
+			}*/
 			
 			System.out.println(">>>>>>> TokenInterceptor token:"+token);
 			if (token != null && !token.equals("null")) {
