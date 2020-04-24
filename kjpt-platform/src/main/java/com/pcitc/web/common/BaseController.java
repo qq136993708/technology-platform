@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.exception.SysException;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -52,37 +53,30 @@ public class BaseController implements ErrorController
 //    @Autowired
 //    public HttpServletResponse response;
 
-    @Autowired
-    protected RestTemplate restTemplate;
+	@Autowired
+	protected RestTemplate restTemplate;
 
-    @Autowired
-    public HttpHeaders httpHeaders;
-    
-    public Logger logger = LoggerFactory.getLogger(getClass());
-    
-    //public SysUser sysUserInfo;
+	@Autowired
+	public HttpHeaders httpHeaders;
+
+	public Logger logger = LoggerFactory.getLogger(getClass());
+
+	//public SysUser sysUserInfo;
 
 //	public void setUserProfile(SysUser sysUser) {
 //		this.sysUserInfo = sysUser;
 //	}
-	
+
 	public SysUser getUserProfile() {
-		SysUser sysUser=null;
-		String token = "";
-		Cookie[] cookies = getCurrentRequest().getCookies();
-		if(cookies!=null)
-		{
-			for (Cookie c : cookies) {
-				c.setHttpOnly(true);
-				if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
-					token = c.getValue();
-					break;
-				}
-			}
-			sysUser=JwtTokenUtil.getUserFromTokenByValue(token);
-		}
-		System.out.println("token=================================================" + token + "，url=" + this.getCurrentRequest().getRequestURI());
-		
+		SysUser sysUser=(SysUser)this.getCurrentRequest().getSession().getAttribute("sysUser");
+		/*
+		 * String token = ""; Cookie[] cookies = getCurrentRequest().getCookies();
+		 * if(cookies!=null) { for (Cookie c : cookies) { c.setHttpOnly(true); if
+		 * ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue()))
+		 * { token = c.getValue(); break; } }
+		 * sysUser=JwtTokenUtil.getUserFromTokenByValue(token); }
+		 */
+
 		return sysUser;
 	}
 
@@ -156,7 +150,7 @@ public class BaseController implements ErrorController
 	}
 
 	@Override
-	public String getErrorPath() 
+	public String getErrorPath()
 	{
 		return "global_error";
 	}
@@ -172,11 +166,11 @@ public class BaseController implements ErrorController
 //        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 //        this.httpHeaders = httpHeaders;
 //    }
-    /**
-     * 初始化数据绑定
-     * 1. 将所有传递进来的String进行HTML编码，防止XSS攻击
-     * 2. 将字段中Date类型转换为String类型
-     */
+	/**
+	 * 初始化数据绑定
+	 * 1. 将所有传递进来的String进行HTML编码，防止XSS攻击
+	 * 2. 将字段中Date类型转换为String类型
+	 */
 //    @InitBinder
 //    protected void initBinder(WebDataBinder binder) {
 //        // String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击
@@ -192,7 +186,7 @@ public class BaseController implements ErrorController
 //                return value != null ? value.toString() : "";
 //            }
 //        });
-    // Date 类型转换
+	// Date 类型转换
 //        binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 //            @Override
 //            public void setAsText(String text) {
@@ -205,9 +199,9 @@ public class BaseController implements ErrorController
 //			}
 //        });
 //    }
-	public void addReqLog(Object obj,String data,String desc) 
+	public void addReqLog(Object obj,String data,String desc)
 	{
-		try 
+		try
 		{
 			HttpServletRequest request = getCurrentRequest();
 			String uri = request.getRequestURI();
@@ -217,9 +211,9 @@ public class BaseController implements ErrorController
 			SysUser su = getUserProfile();
 			String userId = su == null ? null : su.getUserId();
 			String ctime = DateUtil.format(new Date(), DateUtil.FMT_SSS);
-			
-			
-			
+
+
+
 			SysReqLogs bean = new SysReqLogs();
 			bean.setClassName(data);
 			bean.setHost(host);
@@ -237,11 +231,11 @@ public class BaseController implements ErrorController
 			String LOG_CLIENT = "http://kjpt-zuul/system-proxy/sys-provider/processlogs/process-logs-save";
 			restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
 
-		}catch(Exception e) 
+		}catch(Exception e)
 		{
-			
+
 		}
-		
+
 	}
 
 	public void exportExcel(String[] headers, String[] cols, String fileName, List dataList) throws Exception {

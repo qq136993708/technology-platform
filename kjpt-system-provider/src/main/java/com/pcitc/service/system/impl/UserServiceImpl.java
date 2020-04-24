@@ -96,6 +96,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectUserByIdentityId(unifyIdentityId);
 	}
 
+
+	public SysUser getUserByUnifyIdentityId(String unifyIdentityId) {
+		return userMapper.getUserByUnifyIdentityId(unifyIdentityId);
+	}
+
+
+
+
 	//根据用户id查询当前信息-new
 	@Override
 	public SysUser currentUserInfo(String userId) {
@@ -155,11 +163,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer insertUser(SysUser user) {
 		SysUser olduser = this.selectAllStatusUserByUserName(user.getUserName());
-		if(olduser != null && DelFlagEnum.STATUS_NORMAL.getCode().equals(olduser.getUserDelflag())) 
+		if(olduser != null && DelFlagEnum.STATUS_NORMAL.getCode().equals(olduser.getUserDelflag()))
 		{
 			return 0;
 		}
-		if(olduser != null && DelFlagEnum.STATUS_DEL.getCode().equals(olduser.getUserDelflag())) 
+		if(olduser != null && DelFlagEnum.STATUS_DEL.getCode().equals(olduser.getUserDelflag()))
 		{
 			String data_id = olduser.getUserId();
 			MyBeanUtils.copyPropertiesIgnoreNull(user, olduser);
@@ -250,7 +258,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	// @Cacheable(key = "'userDetails_'+#userId", value = "userCache")
 	public SysUser selectUserDetailsByUserId(String userId) throws Exception {
-		
+
 		SysUser user = userMapper.selectByPrimaryKey(userId);
 		// 此人有哪些菜单权限，每个菜单对应的数据控制项
 		List<SysFunction> funList = functionMapper.selectFuntionByUserId(userId);
@@ -258,7 +266,7 @@ public class UserServiceImpl implements UserService {
 		Map map=new HashMap();
 		map.put("ids", user.getUserRole());
 		List<SysRole> roleList=sysRoleMapper.getList(map);
-		user.setRoleList(roleList); 
+		user.setRoleList(roleList);
 		// 此人收藏的菜单
 		SysCollectExample sysCollectExample = new SysCollectExample();
 		Criteria cri = sysCollectExample.createCriteria();
@@ -269,8 +277,8 @@ public class UserServiceImpl implements UserService {
 		user.setScList(scList);
 		return user;
 	}
-	
-	
+
+
 	public List<SysCollect> getSysCollectListByUserId(String userId) throws Exception {
 		// 此人收藏的菜单
 		SysCollectExample sysCollectExample = new SysCollectExample();
@@ -304,14 +312,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Boolean> userValidate(SysUser user) 
+	public List<Boolean> userValidate(SysUser user)
 	{
 		// 验证用户名是否重复
 		boolean checkUserName = true;
-	    boolean checkunifyIdentityId = true;
+		boolean checkunifyIdentityId = true;
 		boolean checkMail = true;
-		
-		
+
+
 		Map map=new HashMap();
 		map.put("userName", user.getUserName());
 		map.put("userDelflag", 0);
@@ -320,7 +328,7 @@ public class UserServiceImpl implements UserService {
 			checkUserName = false;
 		}
 		// 验证手机号不能重复
-		
+
 		Map map3=new HashMap();
 		map3.put("unifyIdentityId", user.getUnifyIdentityId());
 		map3.put("userDelflag", 0);
@@ -328,7 +336,7 @@ public class UserServiceImpl implements UserService {
 		if (list2.size() != 0 && !list2.get(0).getUserId().equals(user.getUserId())) {
 			checkunifyIdentityId = false;
 		}
-		
+
 		// 验证邮箱名
 		Map map2=new HashMap();
 		map2.put("userMail", user.getUserName());
@@ -414,7 +422,7 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * 更新角色
-	 * 
+	 *
 	 * @param user
 	 */
 	private void updateUserRole(SysUser user) {
@@ -617,7 +625,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
-	
+
 
 	@Override
 	public Integer insertUserUnit(SysUserUnit user) {
@@ -635,28 +643,28 @@ public class UserServiceImpl implements UserService {
 		if (paramMap.get("userPassword") != null && paramMap.get("userPassword").equals("")) {
 			paramMap.put("userPassword", null);
 		}
-		
-        if (paramMap.get("unitName") != null && !StringUtils.isBlank(paramMap.get("unitName") + "")) {
-            List unitName = new ArrayList();
-            String[] temS = paramMap.get("unitName").toString().split(",");
-            for (int i = 0; i < temS.length; i++) {
-            	unitName.add(temS[i]);
-            }
-            paramMap.put("unitName", unitName);
-        }
-        
-        if (paramMap.get("unitId") != null && !StringUtils.isBlank(paramMap.get("unitId") + "")) {
-            List unitName = new ArrayList();
-            String[] temS = paramMap.get("unitId").toString().split(",");
-            for (int i = 0; i < temS.length; i++) {
-            	unitName.add(temS[i]);
-            }
-            paramMap.put("unitId", unitName);
-        }
+
+		if (paramMap.get("unitName") != null && !StringUtils.isBlank(paramMap.get("unitName") + "")) {
+			List unitName = new ArrayList();
+			String[] temS = paramMap.get("unitName").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				unitName.add(temS[i]);
+			}
+			paramMap.put("unitName", unitName);
+		}
+
+		if (paramMap.get("unitId") != null && !StringUtils.isBlank(paramMap.get("unitId") + "")) {
+			List unitName = new ArrayList();
+			String[] temS = paramMap.get("unitId").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				unitName.add(temS[i]);
+			}
+			paramMap.put("unitId", unitName);
+		}
 
 		List<SysUser> list = userMapper.selectUserDetail(paramMap);
 
-		
+
 
 		JSONObject retJson = new JSONObject();
 		retJson.put("list", list);
@@ -666,48 +674,48 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public LayuiTableData querySysUserListByPage(LayuiTableParam param) {
 		// 每页显示条数
-        int pageSize = param.getLimit();
-        // 当前是第几页
-        int pageNum = param.getPage();
-        // 1、设置分页信息，包括当前页数和每页显示的总计数
-        PageHelper.startPage(pageNum, pageSize);
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
 
 		SysUser vo = new SysUser();
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		
-		if (param.getParam().get("userDisp") != null && !StringUtils.isBlank(param.getParam().get("userDisp") + "")) {
-            hashmap.put("userDisp", param.getParam().get("userDisp"));
-        }
-		if (param.getParam().get("userName") != null && !StringUtils.isBlank(param.getParam().get("userName") + "")) {
-            hashmap.put("userName", param.getParam().get("userName"));
-        }
-		if (param.getParam().get("keyWord") != null && !StringUtils.isBlank(param.getParam().get("keyWord") + "")) {
-            hashmap.put("keyWord", param.getParam().get("keyWord"));
-        }
-		if (param.getParam().get("unitName") != null && !StringUtils.isBlank(param.getParam().get("unitName") + "")) {
-            List unitName = new ArrayList();
-            String[] temS = param.getParam().get("unitName").toString().split(",");
-            for (int i = 0; i < temS.length; i++) {
-            	unitName.add(temS[i]);
-            }
-            hashmap.put("unitName", unitName);
-        }
-        
-        if (param.getParam().get("unitId") != null && !StringUtils.isBlank(param.getParam().get("unitId") + "")) {
-            List unitName = new ArrayList();
-            String[] temS = param.getParam().get("unitId").toString().split(",");
-            for (int i = 0; i < temS.length; i++) {
-            	unitName.add(temS[i]);
-            }
-            hashmap.put("unitId", unitName);
-        }
-		List<SysUser> list = userMapper.selectUserDetail(hashmap);
-        PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
 
-        LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        Long total = pageInfo.getTotal();
-        data.setCount(total.intValue());
+		if (param.getParam().get("userDisp") != null && !StringUtils.isBlank(param.getParam().get("userDisp") + "")) {
+			hashmap.put("userDisp", param.getParam().get("userDisp"));
+		}
+		if (param.getParam().get("userName") != null && !StringUtils.isBlank(param.getParam().get("userName") + "")) {
+			hashmap.put("userName", param.getParam().get("userName"));
+		}
+		if (param.getParam().get("keyWord") != null && !StringUtils.isBlank(param.getParam().get("keyWord") + "")) {
+			hashmap.put("keyWord", param.getParam().get("keyWord"));
+		}
+		if (param.getParam().get("unitName") != null && !StringUtils.isBlank(param.getParam().get("unitName") + "")) {
+			List unitName = new ArrayList();
+			String[] temS = param.getParam().get("unitName").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				unitName.add(temS[i]);
+			}
+			hashmap.put("unitName", unitName);
+		}
+
+		if (param.getParam().get("unitId") != null && !StringUtils.isBlank(param.getParam().get("unitId") + "")) {
+			List unitName = new ArrayList();
+			String[] temS = param.getParam().get("unitId").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				unitName.add(temS[i]);
+			}
+			hashmap.put("unitId", unitName);
+		}
+		List<SysUser> list = userMapper.selectUserDetail(hashmap);
+		PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
 		return data;
 	}
 	public List<SysUser> getSysUserList(Map map)
@@ -717,12 +725,12 @@ public class UserServiceImpl implements UserService {
 	}
 	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param) {
 		// 每页显示条数
-        int pageSize = param.getLimit();
-        // 当前是第几页
-        int pageNum = param.getPage();
-        // 1、设置分页信息，包括当前页数和每页显示的总计数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
-		
+
 		SysUser vo = new SysUser();
 		String unitId = (String) param.getParam().get("unitId");
 		if (unitId != null && !"".equals(unitId)) {
@@ -735,10 +743,10 @@ public class UserServiceImpl implements UserService {
 		List<SysUser> list = userMapper.getSysUserListByUserUnit(vo);
 		PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
 
-        LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        Long total = pageInfo.getTotal();
-        data.setCount(total.intValue());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
 		return data;
 	}
 
@@ -748,81 +756,81 @@ public class UserServiceImpl implements UserService {
 	public List<SysUser> selectByExample(SysUserExample example) {
 		return userMapper.selectByExample(example);
 	}
-	
-	
+
+
 	public LayuiTableData getSysUserPage(LayuiTableParam param)throws Exception
 	{
-		
-	        //每页显示条数
-			int pageSize = param.getLimit();
-			//从第多少条开始
-			int pageStart = (param.getPage()-1)*pageSize;
-			//当前是第几页
-			int pageNum = pageStart/pageSize + 1;
-			// 1、设置分页信息，包括当前页数和每页显示的总计数
-			PageHelper.startPage(pageNum, pageSize);
-			     
-			String userPhone=CommonUtil.getTableParam(param,"userPhone","");
-			String userPost=CommonUtil.getTableParam(param,"userPost","");
-			String userPassword=CommonUtil.getTableParam(param,"userPassword","");
-			String userRole=CommonUtil.getTableParam(param,"userRole","");
-			String secretLevel=CommonUtil.getTableParam(param,"secretLevel","");
-			String unifyIdentityId=CommonUtil.getTableParam(param,"unifyIdentityId","");
-			String userUnit=CommonUtil.getTableParam(param,"userUnit","");
-			String userFlag=CommonUtil.getTableParam(param,"userFlag","");
-			String userName=CommonUtil.getTableParam(param,"userName","");
-			
-			String userNameKey=CommonUtil.getTableParam(param,"userNameKey","");
-			String userUnitName=CommonUtil.getTableParam(param,"userUnitName","");
-			String postName=CommonUtil.getTableParam(param,"postName","");
-			String userMail=CommonUtil.getTableParam(param,"userMail","");
-			String name=CommonUtil.getTableParam(param,"name","");
-			Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
-			
-			String recodeLevel=CommonUtil.getTableParam(param,"recodeLevel","");
-			
-			
-			
-			Map map=new HashMap();
-			map.put("userName", userName);
-			map.put("userFlag", userFlag);
-			map.put("userUnit", userUnit);
-			map.put("unifyIdentityId", unifyIdentityId);
-			map.put("secretLevel", secretLevel);
-			map.put("userRole", userRole);
-			map.put("userPassword", userPassword);
-			map.put("userPost", userPost);
-			map.put("userPhone", userPhone);
-			
-			map.put("userNameKey", userNameKey);
-			map.put("userUnitName", userUnitName);
-			map.put("postName", postName);
-			map.put("userMail", userMail);
-			map.put("userDelflag", userDelflag);
-			
-			//选知悉范围时， 大于单据的级别 
-			map.put("recodeLevel", recodeLevel);
-			map.put("name", name);
 
-			
-			
-			
-			
-			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
-			System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());
-			
-			List<SysUser> list = userMapper.getList(map);
-			PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
-			System.out.println(">>>>>>>>>用户查询分页结果:  "+pageInfo.getList().size());
-			
-			LayuiTableData data = new LayuiTableData();
-			data.setData(pageInfo.getList());
-			Long total = pageInfo.getTotal();
-			data.setCount(total.intValue());
-		    return data;
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		String userPhone=CommonUtil.getTableParam(param,"userPhone","");
+		String userPost=CommonUtil.getTableParam(param,"userPost","");
+		String userPassword=CommonUtil.getTableParam(param,"userPassword","");
+		String userRole=CommonUtil.getTableParam(param,"userRole","");
+		String secretLevel=CommonUtil.getTableParam(param,"secretLevel","");
+		String unifyIdentityId=CommonUtil.getTableParam(param,"unifyIdentityId","");
+		String userUnit=CommonUtil.getTableParam(param,"userUnit","");
+		String userFlag=CommonUtil.getTableParam(param,"userFlag","");
+		String userName=CommonUtil.getTableParam(param,"userName","");
+
+		String userNameKey=CommonUtil.getTableParam(param,"userNameKey","");
+		String userUnitName=CommonUtil.getTableParam(param,"userUnitName","");
+		String postName=CommonUtil.getTableParam(param,"postName","");
+		String userMail=CommonUtil.getTableParam(param,"userMail","");
+		String name=CommonUtil.getTableParam(param,"name","");
+		Integer userDelflag=CommonUtil.getTableParamInt(param,"userDelflag",null);
+
+		String recodeLevel=CommonUtil.getTableParam(param,"recodeLevel","");
+
+
+
+		Map map=new HashMap();
+		map.put("userName", userName);
+		map.put("userFlag", userFlag);
+		map.put("userUnit", userUnit);
+		map.put("unifyIdentityId", unifyIdentityId);
+		map.put("secretLevel", secretLevel);
+		map.put("userRole", userRole);
+		map.put("userPassword", userPassword);
+		map.put("userPost", userPost);
+		map.put("userPhone", userPhone);
+
+		map.put("userNameKey", userNameKey);
+		map.put("userUnitName", userUnitName);
+		map.put("postName", postName);
+		map.put("userMail", userMail);
+		map.put("userDelflag", userDelflag);
+
+		//选知悉范围时， 大于单据的级别
+		map.put("recodeLevel", recodeLevel);
+		map.put("name", name);
+
+
+
+
+
+		JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>用户查询参数:  "+obj.toString());
+
+		List<SysUser> list = userMapper.getList(map);
+		PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
+		System.out.println(">>>>>>>>>用户查询分页结果:  "+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
 	}
-	
-	
+
+
 	public	List getList(Map map)throws Exception
 	{
 		return userMapper.getList(map);
@@ -831,15 +839,15 @@ public class UserServiceImpl implements UserService {
 	{
 		return userMapper.getCount(map);
 	}
-	
-	
+
+
 	public Integer updateSysUser(SysUser user)throws Exception
 	{
 		SysUser oluser = userMapper.selectByPrimaryKey(user.getUserId());
 		if (oluser != null) {
-			
+
 			// 处理组织机构（如果有变化 先删除后保存）
-			if (user.getUserUnit() != null && !user.getUserUnit().equals(oluser.getUserUnit())) 
+			if (user.getUserUnit() != null && !user.getUserUnit().equals(oluser.getUserUnit()))
 			{
 				this.updateUserUnit(user);
 				SysUserPostExample example = new SysUserPostExample();
@@ -855,11 +863,11 @@ public class UserServiceImpl implements UserService {
 		updateUserUnit(user);
 		return userMapper.insert(user);
 	}
-	
+
 	public Integer updateSysUserPost(SysUser user)throws Exception
 	{
 		SysUser oluser = userMapper.selectByPrimaryKey(user.getUserId());
-		if (oluser != null) 
+		if (oluser != null)
 		{
 			if (user.getUserPost() != null && !user.getUserPost().equals(oluser.getUserPost())) {
 				this.updateUserPost(user);
@@ -869,12 +877,12 @@ public class UserServiceImpl implements UserService {
 		oluser.setPostName(user.getPostName());
 		return userMapper.updateByPrimaryKey(oluser);
 	}
-	
+
 	public Integer updateSysUserRole(SysUser user)throws Exception
 	{
 		SysUser oluser = userMapper.selectByPrimaryKey(user.getUserId());
 		if (oluser != null) {
-			
+
 			if (user.getUserRole() != null && !user.getUserRole().equals(oluser.getUserRole())) {
 				updateUserRole(user);
 			}
@@ -883,7 +891,7 @@ public class UserServiceImpl implements UserService {
 		oluser.setUserRoleText(user.getUserRoleText());
 		return userMapper.updateByPrimaryKey(oluser);
 	}
-	
+
 	public Integer updateUserBase(SysUser user)throws Exception
 	{
 		return userMapper.updateByPrimaryKey(user);

@@ -23,20 +23,20 @@ public interface UserService {
 	public SysUser currentUserInfo(String userId);
 
 	public Integer updateUser(SysUser user);
-	
-	
-	
+
+
+
 
 	public int deleteUser(String userId);
-	
+
 	public int deleteUserReal(String userId);
 
 	public Integer insertUser(SysUser user);
 	public Integer insertUserUnit(SysUserUnit user);
 	public List<SysUser> getAllUsers();
-	
+
 	public SysUser selectUserByUserName(String username);
-	
+
 	/**
 	 *  不区分状态查询用户
 	 * @param username
@@ -46,13 +46,13 @@ public interface UserService {
 
 	/**
 	 * 条件查询列表
-	 * 
+	 *
 	 * @return
 	 */
 	public LayuiTableData selectUserByPage(LayuiTableParam param);
 	/**
 	 * 条件查询列表
-	 * 
+	 *
 	 * @return
 	 */
 	public LayuiTableData selectUserList(LayuiTableParam param);
@@ -71,13 +71,13 @@ public interface UserService {
 	 */
 	public SysUser selectUserByIdentityId(String unifyIdentityId);
 
-	/** 
-	* @author zhf
-	* @date 2018年5月17日 上午9:30:34 
-	* 包含用户本身的熟悉、所拥有的角色、菜单等
-	*/
+	/**
+	 * @author zhf
+	 * @date 2018年5月17日 上午9:30:34
+	 * 包含用户本身的熟悉、所拥有的角色、菜单等
+	 */
 	public SysUser selectUserDetailsByUserId(String userId) throws Exception;
-	
+
 	/**
 	 * @param roleCodes
 	 * @return
@@ -107,44 +107,48 @@ public interface UserService {
 	 * @return
 	 */
 	public LayuiTableData selectNotInRoleUserList(LayuiTableParam param);
-	
+
 	/**
 	 * @param paramMap
 	 * @return
 	 * 查询用户信息，包含所属部门，多部门以“，”分开显示
 	 */
 	public JSONObject selectUserDetail(Map<String,Object> paramMap);
-	
-	
-	
+
+
+
 	public LayuiTableData querySysUserListByPage(LayuiTableParam param);
 
 	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param);
-	
+
 	/**
 	 * mybatis自带查询用户信息
 	 */
 	public List<SysUser> selectByExample(SysUserExample example);
 	public List<SysUser> getSysUserList(Map map);
-	
+
 	public LayuiTableData getSysUserPage(LayuiTableParam param)throws Exception;
-	
+
 	public	List getList(Map map)throws Exception;
 	public  Long getCount(Map map)throws Exception;
-	
-	
-	
-	
-	
+
+
+
+
+
 	public Integer updateSysUser(SysUser user)throws Exception;
 	public Integer insertSysUser(SysUser user)throws Exception;
 	public Integer updateSysUserPost(SysUser user)throws Exception;
 	public Integer updateSysUserRole(SysUser user)throws Exception;
 	public Integer updateUserBase(SysUser user)throws Exception;
-	
+
 	public SysUser getUserByUserNameAndPassword(String userName,String password);
 	public List<SysCollect> getSysCollectListByUserId(String userId) throws Exception;
 
 	Integer selectWhiteList(String userName);
-	
+
+
+	public SysUser getUserByUnifyIdentityId(String unifyIdentityId);
+
+
 }

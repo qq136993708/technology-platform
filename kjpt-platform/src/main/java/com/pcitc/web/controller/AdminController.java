@@ -89,11 +89,9 @@ public class AdminController extends BaseController {
     @Value("${whiteRoleId}")
     private String roleId;
 
+
     @Value("${proxy.url}")
     String proxyUrl;
-
-
-
 
     private Integer TIME_OUT = 1 * 60 * 60;
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
@@ -261,12 +259,14 @@ public class AdminController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/")
-    public String inddex() throws IOException {
-        this.getCurrentResponse().sendRedirect(proxyUrl + "index");
-        return null;
-        //return "redirect:/index";
-    }
+//    @RequestMapping(value = "/")
+//    public String inddex() throws IOException {
+//
+//    	this.getCurrentResponse().sendRedirect(proxyUrl + "index");
+//    	System.out.println("redirect index");
+//    	return null;
+//    	//return "redirect:/index";
+//    }
 
     /**
      *商网
@@ -279,9 +279,9 @@ public class AdminController extends BaseController {
         if(unifyIdentityId!=null  &&  !unifyIdentityId.equals(""))
         {
             //JWT
-            EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders,response);
+            //EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders,response);
             //return "redirect:/index";
-            response.sendRedirect(proxyUrl + "index");
+            this.getCurrentResponse().sendRedirect(proxyUrl + "index");
             return null;
         }else
         {
@@ -446,7 +446,7 @@ public class AdminController extends BaseController {
         String url = CommonUtil.getParameter(request, "url", "");
         request.setAttribute("url", url);
 
-        url = URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
+        url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
         return url;
     }
 
@@ -562,10 +562,10 @@ public class AdminController extends BaseController {
     @OperationFilter(modelName = "系统管理", actionName = "登出操作")
     public Object logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Cookie cookie = new Cookie("token", null);
-        cookie.setMaxAge(0);// 立即失效
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        //Cookie cookie = new Cookie("token", null);
+        //cookie.setMaxAge(0);// 立即失效
+        //cookie.setPath("/");
+        //response.addCookie(cookie);
 		/*//判断是生产环境还是测试环境
 		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
 		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
@@ -574,6 +574,7 @@ public class AdminController extends BaseController {
 			return new Result(true, "logout","./SSO/GLO/Redirect");
 		}*/
         //return new Result(true, "logout", "/login");
+        request.getSession().removeAttribute("sysUser");
         return new Result(true, "logout", "/sw_sso");
     }
 

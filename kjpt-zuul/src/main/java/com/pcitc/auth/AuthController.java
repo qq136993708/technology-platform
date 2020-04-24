@@ -23,7 +23,7 @@ public class AuthController {
 
 	@Autowired
 	private AuthService authService;
-	
+
 	@RequestMapping(value = "/auth/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestParam(value="username", required=true) String username, @RequestParam(value="password", required=true) String password) throws AuthenticationException {
 		System.out.println("============createAuthenticationToken开始访问zuul-----"+username);
@@ -32,16 +32,16 @@ public class AuthController {
 		// Return the token
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}
-	
+
 	@RequestMapping(value = "/auth/login_sw", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationTokenlogin_sw(@RequestParam(value="unifyIdentityId", required=true) String unifyIdentityId) throws AuthenticationException {
 		System.out.println("============开始访问zuul-unifyIdentityId----"+unifyIdentityId);
 		String token = authService.loginByUnifyIdentityId(unifyIdentityId);
-		
+
 		// Return the token
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}
-	
+
 
 	@RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
 	public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) throws AuthenticationException {

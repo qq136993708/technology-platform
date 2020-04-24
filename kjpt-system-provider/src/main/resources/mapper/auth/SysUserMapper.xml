@@ -36,18 +36,18 @@
 		<result column="post_name"      property="postName" jdbcType="VARCHAR" />
 		<result column="secret_level_str"   property="secretLevelStr" jdbcType="VARCHAR" />
 		<result column="user_unit_path"   property="userUnitPath" jdbcType="VARCHAR" />
-		
+
 		<result column="unit_code"   property="unitCode" jdbcType="VARCHAR" />
 		<result column="unit_name"   property="unitName" jdbcType="VARCHAR" />
 		<result column="unit_path"   property="unitPath" jdbcType="VARCHAR" />
 		<result column="unit_id"   property="unitId" jdbcType="VARCHAR" />
 		<result column="user_head_pic"   property="userHeadPic" jdbcType="VARCHAR" />
 		<result column="user_role_text"   property="userRoleText" jdbcType="VARCHAR" />
-		
-		
-		
-		
-		
+
+
+
+
+
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -69,7 +69,7 @@
 								<when test="criterion.listValue">
 									and ${criterion.condition}
 									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
+											 open="(" close=")" separator=",">
 										#{listItem}
 									</foreach>
 								</when>
@@ -83,7 +83,7 @@
 	<sql id="Update_By_Example_Where_Clause">
 		<where>
 			<foreach collection="example.oredCriteria" item="criteria"
-				separator="or">
+					 separator="or">
 				<if test="criteria.valid">
 					<trim prefix="(" suffix=")" prefixOverrides="and">
 						<foreach collection="criteria.criteria" item="criterion">
@@ -101,7 +101,7 @@
 								<when test="criterion.listValue">
 									and ${criterion.condition}
 									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
+											 open="(" close=")" separator=",">
 										#{listItem}
 									</foreach>
 								</when>
@@ -123,12 +123,12 @@
 		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,
 		user_unit_name,user_unit_path,user_head_pic,user_role_text
 	</sql>
-	
-		
-	
+
+
+
 
 	<select id="selectByExample" resultMap="BaseResultMap"
-		parameterType="com.pcitc.base.system.SysUserExample">
+			parameterType="com.pcitc.base.system.SysUserExample">
 		select
 		<if test="distinct">
 			distinct
@@ -143,7 +143,7 @@
 			order by ${orderByClause}
 		</if>
 	</select>
-	
+
 
 	<!--根据用户id查询当前信息-new-->
 	<select id="currentUserInfo" resultMap="BaseResultMap"
@@ -164,8 +164,8 @@
 			parameterType="java.lang.String">
 		select * from sys_user where unify_identity_id = #{unifyIdentityId,jdbcType=VARCHAR}
 	</select>
-	
-		
+
+
 	<insert id="insert" parameterType="com.pcitc.base.system.SysUser">
 		insert into sys_user (user_id, user_name, user_password,
 		user_disp, user_kind, user_flag,
@@ -267,7 +267,7 @@
 			<if test="loginCheckCode != null">
 				login_check_code,
 			</if>
-			
+
 			<if test="secretLevel != null">
 				secret_level,
 			</if>
@@ -289,8 +289,8 @@
 			<if test="userRoleText != null">
 				user_role_text,
 			</if>
-		
-			
+
+
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userId != null">
@@ -362,7 +362,7 @@
 			<if test="loginCheckCode != null">
 				#{loginCheckCode,jdbcType=VARCHAR},
 			</if>
-			
+
 			<if test="secretLevel != null">
 				#{secretLevel,jdbcType=VARCHAR},
 			</if>
@@ -384,18 +384,18 @@
 			<if test="userRoleText != null">
 				#{userRoleText,jdbcType=VARCHAR},
 			</if>
-			
+
 		</trim>
 	</insert>
 	<select id="countByExample" parameterType="com.pcitc.base.system.SysUserExample"
-		resultType="java.lang.Integer">
+			resultType="java.lang.Integer">
 		select count(*) from sys_user
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 	</select>
-	
-	
+
+
 	<update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysUser">
 		update sys_user
 		set user_name = #{userName,jdbcType=VARCHAR},
@@ -444,7 +444,7 @@
 		sys_unit.unit_id = sys_user_unit.unit_id and
 		sys_role.role_flag in
 		<foreach collection="roleCodes" item="roleCode" index="index"
-			open="(" close=")" separator=",">
+				 open="(" close=")" separator=",">
 			#{roleCode}
 		</foreach>
 		<if test="userDisp != null and userDisp != ''">
@@ -466,14 +466,14 @@
 
 	<select id="selectUserDetail" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select sys_user.*,
-			   GROUP_CONCAT(sys_unit.unit_name) as unitName,
-			   GROUP_CONCAT(sys_unit.unit_code) as unitCode,
-			   GROUP_CONCAT(sys_unit.unit_path) as unitPath,
-			   GROUP_CONCAT(sys_unit.unit_id) as unitId
+		GROUP_CONCAT(sys_unit.unit_name) as unitName,
+		GROUP_CONCAT(sys_unit.unit_code) as unitCode,
+		GROUP_CONCAT(sys_unit.unit_path) as unitPath,
+		GROUP_CONCAT(sys_unit.unit_id) as unitId
 		from sys_user,sys_unit,sys_user_unit
 		where
 		sys_user.user_id = sys_user_unit.user_id and
-		sys_unit.unit_id = sys_user_unit.unit_id and 
+		sys_unit.unit_id = sys_user_unit.unit_id and
 		sys_user.user_delflag = '0'
 		<if test="userName != null and userName != ''">
 			AND sys_user.user_name = '${userName}'
@@ -502,68 +502,82 @@
 			)
 		</if>
 		group by sys_user.user_id
-		order by user_disp desc 
+		order by user_disp desc
 	</select>
-	
+
 	<select id="getUserByUserNameAndPassword" resultMap="BaseResultMap" parameterType="java.util.Map">
 	SELECT t.*,t2.`unit_path`,t2.`unit_code` ,t2.`unit_name` ,t2.`unit_id` FROM 
 	(
 	  SELECT * FROM sys_user t WHERE t.`user_name`=#{userName} AND t.`user_password`=#{userPassword} and user_delflag = #{userDelflag} 
 	) t  LEFT JOIN sys_unit t2 ON t.user_unit=t2.`unit_id` 
 	</select>
-	
-	
-  <select id="getSysUserListByUserUnit" resultMap="BaseResultMap">
-		select 
+
+
+	<select id="getUserByUnifyIdentityId" resultMap="BaseResultMap" parameterType="string">
+			SELECT t.*,t2.`unit_path`,t2.`unit_code` ,t2.`unit_name` ,t2.`unit_id` FROM
+		(
+			  SELECT * FROM sys_user t WHERE t.`unify_identity_id` =  #{unifyIdentityId}  and user_delflag = 0
+		) t  LEFT JOIN sys_unit t2 ON t.user_unit=t2.`unit_id`
+
+
+	</select>
+
+
+
+
+
+
+	<select id="getSysUserListByUserUnit" resultMap="BaseResultMap">
+		select
 		<include refid="Base_Column_List" />
-			from sys_user where user_delflag = '0' 
+		from sys_user where user_delflag = '0'
 		<if test="userDisp != null and userDisp != ''">
-			and user_disp like '%${userDisp}%' 
+			and user_disp like '%${userDisp}%'
 		</if>
 		<if test="userUnit != null and userUnit != ''">
-		   and FIND_IN_SET(#{userUnit},user_unit) &lt; 0
+			and FIND_IN_SET(#{userUnit},user_unit) &lt; 0
 		</if>
-			order by user_disp desc 
-   </select>
-   
-   
-   
-   
-   <sql id="selectCondition">
-	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="userPhone != null         and userPhone !=''  ">        AND t.user_phone = #{userPhone}</if>
-	     <if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
-	     <if test="secretLevel != null       and secretLevel !=''  ">         AND t.secret_level = #{secretLevel}</if>
-	     <if test="userDelflag != null       ">         AND t.user_delflag = #{userDelflag}</if>
-	     <if test="unifyIdentityId != null   and unifyIdentityId !=''  ">  AND t.unify_identity_id = #{unifyIdentityId}</if>
-	     <if test="userUnit != null          and userUnit !=''  ">         AND t.user_unit = #{userUnit}</if>
-	     <if test="userFlag != null          and userFlag !=''  ">         AND t.user_flag = #{userFlag}</if>
-	     <if test="userPost != null          and userPost !=''  ">         AND t.user_post = #{userPost}</if>
-	     <if test="userRole != null          and userRole !=''  ">         AND t.user_role = #{userRole}</if>
-	     <if test="userMail != null          and userMail !=''  ">         AND t.user_mail = #{userMail}</if>
-	     <if test="userName != null          and userName !=''  ">         AND t.user_name = #{userName}</if>
-	     <if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
-	     <if test="userDisp != null          and userDisp !=''  ">         AND t.user_disp like CONCAT('%',#{userDisp},'%') </if>
-	     <if test="userNameKey != null       and userNameKey !=''  ">    
-	     AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or   t.user_name like CONCAT('%',#{userNameKey},'%')  )
-	     </if>
-	     <if test="postName != null              and postName !=''  ">             AND t.post_name like CONCAT('%',#{postName},'%') </if>
-	     <if test="userUnitName != null          and userUnitName !=''  ">         AND t.user_unit_name like CONCAT('%',#{userUnitName},'%') </if>
-	     <if test="recodeLevel != null          and recodeLevel !=''  ">    
-	      and t.secret_level &gt;=  #{recodeLevel}
-	     </if>
+		order by user_disp desc
+	</select>
 
 
 
-		 <if test="name != null   and name !=''  ">
-		 	and (t.user_disp like CONCAT('%',#{name},'%')  or   t.user_unit_name like CONCAT('%',#{name},'%') )
-		 </if>
-	
-	
-	
-	
-	
-	 </trim>
+
+	<sql id="selectCondition">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="userPhone != null         and userPhone !=''  ">        AND t.user_phone = #{userPhone}</if>
+			<if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
+			<if test="secretLevel != null       and secretLevel !=''  ">         AND t.secret_level = #{secretLevel}</if>
+			<if test="userDelflag != null       ">         AND t.user_delflag = #{userDelflag}</if>
+			<if test="unifyIdentityId != null   and unifyIdentityId !=''  ">  AND t.unify_identity_id = #{unifyIdentityId}</if>
+			<if test="userUnit != null          and userUnit !=''  ">         AND t.user_unit = #{userUnit}</if>
+			<if test="userFlag != null          and userFlag !=''  ">         AND t.user_flag = #{userFlag}</if>
+			<if test="userPost != null          and userPost !=''  ">         AND t.user_post = #{userPost}</if>
+			<if test="userRole != null          and userRole !=''  ">         AND t.user_role = #{userRole}</if>
+			<if test="userMail != null          and userMail !=''  ">         AND t.user_mail = #{userMail}</if>
+			<if test="userName != null          and userName !=''  ">         AND t.user_name = #{userName}</if>
+			<if test="userPassword != null      and userPassword !=''  ">     AND t.user_password = #{userPassword}</if>
+			<if test="userDisp != null          and userDisp !=''  ">         AND t.user_disp like CONCAT('%',#{userDisp},'%') </if>
+			<if test="userNameKey != null       and userNameKey !=''  ">
+				AND ( t.user_disp like CONCAT('%',#{userNameKey},'%')  or   t.user_name like CONCAT('%',#{userNameKey},'%')  )
+			</if>
+			<if test="postName != null              and postName !=''  ">             AND t.post_name like CONCAT('%',#{postName},'%') </if>
+			<if test="userUnitName != null          and userUnitName !=''  ">         AND t.user_unit_name like CONCAT('%',#{userUnitName},'%') </if>
+			<if test="recodeLevel != null          and recodeLevel !=''  ">
+				and t.secret_level &gt;=  #{recodeLevel}
+			</if>
+
+
+
+			<if test="name != null   and name !=''  ">
+				and (t.user_disp like CONCAT('%',#{name},'%')  or   t.user_unit_name like CONCAT('%',#{name},'%') )
+			</if>
+
+
+
+
+
+		</trim>
 	</sql>
 	<sql id="view_user">
 	
@@ -576,36 +590,36 @@
 	    FROM  sys_user  t3   LEFT JOIN sys_unit t2 ON t3.user_unit=t2.`unit_id` 
 	    
 	</sql>
-	
-	
-     
-     
-     
-   
-   
-	
-    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-      select * from  (<include refid="view_user" />)   t <include refid="selectCondition" />    
-      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
-    </select>
-   
-    <select id="getCount" resultType="Long" parameterType="Map" >
-      SELECT count(*) FROM sys_user t <include refid="selectCondition"/>
-    </select>
-    
-     <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  count(*) from sys_user t <include refid="selectCondition" />
-     </select>
-     
-     
-     
-     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+
+
+
+
+
+
+
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+		select * from  (<include refid="view_user" />)   t <include refid="selectCondition" />
+		<if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+	</select>
+
+	<select id="getCount" resultType="Long" parameterType="Map" >
+		SELECT count(*) FROM sys_user t <include refid="selectCondition"/>
+	</select>
+
+	<select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+		select  count(*) from sys_user t <include refid="selectCondition" />
+	</select>
+
+
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select * from (<include refid="view_user" />) t 	where user_id = #{userId,jdbcType=VARCHAR}
 	</select>
-	
-	
-   <select id="selectWhiteList" resultType="java.lang.Integer" parameterType="java.lang.String">
+
+
+	<select id="selectWhiteList" resultType="java.lang.Integer" parameterType="java.lang.String">
 		select count(*) from view_white_list where user_name = #{userName}
    </select>
-	
+
 </mapper>
