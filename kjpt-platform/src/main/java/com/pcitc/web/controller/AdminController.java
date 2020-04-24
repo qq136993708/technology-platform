@@ -276,9 +276,12 @@ public class AdminController extends BaseController {
     	{
     		//JWT
     		EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders,response);
+
+    		System.out.println("===================redirect /index");
     		return "redirect:/index";
     	}else
     	{
+            System.out.println("===================redirect /sso_error_sw");
     		return "/sso_error_sw";
     	}
     	
@@ -330,9 +333,19 @@ public class AdminController extends BaseController {
 	 * }
 	 * 
 	 */
-    
-    
-    
+
+
+    @RequestMapping(value = "/testUser")
+    public String testUser() {
+        SysUser user = this.getUserProfile();
+
+        if(user == null) {
+            return "get user null";
+
+        }
+
+        return user.getUserId();
+    }
     
 
     /**

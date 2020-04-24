@@ -81,6 +81,7 @@ public class BaseController implements ErrorController
 			}
 			sysUser=JwtTokenUtil.getUserFromTokenByValue(token);
 		}
+		System.out.println("token=================================================" + token + "，url=" + this.getCurrentRequest().getRequestURI());
 		
 		return sysUser;
 	}

@@ -26,6 +26,8 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	private WebApplicationContext applicationContext;
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+		System.out.println("=================拦截开始========url：" + request.getRequestURI());
 	try 
 		{
 			String path = request.getRequestURI();
@@ -42,6 +44,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
 				// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+				System.out.println("=====================skip path=" + path);
 				return false;
 			}
 			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
