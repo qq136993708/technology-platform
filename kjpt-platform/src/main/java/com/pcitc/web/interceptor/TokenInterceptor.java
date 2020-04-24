@@ -26,11 +26,20 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 	private WebApplicationContext applicationContext;
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-		System.out.println("=================拦截开始========url：" + request.getRequestURI());
-	try 
+		try
 		{
 			String path = request.getRequestURI();
+
+
+			System.out.println("====================protocol=" + request.getProtocol());
+			System.out.println("====================server name=" + request.getServerName());
+			System.out.println("====================port=" + request.getServerPort());
+			System.out.println("====================url=" + request.getRequestURI());
+			System.out.println("====================getIpAddress=" + getIpAddress(request));
+
+
+
+
 			System.out.println(">>>>>>>path:"+path);
 			//获取用户编码  KOAL_CERT_CN
 			String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
@@ -40,11 +49,10 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 				response.sendRedirect("/sso_error_sw");
 				return false;
 			}
-			
+
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
 				// 统一身份认证时，重定向到/stpHome, 测试环境是/login
-				System.out.println("=====================skip path=" + path);
 				return false;
 			}
 			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
@@ -53,12 +61,12 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			// 安全设置：归档文件下载
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Cache-Control", "no-cache");
-			
+
 			//JWT
 			String token=EquipmentUtils.buildToken_ByIdentityId(unifyIdentityId, restTemplate, httpHeaders, response);
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-			
+
 			/*Cookie[] cookies = request.getCookies();
 			if(cookies!=null)
 			{
@@ -69,7 +77,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					}
 				}
 			}*/
-			
+
 			System.out.println(">>>>>>> TokenInterceptor token:"+token);
 			if (token != null && !token.equals("null")) {
 				httpHeaders.set("Authorization", "Bearer " + token);
@@ -105,6 +113,28 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 
 	public void setHttpHeaders(HttpHeaders httpHeaders) {
 		this.httpHeaders = httpHeaders;
+	}
+
+
+
+	public  String getIpAddress(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
 	}
 
 
