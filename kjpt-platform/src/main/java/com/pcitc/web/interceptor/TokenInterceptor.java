@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ import com.pcitc.web.utils.TokenInterUtils;
 @Component
 public class TokenInterceptor extends BaseController implements HandlerInterceptor {
 
+	@Value("${proxy.url}")
+	String proxyUrl;
 
 	@Autowired
 	private WebApplicationContext applicationContext;
@@ -29,24 +32,21 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 		try
 		{
 			String path = request.getRequestURI();
-
+			System.out.println(">>>>>>>path:"+path);
 
 			System.out.println("====================protocol=" + request.getProtocol());
 			System.out.println("====================server name=" + request.getServerName());
 			System.out.println("====================port=" + request.getServerPort());
 			System.out.println("====================url=" + request.getRequestURI());
-			System.out.println("====================getIpAddress=" + getIpAddress(request));
 
 
 
-
-			System.out.println(">>>>>>>path:"+path);
 			//获取用户编码  KOAL_CERT_CN
 			String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
 			System.out.println(">>>>>>>TokenInterceptor拦截器获取用户编码  KOAL_CERT_CN:"+unifyIdentityId);
 			if(unifyIdentityId==null || unifyIdentityId.equals(""))
 			{
-				response.sendRedirect("/sso_error_sw");
+				response.sendRedirect(proxyUrl + "sso_error_sw");
 				return false;
 			}
 
@@ -84,13 +84,15 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 				return true;
 			} else {
 				//response.sendRedirect("/login");
-				response.sendRedirect("/sso_error_sw");
+				//response.sendRedirect("/sso_error_sw");
+				response.sendRedirect(proxyUrl + "sso_error_sw");
 				return false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			//response.sendRedirect("/login");
-			response.sendRedirect("/sso_error_sw");
+//			response.sendRedirect("/sso_error_sw");
+			response.sendRedirect(proxyUrl + "sso_error_sw");
 			return false;
 		}
 	}
@@ -113,28 +115,6 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 
 	public void setHttpHeaders(HttpHeaders httpHeaders) {
 		this.httpHeaders = httpHeaders;
-	}
-
-
-
-	public  String getIpAddress(HttpServletRequest request) {
-		String ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		return ip;
 	}
 
 
