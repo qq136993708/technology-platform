@@ -132,8 +132,12 @@ public class AdminController extends BaseController {
         {
             request.getSession().setAttribute("sysUser", sysUser);
             System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
+            String userName=sysUser.getUserName();
             boolean isWhite = is_White(sysUser);
-            if(isWhite)
+            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
+                request.setAttribute("userName", userName);
+                return "/adminIndex";
+            } else if(isWhite)
             {
                 return "redirect:/jsc_web/index.html";
             }else
