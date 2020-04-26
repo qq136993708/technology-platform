@@ -134,7 +134,7 @@ public class AdminController extends BaseController {
 			    Cookie cookie = new Cookie("KOAL_CERT_GN", URLEncoder.encode(sysUser.getUnifyIdentityId()+"|000", "utf-8"));
 	            response.addCookie(cookie);
 	            System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
-			    boolean isWhite = isWhite(username, MD5Util.MD5Encode(password));
+			    boolean isWhite = is_White(sysUser);
 		        if(isWhite)
 		        {
 		            return "redirect:/jsc_web/index.html";
@@ -149,6 +149,17 @@ public class AdminController extends BaseController {
 		}
 		
     	
+    }
+
+    private boolean is_White(SysUser su){
+        String role = su.getUserRole();
+        if(StringUtils.isBlank(role)){
+            return false;
+        }
+        if(role.contains(roleId)){
+            return true;
+        }
+        return false;
     }
     
     
