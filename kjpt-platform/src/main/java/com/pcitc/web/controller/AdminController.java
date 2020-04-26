@@ -71,7 +71,7 @@ public class AdminController extends BaseController {
 
     // 收藏菜单
     private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
-    
+
     @Value("${serverIp}")
     private String serverIp;
 
@@ -94,75 +94,62 @@ public class AdminController extends BaseController {
     String proxyUrl;
 
     private Integer TIME_OUT = 1 * 60 * 60;
-    
-    
-    
+
+
+
     @RequestMapping(value = "/login")
-    public String login(HttpServletRequest request) throws Exception 
+    public String login(HttpServletRequest request) throws Exception
     {
-    	SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
-		if(sysUser!=null)
-		{
-			    boolean isWhite = isWhite(sysUser.getUserName(), MD5Util.MD5Encode(sysUser.getUserPassword()));
-		        if(isWhite)
-		        {
-		            return "redirect:/jsc_web/index.html";
-		        }else
-		        {
-		        	return "/login";
-		        }
-		}else
-		{
-			return "/login";
-		}
-    	
+        SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
+        if(sysUser!=null)
+        {
+            boolean isWhite = is_White(sysUser);
+            if(isWhite)
+            {
+                return "redirect:/jsc_web/index.html";
+            }else
+            {
+                return "/login";
+            }
+        }else
+        {
+            return "/login";
+        }
+
     }
-    
-    
+
+
     @RequestMapping(value = "/login_submit")
     public String login_submit(HttpServletResponse response,HttpServletRequest request,@RequestParam(value="username", required = false) String username,
-                        @RequestParam(value="password", required = false) String password,
-                        @RequestParam(value="error", required = false) String error) throws Exception 
+                               @RequestParam(value="password", required = false) String password,
+                               @RequestParam(value="error", required = false) String error) throws Exception
     {
 
-    	
-    	System.out.println("===========login_submit=password="+password+"    MD5Encode "+MD5Util.MD5Encode(password));
-    	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
-		if(sysUser!=null)
-		{
-			    request.getSession().setAttribute("sysUser", sysUser);
-			    Cookie cookie = new Cookie("KOAL_CERT_GN", URLEncoder.encode(sysUser.getUnifyIdentityId()+"|000", "utf-8"));
-	            response.addCookie(cookie);
-	            System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
-			    boolean isWhite = is_White(sysUser);
-		        if(isWhite)
-		        {
-		            return "redirect:/jsc_web/index.html";
-		        }else
-		        {
-		        	return "/login";
-		        }
-		}else
-		{
-			request.setAttribute("err", "用户名密码错误");
-			return "/login";
-		}
-		
-    	
+
+        System.out.println("===========login_submit=password="+password+"    MD5Encode "+MD5Util.MD5Encode(password));
+        SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
+        if(sysUser!=null)
+        {
+            request.getSession().setAttribute("sysUser", sysUser);
+            System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
+            boolean isWhite = is_White(sysUser);
+            if(isWhite)
+            {
+                return "redirect:/jsc_web/index.html";
+            }else
+            {
+                return "/login";
+            }
+        }else
+        {
+            request.setAttribute("err", "用户名密码错误");
+            return "/login";
+        }
+
+
     }
 
-    private boolean is_White(SysUser su){
-        String role = su.getUserRole();
-        if(StringUtils.isBlank(role)){
-            return false;
-        }
-        if(role.contains(roleId)){
-            return true;
-        }
-        return false;
-    }
-    
-    
+
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
    /* @RequestMapping(value = "/login")
     public String login(@RequestParam(value="username", required = false) String userName,
@@ -199,7 +186,7 @@ public class AdminController extends BaseController {
         }
 
     }*/
-    
+
 
 
     @RequestMapping(value = "/loginSave")
@@ -245,6 +232,20 @@ public class AdminController extends BaseController {
         }
         return false;
     }
+
+
+
+    private boolean is_White(SysUser su){
+        String role = su.getUserRole();
+        if(StringUtils.isBlank(role)){
+            return false;
+        }
+        if(role.contains(roleId)){
+            return true;
+        }
+        return false;
+    }
+
 
     private boolean buildTokenByPassword(String userName, String password) {
 
@@ -643,7 +644,7 @@ public class AdminController extends BaseController {
 		}*/
         //return new Result(true, "logout", "/login");
         request.getSession().removeAttribute("sysUser");
-        return new Result(true, "logout", "/sw_sso");
+        return new Result(true, "logout", "/login");
     }
 
     @RequestMapping(value = "/admin/collect")
