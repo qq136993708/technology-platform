@@ -26,7 +26,9 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 添加拦截器(拦截器中只有preHandle返回true时才继续执行下一个拦截器或者controller，否则直接返回)
 		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**")
-				//.excludePathPatterns("/login")
+				.excludePathPatterns("/login")
+				.excludePathPatterns("/login_submit")
+				
 				.excludePathPatterns("/sw_sso")
 				.excludePathPatterns("/sso_error_sw")
 				

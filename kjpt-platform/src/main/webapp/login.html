@@ -125,7 +125,7 @@
 </script>
 </head>
 <body >
-<form id="login-form" method="post" name="login-form" action="/login" lay-filter="login-form" class="form-horizontal layui-form">
+<form id="login-form" method="post" name="login-form" action="/login_submit" lay-filter="login-form" class="form-horizontal layui-form">
 	<input type="hidden" name="loginErrorCount" id="loginErrorCount" value="${loginErrorCount}">
     <div class="layadmin-user-login">
         <div class="layadmin-user-login-header">
@@ -166,9 +166,9 @@
                             <button id="sub_button" type="button" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登录</button>
                         </div>
                     </div>
-                    <span class="skipType" type='attestationLogin'>认证登录</span>
+                    <span class="skipType" type='attestationLogin' style="display:none">认证登录</span>
                 </div>
-                <div class="user-login attestationLogin">
+                <div class="user-login attestationLogin" >
                     <h2 style="color: #1d2d3d;font-size: 18px;padding:20px 20px 0;">认证登录</h2>
                     <div class="layadmin-user-login-box layui-form">
                         <div class="layui-form-item paddingNull">

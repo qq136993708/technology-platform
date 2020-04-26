@@ -41,42 +41,62 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			System.out.println("====================port=" + request.getServerPort());
 			System.out.println("====================url=" + request.getRequestURI());
 			System.out.println("====================getIpAddress=" + getIpAddress(request));
-
-
-
-
 			System.out.println(">>>>>>>path:"+path);
-			//获取用户编码  KOAL_CERT_CN
-			String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
-			System.out.println(">>>>>>>TokenInterceptor拦截器获取用户编码  KOAL_CERT_CN:"+unifyIdentityId);
-			if(unifyIdentityId==null || unifyIdentityId.equals(""))
-			{
-				response.sendRedirect(proxyUrl + "sso_error_sw");
-				return false;
-			}
 
-			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
-			//if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
-			//	return false;
-			//}
+
 			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
 			// 只信任同源的
 			response.setHeader("x-frame-options", "SAMEORIGIN");
 			// 安全设置：归档文件下载
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Cache-Control", "no-cache");
+			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-			//JWT
-			//String token=EquipmentUtils.buildToken_ByIdentityId(unifyIdentityId, restTemplate, httpHeaders, response);
-			SysUser sysUser=   EquipmentUtils.getUserByUnifyIdentityId(unifyIdentityId, restTemplate, httpHeaders);
-			if(sysUser!=null)
+			SysUser u=(SysUser)request.getSession().getAttribute("sysUser");
+			if(u!=null)
 			{
-				request.getSession().setAttribute("sysUser", sysUser);
+				//获取用户编码  KOAL_CERT_CN
+				String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
+				System.out.println(">>>>>>>TokenInterceptor拦截器获取用户编码  KOAL_CERT_CN:"+unifyIdentityId);
+				if(unifyIdentityId==null || unifyIdentityId.equals(""))
+				{
+					response.sendRedirect(proxyUrl + "sso_error_sw");
+					return false;
+				}
+
+				//JWT
+				//String token=EquipmentUtils.buildToken_ByIdentityId(unifyIdentityId, restTemplate, httpHeaders, response);
+				SysUser sysUser=   EquipmentUtils.getUserByUnifyIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+				if(sysUser!=null)
+				{
+					request.getSession().setAttribute("sysUser", sysUser);
+					return true;
+				}else
+				{
+					//response.sendRedirect("/login");
+					//response.sendRedirect("/sso_error_sw");
+					response.sendRedirect(proxyUrl + "sso_error_sw");
+					return false;
+				}
+
+
+			} else {
+				//response.sendRedirect("/login");
+				//response.sendRedirect("/sso_error_sw");
+				response.sendRedirect(proxyUrl + "sso_error_sw");
+				return false;
 			}
 
 
-			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+
+
+
+
+
+
+
 
 			/*Cookie[] cookies = request.getCookies();
 			if(cookies!=null)
@@ -90,15 +110,6 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			}*/
 
 
-			if (sysUser != null) {
-				System.out.println(">>>>>>> TokenInterceptor sysUser:"+sysUser.getUserDisp());
-				return true;
-			} else {
-				//response.sendRedirect("/login");
-				//response.sendRedirect("/sso_error_sw");
-				response.sendRedirect(proxyUrl + "sso_error_sw");
-				return false;
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			//response.sendRedirect("/login");

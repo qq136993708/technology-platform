@@ -108,6 +108,13 @@ public class UserProviderClient {
 		logger.info("add user....");
 		return userService.insertUser(user);
 	}
+	
+	
+	
+	
+	
+	
+	
 	@ApiOperation(value="添加用户组织关联",notes="保存数据到持久化结构中。")
 	@RequestMapping(value = "/user-provider/user/add-user_unit", method = RequestMethod.POST)
 	public Integer saveUserUnitInfo(@RequestBody SysUserUnit user) {
@@ -238,6 +245,20 @@ public class UserProviderClient {
 	}
 
 
+	
+	
+	@ApiOperation(value="查询用户信息",notes="查询用户信息")
+	@RequestMapping(value = "/user-provider/getUserByUserNameAndPasswordByMap")
+	public SysUser getUserByUserNameAndPassword(@RequestBody Map map) throws Exception
+	{
+		
+		SysUser sysUser=new SysUser();
+		sysUser.setUserName((String)map.get("username"));
+		sysUser.setUserPassword((String)map.get("password"));
+		SysUser u = userService.getUserByUserNameAndPassword(sysUser.getUserName(),sysUser.getUserPassword());
+		return u;
+	}
+	
 
 
 
