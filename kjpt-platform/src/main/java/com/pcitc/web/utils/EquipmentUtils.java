@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
@@ -39,6 +41,7 @@ public class EquipmentUtils {
 	public static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
 	public static final String GET_USER_URL = "http://kjpt-zuul/system-proxy/user_provider/selectUserByIdentityId/";
 	public static final String getUserByUnifyIdentityId = "http://kjpt-zuul/system-proxy/user_provider/user/getUserByUnifyIdentityId/";
+	private static final String getUserByUserNameAndPasswordByMap = "http://kjpt-zuul/system-proxy/user-provider/getUserByUserNameAndPasswordByMap";
 
 
 	public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
@@ -46,6 +49,29 @@ public class EquipmentUtils {
 	public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
 
 	private static final String USER_IDENTITY_ID = "http://kjpt-zuul/system-proxy/user-provider/user/user-identityid/";
+	
+	
+	public static SysUser getUserByUserNameAndPassword(String username,String password,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		
+		 Map  map = new HashMap();
+ 	     map.put("password", password);
+ 	    map.put("username", username);
+ 	    ResponseEntity<SysUser> responseEntity = restTemplate.exchange(getUserByUserNameAndPasswordByMap, HttpMethod.POST,new HttpEntity<Map>(map, httpHeaders), SysUser.class);
+ 	    SysUser retJson = null;
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			retJson = responseEntity.getBody();
+		}
+		return retJson;
+	}
+	
+	
+	
+	
+	
+	
 	// 访问zuul中的登录方法
 	private static final String LOGIN_URL = "http://kjpt-zuul/auth/login";
 	public static String getCurrentYear() throws Exception {

@@ -2,6 +2,7 @@ package com.pcitc.web.controller;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class AdminController extends BaseController {
 
     // 收藏菜单
     private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
-
+    
     @Value("${serverIp}")
     private String serverIp;
 
@@ -89,14 +90,70 @@ public class AdminController extends BaseController {
     @Value("${whiteRoleId}")
     private String roleId;
 
-
     @Value("${proxy.url}")
     String proxyUrl;
 
     private Integer TIME_OUT = 1 * 60 * 60;
+    
+    
+    
+    @RequestMapping(value = "/login")
+    public String login(HttpServletRequest request) throws Exception 
+    {
+    	SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
+		if(sysUser!=null)
+		{
+			    boolean isWhite = isWhite(sysUser.getUserName(), MD5Util.MD5Encode(sysUser.getUserPassword()));
+		        if(isWhite)
+		        {
+		            return "redirect:/jsc_web/index.html";
+		        }else
+		        {
+		        	return "/login";
+		        }
+		}else
+		{
+			return "/login";
+		}
+    	
+    }
+    
+    
+    @RequestMapping(value = "/login_submit")
+    public String login_submit(HttpServletResponse response,HttpServletRequest request,@RequestParam(value="username", required = false) String username,
+                        @RequestParam(value="password", required = false) String password,
+                        @RequestParam(value="error", required = false) String error) throws Exception 
+    {
+
+    	
+    	System.out.println("===========login_submit=password="+password+"    MD5Encode "+MD5Util.MD5Encode(password));
+    	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
+		if(sysUser!=null)
+		{
+			    request.getSession().setAttribute("sysUser", sysUser);
+			    Cookie cookie = new Cookie("KOAL_CERT_GN", URLEncoder.encode(sysUser.getUnifyIdentityId()+"|000", "utf-8"));
+	            response.addCookie(cookie);
+	            System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
+			    boolean isWhite = isWhite(username, MD5Util.MD5Encode(password));
+		        if(isWhite)
+		        {
+		            return "redirect:/jsc_web/index.html";
+		        }else
+		        {
+		        	return "/login";
+		        }
+		}else
+		{
+			request.setAttribute("err", "用户名密码错误");
+			return "/login";
+		}
+		
+    	
+    }
+    
+    
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
-   /*
-    * @RequestMapping(value = "/login")
+   /* @RequestMapping(value = "/login")
     public String login(@RequestParam(value="username", required = false) String userName,
                         @RequestParam(value="password", required = false) String password,
                         @RequestParam(value="error", required = false) String error) throws Exception {
@@ -130,8 +187,8 @@ public class AdminController extends BaseController {
             return "/login";
         }
 
-    }
-    */
+    }*/
+    
 
 
     @RequestMapping(value = "/loginSave")
@@ -562,10 +619,10 @@ public class AdminController extends BaseController {
     @OperationFilter(modelName = "系统管理", actionName = "登出操作")
     public Object logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        //Cookie cookie = new Cookie("token", null);
-        //cookie.setMaxAge(0);// 立即失效
-        //cookie.setPath("/");
-        //response.addCookie(cookie);
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);// 立即失效
+        cookie.setPath("/");
+        response.addCookie(cookie);
 		/*//判断是生产环境还是测试环境
 		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
 		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
