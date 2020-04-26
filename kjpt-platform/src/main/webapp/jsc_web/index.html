@@ -10,28 +10,13 @@
     <link rel="stylesheet" href="/css/common.css" />
     <link rel="stylesheet" href="/jsc_web/common/css/base.css">
     <link rel="stylesheet" href="/jsc_web/common/css/common.css">
-    <link rel="stylesheet" href="/jsc_web/control/animate/animate.css">
+    <!-- <link rel="stylesheet" href="/jsc_web/control/animate/animate.css"> -->
+    <!-- 首页样式 -->
+    <!-- <link rel="stylesheet" href="/jsc_web/common/css/main.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/table.css"> -->
+
 </head>
 <body class="animated  fadeIn">
-    <!-- loding 
-    <div class="loading-container">
-            <div class="loading-progress">
-                <div class="loaders">
-                    <div class="loader">
-                        <div class="loader-inner ball-spin-fade-loader">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
     <div class="jsc_wrapper" id="wrapper">
         <!-- 头部 -->
         <div class="header-layout" id="header">
@@ -90,12 +75,16 @@
             </div>
         </div>
         <div id="content" class="content">
-            <iframe class="main-frame-layout" id="mainframe" class="" data-id="" name="iframe0" width="100%" scrolling="no" frameborder="0" seamless=""></iframe>
+            <!-- <div class="main-frame-layout" id="mainframe"></div> -->
+            <iframe class="main-frame-layout" id="mainframe" data-id="" name="iframe0" width="100%" scrolling="no" frameborder="0" seamless=""></iframe>
         </div>
     </div>
     <script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script src="/jsc_web/common/js/autofont.js"></script>
+    <!-- <script src="/jsc_web/common/js/echarts.min.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/chartOption.js"></script> -->
     <script >
         $(function () {
             if (!top.layer) {
@@ -109,6 +98,8 @@
 		    }, 0);
 
             $('#mainframe').attr('src', '/jsc_web/front/main.html');
+            // $('#mainframe').load('/jsc_web/front/main.html');
+
 
             var $twoNavItem = $('#twoNavItem'),
             $topHeaderNav = $('#top-header-nav');
@@ -143,12 +134,17 @@
                     $('#wrapper').css({ 'padding-top': '6.8rem'});
                 } else {
                     $twoNavItem.find('.two_nav_item').addClass('disNone');
-                    $('#wrapper').css({ 'padding-top': '5.6rem'});
+                    if (pageName === 'main') {
+                        $('#wrapper').css({ 'padding-top': '3.6rem'});
+                    } else {
+                        $('#wrapper').css({ 'padding-top': '5.6rem'});
+                    }
                 }
 
                 // 添加链接显示页面
                 pageHref = '/jsc_web/front/'+ pageName +'.html';
                 setTimeout(function() {
+                    // $('#mainframe').load(pageHref);
                     $('#mainframe').attr('src', pageHref);
                 }, 60);
             })
@@ -166,6 +162,7 @@
 
                     // 添加链接显示页面
                     pageHref = '/jsc_web/front/'+ pageName +'.html';
+                    // $('#mainframe').load(pageHref);
                     $('#mainframe').attr('src', pageHref);
                 }
             });

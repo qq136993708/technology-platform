@@ -129,7 +129,7 @@ html {
 #wrapper {
     width: 100%;
     height: 100%;
-    padding-top: 5.6rem;
+    padding-top: 3.6rem;
     padding-bottom: 1px;
     overflow: hidden;
 }
@@ -157,11 +157,10 @@ html {
 /**新**/
 .header-layout {
     width: 100%;
-    min-height: 5.6rem;
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 9999;
+    z-index: 0;
 }
 .top-header {
     height: 3.6rem;
@@ -172,6 +171,10 @@ html {
     background-size: 110% auto;
 }
 .header-bottom-bg {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
     height: 2rem;
     background: url('../../img/header_bottom_bg.png') center top no-repeat;
     background-size: 110% auto;
@@ -323,6 +326,8 @@ html {
     height: 100%;
     overflow: hidden;
     box-sizing: border-box;
+    position: relative;
+    min-height: 500px;
 }
 .main-frame-layout {
     width: 100%;
@@ -521,8 +526,12 @@ html {
     display: inline-block;
     vertical-align: middle;
     margin-right: .4rem;
-    font-size: 14px;
-    line-height: 16px;
+    font-size: .7rem;
+    line-height: .8rem;
+  }
+  .pie-legend-list .legend-item > span.line {
+      height: 4px;
+      line-height: 0;
   }
   .pie-legend-list .legend-item > span:last-child{
     margin-right: 0;
@@ -575,6 +584,38 @@ html {
     display: block;
 }
 
+table.line_table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.line_table thead tr th,
+table.line_table tbody tr td {
+    height: 1.9rem;
+    line-height: 1.9rem;
+    text-align: left;
+    font-size: .7rem;
+    color: #fff;
+    font-weight: normal;
+}
+table.line_table thead tr th {
+    background: none;
+    color: rgba(255, 255, 255, .53);
+}
+table.line_table thead tr th.date_time {
+    width: 6rem;
+}
+table.line_table tbody tr td {
+    background-color: rgba(32, 106, 188, .2);
+}
+table.line_table tbody tr:nth-child(2n) td {
+    background-color: rgba(32, 106, 188, .1);
+}
+table.line_table thead tr th:first-child,
+table.line_table tbody tr td:first-child {
+    padding-left: 1.5rem;
+}
 
 
 
