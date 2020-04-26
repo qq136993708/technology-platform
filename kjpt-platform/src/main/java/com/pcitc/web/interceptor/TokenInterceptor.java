@@ -54,7 +54,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 			SysUser u=(SysUser)request.getSession().getAttribute("sysUser");
-			if(u!=null)
+			if(u==null)
 			{
 				//获取用户编码  KOAL_CERT_CN
 				String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
@@ -80,21 +80,10 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					return false;
 				}
 
-
-			} else {
-				//response.sendRedirect("/login");
-				//response.sendRedirect("/sso_error_sw");
-				response.sendRedirect(proxyUrl + "sso_error_sw");
-				return false;
+			}else
+			{
+				return true;
 			}
-
-
-
-
-
-
-
-
 
 
 
