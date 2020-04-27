@@ -119,8 +119,10 @@ var kyptCharts = {
     categoryData = [],
     _this = this,
     lineColor = config.lineColor || '#ABB0BB',
+    xLineColor = config.xLineColor || '#ABB0BB',
     valueColor = config.valueColor || '',
     labelColor = config.labelColor || '#46484B',
+    yaxisLine = config.yaxisLine,
     barMaxWidth = 28;
     if (config.type === 'bar' && config.series.length > 1) {
       barMaxWidth = 18;
@@ -172,7 +174,7 @@ var kyptCharts = {
         label: {
           show: true,
           position: 'top',
-          color: '#46484B',
+          color: labelColor || '#46484B',
           fontSize: 12
         }
       };
@@ -217,7 +219,7 @@ var kyptCharts = {
       data: categoryData,
       axisTick: {show: false},
       splitLine: {show: false},
-      axisLine: { show: true, lineStyle: {color: lineColor} },
+      axisLine: { show: true, lineStyle: {color: (xLineColor || lineColor)} },
       axisLabel: {
         show: true,
         fontSize: 14,
@@ -228,7 +230,7 @@ var kyptCharts = {
     itemValueAxis = (function() {
       var yAxis = [], valueAxis = {
         type: 'value',
-        axisLine: {show: false},
+        axisLine: {show: yaxisLine || false, lineStyle: { color: xLineColor || lineColor }},
         axisTick: {show: false},
         axisLabel: {
           show: true,

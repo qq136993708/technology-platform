@@ -36,7 +36,7 @@ kyptCharts.render({
     color: ['#f9dd56', '#ff9156', '#1bc85e']
 });
 
-// 专利数量
+// 专利数量类型占比
 kyptCharts.render({
     id: 'cgxx_charts2',
     type: 'pie',
@@ -73,513 +73,113 @@ kyptCharts.render({
     ],
     color: ['#f9dd56', '#ff9156', '#1bc85e']
 });
-var option1 = {
-    tooltip: {
-        trigger: 'axis',
-        formatter: "{b}： {c}",
-        axisPointer: {
-            type: 'shadow'
-        }
-    },
-    grid: {
-        top: '5%',
-        left: '10',
-        right: '4%',
-        bottom: '1%',
-        containLabel: true
-    },
-    xAxis: {
-        type: 'category',
-        axisLabel: {
-            show: true,
-            interval: 0,
-            rotate: 0,
-            textStyle: {
-                color: '#fff',
-                fontSize: '12'
-            }
-        },
-        splitLine: {
-            show: false,
-        },
-        axisTick: {
-            show: false,
-        },
-        axisLine: {
-            show: true
-        },
-        data: ['动力院', '原子能院', '核能院', '核化工', '地研院']
-    },
-    yAxis: {
-        type: 'value',
-        axisLabel: {
-            show: true,
-            textStyle: {
-                color: '#fff',
-                fontSize: '14'
-            }
-        },
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            show: false,
-        },
-        axisLine: {
-            show: true
-        }
-    },
-    series: [{
-        type: 'bar',
-        barWidth: '15',
-        // label: {
-        //     show: true,
-        //     // position: 'center',
-        //     color:'#fff',
-        //     // formatter: '{c0}亿',
-        // },
-        itemStyle: {
-            normal: {
-                color: function (params) {
-                    return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                        offset: 0,
-                        color: '#25B9FE'
-                    }, {
-                        offset: 1,
-                        color: '#25B9FE'
-                    }]);
-                }
-            }
-        },
-        data: [10, 2, 15, 8, 7],
-    }]
-};
-/**单位分布柱状图***/
-var cgxx_charts3 = echarts.init(document.getElementById('cgxx_charts3'));
-cgxx_charts3.setOption(option1);
 
-
-
-
-
-/**项目投资***/
-// var xmtz_charts1 = echarts.init(document.getElementById('xmtz_charts1'));
-// var xmtz_charts2 = echarts.init(document.getElementById('xmtz_charts2'));
-// var xmtz_charts3 = echarts.init(document.getElementById('xmtz_charts3'));
-// var xmtz_charts4 = echarts.init(document.getElementById('xmtz_charts4'));
-/**项目数量***/
-var main_charts = echarts.init(document.getElementById('main_charts'));
-/**项目经费占比***/
-var xmjf_charts = echarts.init(document.getElementById('xmjf_charts'));
-xmjf_charts.setOption(option1);
-xmjf_charts.setOption({
-    tooltip: {
-        formatter: "{b}： {c}%",
-    },
-    xAxis: {
-        data: ['核能开发', '集中研发', '国防基础', '国防技术基础']
-    },
-    series: [{
-        data: [24, 95, 54, 32],
-        itemStyle: {
-            normal: {
-                color: function (params) {
-                    if (params.dataIndex == 3) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#62C36A'
-                        }, {
-                            offset: 1,
-                            color: '#62C36A'
-                        }]);
-                    }
-                    if (params.dataIndex == 2) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#EF9562'
-                        }, {
-                            offset: 1,
-                            color: '#EF9562'
-                        }]);
-                    }
-                    if (params.dataIndex == 1) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#F6C667'
-                        }, {
-                            offset: 1,
-                            color: '#F6C667'
-                        }]);
-                    }
-                    if (params.dataIndex == 0) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#44A5FF'
-                        }, {
-                            offset: 1,
-                            color: '#44A5FF'
-                        }]);
-                    }
-                }
-            }
-        }
-    }]
+// 软件著作权数量
+kyptCharts.render({
+    id: 'cgxx_charts3',
+    type: 'bar',
+    labelColor: '#fff',
+    borderColor: '#001e38',
+    data: [
+        { name: '动力院', value: 21 },
+        { name: '原子能院', value: 46 },
+        { name: '核能院', value: 18 },
+        { name: '核化工', value: 50 },
+        { name: '地研院', value: 6 }
+    ],
+    itemName: 'name',
+    series: [
+        { name: '著作权', valueKey: 'value' }
+    ],
+    color: [['#25B9FE', '#25B9FE']],
+    lineColor: 'rgba(4, 30, 54, 1)',
+    valueColor: '#fff',
+    labelColor: '#fff',
+    yAxis: [{splitNumber: 3}],
+    yaxisLine: true,
+    barWidth: 20,
+    xLineColor: 'rgba(255, 255, 255, .2)',
+    legend: {show: false }
 });
-// 项目投资Option
-var xmtz_option = {
-    tooltip: {
-        formatter: "{a} <br/>{b} : {c}%"
-    },
-    series: [{
-        name: '业务指标',
-        type: 'gauge',
-        min: 0,
-        max: 120,
-        splitNumber: 6,
-        startAngle: 225,
-        endAngle: -45,
-        center: ['45%', '50%'], // 默认全局居中
-        radius: '75%',
-        detail: {
-            formatter: '{value}%',
-            offsetCenter: [0, 0],
-            textStyle: {
-                color: '#ffffff',
-                fontSize: 30,
-                fontFamily: 'Impact'
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            top: '5%',
-            bottom: '5%',
-            containLabel: true
-        },
-        axisTick: {
-            show: false
-        },
-        axisLine: { // 坐标轴线
-            lineStyle: { // 属性lineStyle控制线条样式
-                color: [
-                    [1, new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0.1,
-                            color: "rgba(246, 224, 103, 1)"
-                        },
-                        {
-                            offset: 1,
-                            color: "rgba(246, 180, 103, 1)"
-                        }
-                    ])]
-                ],
-                width: 10
-            }
-        },
-        axisLabel: { // 坐标轴小标记
-            show: false
-        },
-        splitLine: { // 分隔线
-            show: false
-        },
-        pointer: {
-            show: false
-        },
-        title: {
-            textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                fontSize: 12,
-                color: '#fff',
-                shadowColor: '#fff', //默认透明
-                shadowBlur: 10
-            }
-        },
-        data: [{
-            value: 50,
-            name: '核能开发'
-        }]
-    }]
-};
 
+// 专利数量按单位统计
+kyptCharts.render({
+    id: 'zltj_chart',
+    type: 'bar',
+    labelColor: '#fff',
+    borderColor: '#001e38',
+    data: [
+        { name: '中国核动力\n设计研究院', value: 41, number: 81 },
+        { name: '中核咨询\n服务有限公司', value: 152, number: 81 },
+        { name: '中核咨询\n服务有限公司', value: 41, number: 81 },
+        { name: '中核能源\n科技有限公司', value: 210, number: 125 },
+        { name: '中国原子能\n科学研究院', value: 277, number: 210 },
+        { name: '中核机械工程\n有限公司', value: 177, number: 125 }
+    ],
+    itemName: 'name',
+    series: [
+        { name: '本年', valueKey: 'value' },
+        { name: '上年', valueKey: 'number' }
+    ],
+    color: ['#4526FF', ['#25B9FE', '#25B9FE']],
+    yAxis: [{splitNumber: 3}],
+    lineColor: 'rgba(255, 255, 255, .2)',
+    valueColor: '#fff',
+    labelColor: '#fff',
+    barWidth: 20,
+    label: false,
+    yaxisLine: true,
+    xLineColor: 'rgba(255, 255, 255, .2)',
+    legendPosition: 'top'
+    // legend: {show: false }
+});
 
-// 项目投资
-// xmtz_charts1.setOption(xmtz_option);
-// xmtz_charts2.setOption(xmtz_option);
-// xmtz_charts3.setOption(xmtz_option);
-// xmtz_charts4.setOption(xmtz_option);
+// 成果转化
+kyptCharts.render({
+    id: 'cgzh_chart1',
+    type: 'pie',
+    legendPosition: 'right',
+    legend: { top: 'center', formatter: 'name|value' },
+    label: false,
+    labelColor: '#fff',
+    radius: ['56%', '78%'],
+    borderColor: '#001e38',
+    title: '成果报奖',
+    totalTitle: true,
+    title: { textStyle: { color: '#fff', fontSize: 24, width: '100%' } },
+    series: [
+        { name: '核心成果', value: '10' },
+        { name: '非核心成果', value: '60' }
+    ],
+    color: ['#45F0FF', '#2687FF', '#1bc85e']
+});
 
-//项目数量
-var xmsl_option = {
-    tooltip: {
-        trigger: 'axis',
-        backgroundColor: 'rgba(38,84,113,0.5)',
-        borderColor: '#0897a0',
-        borderWidth: 1,
-        axisPointer: {
-            type: 'shadow'
-        }
-    },
-
-    legend: {
-        show: true,
-        itemWidth: 13,
-        itemHeight: 13,
-        data: ['已完成', '在研'],
-        textStyle: {
-            color: '#fff',
-            fontSize: 16
-        },
-        right: 10
-    },
-    grid: {
-        top: '12%',
-        right: '5%',
-        left: '5%',
-        bottom: '12%'
-    },
-    xAxis: [{
-        type: 'category',
-        data: ['核能开发 ', '集中研发', '国防基础', '国防技术基础', ],
-        axisLabel: {
-            textStyle: {
-                color: '#fff',
-                fontSize: '12'
-            },
-            margin: 16,
-            interval: 0
-        },
-        axisLine: {
-            show: false
-        },
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            show: false
-        }
-    }],
-    yAxis: [{
-        type: 'value',
-        name: '',
-        // min: 0,
-        // max: 250,
-        // interval: 50,
-        axisLabel: {
-            // formatter: '{value} ml',
-            textStyle: {
-                color: '#fff',
-                fontSize: '12'
-            }
-        },
-        axisLine: {
-            show: false
-        },
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            show: false
-        },
-        axisLabel: {
-            show: false
-        }
-    }],
-    series: [{
-            name: '辅助0',
-            type: 'bar',
-            stack: "采购",
-            data: [0, 0, 0, 0],
-            barMinHeight: 0,
-            itemStyle: {
-                opacity: 0
-            },
-            tooltip: {
-                show: false
-            },
-            markPoint: {
-                type: 'category',
-                data: [{
-                        coord: [0, 0]
-                    },
-                    {
-                        coord: [1, 0]
-                    },
-                    {
-                        coord: [2, 0]
-                    },
-                    {
-                        coord: [3, 0]
-                    }
-                ],
-                // symbolOffset: [0, -15],
-                label: {
-                    show: false
-                },
-                symbol: 'circle',
-                symbolSize: [40, 12],
-                itemStyle: {
-                    color: '#25B9FE'
-                }
-            }
-        },
-        {
-            name: '已完成',
-            type: 'bar',
-            stack: "采购",
-            data: [10, 7, 10, 10],
-            itemStyle: {
-                color: '#25B9FE'
-            },
-            label: {
-                normal: {
-                    show: true,
-                    position: 'inside',
-                    textStyle: {
-                        color: '#000'
-                    }
-                }
-            },
-            barWidth: 40,
-            markPoint: {
-                data: [{
-                        coord: [0, 10]
-                    },
-                    {
-                        coord: [1, 7]
-                    },
-                    {
-                        coord: [2, 10]
-                    },
-                    {
-                        coord: [3, 10]
-                    }
-                ],
-                label: {
-                    show: false
-                },
-                symbol: 'circle',
-                symbolSize: [40, 12],
-                itemStyle: {
-                    color: '#0E9AC2'
-                }
-            }
-        },
-        {
-            name: '辅助1',
-            type: 'bar',
-            stack: "采购",
-            data: [0, 0, 0, 0],
-            barMinHeight: 16,
-            itemStyle: {
-                opacity: 0
-            },
-            tooltip: {
-                show: false
-            },
-            markPoint: {
-                type: 'category',
-                data: [{
-                        coord: [0, 10]
-                    },
-                    {
-                        coord: [1, 7]
-                    },
-                    {
-                        coord: [2, 10]
-                    },
-                    {
-                        coord: [3, 10]
-                    }
-                ],
-                symbolOffset: [0, -15],
-                label: {
-                    show: false
-                },
-                symbol: 'circle',
-                symbolSize: [40, 12],
-                itemStyle: {
-                    color: '#1F2C54',
-                }
-            }
-        },
-        {
-            name: '在研',
-            type: 'bar',
-            stack: "采购",
-            data: [4, 4, 4, 2],
-            itemStyle: {
-                // color: "#5cfdb7"
-                color: function (params) {
-                    return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                        offset: 0,
-                        color: '#F6C667'
-                    }, {
-                        offset: 1,
-                        color: '#1F2C54'
-                    }]);
-                }
-            },
-            label: {
-                normal: {
-                    show: true,
-                    position: 'inside',
-                    textStyle: {
-                        color: '#000'
-                    }
-                }
-            },
-            barWidth: 40,
-            markPoint: {
-                type: 'category',
-                data: [{
-                        coord: [0, 14]
-                    },
-                    {
-                        coord: [1, 11]
-                    },
-                    {
-                        coord: [2, 14]
-                    },
-                    {
-                        coord: [3, 12]
-                    }
-                ],
-                symbolOffset: [0, -15],
-                label: {
-                    show: false
-                },
-                symbol: 'circle',
-                symbolSize: [40, 12],
-                itemStyle: {
-                    color: '#F6C667'
-                }
-            }
-        }
-    ]
-};
-// 项目数量
-main_charts.setOption(xmsl_option);
-//-------获取html font-size值--------//
-function htmlFont() {
-    var fontSize = $("html").css('fontSize').replace("px", '');
-    return Number(fontSize) * 0.134;
-}
-
-function getFontSize() {
-    var fontSize = $("html").css('fontSize').replace("px", '');
-    return parseFloat(fontSize);
-}
-
-$(document).ready(function () {
-    //知识产权
-    loadZSCQData();
-    //成果信息
-    loadMAINData('2');
-    //项目数量
-    loadMAINData('1');
-    //质量信息
-    loadMAINData('4');
-    //项目投资
-    loadMAINData('5');
-})
+// 成果转换趋势
+kyptCharts.render({
+    id: 'cgzh_chart2',
+    type: 'line',
+    labelColor: '#fff',
+    borderColor: '#001e38',
+    data: [
+        { name: '2017年', value1: 10, value2: 53, value3: 41 },
+        { name: '2018年', value1: 32, value2: 67, value3: 21 },
+        { name: '2019年', value1: 19, value2: 39, value3: 74 }
+    ],
+    itemName: 'name',
+    series: [
+        { name: '待转化', valueKey: 'value1' },
+        { name: '拟转化', valueKey: 'value2' },
+        { name: '已经转化', valueKey: 'value3'}
+    ],
+    color: [ '#fbf002', '#14fd30', '#25B9FE'],
+    lineColor: 'rgba(255, 255, 255, .2)',
+    valueColor: '#fff',
+    labelColor: '#fff',
+    yAxis: [{splitNumber: 3}],
+    yaxisLine: true,
+    xLineColor: 'rgba(255, 255, 255, .2)',
+    legendPosition: 'top'
+});
 
 //知识产权
 function loadZSCQData() {
@@ -648,90 +248,16 @@ function loadMAINData(type) {
     });
 }
 
-//项目数量
-function setXMSLData(result) {
-    if (result.success == true) {
-        $.each(result.data, function (i, v) {
-            if (v.name == "科研平台") {
-                $("#xmsl_num1").html(v.num); //科研平台
-            }
-            if (v.name == "科技人才") {
-                $("#xmsl_num2").html(v.num); //科科技人才
-            }
-            if (v.name == "行业标准") {
-                $("#xmsl_num3").html(v.num); //行业标准
-            }
-            if (v.name == "经验反馈") {
-                $("#xmsl_num4").html(v.num); //经验反馈
-            }
-        });
-    } else {
-        $("#xmsl_num1").html('0');
-        $("#xmsl_num2").html('0');
-        $("#xmsl_num3").html('0');
-        $("#xmsl_num4").html('0');
-    }
-}
 
-//质量信息
-function setZLXXData(result) {
-    if (result.success == true) {
-        $.each(result.data, function (i, v) {
-            if (v.name == "填报报表数") {
-                $("#zlxx_num1 span").html(v.num); //填报报表数
-            }
-            if (v.name == "即时事故数") {
-                $("#zlxx_num2 span").html(v.num); //即时事故数
-            }
-            if (v.name == "参与单位数") {
-                $("#zlxx_num3 span").html(v.num); //参与单位数
-            }
-        });
-    } else {
-        $("#zlxx_num1 span").html('0');
-        $("#zlxx_num2 span").html('0');
-        $("#zlxx_num3 span").html('0');
-    }
-}
-//项目投资
-function setXMTZData(result) {
-    if (result.success == true) {
-        var data1 = [];
-        var data2 = [];
-        var data3 = [];
-        var data4 = [];
-
-        var json1 = {};
-        var json2 = {};
-        var json3 = {};
-        var json4 = {};
-        //第一个
-        json1.name = result.data[0].name.split('-')[1];
-        json1.value = result.data[0].num;
-        data1.push(json1);
-        xmtz_option.series[0].data = data1;
-        // xmtz_charts1.setOption(xmtz_option);
-        //第二个
-        json2.name = result.data[1].name.split('-')[1];
-        json2.value = result.data[1].num;
-        data2.push(json2);
-        xmtz_option.series[0].data = data2;
-        xmtz_charts2.setOption(xmtz_option);
-        //第三个
-        json3.name = result.data[2].name.split('-')[1];
-        json3.value = result.data[2].num;
-        data3.push(json3);
-        xmtz_option.series[0].data = data3;
-        xmtz_charts3.setOption(xmtz_option);
-        //第四个
-        json4.name = result.data[3].name.split('-')[1];
-        json4.value = result.data[3].num;
-        data4.push(json4);
-        xmtz_option.series[0].data = data4;
-        xmtz_charts4.setOption(xmtz_option);
-    } else {
-
-
-    }
-}
-
+$(document).ready(function () {
+    //知识产权
+    loadZSCQData();
+    //成果信息
+    loadMAINData('2');
+    //项目数量
+    loadMAINData('1');
+    //质量信息
+    loadMAINData('4');
+    //项目投资
+    loadMAINData('5');
+})
