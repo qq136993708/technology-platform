@@ -71,7 +71,7 @@ public class AdminController extends BaseController {
 
     // 收藏菜单
     private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
-
+    
     @Value("${serverIp}")
     private String serverIp;
 
@@ -94,62 +94,67 @@ public class AdminController extends BaseController {
     String proxyUrl;
 
     private Integer TIME_OUT = 1 * 60 * 60;
-
-
-
+    
+    
+    
     @RequestMapping(value = "/login")
-    public String login(HttpServletRequest request) throws Exception
+    public String login(HttpServletRequest request) throws Exception 
     {
-        SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
-        if(sysUser!=null)
-        {
-            boolean isWhite = is_White(sysUser);
-            if(isWhite)
-            {
-                return "redirect:/jsc_web/index.html";
-            }else
-            {
-                return "/login";
-            }
-        }else
-        {
-            return "/login";
-        }
-
+    	SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
+		if(sysUser!=null)
+		{
+			    boolean isWhite = is_White(sysUser);
+		        if(isWhite)
+		        {
+		            return "redirect:/jsc_web/index.html";
+		        }else
+		        {
+		        	return "/login";
+		        }
+		}else
+		{
+			return "/login";
+		}
+    	
     }
-
-
+    
+    
     @RequestMapping(value = "/login_submit")
     public String login_submit(HttpServletResponse response,HttpServletRequest request,@RequestParam(value="username", required = false) String username,
-                               @RequestParam(value="password", required = false) String password,
-                               @RequestParam(value="error", required = false) String error) throws Exception
+                        @RequestParam(value="password", required = false) String password,
+                        @RequestParam(value="error", required = false) String error) throws Exception 
     {
 
-
-        System.out.println("===========login_submit=password="+password+"    MD5Encode "+MD5Util.MD5Encode(password));
-        SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
-        if(sysUser!=null)
-        {
-            request.getSession().setAttribute("sysUser", sysUser);
-            System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
-            boolean isWhite = is_White(sysUser);
-            if(isWhite)
-            {
-                return "redirect:/jsc_web/index.html";
-            }else
-            {
-                return "/login";
-            }
-        }else
-        {
-            request.setAttribute("err", "用户名密码错误");
-            return "/login";
-        }
-
-
+    	
+    	System.out.println("===========login_submit=password="+password+"    MD5Encode "+MD5Util.MD5Encode(password));
+    	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
+		if(sysUser!=null)
+		{
+			    request.getSession().setAttribute("sysUser", sysUser);
+	            String userName=sysUser.getUserName();
+	            boolean isWhite = is_White(sysUser);
+	            System.out.println("===========userName=="+userName);
+	            System.out.println("===========isWhite=="+isWhite);
+	            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
+	                request.setAttribute("userName", userName);
+	                return "/adminIndex";
+	            } else if(isWhite)
+		        {
+		            return "redirect:/jsc_web/index.html";
+		        }else
+		        {
+		        	return "/login";
+		        }
+		}else
+		{
+			request.setAttribute("err", "用户名密码错误");
+			return "/login";
+		}
+		
+    	
     }
-
-
+    
+    
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
    /* @RequestMapping(value = "/login")
     public String login(@RequestParam(value="username", required = false) String userName,
@@ -186,7 +191,7 @@ public class AdminController extends BaseController {
         }
 
     }*/
-
+    
 
 
     @RequestMapping(value = "/loginSave")
@@ -232,9 +237,9 @@ public class AdminController extends BaseController {
         }
         return false;
     }
-
-
-
+    
+    
+    
     private boolean is_White(SysUser su){
         String role = su.getUserRole();
         if(StringUtils.isBlank(role)){
@@ -245,7 +250,7 @@ public class AdminController extends BaseController {
         }
         return false;
     }
-
+    
 
     private boolean buildTokenByPassword(String userName, String password) {
 
