@@ -5,7 +5,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var table = layui.table;
   var layer = layui.layer;
   var laydate = layui.laydate;
-
+  
+ 
+  
+  var variable = getQueryVariable();
   //表格渲染
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
@@ -92,6 +95,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   form.on('submit(formDemo)', function (data) {
     //TODO date error
     var query = data.field;
+    
+    
+        if (variable && typeof(variable) === 'object' && variable.type) {
+          query.type = variable.type;
+        } else {
+          query.type = '1';
+        }
+    
+    
+    
     queryTable(query);
     return false;
   });

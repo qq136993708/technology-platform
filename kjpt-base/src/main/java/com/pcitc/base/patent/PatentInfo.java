@@ -360,8 +360,22 @@ public class PatentInfo extends RecordModel implements Serializable {
      */
     private String customClassification;
     /**后期需求增加：新增字段 end*/
+    
+    
+    
+    private String type;
+    
+    
 
-    public String getId() {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getId() {
         return id;
     }
 
