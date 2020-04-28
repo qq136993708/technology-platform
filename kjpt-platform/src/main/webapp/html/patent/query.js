@@ -5,7 +5,12 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var table = layui.table;
   var layer = layui.layer;
   var laydate = layui.laydate;
-
+  var variable = getQueryVariable();
+  var queryType = (function() {
+    if (variable && typeof(variable) === 'object' && variable.type) {
+      return variable.type; } else { return '1'; }
+  })();
+  
   //表格渲染
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
@@ -26,13 +31,20 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'applicationNumber',
               title: '申请(专利)号'
             }, {
+              field: 'patentName',
+              title: '专利名称',
+              sort: true,
+              hide: (queryType == '1' ? true : false)
+            }, {
               field: 'unitNameText',
               title: '单位名称',
-              sort: true
+              sort: true,
+              hide: (queryType == '1' ? false : true)
             }, {
               field: 'applicationTypeText',
               title: '申请类型',
-              sort: true
+              sort: true,
+              hide: (queryType == '1' ? false : true)
             }, {
               field: 'patentTypeText',
               title: '专利类型'
@@ -47,19 +59,34 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'applicationDateStr',
               title: '申请日期',
               sort: true
-              /*, templet: function(d) {
-                          return dateFieldText(d.recordDate);}*/
+            }, {
+              field: 'authorizationDate',
+              title: '授权日期',
+              sort: true,
+              hide: (queryType == '1' ? true : false)
+            }, {
+              field: 'legalStatusUpdateTime',
+              title: '法律状态更新时间',
+              sort: true,
+              hide: (queryType == '1' ? true : false)
+            }, {
+              field: 'technicalFieldText',
+              title: '技术领域名称',
+              sort: true,
+              hide: (queryType == '1' ? true : false)
+            }, {
+              field: 'legalStatus',
+              title: '法律状态',
+              sort: true,
+              hide: (queryType == '1' ? true : false)
             }, {
               field: 'countryText',
               title: '国别组织'
             }, {
               field: 'agency',
               title: '代理机构',
-              sort: true
-            }, {
-              field: 'legalStatusText',
-              title: '法律状态',
-              sort: true
+              sort: true,
+              hide: (queryType == '1' ? false : true)
             }, {
               field: 'secretLevelText',
               title: '密级',
@@ -92,21 +119,28 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   form.on('submit(formDemo)', function (data) {
     //TODO date error
     var query = data.field;
+    query.type = queryType;
     queryTable(query);
     return false;
   });
   
   $('[lay-filter="formDemo"]').click();
 
-  
   function openDataDilog(type, id) {
-    var url = '/html/patent/edit.html?type=' + type;
-    var dialogTitle = '新增专利信息';
+    var pageName = 'edit', pageTitle = '专利';
+    if (queryType == '2') {
+      // 后专项处理
+      pageName = 'handle';
+      pageTitle = '后专项处理';
+    }
+
+    var url = '/html/patent/'+ pageName +'.html?type=' + type;
+    var dialogTitle = '新增'+pageTitle;
     if (type === 'edit') {
-      dialogTitle = '编辑专利信息';
+      dialogTitle = '编辑'+ pageTitle;
       url += '&id=' + id;
     } else if (type === 'view') {
-      dialogTitle = '专利信息查看';
+      dialogTitle = pageTitle + '信息查看';
       url = '/html/patent/view.html?id=' + id;
     }
 
