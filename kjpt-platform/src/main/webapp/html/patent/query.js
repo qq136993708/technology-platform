@@ -75,11 +75,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               sort: true,
               hide: (queryType == '1' ? true : false)
             }, {
-              field: 'legalStatus',
-              title: '法律状态',
-              sort: true,
-              hide: (queryType == '1' ? true : false)
-            }, {
               field: 'countryText',
               title: '国别组织'
             }, {
@@ -87,6 +82,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '代理机构',
               sort: true,
               hide: (queryType == '1' ? false : true)
+            }, {
+              field: 'legalStatusText',
+              title: '法律状态',
+              sort: true
             }, {
               field: 'secretLevelText',
               title: '密级',

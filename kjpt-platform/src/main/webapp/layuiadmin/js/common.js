@@ -304,6 +304,12 @@ function httpModule(config) {
 			dataFilter: function(data, dataType) {
 				if (dataType === 'json') {
 					try {
+						// 临时隐藏密级 设置默认值公开
+						relData = data.split('"secretLevel":""');
+						if (relData.length === 2 && relData[0] && relData[1]) {
+							var relStr = relData[0] + '"secretLevel":"0"' + relData[1];
+							return JSON.stringify(switchHttpData(JSON.parse( relStr )));
+						}
 						return JSON.stringify(switchHttpData(JSON.parse(data)));
 					} catch (err) {
 						if (!data) {
@@ -454,6 +460,9 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			$.each(__dicData, function(i, item){
 				selector.append(new Option(item.name, (item.numValue || item.value)));
 			});
+			if (selector.attr('name') == 'secretLevel') {
+	          selector.val('0').closest('.layui-row').hide().siblings('.secret-level-line').hide();
+			}
 			form.render('select');
 		} else {
 			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
@@ -461,6 +470,10 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 				$.each(data, function(i, item){
 					selector.append(new Option(item.name, (item.numValue || item.value)));
 				});
+				if (selector.attr('name') == 'secretLevel') {
+		          selector.val('0').closest('.layui-row').hide().siblings('.secret-level-line').hide();
+				}
+				
 				form.render('select');
 			});
 		
