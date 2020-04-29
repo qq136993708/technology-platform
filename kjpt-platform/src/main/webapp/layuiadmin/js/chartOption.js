@@ -8,6 +8,7 @@ var kyptCharts = {
     legend: object, // 图例的一些配置， 与官网 option.legend一致 {show: false } => 表示不显示图例
     grid: object, // 绘图区域配置 与官网保持一致
     lineColor: '#bababa', // 坐标轴在 grid 区域中分隔线的颜色
+    axisLineColor: '', // X,Y 轴线颜色 axisLineColor
     valueColor: '#333', // X、Y轴axisLabel 文字颜色
     labelColor: '#46484B' // 图形上的文本标签（label） 的文字颜色
     label: true, // 是否显示文本标签; 默认为 true
@@ -43,6 +44,29 @@ var kyptCharts = {
     // 更多功能请自行添加修改
   }
   */
+  emptyChart: function(id, config) {
+    var emptyData = true;
+
+    if (config.type === 'pie') {
+      if (config.series.length > 0) {
+        emptyData = false;
+      }
+    } else {
+      if (config.data.length > 0) {
+        emptyData = false;
+      }
+    }
+    
+    if (emptyData) {
+      if ($('#'+ id).find('.chart-data-empty').length <= 0) {
+        $('#'+ id).append('<div class="chart-data-empty middle-block"><span class="ib-block font16">无数据</span></div>');
+      }
+    } else {
+      $('#' + id + ' .chart-data-empty').remove();
+    }
+
+    return emptyData;
+  },
   render: function (config) {
     var _this = this;
 
@@ -66,6 +90,9 @@ var kyptCharts = {
       _this.setChartLegend(config, chartOption.legend);
       chartOption.legend.show = false;
     }
+
+    _this.emptyChart(config.id, _this.chart[config.id].config);
+
 
     var chartDemo = echarts.init(elem);
     _this.chart[config.id].chart = chartDemo;
@@ -107,6 +134,11 @@ var kyptCharts = {
           _this.setChartLegend(_this.chart[id].config, chartOption.legend);
           chartOption.legend.show = false;
         }
+
+        //判断图表是否数据为空
+        _this.emptyChart(id, _this.chart[id].config);
+
+        // 有无数据都要重新渲染图表
         _this.chart[id].chart.setOption(chartOption);
         _this.chart[id].chart.resize();
       }
@@ -119,11 +151,19 @@ var kyptCharts = {
     categoryData = [],
     _this = this,
     lineColor = config.lineColor || '#ABB0BB',
-    xLineColor = config.xLineColor || '#ABB0BB',
+    axisLineColor = config.axisLineColor || '',
     valueColor = config.valueColor || '',
     labelColor = config.labelColor || '#46484B',
-    yaxisLine = config.yaxisLine,
-    barMaxWidth = 28;
+    barMaxWidth = 28,
+    showAxisLine = true;
+
+    if (
+      (config.type === 'pie' && config.series.length <= 0) ||
+      (config.type === 'line' || config.type === 'bar') && config.data.length <= 0
+    ) {
+      showAxisLine = false;
+    }
+
     if (config.type === 'bar' && config.series.length > 1) {
       barMaxWidth = 18;
     }
@@ -213,13 +253,14 @@ var kyptCharts = {
       }
       categoryData.push(newText);
     })
-  
+    
     var itemCategory = [{
       type: 'category',
       data: categoryData,
       axisTick: {show: false},
       splitLine: {show: false},
-      axisLine: { show: true, lineStyle: {color: (xLineColor || lineColor)} },
+      // axisLineColor
+      axisLine: { show: showAxisLine, lineStyle: {color: (axisLineColor || lineColor)} },
       axisLabel: {
         show: true,
         fontSize: 14,
@@ -230,7 +271,10 @@ var kyptCharts = {
     itemValueAxis = (function() {
       var yAxis = [], valueAxis = {
         type: 'value',
-        axisLine: {show: yaxisLine || false, lineStyle: { color: xLineColor || lineColor }},
+        axisLine: {
+          show: (axisLineColor ? true : false),
+          lineStyle: { color: (axisLineColor || lineColor) }
+        },
         axisTick: {show: false},
         axisLabel: {
           show: true,

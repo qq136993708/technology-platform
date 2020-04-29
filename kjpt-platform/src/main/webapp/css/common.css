@@ -767,6 +767,17 @@ border-width: 5px;
   text-overflow: ellipsis;
 }
 
+/* 图形图表无数据 */
+.chart-data-empty {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+
 /* 知悉范围* --- start --- */
 .item-list-data {
   padding-top: 4px;

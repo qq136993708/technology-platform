@@ -35,7 +35,7 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, templet: function(d) {
             return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           }}
-          ,{field: 'secretLevelText', title: '密级', sort: true} 
+          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
             if (d.auditStatus == 0 || d.auditStatus == 3){

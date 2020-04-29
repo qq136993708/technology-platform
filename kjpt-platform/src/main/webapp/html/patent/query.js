@@ -89,6 +89,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             }, {
               field: 'secretLevelText',
               title: '密级',
+              hide: _hideSecrecylevel(),
               sort: true
             }
           ]
@@ -127,11 +128,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   function openDataDilog(type, id) {
     var pageName = 'edit', pageTitle = '专利';
-    // if (queryType == '2') {
-    //   // 后专项处理
-    //   pageName = 'handle';
-    //   pageTitle = '后专项处理';
-    // }
+    if (queryType == '2') {
+      // 后专项处理
+      pageName = 'handle';
+      pageTitle = '后专项处理';
+    }
 
     var url = '/html/patent/'+ pageName +'.html?type=' + type;
     var dialogTitle = '新增'+pageTitle;

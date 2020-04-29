@@ -76,7 +76,7 @@ function setFileUpload(config) {
     tableCols = configOption.cols || [
       {field: 'fileName', title: '文件名称', sort: true},
       {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
-      {field: 'secretLevelText', title: '密级'},
+      {field: 'secretLevelText', title: '密级', hide: _hideSecrecylevel() },
       {title: '操作', templet: function(d) {
         var templet = '<div class="file-options">';
         if(! (readonly === true)) {
