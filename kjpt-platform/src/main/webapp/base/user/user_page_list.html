@@ -59,7 +59,7 @@
                     ,{field: 'unifyIdentityId', title: '统一身份认证ID'}
                     ,{field: 'secretLevelStr', title: '密级', templet: function(d) {
                             if(d.secretLevelStr==''){return "-" }else {return d.secretLevelStr}
-                        }}
+                        }, hide: _hideSecrecylevel()}
                     ,{field: 'userPhone', title: '座机号', sort: true}
                     ,{field: 'userMobile', title: '手机号', sort: true}
 	            ]],
