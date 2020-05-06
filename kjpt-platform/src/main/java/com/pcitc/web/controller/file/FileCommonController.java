@@ -73,6 +73,8 @@ public class FileCommonController extends BaseController {
     @Value("${prepareServerPassword}")
     private String prepareServerPassword;
 
+    @Value("${isCheckFileLevel}")
+    private String isCheckFileLevel;
 //    @Value("${getPdfPageCount}")
 //    private String getPdfPageCount;
 //
@@ -96,13 +98,17 @@ public class FileCommonController extends BaseController {
 
     @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
     @RequestMapping(value="/upload",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-    public String upload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "secretLevel") String secretLevel){
+    public String upload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "secretLevel",required = false) String secretLevel){
         try {
-            String fileSecretLevel = checkSecretLevel(secretLevel,file.getOriginalFilename());
             FileModel f = fileUtil.upload(file);
             f.setCreateDate(new Date());
             f.setCreator(this.getUserProfile().getUserName());
-            f.setSecretLevel(fileSecretLevel);
+            //判断附件是否需要校验密级
+			/*
+			 * if("0".equals(isCheckFileLevel)){ String fileSecretLevel =
+			 * checkSecretLevel(secretLevel,file.getOriginalFilename());
+			 * f.setSecretLevel(fileSecretLevel); }
+			 */
             this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<FileModel>(f,this.httpHeaders), (Class<Object>) null);
             Result r = new Result();

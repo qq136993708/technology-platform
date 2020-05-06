@@ -28,7 +28,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**")
 				.excludePathPatterns("/login")
 				.excludePathPatterns("/login_submit")
-				
+				.excludePathPatterns("/logout")
 				.excludePathPatterns("/sw_sso")
 				.excludePathPatterns("/sso_error_sw")
 				
