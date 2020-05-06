@@ -94,7 +94,7 @@
                         ,{field: 'brief', title: '科技成果介绍'}
                         ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
                         ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
-                        ,{field: 'secretLevelText', title: '密级', sort: true}
+                        ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()}
                         ,{ title: '操作', templet: function(d) {
                                 var html='<a id="'+d.id+'" class="formula link-text recordDetails">公示</a>'
                                 return html

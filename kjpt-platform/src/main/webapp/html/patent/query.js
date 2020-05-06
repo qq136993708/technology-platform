@@ -89,6 +89,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             }, {
               field: 'secretLevelText',
               title: '密级',
+              hide: _hideSecrecylevel(),
               sort: true
             }
           ]

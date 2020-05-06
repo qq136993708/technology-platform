@@ -73,7 +73,7 @@
                     {title: '序号',type:'numbers',width:55 },
                     {field:'typeName',   title:'分类名称',  style:'cursor: pointer;'},
                     {field:'typeCode',      title:'分类编码', style:'cursor: pointer;'},
-                    {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100}
+                    {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100, hide: _hideSecrecylevel()}
                 ]],
                 method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                 where:where

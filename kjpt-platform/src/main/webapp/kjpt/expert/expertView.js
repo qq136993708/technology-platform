@@ -26,7 +26,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'chargeUnitStr', title: '负责单位'},
         {field: 'researchTarget', title: '研究目标' },
         {field: 'setupYeat', title: '立项年度'},
-        {field: 'secretLevelStr', title: '密级'},
+        {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
     tableRender('project',projectArr,'/expert-project-api/page',variable.id)
     var achievementsArr=[
@@ -36,7 +36,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'applyUnitStr', title: '申请单位'},
         {field: 'achieveTypeStr', title: '成果类别' },
         {field: 'applyYear', title: '申请年度'},
-        {field: 'secretLevelStr', title: '密级'},
+        {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
     tableRender('achievements',achievementsArr,'/expert-achievement-api/page',variable.id)
     var patentArr=[
@@ -46,7 +46,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'patentTypeStr', title: '专利类型'},
         {field: 'getPatentTimeStr', title: '申请日期' },
         {field: 'describe', title: '专利描述'},
-        {field: 'secretLevelStr', title: '密级'},
+        {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
     tableRender('patent',patentArr,'/expert-patent-api/page',variable.id)
     var rewardArr=[
@@ -56,7 +56,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'notes', title: '奖励描述'},
         {field: 'awardingUnit', title: '授奖单位' },
         {field: 'awardingTimeStr', title: '获奖日期'},
-        {field: 'secretLevelStr', title: '密级'},
+        {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
     tableRender('reward',rewardArr,'/expert-reward-api/page',variable.id)
     function tableRender(id,cols,url,where) {

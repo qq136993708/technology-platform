@@ -96,9 +96,8 @@ kyptCharts.render({
     valueColor: '#fff',
     labelColor: '#fff',
     yAxis: [{splitNumber: 3}],
-    yaxisLine: true,
     barWidth: 20,
-    xLineColor: 'rgba(255, 255, 255, .2)',
+    axisLineColor: 'rgba(255, 255, 255, .2)',
     legend: {show: false }
 });
 
@@ -128,8 +127,7 @@ kyptCharts.render({
     labelColor: '#fff',
     barWidth: 20,
     label: false,
-    yaxisLine: true,
-    xLineColor: 'rgba(255, 255, 255, .2)',
+    axisLineColor: 'rgba(255, 255, 255, .2)',
     legendPosition: 'top'
     // legend: {show: false }
 });
@@ -176,8 +174,7 @@ kyptCharts.render({
     valueColor: '#fff',
     labelColor: '#fff',
     yAxis: [{splitNumber: 3}],
-    yaxisLine: true,
-    xLineColor: 'rgba(255, 255, 255, .2)',
+    axisLineColor: 'rgba(255, 255, 255, .2)',
     legendPosition: 'top'
 });
 

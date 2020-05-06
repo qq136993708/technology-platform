@@ -24,7 +24,7 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'brief', title: '科技成果介绍'}
           ,{field: 'finishDate', title: '成果完成时间',templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
           ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
-          ,{field: 'secretLevelText', title: '密级', sort: true} 
+          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
         ]],
         parseData: function(res) {
           return layuiParseData(res);

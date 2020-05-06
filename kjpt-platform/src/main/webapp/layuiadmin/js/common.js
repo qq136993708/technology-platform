@@ -13,6 +13,12 @@ if (!console) {
 	};
 }
 
+var _hideSecrecylevel = function() {
+	// 隐藏密级相关操作
+	return true;
+}
+
+
 // 获取树项结构的字段 code
 var TREE_DICKIND_CODE = {
 	ROOT_KJPT_YTDW: '/unit-api/getTreeList' //依托单位
@@ -460,8 +466,11 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 			$.each(__dicData, function(i, item){
 				selector.append(new Option(item.name, (item.numValue || item.value)));
 			});
-			if (selector.attr('name') == 'secretLevel') {
-	          selector.val('0').closest('.layui-row').hide().siblings('.secret-level-line').hide();
+			if (_hideSecrecylevel()) {
+				if (selector.attr('name') == 'secretLevel') {
+					selector.val('0').closest('.layui-row').hide().siblings('.secret-level-line').hide();
+					$('#scope_list_layout').hide();
+				}
 			}
 			form.render('select');
 		} else {
@@ -470,8 +479,11 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 				$.each(data, function(i, item){
 					selector.append(new Option(item.name, (item.numValue || item.value)));
 				});
-				if (selector.attr('name') == 'secretLevel') {
-		          selector.val('0').closest('.layui-row').hide().siblings('.secret-level-line').hide();
+				if (_hideSecrecylevel()) {
+					if (selector.attr('name') == 'secretLevel') {
+						selector.val('0').closest('.layui-row').hide().siblings('.secret-level-line').hide();
+						$('#scope_list_layout').hide();
+					}
 				}
 				
 				form.render('select');

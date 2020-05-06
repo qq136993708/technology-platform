@@ -355,3 +355,9 @@
 .chart-mask .chart-mask-item:nth-of-type(5) .chart-mask-item-left {
   background-image: linear-gradient(#0AFF16, #A1FF01);
 }
+
+.chart-data-empty {
+  color: #fff;
+  text-align: center;
+  background-color: rgba(255, 255, 255, .03);
+}
