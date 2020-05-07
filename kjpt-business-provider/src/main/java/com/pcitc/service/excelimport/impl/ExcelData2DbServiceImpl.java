@@ -1,5 +1,6 @@
 package com.pcitc.service.excelimport.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ExcelImportConfig;
 import com.pcitc.mapper.excelimport.ExcelImportMapper;
 import com.pcitc.service.excelimport.ExcelData2DbService;
@@ -35,6 +36,7 @@ public class ExcelData2DbServiceImpl implements ExcelData2DbService {
             list.add(batchId);
             list.add(i+1);
             eic.setDataList(list);
+            System.out.println("excel row============================================================="+JSONObject.toJSONString(list));
             em.excelData2Db(eic);
         }
          return em.handlerData(eic.getProcessName(),batchId,pid,creator,new Date());
