@@ -63,8 +63,7 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person,
-        finish_unit_name_text
+        knowledge_person
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
@@ -126,8 +125,32 @@
 
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
-        insert into achieve_base( <include refid="AchieveBase_Column_List" /> )
-         values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
+        insert into achieve_base(
+        id,
+        achieve_name,
+        tech_type,
+        finish_unit_name,
+        finish_date,
+        project_channel,
+        brief,
+        achieve_trans_type,
+        create_time,
+        contact_info,
+        unit_advice,
+        audit_status,
+        del_status,
+        approval_doc,
+        public_doc,
+        create_user,
+        team_person,
+        is_public,
+        work_info,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person
+        ) values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
          #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 

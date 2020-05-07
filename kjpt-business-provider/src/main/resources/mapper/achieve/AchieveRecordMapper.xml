@@ -104,8 +104,7 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person,
-        finish_unit_name_text
+        knowledge_person
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveRecordMap">

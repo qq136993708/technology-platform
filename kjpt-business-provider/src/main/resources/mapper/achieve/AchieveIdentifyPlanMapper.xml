@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.achieve.AchieveIdentifyPlanMapper">
+
+    <resultMap id="AchieveIdentifyPlanMap" type="com.pcitc.base.achieve.AchieveIdentifyPlan">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="notes" jdbcType="VARCHAR" property="notes"/>
+        <result column="identify_locate" jdbcType="VARCHAR" property="identifyLocate"/>
+        <result column="identify_form" jdbcType="VARCHAR" property="identifyForm"/>
+        <result column="for_time" jdbcType="TIMESTAMP" property="forTime"/>
+        <result column="research_end_time" jdbcType="TIMESTAMP" property="researchEndTime"/>
+        <result column="research_begin_time" jdbcType="TIMESTAMP" property="researchBeginTime"/>
+        <result column="file_num" jdbcType="VARCHAR" property="fileNum"/>
+        <result column="task_source" jdbcType="VARCHAR" property="taskSource"/>
+        <result column="public_doc" jdbcType="VARCHAR" property="publicDoc"/>
+
+        <result column="del_status" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createDate"/>
+
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+
+    </resultMap>
+
+
+    <sql id="AchieveIdentifyPlan_Column_List">
+        id,
+        notes,
+        identify_locate,
+        identify_form,
+        for_time,
+        research_end_time,
+        research_begin_time,
+        file_num,
+        task_source,
+        public_doc,
+        del_status,
+        create_user,
+        create_time,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="AchieveIdentifyPlanMap">
+        select  * from view_achieve_identify_plan where id = #{id} and del_status != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="AchieveIdentifyPlanMap">
+        select  * from view_achieve_identify_plan where 1=1
+        and del_status != '1'
+        <include refid="selectByParam" />
+        order by create_time desc
+    </select>
+
+
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from achieve_identify_plan where 1=1
+        and del_status != '1'
+        <include refid="selectByParam" />
+    </select>
+
+
+    <sql id="selectByParam">
+        <if test="achieveName != null and achieveName != '' " >
+            and achieve_name like CONCAT('%',#{achieveName},'%')
+        </if>
+        <if test="finishUnitName != null and finishUnitName != '' " >
+            and finish_unit_name = #{finishUnitName}
+        </if>
+        <if test="auditStatus != null and auditStatus != '' " >
+            and audit_status = #{auditStatus}
+        </if>
+        <if test="isPublic != null and isPublic != '' " >
+            and is_public = #{isPublic}
+        </if>
+        <if test="startDate != null and startDate != '' " >
+            and finish_date <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="endDate != null and endDate != '' " >
+            and finish_date <![CDATA[<=]]> #{endDate}
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+        </if>
+        ))
+
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND t.create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveIdentifyPlan">
+        insert into achieve_identify_plan( <include refid="AchieveIdentifyPlan_Column_List" /> )
+         values(#{id},#{notes},#{identifyLocate},#{identifyForm},#{forTime},#{researchEndTime},#{researchBeginTime},#{fileNum},#{taskSource},#{publicDoc},#{deleted},
+         #{creator},#{createDate},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.achieve.AchieveIdentifyPlan">
+        update achieve_identify_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="notes != null and notes != '' " >
+                notes = #{notes},
+            </if>
+            <if test="identifyLocate != null and identifyLocate != '' " >
+                identify_locate = #{identifyLocate},
+            </if>
+            <if test="identifyForm != null and identifyForm != '' " >
+                identify_form = #{identifyForm},
+            </if>
+            <if test="forTime != null" >
+                for_time = #{forTime},
+            </if>
+            <if test="researchEndTime != null" >
+                research_end_time = #{researchEndTime},
+            </if>
+            <if test="researchBeginTime != null" >
+                research_begin_time = #{researchBeginTime},
+            </if>
+            <if test="taskSource != null and taskSource != ''" >
+                task_source = #{taskSource},
+            </if>
+            <if test="createUnitId != null and createUnitId != ''" >
+                create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUnitName != null and createUnitName != ''" >
+                create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update achieve_identify_plan set del_status = '1' where id = #{id}
+    </update>
+
+
+</mapper>
