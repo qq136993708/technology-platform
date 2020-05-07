@@ -99,7 +99,7 @@ layui.use(['form', 'table', 'laydate'], function(){
           ,{field: 'experience', title: '总投资' }
           ,{field: 'overallSituation', title: '国拨' }
           ,{field: 'researchFunds', title: '自筹'}
-          ,{field: 'platformScoring', title: '密级' }
+          ,{field: 'platformScoring', title: '密级', hide: _hideSecrecylevel() }
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

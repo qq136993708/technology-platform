@@ -205,7 +205,7 @@
                     //{field:'typeScope',      title:'分类标签',  style:'cursor: pointer;'},
                     /*{field:'directionInfo',      title:'发展方向', width: '15%', style:'cursor: pointer;'},
                     {field:'isHot',      title:'是否热点', style:'cursor: pointer;'},*/
-                    {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100}
+                    {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100, hide: _hideSecrecylevel()}
                 ]],
                 done: function (res, curr, count) {
 	            	layer.close(lodingMsg);

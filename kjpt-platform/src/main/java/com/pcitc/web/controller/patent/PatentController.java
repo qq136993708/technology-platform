@@ -97,7 +97,8 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor,
             @RequestParam(required = false) String technicalFieldIndex,
-            @RequestParam(required = false) String secretLevel
+            @RequestParam(required = false) String secretLevel,
+            @RequestParam(required = false) String type
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -125,6 +126,9 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(patentType)) {
             this.setParam(condition, "patentType", patentType);
+        }
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
         }
         if (!StringUtils.isEmpty(applicationNumber)) {
             this.setParam(condition, "applicationNumber", applicationNumber);

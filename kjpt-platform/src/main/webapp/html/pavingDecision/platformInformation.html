@@ -115,7 +115,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
           ,{field: 'researchFunds', title: '本年科研经费'}
           ,{field: 'projectCount', title: '项目数量', sort: true}
           ,{field: 'achievementCount', title: '成果数量', sort: true}
-          ,{field: 'secretLevelText', title: '密级', sort: true}
+          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

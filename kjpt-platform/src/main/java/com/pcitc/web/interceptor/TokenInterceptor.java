@@ -26,6 +26,10 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 
 	@Value("${proxy.url}")
 	String proxyUrl;
+	
+	@Value("${server.ip}")
+	String serverIp;
+	
 
 	@Autowired
 	private WebApplicationContext applicationContext;
@@ -34,16 +38,16 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 		try
 		{
 			String path = request.getRequestURI();
-
+			String serverName = request.getServerName();
 
 			System.out.println("====================protocol=" + request.getProtocol());
 			System.out.println("====================server name=" + request.getServerName());
 			System.out.println("====================port=" + request.getServerPort());
-			System.out.println("====================url=" + request.getRequestURI());
+		    System.out.println("====================url=" + request.getRequestURI());
 			System.out.println("====================getIpAddress=" + getIpAddress(request));
 			System.out.println(">>>>>>>path:"+path);
 
-
+			
 			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
 			// 只信任同源的
 			response.setHeader("x-frame-options", "SAMEORIGIN");
@@ -51,62 +55,73 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-
+		    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			
 			SysUser u=(SysUser)request.getSession().getAttribute("sysUser");
 			if(u==null)
 			{
-				//获取用户编码  KOAL_CERT_CN
+				System.out.println(">>>>>>>session  is  null  空   =============");
 				String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
-				System.out.println(">>>>>>>TokenInterceptor拦截器获取用户编码  KOAL_CERT_CN:"+unifyIdentityId);
+				System.out.println(">>>>>>>TokenInterceptor  KOAL_CERT_CN:"+unifyIdentityId);
 				if(unifyIdentityId==null || unifyIdentityId.equals(""))
 				{
-					response.sendRedirect(proxyUrl + "sso_error_sw");
+					//response.sendRedirect(proxyUrl + "sso_error_sw");
+					
+					if(serverName.equals(serverIp))
+					{
+						System.out.println(">>>>a>>>serverName ============="+serverName);
+						response.sendRedirect("/login");
+						
+					}else
+					{
+						System.out.println(">>>>>>b>serverName ============="+serverName);
+						response.sendRedirect(proxyUrl + "sso_error_sw");
+						
+					}
 					return false;
 				}
-
+				
 				//JWT
 				//String token=EquipmentUtils.buildToken_ByIdentityId(unifyIdentityId, restTemplate, httpHeaders, response);
 				SysUser sysUser=   EquipmentUtils.getUserByUnifyIdentityId(unifyIdentityId, restTemplate, httpHeaders);
 				if(sysUser!=null)
 				{
+					System.out.println(">>>>>>>sysUser  is  exist =============");
 					request.getSession().setAttribute("sysUser", sysUser);
 					return true;
 				}else
 				{
-					//response.sendRedirect("/login");
-					//response.sendRedirect("/sso_error_sw");
-					response.sendRedirect(proxyUrl + "sso_error_sw");
+					
+					if(serverName.equals(serverIp))
+					{
+						System.out.println(">>>>c>>>serverName ============="+serverName);
+						response.sendRedirect("/login");
+						
+					}else
+					{
+						System.out.println(">>>>>>d>serverName ============="+serverName);
+						response.sendRedirect(proxyUrl + "sso_error_sw");
+						
+					}
+					
 					return false;
 				}
-
+				
 			}else
 			{
+				System.out.println(">>>b>>>>session is  "+request.getSession().getId());
 				return true;
 			}
 
-
-
-			/*Cookie[] cookies = request.getCookies();
-			if(cookies!=null)
-			{
-				for (Cookie c : cookies) {
-					if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
-						token = c.getValue();
-						break;
-					}
-				}
-			}*/
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
-			//response.sendRedirect("/login");
-			//response.sendRedirect("/sso_error_sw");
 			response.sendRedirect(proxyUrl + "sso_error_sw");
 			return false;
 		}
 	}
+	
+	
+	
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

@@ -71,7 +71,7 @@ public class AdminController extends BaseController {
 
     // 收藏菜单
     private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
-
+    
     @Value("${serverIp}")
     private String serverIp;
 
@@ -94,66 +94,78 @@ public class AdminController extends BaseController {
     String proxyUrl;
 
     private Integer TIME_OUT = 1 * 60 * 60;
-
-
-
+    
+    
+    
     @RequestMapping(value = "/login")
-    public String login(HttpServletRequest request) throws Exception
+    public String login(HttpServletResponse response,HttpServletRequest request) throws Exception 
     {
-        SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
-        if(sysUser!=null)
-        {
-            boolean isWhite = is_White(sysUser);
-            if(isWhite)
-            {
-                return "redirect:/jsc_web/index.html";
-            }else
-            {
-                return "/login";
-            }
-        }else
-        {
-            return "/login";
-        }
-
+		
+		  SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
+		  if(sysUser!=null) 
+		  {
+			  
+			  System.out.println(">>>>>>>============="+sysUser.getUserName()); 
+			  boolean
+			  isWhite = is_White(sysUser); if(isWhite)
+			  {
+				  System.out.println(">>>>>>>isWhite ============="); 
+				  return "/jsc_web/index";
+				  //return "redirect:/jsc_web/index.html"; ;
+			  }else 
+			  { 
+				  return "/login"; 
+			   } 
+		  }else
+		  {
+			  System.out.println(">>>d>>>>session is  "+request.getSession().getAttribute("sysUser"));
+			  System.out.println(">>>>a>>>SysUser is null ============="); 
+			  return   "/login"; 
+		  }
+		 
+		
+    	
     }
-
-
+    
+    
     @RequestMapping(value = "/login_submit")
     public String login_submit(HttpServletResponse response,HttpServletRequest request,@RequestParam(value="username", required = false) String username,
-                               @RequestParam(value="password", required = false) String password,
-                               @RequestParam(value="error", required = false) String error) throws Exception
+                        @RequestParam(value="password", required = false) String password,
+                        @RequestParam(value="error", required = false) String error) throws Exception 
     {
 
-
-        System.out.println("===========login_submit=password="+password+"    MD5Encode "+MD5Util.MD5Encode(password));
-        SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
-        if(sysUser!=null)
-        {
-            request.getSession().setAttribute("sysUser", sysUser);
-            System.out.println("===========login_submit=getUnifyIdentityId="+sysUser.getUnifyIdentityId());
-            String userName=sysUser.getUserName();
-            boolean isWhite = is_White(sysUser);
-            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
-                request.setAttribute("userName", userName);
-                return "/adminIndex";
-            } else if(isWhite)
-            {
-                return "redirect:/jsc_web/index.html";
-            }else
-            {
-                return "/login";
-            }
-        }else
-        {
-            request.setAttribute("err", "用户名密码错误");
-            return "/login";
-        }
-
-
+    	String sername= request.getServerName();
+    	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
+		if(sysUser!=null)
+		{
+			    request.getSession().setAttribute("sysUser", sysUser);
+	            String userName=sysUser.getUserName();
+	            boolean isWhite = is_White(sysUser);
+	            //String str="redirect:jsc_web/index.html";//"+proxyUrl+"
+	            System.out.println("===========isWhite="+isWhite+" userName="+userName);
+	            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
+	                request.setAttribute("userName", userName);
+	                return "/adminIndex";
+	            } else if(isWhite)
+		        {
+		            //return "redirect:/jsc_web/index.html";
+		            return "/jsc_web/index";
+		        }else
+		        {
+		        	return "/login";
+		        }
+		}else
+		{
+			request.setAttribute("err", "用户名密码错误");
+			System.out.println("===========sysUser is null ================");
+	    	
+			return "/login";
+		}
+		
+    	
     }
-
-
+    
+    
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
    /* @RequestMapping(value = "/login")
     public String login(@RequestParam(value="username", required = false) String userName,
@@ -190,7 +202,7 @@ public class AdminController extends BaseController {
         }
 
     }*/
-
+    
 
 
     @RequestMapping(value = "/loginSave")
@@ -236,9 +248,9 @@ public class AdminController extends BaseController {
         }
         return false;
     }
-
-
-
+    
+    
+    
     private boolean is_White(SysUser su){
         String role = su.getUserRole();
         if(StringUtils.isBlank(role)){
@@ -249,7 +261,7 @@ public class AdminController extends BaseController {
         }
         return false;
     }
-
+    
 
     private boolean buildTokenByPassword(String userName, String password) {
 
@@ -341,33 +353,12 @@ public class AdminController extends BaseController {
 //    	//return "redirect:/index";
 //    }
 
-    /**
-     *商网
-     */
-    @RequestMapping(value = {"/sw_sso"})
-    public String sw_sso(HttpServletRequest request,HttpServletResponse response)throws Exception {
-
-        String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
-        System.out.println("============sw_sso unifyIdentityId: "+unifyIdentityId);
-        if(unifyIdentityId!=null  &&  !unifyIdentityId.equals(""))
-        {
-            //JWT
-            //EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders,response);
-            //return "redirect:/index";
-            this.getCurrentResponse().sendRedirect(proxyUrl + "index");
-            return null;
-        }else
-        {
-            return "/sso_error_sw";
-        }
-
-    }
-
+   
 
 
 
     /**
-     * 商网
+                * 商网
      */
     @RequestMapping(value = "/sso_error_sw")
     public String sso_error_sw() throws Exception
@@ -635,18 +626,12 @@ public class AdminController extends BaseController {
     @OperationFilter(modelName = "系统管理", actionName = "登出操作")
     public Object logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Cookie cookie = new Cookie("token", null);
-        cookie.setMaxAge(0);// 立即失效
-        cookie.setPath("/");
-        response.addCookie(cookie);
-		/*//判断是生产环境还是测试环境
-		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
-		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
-		serverHosts.retainAll(stpServerHosts);
-		if(serverHosts.size()>0) {
-			return new Result(true, "logout","./SSO/GLO/Redirect");
-		}*/
-        //return new Result(true, "logout", "/login");
+        //Cookie cookie = new Cookie("token", null);
+        //cookie.setMaxAge(0);
+        //cookie.setPath("/");
+        //response.addCookie(cookie);
+		
+       
         request.getSession().removeAttribute("sysUser");
         return new Result(true, "logout", "/login");
     }

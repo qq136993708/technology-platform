@@ -255,6 +255,8 @@ public class UserProviderClient {
 		SysUser sysUser=new SysUser();
 		sysUser.setUserName((String)map.get("username"));
 		sysUser.setUserPassword((String)map.get("password"));
+		 System.out.println("===========getUserByUserNameAndPasswordByMap=password="+(String)map.get("password")+"username "+(String)map.get("username"));
+		 
 		SysUser u = userService.getUserByUserNameAndPassword(sysUser.getUserName(),sysUser.getUserPassword());
 		return u;
 	}

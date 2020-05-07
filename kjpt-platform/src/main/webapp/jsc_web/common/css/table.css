@@ -60,7 +60,7 @@
 }
 
 .layui-row .danger,.layui-row .project_xm {
-	text-align: center;
+	text-align: left;
 }
 
 .layui-row .danger-title,.layui-row .project_xm_title,.project_xm_dw,.mask-title span {
@@ -72,6 +72,7 @@
 
 .layui-row .danger-text,.layui-row  .project_xm_text{
 	font-size: 35px;
+	line-height: 40px;
 	font-family: Impact;
 	font-weight: 400;
 	color: rgba(255, 255, 255, 1);

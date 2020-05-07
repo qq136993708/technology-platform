@@ -147,7 +147,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
           ,{field: 'patentRange', title: '专利范围'}
           ,{field: 'applicationCost', title: '申请费用'}
           ,{field: 'applicant', title: '申请人/专利权人'}
-          ,{field: 'secretLevelText', title: '密级'}
+          ,{field: 'secretLevelText', title: '密级', hide: _hideSecrecylevel()}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
