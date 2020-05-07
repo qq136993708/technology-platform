@@ -35,9 +35,6 @@ import java.util.*;
 public class QimsClient {
 
 	private final static Logger logger = LoggerFactory.getLogger(QimsClient.class);
-
-//	private static final String QIMS_URL = "http://10.102.111.112/qims/a/interface/indicator/";
-
 	@Autowired
 	QimsService qimsService;
 

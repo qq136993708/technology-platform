@@ -355,10 +355,45 @@ public class AdminController extends BaseController {
 
    
 
+		@RequestMapping(value = "/sw_sso")
+		public String sw_sso(HttpServletRequest request, HttpServletResponse response) throws Exception
+		{
+			
+			    //先清除sysUser
+			    request.getSession().removeAttribute("sysUser");
+			    String serverName = request.getServerName();
+			    String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
+			    
+				System.out.println(">>>>>>>TokenInterceptor  KOAL_CERT_CN:"+unifyIdentityId);
+				System.out.println(">>>serverName : "+serverName+"serverIp="+serverIp);
+				if(unifyIdentityId==null || unifyIdentityId.equals(""))
+				{
+					if(serverName.equals(serverIp))
+					{
+						return "/login";
+					}else
+					{
+						return "/sso_error_sw";
+					}
+				}else
+				{
+					  SysUser sysUser=   EquipmentUtils.getUserByUnifyIdentityId(unifyIdentityId, restTemplate, httpHeaders);
+					  request.getSession().setAttribute("sysUser", sysUser);
+					  boolean  isWhite = is_White(sysUser); 
+					  if(isWhite)
+					  {
+						  return "/jsc_web/index";
+					  }else 
+					  { 
+						  return "/login"; 
+					  } 
+				}
+		}
+
 
 
     /**
-                * 商网
+     * 商网
      */
     @RequestMapping(value = "/sso_error_sw")
     public String sso_error_sw() throws Exception
