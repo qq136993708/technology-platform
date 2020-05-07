@@ -23,6 +23,10 @@ public interface SysUserMapper {
 
 	SysUser selectUserByIdentityId(String unifyIdentityId);
 
+	SysUser getUserByUnifyIdentityId(String unifyIdentityId);
+
+
+
 	//根据用户id查询当前信息-new
 	SysUser currentUserInfo(String userId);
 
@@ -48,11 +52,11 @@ public interface SysUserMapper {
 	public List<SysUser> selectUserDetail(Map<String, Object> paramMap);
 
 	List<SysUser> getSysUserListByUserUnit(SysUser vo);
-	
-	
+
+
 	public	List getList(Map map);
 	public  Long getCount(Map map);
-	
+
 	public SysUser getUserByUserNameAndPassword(Map<String, String> paramMap);
 
 	Integer selectWhiteList(String userName);

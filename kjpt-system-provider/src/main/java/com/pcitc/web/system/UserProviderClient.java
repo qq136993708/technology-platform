@@ -33,45 +33,52 @@ import com.pcitc.service.system.UserService;
 @Api(value="用户接口类",tags= {"用户相关操作服务接口"})
 @RestController
 public class UserProviderClient {
-	
-	private final static Logger logger = LoggerFactory.getLogger(UserProviderClient.class); 
-	
+
+	private final static Logger logger = LoggerFactory.getLogger(UserProviderClient.class);
+
 	@Autowired
-    private UserService userService;
-	
+	private UserService userService;
+
 	@Autowired
 	private PostService postService;
-	
+
 	//@Autowired
-    //private SysUserPropertyService sysUserPropertyService;
-	
+	//private SysUserPropertyService sysUserPropertyService;
+
 	@ApiOperation(value="根据用户名检索用户",notes="根据用户名获取用户信息，返回用户实体数据。")
 	@RequestMapping(value = "/user-provider/user/get-user-byname/{username:.*}", method = RequestMethod.GET)
 	public SysUser selectUserByUserName(@PathVariable(value = "username", required = true) String username) throws Exception {
 		return userService.selectAllStatusUserByUserName(username);
 	}
-	
+
 	@ApiOperation(value="根据岗位检索用户列表",notes="根据岗位代号获取用户列表，返回用户实体列表数据。")
 	@RequestMapping(value = "/user-provider/user/get-user-bypostcode/{postCode}", method = RequestMethod.POST)
 	public List<SysUser> selectUsersByPostCode(@PathVariable(value = "postCode", required = true) String postCode) throws Exception {
 		return postService.findUserByPost(postCode);
 	}
-	
+
 	@ApiOperation(value="根据用户ID检索用户",notes="根据ID获取用户信息，返回用户实体数据。")
 	@RequestMapping(value = "/user-provider/user/get-user/{userId}", method = RequestMethod.GET)
 	public SysUser selectUserByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserByUserId(userId);
 	}
-	
-	
+
+	@ApiOperation(value="根据用户UnifyIdentityId检索用户",notes="根据UnifyIdentityId获取用户信息，返回用户实体数据。")
+	@RequestMapping(value = "/user_provider/user/getUserByUnifyIdentityId/{userId}", method = RequestMethod.GET)
+	public SysUser getUserByUnifyIdentityId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
+		return userService.getUserByUnifyIdentityId(userId);
+	}
+
+
+
 	@ApiOperation(value = "根据唯一标识查询用户信息")
 	@RequestMapping(value = "/user_provider/selectUserByIdentityId/{unifyIdentityId}", method = RequestMethod.GET)
 	public SysUser getUserByIdentityId(@PathVariable(value = "unifyIdentityId", required = true) String unifyIdentityId) {
 		return userService.selectUserByIdentityId(unifyIdentityId);
 	}
-	
-	
-	
+
+
+
 
 //	@ApiOperation(value="获取当前用户信息",notes="获取当前用户信息")
 //	@RequestMapping(value = "/user-provider/user/currentUserInfo/{userId}", method = RequestMethod.GET)
@@ -94,13 +101,20 @@ public class UserProviderClient {
 		logger.info("delete user....");
 		return userService.deleteUser(userId);
 	}
-	
+
 	@ApiOperation(value="添加用户",notes="保存数据到持久化结构中，同时保存用户所属角色、组织机构、所属岗位信息。")
 	@RequestMapping(value = "/user-provider/user/add-user", method = RequestMethod.POST)
 	public Integer saveUserInfo(@RequestBody SysUser user) {
 		logger.info("add user....");
 		return userService.insertUser(user);
 	}
+	
+	
+	
+	
+	
+	
+	
 	@ApiOperation(value="添加用户组织关联",notes="保存数据到持久化结构中。")
 	@RequestMapping(value = "/user-provider/user/add-user_unit", method = RequestMethod.POST)
 	public Integer saveUserUnitInfo(@RequestBody SysUserUnit user) {
@@ -118,33 +132,33 @@ public class UserProviderClient {
 	public Object selectUserByPage(@RequestBody LayuiTableParam param) {
 		return userService.selectUserByPage(param);
 	}
-	
+
 	@ApiOperation(value="检索用户列表(带分页)",notes="根据检索条件分页获取用户列表信息。")
 	@RequestMapping(value = "/user-provider/user/user-list")
 	public LayuiTableData selectUserList(@RequestBody LayuiTableParam param) {
 		return userService.selectUserList(param);
 	}
-	
-	/** 
-	* @author zhf
-	* @date 2018年5月17日 下午1:51:15 
-	* 包含user基本信息、菜单信息
-	*/
+
+	/**
+	 * @author zhf
+	 * @date 2018年5月17日 下午1:51:15
+	 * 包含user基本信息、菜单信息
+	 */
 	@ApiOperation(value="检索用户(包含权限)",notes="根据ID检索用户信息，同时检索用户菜单权限数据。")
 	@RequestMapping(value = "/user-provider/user/user-details/{userId}", method = RequestMethod.GET)
 	public SysUser selectUserDetailsByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception {
 		return userService.selectUserDetailsByUserId(userId);
 	}
-	
+
 	@ApiOperation(value="根据ID检索用户收藏",notes="根据ID检索用户收藏")
 	@RequestMapping(value = "/user-provider/user/getSysCollectListByUserId/{userId}", method = RequestMethod.GET)
-	public JSONArray getSysCollectListByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception 
+	public JSONArray getSysCollectListByUserId(@PathVariable(value = "userId", required = true) String userId) throws Exception
 	{
 		List<SysCollect> list= userService.getSysCollectListByUserId(userId);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
-	
+
 
 	@ApiOperation(value = "根据唯一标识查询用户信息")
 	@RequestMapping(value = "/user-provider/user/user-identityid",method = RequestMethod.POST)
@@ -158,7 +172,7 @@ public class UserProviderClient {
 	 */
 	@ApiOperation(value="检索用户列表(带分页)已赋角色",notes="根据角色检索用户列表信息。")
 	@RequestMapping(value = "/user-provider/user/user-in-role", method = RequestMethod.POST)
-	public LayuiTableData selectUserInRole(@RequestBody LayuiTableParam param) 
+	public LayuiTableData selectUserInRole(@RequestBody LayuiTableParam param)
 	{
 		return userService.selectUserListByRole(param);
 	}
@@ -174,7 +188,7 @@ public class UserProviderClient {
 	}
 	@ApiOperation(value="用户数据校验",notes="校验用户名、邮箱数据是否重复。")
 	@RequestMapping(value = "/user-provider/user/user-validate", method = RequestMethod.POST)
-	public List<Boolean> validateUser(@RequestBody SysUser user)throws Exception 
+	public List<Boolean> validateUser(@RequestBody SysUser user)throws Exception
 	{
 		return userService.userValidate(user);
 	}
@@ -186,11 +200,11 @@ public class UserProviderClient {
 	}*/
 	@ApiOperation(value="批量逻辑删除用户",notes="逻辑删除用户列表，一次批量逻辑删除指定ID列表的用户。")
 	@RequestMapping(value = "/user-provider/user/delete-users", method = RequestMethod.POST)
-	public int delUsers(@RequestBody List<String> userIds) 
+	public int delUsers(@RequestBody List<String> userIds)
 	{
 		return userService.delUsers(userIds);
 	}
-	
+
 	@ApiOperation(value="查询用户详情",notes="包含所属部门信息:登录方法时调用")
 	@RequestMapping(value = "/user-provider/user/details", method = RequestMethod.POST)
 	public JSONObject selectUserDetail(@RequestParam(value="jsonStr", required=false) String jsonStr) throws Exception {
@@ -199,7 +213,7 @@ public class UserProviderClient {
 		String userId = null;
 		System.out.println("1后台selectUserDetail==========="+jsonStr);
 		JSONObject reJson = JSONObject.parseObject(jsonStr);
-		
+
 		if (reJson.get("userName") != null && !reJson.get("userName").equals("")) {
 			userName = reJson.get("userName").toString();
 		}
@@ -209,31 +223,47 @@ public class UserProviderClient {
 		if (reJson.get("userId") != null && !reJson.get("userId").equals("")) {
 			userId = reJson.get("userId").toString();
 		}
-		
+
 		JSONObject retJson = new JSONObject();
-		
+
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("userName", userName);
 		paramMap.put("userPassword", userPassword);
 		paramMap.put("userId", userId);
-		
+
 		retJson = userService.selectUserDetail(paramMap);
 		System.out.println("2后台selectUserDetail==========="+retJson);
 		return retJson;
 	}
-	
-	
-	
+
+
+
 	@ApiOperation(value = "根据用户名和密码查询")
 	@RequestMapping(value = "/user-provider/getUserByUserNameAndPassword",method = RequestMethod.POST)
 	public SysUser getUserByUserNameAndPassword(@RequestBody SysUser sysUser) {
 		return userService.getUserByUserNameAndPassword(sysUser.getUserName(),sysUser.getUserPassword());
 	}
+
+
 	
 	
+	@ApiOperation(value="查询用户信息",notes="查询用户信息")
+	@RequestMapping(value = "/user-provider/getUserByUserNameAndPasswordByMap")
+	public SysUser getUserByUserNameAndPassword(@RequestBody Map map) throws Exception
+	{
+		
+		SysUser sysUser=new SysUser();
+		sysUser.setUserName((String)map.get("username"));
+		sysUser.setUserPassword((String)map.get("password"));
+		 System.out.println("===========getUserByUserNameAndPasswordByMap=password="+(String)map.get("password")+"username "+(String)map.get("username"));
+		 
+		SysUser u = userService.getUserByUserNameAndPassword(sysUser.getUserName(),sysUser.getUserPassword());
+		return u;
+	}
 	
-	
-	
+
+
+
 	@ApiOperation(value = "查看用户列表")
 	@RequestMapping(value = "/user-provider/user/querySysUserListByPage",method = RequestMethod.POST)
 	public LayuiTableData querySysUserListByPage(@RequestBody LayuiTableParam param) {
@@ -245,20 +275,20 @@ public class UserProviderClient {
 		}
 		return data;
 	}
-	
-	
+
+
 	@ApiOperation(value="查询用户信息",notes="查询用户信息")
 	@RequestMapping(value = "/user-provider/getAllUserList")
-	public JSONArray getUserList(@RequestBody Map map) throws Exception 
+	public JSONArray getUserList(@RequestBody Map map) throws Exception
 	{
 		map.put("userDelflag", DelFlagEnum.STATUS_NORMAL.getCode());
 		List<SysUser> userList = userService.getSysUserList(map);
 		JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(userList));
 		return jsonArray;
 	}
-	
-	
-	
+
+
+
 	@ApiOperation(value = "根据UserUnit查看用户列表")
 	@RequestMapping(value = "/user-provider/user/getSysUserListByUserUnitPage",method = RequestMethod.POST)
 	public LayuiTableData getSysUserListByUserUnitPage(@RequestBody LayuiTableParam param) {
@@ -270,12 +300,12 @@ public class UserProviderClient {
 		}
 		return data;
 	}
-	
+
 	@ApiOperation(value="按条件查询用户信息",notes="extend是统一身份账号")
 	@RequestMapping(value = "/user-provider/user/info")
 	public JSONArray selectUserInfo(@RequestBody String jsonStr) throws Exception {
 		JSONObject json = JSONObject.parseObject(jsonStr);
-		
+
 		SysUserExample example = new SysUserExample();
 		SysUserExample.Criteria uc = example.createCriteria();
 		uc.andUserDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -286,7 +316,7 @@ public class UserProviderClient {
 		JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(userList));
 		return jsonArray;
 	}
-	
+
 
 	@ApiOperation(value = "获取用户（分页）", notes = "获取用户（分页）")
 	@RequestMapping(value = "/user-provider/page", method = RequestMethod.POST)
@@ -294,12 +324,12 @@ public class UserProviderClient {
 	{
 		return userService.getSysUserPage(param) ;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	@ApiOperation(value = "获取用户列表", notes = "获取用户列表")
 	@RequestMapping(value = "/user-provider/list", method = RequestMethod.POST)
 	public JSONArray list(@RequestBody Map param)throws Exception
@@ -308,10 +338,10 @@ public class UserProviderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
-	
-	
-	
-	
+
+
+
+
 	@ApiOperation(value="更新用户基本信息",notes="更新用户信息，如果组织机构有变化，则同时更新这些信息。")
 	@RequestMapping(value = "/user-provider/update_user", method = RequestMethod.POST)
 	public Integer update_User(@RequestBody SysUser user)throws Exception {
@@ -325,30 +355,30 @@ public class UserProviderClient {
 		return userService.selectWhiteList(userName);
 	}
 
-	
+
 	@ApiOperation(value="添加用户",notes="保存数据到持久化结构中，同时保存用户组织机构信息。")
 	@RequestMapping(value = "/user-provider/add_user", method = RequestMethod.POST)
 	public Integer save_UserInfo(@RequestBody SysUser user) throws Exception{
 		logger.info("add user....");
 		return userService.insertSysUser(user);
 	}
-	
-	
+
+
 	@ApiOperation(value="更新用户岗位信息",notes="更新用户岗位信息")
 	@RequestMapping(value = "/user-provider/update_user_post", method = RequestMethod.POST)
 	public Integer update_user_post(@RequestBody SysUser user) throws Exception{
 		logger.info("update user.... "+JSON.toJSONString(user));
 		return userService.updateSysUserPost(user);
 	}
-	
-	
+
+
 	@ApiOperation(value="更新用户角色信息",notes="更新用户角色信息")
 	@RequestMapping(value = "/user-provider/update_user_role", method = RequestMethod.POST)
 	public Integer update_user_role(@RequestBody SysUser user) throws Exception{
 		logger.info("update user.... "+JSON.toJSONString(user));
 		return userService.updateSysUserRole(user);
 	}
-	
+
 
 	@ApiOperation(value="更新用户密级信息",notes="更新用户密级信息")
 	@RequestMapping(value = "/user-provider/updateSecretLevel", method = RequestMethod.POST)
@@ -356,13 +386,13 @@ public class UserProviderClient {
 		logger.info("update user.... "+JSON.toJSONString(user));
 		return userService.updateUserBase(user);
 	}
-	
-	
+
+
 	@ApiOperation(value="更新用户息",notes="更新用户息")
 	@RequestMapping(value = "/user-provider/updateSysUser", method = RequestMethod.POST)
 	public Integer updateSysUser(@RequestBody SysUser user) throws Exception{
 		logger.info("update user.... "+JSON.toJSONString(user));
 		return userService.updateUserBase(user);
 	}
-	
+
 }

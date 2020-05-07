@@ -44,11 +44,11 @@ public class OutQualityDataJob implements Job, Serializable {
 			
 		}
 
-		System.out.println(response.getCode());     //响应状态码
-		System.out.println(response.getRequestUrl());//最终发起请求的地址
+		System.out.println(">>>>>>>响应状态码: "+response.getCode());     //响应状态码
+		System.out.println(">>>>>>>>最终发起请求的地址: "+response.getRequestUrl());//最终发起请求的地址
 		if(response.getCode() == 200){
 			//请求成功
-			System.out.println(response.getContent());  //响应内容
+			System.out.println(">>>>>>>>>>响应内容:"+response.getContent());  //响应内容
 		}
 		
 	}

@@ -2,6 +2,7 @@ package com.pcitc.web.controller;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class AdminController extends BaseController {
 
     // 收藏菜单
     private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
-
+    
     @Value("${serverIp}")
     private String serverIp;
 
@@ -89,18 +90,88 @@ public class AdminController extends BaseController {
     @Value("${whiteRoleId}")
     private String roleId;
 
-    
+    @Value("${proxy.url}")
+    String proxyUrl;
 
-    
-    
     private Integer TIME_OUT = 1 * 60 * 60;
+    
+    
+    
+    @RequestMapping(value = "/login")
+    public String login(HttpServletResponse response,HttpServletRequest request) throws Exception 
+    {
+		
+		  SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
+		  if(sysUser!=null) 
+		  {
+			  
+			  System.out.println(">>>>>>>============="+sysUser.getUserName()); 
+			  boolean
+			  isWhite = is_White(sysUser); if(isWhite)
+			  {
+				  System.out.println(">>>>>>>isWhite ============="); 
+				  return "/jsc_web/index";
+				  //return "redirect:/jsc_web/index.html"; ;
+			  }else 
+			  { 
+				  return "/login"; 
+			   } 
+		  }else
+		  {
+			  System.out.println(">>>d>>>>session is  "+request.getSession().getAttribute("sysUser"));
+			  System.out.println(">>>>a>>>SysUser is null ============="); 
+			  return   "/login"; 
+		  }
+		 
+		
+    	
+    }
+    
+    
+    @RequestMapping(value = "/login_submit")
+    public String login_submit(HttpServletResponse response,HttpServletRequest request,@RequestParam(value="username", required = false) String username,
+                        @RequestParam(value="password", required = false) String password,
+                        @RequestParam(value="error", required = false) String error) throws Exception 
+    {
+
+    	String sername= request.getServerName();
+    	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
+		if(sysUser!=null)
+		{
+			    request.getSession().setAttribute("sysUser", sysUser);
+	            String userName=sysUser.getUserName();
+	            boolean isWhite = is_White(sysUser);
+	            //String str="redirect:jsc_web/index.html";//"+proxyUrl+"
+	            System.out.println("===========isWhite="+isWhite+" userName="+userName);
+	            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
+	                request.setAttribute("userName", userName);
+	                return "/adminIndex";
+	            } else if(isWhite)
+		        {
+		            //return "redirect:/jsc_web/index.html";
+		            return "/jsc_web/index";
+		        }else
+		        {
+		        	return "/login";
+		        }
+		}else
+		{
+			request.setAttribute("err", "用户名密码错误");
+			System.out.println("===========sysUser is null ================");
+	    	
+			return "/login";
+		}
+		
+    	
+    }
+    
+    
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
-   /* 
-    * @RequestMapping(value = "/login")
+   /* @RequestMapping(value = "/login")
     public String login(@RequestParam(value="username", required = false) String userName,
                         @RequestParam(value="password", required = false) String password,
                         @RequestParam(value="error", required = false) String error) throws Exception {
-       
+
         if (loginType != null && loginType.trim().equals("1")) {
             return "redirect:" + sosPortlURL;
         }
@@ -130,22 +201,22 @@ public class AdminController extends BaseController {
             return "/login";
         }
 
-    }
-    */
-
+    }*/
     
+
+
     @RequestMapping(value = "/loginSave")
     @ResponseBody
     public Result loginSave(HttpServletRequest request) throws Exception {
-    	
-    	String password=CommonUtil.getParameter(request, "password", "");
-    	String username=CommonUtil.getParameter(request, "username", "");
-    	
-    	Result resultsDate = new Result();
-        if(username == null || password==null) 
+
+        String password=CommonUtil.getParameter(request, "password", "");
+        String username=CommonUtil.getParameter(request, "username", "");
+
+        Result resultsDate = new Result();
+        if(username == null || password==null)
         {
-        	resultsDate.setSuccess(false);
-        	resultsDate.setMessage("");
+            resultsDate.setSuccess(false);
+            resultsDate.setMessage("");
         }
         return resultsDate;
     }
@@ -177,6 +248,20 @@ public class AdminController extends BaseController {
         }
         return false;
     }
+    
+    
+    
+    private boolean is_White(SysUser su){
+        String role = su.getUserRole();
+        if(StringUtils.isBlank(role)){
+            return false;
+        }
+        if(role.contains(roleId)){
+            return true;
+        }
+        return false;
+    }
+    
 
     private boolean buildTokenByPassword(String userName, String password) {
 
@@ -257,83 +342,68 @@ public class AdminController extends BaseController {
         }
 
     }
-    
-    
-    @RequestMapping(value = "/")
-    public String inddex() {
-    	return "redirect:/index";
-    }
-    
-    /**
-            *商网
-     */
-    @RequestMapping(value = {"/sw_sso"})
-    public String sw_sso(HttpServletRequest request,HttpServletResponse response)throws Exception {
-		
-    	String unifyIdentityId=EquipmentUtils.getSwSSOToken(request, response);
-    	System.out.println("============sw_sso unifyIdentityId: "+unifyIdentityId);
-    	if(unifyIdentityId!=null  &&  !unifyIdentityId.equals(""))
-    	{
-    		//JWT
-    		EquipmentUtils.buildTokenByIdentityId(unifyIdentityId, restTemplate, httpHeaders,response);
-    		return "redirect:/index";
-    	}else
-    	{
-    		return "/sso_error_sw";
-    	}
-    	
-    }
-    
-    
+
+
+//    @RequestMapping(value = "/")
+//    public String inddex() throws IOException {
+//
+//    	this.getCurrentResponse().sendRedirect(proxyUrl + "index");
+//    	System.out.println("redirect index");
+//    	return null;
+//    	//return "redirect:/index";
+//    }
+
    
-    
+
+
+
     /**
-     * 商网
+                * 商网
      */
     @RequestMapping(value = "/sso_error_sw")
     public String sso_error_sw() throws Exception
     {
-    	return "/sso_error_sw";
-    }    
-    
-   
-	/*
-	 * public boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate
-	 * restTemplate,HttpHeaders httpHeaders) throws Exception{
-	 * 
-	 * if(unifyIdentityId == null) { return false; }
-	 * 
-	 * System.out.println("============name=====a=============== ");
-	 * 
-	 * SysUser u= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate,
-	 * httpHeaders); if(u!=null) {
-	 * System.out.println("============name: "+u.getUnifyIdentityId());
-	 * HttpServletResponse response = this.getCurrentResponse();
-	 * 
-	 * httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-	 * MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String,
-	 * String>(); valueMap.add("username", u.getUserName());
-	 * valueMap.add("password", u.getUserPassword()); //从数据库中查到 然后返回 TOKEN
-	 * HttpEntity<MultiValueMap<String, String>> entity = new
-	 * HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
-	 * ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL,
-	 * HttpMethod.POST, entity, JSONObject.class); JSONObject retJson =
-	 * responseEntity.getBody();
-	 * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8); //
-	 * 获取的token有问题(用户名或密码不正确) 返回登录 if (retJson == null || retJson.get("token") ==
-	 * null) { return false; } //token保存到Cookie Cookie cookie = new Cookie("token",
-	 * retJson.getString("token")); cookie.setMaxAge(-1);// 设置有效期为一小时
-	 * cookie.setPath("/"); response.addCookie(cookie); return true; }else {
-	 * System.out.println("===========unifyIdentityId======== "
-	 * +unifyIdentityId+" 不存在--"); return false; }
-	 * 
-	 * }
-	 * 
-	 */
-    
-    
-    
-    
+        return "/sso_error_sw";
+    }
+
+
+    /*
+     * public boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate
+     * restTemplate,HttpHeaders httpHeaders) throws Exception{
+     *
+     * if(unifyIdentityId == null) { return false; }
+     *
+     * System.out.println("============name=====a=============== ");
+     *
+     * SysUser u= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate,
+     * httpHeaders); if(u!=null) {
+     * System.out.println("============name: "+u.getUnifyIdentityId());
+     * HttpServletResponse response = this.getCurrentResponse();
+     *
+     * httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+     * MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String,
+     * String>(); valueMap.add("username", u.getUserName());
+     * valueMap.add("password", u.getUserPassword()); //从数据库中查到 然后返回 TOKEN
+     * HttpEntity<MultiValueMap<String, String>> entity = new
+     * HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
+     * ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL,
+     * HttpMethod.POST, entity, JSONObject.class); JSONObject retJson =
+     * responseEntity.getBody();
+     * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8); //
+     * 获取的token有问题(用户名或密码不正确) 返回登录 if (retJson == null || retJson.get("token") ==
+     * null) { return false; } //token保存到Cookie Cookie cookie = new Cookie("token",
+     * retJson.getString("token")); cookie.setMaxAge(-1);// 设置有效期为一小时
+     * cookie.setPath("/"); response.addCookie(cookie); return true; }else {
+     * System.out.println("===========unifyIdentityId======== "
+     * +unifyIdentityId+" 不存在--"); return false; }
+     *
+     * }
+     *
+     */
+
+
+
+
 
     /**
      * 功能描述 跳转首页
@@ -355,9 +425,9 @@ public class AdminController extends BaseController {
         // 个人工作台菜单
         List<SysFunction> grgztList = new ArrayList<SysFunction>();
         HashSet authSet = new HashSet();
-        for (SysFunction sysfun : aLLList) 
+        for (SysFunction sysfun : aLLList)
         {
-            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) 
+            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限"))
             {
                 upList.add(sysfun);
             }
@@ -383,7 +453,7 @@ public class AdminController extends BaseController {
         response.addCookie(loginCookie);
         request.setAttribute("userId", userDetails.getUserId());
 
-    	String userName = userDetails.getUserName();
+        String userName = userDetails.getUserName();
         if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
             request.setAttribute("userName", userName);
             return "/adminIndex";
@@ -392,44 +462,44 @@ public class AdminController extends BaseController {
         }
 
     }
-    
+
     private List setUpList(SysUser userDetails, List<SysFunction>  aLLList)
     {
-    	
-    	List<SysFunction> relustList = new ArrayList<SysFunction>();
-    	List<SysRole> roleList=  userDetails.getRoleList();
+
+        List<SysFunction> relustList = new ArrayList<SysFunction>();
+        List<SysRole> roleList=  userDetails.getRoleList();
         boolean isHas=false;
         if(roleList!=null)
         {
-        
-        	for(int i=0;i<roleList.size();i++)
-        	{
-        		SysRole sysRole=roleList.get(i);
-        		String str=sysRole.getRoleFlag();
-        		System.out.println("--------角色:"+str);
-        		if(str.equals(Constant.ROLE_WHITE_USER))//知悉范围白名单
-        		{
-        			isHas=true;//在白名单
-        		}
-        		
-        	}
+
+            for(int i=0;i<roleList.size();i++)
+            {
+                SysRole sysRole=roleList.get(i);
+                String str=sysRole.getRoleFlag();
+                System.out.println("--------角色:"+str);
+                if(str.equals(Constant.ROLE_WHITE_USER))//知悉范围白名单
+                {
+                    isHas=true;//在白名单
+                }
+
+            }
         }
         //如果不在白名单，则不要 领导驾驶舱 和 辅助（人才和项目）
         if(isHas==false)
         {
-        	for(int i=0;i<aLLList.size();i++)
-        	{
-        		SysFunction sf=aLLList.get(i);
-        		String str=sf.getName();
-        		//看不到以上菜单
-        		if(!str.equals("领导驾驶舱") && !str.equals("科技人才") && !str.equals("科研项目"))
-        		{
-        			relustList.add(sf);
-        		}
-        	}
+            for(int i=0;i<aLLList.size();i++)
+            {
+                SysFunction sf=aLLList.get(i);
+                String str=sf.getName();
+                //看不到以上菜单
+                if(!str.equals("领导驾驶舱") && !str.equals("科技人才") && !str.equals("科研项目"))
+                {
+                    relustList.add(sf);
+                }
+            }
         }else
         {
-        	relustList =aLLList;
+            relustList =aLLList;
         }
         return relustList;
     }
@@ -440,7 +510,7 @@ public class AdminController extends BaseController {
         String url = CommonUtil.getParameter(request, "url", "");
         request.setAttribute("url", url);
 
-        url = URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
+        url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
         return url;
     }
 
@@ -470,7 +540,7 @@ public class AdminController extends BaseController {
         request.setAttribute("scShowList", scShowList);
         request.setAttribute("scList", scList);
 
-       
+
         request.setAttribute("userId", sysUserInfo.getUserId());
         return "/mainStp";
     }
@@ -556,19 +626,14 @@ public class AdminController extends BaseController {
     @OperationFilter(modelName = "系统管理", actionName = "登出操作")
     public Object logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Cookie cookie = new Cookie("token", null);
-        cookie.setMaxAge(0);// 立即失效
-        cookie.setPath("/");
-        response.addCookie(cookie);
-		/*//判断是生产环境还是测试环境
-		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
-		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
-		serverHosts.retainAll(stpServerHosts);
-		if(serverHosts.size()>0) {
-			return new Result(true, "logout","./SSO/GLO/Redirect");
-		}*/
-        //return new Result(true, "logout", "/login");
-        return new Result(true, "logout", "/sw_sso");
+        //Cookie cookie = new Cookie("token", null);
+        //cookie.setMaxAge(0);
+        //cookie.setPath("/");
+        //response.addCookie(cookie);
+		
+       
+        request.getSession().removeAttribute("sysUser");
+        return new Result(true, "logout", "/login");
     }
 
     @RequestMapping(value = "/admin/collect")
@@ -601,11 +666,11 @@ public class AdminController extends BaseController {
             return new Result(false, "操作失败,只能收藏系统级功能菜单!");
         }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 
     public void setLastLogin(String userId) throws Exception {
         SysUser userIpAndDate = EquipmentUtils.getSysUser(userId, restTemplate, httpHeaders);

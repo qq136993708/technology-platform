@@ -28,7 +28,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {
             return dateFieldText(d.recordDate);
           }}
-          ,{field: 'secretLevelText', title: '密级', sort: true} 
+          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

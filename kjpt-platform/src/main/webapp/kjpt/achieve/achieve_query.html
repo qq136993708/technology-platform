@@ -135,7 +135,7 @@
                             }
                         }}
                         
-                        ,{field: 'secretLevelText', title: '密级', sort: true} 
+                        ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
                     ]],
                     parseData: function(res) {return layuiParseData(res); },
                     request: {

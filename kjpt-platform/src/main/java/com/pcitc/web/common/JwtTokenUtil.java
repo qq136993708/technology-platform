@@ -115,6 +115,8 @@ public class JwtTokenUtil implements Serializable {
 		try {
 			claims = Jwts.parser().setSigningKey("pcitcKey").parseClaimsJws(token).getBody();
 		} catch (Exception e) {
+			System.out.println("==========================get jwt data error" + e.getMessage());
+			e.printStackTrace();
 			claims = null;
 		}
 

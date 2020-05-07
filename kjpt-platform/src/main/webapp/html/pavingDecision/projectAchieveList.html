@@ -92,7 +92,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
           ,{field: 'platformName', title: '科研平台' }
           ,{field: 'typeText', title: '简介'} 
           ,{field: 'researchFieldText', title: '时间'}
-          ,{field: 'experience', title: '密级' }
+          ,{field: 'experience', title: '密级', hide: _hideSecrecylevel() }
           ,{field: 'overallSituation', title: '附件' }
         ]],
         parseData: function(res) {return layuiParseData(res);},

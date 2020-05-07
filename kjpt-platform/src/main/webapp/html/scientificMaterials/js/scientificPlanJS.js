@@ -87,7 +87,7 @@ setSelectInput();
   }
 
   cols = cols.concat(
-    [{field: 'secretLevelText', title: '密级', sort: true} ]
+    [{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} ]
   );
 
 

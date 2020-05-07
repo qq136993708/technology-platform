@@ -106,11 +106,11 @@ public class JwtTokenUtil implements Serializable {
 		return (lastPasswordReset != null && created.before(lastPasswordReset));
 	}
 
-	/** 
-	* @author zhf
-	* @date 2018年5月9日 下午5:19:28 
-	* 生成jwt时，把用户相关的信息都封装进去
-	*/
+	/**
+	 * @author zhf
+	 * @date 2018年5月9日 下午5:19:28
+	 * 生成jwt时，把用户相关的信息都封装进去
+	 */
 	public String generateToken(SysUser user) {
 		Map<String, Object> claims = new HashMap<>();
 		System.out.println("==================---====generateToken------" + user.getUserName());
@@ -134,8 +134,8 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_USER_UNIT_ID, user.getUserUnit());
 		claims.put(CLAIM_KEY_USER_UNIT_ROLE, user.getUserRole());
 		claims.put(CLAIM_KEY_USER_UNIT_ROLE_TEXT, user.getUserRoleText());
-		
-		
+
+
 		System.out.println("142==---====generateToken------" + user.getFunList().size());
 		System.out.println("******************"+JSON.toJSON(claims).toString());
 		return generateToken(claims);
@@ -171,12 +171,12 @@ public class JwtTokenUtil implements Serializable {
 		// final Date expiration = getExpirationDateFromToken(token);
 		return (username.equals(user.getUsername()) && !isTokenExpired(token) && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
 	}
-	
-	/** 
-	* @author zhf
-	* @date 2018年4月4日 下午3:39:37 
-	* 暂时没考虑是否修改用户信息的情况
-	*/
+
+	/**
+	 * @author zhf
+	 * @date 2018年4月4日 下午3:39:37
+	 * 暂时没考虑是否修改用户信息的情况
+	 */
 	public Boolean validateTokenByUserName(String token, String userName) {
 		String tokenUserName = getUsernameFromToken(token);
 		//final Date created = getCreatedDateFromToken(token);
