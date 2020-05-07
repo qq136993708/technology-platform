@@ -119,7 +119,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   form.on('submit(formDemo)', function (data) {
     //TODO date error
     var query = data.field;
-    query.type = queryType;
+    // query.type = queryType;  // 后台去掉了type字段
     queryTable(query);
     return false;
   });

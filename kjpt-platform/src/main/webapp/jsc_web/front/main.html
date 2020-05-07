@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中核集团科技管理平台-首页</title>
     <link rel="stylesheet" href="/jsc_web/common/css/base.css">
@@ -13,280 +14,291 @@
     <link rel="stylesheet" href="/jsc_web/common/css/main.css">
     <!-- <link rel="stylesheet" href="/jsc_web/common/css/yc1.css"> -->
 </head>
-
-<body>
-<div class="main_layout_block">
-    <!-- 左边 -->
-    <div class="main_left">
-        <div class="check_query">
-            <div class="query1">
-                <form class="layui-form" action="">
-                    <select id="secondLevel" lay-filter="secondLevel" name="secondLevel" placeholder="请选择...">
-                    </select>
-                </form>
-            </div>
-        </div>
-        <div class="main_top">
-            <div class="title"><span>基本信息</span></div>
-            <div class="main_content">
-                <div class="zscq">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="cgsj_num"><span>691</span></div>
-                    </div>
-                    <div class="circle_desc"><span>科技人才</span></div>
-                </div>
-                <div class="zscq">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="zhuanl_num"><span>226</span></div>
-                    </div>
-                    <div class="circle_desc"><span>科研平台</span></div>
-                </div>
-                <div class="zscq">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="rjzzq_num"><span>1069</span></div>
-                    </div>
-                    <div class="circle_desc"><span>行业标准</span></div>
-                </div>
-                <div class="zscq">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="jyfk_num"><span>61</span></div>
-                    </div>
-                    <div class="circle_desc"><span>经验反馈</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="main_left_item">
-            <div class="title"><span>成果鉴定</span></div>
-            <div class="cgxx_charts" id="cgxx_charts1"></div>
-        </div>
-        <div class="main_left_item">
-            <div class="title"><span>专利数量类型占比</span></div>
-            <div class="cgxx_charts" id="cgxx_charts2"></div>
-        </div>
-        <div class="main_left_item">
-            <div class="title"><span>软件著作权数量</span></div>
-            <div class="cgxx_charts" id="cgxx_charts3"></div>
-        </div>
-    </div>
-    <!-- 中间 -->
-    <div class="main_middle">
-        <div class="item_middle table">
-            <div class="title"><span>成果列表</span></div>
-            <div class="item_box_block">
-                <table class="line_table">
-                    <thead>
-                        <tr>
-                            <th>名称</th>
-                            <th>申报单位</th>
-                            <th class="date_time">时间</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>北斗监测软件成果-24355566</td>
-                            <td>新华水力发电有限公司</td>
-                            <td class="date_time">2019.10.25</td>
-                        </tr>
-                        <tr>
-                            <td>北斗监测软件成果-24355566</td>
-                            <td>新华水力发电有限公司</td>
-                            <td>2019.10.25</td>
-                        </tr>
-                        <tr>
-                            <td>北斗监测软件成果-24355566</td>
-                            <td>新华水力发电有限公司</td>
-                            <td class="date_time">2019.10.25</td>
-                        </tr>
-                        <tr>
-                            <td>北斗监测软件成果-24355566</td>
-                            <td>新华水力发电有限公司</td>
-                            <td class="date_time">2019.10.25</td>
-                        </tr>
-                        <tr>
-                            <td>北斗监测软件成果-24355566</td>
-                            <td>新华水力发电有限公司</td>
-                            <td class="date_time">2019.10.25</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="item_middle chart">
-            <div class="title"><span>专利数量按单位统计</span></div>
-            <div class="item_box_block" id="zltj_chart"></div>
-        </div>
-        <div class="item_middle desc">
-            <div class="title"><span>科技人才按职称分类</span></div>
-            <div class="zscq_box_block">
-                <div class="zscq desc-num">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="academicTitle1"><span>9</span></div>
-                    </div>
-                    <div class="circle_desc"><span>正高级</span></div>
-                </div>
-                <div class="zscq desc-num">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="academicTitle2"><span>10</span></div>
-                    </div>
-                    <div class="circle_desc"><span>副高级</span></div>
-                </div>
-                <div class="zscq desc-num">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="academicTitle3"><span>8</span></div>
-                    </div>
-                    <div class="circle_desc"><span>中级</span></div>
-                </div>
-                <div class="zscq desc-num">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="academicTitle4"><span>11</span></div>
-                    </div>
-                    <div class="circle_desc"><span>助理级</span></div>
-                </div>
-                <div class="zscq desc-num">
-                    <div class="circle middle-block">
-                        <div class="bounce1" id="academicTitle5"><span>5</span></div>
-                    </div>
-                    <div class="circle_desc"><span>员级</span></div>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-    <!-- 右边 -->
-    <div class="main_right">
-        <div class="main_top">
-            <div class="title"><span>质量信息</span></div>
-            <div class="main_content">
-                <div class="zlxx">
-                    <div class="zlxx_desc" id="zlxx_num1"><span>0</span></div>
-                    <div><i>填报报表数</i></div>
-                </div>
-                <div class="zlxx">
-                    <div class="zlxx_desc" id="zlxx_num2"><span>0</span></div>
-                    <div><i>即时事故数</i></div>
-                </div>
-                <div class="zlxx">
-                    <div class="zlxx_desc" id="zlxx_num3"><span>0</span></div>
-                    <div><i>参与单位数</i></div>
-                </div>
-
-            </div>
-        </div>
-        <div class="item_right cgzh">
-            <div class="title"><span>成果转化</span></div>
-            <div class="item_box_block" id="cgzh_chart1"></div>
-        </div>
-        <div class="item_right cgzhqs">
-            <div class="title"><span>成果转换趋势</span></div>
-            <div class="item_box_block" id="cgzh_chart2"></div>
-        </div>
-
-        <div class="main_bottom" style="display: none;">
-            <div class="title"><span>科研项目经费</span></div>
-            <div class="main_content">
-                <div class="xmtz_charts">
-                    <div class="title title-x"><span>项目经费占比</span></div>
-                    <div id="xmjf_charts" style="width: 100%;height:170px;"></div>
-                </div>
-                <div class="xmtz_charts">
-                    <div class="title title-x"><span>年度计划和实际完成情况</span></div>
-                    <br>
-                    <div class="layui-row">
-                        <div class="layui-col-md3 layui-title-main">
-                            核能开发
-                        </div>
-                        <div class="layui-col-md9">
-                            <div class="layui-progress layui-progress-big hnkf" lay-filter="hnkf">
-                                <div class="layui-progress-bar hnkf-child layui-bg-hnkf" lay-percent="0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="layui-row">
-                        <div class="layui-col-md3 layui-title-main">
-                            集中开发
-                        </div>
-                        <div class="layui-col-md9">
-                            <div class="layui-progress layui-progress-big" lay-filter="jzkf">
-                                <div class="layui-progress-bar layui-bg-jzkf" lay-percent="50%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="layui-row">
-                        <div class="layui-col-md3 layui-title-main">
-                            国防基础
-                        </div>
-                        <div class="layui-col-md9">
-                            <div class="layui-progress layui-progress-big" lay-filter="gfjc">
-                                <div class="layui-progress-bar layui-bg-gfjc" lay-percent="80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="layui-row">
-                        <div class="layui-col-md3 layui-title-main">
-                            国防技术基础
-                        </div>
-                        <div class="layui-col-md9">
-                            <div class="layui-progress layui-progress-big" lay-filter="gfjcjs">
-                                <div class="layui-progress-bar layui-bg-gfjsjc" lay-percent="80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/jsc_web/common/js/echarts.min.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script src="/layuiadmin/js/chartOption.js"></script>
-<script src="/jsc_web/common/js/main.js"></script>
-<script>
-    /**
-     * 首页二级单位下拉框
-     */
-        function loadSeconSelect() {
-        httpModule({
-            url: '/cockpit/bi-api/querySecondLevelUnit',
-            type: 'GET',
-            success: function (relData) {
-                if (relData.success === true) {
-                    var res = relData.data;
-                    for (var i = 0; i < res.length; i++) {
-                        $("#secondLevel").append("<option data-id=" + res[i].unitId + ">" + res[i]
-                            .unitName + "</option>");
-                    }
-                }
-            }
-        });
+<style>
+    .main_layout_block .check_query {
+        width: 21rem;
     }
 
-    // window.onload = window.onresize = function () {
-    //     main_charts.resize();
-    // }
+    .query1 input {
+        height: 30px;
+        line-height: 30px;
+    }
+</style>
 
-    loadSeconSelect();
-    layui.use(['form', 'element'], function () {
-        var element = layui.element;
-        // 渲染表单相关插件 包含下拉框，单、复选框
-        var form = layui.form;
-        form.on('select(secondLevel)', function (data) {
-            console.log(data);
-            
-        });
+<body>
+    <div class="main_layout_block">
+        <!-- 左边 -->
+        <div class="main_left">
+            <div class="check_query">
+                <div class="query1">
+                    <form class="layui-form" action="">
+                        <select id="secondLevel" lay-filter="secondLevel" name="secondLevel"
+                            placeholder="请选择..."></select>
+                    </form>
+                </div>
+            </div>
+            <div class="main_top">
+                <div class="title"><span>基本信息</span></div>
+                <div class="main_content">
+                    <div class="zscq">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="cgsj_num"><span>691</span></div>
+                        </div>
+                        <div class="circle_desc"><span>科技人才</span></div>
+                    </div>
+                    <div class="zscq">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="zhuanl_num"><span>226</span></div>
+                        </div>
+                        <div class="circle_desc"><span>科研平台</span></div>
+                    </div>
+                    <div class="zscq">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="rjzzq_num"><span>1069</span></div>
+                        </div>
+                        <div class="circle_desc"><span>行业标准</span></div>
+                    </div>
+                    <div class="zscq">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="jyfk_num"><span>61</span></div>
+                        </div>
+                        <div class="circle_desc"><span>经验反馈</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_left_item">
+                <div class="title"><span>成果鉴定</span></div>
+                <div class="cgxx_charts" id="cgxx_charts1"></div>
+            </div>
+            <div class="main_left_item">
+                <div class="title"><span>专利数量类型占比</span></div>
+                <div class="cgxx_charts" id="cgxx_charts2"></div>
+            </div>
+            <div class="main_left_item">
+                <div class="title"><span>软件著作权数量</span></div>
+                <div class="cgxx_charts" id="cgxx_charts3"></div>
+            </div>
+        </div>
+        <!-- 中间 -->
+        <div class="main_middle">
+            <div class="item_middle table">
+                <div class="title"><span>成果列表</span></div>
+                <div class="item_box_block">
+                    <table class="line_table">
+                        <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>申报单位</th>
+                                <th class="date_time">时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>北斗监测软件成果-24355566</td>
+                                <td>新华水力发电有限公司</td>
+                                <td class="date_time">2019.10.25</td>
+                            </tr>
+                            <tr>
+                                <td>北斗监测软件成果-24355566</td>
+                                <td>新华水力发电有限公司</td>
+                                <td>2019.10.25</td>
+                            </tr>
+                            <tr>
+                                <td>北斗监测软件成果-24355566</td>
+                                <td>新华水力发电有限公司</td>
+                                <td class="date_time">2019.10.25</td>
+                            </tr>
+                            <tr>
+                                <td>北斗监测软件成果-24355566</td>
+                                <td>新华水力发电有限公司</td>
+                                <td class="date_time">2019.10.25</td>
+                            </tr>
+                            <tr>
+                                <td>北斗监测软件成果-24355566</td>
+                                <td>新华水力发电有限公司</td>
+                                <td class="date_time">2019.10.25</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="item_middle chart">
+                <div class="title"><span>专利数量按单位统计</span></div>
+                <div class="item_box_block" id="zltj_chart"></div>
+            </div>
+            <div class="item_middle desc">
+                <div class="title"><span>科技人才按职称分类</span></div>
+                <div class="zscq_box_block">
+                    <div class="zscq desc-num">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="academicTitle1"><span>9</span></div>
+                        </div>
+                        <div class="circle_desc"><span>正高级</span></div>
+                    </div>
+                    <div class="zscq desc-num">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="academicTitle2"><span>10</span></div>
+                        </div>
+                        <div class="circle_desc"><span>副高级</span></div>
+                    </div>
+                    <div class="zscq desc-num">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="academicTitle3"><span>8</span></div>
+                        </div>
+                        <div class="circle_desc"><span>中级</span></div>
+                    </div>
+                    <div class="zscq desc-num">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="academicTitle4"><span>11</span></div>
+                        </div>
+                        <div class="circle_desc"><span>助理级</span></div>
+                    </div>
+                    <div class="zscq desc-num">
+                        <div class="circle middle-block">
+                            <div class="bounce1" id="academicTitle5"><span>5</span></div>
+                        </div>
+                        <div class="circle_desc"><span>员级</span></div>
+                    </div>
+                </div>
+            </div>
 
-        // 进度条
-        element.progress('hnkf', '20%');
-        element.progress('jzkf', '80%');
-        element.progress('gfjc', '60%');
-        element.progress('gfjcjs', '30%');
-    })
-</script>
+        </div>
+        <!-- 右边 -->
+        <div class="main_right">
+            <div class="main_top">
+                <div class="title"><span>质量信息</span></div>
+                <div class="main_content">
+                    <div class="zlxx">
+                        <div class="zlxx_desc" id="zlxx_num1"><span>0</span></div>
+                        <div><i>填报报表数</i></div>
+                    </div>
+                    <div class="zlxx">
+                        <div class="zlxx_desc" id="zlxx_num2"><span>0</span></div>
+                        <div><i>即时事故数</i></div>
+                    </div>
+                    <div class="zlxx">
+                        <div class="zlxx_desc" id="zlxx_num3"><span>0</span></div>
+                        <div><i>参与单位数</i></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="item_right cgzh">
+                <div class="title"><span>成果转化</span></div>
+                <div class="item_box_block" id="cgzh_chart1"></div>
+            </div>
+            <div class="item_right cgzhqs">
+                <div class="title"><span>成果转换趋势</span></div>
+                <div class="item_box_block" id="cgzh_chart2"></div>
+            </div>
+
+            <div class="main_bottom" style="display: none;">
+                <div class="title"><span>科研项目经费</span></div>
+                <div class="main_content">
+                    <div class="xmtz_charts">
+                        <div class="title title-x"><span>项目经费占比</span></div>
+                        <div id="xmjf_charts" style="width: 100%;height:170px;"></div>
+                    </div>
+                    <div class="xmtz_charts">
+                        <div class="title title-x"><span>年度计划和实际完成情况</span></div>
+                        <br>
+                        <div class="layui-row">
+                            <div class="layui-col-md3 layui-title-main">
+                                核能开发
+                            </div>
+                            <div class="layui-col-md9">
+                                <div class="layui-progress layui-progress-big hnkf" lay-filter="hnkf">
+                                    <div class="layui-progress-bar hnkf-child layui-bg-hnkf" lay-percent="0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="layui-row">
+                            <div class="layui-col-md3 layui-title-main">
+                                集中开发
+                            </div>
+                            <div class="layui-col-md9">
+                                <div class="layui-progress layui-progress-big" lay-filter="jzkf">
+                                    <div class="layui-progress-bar layui-bg-jzkf" lay-percent="50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="layui-row">
+                            <div class="layui-col-md3 layui-title-main">
+                                国防基础
+                            </div>
+                            <div class="layui-col-md9">
+                                <div class="layui-progress layui-progress-big" lay-filter="gfjc">
+                                    <div class="layui-progress-bar layui-bg-gfjc" lay-percent="80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="layui-row">
+                            <div class="layui-col-md3 layui-title-main">
+                                国防技术基础
+                            </div>
+                            <div class="layui-col-md9">
+                                <div class="layui-progress layui-progress-big" lay-filter="gfjcjs">
+                                    <div class="layui-progress-bar layui-bg-gfjsjc" lay-percent="80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/jsc_web/common/js/echarts.min.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/chartOption.js"></script>
+    <script src="/jsc_web/common/js/main.js"></script>
+    <script>
+        /**
+         * 首页二级单位下拉框
+         */
+        function loadSeconSelect() {
+            httpModule({
+                url: '/cockpit/bi-api/querySecondLevelUnit',
+                type: 'GET',
+                success: function (relData) {
+                    if (relData.success === true) {
+                        var res = relData.data;
+                        for (var i = 0; i < res.length; i++) {
+                            var str = "<option data-id=" + res[i].unitId + ">" + res[i].unitName +
+                                "</option>"
+                            $("#secondLevel").append(str);
+                        }
+                        layui.use(['form', 'element'], function () {
+                            var form = layui.form;
+                            form.render();
+                        })
+                    }
+                }
+            });
+        };
+        loadSeconSelect();
+        layui.use(['form', 'element'], function () {
+            var element = layui.element;
+            // 渲染表单相关插件 包含下拉框，单、复选框
+            var form = layui.form;
+            form.on('select(secondLevel)', function (data) {
+                console.log(data);
+
+            });
+
+            // 进度条
+            element.progress('hnkf', '20%');
+            element.progress('jzkf', '80%');
+            element.progress('gfjc', '60%');
+            element.progress('gfjcjs', '30%');
+            form.render();
+        })
+    </script>
 </body>
 
 </html>
