@@ -227,10 +227,14 @@
 				},
 				deployEvent : function() { //点击部署按钮
 					//先判断是否已经部署过该流程
-					top.layer.confirm('确定要部署该模型吗？', function() {
-						if (typeof (selectRowData.id) == "undefined") {
+					if (typeof (selectRowData.id) == "undefined") {
 							layer.msg('请点击选择一行数据');
-						} else {
+							return ;
+						}
+					top.layer.confirm('确定要部署该模型吗？', function() {
+						// if (typeof (selectRowData.id) == "undefined") {
+						// 	layer.msg('请点击选择一行数据');
+						// } else {
 							$.ajax({
 								url : '/activiti-model/deploy/' + selectRowData.id,
 								type : 'post',
@@ -251,7 +255,7 @@
 									}
 								}
 							});
-						}
+						// }
 					});
 				},
 				resetEvent : function() { //点击重置按钮
