@@ -40,7 +40,7 @@
 			<div class="tableBtns">
 				<button class="layui-btn border-blue" data-type="addEvent">新增</button>
 				<button class="layui-btn border-blue" data-type="editEvent">编辑</button>
-				<button class="layui-btn border-blue" data-type="deployEvent">部署</button>
+				<button class="layui-btn border-blue" data-type="deployEvent">部2222署</button>
 				<button class="layui-btn border-blue layui-hide" data-type="exportEvent">导出</button>
 				<button class="layui-btn border-blue layui-hide" data-type="importEvent">导入</button>
 				<button class="layui-btn border-red" data-type="deleteEvent">删除</button>
@@ -230,7 +230,7 @@
 					if (typeof (selectRowData.id) == "undefined") {
 							layer.msg('请点击选择一行数据');
 							return ;
-						}
+						}else{
 					top.layer.confirm('确定要部署该模型吗？', function() {
 						// if (typeof (selectRowData.id) == "undefined") {
 						// 	layer.msg('请点击选择一行数据');
@@ -255,8 +255,8 @@
 									}
 								}
 							});
-						// }
 					});
+				}
 				},
 				resetEvent : function() { //点击重置按钮
 					$('#modelName').val("");
