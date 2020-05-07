@@ -65,6 +65,9 @@ public class QimsController extends RestBaseController {
 	@RequestMapping(value = "/qims-api/qualityStatistics/query", method = RequestMethod.GET)
 	public JSONObject query( @RequestParam(required = true) String key,
 						   @RequestParam(required = true) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date date) throws Exception {
+		
+		
+		//System.out.println(">>>>>>>>>>qualityStatistics>>>key="+key+" date="+date);
 		JSONObject jsonObject = new JSONObject(3);
 		jsonObject.put("code","0");
 		jsonObject.put("message","success");
@@ -79,6 +82,9 @@ public class QimsController extends RestBaseController {
 		checkIsWhiteList(condition);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), String.class);
 		jsonObject.put("data",responseEntity.getBody());
+		
+		System.out.println(">>>>>>>>>>qualityStatistics>"+key+"-------result:"+responseEntity.getBody());
+		
 		return jsonObject;
 	}
 }

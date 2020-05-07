@@ -40,11 +40,11 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			String path = request.getRequestURI();
 			String serverName = request.getServerName();
 
-			System.out.println("====================protocol=" + request.getProtocol());
-			System.out.println("====================server name=" + request.getServerName());
-			System.out.println("====================port=" + request.getServerPort());
-		    System.out.println("====================url=" + request.getRequestURI());
-			System.out.println("====================getIpAddress=" + getIpAddress(request));
+			//System.out.println("====================protocol=" + request.getProtocol());
+			//System.out.println("====================server name=" + request.getServerName());
+			//System.out.println("====================port=" + request.getServerPort());
+		   // System.out.println("====================url=" + request.getRequestURI());
+			//System.out.println("====================getIpAddress=" + getIpAddress(request));
 			System.out.println(">>>>>>>path:"+path);
 
 			
