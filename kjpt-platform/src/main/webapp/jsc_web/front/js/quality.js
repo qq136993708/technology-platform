@@ -12,9 +12,9 @@ layui.use(['laydate'], function() {
         httpModule({
           url: httpUrl,
           success: function(res) {
-            if (res && res[0]) {
-              var relData = res[0].indicatorDataList,
-              chartType = res[0].indicatorDefine.chartType,
+            if (res && res.data.data[0]) {
+              var relData = res.data.data[0].indicatorDataList,
+              chartType = res.data.data[0].indicatorDefine.chartType,
               chartConfig = {series: []},
               subTitle = '';
   

@@ -117,6 +117,7 @@ var kyptCharts = {
     }
   },
   reload: function(id, config) {
+    debugger
     if (!id) {
       return null;
     } else {

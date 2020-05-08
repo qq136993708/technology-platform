@@ -52,6 +52,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
     {field: 'name', title: tipTitle +'名称', templet: function(d) {
+      // return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
     {field: 'publication', title:'发布处室'},
