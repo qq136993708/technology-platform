@@ -10,7 +10,7 @@ layui.use(['laydate'], function() {
         httpUrl = httpUrl + 'key=' + config.strKey + '&date=' + dateValue;
   
         httpModule({
-          url: httpUrl,
+          url: httpUrl, 
           success: function(res) {
             if (res && res.data.data[0]) {
               var relData = res.data.data[0].indicatorDataList,
