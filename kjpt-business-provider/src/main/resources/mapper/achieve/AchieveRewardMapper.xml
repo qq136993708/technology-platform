@@ -97,7 +97,30 @@
 
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveReward">
-         insert into achieve_reward( <include refid="AchieveReward_Column_List" /> )
+         insert into achieve_reward(  id,
+        achieve_record_id,
+        achieve_id,
+        reward_year,
+        create_time,
+        create_user,
+        trans_income,
+        check_basis,
+        income_calculation,
+        reward_record,
+        reward_quota,
+        budget_sources,
+        budget_person,
+        budget_all_money,
+        assign_plan,
+        reward_accounting_doc,
+        income_report_doc,
+        del_status,
+        assign_plan_doc,
+        team_person,
+        create_unit_id,
+        create_unit_name,
+        team_person_count,
+        status )
          values
          (
 	         #{id},#{achieveRecordId},#{achieveId},
