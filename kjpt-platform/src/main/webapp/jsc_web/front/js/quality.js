@@ -278,7 +278,7 @@ layui.use(['laydate'], function() {
 
       // 获取数据
       this.getChartData({
-        strKey: 'F-DZ-01', // 地质勘探质量趋势图
+        strKey: 'F-DZ-01', // F-DZ-01地质勘探质量趋势图
         legend: legendData,
         callback: function(configData, text) {
           // 更新图表渲染

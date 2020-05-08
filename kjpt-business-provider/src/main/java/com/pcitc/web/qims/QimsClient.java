@@ -62,7 +62,7 @@ public class QimsClient {
 			qualityStatistics.setId(UUID.randomUUID().toString().replace("-",""));
 			qualityStatistics.setKey(str);
 			qualityStatistics.setContent(responseEntity.getBody().toString());
-			qualityStatistics.setDate(DateUtil.dateAdd(new Date(),-1));
+			qualityStatistics.setDate(DateUtil.dateAdd(new Date(),-1));//DateUtil.dateAdd(new Date(),-1)
 			qualityStatistics.setSecretLevel("4");
 			qimsService.save(qualityStatistics);
 			sb.append(QIMS_URL+str+"/kjpt").append(",");
@@ -91,6 +91,9 @@ public class QimsClient {
 	@ApiOperation(value = "质量接口-分页查询", notes = "质量接口-分页查询")
 	@RequestMapping(value = "/qims-provider/qualityStatistics/qualityStatistics_query", method = RequestMethod.POST)
 	public String queryQualityStatisticsByPage(@RequestBody(required = false) Map param) {
+		
+		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>质量接口-分页查询 参数: "+parma.toJSONString());
 		return qimsService.queryQualityStatisticsList(param);
 	}
 }

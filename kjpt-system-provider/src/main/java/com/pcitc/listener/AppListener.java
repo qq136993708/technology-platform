@@ -33,7 +33,7 @@ public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     	//当前主机的网络地址
     	Set<String> hostSet = HostUtil.getLocalHostAddressSet();
-    	System.out.println(JSON.toJSONString(hostSet));
+    	System.out.println("当前主机的网络地址: "+JSON.toJSONString(hostSet));
     	//可执行定时任务的主机 
     	Set<String> acceptSet = new HashSet<String>(Arrays.asList(jobRunHosts.split(",")));
     	System.out.println("---------可执行定时任务的主机 >>>>>>>>"+JSON.toJSONString(acceptSet));

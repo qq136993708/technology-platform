@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.qims;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.util.DateUtil;
@@ -65,6 +67,9 @@ public class QimsController extends RestBaseController {
 	@RequestMapping(value = "/qims-api/qualityStatistics/query", method = RequestMethod.GET)
 	public JSONObject query( @RequestParam(required = true) String key,
 						   @RequestParam(required = true) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date date) throws Exception {
+		
+		
+		//System.out.println(">>>>>>>>>>qualityStatistics>>>key="+key+" date="+date);
 		JSONObject jsonObject = new JSONObject(3);
 		jsonObject.put("code","0");
 		jsonObject.put("message","success");
@@ -78,7 +83,20 @@ public class QimsController extends RestBaseController {
 		this.setBaseParam(condition);
 		checkIsWhiteList(condition);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), String.class);
-		jsonObject.put("data",responseEntity.getBody());
+		
+		String str=responseEntity.getBody();
+		
+		JSONArray tableData = JSONArray.parseArray(str);
+
+		
+		
+	//	JSONArray jSONArray = JSONArray.parseArray(JSON.toJSONString(str));
+		
+		jsonObject.put("data",tableData);
+		
+		//JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		System.out.println(">>>>>>>>>>key:"+key+"-------result:"+jsonObject.toString());
+		
 		return jsonObject;
 	}
 }

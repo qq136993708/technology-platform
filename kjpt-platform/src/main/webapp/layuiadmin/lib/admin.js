@@ -637,7 +637,7 @@ layui.define('view', function(exports){
     }
 
     //低版本IE提示
-    if(device.ie && device.ie < 10){
+    if(device.ie && device.ie < 9){
       view.error('IE'+ device.ie + '下访问可能不佳，推荐使用：Chrome / Firefox / Edge 等高级浏览器', {
         offset: 'auto'
         ,id: 'LAY_errorIE'
