@@ -280,8 +280,8 @@ public class ExpertProjectController extends RestBaseController {
 	public void export(@RequestParam String expertId) throws Exception {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
-		String[] headers = { "项目名称",  "负责单位",    "立项年度","密级" };
-		String[] cols =    {"projectName","chargeUnitStr","setupYeat","secretLevelStr"};
+		String[] headers = { "项目名称",  "负责单位",    "立项年度"};
+		String[] cols =    {"projectName","chargeUnitStr","setupYeat"};
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);

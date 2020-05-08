@@ -74,8 +74,8 @@ public class PlatformProjectController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "项目名称",  "负责单位",    "立项年度","密级" };
-        String[] cols =    {"projectName","dutyInstitutionsText","approvalYear","secretLevelText"};
+        String[] headers = { "项目名称",  "负责单位",    "立项年度"};
+        String[] cols =    {"projectName","dutyInstitutionsText","approvalYear"};
         this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);

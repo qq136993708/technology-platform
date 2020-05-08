@@ -403,8 +403,8 @@ public class AchieveRecordController extends RestBaseController {
         //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
 
-        String[] headers = { "备案状态",  "成果名称",    "成果基本情况"  , "成果持有单位"  , "拟受让单位"  , "是否核心技术成果"  , "拟转让方式"  , "完成情况"  , "未完成项目预计完成时间"  , "密级"};
-        String[] cols =    {"auditStatusText","achieveName","achieveInfo","finishUnitName","grantUnitName","achieveTypeText","achieveTransTypeText","aboutCompleteInfoText","aboutCompleteTime","secretLevelText"};
+        String[] headers = { "备案状态",  "成果名称",    "成果基本情况"  , "成果持有单位"  , "拟受让单位"  , "是否核心技术成果"  , "拟转让方式"  , "完成情况"  , "未完成项目预计完成时间" };
+        String[] cols =    {"auditStatusText","achieveName","achieveInfo","finishUnitName","grantUnitName","achieveTypeText","achieveTransTypeText","aboutCompleteInfoText","aboutCompleteTime"};
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), AchieveRecord.class);
         String fileName = "成果转化表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");

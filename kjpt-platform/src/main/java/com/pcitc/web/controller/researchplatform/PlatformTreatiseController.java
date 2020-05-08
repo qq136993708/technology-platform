@@ -75,8 +75,8 @@ public class PlatformTreatiseController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "论文题目",  "级别",    "期刊名称",    "作者",    "发表时间","密级" };
-        String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear","secretLevelText"};
+        String[] headers = { "论文题目",  "级别",    "期刊名称",    "作者",    "发表时间" };
+        String[] cols =    {"thesisTitle","thesisLevelText","journalTitle","thesisAuthor","thesisYear"};
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);

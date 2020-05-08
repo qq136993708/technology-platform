@@ -85,8 +85,8 @@ public class PlatformController extends RestBaseController {
         if (level != null) {
             this.setParam(condition, "level", level);
         }
-        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","密级" };
-        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","secretLevelText"};
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring"};
         export(headers,cols,"科研平台表_",condition);
     }
 
@@ -115,8 +115,8 @@ public class PlatformController extends RestBaseController {
         if (platformScorinLow != null) {
             this.setParam(condition, "platformScorinLow", platformScorinLow);
         }
-        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","项目数量","成果数量","密级" };
-        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","projectCount","achievementCount","secretLevelText"};
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "研究领域"  ,"科研整体情况","科研经费","平台评分","项目数量","成果数量"};
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","projectCount","achievementCount"};
         export(headers,cols,"科研平台信息表_",condition);
     }
 
