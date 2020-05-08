@@ -45,7 +45,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 			//System.out.println("====================port=" + request.getServerPort());
 		   // System.out.println("====================url=" + request.getRequestURI());
 			//System.out.println("====================getIpAddress=" + getIpAddress(request));
-			System.out.println(">>>>>>>path:"+path);
+			System.out.println(">>>>>>>path:"+path+" serverName:"+serverName);
 
 			
 			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");

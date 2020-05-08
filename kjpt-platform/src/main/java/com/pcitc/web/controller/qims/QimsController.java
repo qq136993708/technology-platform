@@ -69,7 +69,7 @@ public class QimsController extends RestBaseController {
 						   @RequestParam(required = true) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date date) throws Exception {
 		
 		
-		//System.out.println(">>>>>>>>>>qualityStatistics>>>key="+key+" date="+date);
+	
 		JSONObject jsonObject = new JSONObject(3);
 		jsonObject.put("code","0");
 		jsonObject.put("message","success");
@@ -78,25 +78,16 @@ public class QimsController extends RestBaseController {
 			this.setParam(condition, "key", key);
 		}
 		if (!StringUtils.isEmpty(DateUtil.format(date,DateUtil.FMT_SS))) {
-			this.setParam(condition, "date", DateUtil.format(date,DateUtil.FMT_SS));
+			this.setParam(condition, "date", "2019-12-28 00:00:00");//DateUtil.format(date,DateUtil.FMT_SS)
 		}
 		this.setBaseParam(condition);
 		checkIsWhiteList(condition);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), String.class);
 		
 		String str=responseEntity.getBody();
-		
 		JSONArray tableData = JSONArray.parseArray(str);
-
-		
-		
-	//	JSONArray jSONArray = JSONArray.parseArray(JSON.toJSONString(str));
-		
 		jsonObject.put("data",tableData);
-		
-		//JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		System.out.println(">>>>>>>>>>key:"+key+"-------result:"+jsonObject.toString());
-		
 		return jsonObject;
 	}
 }
