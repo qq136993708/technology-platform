@@ -47,7 +47,8 @@ public class QimsServiceImpl implements QimsService {
             qualityStatistics.setDateStr(DateUtils.format(qualityStatistics.getDate(),DateUtils.FMT_SS));
             System.out.println(qualityStatistics);
         });
-        if(Objects.nonNull(dataList)&&!dataList.isEmpty()){
+        if(Objects.nonNull(dataList)&&!dataList.isEmpty())
+        {
             return dataList.get(0).getContent();
         }else{
             return "";

@@ -109,7 +109,7 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 				
 			}else
 			{
-				System.out.println(">>>b>>>>session is  "+request.getSession().getId());
+				//System.out.println(">>>b>>>>session is  "+request.getSession().getId());
 				return true;
 			}
 
