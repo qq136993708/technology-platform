@@ -3,11 +3,13 @@ package com.pcitc.mapper.researchplatform;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.researchplatform.PlatformLeaderModel;
 import com.pcitc.base.researchplatform.PlatformMemberModel;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
+@Mapper
 public interface PlatformLeaderMapper {
 
     /**

@@ -113,8 +113,8 @@ public class PlatformAchievementController extends RestBaseController {
     public void export(@RequestParam String platformId) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
         this.setParam(condition, "platformId", platformId);
-        String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度","密级"};
-        String[] cols =    {"achievementName","applicantUnitText","achievementTypeText","applicantYear","secretLevelText"};
+        String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度"};
+        String[] cols =    {"achievementName","applicantUnitText","achievementTypeText","applicantYear"};
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);

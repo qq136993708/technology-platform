@@ -293,8 +293,8 @@ public class PatentController extends RestBaseController {
             this.setParam(condition, "applicationNumber", applicationNumber);
         }
         this.setBaseParam(condition);
-        String[] headers = { "单位名称",  "专利名称",    "申请类型"  , "专利类型","申请（专利）号","技术领域","专利范围","申请费用","申请人/专利权人","密级"};
-        String[] cols =    {"unitNameText","patentName","applicationTypeText","patentTypeText","applicationNumber","technicalFieldText","patentRange","applicationCost","applicant","secretLevelText"};
+        String[] headers = { "单位名称",  "专利名称",    "申请类型"  , "专利类型","申请（专利）号","技术领域","专利范围","申请费用","申请人/专利权人"};
+        String[] cols =    {"unitNameText","patentName","applicationTypeText","patentTypeText","applicationNumber","technicalFieldText","patentRange","applicationCost","applicant"};
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PatentInfo.class);

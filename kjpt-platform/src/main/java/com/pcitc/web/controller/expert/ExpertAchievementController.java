@@ -289,8 +289,8 @@ public class ExpertAchievementController extends RestBaseController {
 	public void export(@RequestParam String expertId) throws Exception {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
-		String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度","密级"};
-		String[] cols =    {"achieveName","applyUnitStr","achieveTypeStr","applyYear","secretLevelStr"};
+		String[] headers = { "成果名称",  "申请单位",    "成果类型"  , "申请年度"};
+		String[] cols =    {"achieveName","applyUnitStr","achieveTypeStr","applyYear"};
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
