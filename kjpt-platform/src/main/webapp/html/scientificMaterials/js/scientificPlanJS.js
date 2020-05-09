@@ -63,7 +63,7 @@ setSelectInput();
     }}, // authenticateUitlText
     {field: 'nameText', title: '申报单位', sort: true },
     {field: 'technicalFieldName', title: '研究领域'},
-    {field: 'releaseTime', title: '发布时间',templet: function(d){
+    {field: 'releaseTime', title: '发布日期',templet: function(d){
       var times = new Date(d.releaseTime);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
     }},

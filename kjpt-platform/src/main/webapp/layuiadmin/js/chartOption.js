@@ -117,7 +117,6 @@ var kyptCharts = {
     }
   },
   reload: function(id, config) {
-    debugger
     if (!id) {
       return null;
     } else {
@@ -140,8 +139,11 @@ var kyptCharts = {
         _this.emptyChart(id, _this.chart[id].config);
 
         // 有无数据都要重新渲染图表
-        _this.chart[id].chart.setOption(chartOption);
+        var chartDome=_this.chart[id].chart.setOption(chartOption);
         _this.chart[id].chart.resize();
+        chartDome.on('click',function(param){
+          console.log(param);
+        })
       }
     }
   },
