@@ -28,7 +28,7 @@ layui.config({
         trigger: 'click',
         change: function(value, date, endDate){
             $("#appDate").val(value)
-            $('#layui-laydate1').remove();//删除
+            // $('#layui-laydate1').remove();//删除
         }
     });
     /*动态生成元素*/
