@@ -313,7 +313,7 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	       <if test="name != null               and name  !='' ">             AND t.project_name like CONCAT('%',#{name},'%')</if>
+	       <if test="name != null               and name  !='' ">             AND t.name like CONCAT('%',#{name},'%')</if>
 	       <if test="belongUnitId != null       and belongUnitId !=''  ">     AND t.belong_unit_id = #{belongUnitId}</if>
 	       <if test="education != null          and education !=''  ">        AND t.education = #{education}</if>
 	       <if test="title != null              and title !=''  ">            AND t.title = #{title}</if>
@@ -328,7 +328,7 @@
 	       <if test="techType != null   and techType !=''  ">   
 	          AND
 	          <foreach item="item"  collection="techType.split(',')"  open="(" separator=" or " close=")">
-			    FIND_IN_SET(#{item},t.`tech_type`) &lt; 0
+			    FIND_IN_SET(#{item},t.`tech_type`) 
 			   </foreach>
 	       </if>
 	       <if test="userNo != null              and userNo !=''  ">            AND t.user_no = #{userNo}</if>

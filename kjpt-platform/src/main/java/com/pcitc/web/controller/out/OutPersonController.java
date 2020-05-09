@@ -101,28 +101,36 @@ public class OutPersonController extends BaseController {
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String education,
-            @RequestParam(required = false) String belongUnitId,
+            @RequestParam(required = false) String belongUnit,
             @RequestParam(required = false) String post,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Integer beginAage,
             @RequestParam(required = false) Integer endAage,
             @RequestParam(required = false) String sex,
-            @RequestParam(required = false) String techType,
+            @RequestParam(required = false) String technicalField,
             @RequestParam(required = false) String isExpert,
+            
+            
+            
+            
             
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
+    	System.out.println("----------belongUnitId："+belongUnit);
+    	//logger.info("============查询外系统- " + result.toString());
+    	
+    	
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("name", name);
     	param.getParam().put("education", education);
-    	param.getParam().put("belongUnitId", belongUnitId);
+    	param.getParam().put("belongUnitId", belongUnit);
     	param.getParam().put("post", post);
     	param.getParam().put("title", title);
     	param.getParam().put("beginAage", beginAage);
     	param.getParam().put("endAage", endAage);
     	param.getParam().put("sex", sex);
-    	param.getParam().put("techType", techType);
+    	param.getParam().put("techType", technicalField);
     	param.getParam().put("isExpert", isExpert);
     	param.setLimit(limit);
     	param.setPage(page);
@@ -134,7 +142,7 @@ public class OutPersonController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		//logger.info("============查询外系统- " + result.toString());
+		
 		return result.toString();
 	}
 

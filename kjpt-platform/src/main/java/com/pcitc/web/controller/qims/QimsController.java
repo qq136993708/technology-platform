@@ -78,7 +78,7 @@ public class QimsController extends RestBaseController {
 			this.setParam(condition, "key", key);
 		}
 		if (!StringUtils.isEmpty(DateUtil.format(date,DateUtil.FMT_SS))) {
-			this.setParam(condition, "date", "2019-12-28 00:00:00");//DateUtil.format(date,DateUtil.FMT_SS)
+			this.setParam(condition, "date", DateUtil.format(date,DateUtil.FMT_SS));//"2019-12-28 00:00:00"
 		}
 		this.setBaseParam(condition);
 		checkIsWhiteList(condition);

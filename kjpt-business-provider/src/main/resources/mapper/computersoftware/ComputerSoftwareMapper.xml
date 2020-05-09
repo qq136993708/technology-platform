@@ -225,7 +225,7 @@
         <if test="technicalField != null and technicalField !=''  ">
             AND
             <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`technical_field`) &lt; 0
+                FIND_IN_SET(#{item},`technical_field`) 
             </foreach>
 
         </if>
@@ -242,7 +242,7 @@
         <if test="technicalField != null and technicalField !=''  ">
             AND
             <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`technical_field`) &lt; 0
+                FIND_IN_SET(#{item},`technical_field`)
             </foreach>
         </if>
 
@@ -300,9 +300,9 @@
                     and file = #{files}
                 </if>
 
-                <if test="technicalField != null and technicalField != ''">
+                <!-- <if test="technicalField != null and technicalField != ''">
                    and  technical_field = #{technicalField}
-                </if>
+                </if> -->
 
                 <if test="technicalFieldValue != null and technicalFieldValue != ''">
                     and technical_field_value = #{technicalFieldValue}

@@ -74,6 +74,8 @@ public class AdminController extends BaseController {
     
     @Value("${serverIp}")
     private String serverIp;
+    
+    
 
     @Value("${serverPort}")
     private int serverPort;
@@ -134,6 +136,7 @@ public class AdminController extends BaseController {
                         @RequestParam(value="error", required = false) String error) throws Exception 
     {
 
+    	System.out.println("===========login_submit===================");
     	String sername= request.getServerName();
     	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
 		if(sysUser!=null)

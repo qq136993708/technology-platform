@@ -23,7 +23,8 @@ import com.pcitc.service.system.SysJobService;
 public class OutQualityDataJob implements Job, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String Quality = "http://localhost:8080/qims-api/qualityStatistics";
+	//private static final String Quality = "http://localhost:8080/qims-api/qualityStatistics";
+	private static final String Quality = "http://localhost/qims-api/qualityStatistics";
 	public	SysJobService sysJobService = SpringContextUtil.getApplicationContext().getBean(SysJobService.class);
 	
 	@Override

@@ -126,7 +126,7 @@
         <if test="researchField != null  and researchField !=''  ">
         AND
         <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
-            FIND_IN_SET(#{item},`RESEARCH_FIELD`) &lt; 0
+            FIND_IN_SET(#{item},`RESEARCH_FIELD`) 
         </foreach>
     </if>
 
@@ -141,7 +141,7 @@
         <if test="researchField != null  and researchField !=''  ">
             AND
             <foreach item="item"  collection="researchField.split(',')"  open="(" separator=" or " close=")">
-                FIND_IN_SET(#{item},`RESEARCH_FIELD`) &lt; 0
+                FIND_IN_SET(#{item},`RESEARCH_FIELD`) 
             </foreach>
         </if>
 
@@ -157,16 +157,16 @@
             and AUTHENTICATE_UTIL = #{authenticateUtil}
         </if>
 
-        <if test="researchField != null and researchField != '' ">
+       <!--  <if test="researchField != null and researchField != '' ">
             and RESEARCH_FIELD = #{researchField}
-        </if>
+        </if> -->
 
         <if test="professionalField != null and professionalField != '' ">
-            and PROFESSIONAL_FIELD = #{professionalField}
+           and `PROFESSIONAL_FIELD` like CONCAT('%',#{professionalField},'%')
         </if>
 
         <if test="specialtyCategory != null and specialtyCategory != '' ">
-            and SPECIALTY_CATEGORY = #{specialtyCategory}
+           and `SPECIALTY_CATEGORY` like CONCAT('%',#{specialtyCategory},'%')
         </if>
 
         <if test="releaseTime != null and releaseTime != '' ">

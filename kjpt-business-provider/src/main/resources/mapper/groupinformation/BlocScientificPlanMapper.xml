@@ -132,9 +132,12 @@
             and `name` like CONCAT('%',#{name},'%')
         </if>
 
-        <if test="publication != null and publication != '' ">
-            and publication = #{publication}
+
+<if test="publication != null  ">
+            and `publication` like CONCAT('%',#{publication},'%')
         </if>
+        
+        
 
         <if test="annual != null  ">
             and substring(annual,1,7) = #{annual}
@@ -187,12 +190,18 @@
 
         <trim prefix="SET" suffixOverrides=",">
 
-            <if test="name != null  ">
+            <if test="name != null">
                 name = #{name},
             </if>
-            <if test="publication != null and publication != '' ">
+              <if test="publication != null">
                 publication = #{publication},
             </if>
+            
+            
+
+	    
+	    
+	    
             <if test="annual != null">
                 annual = #{annual},
             </if>

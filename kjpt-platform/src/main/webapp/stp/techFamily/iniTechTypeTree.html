@@ -113,6 +113,10 @@
                         //展示层级数,默认是2
                     } ]
                 });
+                if (option && typeof option === "object") {
+                    myChart.setOption(option, true);
+                }
+                
                 //4.树绑定事件
                 myChart.on('click', function(params) {
                     var name = params.data.name;
