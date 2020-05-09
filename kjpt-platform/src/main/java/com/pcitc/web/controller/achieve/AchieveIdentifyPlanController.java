@@ -38,7 +38,7 @@ public class AchieveIdentifyPlanController extends RestBaseController {
     /**
      * 保存
      */
-    private static final String save = "http://kjpt-zuul/stp-proxy/achieveIdentifyPlan-apisave";
+    private static final String save = "http://kjpt-zuul/stp-proxy/achieveIdentifyPlan-api/save";
     /**
      * 删除
      */
