@@ -29,7 +29,7 @@ layui.config({
     */
     var option = {
       title: {
-        text: data.text,
+        // text: data.text,
         top:  '42%',
         left: 'center',
         textStyle: {
@@ -164,7 +164,7 @@ layui.config({
   lastWeekChart.setOption(getPieChartOption({
     completed: { name: '已完成', value: 100 },
     unCompleted: { name: '在研', value: 99 },
-    text: '总量',
+    // text: '总量',
     subText: conversionNumber(199),
     title: '项目数量'
   }));
@@ -172,7 +172,7 @@ layui.config({
   var thisWeekChart = echarts.init(document.getElementById('thisWeek'));
   thisWeekChart.setOption(getPieChartOption({
     completed: {
-      name: '实际完成',
+      // name: '实际完成',
       value: 3000000
     },
     unCompleted: {
