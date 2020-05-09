@@ -21,19 +21,25 @@ kyptCharts.render({
         }
     },
     series: [{
-            name: '成果鉴定',
+            name: '未鉴定',
             value: '25'
         },
         {
-            name: '成果报奖',
+            name: '鉴定中   ',
             value: '12'
         },
         {
-            name: '成果转化',
+            name: '鉴定完成',
             value: '18'
         }
     ],
-    color: ['#f9dd56', '#ff9156', '#1bc85e']
+    color: ['#f9dd56', '#ff9156', '#1bc85e'],
+    callback:function(param){
+        param.on('click',function(){
+            //kjpt/achieve/identify/achieve_identify_plan_list.html
+            window.open('/index?kjpt/achieve/identify/achieve_identify_plan_list.html');
+        })
+    },
 });
 
 // 专利数量类型占比
@@ -59,15 +65,15 @@ kyptCharts.render({
         }
     },
     series: [{
-            name: '理论成果',
+            name: '发明专利',
             value: '10'
         },
         {
-            name: '软科学成果',
+            name: '实用型专利',
             value: '60'
         },
         {
-            name: '应用技术成果',
+            name: '外观设计专利',
             value: '30'
         }
     ],
@@ -98,7 +104,7 @@ kyptCharts.render({
     yAxis: [{splitNumber: 3}],
     barWidth: 20,
     axisLineColor: 'rgba(255, 255, 255, .2)',
-    legend: {show: false }
+    legend: {show: false },
 });
 
 // 专利数量按单位统计
@@ -176,7 +182,7 @@ kyptCharts.render({
     yAxis: [{splitNumber: 3}],
     axisLineColor: 'rgba(255, 255, 255, .2)',
     legendPosition: 'top'
-});
+})
 
 //知识产权
 function loadZSCQData() {

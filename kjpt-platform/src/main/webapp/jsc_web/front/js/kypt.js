@@ -57,7 +57,7 @@ var option1 = {
     },
     yAxis: {
         type: 'category',
-        data: ['板块级', '集团级', '部委级', '省部级', '国家级'],
+        // data: ['板块级', '集团级', '部委级', '省部级', '国家级'],
         axisLabel: {
             textStyle: {
                 color: '#fff',
@@ -144,51 +144,54 @@ var option1 = {
                 }
             }
         },
-        data: [100, 200, 300, 400, 500]
+        // data: [100, 200, 300, 400, 500]
     }]
 };
 
+function loadHtml() {
+    var htmlStr = '';
+    htmlStr = '<p class="chart-mask-item">' +
+        '<span class="chart-mask-item-left"></span>' +
+        '<span class="chart-mask-item-right">集团级</span>' +
+        '</p>' +
+        '<p class="chart-mask-item">' +
+        '<span class="chart-mask-item-left"></span>' +
+        '<span class="chart-mask-item-right">国家级</span>' +
+        '</p>' +
+        '<p class="chart-mask-item">' +
+        '<span class="chart-mask-item-left"></span>' +
+        '<span class="chart-mask-item-right">省部级</span>' +
+        '</p>' +
+        '<p class="chart-mask-item">' +
+        '<span class="chart-mask-item-left"></span>' +
+        '<span class="chart-mask-item-right">部委级</span>' +
+        '</p>' +
+        '<p class="chart-mask-item">' +
+        '<span class="chart-mask-item-left"></span>' +
+        '<span class="chart-mask-item-right">板块级</span>' +
+        '</p>'
+    $('.chart-mask').append(htmlStr);
+};
+loadHtml();
 kypt_charts1.setOption(option1);
 kypt_charts2.setOption(option1);
 kypt_charts3.setOption(option1);
 kypt_charts4.setOption(option1);
-kypt_charts1.setOption({
-    series: [{
-        data: [1, 2, 3, 4, 5],
-    }]
-});
-function loadHtml(){
-    var htmlStr ='';
-    htmlStr='<p class="chart-mask-item">'+
-    '<span class="chart-mask-item-left"></span>'+
-    '<span class="chart-mask-item-right">集团级</span>'+
-    '</p>'+
-    '<p class="chart-mask-item">'+
-    '<span class="chart-mask-item-left"></span>'+
-    '<span class="chart-mask-item-right">国家级</span>'+
-    '</p>'+
-    '<p class="chart-mask-item">'+
-    '<span class="chart-mask-item-left"></span>'+
-    '<span class="chart-mask-item-right">省部级</span>'+
-    '</p>'+
-    '<p class="chart-mask-item">'+
-    '<span class="chart-mask-item-left"></span>'+
-    '<span class="chart-mask-item-right">部委级</span>'+
-    '</p>'+
-    '<p class="chart-mask-item">'+
-    '<span class="chart-mask-item-left"></span>'+
-    '<span class="chart-mask-item-right">板块级</span>'+
-    '</p>'
-    $('.chart-mask').append(htmlStr);
-};
-loadHtml();
+// kypt_charts1.setOption({
+//     yAxis:[{
+//         data: ['板块级', '集团级', '部委级', '省部级', '国家级']
+//     }],
+//     series: [{
+//         data: [1, 13, 12, 4, 15],
+//     }]
+// });
+// 01 国家  02部位 03//省 04 集团 05板块
 // 获取远端数据源
 httpModule({
     url: '/cockpit/results/queryBIData/scientificResearchNumscientifictype',
     success: function (res) {
         if (res.code === '0' || res.success === true) {
-            console.log(res)
-            // kyptCharts.reload('kypt_charts5', {data: res.data}); 
+            setInterval(res.data);
         }
     }
 });
@@ -225,7 +228,7 @@ kyptCharts.render({
     // labelRotate: 30,
     labelLenth: 9,
     labelMaxNumber: 10,
-    dataZoom:{
+    dataZoom: {
         fillerColor: '#5074ca', // 滚动条颜色
         backgroundColor: '#0d2b4f', // 滚动条背景色
     },
@@ -250,3 +253,56 @@ httpModule({
         }
     }
 });
+/* res 接口数据 */
+function setInterval(res) { // 处理数据
+    var achievementList = [],
+        achievementListY = [],
+        projectList = [],
+        projectListY = [], //项目Y
+        patentList = [],
+        patentListY = [], //专利Y
+        treatiseList = [],
+        treatiseListY = []; //论文Y
+    $.each(res, function (item, val) {
+        if (val.countType == "achievement") { //成果
+            nextsetVal(val, achievementList, achievementListY ,kypt_charts1 );
+        } else if (val.countType == "project") { //项目
+            nextsetVal(val, projectList, projectListY,kypt_charts2);
+        } else if (val.countType == "patent") { //专利
+            nextsetVal(val, patentList, patentListY,kypt_charts3);
+        } else if (val.countType == "treatise") { //论文
+            nextsetVal(val,treatiseList, treatiseListY,kypt_charts4);
+        }
+    })
+}
+//*val：接口返回的数据 list：chart series.data listY:chart yAxis.data  chart:chart对象 */
+function nextsetVal(val, list, listY ,chart) { 
+    if (val.level == '05' && typeof (val.secretLevel) !== 'undefined') {
+        list.push(val.secretLevel)
+        listY.push('板块级')
+    } 
+    if (val.level == '04' && typeof (val.secretLevel) !== 'undefined') {
+        list.push(val.secretLevel)
+        listY.push('集团级')
+    } 
+    if (val.level == '03' && typeof (val.secretLevel) !== 'undefined') {
+        list.push(val.secretLevel)
+        listY.push('省部级')
+    }
+    if (val.level == '02' && typeof (val.secretLevel) !== 'undefined') {
+        list.push(val.secretLevel)
+        listY.push('部委级')
+    }
+    if (val.level == '01' && typeof (val.secretLevel) !== 'undefined') {
+        list.push(val.secretLevel)
+        listY.push('国家级')
+    } 
+    chart.setOption({
+        yAxis:[{
+            data: listY
+        }],
+        series: [{
+            data: list,
+        }]
+    });
+};

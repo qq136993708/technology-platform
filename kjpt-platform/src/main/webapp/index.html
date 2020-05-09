@@ -548,9 +548,16 @@ var __base_dic_store = {
 					}
 				});
 			});
+			debugger
 			$(document).ready(function() {
+				debugger
 				$("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
-			});
+				var loadUrl = window.location.search.substring(1);
+			
+				if(typeof(loadUrl) !== 'undefined'){
+					$("#mainIframe", parent.document.body).attr("src", loadUrl);
+				}
+			}); 
 
 
 
