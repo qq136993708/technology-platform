@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mysqlMapper.mysql.ReportMysqlMapper">
+    <!--Stp-mysql-报表查询-->
+
+    <select id="getSql" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	${value}
+	</select>
+
+    <select id="selectMysqlModelColumn" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	SELECT
+	column_name DIMENSION_NAME,
+	data_type COLUMN_SQL_TYPE,
+	column_comment DIMENSION_CAPTION,
+	column_key columnKey,
+	extra
+FROM
+	information_schema.COLUMNS
+WHERE
+	table_name = '${modelIndex}'
+	</select>
+
+    <select id="getReportListStpMysqlCount" resultType="String" parameterType="java.util.HashMap">
+SELECT count(*) AS counts FROM
+(
+        SELECT
+        count(*) AS counts
+        FROM ${modelIndex}
+        where 1=1 ${where}
+        group by ${group}
+        ) t
+</select>
+
+    <select id="getReportListStpDb" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+        ${column}
+        ${columnkosum}
+        FROM ${modelIndex}
+        where 1=1 ${where}
+        group by ${group}
+        ${order}
+        <if test="limit != null">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+    <select id="getReportListStpDbAll" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+        ${column}
+        ${columnkosum}
+        FROM ${modelIndex}
+        where 1=1 ${where}
+        group by ${group}
+        ${order}
+    </select>
+</mapper>

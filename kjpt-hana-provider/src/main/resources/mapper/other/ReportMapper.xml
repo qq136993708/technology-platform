@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.other.ReportMapper">
+    <!--报表查询-->
+    <select id="getReportList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+		${column}
+		sum("K0YSXLF") AS "K0YSXLF",
+		sum("K0YSDH") as "K0YSDH",
+		sum("K0YSWH") as "K0YSWH",
+		sum("K0XLFCNX") as "K0XLFCNX",
+		sum("K0DHCNX") as "K0DHCNX",
+		sum("K0WHCNX") as "K0WHCNX"
+		FROM
+		"_SYS_BIC"."SINOPEC.QYYY.002_R.MMSHSJYY/R2AS_MP_SB_0002_02"
+		('PLACEHOLDER' = ('$$PR_GSDM$$','${gsdm}'))
+		where 1=1 ${where}
+		group by ${group}
+		${order}
+		</select>
+    <!--报表查询-->
+    <select id="getReportListNew" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+SELECT
+${column}
+${columnkosum}
+FROM "_SYS_BIC"."${modelName}/${modelIndex}"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+  '${date}'),
+  'PLACEHOLDER' = ('$$PR_GSDM$$', '${gsdm}'))
+		where 1=1 ${where}
+		group by ${group}
+		${order}
+		</select>
+
+    <select id="selectHanaModelColumn" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+SELECT distinct a."CUBE_NAME" , a."DIMENSION_NAME",a."DIMENSION_CAPTION",b."COLUMN_SQL_TYPE"
+FROM "_SYS_BI"."BIMC_ALL_DIMENSIONS" a
+left JOIN "_SYS_BI"."BIMC_PROPERTIES" b
+ON  a."CATALOG_NAME" = b."CATALOG_NAME" and a."CUBE_NAME" = b."CUBE_NAME" and a."DIMENSION_NAME" = b."COLUMN_NAME"
+WHERE a."DIMENSION_NAME" != 'Measures'
+and a."CATALOG_NAME" = '${modelName}'
+AND a."CUBE_NAME" = '${modelIndex}'
+UNION ALL
+select distinct a."CUBE_NAME",a."MEASURE_NAME",a."MEASURE_CAPTION" AS "DIMENSION_NAME",b."COLUMN_SQL_TYPE"
+from "_SYS_BI"."BIMC_MEASURES" as a
+left JOIN "_SYS_BI"."BIMC_PROPERTIES" b
+ON  a."CATALOG_NAME" = b."CATALOG_NAME" and a."CUBE_NAME" = b."CUBE_NAME" and a."MEASURE_NAME" = b."COLUMN_NAME"
+WHERE  a."CATALOG_NAME" = '${modelName}' AND a."CUBE_NAME" = '${modelIndex}'
+
+	</select>
+    <!--查询库名称-->
+    <select id="selectCatalog" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        distinct
+        "CATALOG_NAME"
+        --,
+        --"CUBE_NAME",
+        --"DESCRIPTION"
+        FROM "_SYS_BI"."BIMC_ALL_CUBES"
+        WHERE
+        "CATALOG_NAME" like '%${modelName}%'
+        <if test="limit != null">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <select id="selectCatalogCount" parameterType="java.util.HashMap" resultType="java.lang.Long">
+	SELECT
+     count(distinct
+     "CATALOG_NAME"
+     --,
+     --"CUBE_NAME",
+     --"DESCRIPTION"
+     ) as counts
+FROM "_SYS_BI"."BIMC_ALL_CUBES"
+WHERE
+"CATALOG_NAME" like '%${modelName}%'
+	</select>
+
+    <!--查询表名称-->
+    <select id="selectCubeName" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        distinct
+        "CATALOG_NAME",
+        "CUBE_NAME",
+        "DESCRIPTION"
+        FROM "_SYS_BI"."BIMC_ALL_CUBES"
+        WHERE
+        "CATALOG_NAME" = '${modelName}'
+        and
+        ("CUBE_NAME" like '${modelIndex}%' or "DESCRIPTION" like '%${modelDesc}%')
+        <if test="limit != null">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+    <select id="selectCubeNameCount" parameterType="java.util.HashMap" resultType="java.lang.Long">
+        SELECT
+        count(distinct
+        "CATALOG_NAME",
+        "CUBE_NAME",
+        "DESCRIPTION") as counts
+        FROM "_SYS_BI"."BIMC_ALL_CUBES"
+        WHERE
+        "CATALOG_NAME" = '${modelName}'
+        and
+        ("CUBE_NAME" like '${modelIndex}%' or "DESCRIPTION" like '%${modelDesc}%')
+        <if test="limit != null">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <!--Stp报表查询-->
+    <select id="getReportListStp" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+        ${column}
+        ${columnkosum}
+        FROM "_SYS_BIC"."${modelName}/${modelIndex}"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+        '${date}'),
+        'PLACEHOLDER' = ('$$PR_GSDM$$', '${gsdm}'))
+        where 1=1 ${where}
+        group by ${group}
+        ${order}
+        <if test="limit != null">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+    <!--Stp报表查询求和-->
+    <select id="getReportListStpCount" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+        count(*)
+        FROM "_SYS_BIC"."${modelName}/${modelIndex}"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+        '${date}'),
+        'PLACEHOLDER' = ('$$PR_GSDM$$', '${gsdm}'))
+        where 1=1 ${where}
+        group by ${group}
+    </select>
+    <!--Stp报表查询汇总-->
+    <select id="getReportListStpSum" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+        ${columnkosum}
+        FROM "_SYS_BIC"."${modelName}/${modelIndex}"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+        '${date}'),
+        'PLACEHOLDER' = ('$$PR_GSDM$$', '${gsdm}'))
+        where 1=1 ${where}
+    </select>
+
+    <!--Stp-mysql-报表查询-->
+    <select id="getReportListStpDb" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+SELECT
+${column}
+${columnkosum}
+FROM ${modelIndex}
+		where 1=1 ${where}
+		group by ${group}
+		${order}
+    </select>
+    <select id="getSql" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	${value}
+	</select>
+</mapper>

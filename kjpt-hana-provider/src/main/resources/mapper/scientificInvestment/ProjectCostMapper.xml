@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.ProjectCostMapper">
+	
+	   <resultMap id="scientificFundsResultMap" type="com.pcitc.base.hana.report.ProjectCost" >
+       <result column="G0GSDM"          property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"          property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"      property="g0PROJCODE"  jdbcType="VARCHAR" />
+       <result column="G0YEARXM"        property="g0YEARXM"    jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"       property="g0PROJTXT"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"        property="g0XMGLLX"    jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"        property="g0XMGLLY"    jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"        property="g0XMGLJB"    jdbcType="VARCHAR" />
+       <result column="G0XMLX"          property="g0XMLX"      jdbcType="VARCHAR" />
+       <result column="G0XMZT"          property="g0XMZT"      jdbcType="VARCHAR" />
+       <result column="G0XMZTMS"        property="g0XMZTMS"      jdbcType="VARCHAR" />
+       
+       
+	    
+	    
+       <result column="K0ZTYSJE"          property="k0ZTYSJE"        jdbcType="DECIMAL" />
+       <result column="K0LJGLFPHJECB"     property="k0LJGLFPHJECB"   jdbcType="DECIMAL" />
+       <result column="K0LJSJCNJE"        property="k0LJSJCNJE"      jdbcType="DECIMAL" />
+       <result column="K0LJSJJE"          property="k0LJSJJE"      jdbcType="DECIMAL" />
+       <result column="K0LJYSJY"          property="k0LJYSJY"      jdbcType="DECIMAL" />
+       <result column="K0LJZJSYBL"        property="k0LJZJSYBL"      jdbcType="DECIMAL" />
+       <result column="K0BNYSJHJE"        property="k0BNYSJHJE"      jdbcType="DECIMAL" />
+       <result column="K0BNGLFPHJECB"     property="k0BNGLFPHJECB"      jdbcType="DECIMAL" />
+       <result column="K0BNSJDJJE"        property="k0BNSJDJJE"      jdbcType="DECIMAL" />
+       <result column="K0BNSJJE"          property="k0BNSJJE"      jdbcType="DECIMAL" />
+       <result column="K0BNYSJY"          property="k0BNYSJY"      jdbcType="DECIMAL" />
+       <result column="K0BNZJSYBL"        property="k0BNZJSYBL"      jdbcType="DECIMAL" />
+       <result column="K0BNKYFPQCB"       property="k0BNKYFPQCB"      jdbcType="DECIMAL" />
+       <result column="K0LJGLFPHJESR"     property="k0LJGLFPHJESR"      jdbcType="DECIMAL" />
+       
+       <result column="K0BNGLFPHJESR"     property="k0BNGLFPHJESR"      jdbcType="DECIMAL" />
+       
+     </resultMap>
+     
+     
+     <sql id="selectCondition_getProject_detail">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	      <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	      <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
+	   </trim>
+	 </sql>
+	 
+	 
+	 
+	 
+	
+     
+      <!-- 科研投资统计表--> 
+	 <select id="getKytztjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+		SELECT
+			     "G0GSJC",
+			--   "G0GSOR",
+			     ROUND(sum("K0ZTYSJE")/10000,2)      AS "K0ZTYSJE",            --计划总投资
+			     ROUND(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     ROUND(sum("K0LJSJCNJE")/10000,2)    AS "K0LJSJCNJE",          --承诺
+			     ROUND(sum("K0LJSJDJJE")/10000,2)    AS "K0LJSJDJJE",          --预付余额
+			     ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2)
+			                                         AS "K0LJSJJE",            --累计投资完成额
+			     ROUND(sum("K0LJYSJY")/10000,2)      AS "K0LJYSJY",            --项目资金计划结余
+			     CASE 
+			        WHEN ROUND(sum("K0ZTYSJE")/10000,2)=0 THEN 0 
+			             ELSE ROUND((ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2))
+			                  /ROUND(sum("K0ZTYSJE")/10000,2),4)                    
+			     END                                 AS "K0LJZJSYBL",          --资金使用%
+			     
+			     ROUND(sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",          --本年投资计划
+			     ROUND(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",       --本年累计支出
+			     ROUND(sum("K0BNSJCNJE")/10000,2)    AS "K0BNSJCNJE",          --承诺
+			     ROUND(sum("K0BNSJDJJE")/10000,2)    AS "K0BNSJDJJE",          --本年预付款
+			     ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2)                     
+			                                                   AS "K0BNSJJE",            --本年投资完成额
+			     ROUND(sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",            --本年资金计划结余
+			     CASE 
+			         WHEN ROUND(sum("K0BNYSJHJE")/10000,2) =0 THEN 0
+			              ELSE   ROUND((ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2))
+			                    /ROUND(sum("K0BNYSJHJE")/10000,2),4) 
+			     END                                            AS "K0BNZJSYBL"           --资金使用%
+			FROM
+			(
+			SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     IFNULL(sum("K0ZTYSJE"),0)      AS "K0ZTYSJE",            --计划总投资
+			     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+			     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+			     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+			
+			     
+			     IFNULL(sum("K0BNYSJHJE"),0)   AS "K0BNYSJHJE",          --本年投资计划
+			     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+			     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+			     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+			     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY"             --本年资金计划结余
+			
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1002_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			
+			UNION ALL 
+			
+			SELECT
+			     '总计'   as "G0GSJC",
+			     '0'     as "G0GSOR",
+			     IFNULL(sum("K0ZTYSJE"),0)      AS "K0ZTYSJE",            --计划总投资
+			     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+			     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+			     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+			
+			     
+			     IFNULL(sum("K0BNYSJHJE"),0)   AS "K0BNYSJHJE",          --本年投资计划
+			     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+			     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+			     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+			     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY"             --本年资金计划结余
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1002_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			)
+			GROUP BY  "G0GSJC", "G0GSOR"
+			ORDER BY "G0GSOR"
+	 </select>
+	 
+	  <!-- 科研投资统明细表 end--> 
+	 <sql id="getKytztjbData_detail_id">
+	          SELECT
+				     "G0XMBK",
+				     "G0XMLXMS",
+				     "G0GSJC",
+				     "G0PROJCODE", 
+				     "G0PROJTXT",
+				     ROUND(sum("K0ZTYSJE")/10000,2)      AS "K0ZTYSJE",            --计划总投资
+				     ROUND(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",       --累计下达投资额  
+				     ROUND(sum("K0LJSJCNJE")/10000,2)    AS "K0LJSJCNJE",          --承诺
+				     ROUND(sum("K0LJSJDJJE")/10000,2)    AS "K0LJSJDJJE",          --预付余额
+				     ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2)
+				                                         AS "K0LJSJJE",            --累计投资完成额
+				     ROUND(sum("K0LJYSJY")/10000,2)      AS "K0LJYSJY",            --项目资金计划结余
+				     CASE 
+				        WHEN ROUND(sum("K0ZTYSJE")/10000,2)=0 THEN 0 
+				             ELSE ROUND((ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2))
+				                  /ROUND(sum("K0ZTYSJE")/10000,2),4)                    
+				     END                                 AS "K0LJZJSYBL",          --资金使用%
+				     
+				     ROUND(sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",          --本年投资计划
+				     ROUND(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",       --本年累计支出
+				     ROUND(sum("K0BNSJCNJE")/10000,2)    AS "K0BNSJCNJE",          --承诺
+				     ROUND(sum("K0BNSJDJJE")/10000,2)    AS "K0BNSJDJJE",          --本年预付款
+				     ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2)                     
+				                                                   AS "K0BNSJJE",            --本年投资完成额
+				     ROUND(sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",            --本年资金计划结余
+				     CASE 
+				         WHEN ROUND(sum("K0BNYSJHJE")/10000,2) =0 THEN 0
+				              ELSE   ROUND((ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2))
+				                    /ROUND(sum("K0BNYSJHJE")/10000,2),4) 
+				     END                                            AS "K0BNZJSYBL"           --资金使用%
+				FROM
+				(
+				SELECT
+				     "G0XMBK",
+				     "G0XMLXMS",
+				     "G0GSJC",
+				     "G0GSOR",
+				     "G0PROJCODE", 
+				     "G0PROJTXT", 
+				     IFNULL(sum("K0ZTYSJE"),0)      AS "K0ZTYSJE",            --计划总投资
+				     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计下达投资额  
+				     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+				     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+				     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+				
+				     
+				     IFNULL(sum("K0BNYSJHJE"),0)   AS "K0BNYSJHJE",          --本年投资计划
+				     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+				     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+				     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+				     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY"             --本年资金计划结余
+				
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1002_01"
+				(
+				'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+				'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+				) 
+				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
+				)<include refid="selectCondition_getProject_detail" />
+			GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
+			ORDER BY "G0XMBK","G0XMLXMS" ,"G0GSOR"
+	  </sql>
+	
+	 
+	  
+	   <select id="getKytztjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	       <include refid="getKytztjbData_detail_id" />
+	       <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
+	   </select>
+	   
+	    <select id="getKytztjbData_detail_count" resultType="int" parameterType="java.util.Map" >
+	       select count(*) from (<include refid="getKytztjbData_detail_id" />)
+	    </select>
+	   
+	 <!-- 科研投资统计表 end--> 
+	 
+	 
+	 
+	 <!-- 科技经费统计表--> 
+	 <select id="getKjjftjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+		   SELECT
+			     "G0GSJC",
+			--   "G0GSOR",
+			     ROUND(sum("K0ZTYSJE")/10000,2)      AS "K0ZTYSJE",            --计划总投资
+			     ROUND(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     ROUND(sum("K0LJSJCNJE")/10000,2)    AS "K0LJSJCNJE",          --承诺
+			     ROUND(sum("K0LJSJDJJE")/10000,2)    AS "K0LJSJDJJE",          --预付余额
+			     ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2)
+			                                         AS "K0LJSJJE",            --累计投资完成额
+			     ROUND(sum("K0LJYSJY")/10000,2)      AS "K0LJYSJY",            --项目资金计划结余
+			     CASE 
+			        WHEN ROUND(sum("K0ZTYSJE")/10000,2)=0 THEN 0 
+			             ELSE ROUND((ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2))
+			                  /ROUND(sum("K0ZTYSJE")/10000,2),4)                    
+			     END                                 AS "K0LJZJSYBL",          --资金使用%
+			     
+			     ROUND(sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",          --本年投资计划
+			     ROUND(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",       --本年累计支出
+			     ROUND(sum("K0BNSJCNJE")/10000,2)    AS "K0BNSJCNJE",          --承诺
+			     ROUND(sum("K0BNSJDJJE")/10000,2)    AS "K0BNSJDJJE",          --本年预付款
+			     ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2)                     
+			                                                   AS "K0BNSJJE",            --本年投资完成额
+			     ROUND(sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",            --本年资金计划结余
+			     CASE 
+			         WHEN ROUND(sum("K0BNYSJHJE")/10000,2) =0 THEN 0
+			              ELSE   ROUND((ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2))
+			                    /ROUND(sum("K0BNYSJHJE")/10000,2),4) 
+			     END                                            AS "K0BNZJSYBL"           --资金使用%
+			FROM
+			(
+			SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     0                              AS "K0ZTYSJE",            --计划总投资
+			     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计投资额  
+			     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+			     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+			     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+			
+			     
+			     0                              AS "K0BNYSJHJE",          --本年投资计划
+			     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+			     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+			     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+			     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY"             --本年资金计划结余
+			
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1003_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			
+			UNION ALL 
+			
+			SELECT
+			     '总计'   as "G0GSJC",
+			     '0'     as "G0GSOR",
+			     0                              AS "K0ZTYSJE",            --计划总投资
+			     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+			     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+			     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+			
+			     
+			     0                              AS "K0BNYSJHJE",          --本年投资计划
+			     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+			     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+			     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+			     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY"             --本年资金计划结余
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1003_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			)
+			GROUP BY  "G0GSJC", "G0GSOR"
+			ORDER BY "G0GSOR"
+	 </select>
+	 
+	 
+	 
+	 
+	 
+	
+	
+	
+	 <sql id="getKjjftjbData_detail_id">
+	 
+					 SELECT
+				      "G0XMBK",
+				     "G0XMLXMS",
+				     "G0GSJC",
+				     "G0PROJCODE", 
+				     "G0PROJTXT",
+				     ROUND(sum("K0ZTYSJE")/10000,2)      AS "K0ZTYSJE",            --计划总投资
+				     ROUND(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",       --累计下达投资额  
+				     ROUND(sum("K0LJSJCNJE")/10000,2)    AS "K0LJSJCNJE",          --承诺
+				     ROUND(sum("K0LJSJDJJE")/10000,2)    AS "K0LJSJDJJE",          --预付余额
+				     ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2)
+				                                         AS "K0LJSJJE",            --累计投资完成额
+				     ROUND(sum("K0LJYSJY")/10000,2)      AS "K0LJYSJY",            --项目资金计划结余
+				     CASE 
+				        WHEN ROUND(sum("K0ZTYSJE")/10000,2)=0 THEN 0 
+				             ELSE ROUND((ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2))
+				                  /ROUND(sum("K0ZTYSJE")/10000,2),4)                    
+				     END                                 AS "K0LJZJSYBL",          --资金使用%
+				     
+				     ROUND(sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",          --本年投资计划
+				     ROUND(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",       --本年累计支出
+				     ROUND(sum("K0BNSJCNJE")/10000,2)    AS "K0BNSJCNJE",          --承诺
+				     ROUND(sum("K0BNSJDJJE")/10000,2)    AS "K0BNSJDJJE",          --本年预付款
+				     ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2)                     
+				                                                   AS "K0BNSJJE",            --本年投资完成额
+				     ROUND(sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",            --本年资金计划结余
+				     CASE 
+				         WHEN ROUND(sum("K0BNYSJHJE")/10000,2) =0 THEN 0
+				              ELSE   ROUND((ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2))
+				                    /ROUND(sum("K0BNYSJHJE")/10000,2),4) 
+				     END                                            AS "K0BNZJSYBL"           --资金使用%
+				FROM
+				(
+				SELECT
+				     "G0XMBK",
+				     "G0XMLXMS",
+				     "G0GSJC",
+				     "G0GSOR",
+				     "G0PROJCODE", 
+				     "G0PROJTXT", 
+				     0                              AS "K0ZTYSJE",            --计划总投资
+				     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计下达投资额  
+				     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+				     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+				     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+				
+				     
+				     0                              AS "K0BNYSJHJE",          --本年投资计划
+				     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+				     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+				     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+				     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY"             --本年资金计划结余
+				
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1003_01"
+				(
+				'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+				'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+				) 
+				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
+				)
+				<include refid="selectCondition_getProject_detail" />
+				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
+				ORDER BY "G0XMBK","G0XMLXMS" ,"G0GSOR"
+	 
+	 </sql>
+	 
+	
+	
+	  
+	 <select id="getKjjftjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	   <include refid="getKjjftjbData_detail_id" />
+	   <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
+	 </select>
+	   
+	 <select id="getKjjftjbData_detail_count"  resultType="int" parameterType="java.util.Map" >
+	  select count(*) from (<include refid="getKjjftjbData_detail_id" />)
+	 </select>
+	 <!-- 科技经费统计表  end--> 
+	 
+	 
+	 
+	 <!-- 横向课题全成本统计表--> 
+	 <select id="getHxktqcbtjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	    SELECT
+			     "G0GSJC",
+			--   "G0GSOR",
+			     ROUND(sum("K0LJGLFPHJESR")/10000,2) AS "K0LJGLFPHJESR",           --累计收入
+			     ROUND(sum("K0ZTYSJE")/10000,2)      AS "K0ZTYSJE",            --计划总投资
+			     ROUND(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     ROUND(sum("K0LJSJCNJE")/10000,2)    AS "K0LJSJCNJE",          --承诺
+			     ROUND(sum("K0LJSJDJJE")/10000,2)    AS "K0LJSJDJJE",          --预付余额
+			     ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2)
+			                                         AS "K0LJSJJE",            --累计投资完成额
+			     ROUND(sum("K0LJYSJY")/10000,2)      AS "K0LJYSJY",            --项目资金计划结余
+			     CASE 
+			        WHEN ROUND(sum("K0ZTYSJE")/10000,2)=0 THEN 0 
+			             ELSE ROUND((ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2))
+			                  /ROUND(sum("K0ZTYSJE")/10000,2),4)                    
+			     END                                 AS "K0LJZJSYBL",          --资金使用%
+			     
+			     ROUND(sum("K0BNGLFPHJESR")/10000,2) AS     "K0BNGLFPHJESR",         --本年收入   
+			     ROUND(sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",          --本年投资计划
+			     ROUND(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",       --本年累计支出
+			     ROUND(sum("K0BNSJCNJE")/10000,2)    AS "K0BNSJCNJE",          --承诺
+			     ROUND(sum("K0BNSJDJJE")/10000,2)    AS "K0BNSJDJJE",          --本年预付款
+			     ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2)                     
+			                                                   AS "K0BNSJJE",            --本年投资完成额
+			     ROUND(sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",            --本年资金计划结余
+			     CASE 
+			         WHEN ROUND(sum("K0BNYSJHJE")/10000,2) =0 THEN 0
+			              ELSE   ROUND((ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2))
+			                    /ROUND(sum("K0BNYSJHJE")/10000,2),4) 
+			     END                                            AS "K0BNZJSYBL"           --资金使用%
+			FROM
+			(
+			SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     IFNULL(sum("K0ZTYSJE"),0)      AS "K0ZTYSJE",            --计划总投资
+			     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计投资额  
+			     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+			     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+			     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+			     IFNULL(sum("K0LJGLFPHJESR"),0) AS "K0LJGLFPHJESR", 
+			     
+			     IFNULL(sum("K0BNYSJHJE"),0)    AS "K0BNYSJHJE",          --本年投资计划
+			     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+			     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+			     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+			     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY" ,            --本年资金计划结余
+			     IFNULL(sum("K0BNGLFPHJESR"),0) AS     "K0BNGLFPHJESR"
+			
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1004_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			
+			UNION ALL 
+			
+			SELECT
+			     '总计'   as "G0GSJC",
+			     '0'     as "G0GSOR",
+			     IFNULL(sum("K0ZTYSJE"),0)       AS "K0ZTYSJE",            --计划总投资
+			     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计下达投资额  
+			     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+			     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+			     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+			     IFNULL(sum("K0LJGLFPHJESR"),0) AS "K0LJGLFPHJESR", 
+			     
+			     IFNULL(sum("K0BNYSJHJE"),0)    AS "K0BNYSJHJE",          --本年投资计划
+			     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+			     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+			     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+			     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY",             --本年资金计划结余
+			     IFNULL(sum("K0BNGLFPHJESR"),0) AS     "K0BNGLFPHJESR"
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1004_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			)
+			GROUP BY  "G0GSJC", "G0GSOR"
+			ORDER BY "G0GSOR"
+	 
+	 </select>
+	  <sql id="getHxktqcbtjbData_detail_id">
+	       SELECT
+				     "G0XMBK",
+				     "G0XMLXMS",
+				     "G0GSJC",
+				     "G0PROJCODE", 
+				     "G0PROJTXT",
+				     ROUND(sum("K0LJGLFPHJESR")/10000,2) AS "K0LJGLFPHJESR",           --累计收入     
+				     ROUND(sum("K0ZTYSJE")/10000,2)      AS "K0ZTYSJE",            --计划总投资
+				     ROUND(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",       --累计下达投资额  
+				     ROUND(sum("K0LJSJCNJE")/10000,2)    AS "K0LJSJCNJE",          --承诺
+				     ROUND(sum("K0LJSJDJJE")/10000,2)    AS "K0LJSJDJJE",          --预付余额
+				     ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2)
+				                                         AS "K0LJSJJE",            --累计投资完成额
+				     ROUND(sum("K0LJYSJY")/10000,2)      AS "K0LJYSJY",            --项目资金计划结余
+				     CASE 
+				        WHEN ROUND(sum("K0ZTYSJE")/10000,2)=0 THEN 0 
+				             ELSE ROUND((ROUND(sum("K0LJGLFPHJECB")/10000,2)+ ROUND(sum("K0LJSJCNJE")/10000,2))
+				                  /ROUND(sum("K0ZTYSJE")/10000,2),4)                    
+				     END                                 AS "K0LJZJSYBL",          --资金使用%
+				     ROUND(sum("K0BNGLFPHJESR")/10000,2) AS     "K0BNGLFPHJESR",         --本年收入        
+				     ROUND(sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",          --本年投资计划
+				     ROUND(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",       --本年累计支出
+				     ROUND(sum("K0BNSJCNJE")/10000,2)    AS "K0BNSJCNJE",          --承诺
+				     ROUND(sum("K0BNSJDJJE")/10000,2)    AS "K0BNSJDJJE",          --本年预付款
+				     ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2)                     
+				                                                   AS "K0BNSJJE",            --本年投资完成额
+				     ROUND(sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",            --本年资金计划结余
+				     CASE 
+				         WHEN ROUND(sum("K0BNYSJHJE")/10000,2) =0 THEN 0
+				              ELSE   ROUND((ROUND(sum("K0BNGLFPHJECB")/10000,2)+ROUND(sum("K0BNSJCNJE")/10000,2))
+				                    /ROUND(sum("K0BNYSJHJE")/10000,2),4) 
+				     END                                            AS "K0BNZJSYBL"           --资金使用%
+				FROM
+				(
+				SELECT
+				     "G0XMBK",
+				     "G0XMLXMS",
+				     "G0GSJC",
+				     "G0GSOR",
+				     "G0PROJCODE", 
+				     "G0PROJTXT", 
+				     IFNULL(sum("K0ZTYSJE"),0)      AS "K0ZTYSJE",            --计划总投资
+				     IFNULL(sum("K0LJGLFPHJECB"),0) AS "K0LJGLFPHJECB",       --累计投资额  
+				     IFNULL(sum("K0LJSJCNJE"),0)    AS "K0LJSJCNJE",          --承诺
+				     IFNULL(sum("K0LJSJDJJE"),0)    AS "K0LJSJDJJE",          --预付余额
+				     IFNULL(sum("K0LJYSJY"),0)      AS "K0LJYSJY",            --项目资金计划结余
+				     IFNULL(sum("K0LJGLFPHJESR"),0) AS "K0LJGLFPHJESR", 
+				     
+				     IFNULL(sum("K0BNYSJHJE"),0)    AS "K0BNYSJHJE",          --本年投资计划
+				     IFNULL(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",       --本年累计支出
+				     IFNULL(sum("K0BNSJCNJE"),0)    AS "K0BNSJCNJE",          --承诺
+				     IFNULL(sum("K0BNSJDJJE"),0)    AS "K0BNSJDJJE",          --本年预付款
+				     IFNULL(sum("K0BNYSJY"),0)      AS "K0BNYSJY" ,            --本年资金计划结余
+				     IFNULL(sum("K0BNGLFPHJESR"),0) AS     "K0BNGLFPHJESR"
+				
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_QB_1004_01"
+				(
+				'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+				'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+				) 
+				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
+				)
+				 <include refid="selectCondition_getProject_detail" />
+				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
+				ORDER BY "G0XMBK","G0XMLXMS" ,"G0GSOR"
+	  
+	  </sql>
+	 <select id="getHxktqcbtjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	    <include refid="getHxktqcbtjbData_detail_id" />
+	    <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
+	 </select>
+	 <select id="getHxktqcbtjbData_detail_count"  resultType="int" parameterType="java.util.Map" >
+	    select count(*) from (<include refid="getHxktqcbtjbData_detail_id" />)
+	 </select>
+	 
+     
+</mapper>

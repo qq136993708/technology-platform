@@ -379,6 +379,6 @@
 		<module>kjpt-platform</module>
 		<module>kjpt-business-provider</module>
 		<module>kjpt-fetchoutdata-provider</module>
-		
+		<module>kjpt-hana-provider</module>
 	</modules>
 </project>
