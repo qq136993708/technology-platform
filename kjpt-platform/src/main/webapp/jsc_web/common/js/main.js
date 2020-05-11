@@ -36,8 +36,12 @@ kyptCharts.render({
     color: ['#f9dd56', '#ff9156', '#1bc85e'],
     callback:function(param){
         param.on('click',function(){
-            //kjpt/achieve/identify/achieve_identify_plan_list.html
-            window.open('/index?kjpt/achieve/identify/achieve_identify_plan_list.html');
+            var openUrl={
+                url:'/kjpt/achieve/identify/achieve_identify_plan_list.html',
+                name:'成果鉴定'
+            }
+            window.open('/index', 'kjpt_webapp');
+            localStorage.setItem("url", JSON.stringify(openUrl));
         })
     },
 });
@@ -77,7 +81,17 @@ kyptCharts.render({
             value: '30'
         }
     ],
-    color: ['#f9dd56', '#ff9156', '#1bc85e']
+    color: ['#f9dd56', '#ff9156', '#1bc85e'],
+    callback:function(param){
+        param.on('click',function(){
+            var openUrl={
+                url:'/html/patent/query.html',
+                name:'专利管理'
+            }
+            window.open('/index', 'kjpt_webapp');
+            localStorage.setItem("url", JSON.stringify(openUrl));
+        })
+    },
 });
 
 // 软件著作权数量

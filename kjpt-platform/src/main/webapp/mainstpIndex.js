@@ -407,5 +407,12 @@ layui.config({
     title = $(this).attr('lay-text');
     parent.layui.index.openTabsPage(itemHref, title);
   })
-
+  
 });
+//驾驶舱跳转页面
+var loadUrl=JSON.parse(localStorage.getItem('url'))
+ if(typeof(loadUrl) !== 'undefined'){
+  parent.layui.index.openTabsPage(loadUrl.url, loadUrl.name);
+  localStorage.removeItem("url");
+  $(".index-fixed li").removeClass("layui-this");
+ }

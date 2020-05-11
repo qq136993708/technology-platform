@@ -57,12 +57,12 @@ layui.config({
         type: 'GET',
         async:false,
         success: function(relData) {
-            console.log(relData)
-            relData.children.map(function (item,index) {
-                item.children.map(function (items,i) {
-                    delete items.children
-                })
-            })
+            // console.log(relData)
+            // relData.children.map(function (item,index) {
+            //     item.children.map(function (items,i) {
+            //         delete items.children
+            //     })
+            // })
             formSelects.data('technicalField', 'local', { arr: relData.children });
             formSelects.btns('technicalField', ['remove']);
         }

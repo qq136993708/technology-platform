@@ -548,10 +548,6 @@ var __base_dic_store = {
 					}
 				});
 			});
-			var loadUrl = window.location.search.substring(1);
-				if(typeof(loadUrl) !== 'undefined'){
-					$("#mainIframe", parent.document.body).attr("src", loadUrl);
-				}
 			$(document).ready(function() {
 				$("#mainIframe", parent.document.body).attr("src", "/mainStp.html");
 			}); 
@@ -559,6 +555,7 @@ var __base_dic_store = {
 
 
 		});
+		
 		
 		
 		

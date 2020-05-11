@@ -126,7 +126,7 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
             return $("#secretLevel").val();
         },
         callback: function (tableData, type) {
-            console.log(tableData)
+            // console.log(tableData)
             if (tableData.length > 0) {
                 fileDoc = ''
                 tableData.map(function (item, index) {
@@ -145,7 +145,6 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         deleTr('achieveTable')
     })
     form.on('submit(formSave)', function (data) {
-        debugger
         var techTypeText = '',
             achieveTransTypeText = '',
             finishUnitNameText=''

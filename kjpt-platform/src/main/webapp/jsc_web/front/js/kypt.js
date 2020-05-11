@@ -57,7 +57,6 @@ var option1 = {
     },
     yAxis: {
         type: 'category',
-        // data: ['板块级', '集团级', '部委级', '省部级', '国家级'],
         axisLabel: {
             textStyle: {
                 color: '#fff',
@@ -87,52 +86,8 @@ var option1 = {
         itemStyle: {
             normal: {
                 color: function (params) {
-                    if (params.dataIndex == 5) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#FE486D'
-                        }, {
-                            offset: 1,
-                            color: '#FFA164'
-                        }]);
-                    }
-                    if (params.dataIndex == 4) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#6E03E5'
-                        }, {
-                            offset: 1,
-                            color: '#AE3AFF'
-                        }]);
-                    }
-                    if (params.dataIndex == 3) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#00C8DD'
-                        }, {
-                            offset: 1,
-                            color: '#07EDE2'
-                        }]);
-                    }
-                    if (params.dataIndex == 2) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#FFC600'
-                        }, {
-                            offset: 1,
-                            color: '#FFEA00'
-                        }]);
-                    }
-                    if (params.dataIndex == 1) {
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#FE486D'
-                        }, {
-                            offset: 1,
-                            color: '#FFA164'
-                        }]);
-                    }
-                    if (params.dataIndex == 0) {
+                    // 01 国家  02部位 03//省 04 集团 05板块
+                    if (params.name == '板块级') { //板块
                         return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
                             offset: 0,
                             color: '#0AFF16'
@@ -141,10 +96,54 @@ var option1 = {
                             color: '#A1FF01'
                         }]);
                     }
+                    if (params.name == '国家级') { // 国家
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#6E03E5'
+                        }, {
+                            offset: 1,
+                            color: '#AE3AFF'
+                        }]);
+                    }
+                    if (params.name == '省部级') { //省
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#00C8DD'
+                        }, {
+                            offset: 1,
+                            color: '#07EDE2'
+                        }]);
+                    }
+                    if (params.name == '部委级') { //部
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#FFC600'
+                        }, {
+                            offset: 1,
+                            color: '#FFEA00'
+                        }]);
+                    }
+                    if (params.name == '集团级') { //集团
+                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#FE486D'
+                        }, {
+                            offset: 1,
+                            color: '#FFA164'
+                        }]);
+                    }
+                    // if (params.dataIndex == 0) {
+                    //     return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                    //  //     offset: 0,
+                    //     color: '#FE486D'
+                    // }, {
+                    //     offset: 1,
+                    //     color: '#FFA164'
+                    //     }]);
+                    // }
                 }
             }
         },
-        // data: [100, 200, 300, 400, 500]
     }]
 };
 
@@ -177,14 +176,7 @@ kypt_charts1.setOption(option1);
 kypt_charts2.setOption(option1);
 kypt_charts3.setOption(option1);
 kypt_charts4.setOption(option1);
-// kypt_charts1.setOption({
-//     yAxis:[{
-//         data: ['板块级', '集团级', '部委级', '省部级', '国家级']
-//     }],
-//     series: [{
-//         data: [1, 13, 12, 4, 15],
-//     }]
-// });
+
 // 01 国家  02部位 03//省 04 集团 05板块
 // 获取远端数据源
 httpModule({
@@ -265,29 +257,29 @@ function setInterval(res) { // 处理数据
         treatiseListY = []; //论文Y
     $.each(res, function (item, val) {
         if (val.countType == "achievement") { //成果
-            nextsetVal(val, achievementList, achievementListY ,kypt_charts1 );
+            nextsetVal(val, achievementList, achievementListY, kypt_charts1);
         } else if (val.countType == "project") { //项目
-            nextsetVal(val, projectList, projectListY,kypt_charts2);
+            nextsetVal(val, projectList, projectListY, kypt_charts2);
         } else if (val.countType == "patent") { //专利
-            nextsetVal(val, patentList, patentListY,kypt_charts3);
+            nextsetVal(val, patentList, patentListY, kypt_charts3);
         } else if (val.countType == "treatise") { //论文
-            nextsetVal(val,treatiseList, treatiseListY,kypt_charts4);
+            nextsetVal(val, treatiseList, treatiseListY, kypt_charts4);
         }
     })
 }
 //*val：接口返回的数据 list：chart series.data listY:chart yAxis.data  chart:chart对象 */
-function nextsetVal(val, list, listY ,chart) { 
+function nextsetVal(val, list, listY, chart) {
     if (val.level == '05' && typeof (val.secretLevel) !== 'undefined') {
         list.push(val.secretLevel)
         listY.push('板块级')
-    } 
+    }
     if (val.level == '04' && typeof (val.secretLevel) !== 'undefined') {
         list.push(val.secretLevel)
         listY.push('集团级')
-    } 
+    }
     if (val.level == '03' && typeof (val.secretLevel) !== 'undefined') {
         list.push(val.secretLevel)
-        listY.push('省部级')
+        listY.push('省部级')    
     }
     if (val.level == '02' && typeof (val.secretLevel) !== 'undefined') {
         list.push(val.secretLevel)
@@ -296,9 +288,9 @@ function nextsetVal(val, list, listY ,chart) {
     if (val.level == '01' && typeof (val.secretLevel) !== 'undefined') {
         list.push(val.secretLevel)
         listY.push('国家级')
-    } 
+    }
     chart.setOption({
-        yAxis:[{
+        yAxis: [{
             data: listY
         }],
         series: [{
