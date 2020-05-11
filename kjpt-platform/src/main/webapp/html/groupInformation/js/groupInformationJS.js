@@ -6,7 +6,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var layer = layui.layer;
   var laydate = layui.laydate;
 
-  // var newTime = new Date(); //发布时间初始值
+  // var newTime = new Date(); //发布日期初始值
   // var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
   laydate.render({elem: '#releaseTime',trigger:'click'});
   laydate.render({elem: '#yearOrMonth',trigger:'click',type:'month'});
@@ -56,7 +56,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
     {field: 'publication', title:'发布处室'},
-    {field: 'pubdate', title: '发布时间',templet: function(d){
+    {field: 'pubdate', title: '发布日期',templet: function(d){
       var times = new Date(d.pubdate);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
     }},

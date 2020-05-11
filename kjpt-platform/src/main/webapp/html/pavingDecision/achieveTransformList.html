@@ -32,8 +32,8 @@
           <div class="layui-input-block">
             <select name="achieveType" lay-filter="achieveType">
               <option value="">请选择</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
+              <option value="1">核心</option>
+              <option value="0">非核心</option>
             </select>
           </div>
         </div>
@@ -146,7 +146,7 @@ layui.use(['form', 'table', 'laydate', 'layer'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/achieveRecord-api/queryAchieveSubsidiarity' //数据接口
         ,cols: [[ //表头
-          ,{field: 'achieveName', title: '成果描述', width: 120, fixed: 'left'}
+          ,{field: 'achieveName', title: '成果名称', width: 120, fixed: 'left'}
           ,{field: 'projectSource', title: '项目来源', width: 100}
           ,{field: 'projectChannel', title: '经费支持渠道', width: 120}
           ,{field: 'teamInfo', title: '完成团队', width: 100} 

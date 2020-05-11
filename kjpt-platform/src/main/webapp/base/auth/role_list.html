@@ -100,14 +100,17 @@
 	        , id: 'roleListTable'
 	        , method:"POST"
 	        ,loading:true
-	        , page: {
-	            groups: 5
-	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
-	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-	            , first: '首页' //不显示首页
-	            , last: '尾页' //不显示尾页
-	            , theme: '#0F9EE0'
-	        }
+	        // , page: {
+	        //     groups: 5
+	        //     , limits : [5, 10, 15, 20 ]
+	        //     , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	        //     , first: '首页' //不显示首页
+	        //     , last: '尾页' //不显示尾页
+	        //     , theme: '#0F9EE0'
+	        // }
+            , page: true, //开启分页
+                    // limit: 15, // 每页数据条数,
+                    limits: [5, 10, 15, 20] // 配置分页数据条数
 	        , cols: [[
 	            	{type: 'radio', event: 'roleCheckboxEvent',width : 55}
 	            	,{title:'序号', type:'numbers',width : 55}
@@ -144,14 +147,17 @@
 	        , where: {param: {"roleId":"0"}}
 	        , height: commonDislodgeTable()
 	        , loading: true
-	        , page: {
-	            groups: 5
-	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
-	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-	            , first: '首页' //不显示首页
-	            , last: '尾页' //不显示尾页
-	            , theme: '#0F9EE0'
-	        }
+	        // , page: {
+	        //     groups: 5
+	        //     , limits : [ 5, 10, 15, 20 ]
+	        //     , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	        //     , first: '首页' //不显示首页
+	        //     , last: '尾页' //不显示尾页
+	        //     , theme: '#0F9EE0'
+	        // }
+            ,page: true, //开启分页
+                    // limit: 15, // 每页数据条数,
+                    limits: [5, 10, 15, 20] // 配置分页数据条数
 	        , cols: [[
 	        	  {title:'序号', type:'numbers',width : 55}
 	            , {field: 'userName', title: '用户名', style: 'cursor: pointer;'}

@@ -62,15 +62,18 @@
             height: commonDislodgeTable(),
             method: 'POST',
             where: {noticeTitle: noticeTitle},
-            page: {
-            	count: 500, //数据总数，从服务端得到
-                groups: 5,
-                limits: [15,30,45,60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
+            // page: {
+            // 	count: 500, //数据总数，从服务端得到
+            //     groups: 5,
+            //     limits: [15,30,45,60],
+            //     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            //     first: '首页', //不显示首页
+            //     last: '尾页', //不显示尾页
+            //     theme: '#0F9EE0'
+            // },
+						page: true, //开启分页
+            // limit: 15, // 每页数据条数,
+            limits: [5, 10, 15, 20], // 配置分页数据条数
             cols: [[
             	{type:'radio', event: 'changeEvents'},
                 {title:'序号', type:'numbers' ,width : 55},

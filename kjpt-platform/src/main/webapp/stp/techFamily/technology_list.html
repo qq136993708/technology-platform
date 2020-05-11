@@ -41,6 +41,7 @@
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
                         <button class="layui-btn layui-btn-normal margin24" data-type="searchEvent">查询</button>
+                        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
             </div>
@@ -175,9 +176,6 @@
                         console.log(res)
                     }
                 });
-
-
-
             }
         }
         //区别按钮属性
@@ -185,6 +183,17 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+        //input enter 
+        $('#typeName').on('keydown', function (event) {
+            if (event.keyCode == 13) {
+                active.searchEvent();
+            }
+        });
+        //重置按钮
+        $('#reset').on('click',function(){
+            active.resetEvent();
+        })
+
     })
 </script>
 </body>
