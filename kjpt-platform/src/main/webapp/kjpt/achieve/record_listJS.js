@@ -133,7 +133,7 @@ layui.use(['table', 'form','laydate'], function() {
       }
 
       itemID = itemID.substring(1);
-      top.layer.confirm('您确定要删除选中的备案信息吗？', {icon: 3, title:'提示'}, function(index) {
+      top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
         top.layer.close(index);
         httpModule({
           url: '/achieveRecord-api/delete/' + itemID,

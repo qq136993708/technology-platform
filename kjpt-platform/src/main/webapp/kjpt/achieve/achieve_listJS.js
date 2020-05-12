@@ -126,7 +126,7 @@ layui.use(['table', 'form', 'laydate'], function () {
   })
   // 删除申请
   $('#delItem').on('click', function () {
-    layer.confirm('确定要删除吗？', {title: "删除确认"}, function (index) {
+    top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
       // 获取被选中的行数据
       var activeData = table.checkStatus('tableDemo').data;
       if (activeData.length) {

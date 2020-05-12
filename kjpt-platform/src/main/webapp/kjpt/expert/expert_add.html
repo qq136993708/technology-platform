@@ -187,8 +187,10 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">工作经历:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="workExperience"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <!-- <input type="text" name="workExperience"
+                               placeholder="" autocomplete="off" class="layui-input"> -->
+                               <textarea type="text" name="workExperience" rows="4"
+                                  placeholder="请输入1000以内的文字" autocomplete="off" class="layui-input layui-textarea"  lay-verify="maxlength" maxlength="1000"></textarea>
                     </div>
                 </div>
                 <!--人物简介-->
@@ -196,7 +198,7 @@
                     <label class="layui-form-label"><span class="text">人物简介:</span></label>
                     <div class="layui-input-block">
                         <textarea type="text" name="brief" rows="4"
-                                  placeholder="" autocomplete="off" class="layui-input layui-textarea"></textarea>
+                                  placeholder="请输入1000以内的文字" autocomplete="off" class="layui-input layui-textarea"  lay-verify="maxlength" maxlength="1000"></textarea>
                     </div>
                 </div>
                 <!--人物成就-->
@@ -204,7 +206,7 @@
                     <label class="layui-form-label"><span class="text">人物成就:</span></label>
                     <div class="layui-input-block">
                         <textarea type="text" name="achievement" rows="4"
-                                  placeholder="" autocomplete="off" class="layui-input layui-textarea"></textarea>
+                                  placeholder="请输入1000以内的文字" autocomplete="off" class="layui-input layui-textarea" lay-verify="maxlength" maxlength="1000"></textarea>
                     </div>
                 </div>
                 <!--专家分类-->
