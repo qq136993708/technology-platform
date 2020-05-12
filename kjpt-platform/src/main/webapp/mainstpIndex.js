@@ -411,7 +411,7 @@ layui.config({
 });
 //驾驶舱跳转页面
 var loadUrl=JSON.parse(localStorage.getItem('url'))
- if(typeof(loadUrl) !== 'undefined'){
+ if(typeof(loadUrl) !== 'undefined' && loadUrl != null){
   parent.layui.index.openTabsPage(loadUrl.url, loadUrl.name);
   localStorage.removeItem("url");
   $(".index-fixed li").removeClass("layui-this");

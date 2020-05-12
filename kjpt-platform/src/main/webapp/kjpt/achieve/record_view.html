@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/achieveRecord.css">
+
+  <!-- 更多样式在此引入 -->
+</head>
+
+<body>
+  <div class="layout-view-content dialog min-label">
+    <form class="layui-form" action="" lay-filter="newRecordFome">
+      <!-- <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+            <div class="layui-input-block">
+              <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ"
+                lay-verify="required" placeholder="请选择...">
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+            <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>
+          </div>
+        </div>
+
+      </div> -->
+      <!-- 知悉范围 -->
+      <div id="scope_list_layout"></div>
+      <div class="secret-level-line"></div>
+
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">是否核心成果：</span></label>
+            <div class="layui-input-block">
+              <select name="achieveType" lay-verify="required" lay-filter="achieveType">
+                <option value="1">是</option>
+                <option value="0" selected>否</option>
+              </select>
+              <input type="hidden" name="achieveTypeText">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
+            <div class="layui-input-block" id="selectAchieve">
+              <input type="text" name="achieveName" lay-filter="achieveName" lay-verify="required" placeholder="请填写..."
+                autocomplete="off" class="layui-input">
+              <input type="hidden" name="achieveId" lay-filter="achieveId">
+              <span class="search-icon selectIcon" style="display: none;">
+                <i class="layui-icon layui-icon-search"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果基本情况：</span></label>
+            <div class="layui-input-block">
+              <textarea type="text" name="achieveInfo" lay-verify="required|length" length="300" placeholder="请填写..."
+                autocomplete="off" class="layui-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
+            <div class="layui-input-block">
+              <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal" disabled='disabled'
+                dic-base-data="ROOT_KJPT_YTDW" ></select>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
+            <div class="layui-input-block">
+              <select name="achieveTransType" dic-base-data="ROOT_KJPT_KJCG_NZHFS"
+                lay-filter="achieveTransType"></select>
+              <input type="hidden" name="achieveTransTypeText">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">拟受让单位：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="grantUnitName" placeholder="请填写..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">预计净收益（万元）：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="incomeMoney" placeholder="请填写..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">拟转化金额（万元）：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="transMoney" placeholder="请填写..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">本年激励额度（万元）：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="currentRewardMoney" placeholder="请填写..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">激励预计总额（万元）：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="rewardMoney" placeholder="请填写..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">未完成项目预计完成时间：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="aboutCompleteTime" id="estimate" placeholder="请填写..." autocomplete="off"
+                class="laydate-input">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">完成情况：</span></label>
+            <div class="layui-input-block">
+              <select name="aboutCompleteInfo" dic-base-data="ROOT_KJPT_KJCG_SFWCQK" lay-filter="aboutCompleteInfo">
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-footer-btn">
+        <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
+        <button class="layui-btn layui-btn-primary close-all-dialog" type="button">取消</button>
+      </div>
+
+      <input type="hidden" name="creator"><!-- 创建人 -->
+      <input type="hidden" name="createDate"><!-- 创建时间 -->
+      <input type="hidden" name="updator"><!-- 更新人 -->
+      <input type="hidden" name="updateDate"><!-- 更新时间 -->
+      <input type="hidden" name="deleted"> <!-- 是否删除键 -->
+      <input type="hidden" name="id"> <!-- 备案ID -->
+      <input type="hidden" name="auditStatus"><!-- 审批状态默认 0 -->
+      <input type="hidden" name="auditStatusText">
+      <input type="hidden" name="createUnitId"><!-- 所属单位ID -->
+      <input type="hidden" name="createUnitName"><!-- 所属单位名称 -->
+      <input type="hidden" name="achieveRewards"><!-- 备案信息——传空数据即可 -->
+
+      <!-- 初始保存必须字段可以是空值 -->
+      <input type="hidden" name="achieveTechType">
+      <input type="hidden" name="achieveTechTypeText">
+      <input type="hidden" name="achieveTransStatus">
+      <input type="hidden" name="achieveTransStatusText">
+      <input type="hidden" name="decisionFlow">
+      <input type="hidden" name="decisionResult">
+      <input type="hidden" name="grantChooseWay">
+      <input type="hidden" name="intellectualInfo">
+      <input type="hidden" name="projectChannel">
+      <input type="hidden" name="projectSource">
+      <input type="hidden" name="teamInfo">
+      <input type="hidden" name="grantInvest">
+      <input type="hidden" name="grantReason">
+      <input type="hidden" name="teamPerson">
+      <input type="hidden" name="transPriceBasis">
+      <input type="hidden" name="transPriceWay">
+
+
+      <!-- 附件存储ID -->
+      <div id="file-value-list">
+        <input type="hidden" name="appraisalDoc">
+        <input type="hidden" name="decisionMeetingDoc">
+        <input type="hidden" name="decisionRuleDoc">
+        <input type="hidden" name="grantDoc">
+        <input type="hidden" name="transAssessDoc">
+        <input type="hidden" name="transContractDoc">
+        <input type="hidden" name="transPublicDoc">
+      </div>
+    </form>
+
+  </div>
+  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/layuiadmin/js/common.js"></script>
+  <script src="record_addJS.js"></script>
+  <!-- 更多JS在此引入 -->
+</body>
+
+</html>

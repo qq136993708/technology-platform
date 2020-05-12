@@ -71,11 +71,19 @@
                     </div>
                 </div>
                 <!--职务-->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">职务:</span></label>
+                <!-- <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">职1务:</span></label>
                     <div class="layui-input-block">
                         <input type="text" name="post"
                                placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div> -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">职务：</span></label>
+                    <div class="layui-input-block">
+                        <select name="post" id="post">
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
                 <!--性别-->
@@ -85,12 +93,12 @@
 
                     </div>
                 </div>
-                <!--出生年-->
+                <!--出生年份-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label label-required"><span class="text">出生年:</span></label>
+                    <label class="layui-form-label label-required"><span class="text">出生年份:</span></label>
                     <div class="layui-input-block">
                         <input type="text" name="age"
-                               lay-verify="required" id="appDate" autocomplete="off" placeholder="请选择出生年!" class="layui-input laydate-input">
+                               lay-verify="required" id="appDate" autocomplete="off" placeholder="请选择出生年份!" class="layui-input laydate-input">
                         <!--<input type="text" name="age"
                                placeholder="" autocomplete="off" class="layui-input">-->
                     </div>

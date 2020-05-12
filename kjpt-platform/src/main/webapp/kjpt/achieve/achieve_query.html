@@ -28,16 +28,23 @@
                 </div>
             </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
+                <!-- <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
                     <div class="layui-input-block">
                         <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
-                </div>
+                </div> -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
+                    <div class="layui-input-block">
+                      <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
+                        dic-base-data="ROOT_KJPT_YTDW" ></select>
+                    </div>
+                  </div>
             </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">成果受让单位：</span></label>
+                    <label class="layui-form-label"><span class="text">拟受让单位：</span></label>
                     <div class="layui-input-block">
                         <input type="text" name="grantUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
@@ -122,7 +129,7 @@
                         ,{field: 'auditStatusText', title: '备案状态'}
                         ,{field: 'achieveName', title: '成果名称', sort: true }
                         ,{field: 'achieveInfo', title: '成果基本情况', sort: true}
-                        ,{field: 'finishUnitName', title: '成果持有单位'}
+                        ,{field: 'finishUnitNameText', title: '成果持有单位'}
                         ,{field: 'grantUnitName', title: '拟受让单位'}
                         ,{field: 'achieveTypeText', title: '是否核心技术成果', sort: true}
                         ,{field: 'achieveTransTypeText', title: '拟转让方式'}

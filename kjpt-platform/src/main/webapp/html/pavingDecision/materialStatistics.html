@@ -20,7 +20,7 @@
     <div class="layui-row layui-col-space20">
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">年度：</span></label>
+          <label class="layui-form-label"><span class="text">上报年度：</span></label>
           <div class="layui-input-block">
             <input type="text" name="year" id="startYear" autocomplete="off" class="laydate-input">
           </div>
@@ -74,10 +74,10 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/scienceStatistics' //数据接口
         ,cols: [[ //表头
-          ,{field: 'annualYear', title: '上报年度'}
+          ,{field: 'annualYear', title: '上报年度',sort: true }
           ,{field: 'unitName', title: '上报单位', sort: true }
           ,{field: 'scientificCount', title: '科技规划数量', sort: true}
-          ,{field: 'workPointCount', title: '工作要点数量'} 
+          ,{field: 'workPointCount', title: '工作要点数量',sort: true } 
           ,{field: 'progressTrendsCount', title: '科技进展动态数量'}
           ,{field: 'annualSummaryCount', title: '年度总结数量', sort: true}
           ,{field: 'researchReportCount', title: '研究报告数量', sort: true}
