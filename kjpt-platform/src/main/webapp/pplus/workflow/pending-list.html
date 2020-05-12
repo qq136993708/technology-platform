@@ -433,6 +433,12 @@
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
 			});
+			 //input enter 
+			 $('#taskName').on('keydown', function (event) {
+            if (event.keyCode == 13) {
+                active.searchEvent();
+            }
+        });
 
 		});
 	</script>
