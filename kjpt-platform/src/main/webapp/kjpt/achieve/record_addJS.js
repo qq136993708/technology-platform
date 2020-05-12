@@ -44,7 +44,6 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
   httpModule({
     url: itemInitApi,
     success: function(res) {
-      debugger
       if (res.code === '0' || res.success === true) {
         var newData = res.data.achieveRecord || res.data;
         if (variable.type === 'add' && !newData.auditStatus) {

@@ -24,8 +24,8 @@
         </label>
         <!--按钮组-->
         <div class="btnGroup">
-            <button class="layui-btn layui-btn-normal" data-type="roleSearchEvent">查询
-            </button>
+            <button class="layui-btn layui-btn-normal" data-type="roleSearchEvent">查询</button>
+            <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
     <div class="tableBox">
@@ -303,5 +303,8 @@
         active[type] ? active[type].call(this) : '';
     });
 });
+$("#reset").click(function () {
+    rendRoleTable()
+})
 </script>
 </html>

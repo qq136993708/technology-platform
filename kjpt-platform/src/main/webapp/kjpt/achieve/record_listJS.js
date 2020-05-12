@@ -176,6 +176,7 @@ layui.use(['table', 'form','laydate'], function() {
       dialogTitle = '编辑';
     } else if (optionType === 'view') {
       dialogTitle = '查看';
+      url = '/kjpt/achieve/record_view.html?type=' + optionType;
     }
 
     if (optionType !== 'add') {
