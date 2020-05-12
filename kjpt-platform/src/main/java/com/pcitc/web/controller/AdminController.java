@@ -376,7 +376,8 @@ public class AdminController extends BaseController {
 						return "/login";
 					}else
 					{
-						return "/sso_error_sw";
+						//return "/sso_error_sw";
+						return "/login";
 					}
 				}else
 				{

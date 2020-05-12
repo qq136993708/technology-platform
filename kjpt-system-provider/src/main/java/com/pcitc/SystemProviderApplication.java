@@ -3,16 +3,18 @@ package com.pcitc;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+
+import koal.urm.client.action.ResServiceServlet;
 
 /**
  * @author zhf
@@ -46,5 +48,17 @@ public class SystemProviderApplication {
 		requestFactory.setReadTimeout(40000);
 		return new RestTemplate(requestFactory);
 	}
+    
+    
+    @Bean
+    public ServletRegistrationBean getServletRegistrationBean() {  //一定要返回ServletRegistrationBean
+        ServletRegistrationBean bean = new ServletRegistrationBean(new ResServiceServlet());
+        bean.addInitParameter("resDaoClass", "com.pcitc.service.ssosync.impl.ResRecvServiceImpl");
+        bean.addInitParameter("daoType", "2");
+        //放入自己的Servlet对象实例
+        bean.addUrlMappings("/resReg");  //访问路径值
+        return bean;
+    }
+    
 
 }

@@ -1,37 +1,27 @@
 package com.pcitc.web;
 
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.servlet.ServletContextInitializer;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import koal.urm.client.action.ResServiceServlet;
 
 
 /**
@@ -111,4 +101,18 @@ public class PplusApplication extends SpringBootServletInitializer {
 		factory.setMaxRequestSize("2048MB");
 		return factory.createMultipartConfig();
 	}
+	
+	
+	    @Bean
+	    public ServletRegistrationBean getServletRegistrationBean() {  //一定要返回ServletRegistrationBean
+	        ServletRegistrationBean bean = new ServletRegistrationBean(new ResServiceServlet());
+	        bean.addInitParameter("resDaoClass", "com.pcitc.ssosync.rpcdao.ResRecvDaoImp");
+	        bean.addInitParameter("daoType", "2");
+	        //放入自己的Servlet对象实例
+	        bean.addUrlMappings("/resReg");  //访问路径值
+	        return bean;
+	    }
+	
+	
+	
 }

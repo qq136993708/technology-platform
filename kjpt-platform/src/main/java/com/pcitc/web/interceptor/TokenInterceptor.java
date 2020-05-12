@@ -75,7 +75,8 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					}else
 					{
 						System.out.println(">>>>>>b>serverName ============="+serverName);
-						response.sendRedirect(proxyUrl + "sso_error_sw");
+						//response.sendRedirect(proxyUrl + "sso_error_sw");
+						response.sendRedirect("/login");
 						
 					}
 					return false;
@@ -100,7 +101,8 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					}else
 					{
 						System.out.println(">>>>>>d>serverName ============="+serverName);
-						response.sendRedirect(proxyUrl + "sso_error_sw");
+						response.sendRedirect("/login");
+						//response.sendRedirect(proxyUrl + "sso_error_sw");
 						
 					}
 					
@@ -115,7 +117,8 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(proxyUrl + "sso_error_sw");
+			//response.sendRedirect(proxyUrl + "sso_error_sw");
+			response.sendRedirect("/login");
 			return false;
 		}
 	}
