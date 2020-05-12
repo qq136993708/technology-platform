@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
 
-import koal.urm.client.action.ResServiceServlet;
 
 
 /**
@@ -103,15 +102,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 	}
 	
 	
-	    @Bean
-	    public ServletRegistrationBean getServletRegistrationBean() {  //一定要返回ServletRegistrationBean
-	        ServletRegistrationBean bean = new ServletRegistrationBean(new ResServiceServlet());
-	        bean.addInitParameter("resDaoClass", "com.pcitc.ssosync.rpcdao.ResRecvDaoImp");
-	        bean.addInitParameter("daoType", "2");
-	        //放入自己的Servlet对象实例
-	        bean.addUrlMappings("/resReg");  //访问路径值
-	        return bean;
-	    }
+	    
 	
 	
 	
