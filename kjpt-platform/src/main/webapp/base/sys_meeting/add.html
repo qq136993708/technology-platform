@@ -89,10 +89,10 @@
     </div>
 </div>
 
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+<!-- <script src="/common/js/jquery-1.11.3.min.js"></script> -->
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
-debugger
     var v_date = (new Date()).getTime();
     var id = "${id?default('')}";
     var file_ids = "meetingDoc";
@@ -100,9 +100,6 @@ debugger
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "1b128e5229bd4e9789f1e6dc904c7208";
-    //添加到form.render()之后
-    debugger
-    $("#file_div").load('/common/public/uploadlayuiload.html');
 
     layui.config({
         base: 'layuicommon/module/modules/' //静态资源所在路径
@@ -122,9 +119,11 @@ debugger
         //日期时间选择器
         laydate.render({
             elem: '#meetingDate'
-            , type: 'datetime'
+            , type: 'datetime'  
         });
-
+        //添加到form.render()之后
+        debugger
+        $("#file_div").load('/common/public/uploadlayuiload.html');
         
 
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
