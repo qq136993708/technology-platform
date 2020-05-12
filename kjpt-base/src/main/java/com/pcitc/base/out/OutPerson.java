@@ -107,10 +107,88 @@ public class OutPerson  {
     private String   isExpert="0";
     
     
-    
+
+    /**
+     * 身份证类型
+     */
+    private String idCardType;
+
+    /**
+     * 奖励信息
+     */
+    private String awardInfo;
+
+    /**
+     * 专利信息
+     */
+    private String patentInfo;
+
+    /**
+     * 人物成就（论著信息）
+     */
+    private String achievementInfo;
+
+    /**
+     * 专家项目信息
+     */
+    private String projectInfo;
+
+    /**
+     * 奖惩信息
+     */
+    private String rewardsPunish;
+
     
 
-    public String getIsExpert() {
+    public String getIdCardType() {
+		return idCardType;
+	}
+
+	public void setIdCardType(String idCardType) {
+		this.idCardType = idCardType;
+	}
+
+	public String getAwardInfo() {
+		return awardInfo;
+	}
+
+	public void setAwardInfo(String awardInfo) {
+		this.awardInfo = awardInfo;
+	}
+
+	public String getPatentInfo() {
+		return patentInfo;
+	}
+
+	public void setPatentInfo(String patentInfo) {
+		this.patentInfo = patentInfo;
+	}
+
+	public String getAchievementInfo() {
+		return achievementInfo;
+	}
+
+	public void setAchievementInfo(String achievementInfo) {
+		this.achievementInfo = achievementInfo;
+	}
+
+	public String getProjectInfo() {
+		return projectInfo;
+	}
+
+	public void setProjectInfo(String projectInfo) {
+		this.projectInfo = projectInfo;
+	}
+
+	public String getRewardsPunish() {
+		return rewardsPunish;
+	}
+
+	public void setRewardsPunish(String rewardsPunish) {
+		this.rewardsPunish = rewardsPunish;
+	}
+
+	public String getIsExpert() {
 		return isExpert;
 	}
 

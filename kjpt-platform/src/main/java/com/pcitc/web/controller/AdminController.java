@@ -113,15 +113,14 @@ public class AdminController extends BaseController {
 			  {
 				  System.out.println(">>>>>>>isWhite ============="); 
 				  return "/jsc_web/index";
-				  //return "redirect:/jsc_web/index.html"; ;
 			  }else 
 			  { 
 				  return "/login"; 
 			   } 
 		  }else
 		  {
-			  System.out.println(">>>d>>>>session is  "+request.getSession().getAttribute("sysUser"));
-			  System.out.println(">>>>a>>>SysUser is null ============="); 
+			  System.out.println(">>>login>>>>session is  "+request.getSession().getAttribute("sysUser"));
+			  System.out.println(">>>>login>>>SysUser is null ============="); 
 			  return   "/login"; 
 		  }
 		 
@@ -144,14 +143,12 @@ public class AdminController extends BaseController {
 			    request.getSession().setAttribute("sysUser", sysUser);
 	            String userName=sysUser.getUserName();
 	            boolean isWhite = is_White(sysUser);
-	            //String str="redirect:jsc_web/index.html";//"+proxyUrl+"
 	            System.out.println("===========isWhite="+isWhite+" userName="+userName);
 	            if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
 	                request.setAttribute("userName", userName);
 	                return "/adminIndex";
 	            } else if(isWhite)
 		        {
-		            //return "redirect:/jsc_web/index.html";
 		            return "/jsc_web/index";
 		        }else
 		        {
@@ -161,7 +158,6 @@ public class AdminController extends BaseController {
 		{
 			request.setAttribute("err", "用户名密码错误");
 			System.out.println("===========sysUser is null ================");
-	    	
 			return "/login";
 		}
 		

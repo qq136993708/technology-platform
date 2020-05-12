@@ -20,7 +20,6 @@
     <result column="post"  jdbcType="VARCHAR" property="post" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="age" jdbcType="INTEGER" property="age" />
-    
     <result column="title_str"     jdbcType="VARCHAR" property="titleStr" />
     <result column="education_str" jdbcType="VARCHAR" property="educationStr" />
     <result column="sex_str"       jdbcType="VARCHAR" property="sexStr" />
@@ -29,14 +28,20 @@
     <result column="is_expert" jdbcType="VARCHAR" property="isExpert" />
     
     
-    
+    <result column="id_card_type" jdbcType="VARCHAR" property="idCardType" />
+    <result column="award_info" jdbcType="VARCHAR" property="awardInfo" />
+    <result column="patent_info" jdbcType="VARCHAR" property="patentInfo" />
+    <result column="achievement_info" jdbcType="VARCHAR" property="achievementInfo" />
+    <result column="project_info" jdbcType="VARCHAR" property="projectInfo" />
+    <result column="rewards_punish" jdbcType="VARCHAR" property="rewardsPunish" />
     
     
   </resultMap>
   <sql id="Base_Column_List">
-    id, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, tech_type, 
-    create_time, create_user, tech_type_name, id_card, email, 
-    contact_way, work_experience,post,title,age,user_no,is_expert
+    id, user_no, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, 
+    tech_type, create_time, create_user, tech_type_name, id_card, email, contact_way, 
+    work_experience, post, title, age, is_expert, id_card_type, award_info, patent_info, 
+    achievement_info, project_info, rewards_punish
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -49,29 +54,32 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
-    insert into out_person (
-       id,sex, `name`, birth_year, 
-      education, belong_unit_name, belong_unit_id, 
-      tech_type, create_time, create_user, 
-      tech_type_name, id_card, email, 
-      contact_way, work_experience,post,title,age,user_no,is_expert
+    insert into out_person (id,user_no, sex, `name`, 
+      birth_year, education, belong_unit_name, 
+      belong_unit_id, tech_type, create_time, 
+      create_user, tech_type_name, id_card, 
+      email, contact_way, work_experience, 
+      post, title, age, is_expert, 
+      id_card_type, award_info, patent_info, 
+      achievement_info, project_info, rewards_punish
       )
-    values (
-    
-      #{id,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{birthYear,jdbcType=VARCHAR}, 
-      #{education,jdbcType=VARCHAR}, #{belongUnitName,jdbcType=VARCHAR}, #{belongUnitId,jdbcType=VARCHAR}, 
-      #{techType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
-      #{techTypeName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{contactWay,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}
-      , #{userNo,jdbcType=VARCHAR}, #{isExpert,jdbcType=VARCHAR}
-      
+    values 
+    (
+      #{id,jdbcType=VARCHAR},#{userNo,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{birthYear,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{belongUnitName,jdbcType=VARCHAR}, 
+      #{belongUnitId,jdbcType=VARCHAR}, #{techType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{techTypeName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{isExpert,jdbcType=VARCHAR}, 
+      #{idCardType,jdbcType=VARCHAR}, #{awardInfo,jdbcType=VARCHAR}, #{patentInfo,jdbcType=VARCHAR}, 
+      #{achievementInfo,jdbcType=VARCHAR}, #{projectInfo,jdbcType=VARCHAR}, #{rewardsPunish,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
     insert into out_person
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="userNo != null">
+        user_no,
       </if>
       <if test="sex != null">
         sex,
@@ -124,21 +132,32 @@
       <if test="age != null">
         age,
       </if>
-      <if test="userNo != null">
-       user_no,
-      </if>
       <if test="isExpert != null">
-       is_expert,
+        is_expert,
       </if>
-      
-    
-    
-      
-      
-    
-    
+      <if test="idCardType != null">
+        id_card_type,
+      </if>
+      <if test="awardInfo != null">
+        award_info,
+      </if>
+      <if test="patentInfo != null">
+        patent_info,
+      </if>
+      <if test="achievementInfo != null">
+        achievement_info,
+      </if>
+      <if test="projectInfo != null">
+        project_info,
+      </if>
+      <if test="rewardsPunish != null">
+        rewards_punish,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
       </if>
@@ -190,21 +209,35 @@
       <if test="age != null">
         #{age,jdbcType=INTEGER},
       </if>
-      <if test="userNo != null">
-        #{userNo,jdbcType=VARCHAR},
-      </if>
       <if test="isExpert != null">
         #{isExpert,jdbcType=VARCHAR},
       </if>
-       
-       
-        
-    
+      <if test="idCardType != null">
+        #{idCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="awardInfo != null">
+        #{awardInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="patentInfo != null">
+        #{patentInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="achievementInfo != null">
+        #{achievementInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectInfo != null">
+        #{projectInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardsPunish != null">
+        #{rewardsPunish,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.out.OutPerson">
     update out_person
     <set>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
       </if>
@@ -253,27 +286,39 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-     <if test="age != null">
+      <if test="age != null">
         age = #{age,jdbcType=INTEGER},
       </if>
-       <if test="userNo != null">
-        user_no = #{userNo,jdbcType=VARCHAR},
-      </if>
-        <if test="isExpert != null">
+      <if test="isExpert != null">
         is_expert = #{isExpert,jdbcType=VARCHAR},
       </if>
-      
-    
-      
+      <if test="idCardType != null">
+        id_card_type = #{idCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="awardInfo != null">
+        award_info = #{awardInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="patentInfo != null">
+        patent_info = #{patentInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="achievementInfo != null">
+        achievement_info = #{achievementInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectInfo != null">
+        project_info = #{projectInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardsPunish != null">
+        rewards_punish = #{rewardsPunish,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.out.OutPerson">
     update out_person
-    set sex = #{sex,jdbcType=VARCHAR},
+    set user_no = #{userNo,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
       birth_year = #{birthYear,jdbcType=VARCHAR},
-      user_no = #{userNo,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
       belong_unit_id = #{belongUnitId,jdbcType=VARCHAR},
@@ -281,14 +326,20 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=VARCHAR},
       tech_type_name = #{techTypeName,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER},
-      post = #{post,jdbcType=VARCHAR},
-      is_expert = #{isExpert,jdbcType=VARCHAR},
       id_card = #{idCard,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       contact_way = #{contactWay,jdbcType=VARCHAR},
-      work_experience = #{workExperience,jdbcType=VARCHAR}
+      work_experience = #{workExperience,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      is_expert = #{isExpert,jdbcType=VARCHAR},
+      id_card_type = #{idCardType,jdbcType=VARCHAR},
+      award_info = #{awardInfo,jdbcType=VARCHAR},
+      patent_info = #{patentInfo,jdbcType=VARCHAR},
+      achievement_info = #{achievementInfo,jdbcType=VARCHAR},
+      project_info = #{projectInfo,jdbcType=VARCHAR},
+      rewards_punish = #{rewardsPunish,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
