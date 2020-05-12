@@ -8,7 +8,7 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/achieveRecord.css">
@@ -29,10 +29,17 @@
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-        <div class="layui-form-item">
+        <!-- <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
           <div class="layui-input-block">
             <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div> -->
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
+          <div class="layui-input-block">
+            <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
+              dic-base-data="ROOT_KJPT_YTDW" ></select>
           </div>
         </div>
       </div>
@@ -51,7 +58,7 @@
         </div>
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
-        <div class="layui-form-item">
+        <!-- <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">录入时间：</span></label>
           <div class="layui-input-block font0">
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
@@ -62,7 +69,7 @@
               <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
