@@ -312,6 +312,13 @@
 				active[type] ? active[type].call(this) : '';
 			});
 
+			//input enter 
+			$('#processName').on('keydown', function (event) {
+            if (event.keyCode == 13) {
+                active.searchEvent();
+            }
+        });
+
 		});
 	</script>
 

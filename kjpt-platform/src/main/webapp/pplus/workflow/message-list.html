@@ -188,6 +188,13 @@
 				active[type] ? active[type].call(this) : '';
 			});
 
+			//input enter 
+			$('#messageTitle').on('keydown', function (event) {
+            if (event.keyCode == 13) {
+                active.searchEvent();
+            }
+        });
+
 		});
 		
 		

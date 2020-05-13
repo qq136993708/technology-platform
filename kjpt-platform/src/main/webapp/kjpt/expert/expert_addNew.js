@@ -97,7 +97,7 @@ layui.config({
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
 
-    console.log(variable.id)
+    // console.log(variable.id)
     /*判断id，回显*/
     if(variable.id!=undefined){
         httpModule({
@@ -345,7 +345,7 @@ layui.config({
         if(variable!=null){
             data.field.id=variable.id
         }
-        console.log(data.field)
+        // console.log(data.field)
         httpModule({
             url: '/expert-api/save',
             data: data.field,
@@ -359,6 +359,13 @@ layui.config({
             }
         });
         return false;
+    })
+    form.verify({
+        maxlength:function(val){
+            if(val.length > 1000){
+                return '请输入1000以内的文字'
+            }
+        }
     })
 
 });

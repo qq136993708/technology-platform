@@ -301,6 +301,14 @@
 		} else {
             console.log('Not support websocket');
 		}
+
+			//input enter 
+			$('#noticeTitle').on('keydown', function (event) {
+            if (event.keyCode == 13) {
+                active.searchEvent();
+            }
+        });
+
     });
 	
 	
