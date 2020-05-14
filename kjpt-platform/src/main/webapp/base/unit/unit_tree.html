@@ -362,16 +362,19 @@
 	            where: {param: {"unitId":"00"}},
 	            limit : param.selfRownum,
 	            id: 'postTable',
-	            page: {
-	                groups: 5,
-	                limits : [ param.selfRownum, 15, 30, 45, 60 ],
-	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-	                first: '首页', //不显示首页
-	                last: '尾页', //不显示尾页
-	                theme: '#0F9EE0'
-	            },
+	            // page: {
+	            //     groups: 5,
+	            //     limits : [ param.selfRownum, 15, 30, 45, 60 ],
+	            //     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	            //     first: '首页', //不显示首页
+	            //     last: '尾页', //不显示尾页
+	            //     theme: '#0F9EE0'
+							// },
+							page: true, //开启分页
+              // limit: 15, // 每页数据条数,
+              limits: [5, 10, 15, 20], // 配置分页数据条数
 	            cols: [[
-					{type:'checkbox'},
+									{type:'checkbox'},
 	                {title:'序号',type:'numbers' ,width : 55},
 	                {field:'postName',title:'岗位名称',style:'cursor:pointer;'},
 	                {field:'postCode',title:'岗位编码',style:'cursor:pointer;'},
