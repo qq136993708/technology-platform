@@ -21,7 +21,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'unitNameText',
-                            title: '单位名称'
+                            title: '单位名称',
 
                         },
                         {

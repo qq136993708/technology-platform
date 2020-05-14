@@ -86,8 +86,9 @@
 				<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
 	    </div>
 	</div>
-</div>
+</div>	
 	<script>
+		debugger
 		var taskId = "${taskId?default(0)}";
 		var id = "${id?default(0)}";
 
@@ -296,7 +297,7 @@
 			});
 		}
 		
-		<!--判断是否是手机端-->
+		// <!--判断是否是手机端-->
         function os(){
             var ua = navigator.userAgent,
                 isWindowsPhone = /(?:Windows Phone)/.test(ua),

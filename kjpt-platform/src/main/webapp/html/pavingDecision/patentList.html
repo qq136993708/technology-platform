@@ -140,7 +140,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/patentController/query' //数据接口
         ,cols: [[ //表头
-          {type: 'radio', field: 'id'}
+          // {type: 'radio', field: 'id'}
           ,{field: 'unitNameText', title: '单位名称', sort: true }
           ,{field: 'patentName', title: '专利名称' } 
           ,{field: 'applicationTypeText', title: '申请类型', sort: true} 
@@ -327,13 +327,16 @@ $('#homeHeaderItem .itemScroll .itemBlock').on('click', 'li', function () {
       patentName: formValue.patentName,
       applicant: formValue.applicant,
       inventor: formValue.inventor
-    },
+    },  
     exportUrl = '';
 
     for (var key in searchData) {
-      exportUrl += '&' + key + '=' + searchData[key];
+      if(typeof(searchData[key]) !== 'undefined'){
+        exportUrl += '&' + key + '=' + searchData[key];
+      }
     }
     exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+
     window.open(exportUrl, '_blank');
   })
 });

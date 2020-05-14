@@ -28,7 +28,7 @@
 		<div class="tableToolBox">
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
-				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="allEvent">
+				<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="allEvent">
 					<span class="btn-state btn-all"></span>
 					全部
 				</button>
@@ -188,7 +188,7 @@
 					$('#processName').val("");
 					$('#dateFlag').val("7");
 					$('.tableBtns').children('button').removeClass('active');
-					$('#weekData').addClass('active');
+					$('#allData').addClass('active');
 					active.searchEvent();
 				},
 				detailEvent : function() { //点击详情按钮
