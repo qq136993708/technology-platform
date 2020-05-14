@@ -1,29 +1,37 @@
 package com.pcitc.web.controller.expert;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSONArray;
-import com.pcitc.web.common.RestBaseController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 
@@ -35,7 +43,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertReward-API",tags = {"专家库-奖励接口"})
 @RestController
-public class ExpertRewardController extends RestBaseController {
+public class ExpertRewardController extends BaseController{
 	
 	
 	/**
@@ -108,9 +116,14 @@ public class ExpertRewardController extends RestBaseController {
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家奖励列表（分页） " + result.toString());
-		return result.toString();
+		
+		String str=	JSON.toJSONString(layuiTableData);
+		
+		
+		//JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		//String str=result.toString();
+		logger.info("=====ds=======获取专家奖励列表（分页） " + str);
+		return str;
 	}
 
     

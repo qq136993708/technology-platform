@@ -5,6 +5,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.*;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
@@ -30,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertProject-API",tags = {"专家库-项目接口"})
 @RestController
-public class ExpertProjectController extends RestBaseController {
+public class ExpertProjectController extends BaseController {
 	
 	
 	/**
@@ -106,9 +107,11 @@ public class ExpertProjectController extends RestBaseController {
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家项目列表（分页） " + result.toString());
-		return result.toString();
+		String str=	JSON.toJSONString(layuiTableData);
+		//JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		//String str=result.toString();
+		logger.info("============获取专家项目列表（分页） " + str);
+		return str;
 	}
 
     
