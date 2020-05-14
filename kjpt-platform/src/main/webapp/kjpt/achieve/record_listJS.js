@@ -28,11 +28,11 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
           ,{field: 'achieveTransTypeText', title: '拟转化方式', width: 120 }
-          ,{field: 'transMoney', title: '拟转化金额（万）', width: 100 }
-          ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100 }
-          ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100 }
+          ,{field: 'transMoney', title: '拟转化金额（万）', width: 100, sort: true }
+          ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100, sort: true }
+          ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100, sort: true }
           ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
-          ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, templet: function(d) {
+          ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
             return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           }}
           ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 

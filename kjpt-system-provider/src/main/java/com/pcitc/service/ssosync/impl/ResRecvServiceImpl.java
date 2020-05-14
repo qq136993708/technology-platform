@@ -11,9 +11,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -22,25 +21,33 @@ import com.pcitc.base.system.SysUnitExample;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.mapper.system.SysRoleMapper;
 import com.pcitc.mapper.system.SysUnitMapper;
 import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.mapper.system.SysUserUnitMapper;
+import com.pcitc.service.system.UserService;
+import com.pcitc.utils.SpringContextUtil;
 
 import koal.urm.client.action.IpHolder;
 import koal.urm.client.resource.recv.IResRecvDao;
-@Service("resRecvService")
-@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class ResRecvServiceImpl implements IResRecvDao {
 
     Logger logger = LoggerFactory.getLogger(ResRecvServiceImpl.class);
     
-    
-   
-	
+   //private ApplicationContext applicationContext=SpringUtil.getApplicationContext(); 
+    //private UserServiceImpl userService=applicationContext.getBean(UserServiceImpl.class);
+    //private UserService userService=(UserService)SpringUtil.getObject(UserService.class);
+   /* 
+	private static  SysUserMapper sysUserMapper;
 	@Autowired
-	private SysUserMapper userMapper;
-	
+    private static ApplicationContext applicationContext;
+    
+    static{
+        if( sysUserMapper==null){
+        	  System.out.println("--------1--applicationContext------------"+applicationContext);
+        	 sysUserMapper = (SysUserMapper)SpringContextUtil.getBean("sysUserMapper");
+
+        }
+    }
 	
 	@Autowired
 	private SysUserUnitMapper sysUserUnitMapper;
@@ -49,8 +56,7 @@ public class ResRecvServiceImpl implements IResRecvDao {
 	@Autowired
 	private SysUnitMapper sysUnitMapper;
 	
-	
-	
+	*/
 	
 
     static{
@@ -104,7 +110,11 @@ public class ResRecvServiceImpl implements IResRecvDao {
          String  userMobile=(String)resourceMap.get("USER_MOBILE");
          String  status=(String)resourceMap.get("USER_STATUS");//USER_STATUS为9000时，表示用户注销
          String  level=(String)resourceMap.get("USER_POST_LEVEL");
-         SysUser u= userMapper.getUserByUnifyIdentityId(idCard);
+         
+         /*
+          SysUser u= userService.getUserByUnifyIdentityId(idCard);
+         System.out.println("---------sysUserMapper----------"+sysUserMapper);
+         SysUser u= sysUserMapper.getUserByUnifyIdentityId(idCard);
          if(u==null) 
          {
         	 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -119,7 +129,7 @@ public class ResRecvServiceImpl implements IResRecvDao {
              user.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
              user.setUserDelflag(0);
              user.setUserPassword("670b14728ad9902aecba32e22fa4f6bd");//默认：000000
-             userMapper.insert(user);
+             sysUserMapper.insert(user);
              String dateid2 = UUID.randomUUID().toString().replaceAll("-", "");
              
              SysUserUnit su=new SysUserUnit();
@@ -128,7 +138,7 @@ public class ResRecvServiceImpl implements IResRecvDao {
              su.setRelId(dateid2);
              sysUserUnitMapper.insert(su);
          }
-        
+        */
       
         
     }
@@ -219,7 +229,7 @@ public class ResRecvServiceImpl implements IResRecvDao {
         {
             System.out.println("key = " + key + " ; value = " + resourceMap.get(key));
         }
-        
+        /*
         String  parentOrgId=(String)resourceMap.get("PARENT_ORG_ID");
         String  unitId=(String)resourceMap.get("ORG_ID");
         String  unitName=(String)resourceMap.get("ORG_NAME");
@@ -251,6 +261,7 @@ public class ResRecvServiceImpl implements IResRecvDao {
              }
              sysUnitMapper.insert(sysUnit);
         }
+        */
         
     }
 
@@ -262,12 +273,13 @@ public class ResRecvServiceImpl implements IResRecvDao {
         for(String key : map.keySet()){
             System.out.println("key = " + key + " ; value = " + map.get(key));
         }
+        /*
         String  unitId=(String)map.get("ORG_ID");
         String  status=(String)map.get("ORG_STATUS");
         SysUnit su=  sysUnitMapper.selectByPrimaryKey(unitId);
         su.setUnitDelflag(1);
         sysUnitMapper.updateByPrimaryKey(su);
-        
+        */
     }
 
     @Override
@@ -505,21 +517,18 @@ public class ResRecvServiceImpl implements IResRecvDao {
     
     
     
-    
+    /*
     private String createUnitPath(String  unitRelation) {
 		SysUnitExample example = new SysUnitExample();
 		SysUnitExample.Criteria c = example.createCriteria();
 		c.andUnitRelationEqualTo(unitRelation);
 		example.setOrderByClause("unit_path desc");
 		Integer number;
-		// 设置路径查找同一个父机构下的同级机构
 		List<SysUnit> units = sysUnitMapper.selectByExample(example);
 		if (units == null || units.size() == 0) {
-			// 没有同级别则取父级别
 			SysUnit parentUnit = sysUnitMapper.selectByPrimaryKey(unitRelation);
 			return parentUnit.getUnitPath() + "0001";
 		} else {
-			// Integer path = new Integer(units.get(0).getUnitPath())+1;
 			String path = units.get(0).getUnitPath();
 			if (path.length() < 4) {
 				number = new Integer("1" + path.substring(path.length() - 3)) + 1;
@@ -529,5 +538,5 @@ public class ResRecvServiceImpl implements IResRecvDao {
 				return path.substring(0, path.length() - 4) + number.toString().substring(1);
 			}
 		}
-	}
+	}*/
 }

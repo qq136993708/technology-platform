@@ -140,15 +140,15 @@ layui.use(['form', 'table', 'formSelects'], function(){
         elem: '#pavingDecisionTable'
         ,url: '/patentController/query' //数据接口
         ,cols: [[ //表头
-          {type: 'radio', field: 'id'}
+          // {type: 'radio', field: 'id'}
           ,{field: 'unitNameText', title: '单位名称', sort: true }
           ,{field: 'patentName', title: '专利名称' } 
           ,{field: 'applicationTypeText', title: '申请类型', sort: true} 
           ,{field: 'patentTypeText', title: '专利类型' } 
-          ,{field: 'applicationNumber', title: '申请(专利)号'} 
+          ,{field: 'applicationNumber', title: '申请(专利)号', sort: true} 
           ,{field: 'technicalFieldText', title: '技术领域'}
           ,{field: 'patentRange', title: '专利范围'}
-          ,{field: 'applicationCost', title: '申请费用'}
+          ,{field: 'applicationCost', title: '申请费用', sort: true}
           ,{field: 'applicant', title: '申请人/专利权人'}
           ,{field: 'secretLevelText', title: '密级', hide: _hideSecrecylevel()}
         ]],
@@ -327,13 +327,16 @@ $('#homeHeaderItem .itemScroll .itemBlock').on('click', 'li', function () {
       patentName: formValue.patentName,
       applicant: formValue.applicant,
       inventor: formValue.inventor
-    },
+    },  
     exportUrl = '';
 
     for (var key in searchData) {
-      exportUrl += '&' + key + '=' + searchData[key];
+      if(typeof(searchData[key]) !== 'undefined'){
+        exportUrl += '&' + key + '=' + searchData[key];
+      }
     }
     exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+
     window.open(exportUrl, '_blank');
   })
 });

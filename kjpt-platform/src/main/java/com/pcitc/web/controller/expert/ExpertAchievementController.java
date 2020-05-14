@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertAchievement-API",tags = {"专家库-成果接口"})
 @RestController
-public class ExpertAchievementController extends RestBaseController {
+public class ExpertAchievementController extends BaseController {
 	
 	
 	/**
@@ -89,7 +89,7 @@ public class ExpertAchievementController extends RestBaseController {
     })
     
     @RequestMapping(value = "/expert-achievement-api/page", method = RequestMethod.POST)
-	public JSONArray getExpertPage(
+	public String getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
@@ -114,8 +114,9 @@ public class ExpertAchievementController extends RestBaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家成果列表（分页） " + result.toString());
-		return result.getJSONArray("data");
+		String str=result.toString();
+		logger.info("========aaa====获取专家成果列表（分页） " + str);
+		return str;
 	}
 
     

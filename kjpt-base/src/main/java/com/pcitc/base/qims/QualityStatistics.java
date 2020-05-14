@@ -12,8 +12,20 @@ public class QualityStatistics extends RecordModel implements Serializable {
     private String content;
     private Date date;
     private String dateStr;
+    
+    private Date createTime;
+    
+    
 
-    public String getId() {
+    public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getId() {
         return id;
     }
 

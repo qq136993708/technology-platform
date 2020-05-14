@@ -144,7 +144,11 @@
             },
             deleteEvent: function(){ //点击删除按钮
                 var activeData = table.checkStatus('showTable').data;
-                console.log(activeData)
+                if(activeData.length === 0){
+                    layer.msg('请选择要删除的数据！', {icon: 2});
+                    return ;
+                }
+                // console.log(activeData)
                 httpModule({
                     url: '/techFamily-api/getFamilyCountByParentId?parentId='+activeData[0].tfmTypeId,
                     type: 'get',

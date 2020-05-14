@@ -21,7 +21,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'unitNameText',
-                            title: '单位名称'
+                            title: '单位名称',
 
                         },
                         {
@@ -43,12 +43,14 @@ layui.use(['form', 'laydate', 'table'], function () {
                         {
                             field: 'registerDate',
                             title: '注册日期',
+                            sort: true,
                             templet:'#registerDate'
                         },
                         {
                             field: 'effectiveDate',
                             title: '有效日期',
                             templet:'#effectiveDate'
+                            , sort: true
                         },
                         {
                             field: 'applicationNumber',
@@ -58,6 +60,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             field: 'registerNoticeDate',
                             title: '注册公告日',
                             templet:'#registerNoticeDate'
+                            , sort: true
                         },
                         {field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
                     ]

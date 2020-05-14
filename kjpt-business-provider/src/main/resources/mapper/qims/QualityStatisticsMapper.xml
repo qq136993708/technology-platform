@@ -8,11 +8,16 @@
     <result column="date" jdbcType="TIMESTAMP" property="date" />
     <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+    
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     qs.id, qs.key_str,qs.date,qs.content,
     qs.secret_level,
-    sd.name as secret_level_text
+    sd.name as secret_level_text,create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -42,6 +47,9 @@
       <if test="date != null">
         date
       </if>
+      <if test="createTime != null">
+        create_time
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -58,6 +66,9 @@
       </if>
       <if test="date != null">
         #{date,jdbcType=DATE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
       </if>
     </trim>
   </insert>

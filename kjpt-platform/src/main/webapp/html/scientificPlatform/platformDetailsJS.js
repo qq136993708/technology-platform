@@ -93,7 +93,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'projectName', title: '项目名称', sort: true }
         ,{field: 'dutyInstitutionsText', title: '负责单位', sort: true}
         // ,{field: 'majorTypeText', title: '专业类型'} 
-        ,{field: 'approvalYear', title: '立项年度'}
+        ,{field: 'approvalYear', title: '立项年度', sort: true}
         ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
       ]]
     });
@@ -128,7 +128,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'thesisLevelText', title: '论文级别', sort: true }
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
-        ,{field: 'thesisYear', title: '发表时间'}
+        ,{field: 'thesisYear', title: '发表时间', sort: true}
         ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
       ]]
     });
@@ -165,7 +165,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'achievementName', title: '成果名称', sort: true }
         ,{field: 'applicantUnitText', title: '申请单位', sort: true}
         ,{field: 'achievementTypeText', title: '成果类型'} 
-        ,{field: 'applicantYear', title: '申请年度'}
+        ,{field: 'applicantYear', title: '申请年度', sort: true}
         ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
       ]]
     });
@@ -179,7 +179,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{type: 'numbers', title: '序号', width: 80}
         ,{field: 'patentName', title: '专利名称', sort: true }
         ,{field: 'patentTypeText', title: '专利类型', sort: true}
-        ,{field: 'applicationDate', title: '申请日期', templet: function(d) {
+        ,{field: 'applicationDate', title: '申请日期', sort: true, templet: function(d) {
           return dateFieldText(d.applicationDate);
         }} 
         ,{field: 'remark', title: '描述'}

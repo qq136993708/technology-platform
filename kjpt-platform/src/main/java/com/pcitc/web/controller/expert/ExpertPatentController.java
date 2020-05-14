@@ -5,6 +5,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
@@ -33,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "ExpertPatent-API",tags = {"专家库-专利接口"})
 @RestController
-public class ExpertPatentController extends RestBaseController {
+public class ExpertPatentController extends BaseController {
 	
 	
 	/**
@@ -83,7 +84,7 @@ public class ExpertPatentController extends RestBaseController {
         
     })
     @RequestMapping(value = "/expert-patent-api/page", method = RequestMethod.POST)
-	public JSONArray getExpertPage(
+	public String getExpertPage(
 			
 
 			@RequestParam(required = false) Integer page,
@@ -108,9 +109,11 @@ public class ExpertPatentController extends RestBaseController {
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家专利列表（分页） " + result.toString());
-		return result.getJSONArray("data");
+		String str=	JSON.toJSONString(layuiTableData);
+		//JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		//String str=result.toString();
+		logger.info("============获取专家专利列表（分页） " + str);
+		return str;
 	}
 
     

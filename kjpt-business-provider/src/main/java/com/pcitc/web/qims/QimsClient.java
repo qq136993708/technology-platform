@@ -64,6 +64,7 @@ public class QimsClient {
 			qualityStatistics.setContent(responseEntity.getBody().toString());
 			qualityStatistics.setDate(DateUtil.dateAdd(new Date(),-1));//DateUtil.dateAdd(new Date(),-1)
 			qualityStatistics.setSecretLevel("4");
+			qualityStatistics.setCreateTime(new Date());
 			qimsService.save(qualityStatistics);
 			sb.append(QIMS_URL+str+"/kjpt").append(",");
 		}
