@@ -14,6 +14,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.pcitc.utils.SpringUtil;
+
 import koal.urm.client.action.ResServiceServlet;
 
 /**
@@ -33,11 +35,28 @@ import koal.urm.client.action.ResServiceServlet;
 @EnableFeignClients
 @EnableHystrix      //方便turbine进行监控
 @PropertySource(name="EncryptedProperties", value = "classpath:application-${spring.profiles.active}.properties")
-public class SystemProviderApplication {
+public class SystemProviderApplication  {
 
     public static void main(String[] args) {
         SpringApplication.run(SystemProviderApplication.class, args);
+    	
+    	//SpringApplication application = new SpringApplication(SystemProviderApplication.class);
+        //application.addListeners(new ApplicationPidFileWriter());
+        //application.run(args);
+        //System.out.println( "启动成功" );
+	
     }
+    
+    
+    
+    
+    
+    @Bean
+    public SpringUtil getSpringUtil() {
+        return new SpringUtil();
+    }
+    
+    
     
     @Bean
 	@LoadBalanced
@@ -54,6 +73,7 @@ public class SystemProviderApplication {
     public ServletRegistrationBean getServletRegistrationBean() {  //一定要返回ServletRegistrationBean
         ServletRegistrationBean bean = new ServletRegistrationBean(new ResServiceServlet());
         bean.addInitParameter("resDaoClass", "com.pcitc.service.ssosync.impl.ResRecvServiceImpl");
+       
         bean.addInitParameter("daoType", "2");
         //放入自己的Servlet对象实例
         bean.addUrlMappings("/resReg");  //访问路径值

@@ -3,11 +3,14 @@ package com.pcitc.mapper.system;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 
+@Component
 public interface SysUserMapper {
 	int countByExample(SysUserExample example);
 
