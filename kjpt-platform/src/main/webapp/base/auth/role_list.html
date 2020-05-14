@@ -302,9 +302,9 @@
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
+    $("#reset").click(function () {
+        rendRoleTable();
+    })
 });
-$("#reset").click(function () {
-    rendRoleTable()
-})
 </script>
 </html>

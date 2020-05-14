@@ -124,12 +124,12 @@ layui.use(['form', 'table', 'formSelects', 'laydate'], function(){
         ,url: '/ComputerSoftware/query' //数据接口
         ,cols: [[ //表头
           ,{field: 'unitNameText', title: '单位名称' }
-          ,{field: 'registerNumber', title: '登记号' }
+          ,{field: 'registerNumber', title: '登记号', sort: true }
           ,{field: 'softwareName', title: '软件名称' } 
           ,{field: 'copyrightOwner', title: '著作权人'}
-          ,{field: 'versionNumber', title: '版本号' }
-          ,{field: 'recordDate', title: '登记日期', templet: function(d) {  return dateFieldText(d.recordDate);  }}  
-          ,{field: 'developFinishDate', title: '开发完成日期', templet: function(d) {  return dateFieldText(d.recordDate);  }}  
+          ,{field: 'versionNumber', title: '版本号', sort: true }
+          ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {  return dateFieldText(d.recordDate);  }}  
+          ,{field: 'developFinishDate', title: '开发完成日期', sort: true, templet: function(d) {  return dateFieldText(d.recordDate);  }}  
           ,{field: 'softwareIntro', title: '软件简介' } 
           ,{field: 'secretLevelText', title: '密级', hide: _hideSecrecylevel()}
         ]],
