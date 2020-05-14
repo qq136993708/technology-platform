@@ -83,7 +83,7 @@ public class ExpertPatentController extends RestBaseController {
         
     })
     @RequestMapping(value = "/expert-patent-api/page", method = RequestMethod.POST)
-	public JSONArray getExpertPage(
+	public String getExpertPage(
 			
 
 			@RequestParam(required = false) Integer page,
@@ -110,7 +110,8 @@ public class ExpertPatentController extends RestBaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============获取专家专利列表（分页） " + result.toString());
-		return result.getJSONArray("data");
+		return result.toString();
+		//return result.getJSONArray("data");
 	}
 
     
