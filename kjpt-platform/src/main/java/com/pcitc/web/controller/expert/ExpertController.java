@@ -507,26 +507,55 @@ public class ExpertController extends BaseController {
       })
   		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.GET)
   	   	public String jsgztj_data_exput_excel(
-  	   			
-  	   		 @RequestParam(required = false) String name,
-             @RequestParam(required = false) String belongUnit,
-             @RequestParam(required = false) String useStatus,
-             @RequestParam(required = false) String post,
-             @RequestParam(required = false) String title,
-             @RequestParam(required = false) String technicalField,
-  	   		 HttpServletRequest request, HttpServletResponse response) throws Exception
+				@RequestParam(required = false) String name,
+				@RequestParam(required = false) String belongUnit,
+				@RequestParam(required = false) String useStatus,
+				@RequestParam(required = false) String post,
+				@RequestParam(required = false) String title,
+				@RequestParam(required = false) String technicalField,
+				@RequestParam(required = false) String sex,
+				@RequestParam(required = false) String education,
+				@RequestParam(required = false) String technicalFieldIndex,
+				@RequestParam(required = false) String technicalFieldName,
+				@RequestParam(required = false) String secretLevel,
+				@RequestParam(required = false) String groupType,
+				@RequestParam(required = false) String expertType,
+				@RequestParam(required = false) String expertTypes,
+				HttpServletRequest request, HttpServletResponse response
+		) throws Exception
   	   	{
   	   		
   	   		
   	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
   	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
-  	   		paramMap.put("name", name);
-  	   	    paramMap.put("belongUnit", belongUnit);
-  	        paramMap.put("useStatus", useStatus);
-  	        paramMap.put("post", post);
-  	        paramMap.put("title", title);
-  	        paramMap.put("technicalField", technicalField);
+//  	   		paramMap.put("name", name);
+//  	   	    paramMap.put("belongUnit", belongUnit);
+//  	        paramMap.put("useStatus", useStatus);
+//  	        paramMap.put("post", post);
+//  	        paramMap.put("title", title);
+//  	        paramMap.put("technicalField", technicalField);
+
+			paramMap.put("name", name);
+			paramMap.put("delStatus", Constant.DEL_STATUS_NOT);
+
+			paramMap.put("belongUnit", belongUnit);
+			paramMap.put("useStatus", useStatus);
+			paramMap.put("post", post);
+			paramMap.put("title", title);
+			paramMap.put("technicalField", technicalField);
+			paramMap.put("sex", sex);
+			paramMap.put("education", education);
+			paramMap.put("secretLevel", secretLevel);
+			paramMap.put("expertType", expertType);
+			paramMap.put("expertTypes", expertTypes);
+			paramMap.put("groupType", groupType);
   	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+
+
+			SysUser sysUserInfo = this.getUserProfile();
+			//默认查询小于等于用户密级的专家
+			paramMap.put("userSecretLevel",sysUserInfo.getSecretLevel() );
+			paramMap.put("knowledgeScope", sysUserInfo.getUserName());
   	   		
   	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
   	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXPERT_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -664,6 +693,7 @@ public class ExpertController extends BaseController {
 		  	  			obj.setTitle(String.valueOf(lo.get(5)));
 		  	  			obj.setPost(String.valueOf(lo.get(6)));
 		  	  			obj.setContactWay(String.valueOf(lo.get(7)));
+						obj.setSecretLevel("0");
 		  	  			obj.setBelongUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
 		  	  			list.add(obj);
 		  	  		}

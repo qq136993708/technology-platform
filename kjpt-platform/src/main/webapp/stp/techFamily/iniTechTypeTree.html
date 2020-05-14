@@ -209,7 +209,13 @@
 			$('.layui-btn').on('click', function() {
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
-			});
+            });
+            //input enter 
+			$('#typeName').on('keydown', function (event) {
+            if (event.keyCode == 13) {
+                active.searchEvent();
+            }
+        });
 		});
 	</script>
 </body>
