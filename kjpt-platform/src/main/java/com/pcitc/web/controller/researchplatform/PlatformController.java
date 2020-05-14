@@ -283,18 +283,14 @@ public class PlatformController extends RestBaseController {
     @RequestMapping(value = "/exportScienceStatistics", method = RequestMethod.GET)
     @ResponseBody
     public void scienceStatistics(
-            @RequestParam(required = false,value = "startYear") String startYear,
-            @RequestParam(required = false,value = "endYear") String endYear,
+            @RequestParam(required = false,value = "year") String year,
             @RequestParam(required = false,value = "unitId") String unitId
     ) throws Exception {
 
         Map<String, Object> condition = new HashMap<>(6);
         this.setBaseParam(condition);
-        if (!StringUtils.isEmpty(startYear)) {
-            this.setParam(condition, "startYear", startYear);
-        }
-        if (!StringUtils.isEmpty(endYear)) {
-            this.setParam(condition, "endYear", endYear);
+        if (!StringUtils.isEmpty(year)) {
+            this.setParam(condition, "year", year);
         }
         if (!StringUtils.isEmpty(unitId)) {
             this.setParam(condition, "unitId", unitId);
