@@ -136,19 +136,19 @@
                 async:false,
                 success: function(relData) {
                     console.log(relData)
-                    if(relData.success){
+                    // if(relData.success){
                         /*回显tr*/
-                        form.val('formPlatform', relData.data);
-                        id=relData.data.id
+                        form.val('formPlatform', relData);
+                        id=relData.id
                         // 添加知悉范围
                         setJurisdictionScope({
                             elem: 'scope_list_layout',
-                            knowledgeScope: relData.data.knowledgeScope,
-                            knowledgePerson: relData.data.knowledgePerson,
-                            secretLevel: relData.data.secretLevel,
+                            knowledgeScope: relData.knowledgeScope,
+                            knowledgePerson: relData.knowledgePerson,
+                            secretLevel: relData.secretLevel,
                             disabled: false
                         });
-                    }
+                    // }
                 }
             });
         } else {
