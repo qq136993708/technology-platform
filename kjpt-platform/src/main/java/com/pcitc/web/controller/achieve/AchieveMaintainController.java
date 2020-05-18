@@ -3,12 +3,10 @@ package com.pcitc.web.controller.achieve;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveMaintain;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -54,7 +52,7 @@ public class AchieveMaintainController extends RestBaseController {
     /**
      * 查询平台列表不分页
      */
-    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/researchPlatform-api/queryNoPage";
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/queryNoPage";
 
 
 
@@ -180,7 +178,7 @@ public class AchieveMaintainController extends RestBaseController {
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
-        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PlatformInfoModel.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), AchieveMaintain.class);
         fileName = fileName+ DateFormatUtils.format(new Date(), "ddhhmmss");
         this.exportExcel(headers,cols,fileName,list);
     }

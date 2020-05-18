@@ -1,5 +1,7 @@
 package com.pcitc.web.achieve;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveMaintain;
 import com.pcitc.service.achieve.AchieveMaintainService;
@@ -8,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -50,6 +53,15 @@ public class AchieveMaintainClient {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public Integer delete(@PathVariable String id){
         return ams.delete(id);
+    }
+
+
+    @ApiOperation(value = "查询成果维护列表", notes = "查询成果维护列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param){
+        List list=ams.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
     }
 
 
