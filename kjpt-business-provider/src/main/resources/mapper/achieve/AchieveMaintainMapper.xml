@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.achieve.AchieveMaintainMapper">
+
+    <resultMap id="AchieveMaintainMap" type="com.pcitc.base.achieve.AchieveMaintain">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="year" jdbcType="VARCHAR" property="year"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="type_text" jdbcType="VARCHAR" property="typeText"/>
+        <result column="awards_type" jdbcType="VARCHAR" property="awardsType"/>
+        <result column="awards_type_text" jdbcType="VARCHAR" property="awardsTypeText"/>
+        <result column="awards_number" jdbcType="VARCHAR" property="awardsNumber"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+    </resultMap>
+
+
+    <select id="load" parameterType="java.lang.String" resultMap="AchieveMaintainMap">
+        select  * from view_achieve_maintain where id = #{id} and deleted != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="AchieveMaintainMap">
+        select  * from view_achieve_maintain where 1=1
+        and deleted != '1'
+        <include refid="selectByParam" />
+        order by create_date desc
+    </select>
+
+
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from achieve_maintain where 1=1
+        and deleted != '1'
+        <include refid="selectByParam" />
+    </select>
+
+
+    <sql id="selectByParam">
+        <if test="awardsType != null and awardsType != '' " >
+            and awards_type = #{awardsType}
+        </if>
+        <if test="startYear != null and startYear != '' " >
+            and year <![CDATA[>=]]> #{startYear}
+        </if>
+        <if test="endYear != null and endYear != '' " >
+            and year <![CDATA[<=]]> #{endYear}
+        </if>
+
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+        </if>
+        ))
+
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND t.create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
+        insert into achieve_maintain(
+        id,
+        year,
+        type,
+        awards_type,
+        awards_number,
+        create_date,
+        create_user,
+        update_date,
+        deleted,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person
+        ) values(#{id},#{year},#{type},#{awardsType},#{awardsNumber},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
+        update achieve_maintain
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="awardsType != null and awardsType != '' " >
+                awards_type = #{awardsType},
+            </if>
+            <if test="awardsNumber != null and awardsNumber != '' " >
+                awards_number = #{awardsNumber},
+            </if>
+            <if test="deleted != null and deleted != ''" >
+                del_status = #{deleted},
+            </if>
+            <if test="updator != null and updator != ''" >
+                update_user = #{updator},
+            </if>
+            <if test="updateDate != null and updateDate != ''" >
+                update_date = #{updateDate},
+            </if>
+            <if test="createUnitId != null and createUnitId != ''" >
+                create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUnitName != null and createUnitName != ''" >
+                create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update achieve_maintain set deleted = '1' where id = #{id}
+    </update>
+
+
+</mapper>
