@@ -104,12 +104,12 @@
                 awards_number = #{awardsNumber},
             </if>
             <if test="deleted != null and deleted != ''" >
-                del_status = #{deleted},
+                deleted = #{deleted},
             </if>
             <if test="updator != null and updator != ''" >
                 update_user = #{updator},
             </if>
-            <if test="updateDate != null and updateDate != ''" >
+            <if test="updateDate != null " >
                 update_date = #{updateDate},
             </if>
             <if test="createUnitId != null and createUnitId != ''" >
