@@ -48,13 +48,15 @@
         <if test="awardsType != null and awardsType != '' " >
             and awards_type = #{awardsType}
         </if>
+        <if test="type != null and type != '' " >
+            and type = #{type}
+        </if>
         <if test="startYear != null and startYear != '' " >
             and year <![CDATA[>=]]> #{startYear}
         </if>
         <if test="endYear != null and endYear != '' " >
             and year <![CDATA[<=]]> #{endYear}
         </if>
-
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
