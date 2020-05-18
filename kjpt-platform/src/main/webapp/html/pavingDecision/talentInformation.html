@@ -123,11 +123,12 @@ layui.use(['form', 'table', 'formSelects'], function(){
   tableLoading = true;
 
   function queryTable(data) {
+    debugger
     if (tableLoading) {
       table.render({
         elem: '#pavingDecisionTable'
         // ,url: '/platform-api/query' //数据接口
-        ,data: []
+        // ,data: []
         ,cols: [[ //表头
           ,{field: 'platformName', title: '姓名', width: 90}
           ,{field: 'supportingInstitutionsText', title: '性别', width: 50}
@@ -172,6 +173,7 @@ layui.use(['form', 'table', 'formSelects'], function(){
 
   form.on('submit(submitBtn)', function(data) {
     var searchData = data.field;
+    debugger
     // formSelects
     queryTable(searchData);
     return false;
