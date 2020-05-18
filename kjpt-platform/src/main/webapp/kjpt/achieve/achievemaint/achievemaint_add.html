@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+</head>
+
+<body>
+  <div class="layout-view-content dialog">
+    <!-- <div class="layui-form radio-tab-box" lay-filter="formRadio">
+        <input type="radio" name="optionType"  disabled value="unInput" title="关联添加" lay-filter="optionType" />
+        <input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
+    </div> -->
+    <!-- 关联添加 -->
+    <!-- <div class="unInput-layout-box">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required auto"><span class="text">项目名称：</span></label>
+            <div class="layui-input-inline">
+                <input type="text" id="projectName" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-normal" id="getProjectData">查询</button>
+            <button class="layui-btn layui-btn-primary" id="restProjectNameValue">重置</button>
+        </div>
+        <table id="unInputTable" lay-filter="unInputTable"></table>
+    </div> -->
+    <!-- 手动录入 -->
+    <div class="input-layout-box">
+      <div id="item" class="layui-hide">
+
+      </div>
+      <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row layui-col-space20">
+          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+              <div class="layui-input-block">
+                <select id="secretLevel" name="secretLevel" lay-filter="secretLevel" dic-base-data="ROOT_KJPT_XXMJ"
+                  lay-verify="required" placeholder="请选择...">
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+              <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+              <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>
+            </div>
+          </div>
+        </div>
+        <!-- 知悉范围 -->
+        <div id="scope_list_layout"></div>
+        <div class="secret-level-line"></div>
+
+        <div class="layui-row layui-col-space20">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item item">
+              <label class="layui-form-label label-required"><span class="text">获奖年份:</span></label>
+              <div class="layui-input-block">
+                <input type="text" name="year" lay-verify="required" autocomplete="off" placeholder="请选择年份!"
+                  class="layui-input laydate-input applyYear">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label label-required"><span class="text">成果奖项：</span></label>
+              <div class="layui-input-block">
+                <select name="awardsType" xm-select="awardsType" lay-verify="" xm-select-skin="normal"
+                  xm-select-radio="" dic-base-data="" placeholder="请选择"></select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label label-required"><span class="text">获奖类型：</span></label>
+              <div class="layui-input-block">
+                <select name="type" lay-verify="required" xm-select="type" xm-select-skin="normal" xm-select-radio=""
+                  dic-base-data="ROOT_KJPT_CGWH_HJLX" placeholder="请选择"></select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label label-required"><span class="text">奖项数量</span></label>
+              <div class="layui-input-block">
+                <input type="text" name="awardsNumber" lay-verify="required" placeholder="请输入" autocomplete="off"
+                  class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="text" name="expertId" id="expertId" class="layui-hide">
+        <input type="hidden" name="id"><!-- 平台ID -->
+        <input type="hidden" name="creator"><!-- 平台创建人 -->
+        <input type="hidden" name="createDate"><!-- 平台创建时间 -->
+        <input type="hidden" name="updateDate"><!-- 平台更新时间 -->
+        <input type="hidden" name="updator"><!-- 平台更新人 -->
+        <input type="hidden" name="deleted"><!-- 是否删除 默认为0 不删除 -->
+        <input type="hidden" name="createUnitId"><!-- 平台所属单位ID -->
+        <input type="hidden" name="createUnitName"><!-- 平台所属单位名称 -->
+        <div class="dialog-footer-btn">
+          <button class="layui-btn layui-btn-normal disabled-box" lay-submit lay-filter="formSave">提交</button>
+          <button class="layui-btn layui-btn-primary close-all-dialog" data-type="close">取消</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/layuiadmin/js/common.js"></script>
+  <script>
+    layui.use(['form', 'jquery', 'element', 'laydate', 'formSelects'], function () {
+      var $ = layui.jquery,
+        form = layui.form,
+        element = layui.element,
+        laydate = layui.laydate,
+        formSelects = layui.formSelects;
+      var submitType = 'input';
+      var id = ''
+      /*申请年度*/
+      laydate.render({
+        elem: '.applyYear',
+        trigger: 'click',
+        type: "year"
+      });
+      // 获取地址栏传递过来的参数
+      var variable = getQueryVariable();
+
+      function getItemInitData(item) {
+        var httpUrl = '/achieveMaintain-api/newInit';
+        if (item && item.expertId) {
+          $("#expertId").val(variable.expertId)
+          httpUrl = '/achieveMaintain-api/load/' + item.expertId;
+        }
+        httpModule({
+          url: httpUrl,
+          type: 'GET',
+          success: function (relData) {
+            if (relData.code === '0') {
+              var formData = relData.data;
+              // 给form表单赋初始值
+              form.val('formPlatform', formData);
+              // 更新表单数据
+              form.render();
+              if (formData.awardsType) {
+                layui.formSelects.value('supportingInstitutions', [formData.awardsType]);
+              }
+              if (formData.type) {
+                layui.formSelects.value('type', [formData.type]);
+              }
+              var scopeDisabled = false;
+              if (item.type == 'see') {
+                setFomeDisabled('formPlatform', '.disabled');
+                $('.disabled-box').remove();
+                form.render('select');
+                formSelects.disabled();
+                scopeDisabled = true;
+              }
+              // 添加知悉范围
+              setJurisdictionScope({
+                elem: 'scope_list_layout',
+                knowledgeScope: formData.knowledgeScope,
+                knowledgePerson: formData.knowledgePerson,
+                secretLevel: formData.secretLevel,
+                disabled: false
+              });
+            }
+          }
+        });
+      }
+      getItemInitData(variable);
+      var $ = layui.$,
+        active = {
+          close: function () {
+            /*模拟关闭标签页事件*/
+            var e = {
+              success: true
+            }
+            top.layer.closeAll(); // 关闭弹窗
+            if (variable.type !== 'see') {
+              setDialogData(e);
+            }
+          }
+        }
+      $('.layui-btn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+      });
+
+      form.on('submit(formSave)', function (data) {
+        console.log(data.field)
+        if (id != '') {
+          data.field.id = id
+        }
+        httpModule({
+          url: '/achieveMaintain-api/save',
+          data: data.field,
+          type: "POST",
+          success: function (e) {
+            console.log(e)
+            if (e.success) {
+              layer.msg('保存成功!');
+              top.layer.closeAll(); // 关闭弹窗
+              setDialogData(e);
+            }
+          }
+        });
+        return false
+      })
+    });
+  </script>
+</body>
+
+</html>

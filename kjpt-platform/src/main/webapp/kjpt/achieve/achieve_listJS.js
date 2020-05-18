@@ -127,7 +127,10 @@ layui.use(['table', 'form', 'laydate'], function () {
   })
   // 删除申请
   $('#delItem').on('click', function () {
-    top.layer.confirm('您确定要删除选中的信息吗？', {icon: 3, title:'提示'}, function(index) {
+    top.layer.confirm('您确定要删除选中的信息吗？', {
+      icon: 3,
+      title: '提示'
+    }, function (index) {
       // 获取被选中的行数据
       var activeData = table.checkStatus('tableDemo').data;
       if (activeData.length) {
@@ -137,7 +140,7 @@ layui.use(['table', 'form', 'laydate'], function () {
             type: 'DELETE',
             success: function (relData) {
               if (relData.code == 0) {
-                layer.msg('删除成功!', {  
+                layer.msg('删除成功!', {
                   icon: 1
                 });
                 top.layer.closeAll(); // 关闭弹窗
@@ -148,7 +151,7 @@ layui.use(['table', 'form', 'laydate'], function () {
         } else {
           layer.closeAll(); // 关闭弹窗
           top.layer.msg('当前申请状态不能删除！');
-          }
+        }
       }
     })
   })
