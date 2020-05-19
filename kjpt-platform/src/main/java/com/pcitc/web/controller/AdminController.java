@@ -115,7 +115,7 @@ public class AdminController extends BaseController {
 				  return "/jsc_web/index";
 			  }else 
 			  { 
-				  return "/login"; 
+				  return "/index"; 
 			   } 
 		  }else
 		  {
@@ -152,7 +152,7 @@ public class AdminController extends BaseController {
 		            return "/jsc_web/index";
 		        }else
 		        {
-		        	return "/login";
+		        	return "/index";
 		        }
 		}else
 		{
@@ -163,7 +163,6 @@ public class AdminController extends BaseController {
 		
     	
     }
-    
     
     //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
    /* @RequestMapping(value = "/login")

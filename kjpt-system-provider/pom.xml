@@ -423,7 +423,7 @@
             <groupId>koal.urm</groupId>
             <artifactId>client</artifactId>
             <version>1.0</version>
-        </dependency> -->
+        </dependency>
         
         <dependency>
             <groupId>koal.urm</groupId>
@@ -432,7 +432,7 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/lib/koal-urm-client-2.0.0.jar</systemPath>
         </dependency> 
-
+ -->
 	</dependencies>
 
 	<build>
