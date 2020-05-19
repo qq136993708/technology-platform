@@ -255,6 +255,7 @@
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         update kypt_info
         <trim prefix="SET" suffixOverrides=",">
+            img_id = #{imgId,jdbcType=VARCHAR},
             <if test="platformName != null and platformName != '' " >
                 platform_name = #{platformName},
             </if>
@@ -296,9 +297,6 @@
             </if>
             <if test="deleted != null and deleted != ''" >
                 deleted = #{deleted,jdbcType=VARCHAR},
-            </if>
-            <if test="imgId != null and imgId != ''" >
-                img_id = #{imgId,jdbcType=VARCHAR},
             </if>
             <if test="researchFieldText != null and researchFieldText != ''" >
                 research_field_text = #{researchFieldText,jdbcType=VARCHAR},
