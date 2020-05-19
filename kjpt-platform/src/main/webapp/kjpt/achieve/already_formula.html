@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
@@ -14,171 +15,230 @@
 
     <!-- 更多样式在此引入 -->
 </head>
+
 <body>
-<div class="layout-view-content min-label">
-    <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
+    <div class="layout-view-content min-label">
+        <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
 
-        
 
-        <div class="layui-row layui-col-space20">
-            <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">成果名称：</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">录入时间：</span></label>
-                    <div class="layui-input-block font0">
-                        <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                            <input type="text" name="inputStart" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
-                        </div>
-                        <span class="ib-block font14 text-center" style="width: 30px;">-</span>
-                        <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                            <input type="text" name="inputEnd" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
+
+            <div class="layui-row layui-col-space20">
+                <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">成果名称：</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="achieveName" placeholder="请输入" autocomplete="off"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
-            </div>
-            <input type="text" name="isPublic" value="2" class="layui-input layui-hide">
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
-                <div class="layui-form-item text-right">
-                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    <span class="layui-fold-btn"></span>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off"
+                                class="layui-input">
+                        </div>
+                    </div>
                 </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">录入时间：</span></label>
+                        <div class="layui-input-block font0">
+                            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                                <input type="text" name="inputStart" id="inputStart" placeholder="请选择"
+                                    autocomplete="off" class="laydate-input">
+                            </div>
+                            <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+                            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                                <input type="text" name="inputEnd" id="inputEnd" placeholder="请选择" autocomplete="off"
+                                    class="laydate-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" name="isPublic" value="2" class="layui-input layui-hide">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
+                    <div class="layui-form-item text-right">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <span class="layui-fold-btn"></span>
+                    </div>
+                </div>
+
             </div>
+        </form>
 
+        <div class="view-title-layout" id="opations-btn">
+            <div class="right">
+                <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
+                <button class="layui-btn border-red" id="delItem">结束公示</button>
+            </div>
         </div>
-    </form>
 
-    <div class="view-title-layout" id="opations-btn">
-        <div class="right">
-            <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
-            <button class="layui-btn border-red" id="delItem">结束公示</button>
-        </div>
+        <table id="tableDemo" lay-filter="tableDemo"></table>
+
     </div>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script>
+        layui.use(['table', 'form', 'laydate'], function () {
+            var table = layui.table;
+            var form = layui.form;
+            var laydate = layui.laydate;
 
-    <table id="tableDemo"  lay-filter="tableDemo"></table>
+            var tableRender = false;
 
-</div>
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script>
-    layui.use(['table', 'form','laydate'], function() {
-        var table = layui.table;
-        var form = layui.form;
-        var laydate = layui.laydate;
-
-        var tableRender = false;
-        function queryTable(searchData) {
-            if (!tableRender) {
-                tableRender = true;
-                table.render({
-                    elem: '#tableDemo'
-                    ,url: '/achieve-api/query' //数据接口
-                    ,cols: [[ //表头
-                        {type: 'radio', field: 'id'}
-                        ,{type: 'numbers', title: '序号', width: 80}
-                        ,{field: 'achieveName', title: '成果名称', sort: true }
-                        ,{field: 'finishUnitName', title: '完成单位', sort: true}
-                        ,{field: 'brief', title: '科技成果介绍'}
-                        ,{field: 'finishDate', title: '成果完成时间', sort: true,templet : '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',}
-                        ,{field: 'achieveTransTypeText', title: '拟转让方式', sort: true}
-                        ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()}
-                    ]],
-                    parseData: function(res) {return layuiParseData(res, null, 15);},
-                    request: {
-                        pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-                        limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
-                    },
-                    page: true, //开启分页
-                    limit: 10, // 每页数据条数,
-                    limits: [5, 10, 15, 20], // 配置分页数据条数
-                    where: searchData
-                });
-            } else {
-                table.reload('tableDemo', {where: searchData});
+            function queryTable(searchData) {
+                if (!tableRender) {
+                    tableRender = true;
+                    table.render({
+                        elem: '#tableDemo',
+                        url: '/achieve-api/query' //数据接口
+                            ,
+                        cols: [
+                            [ //表头
+                                {
+                                    type: 'radio',
+                                    field: 'id'
+                                }, {
+                                    type: 'numbers',
+                                    title: '序号',
+                                    width: 80
+                                }, {
+                                    field: 'achieveName',
+                                    title: '成果名称',
+                                    sort: true
+                                }, {
+                                    field: 'finishUnitNameText',
+                                    title: '完成单位',
+                                    sort: true
+                                }, {
+                                    field: 'brief',
+                                    title: '科技成果介绍'
+                                }, {
+                                    field: 'finishDate',
+                                    title: '成果完成时间',
+                                    sort: true,
+                                    templet: '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',
+                                }, {
+                                    field: 'achieveTransTypeText',
+                                    title: '拟转让方式',
+                                    sort: true
+                                }, {
+                                    field: 'secretLevelText',
+                                    title: '密级',
+                                    sort: true,
+                                    hide: _hideSecrecylevel()
+                                }
+                            ]
+                        ],
+                        parseData: function (res) {
+                            return layuiParseData(res, null, 15);
+                        },
+                        request: {
+                            pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+                            limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                        },
+                        page: true, //开启分页
+                        limit: 10, // 每页数据条数,
+                        limits: [5, 10, 15, 20], // 配置分页数据条数
+                        where: searchData
+                    });
+                } else {
+                    table.reload('tableDemo', {
+                        where: searchData
+                    });
+                }
             }
-        }
-        //开始日期
-        var insStart = laydate.render({
-            elem: '#inputStart'
-            ,done: function(value, date){
-                //更新结束日期的最小日期
-                insEnd.config.min = lay.extend({}, date, {
-                    month: date.month - 1
-                });
+            //开始日期
+            var insStart = laydate.render({
+                elem: '#inputStart',
+                done: function (value, date) {
+                    //更新结束日期的最小日期
+                    insEnd.config.min = lay.extend({}, date, {
+                        month: date.month - 1
+                    });
 
-                //自动弹出结束日期的选择器
-                insEnd.config.elem[0].focus();
-            }
-        });
+                    //自动弹出结束日期的选择器
+                    insEnd.config.elem[0].focus();
+                }
+            });
 
-        //结束日期
-        var insEnd = laydate.render({
-            elem: '#inputEnd'
-            ,min: 0
-            ,done: function(value, date){
-                //更新开始日期的最大日期
-                insStart.config.max = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-            }
-        });
+            //结束日期
+            var insEnd = laydate.render({
+                elem: '#inputEnd',
+                min: 0,
+                done: function (value, date) {
+                    //更新开始日期的最大日期
+                    insStart.config.max = lay.extend({}, date, {
+                        month: date.month - 1
+                    });
+                }
+            });
 
-        $('.openLayerPage').on('click', function() {
-            var listData = table.checkStatus('tableDemo').data;
-            if(undefined==listData||""==listData||undefined==listData[0].id||""==listData[0].id){
-                layer.msg('请选择需要查看的数据！');
-                return
-            }
-            var index=parent.$("#LAY_app_body div.layui-show").index()-1;
-            var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
-            parent.layui.index.openTabsPage(url,  '查看');
-        })
-        $('#delItem').on('click', function() {
-            // 获取被选中的行数据
-            var activeData = table.checkStatus('tableDemo').data;
-            if (activeData.length) {
-                httpModule({
-                    url: "/achieve-api/publicEnd/"+activeData[0].id,
-                    type: 'post',
-                    success: function(relData) {
-                        if(relData.code==0){
-                            layer.msg('结束公示成功!', {icon: 1});
-                            top.layer.closeAll(); // 关闭弹窗
-                            queryTable('')
+            $('.openLayerPage').on('click', function () {
+                var listData = table.checkStatus('tableDemo').data;
+                if (undefined == listData || "" == listData || undefined == listData[0].id || "" ==
+                    listData[0].id) {
+                    layer.msg('请选择需要查看的数据！');
+                    return
+                }
+                top.layer.open({
+                    type: 2,
+                    title: '公示',
+                    content: '/kjpt/achieve/formula.html?id='+listData[0].id, // 全局弹窗页面地址
+                    btn: null,
+                    area: ['60%', '60%'],
+                    end: function (lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        var getData = getDialogData('dialog-data');
+                        if (getData !== null && getData.success) {
+                            // tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id)
+                            queryTable();
                         }
                     }
                 });
+                //src/main/webapp/kjpt/achieve/formula.html
+                // var index=parent.$("#LAY_app_body div.layui-show").index()-1;
+                // var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
+                // parent.layui.index.openTabsPage(url,  '查看');
 
-            } else {
-                top.layer.msg('请选择需要结束公示的数据！');
-            }
+            })
+            $('#delItem').on('click', function () {
+                // 获取被选中的行数据
+                var activeData = table.checkStatus('tableDemo').data;
+                if (activeData.length) {
+                    httpModule({
+                        url: "/achieve-api/publicEnd/" + activeData[0].id,
+                        type: 'post',
+                        success: function (relData) {
+                            if (relData.code == 0) {
+                                layer.msg('结束公示成功!', {
+                                    icon: 1
+                                });
+                                top.layer.closeAll(); // 关闭弹窗
+                                queryTable('')
+                            }
+                        }
+                    });
+
+                } else {
+                    top.layer.msg('请选择需要结束公示的数据！');
+                }
+            })
+            // 监控表单提交事件
+            form.on('submit(formSubmit)', function (data) {
+                queryTable(data.field);
+                return false;
+            });
+            $('[lay-filter="formSubmit"]').click();
+
+
         })
-        // 监控表单提交事件
-        form.on('submit(formSubmit)', function(data) {
-            queryTable(data.field);
-            return false;
-        });
-        $('[lay-filter="formSubmit"]').click();
-
-
-    })
-</script>
+    </script>
 </body>
+
 </html>
