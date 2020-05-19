@@ -121,10 +121,10 @@ layui.use(['table', 'form', 'laydate'], function () {
     return false;
   });
   $('[lay-filter="formSubmit"]').click();
-  $("#reset").click(function () {
+  // $("#reset").click(function () {
 
-    queryTable('')
-  })
+  //   queryTable('')
+  // })
   // 删除申请
   $('#delItem').on('click', function () {
     top.layer.confirm('您确定要删除选中的信息吗？', {
