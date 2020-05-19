@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="renderer" content="webkit">
@@ -10,8 +11,9 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/scientificPlatform.css">
+  <!-- <link rel="stylesheet" href="/css/scientificPlatform.css"> -->
 </head>
+
 <body>
   <div class="layout-view-content min-label">
     <form class="layui-form layui-form-screen" action="" lay-filter="patentFormDemo">
@@ -19,28 +21,26 @@
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
-              <label class="layui-form-label"><span class="text">获奖年份：</span></label>
-              <div class="layui-input-block font0">
-                  <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                      <input type="text" name="startYear" id="startYear" placeholder="请选择" autocomplete="off" class="laydate-input">
-                  </div>
-                  <span class="ib-block font14 text-center" style="width: 30px;">-</span>
-                  <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                      <input type="text" name="endYear" id="endYear" placeholder="请选择" autocomplete="off" class="laydate-input">
-                  </div>
+            <label class="layui-form-label"><span class="text">获奖年份：</span></label>
+            <div class="layui-input-block font0">
+              <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                <input type="text" name="startYear" id="startYear" placeholder="请选择" autocomplete="off"
+                  class="laydate-input">
               </div>
+              <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+              <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                <input type="text" name="endYear" id="endYear" placeholder="请选择" autocomplete="off"
+                  class="laydate-input">
+              </div>
+            </div>
           </div>
         </div>
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">获奖类型：</span></label>
             <div class="layui-input-block">
-              <select name="type"
-                xm-select="type"
-                xm-select-skin="normal"
-                xm-select-radio=""
-                dic-base-data="ROOT_KJPT_YTDW"
-                placeholder="请选择"></select>
+              <select name="type" xm-select="type" xm-select-skin="normal" xm-select-radio=""
+                dic-base-data="ROOT_KJPT_CGWH_HJLX" placeholder="请选择"></select>
             </div>
           </div>
         </div>
@@ -48,41 +48,40 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">成果奖项：</span></label>
             <div class="layui-input-block">
-              <select name="awardsType"
-                xm-select="awardsType"
-                xm-select-skin="normal"
-                xm-select-radio=""
-                dic-base-data="ROOT_KJPT_YTDW"
-                placeholder="请选择"></select>
+              <select name="awardsType" xm-select="awardsType" xm-select-skin="normal" xm-select-radio=""
+                dic-base-data="" placeholder="请选择"></select>
             </div>
           </div>
         </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn" id="btnGroup">
           <div class="layui-form-item text-right">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button data-type="reset" class="layui-btn layui-btn-primary">重置</button>
             <span class="layui-fold-btn"></span>
           </div>
         </div>
       </div>
     </form>
-  
+
     <div class="view-title-layout">
       <div class="right" id="rightBtn">
-        <button class="layui-btn border-blue" id="addItem" button-role="add">新增</button>
-        <button class="layui-btn border-blue" id="editItem" button-role="edit">编辑</button>
-        <button class="layui-btn border-blue" id="seeItem">查看</button>
-        <button class="layui-btn border-red" id="delItem" button-role="delete">删除</button>
-        <a href="/expert-api/exput_excel" class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
+        <button class="layui-btn border-blue" id="addItem" data-type="addItem">新增</button>
+        <button class="layui-btn border-blue" id="editItem" data-type="editItem">编辑</button>
+        <button class="layui-btn border-blue" id="seeItem" data-type="seeItem">查看</button>
+        <button class="layui-btn border-red" id="delItem" data-type="delItem">删除</button>
+        <a class="layui-btn border-blue" id="exportData" data-type="exportData">导出</a>
       </div>
     </div>
-    
-    <table id="expertTable"  lay-filter="expertTable"></table>
+
+    <table id="expertTable" lay-filter="expertTable"></table>
   </div>
 
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script src="./js/achievemaint.js"></script>
+  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/layuiadmin/js/common.js"></script>
+  <script src="./js/achievemaint.js"></script>
 </body>
+
 </html>

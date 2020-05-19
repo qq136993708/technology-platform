@@ -19,7 +19,7 @@
 	<div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
-            <span>角色名:</span>
+            <span>名称:</span>
             <input type="text" id="roleName" name="roleName" placeholder="请输入角色名" title="角色名" autocomplete="off" class="form-control" id="modelName1">
         </label>
         <!--按钮组-->
@@ -302,9 +302,9 @@
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
-    $("#reset").click(function () {
-        rendRoleTable();
-    })
+    // $("#reset").click(function () {
+    //     rendRoleTable();
+    // })
 });
 </script>
 </html>

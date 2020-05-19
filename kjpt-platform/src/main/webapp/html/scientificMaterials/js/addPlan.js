@@ -37,7 +37,6 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
     itemDataUrl = '/SciencePlan/load/' + variable.id;
     msgTitle = '查看';
     readonlyFile = true;
-    gray()
   } else if (variable.type === 'add') {
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});

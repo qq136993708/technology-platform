@@ -459,7 +459,7 @@ function ajaxPostHeader(url, params, callback,headertype) {
                 //console.log(err2);
                 if (sessionstatus == "timeout") {
                     //如果超时就处理 ，指定要跳转的页面
-                    window.location.href = basePath + "/";
+                    top.location.href = basePath + "/";
                 }
                 else if (err1 == "parsererror") {//csrf异常
                     var responseBody = err.responseText;
