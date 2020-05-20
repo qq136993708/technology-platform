@@ -33,7 +33,7 @@
         select  * from view_achieve_maintain where 1=1
         and deleted != '1'
         <include refid="selectByParam" />
-        order by create_date desc
+        order by year desc
     </select>
 
 
@@ -101,6 +101,9 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="awardsType != null and awardsType != '' " >
                 awards_type = #{awardsType},
+            </if>
+            <if test="type != null and type != '' " >
+                type = #{type},
             </if>
             <if test="awardsNumber != null and awardsNumber != '' " >
                 awards_number = #{awardsNumber},
