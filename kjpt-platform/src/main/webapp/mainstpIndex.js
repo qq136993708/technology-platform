@@ -142,6 +142,7 @@ layui.config({
       url: config.url,
       data: config.data,
       type: config.type?config.type:'GET',
+      contentType: config.contentType,
       success: function(res) {
         if (res.code == '0' || res.success === true) {
           getItemHtml({
@@ -265,13 +266,14 @@ layui.config({
   //公告列表
   getTabContentList({
     id: '#platform-notice-list',
-    url: '/sysNotice/noticeListShow',
+    url: '/sysNotice/getSysNoticeList',
     data: { page: 1, limit: 10 },
     name: 'name',
     href: '',
     hrefData: ['id'],
     title: '公告',
     type: 'POST',
+    contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#platform-notice-list').text(res.message || '请求出错，无法获取数据。')
