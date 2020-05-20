@@ -41,7 +41,7 @@
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
                         <button class="layui-btn layui-btn-normal margin24" data-type="searchEvent">查询</button>
-                        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="resetEvent">重置</button>
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#typeName').val("");
-                active.searchEvent();
+                // active.searchEvent();
             },
             deleteEvent: function(){ //点击删除按钮
                 var activeData = table.checkStatus('showTable').data;

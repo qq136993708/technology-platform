@@ -33,24 +33,28 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
         cols: [
           [ //表头
             {
-              type: 'radio'
+              type: 'checkbox', 
             },
             {
               field: 'year',
-              title: '获奖年份'
-            },
-            {
-              field: 'awardsTypeText',
-              title: '成果奖项'
-            },
-            {
-              field: 'awardsNumber',
-              title: '奖项数量'
+              title: '获奖年份',
+              align:'center'
             },
             {
               field: 'typeText',
-              title: '获奖类型'
+              title: '奖项级别',
+              align:'center'
             },
+            {
+              field: 'awardsTypeText',
+              title: '奖项名称',
+              align:'center'
+            },
+            {
+              field: 'awardsNumber',
+              title: '奖项数量',
+              align:'center'
+            }
           ]
         ],
         parseData: function (res) {
@@ -62,7 +66,7 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
           page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
           limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
-        page: false //开启分页
+        page: true //开启分页
           ,
         limit: 15,
         limits: [15, 30, 45, 60], // 配置分页数据条数
@@ -77,7 +81,8 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
     type: "year",
     trigger: 'click',
     change: function (value, date, endDate) {
-      $("#startYear").val(value)
+      $("#startYear").val(value);
+      $("#endYear").val(value);
     }
   });
 
@@ -90,9 +95,10 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
     }
   });
   /*表格行被选中*/
-  table.on('radio(expertTable)', function (obj) {
-    itemRowData = obj.data;
-  });
+  // table.on('checkbox(expertTable)', function (obj) {
+  //   itemRowData = obj.data;
+  //   debugger
+  // });
   form.on('submit(formDemo)', function (data) {
     console.log(data.field)
     objLayui.tableList(data.field)
@@ -114,8 +120,13 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
         objLayui.openLayer(obj);
       },
       editItem: function () {
+        var itemRowData = table.checkStatus('expertTable').data;
         /*编辑*/
-        if (itemRowData.id == undefined) {
+        if (itemRowData.length > 0) {
+          layer.msg('请选择单条数据进行编辑！');
+          return
+        }
+        if (itemRowData.length == 0) {
           layer.msg('请选择需要编辑的数据！');
           return
         }
@@ -138,6 +149,13 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
         objLayui.openLayer(obj);
       },
       delItem: function () {
+        var itemRowData = table.checkStatus('expertTable').data;
+        var idList=itemRowData.map(function(item,index){
+          return item.id
+        })
+        idList=idList.join(',').toString();
+        console.log(idList)
+        // return ;
         /*删除*/
         if (itemRowData) {
           top.layer.confirm('您确定要删除吗？', {
@@ -147,7 +165,7 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
             layer.close(index);
             // 确认删除
             httpModule({
-              url: '/achieveMaintain-api/delete/' + itemRowData.id,
+              url: '/achieveMaintain-api/delete/' + idList,
               type: 'DELETE',
               success: function (relData) {
                 if (relData.success) {
