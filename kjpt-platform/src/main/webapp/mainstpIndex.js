@@ -379,8 +379,7 @@ layui.config({
     type: 'get',
     success: function(res) {
       if(res.success){
-      var list = res.data.slice(0,6);
-        list.map(function (item,index) {
+        res.data.map(function (item,index) {
           var html='<div class="work-list"><a lay-href="'+item.collectUrl+'" lay-text="'+item.collectName+'"><span class="link-work">'+item.collectName+'</span></a></div>'
             $("#threeItem .work-item-box").append(html)
         })
