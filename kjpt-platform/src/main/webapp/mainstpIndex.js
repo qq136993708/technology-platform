@@ -88,7 +88,11 @@ layui.config({
     var $parent = $(config.id).empty();
     $.each(config.data, function(i, item) {
       var $li = $('<li class="item-details"></li>');
-      var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      if(item.noticeCreatetime){
+        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      }else{
+        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      }
       itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
       $li.append(itemHtml);
       
@@ -138,6 +142,7 @@ layui.config({
   }
   // 获取tab页签对应的内容
   function getTabContentList(config) {
+    debugger
     httpModule({
       url: config.url,
       data: config.data,
@@ -266,14 +271,13 @@ layui.config({
   //公告列表
   getTabContentList({
     id: '#platform-notice-list',
-    url: '/sysNotice/getSysNoticeList',
-    data: { page: 1, limit: 10 },
-    name: 'name',
+    url: '/sysNotice/getSysNoticeList?page=1&limit=10',
+    // data: { page: 1, limit: 10 },
+    name: 'noticeTitle',
     href: '',
     hrefData: ['id'],
     title: '公告',
     type: 'POST',
-    contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#platform-notice-list').text(res.message || '请求出错，无法获取数据。')

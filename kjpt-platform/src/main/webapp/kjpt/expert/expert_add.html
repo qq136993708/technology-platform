@@ -65,9 +65,9 @@
                 </div>
                 <!--身份证号码-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label label-required"><span class="text">身份证号码:</span></label>
+                    <label class="layui-form-label"><span class="text">身份证号码:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="idCardNo" lay-verify="required|identity"
+                        <input type="text" name="idCardNo" 
                                placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -80,9 +80,9 @@
                     </div>
                 </div> -->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">职务：</span></label>
+                    <label class="layui-form-label label-required"><span class="text">职务：</span></label>
                     <div class="layui-input-block">
-                        <select name="post" id="post">
+                        <select name="post" id="post" lay-verify="required">
                             <option value=""></option>
                         </select>
                     </div>
@@ -106,9 +106,9 @@
                 </div>
                 <!--职称-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">职称:</span></label>
+                    <label class="layui-form-label label-required"><span class="text">职称:</span></label>
                     <div class="layui-input-block">
-                        <select name="title" id="title">
+                        <select name="title" id="title" lay-verify="required">
                             <option value=""></option>
                         </select>
                     </div>
@@ -141,7 +141,7 @@
                     <label class="layui-form-label"><span class="text">联系信息:</span></label>
                     <div class="layui-input-block">
                         <input type="text" name="contactWay"
-                               placeholder="" autocomplete="off" class="layui-input">
+                               placeholder="" autocomplete="off" class="layui-input" lay-verify="number">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -180,9 +180,9 @@
                 </div>
                 <!--技术领域-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">技术领域:</span></label>
+                    <label class="layui-form-label label-required"><span class="text">技术领域:</span></label>
                     <div class="layui-input-block">
-                        <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select>
+                        <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal" lay-verify="required"></select>
                         <!--<input type="text" name="technicalField"
                             dic-base-data="ROOT_KJPT_JSLY"
                                placeholder="" autocomplete="off" class="layui-input">-->

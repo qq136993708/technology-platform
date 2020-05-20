@@ -342,11 +342,12 @@ var __base_dic_store = {
 					}
 				}, 120);
 			}
-			/*消息*/
+			// /*消息*/
             httpModule({
                 url: '/sysNotice/getSysNoticeList?page=1&limit=1',
                 type: 'post',
                 success: function(res) {
+									debugger
                     if(res.code==0){
                         $("#numberChat").html(res.count)
                         $("#numberChat").removeClass("layui-hide")

@@ -99,6 +99,30 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
   //   itemRowData = obj.data;
   //   debugger
   // });
+  form.on('select(type)', function(data){
+    $('select[name="awardsType"]').attr('dic-base-data',data.value);
+    createElement(data.value,"awardsType","option","awardsType")
+  })
+   /*动态生成元素*/
+   function createElement(code,id,element,name) {
+    $("#"+id ).find('option').remove();
+    httpModule({
+        url: "/sysDictionary-api/getChildsListByCode/"+code,
+        type: 'GET',
+        success: function(relData) {
+            if (relData.success === true) {
+                relData.data.map(function(item){
+                    if(element=="option"){
+                        $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+                    }else if(element=="radio"){
+                        $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
+                    }
+                });
+                form.render()
+            }
+        }
+    });
+}
   form.on('submit(formDemo)', function (data) {
     console.log(data.field)
     objLayui.tableList(data.field)
@@ -122,7 +146,7 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
       editItem: function () {
         var itemRowData = table.checkStatus('expertTable').data;
         /*编辑*/
-        if (itemRowData.length > 0) {
+        if (itemRowData.length > 1) {
           layer.msg('请选择单条数据进行编辑！');
           return
         }
@@ -132,19 +156,24 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
         }
         var obj = {
           title: '编辑成果奖项',
-          url: '/kjpt/achieve/achievemaint/achievemaint_add.html?expertId=' + itemRowData.id + '&type=edit',
+          url: '/kjpt/achieve/achievemaint/achievemaint_add.html?expertId=' + itemRowData[0].id + '&type=edit',
         }
         objLayui.openLayer(obj);
       },
       seeItem: function () {
+        var itemRowData = table.checkStatus('expertTable').data;
         //查看
+        if (itemRowData.length > 1) {
+          layer.msg('请选择单条数据进行查看！');
+          return
+        }
         if (itemRowData.id == undefined) {
           layer.msg('请选择需要查看的数据！');
           return
         }
         var obj = {
           title: '查看成果奖项',
-          url: '/kjpt/achieve/achievemaint/achievemaint_add.html?expertId=' + itemRowData.id + '&type=see',
+          url: '/kjpt/achieve/achievemaint/achievemaint_add.html?expertId=' + itemRowData[0].id + '&type=see',
         }
         objLayui.openLayer(obj);
       },
