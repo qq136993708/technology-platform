@@ -375,7 +375,6 @@
 .home-footer-layout .item-content {
   padding: 1px 0;
   height: calc(100% - 48px);
-  position: relative;
 }
 .home-footer-layout .layui-tab {
   margin: 28px 0 0 0;
