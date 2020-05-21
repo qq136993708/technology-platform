@@ -137,7 +137,10 @@
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-            update achieve_maintain set deleted = '1' where id = #{id}
+            update achieve_maintain set deleted = '1' where id in
+            <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
     </update>
 
 
