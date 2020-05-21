@@ -32,7 +32,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
-    {field: 'name', title:'管理办法名称'},
+    {field: 'name', title:'管理办法名称', templet: function(d) {
+      return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
+    }},
     {field: 'publication', title:'版次'},
     {field: 'pubdate', title: '发布日期',templet: function(d){
       var times = new Date(d.pubdate);
@@ -47,7 +49,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/blocScientificPlan/query' //数据接口
+        ,url: '/manageMethod-api/query' //数据接口
         ,cols: [
           cols
         ],

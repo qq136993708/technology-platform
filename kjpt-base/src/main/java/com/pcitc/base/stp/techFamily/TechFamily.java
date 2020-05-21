@@ -56,11 +56,20 @@ public class TechFamily {
     
     private String userSecretLevel;
     
+    private String parentName;
     
     
     
     
-    public String getUserSecretLevel() {
+    public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	public String getUserSecretLevel() {
 		return userSecretLevel;
 	}
 

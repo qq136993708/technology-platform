@@ -191,10 +191,11 @@ public class TechFamilyApiController extends BaseController
     	param.getParam().put("isCloudParentId", isCloudParentId);
     	param.setLimit(limit);
     	param.setPage(page);
-    	//默认查询小于等于用户密级的
-    	SysUser sysUserInfo = this.getUserProfile();
-    	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
-    	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
+    	
+    	
+    	System.out.println("===== =======typeName=========="+typeName);
+    	System.out.println("===== =======tfmTypeId=========="+tfmTypeId);
+    	System.out.println("===== =======parentId=========="+parentId);
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -204,7 +205,8 @@ public class TechFamilyApiController extends BaseController
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		//logger.info("============获取技术族列表（分页） " + result.toString());
+		System.out.println("============获取技术族列表=========="+result.toString());
+		
 		return result.toString();
 	}
     

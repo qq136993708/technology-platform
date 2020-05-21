@@ -168,6 +168,8 @@
 						error : function(data) {
 						},
 						success : function(retData) {
+							
+							
 							if (retData.length == 1) {
 								layer.msg("模糊查询结果大于5");
 							} else if (retData.length == 0) {

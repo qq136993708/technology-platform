@@ -58,10 +58,11 @@ function ztreeAsyncChildNodes() {
         if (!silent) zTree.selectNode(nodes[i]);
     }
 };
-
+var nodePath;
 // 点击树节点时，处理变量和右侧表格
 function onClickMenu(event,treeId,treeNode,clickFlag) {
     console.log(treeNode)
+    nodePath=treeNode.nodePath;
     treeId = treeNode.id;
     treeName = treeNode.name;
     temTypeCode = treeNode.code;
@@ -69,7 +70,11 @@ function onClickMenu(event,treeId,treeNode,clickFlag) {
     temTypeName = treeNode.name;
     temFunUrl = treeNode.treeUrl;
     $('#nodePath').val(treeNode.nodePath);
-    active.searchEventNew();
+    var obj={
+        typeName: $('#typeName').val(),
+        typeIndex:nodePath
+    }
+    active.searchEventNew(obj);
 }
 
 $(document).ready(function () {
