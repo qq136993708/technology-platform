@@ -31,7 +31,7 @@
         select  * from view_manage_method where 1=1
         and deleted != '1'
         <include refid="selectByParam" />
-        order by year desc
+        order by publish_date desc
     </select>
 
 
