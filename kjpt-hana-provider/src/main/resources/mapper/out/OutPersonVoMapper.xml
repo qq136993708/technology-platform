@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.out.OutPersonVoMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.out.OutPersonVo">
+    <result column="ZJYXWMC" jdbcType="VARCHAR" property="zjyxwmc" />
+    <result column="ZJYXLMC" jdbcType="VARCHAR" property="zjyxlmc" />
+  </resultMap>
+  
+  
+  <select id="getHanaOutPersonVoList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from "_SYS_BIC"."ZHJT.HR/CAL_HR_DZGB_XL"
+  </select>
+  
+  
+  
+  
+</mapper>

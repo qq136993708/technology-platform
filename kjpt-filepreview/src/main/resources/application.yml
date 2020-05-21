@@ -14,7 +14,7 @@ logging:
 jodconverter:
   local:
     enabled: true
-    office-home: D:\java\install\LibreOffice_5.4.3.2
+    office-home: C:\java\install\LibreOffice_5.4.3.2
     portNumbers: 8100
     maxTasksPerProcess: 10
 
