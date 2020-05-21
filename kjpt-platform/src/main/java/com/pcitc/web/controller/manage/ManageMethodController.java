@@ -3,6 +3,7 @@ package com.pcitc.web.controller.manage;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.manage.ManageMethod;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -65,8 +66,7 @@ public class ManageMethodController extends RestBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "publishDate", value = "发布日期", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "publishDate", value = "录入开始时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publishDate", value = "发布日期", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "methodName", value = "名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "edition", value = "版次", dataType = "string", paramType = "query")
     })
@@ -76,7 +76,7 @@ public class ManageMethodController extends RestBaseController {
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "methodName") String methodName,
-            @RequestParam(required = false,value = "publishDate") @DateTimeFormat(pattern="yyyy-MM-dd")Date publishDate,
+            @RequestParam(required = false,value = "publishDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date publishDate,
             @RequestParam(required = false,value = "edition") String edition
     ){
 
@@ -92,8 +92,8 @@ public class ManageMethodController extends RestBaseController {
         }else {
             this.setParam(condition, "pageSize", pageSize);
         }
-        if (publishDate != null) {
-            this.setParam(condition, "publishDate", publishDate);
+        if (!StringUtils.isEmpty(DateUtil.format(publishDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "publishDate", DateUtil.format(publishDate,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(methodName)) {
             this.setParam(condition, "methodName", methodName);

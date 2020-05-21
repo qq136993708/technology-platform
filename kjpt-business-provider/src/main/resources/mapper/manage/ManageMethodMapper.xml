@@ -50,7 +50,7 @@
             and edition = #{edition}
         </if>
         <if test="publishDate != null " >
-            and publish_date = #{publishDate}
+            and DATE_FORMAT(publish_date,'%Y-%m-%d')  = DATE_FORMAT(#{publishDate},'%Y-%m-%d')
         </if>
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
