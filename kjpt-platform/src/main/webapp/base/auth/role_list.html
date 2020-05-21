@@ -256,7 +256,11 @@
             if (!selectRowData) {
             	layer.msg('请选择一个角色!');
         		return;
-        	}
+            }
+            if(selectRowData.roleName === '领导驾驶舱'){
+                layer.msg('此角色不能删除!');
+        		return;
+            }
             top.layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 				layer.close(index);
 	            ajaxPost("/role/del-role/"+selectRowData.roleId,null,function(data){

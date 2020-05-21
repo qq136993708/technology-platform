@@ -3,20 +3,20 @@ layui.use(['form','laydate'], function(){
 	
   var variable = getQueryVariable();
   var reportTypeVal = variable.reportType;
-  switch(+reportTypeVal){
-    case 1:
-        $('#configName').html("科技规划名称:");
-    break;
-    case 2:
-        $('#configName').html("工作指南名称:");
-    break;
-    case 3:
-        $('#configName').html("工作要点名称:");
-    break;
-    case 4:
-        $('#configName').html("质量信息名称:");
-    break;
-  }
+  // switch(+reportTypeVal){
+  //   case 1:
+  //       $('#configName').html("科技规划名称:");
+  //   break;
+  //   case 2:
+  //       $('#configName').html("工作指南名称:");
+  //   break;
+  //   case 3:
+  //       $('#configName').html("工作要点名称:");
+  //   break;
+  //   case 4:
+  //       $('#configName').html("质量信息名称:");
+  //   break;
+  // }
   var itemDataUrl = '/manageMethod-api/newInit';
   var billID = variable.id || '';
   var msgTitle = '新增';
@@ -92,9 +92,9 @@ layui.use(['form','laydate'], function(){
           fileIds += ',' + item.id;
         })
         fileIds = fileIds.substring(1);
-        form.val('formAddPlan', {accessory: fileIds});
+        form.val('formAddPlan', {files: fileIds});
       } else {
-        form.val('formAddPlan', {accessory: ''});
+        form.val('formAddPlan', {files: ''});
       }
     }
   });
@@ -102,7 +102,6 @@ layui.use(['form','laydate'], function(){
 
   form.on('submit(formAddPlanBtn)', function(data) {
     var saveData = data.field;
-
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }
