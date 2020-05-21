@@ -1,7 +1,6 @@
 package com.pcitc.mapper.achieve;
 
 import com.pcitc.base.achieve.AchieveMaintain;
-import com.pcitc.base.system.SysSerial;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

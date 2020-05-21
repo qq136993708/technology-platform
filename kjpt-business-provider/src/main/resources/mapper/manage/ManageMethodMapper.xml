@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.manage.ManageMethodMapper">
+
+    <resultMap id="ManageMethodMap" type="com.pcitc.base.manage.ManageMethod">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="method_name" jdbcType="VARCHAR" property="methodName"/>
+        <result column="edition" jdbcType="VARCHAR" property="edition"/>
+        <result column="edition_text" jdbcType="VARCHAR" property="editionText"/>
+        <result column="publish_date" jdbcType="TIMESTAMP" property="publishDate"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+    </resultMap>
+
+
+    <select id="load" parameterType="java.lang.String" resultMap="ManageMethodMap">
+        select  * from view_manage_method where id = #{id} and deleted != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="ManageMethodMap">
+        select  * from view_manage_method where 1=1
+        and deleted != '1'
+        <include refid="selectByParam" />
+        order by year desc
+    </select>
+
+
+    <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from manage_method where 1=1
+        and deleted != '1'
+        <include refid="selectByParam" />
+    </select>
+
+
+    <sql id="selectByParam">
+        <if test="methodName != null and methodName != '' " >
+            and method_name = #{methodName}
+        </if>
+        <if test="edition != null and edition != '' " >
+            and edition = #{edition}
+        </if>
+        <if test="publishDate != null " >
+            and publish_date = #{publishDate}
+        </if>
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+        secret_level <![CDATA[<=]]> #{userSecretLevel}
+        <if test='skipKnowledgeScope=="0"'>
+            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+        </if>
+        ))
+
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND t.create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <insert id="add" parameterType="com.pcitc.base.manage.ManageMethod">
+        insert into manage_method(
+        id,
+        method_name,
+        edition,
+        publish_date,
+        create_date,
+        create_user,
+        update_date,
+        deleted,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person
+        ) values(#{id},#{methodName},#{edition},#{publishDate},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.manage.ManageMethod">
+        update manage_method
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="methodName != null and methodName != '' " >
+                method_name = #{methodName},
+            </if>
+            <if test="edition != null and edition != '' " >
+                edition = #{edition},
+            </if>
+            <if test="publishDate != null " >
+                publish_date = #{publishDate},
+            </if>
+            <if test="updator != null and updator != ''" >
+                update_user = #{updator},
+            </if>
+            <if test="updateDate != null " >
+                update_date = #{updateDate},
+            </if>
+            <if test="secretLevel != null and secretLevel != ''" >
+                secret_level = #{secretLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgeScope != null and knowledgeScope != ''" >
+                knowledge_scope = #{knowledgeScope},
+            </if>
+            <if test="knowledgePerson != null and knowledgePerson != ''" >
+                knowledge_person = #{knowledgePerson}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update manage_method set deleted = '1' where id in
+            <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </update>
+
+
+</mapper>
