@@ -45,6 +45,14 @@ public class FileCommonServiceImpl implements FileCommonService {
     }
 
     @Override
+    public void updateFileData(String fileIds, String dataId) {
+        String[] fileArr = fileIds.split(",");
+        fcm.delete(dataId);
+        fcm.updateSetDataID(dataId,fileArr);
+
+    }
+
+    @Override
     public FileModel downLoad(String id) {
         return fcm.downLoad(id);
     }

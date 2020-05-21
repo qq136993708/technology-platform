@@ -17,6 +17,8 @@ public interface FileCommonService {
 
     void updateFileData (String fileIds,String dataId,String baseSsecretLevel);
 
+    void updateFileData (String fileIds,String dataId);
+
     FileModel downLoad(String id);
 
 

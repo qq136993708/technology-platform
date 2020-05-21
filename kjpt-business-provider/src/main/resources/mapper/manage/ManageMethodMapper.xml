@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.pcitc.mapper.achieve.AchieveMaintainMapper">
+<mapper namespace="com.pcitc.mapper.manage.ManageMethodMapper">
 
-    <resultMap id="AchieveMaintainMap" type="com.pcitc.base.achieve.AchieveMaintain">
+    <resultMap id="ManageMethodMap" type="com.pcitc.base.manage.ManageMethod">
         <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="year" jdbcType="VARCHAR" property="year"/>
-        <result column="type" jdbcType="VARCHAR" property="type"/>
-        <result column="type_text" jdbcType="VARCHAR" property="typeText"/>
-        <result column="awards_type" jdbcType="VARCHAR" property="awardsType"/>
-        <result column="awards_type_text" jdbcType="VARCHAR" property="awardsTypeText"/>
-        <result column="awards_number" jdbcType="VARCHAR" property="awardsNumber"/>
+        <result column="method_name" jdbcType="VARCHAR" property="methodName"/>
+        <result column="edition" jdbcType="VARCHAR" property="edition"/>
+        <result column="edition_text" jdbcType="VARCHAR" property="editionText"/>
+        <result column="publish_date" jdbcType="TIMESTAMP" property="publishDate"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
@@ -25,12 +23,12 @@
     </resultMap>
 
 
-    <select id="load" parameterType="java.lang.String" resultMap="AchieveMaintainMap">
-        select  * from view_achieve_maintain where id = #{id} and deleted != '1'
+    <select id="load" parameterType="java.lang.String" resultMap="ManageMethodMap">
+        select  * from view_manage_method where id = #{id} and deleted != '1'
     </select>
 
-    <select id="query" parameterType="java.util.Map" resultMap="AchieveMaintainMap">
-        select  * from view_achieve_maintain where 1=1
+    <select id="query" parameterType="java.util.Map" resultMap="ManageMethodMap">
+        select  * from view_manage_method where 1=1
         and deleted != '1'
         <include refid="selectByParam" />
         order by year desc
@@ -38,24 +36,21 @@
 
 
     <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  count(*) from achieve_maintain where 1=1
+        select  count(*) from manage_method where 1=1
         and deleted != '1'
         <include refid="selectByParam" />
     </select>
 
 
     <sql id="selectByParam">
-        <if test="awardsType != null and awardsType != '' " >
-            and awards_type = #{awardsType}
+        <if test="methodName != null and methodName != '' " >
+            and method_name = #{methodName}
         </if>
-        <if test="type != null and type != '' " >
-            and type = #{type}
+        <if test="edition != null and edition != '' " >
+            and edition = #{edition}
         </if>
-        <if test="startYear != null and startYear != '' " >
-            and year <![CDATA[>=]]> #{startYear}
-        </if>
-        <if test="endYear != null and endYear != '' " >
-            and year <![CDATA[<=]]> #{endYear}
+        <if test="publishDate != null " >
+            and publish_date = #{publishDate}
         </if>
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
@@ -76,13 +71,12 @@
     </sql>
 
 
-    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
-        insert into achieve_maintain(
+    <insert id="add" parameterType="com.pcitc.base.manage.ManageMethod">
+        insert into manage_method(
         id,
-        year,
-        type,
-        awards_type,
-        awards_number,
+        method_name,
+        edition,
+        publish_date,
         create_date,
         create_user,
         update_date,
@@ -93,35 +87,26 @@
         secret_level,
         knowledge_scope,
         knowledge_person
-        ) values(#{id},#{year},#{type},#{awardsType},#{awardsNumber},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        ) values(#{id},#{methodName},#{edition},#{publishDate},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
-    <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
-        update achieve_maintain
+    <update id="update" parameterType="com.pcitc.base.manage.ManageMethod">
+        update manage_method
         <trim prefix="SET" suffixOverrides=",">
-            <if test="awardsType != null and awardsType != '' " >
-                awards_type = #{awardsType},
+            <if test="methodName != null and methodName != '' " >
+                method_name = #{methodName},
             </if>
-            <if test="type != null and type != '' " >
-                type = #{type},
+            <if test="edition != null and edition != '' " >
+                edition = #{edition},
             </if>
-            <if test="awardsNumber != null and awardsNumber != '' " >
-                awards_number = #{awardsNumber},
-            </if>
-            <if test="deleted != null and deleted != ''" >
-                deleted = #{deleted},
+            <if test="publishDate != null " >
+                publish_date = #{publishDate},
             </if>
             <if test="updator != null and updator != ''" >
                 update_user = #{updator},
             </if>
             <if test="updateDate != null " >
                 update_date = #{updateDate},
-            </if>
-            <if test="createUnitId != null and createUnitId != ''" >
-                create_unit_id = #{createUnitId,jdbcType=VARCHAR},
-            </if>
-            <if test="createUnitName != null and createUnitName != ''" >
-                create_unit_name = #{createUnitName,jdbcType=VARCHAR},
             </if>
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel,jdbcType=VARCHAR},
@@ -137,7 +122,7 @@
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-            update achieve_maintain set deleted = '1' where id in
+            update manage_method set deleted = '1' where id in
             <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>

@@ -142,7 +142,6 @@ layui.config({
   }
   // 获取tab页签对应的内容
   function getTabContentList(config) {
-    debugger
     httpModule({
       url: config.url,
       data: config.data,
