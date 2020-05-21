@@ -259,14 +259,12 @@ public class TechFamilyController extends BaseController {
 	@RequestMapping(value = "/tech-family/type/chart/data/cond", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONArray getTechFamilyTreeDataCond(@RequestBody TechFamily techFamily) throws Exception {
+		
 		techFamily.setLevelCode("5");
 		techFamily.setTypeIndex("10");
-
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(TECH_TYPE_COND, HttpMethod.POST, new HttpEntity<TechFamily>(techFamily, this.httpHeaders), JSONArray.class);
-
 		JSONArray treeNodes = responseEntity.getBody();
-
-	//	System.out.println(treeNodes+"------222-------");
+		System.out.println(">>>>>>getTechFamilyTreeDataCond:"+treeNodes);
 		return treeNodes;
 	}
 	

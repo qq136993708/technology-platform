@@ -25,9 +25,9 @@
 		<result column="direction_info" property="directionInfo" jdbcType="VARCHAR" />
 		<result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
         <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-        
-         <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
-         <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+        <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+        <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+        <result column="parentName"                jdbcType="VARCHAR" property="parentName" />
     
 		
 	</resultMap>
@@ -471,6 +471,10 @@
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
           AND t2.num_value =t1.`secret_level`
       )  secret_level_str
+       ,( 
+          SELECT t2.`type_name` FROM tfm_type  t2 WHERE t2.tfm_type_id =t1.`parent_id`
+      )   parentName
+      
      FROM tfm_type t1
 	</sql>
 	

@@ -24,8 +24,6 @@ public class OutPersonServiceImpl implements IOutPersonService {
 	@Autowired
 	private OutPersonVoMapper outPersonVoMapper;
     
-    
-    
 	public List getHanaOutPersonVoList(Map map)throws Exception
 	{
 		List<OutPersonVo> list = outPersonVoMapper.getHanaOutPersonVoList(map);
