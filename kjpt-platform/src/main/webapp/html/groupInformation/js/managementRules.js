@@ -8,9 +8,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   // var newTime = new Date(); //发布日期初始值
   // var timeString = newTime.getFullYear() + '-'+ (newTime.getMonth()+1) + '-' + newTime.getDate();
   laydate.render({elem: '#releaseTime',trigger:'click'});
-  laydate.render({elem: '#yearOrMonth',trigger:'click',type:'month'});
+  // laydate.render({elem: '#yearOrMonth',trigger:'click',type:'month'});
 
-  var params = getQueryVariable();
+  // var params = getQueryVariable();
   // var reportType = params.reportType;
 
   function setSelectInput(){ //js动态设置条件过滤布局
@@ -32,11 +32,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
-    {field: 'name', title:'管理办法名称', templet: function(d) {
+    {field: 'methodName', title: tipTitle+'名称', templet: function(d) {
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }},
-    {field: 'publication', title:'版次'},
-    {field: 'pubdate', title: '发布日期',templet: function(d){
+    {field: 'edition', title:'版次'},
+    {field: 'publishDate', title: '发布日期',templet: function(d){
       var times = new Date(d.pubdate);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
     }}
@@ -91,7 +91,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/groupInformation/addPlan.html?type=' + type +'&reportType=' + reportType + '&id='+(id || ''),
+		  content: '/html/groupInformation/addManage.html?type=' + type  + '&id='+(id || ''),
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
