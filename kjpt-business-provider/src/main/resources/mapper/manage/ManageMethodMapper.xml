@@ -44,7 +44,7 @@
 
     <sql id="selectByParam">
         <if test="methodName != null and methodName != '' " >
-            and method_name = #{methodName}
+            and method_name like CONCAT('%',#{methodName},'%')
         </if>
         <if test="edition != null and edition != '' " >
             and edition = #{edition}
