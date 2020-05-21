@@ -50,6 +50,8 @@
                 console.log($(this).val())
             });
             groups=groups.substr(0, groups.length - 1);
+            debugger
+            return
             httpModule({
                 url: '/outPerson-api/outPersonToZjkBase',
                 data:{ids:variable.id,groups:groups},
