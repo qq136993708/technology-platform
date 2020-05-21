@@ -1,6 +1,7 @@
 package com.pcitc.base.manage;
 
 import com.pcitc.base.common.RecordModel;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -26,7 +27,8 @@ public class ManageMethod  extends RecordModel {
     /**
      * 发布日期
      */
-    private Date publishDate;
+    @DateTimeFormat
+    private Date publishDate = new Date();
     /**
      * 附件
      */
