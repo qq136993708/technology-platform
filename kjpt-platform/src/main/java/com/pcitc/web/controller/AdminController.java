@@ -115,7 +115,8 @@ public class AdminController extends BaseController {
 				  return "/jsc_web/index";
 			  }else 
 			  { 
-				  return "/index"; 
+				  //return "/index"; 
+				  return "redirect:/index";
 			   } 
 		  }else
 		  {
@@ -152,7 +153,8 @@ public class AdminController extends BaseController {
 		            return "/jsc_web/index";
 		        }else
 		        {
-		        	return "/index";
+		        	//return "/index";
+		        	 return "redirect:/index";
 		        }
 		}else
 		{
