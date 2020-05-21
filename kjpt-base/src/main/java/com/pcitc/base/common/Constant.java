@@ -64,7 +64,7 @@ public class Constant {
     
     public static String USER_CONFIGADMIN = "configadmin";
     
-    public static String ROLE_WHITE_USER = "ZXBMD";//知悉范围白名单
+    public static String ROLE_WHITE_USER = "LDJSC";//知悉范围白名单
 
  
 

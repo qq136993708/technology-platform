@@ -3,20 +3,20 @@ layui.use(['form','laydate'], function(){
 	
   var variable = getQueryVariable();
   var reportTypeVal = variable.reportType;
-  switch(+reportTypeVal){
-    case 1:
-        $('#configName').html("科技规划名称:");
-    break;
-    case 2:
-        $('#configName').html("工作指南名称:");
-    break;
-    case 3:
-        $('#configName').html("工作要点名称:");
-    break;
-    case 4:
-        $('#configName').html("质量信息名称:");
-    break;
-  }
+  // switch(+reportTypeVal){
+  //   case 1:
+  //       $('#configName').html("科技规划名称:");
+  //   break;
+  //   case 2:
+  //       $('#configName').html("工作指南名称:");
+  //   break;
+  //   case 3:
+  //       $('#configName').html("工作要点名称:");
+  //   break;
+  //   case 4:
+  //       $('#configName').html("质量信息名称:");
+  //   break;
+  // }
   var itemDataUrl = '/manageMethod-api/newInit';
   var billID = variable.id || '';
   var msgTitle = '新增';
@@ -46,11 +46,11 @@ layui.use(['form','laydate'], function(){
     success: function(res) {
       if (res.code === '0') {
         var formData = res.data;
-        if (formData.annual) {
-          formData.annual = new Date(formData.annual).format('yyyy-MM');
-        }
-        if(formData.pubdate){
-          formData.pubdate = new Date(formData.pubdate).format('yyyy-MM-dd');
+        // if (formData.annual) {
+        //   formData.annual = new Date(formData.annual).format('yyyy-MM');
+        // }
+        if(formData.publishDate){
+          formData.publishDate = new Date(formData.publishDate).format('yyyy-MM-dd');
         }
         form.val('formAddPlan', formData);
         form.render();
@@ -92,9 +92,9 @@ layui.use(['form','laydate'], function(){
           fileIds += ',' + item.id;
         })
         fileIds = fileIds.substring(1);
-        form.val('formAddPlan', {accessory: fileIds});
+        form.val('formAddPlan', {files: fileIds});
       } else {
-        form.val('formAddPlan', {accessory: ''});
+        form.val('formAddPlan', {files: ''});
       }
     }
   });
@@ -102,12 +102,11 @@ layui.use(['form','laydate'], function(){
 
   form.on('submit(formAddPlanBtn)', function(data) {
     var saveData = data.field;
-
-    if (saveData.annual) {
-      saveData.annual = new Date(saveData.annual).getTime();
-    }
-    if(saveData.pubdate){
-      saveData.pubdate = new Date(saveData.pubdate).getTime();
+    // if (saveData.annual) {
+    //   saveData.annual = new Date(saveData.annual).getTime();
+    // }
+    if(saveData.publishDate){
+      saveData.publishDate = new Date(saveData.publishDate).getTime();
     }
     httpModule({
       url: '/manageMethod-api/save',

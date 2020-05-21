@@ -33,11 +33,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var cols  = [ //表头
     {type: 'radio', field: 'id'},
     {field: 'methodName', title: tipTitle+'名称', templet: function(d) {
-      return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
+      return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.methodName+'</a>';
     }},
     {field: 'edition', title:'版次'},
     {field: 'publishDate', title: '发布日期',templet: function(d){
-      var times = new Date(d.pubdate);
+      var times = new Date(d.publishDate);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
     }}
   ]
@@ -136,11 +136,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     // 获取表格中选中的数据
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData.length) {
-		  top.layer.confirm('您确定要删除”'+itemRowData[0].name+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		  top.layer.confirm('您确定要删除”'+itemRowData[0].methodName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
 		    top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/blocScientificPlan/delete/' + itemRowData[0].id,
+          url: '/manageMethod-api/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function(relData) {
             if (relData.code === '0') {
