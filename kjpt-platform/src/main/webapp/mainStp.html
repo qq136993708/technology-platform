@@ -17,7 +17,7 @@
 <body>
 <div class="home-stp-layout">
 	<input type="text" value="${userId}" id="userId" class="layui-hide">
-	<div class="home-header-layout">
+	<!--<div class="home-header-layout">
 		<div class="itemScroll-box" id="homeHeaderItem">
 			<div class="itemScroll">
 				<ul class="itemBlock"></ul>
@@ -27,45 +27,71 @@
 				<span class="right-btn itemBtn active"></span>
 			</div>
 		</div>
-	</div>
-	<div class="home-middle-layout">
-		<div class="layui-row">
-			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
-				<div class="middle-item oneItem">
-					<div class="middle-title">我的待办</div>
-					<div class="middle-content middle-block">
-						<a lay-href="/task/pending/list/ini" lay-text="待办任务">
-						<span class="ib-block" id="oneItem"></span><span class="text" id="text"></span></a></div>
+	</div>-->
+<!--	<div class="home-middle-layout">-->
+<!--		<div class="layui-row">-->
+<!--			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">-->
+<!--				<div class="middle-item oneItem">-->
+<!--					<div class="middle-title">我的待办</div>-->
+<!--					<div class="middle-content middle-block">-->
+<!--						<a lay-href="/task/pending/list/ini" lay-text="待办任务">-->
+<!--						<span class="ib-block" id="oneItem"></span><span class="text" id="text"></span></a></div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">-->
+<!--				<div class="middle-item twoItem">-->
+<!--					<div class="middle-title">成果</div>-->
+<!--					<div class="middle-content">-->
+<!--						<div class="chart-item">-->
+<!--							<div class="chart-box" id="lastWeek"></div>-->
+<!--							<div class="chart-title">成果转化</div>-->
+<!--						</div>-->
+<!--						<div class="chart-item">-->
+<!--							<div class="chart-box" id="thisWeek"></div>-->
+<!--							<div class="chart-title">成果报奖</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">-->
+<!--				<div class="middle-item threeItem" id="threeItem">-->
+<!--					<div class="middle-title">我的收藏</div>-->
+<!--					<div class="middle-content middle-block">-->
+<!--						<div class="ib-block work-item-box">-->
+<!--							&lt;!&ndash;<div class="work-list"><span class="link-work">工作安排</span></div>-->
+<!--							<div class="work-list"><span class="link-work">装备计划查询</span></div>-->
+<!--							<div class="work-list"><span class="link-work">科研投入计划</span></div>-->
+<!--							<div class="work-list"><span class="link-work">科研项目分析</span></div>-->
+<!--							<div class="work-list end"><span class="link-work">现金流量分析</span></div>-->
+<!--							<div class="work-list end"><span class="link-work">预算汇总表</span></div>&ndash;&gt;-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+
+<!--	</div>-->
+<!--	</div>-->
+	<div class="home-footer-layout">
+		<div class="footer-item">
+			<div class="footer-item-title middle-block">
+				<div class="text">平台公告</div>
+			</div>
+			<div class="item-content">
+				<div class="layui-tab-content">
+					<ul class="details-list" id="platform-notice-list"></ul>
+					<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/base/system/notice_list.html" lay-text="平台公告">查看更多>></a></div>
 				</div>
 			</div>
-			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
-				<div class="middle-item twoItem">
-					<div class="middle-title">成果</div>
-					<div class="middle-content">
-						<div class="chart-item">
-							<div class="chart-box" id="lastWeek"></div>
-							<div class="chart-title">成果转化</div>
-						</div>
-						<div class="chart-item">
-							<div class="chart-box" id="thisWeek"></div>
-							<div class="chart-title">成果报奖</div>
-						</div>
-					</div>
-				</div>
+		</div>
+		<div class="footer-item">
+			<div class="footer-item-title middle-block">
+				<div class="text">新闻发布</div>
 			</div>
-			<div class="layui-col-xs12 layui-col-sm4 layui-col-md4">
-				<div class="middle-item threeItem" id="threeItem">
-					<div class="middle-title">我的收藏</div>
-					<div class="middle-content middle-block">
-						<div class="ib-block work-item-box">
-							<!--<div class="work-list"><span class="link-work">工作安排</span></div>
-							<div class="work-list"><span class="link-work">装备计划查询</span></div>
-							<div class="work-list"><span class="link-work">科研投入计划</span></div>
-							<div class="work-list"><span class="link-work">科研项目分析</span></div>
-							<div class="work-list end"><span class="link-work">现金流量分析</span></div>
-							<div class="work-list end"><span class="link-work">预算汇总表</span></div>-->
-						</div>
-					</div>
+			<div class="item-content">
+				<div class="layui-tab-content">
+					<ul class="details-list" id="news-press-list"></ul>
+					<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/sysNews/toListPage" lay-text="新闻发布">查看更多>></a></div>
 				</div>
 			</div>
 		</div>
@@ -104,10 +130,13 @@
 				<div class="layui-tab" lay-filter="tab-demo">
 					<ul class="layui-tab-title tab-home-layout">
 						<li class="layui-this">科技规划</li>
+						<li>工作指南</li>
 						<li>工作要点</li>
-						<li>科技进展动态</li>
-						<li>年终总结</li>
-						<li>研究报告</li>
+						<li>质量信息</li>
+						<li>管理办法</li>
+<!--						<li>科技进展动态</li>-->
+<!--						<li>年终总结</li>-->
+<!--						<li>研究报告</li>-->
 					</ul>
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
@@ -116,9 +145,22 @@
 						</div>
 						<div class="layui-tab-item">
 							<ul class="details-list" id="work_tab_list"></ul>
-							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=2" lay-text="工作要点">查看更多>></a></div>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/groupInformation/groupInformation.html?reportType=2" lay-text="工作指南">查看更多>></a></div>
 						</div>
 						<div class="layui-tab-item">
+							<ul class="details-list" id="work_imp_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/groupInformation/groupInformation.html?reportType=3" lay-text="工作要点">查看更多>></a></div>
+						</div>
+						<div class="layui-tab-item">
+							<ul class="details-list" id="zlxx_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/groupInformation/groupInformation.html?reportType=4" lay-text="质量信息">查看更多>></a></div>
+						</div>
+						<div class="layui-tab-item">
+							<ul class="details-list" id="glbf_tab_list"></ul>
+							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=2" lay-text="管理办法">查看更多>></a></div>
+						</div>
+
+						<!--<div class="layui-tab-item">
 							<ul class="details-list" id="progress_tab_list"></ul>
 							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=3" lay-text="科技进展动态">查看更多>></a></div>
 						</div>
@@ -129,7 +171,7 @@
 						<div class="layui-tab-item">
 							<ul class="details-list" id="scientific_tab_list"></ul>
 							<div class="layui-tab-more-item"><a class="tab-more-link" lay-href="/html/scientificMaterials/scientificPlan.html?reportType=5" lay-text="科研报告">查看更多>></a></div>
-						</div>
+						</div>-->
 					</div>
 				</div>
 			</div>

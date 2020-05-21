@@ -5,7 +5,7 @@ layui.config({
 }).use(['index','element', 'jquery'], function() {
   var $ = layui.jquery;
 
-  commonItemInto({
+  /*commonItemInto({
     elem: '#homeHeaderItem',
     itemMinWidth: 164,
     cols: [
@@ -18,7 +18,7 @@ layui.config({
       , { title: '质量报表', iconName: 'icon009', id: '', label: '', unit: '个' ,url:'#'}
       , { title: '经验反馈', iconName: 'icon006', id: '', label: '', unit: '条',url:'#' }
     ]
-  });
+  });*/
 
   // 饼图渲染
   function getPieChartOption(data) {
@@ -88,7 +88,11 @@ layui.config({
     var $parent = $(config.id).empty();
     $.each(config.data, function(i, item) {
       var $li = $('<li class="item-details"></li>');
-      var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      if(item.noticeCreatetime){
+        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      }else{
+        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+      }
       itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
       $li.append(itemHtml);
       
@@ -138,15 +142,18 @@ layui.config({
   }
   // 获取tab页签对应的内容
   function getTabContentList(config) {
+    debugger
     httpModule({
       url: config.url,
       data: config.data,
+      type: config.type?config.type:'GET',
+      contentType: config.contentType,
       success: function(res) {
-        if (res.code === '0' || res.success === true) {
+        if (res.code == '0' || res.success === true) {
           getItemHtml({
             id: config.id,
             name: config.name,
-            data: res.data.list,
+            data: res.data.list?res.data.list:res.data,
             href: config.href,
             hrefData: config.hrefData,
             title: config.title,
@@ -160,16 +167,16 @@ layui.config({
     })
   }
 
-  var lastWeekChart = echarts.init(document.getElementById('lastWeek'));
+  /*var lastWeekChart = echarts.init(document.getElementById('lastWeek'));
   lastWeekChart.setOption(getPieChartOption({
     completed: { name: '已完成', value: 100 },
     unCompleted: { name: '在研', value: 99 },
     // text: '总量',
     subText: conversionNumber(199),
     title: '项目数量'
-  }));
+  }));*/
 
-  var thisWeekChart = echarts.init(document.getElementById('thisWeek'));
+  /*var thisWeekChart = echarts.init(document.getElementById('thisWeek'));
   thisWeekChart.setOption(getPieChartOption({
     completed: {
       // name: '实际完成',
@@ -182,11 +189,11 @@ layui.config({
     text: '实际完成',
     subText: conversionNumber(3000000),
     title: '项目投资'
-  }));
+  }));*/
 
   $(window).resize(function() {
-    lastWeekChart.resize();
-    thisWeekChart.resize();
+    // lastWeekChart.resize();
+    // thisWeekChart.resize();
   });
 
   // 获取相关个数
@@ -261,6 +268,39 @@ layui.config({
     }
   })
 
+  //公告列表
+  getTabContentList({
+    id: '#platform-notice-list',
+    url: '/sysNotice/getSysNoticeList?page=1&limit=10',
+    // data: { page: 1, limit: 10 },
+    name: 'noticeTitle',
+    href: '',
+    hrefData: ['id'],
+    title: '公告',
+    type: 'POST',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#platform-notice-list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  });
+
+  //新闻发布
+  getTabContentList({
+    id: '#news-press-list',
+    url: '/sysNews/getTableData',
+    data: { page: 1, limit: 10 },
+    name: 'title',
+    href: '',
+    hrefData: ['id'],
+    title: '新闻发布',
+    type: 'POST',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#news-press-list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  });
 
   // 专利列表
   getTabContentList({
@@ -313,7 +353,55 @@ layui.config({
 
   // 工作要点
   getTabContentList({
+    id: '#work_imp_tab_list',
+    name: 'name',
+    url: '/blocScientificPlan/query',
+    data: { page: 1, limit: 10, reportType: 3},
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '工作要点',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#work_imp_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  })
+
+  // 工作指南
+  getTabContentList({
     id: '#work_tab_list',
+    name: 'name',
+    url: '/blocScientificPlan/query',
+    data: { page: 1, limit: 10, reportType: 2},
+    href: '/html/scientificMaterials/planDetails.html',
+    hrefData: ['id'],
+    title: '工作指南',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#work_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  });
+
+  //质量信息
+  getTabContentList({
+    id: '#zlxx_tab_list',
+    name: 'name',
+    url: '/blocScientificPlan/query',
+    data: { page: 1, limit: 10, reportType: 4},
+    href: '/html/groupInformation/planDetails.html',
+    hrefData: ['id'],
+    title: '质量信息',
+    callback: function(res) {
+      if (res.code === '-1' || res.success === false) {
+        $('#zlxx_tab_list').text(res.message || '请求出错，无法获取数据。')
+      }
+    }
+  })
+
+  //管理办法
+  getTabContentList({
+    id: '#glbf_tab_list',
     name: 'name',
     url: '/SciencePlan/query',
     data: { page: 1, limit: 10, reportType: 2},
@@ -322,7 +410,7 @@ layui.config({
     title: '工作要点',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
-        $('#work_tab_list').text(res.message || '请求出错，无法获取数据。')
+        $('#glbf_tab_list').text(res.message || '请求出错，无法获取数据。')
       }
     }
   })
@@ -374,7 +462,7 @@ layui.config({
       }
     }
   })
-  httpModule({
+  /*httpModule({
     url: '/collect-api/getSysCollectByUserId?userId='+$("#userId").val(),
     type: 'get',
     success: function(res) {
@@ -401,7 +489,7 @@ layui.config({
                 $("#text").html("项")
             }
         }
-    });
+    });*/
   $('a.tab-more-link').click(function() {
     var itemHref = $(this).attr('lay-href'),
     title = $(this).attr('lay-text');

@@ -15,34 +15,16 @@ public interface IOutPersonService {
 	
 	
 	
-	/**
-	     * 根据ID获取人事系统人员信息详情
-	*/
-	public OutPerson selectOutPerson(String id) throws Exception;
 	
-	/**
-	 *修改人事系统人员信息
-	*/
-	public Integer updateOutPerson(OutPerson record)throws Exception;
-	/**
-	 *根据ID删除人事系统人员信息
-	*/
-	public int deleteOutPerson(String id)throws Exception;
-	
-	/**
-	 * 增加人事系统人员信息
-	*/
-	public Integer insertOutPerson(OutPerson record)throws Exception;
-	
-	/**
-	 * 获取人事系统人员（分页）
-	*/
-	public LayuiTableData getOutPersonPage(LayuiTableParam param)throws Exception;
+	public List getHanaOutPersonVoList(Map map)throws Exception;
 	
 	
-	public List getOutPersonList(Map map)throws Exception;
 	
-	public long getOutPersonCount(Map map)throws Exception;
+	
+	
+	
+	
+	
 	
 	
 }
