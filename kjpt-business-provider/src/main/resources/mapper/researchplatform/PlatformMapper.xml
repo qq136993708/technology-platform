@@ -107,7 +107,7 @@
             and supporting_institutions = #{supportingInstitutions}
         </if>
         <if test="personLiable != null and personLiable != '' " >
-            and person_liable = #{personLiable}
+            and person_liable like CONCAT('%',#{personLiable},'%')
         </if>
         <if test="researchField != null and researchField != '' " >
             and  exists (select 1 from tfm_type a join (
@@ -156,7 +156,7 @@
             and supporting_institutions = #{supportingInstitutions}
         </if>
         <if test="personLiable != null and personLiable != '' " >
-            and person_liable = #{personLiable}
+            and person_liable like CONCAT('%',#{personLiable},'%')
         </if>
         <if test="researchField != null and researchField != '' " >
             and  exists (select 1 from tfm_type a join (

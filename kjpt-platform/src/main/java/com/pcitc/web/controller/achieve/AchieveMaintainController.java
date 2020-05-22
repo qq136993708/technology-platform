@@ -79,7 +79,7 @@ public class AchieveMaintainController extends RestBaseController {
     })
     @RequestMapping(value = "/achieveMaintain-api/query", method = RequestMethod.GET)
     @ResponseBody
-    public PageInfo query(  
+    public PageInfo query(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "type") String type,
@@ -173,8 +173,8 @@ public class AchieveMaintainController extends RestBaseController {
         if (!StringUtils.isEmpty(awardsType)) {
             this.setParam(condition, "awardsType", awardsType);
         }
-        String[] headers = { "获奖年份",  "成果奖项",  "奖项数量"  , "获奖类型" };
-        String[] cols =    {"year","awardsTypeText","awardsNumber","typeText"};
+        String[] headers = { "获奖年份",  "奖项级别","奖项名称", "奖项名称", "奖项数量"  , "获奖类型" };
+        String[] cols =    {"year","typeText","awardsTypeText","awardsChildTypeText","awardsNumber","typeText"};
         export(headers,cols,"成果维护表_",condition);
     }
 
