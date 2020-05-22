@@ -10,6 +10,8 @@
         <result column="type_text" jdbcType="VARCHAR" property="typeText"/>
         <result column="awards_type" jdbcType="VARCHAR" property="awardsType"/>
         <result column="awards_type_text" jdbcType="VARCHAR" property="awardsTypeText"/>
+        <result column="awards_child_type" jdbcType="VARCHAR" property="awardsChildType"/>
+        <result column="awards_child_type_text" jdbcType="VARCHAR" property="awardsChildTypeText"/>
         <result column="awards_number" jdbcType="VARCHAR" property="awardsNumber"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
@@ -51,6 +53,9 @@
         <if test="type != null and type != '' " >
             and type = #{type}
         </if>
+        <if test="awardsChildType != null and awardsChildType != '' " >
+            and awards_child_type = #{awardsChildType}
+        </if>
         <if test="startYear != null and startYear != '' " >
             and year <![CDATA[>=]]> #{startYear}
         </if>
@@ -82,6 +87,7 @@
         year,
         type,
         awards_type,
+        awards_child_type,
         awards_number,
         create_date,
         create_user,
@@ -93,7 +99,7 @@
         secret_level,
         knowledge_scope,
         knowledge_person
-        ) values(#{id},#{year},#{type},#{awardsType},#{awardsNumber},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        ) values(#{id},#{year},#{type},#{awardsType},#{awardsChildType},#{awardsNumber},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -104,6 +110,9 @@
             </if>
             <if test="type != null and type != '' " >
                 type = #{type},
+            </if>
+            <if test="awardsChildType != null and awardsChildType != '' " >
+                awards_child_type = #{awardsChildType},
             </if>
             <if test="awardsNumber != null and awardsNumber != '' " >
                 awards_number = #{awardsNumber},
