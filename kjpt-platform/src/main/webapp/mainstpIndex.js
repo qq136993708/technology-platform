@@ -317,15 +317,15 @@ layui.config({
     }
   })
 
-  // 专利列表
+  // 成果获奖
   getTabContentList({
     id: '#patent_tab_list',
-    url: '/patentController/query',
+    url: '/achieveMaintain-api/query',
     data: { page: 1, limit: 10 },
-    name: 'patentName',
-    href: '/html/patent/view.html',
+    name: 'awardsTypeText',
+    href: '',
     hrefData: ['id'],
-    title: '专利详情',
+    title: '成果获奖',
     openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
