@@ -131,9 +131,9 @@ public class ExpertController extends BaseController {
     	if(!userName.equals(Constant.USER_CONFIGADMIN))
     	{
     		//默认查询小于等于用户密级的专家
-        	param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
+        	//param.getParam().put("userSecretLevel", sysUserInfo.getSecretLevel());
     	}
-    	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
+    	//param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
     	
     	//默认查询当前人所在机构及子机构的所有专家
     	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
@@ -172,9 +172,6 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "expertType",                 value = "高层次人才类别",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
-        
-        
-    
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -215,7 +212,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("expertType", expertType);
     	param.getParam().put("expertTypes", expertTypes);
     	param.getParam().put("groupType", groupType);
-		 SysUser sysUserInfo = this.getUserProfile();
+		SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
     	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
     	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
@@ -612,6 +609,38 @@ public class ExpertController extends BaseController {
   	    
   	    
   	    
+  	    @ApiOperation(value = "专家风采", notes = "专家风采")
+		@RequestMapping(value = "/expert-api/listexpert", method = RequestMethod.GET)
+	   	public String jsgdztj_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+			paramMap.put("delStatus", Constant.DEL_STATUS_NOT);
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXPERT_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ZjkBase> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ZjkBase.class);
+	   			if(list!=null &&  list.size()>0)
+	   			{
+	   				for(int i=0;i<list.size();i++)
+	   				{
+	   				   ZjkBase zjkBase= list.get(i);
+	   				   Integer age=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY))-zjkBase.getAge();
+	   				   zjkBase.setAge(age);
+	   				   zjkBase.setIdCardNo(zjkBase.getIdCardNo()+" ");
+	   				}
+	   			}
+	   		}
+	   	    return jSONArray.toString();
+	   	}
+	    
+	    
   	    
   	    
   	    
