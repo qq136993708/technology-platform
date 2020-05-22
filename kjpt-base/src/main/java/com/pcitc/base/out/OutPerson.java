@@ -139,8 +139,22 @@ public class OutPerson  {
     private String rewardsPunish;
 
     
+    private String major;
 
-    public String getIdCardType() {
+    
+    
+    
+    
+
+    public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+	public String getIdCardType() {
 		return idCardType;
 	}
 
