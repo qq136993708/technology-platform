@@ -223,8 +223,13 @@
             if (relData.success === true) {
               relData.data.map(function (item) {
                 if (element == "option") {
-                  var str = "<option placeholder='请选择'></option><option value='" + item.numValue +
+                  if (typeof (type) !== 'undefined') {
+                    var str = "<option value='" + item.numValue +
                     "' name='" + item.numValue + "'>" + item.name + "</option>"
+                  }else{
+                    var str = "<option placeholder='请选择'></option><option value='" + item.numValue +
+                    "' name='" + item.numValue + "'>" + item.name + "</option>"
+                  }
                   $("#" + id).append(str)
                   if (typeof (type) !== 'undefined') {
                     $('input[name="awardsChildType"]').val('');

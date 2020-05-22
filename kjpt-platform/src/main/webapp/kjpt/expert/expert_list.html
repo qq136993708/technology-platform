@@ -64,6 +64,16 @@
             </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">职称:</span></label>
+                    <div class="layui-input-block">
+                        <select name="post" id="post" lay-verify="required">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职务：</span></label>
                     <div class="layui-input-block">
                         <select name="title" id="title">
@@ -84,7 +94,7 @@
             </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-normal"lay-submit lay-filter="newSubmit">查询</button>
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
                     <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
                     <span class="layui-fold-btn"></span>
                 </div>
@@ -167,8 +177,10 @@
         createElement("ROOT_UNIVERSAL_QYZT","useStatus","option","useStatus")
         /*学历*/
         createElement("ROOT_KJPT_XL","education","option","education")
+         /*职务*/
+         createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
         /*职称*/
-        createElement("ROOT_KJPT_ZWJB","title","option","title")
+         createElement("ROOT_KJPT_ZWJB","title","option","title")
          /*动态生成元素*/
          function createElement(code,id,element,name) {
             httpModule({
