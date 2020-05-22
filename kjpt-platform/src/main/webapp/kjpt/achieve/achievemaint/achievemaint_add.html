@@ -90,7 +90,7 @@
             <div class="layui-form-item hide-box" id="inputBox">
               <label class="layui-form-label"><span class="text">奖项子名称：</span></label>
               <div class="layui-input-block">
-                <input type="text" name="awardsChildType" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" lay-filter="awardsChildType" name="awardsChildType" placeholder="请输入" autocomplete="off" class="layui-input">
               </div>
             </div>
             <div class="layui-form-item" id="selectBox">
@@ -166,21 +166,22 @@
                 createElement(formData.awardsType, "awardsType", "option", "awardsType")
                 $('select[name="awardsChildType"]').attr('dic-base-data', formData.awardsChildType);
                 createElement(formData.awardsChildType, "awardsChildType", "option", "awardsChildType")
-                if (formData.awardsType) {
-                layui.formSelects.value('awardsType', [formData.awardsType]);
-              }
-              if (formData.type) {
-                layui.formSelects.value('type', [formData.type]);
-              }
-              if (formData.awardsChildType) {
-                layui.formSelects.value('awardsChildType', [formData.awardsChildType]);
-              }
               }
               // 给form表单赋初始值
               form.val('formPlatform', formData);
               // 更新表单数据
               form.render();
-             
+              if (formData.awardsType) {
+                layui.formSelects.value('awardsType', [formData.awardsType]);
+              }
+              if (formData.type) {
+                layui.formSelects.value('type', [formData.type]);
+              }
+              if (formData.awardsChildType && formData.awardsType !=='ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ') {
+                layui.formSelects.value('awardsChildType', [formData.awardsChildType]);
+              }else{
+                $('input[name="awardsChildType"]').val(formData.awardsChildTypeText);
+              }
               var scopeDisabled = false;
               if (item.type == 'see') {
                 setFomeDisabled('formPlatform', '.disabled');
