@@ -34,7 +34,6 @@ layui.config({
     /*出生年*/
     laydate.render({
         elem: '#appDate', //指定元素
-        type: "year",
         trigger: 'click',
         change: function (value, date, endDate) {
             $("#appDate").val(value)
