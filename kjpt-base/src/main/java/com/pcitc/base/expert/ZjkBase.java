@@ -1,6 +1,5 @@
 package com.pcitc.base.expert;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -171,8 +170,17 @@ public class ZjkBase  {
     
     private String  expertTypeStr;
     
+    private Integer orders;
     
     
+	public Integer getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Integer orders) {
+		this.orders = orders;
+	}
+
 	public String getKnowledgeScope() {
 		return knowledgeScope;
 	}

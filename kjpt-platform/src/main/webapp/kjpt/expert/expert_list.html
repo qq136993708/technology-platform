@@ -24,20 +24,79 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">专家分组：</span></label>
+                    <label class="layui-form-label"><span class="text">所在单位：</span></label>
                     <div class="layui-input-block">
-                        <select name="groupType" xm-select="groupType" xm-select-skin="normal" dic-base-data="ROOT_KJPT_ZJFZ" > -->
-                            <!-- dic-base-data="DIC_DEMO_DATA" 自动渲染字典数据 dic-base-data的值找开发人员要 -->
-                        <!-- </select>
+                        <select name="belongUnit" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
                     </div>
                 </div>
-            </div> -->
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">技术领域：</span></label>
+                    <div class="layui-input-block">
+                        <select name="technicalField" xm-select="applaType3" xm-select-skin="normal"></select>
+                        <!--<input type="text" name="technicalField"
+                               placeholder="" autocomplete="off" class="layui-input">-->
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">性别：</span></label>
+                    <div class="layui-input-block">
+                        <select name="sex" id="sex">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">学历：</span></label>
+                    <div class="layui-input-block">
+                        <select name="education" id="education">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">职称:</span></label>
+                    <div class="layui-input-block">
+                        <select name="post" id="post" lay-verify="required">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">职务：</span></label>
+                    <div class="layui-input-block">
+                        <select name="title" id="title">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">年龄：</span></label>
+                    <div class="layui-input-block">
+                        <input style="width: 90px;float:left;" type="text" name="beginAage" id="beginAage" placeholder="请输入年龄" autocomplete="off" class="layui-input">
+                        <span style="float:left;margin: 5px 10px">-</span>
+                        <input style="width: 90px;float:left;" type="text" name="endAage" id="endAage" placeholder="请输入年龄" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-normal"lay-submit lay-filter="newSubmit">查询</button>
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
                     <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
+                    <span class="layui-fold-btn"></span>
                 </div>
             </div>
         </div>
@@ -64,11 +123,11 @@
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
 <script>
-    layui.use(['element', 'form', 'jquery','table','upload'], function(){
-        var element = layui.element,$ = layui.jquery, form = layui.form, table = layui.table,upload=layui.upload;
+    layui.use(['element', 'form', 'jquery','table','upload','formSelects'], function(){
+        var element = layui.element,$ = layui.jquery, form = layui.form, table = layui.table,upload=layui.upload,formSelects=layui.formSelects;
         var itemRowData=''
         /*公共方法*/
-        var obj={
+        var obj={   
             layerOpen:function (title,id) {
                 var index=parent.$("#LAY_app_body div.layui-show").index()-1;
                 if(id==undefined){
@@ -83,7 +142,7 @@
                 /*列表展示*/
                 table.render({
                     elem: '#expertTable' // 表格元素ID
-                    ,url: '/expert-api/list' //数据接口
+                    ,url: '/expert-api/query' //数据接口
                     ,cols: [[ //表头
                         {type: 'radio' },
                         {title: '序号',type:'numbers',width:55 },
@@ -112,6 +171,58 @@
         }
         /*初始表格*/
         obj.tableList("");
+        /*性别*/
+        createElement("ROOT_KJPT_XB","sex","option","sex")
+        /*状态*/
+        createElement("ROOT_UNIVERSAL_QYZT","useStatus","option","useStatus")
+        /*学历*/
+        createElement("ROOT_KJPT_XL","education","option","education")
+         /*职务*/
+         createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
+        /*职称*/
+         createElement("ROOT_KJPT_ZWJB","title","option","title")
+         /*动态生成元素*/
+         function createElement(code,id,element,name) {
+            httpModule({
+                url: "/sysDictionary-api/getChildsListByCode/"+code,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function(item){
+                            if(element=="option"){
+                                $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+                            }else if(element=="radio"){
+                                $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
+                            }
+                        });
+                        form.render()
+                    }
+                }
+            });
+        }
+         /*领域*/
+         httpModule({
+            url: "/techFamily-api/getTreeList",
+            type: 'GET',
+            success: function(relData) {
+                relData.children.map(function (item,index) {
+                    item.children.map(function (items,i) {
+                        delete items.children
+                    })
+                })
+                formSelects.data('applaType3', 'local', { arr: relData.children });
+                formSelects.btns('applaType3', ['remove']);
+            }
+        });
+        /*所在单位*/
+        httpModule({
+            url: "/unit-api/getTreeList",
+            type: 'GET',
+            success: function(relData) {
+                formSelects.data('belongUnit', 'local', { arr: relData.children });
+                formSelects.btns('belongUnit', ['remove']);
+            }
+        });
         /*表格行被选中*/
         table.on('radio(expertTable)', function(obj){
             itemRowData = obj.data;

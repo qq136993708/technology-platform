@@ -130,7 +130,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     var tableFilterArr = [
         {tableName: '', title: '人物简介',arr:[],tableUrl:'' },
         {tableName: '', title: ' 人物成就',arr:[],tableUrl:''},
-        {tableName: 'project', title: '相关项目',arr:projectArr,tableUrl:'/expert-project-api/page'},
+        // {tableName: 'project', title: '相关项目',arr:projectArr,tableUrl:'/expert-project-api/page'},
         {tableName: 'achievements', title: '成果信息',arr:achievementsArr,tableUrl:'/expert-achievement-api/page'},
         {tableName: 'patent', title: '专利信息',arr:patentArr,tableUrl:'/expert-patent-api/page'},
         {tableName: 'reward', title: '奖励信息',arr:rewardArr,tableUrl:'/expert-reward-api/page'},

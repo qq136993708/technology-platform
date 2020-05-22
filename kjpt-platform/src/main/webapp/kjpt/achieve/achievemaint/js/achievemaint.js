@@ -51,6 +51,16 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
               align:'center'
             },
             {
+              field: 'awardsChildTypeText',
+              title: '奖项子名称',
+              align:'center'
+            },
+            // {
+            //   field: 'awardsChildTypeText',
+            //   title: '授权等级',
+            //   align:'center'
+            // },
+            {
               field: 'awardsNumber',
               title: '奖项数量',
               align:'center'
@@ -101,8 +111,21 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
   // });
   form.on('select(type)', function(data){
     $('select[name="awardsType"]').attr('dic-base-data',data.value);
-    createElement(data.value,"awardsType","option","awardsType")
+    createElement(data.value,"awardsType","option","awardsType");
+    $("#awardsChildType" ).find('option').remove();
   })
+  form.on('select(awardsType)', function(data){
+    if(data.value == 'ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ'){
+      $('#selectBox').addClass('hide-box');
+      $('#inputBox').removeClass('hide-box');
+    }else{
+      $('#inputBox').addClass('hide-box');
+      $('#selectBox').removeClass('hide-box');
+      $('select[name="awardsChildType"]').attr('dic-base-data',data.value);
+      createElement(data.value,"awardsChildType","option","awardsChildType");
+    }
+  })
+
    /*动态生成元素*/
    function createElement(code,id,element,name) {
     $("#"+id ).find('option').remove();
@@ -113,7 +136,8 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
             if (relData.success === true) {
                 relData.data.map(function(item){
                     if(element=="option"){
-                        $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+                      var str = "<option placeholder='请选择'></option><option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>"
+                        $("#"+id).append(str)
                     }else if(element=="radio"){
                         $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
                     }
@@ -167,7 +191,7 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
           layer.msg('请选择单条数据进行查看！');
           return
         }
-        if (itemRowData.id == undefined) {
+        if (itemRowData[0].id == undefined) {
           layer.msg('请选择需要查看的数据！');
           return
         }

@@ -28,13 +28,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               type: 'radio',
               field: 'id'
             }, {
-              field: 'applicationNumber',
-              title: '申请(专利)号'
-            }, {
               field: 'patentName',
               title: '专利名称',
               sort: true,
-              hide: (queryType == '1' ? true : false)
+              // hide: (queryType == '1' ? true : false)
+            }, {
+              field: 'applicationNumber',
+              title: '申请(专利)号'
             }, {
               field: 'unitNameText',
               title: '单位名称',

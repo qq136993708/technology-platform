@@ -64,7 +64,7 @@
             </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">职务：</span></label>
+                    <label class="layui-form-label"><span class="text">职称：</span></label>
                     <div class="layui-input-block">
                         <select name="title" id="title">
                             <option value=""></option>
@@ -72,11 +72,13 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" style="display:none">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职务：</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="post" id="post" placeholder="请输入专家职务" autocomplete="off" class="layui-input">
+                        <select name="post" id="post">
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -90,6 +92,16 @@
                     </div>
                 </div>
             </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">专业：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="major" id="major" placeholder="请输入专业" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                 <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
@@ -160,6 +172,8 @@
         createElement("ROOT_KJPT_XL","education","option","education")
         /*职称*/
         createElement("ROOT_KJPT_ZWJB","title","option","title")
+        /*职务*/
+        createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
         /*动态生成元素*/
         function createElement(code,id,element,name) {
             httpModule({
@@ -224,22 +238,35 @@
                 layer.msg('已选择要存入专家库的数据都转为专家！');
                 return false
             }
-            top.layer.open({
-                type: 2,
-                title: "选择分组",
-                content: "/kjpt/expert/expert_query_add.html?id="+id, // 全局弹窗页面地址
-                btn: null,
-                area: ['50%', '60%'],
-                end: function(lay, index) {
-                    // 弹窗销毁时获取弹窗返回数据
-                    var getData = getDialogData('dialog-data');
-                    if(getData){
-                        if(getData.success){
-                            obj.tableList("");
-                        }
+            var groups=''
+            httpModule({
+                url: '/outPerson-api/outPersonToZjkBase',
+                data:{ids:id,groups:groups},
+                type: "post",
+                success: function(e) {
+                    setDialogData(e);
+                    if(e.success){
+                        layer.msg('保存成功!', {icon: 1});
+                        top.layer.closeAll(); // 关闭弹窗
                     }
                 }
             });
+            // top.layer.open({
+            //     type: 2,
+            //     title: "选择分组",
+            //     content: "/kjpt/expert/expert_query_add.html?id="+id, // 全局弹窗页面地址
+            //     btn: null,
+            //     area: ['50%', '60%'],
+            //     end: function(lay, index) {
+            //         // 弹窗销毁时获取弹窗返回数据
+            //         var getData = getDialogData('dialog-data');
+            //         if(getData){
+            //             if(getData.success){
+            //                 obj.tableList("");
+            //             }
+            //         }
+            //     }
+            // });
         })
     });
 </script>

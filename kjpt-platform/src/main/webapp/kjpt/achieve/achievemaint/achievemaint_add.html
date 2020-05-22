@@ -13,6 +13,11 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
 </head>
+<style>
+  .hide-box {
+    display: none;
+  }
+</style>
 
 <body>
   <div class="layout-view-content dialog">
@@ -72,8 +77,9 @@
             <div class="layui-form-item">
               <label class="layui-form-label label-required"><span class="text">奖项名称：</span></label>
               <div class="layui-input-block">
-                <select name="awardsType" id="awardsType" select="awardsType" lay-verify="required" select-skin="normal" select-radio=""
-                  dic-base-data="" placeholder="请选择"></select>
+                <select name="awardsType" lay-filter="awardsType" id="awardsType" select="awardsType"
+                  lay-verify="required" select-skin="normal" select-radio="" dic-base-data=""
+                  placeholder="请选择"></select>
               </div>
             </div>
           </div>
@@ -81,10 +87,26 @@
             <div class="layui-form-item">
               <label class="layui-form-label label-required"><span class="text">奖项级别：</span></label>
               <div class="layui-input-block">
-                <select name="type" lay-filter="type" lay-verify="required" -select="type" select-skin="normal" select-radio=""
-                  dic-base-data="ROOT_KJPT_CGWH_HJLX" placeholder="请选择"></select>
+                <select name="type" lay-filter="type" lay-verify="required" select="type" select-skin="normal"
+                  select-radio="" dic-base-data="ROOT_KJPT_CGWH_HJLX" placeholder="请选择"></select>
               </div>
             </div>
+            <div class="layui-form-item hide-box" id="inputBox">
+              <label class="layui-form-label"><span class="text">奖项子名称：</span></label>
+              <div class="layui-input-block">
+                <input type="text" name="awardsChildType" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item" id="selectBox">
+              <label class="layui-form-label"><span class="text">奖项子名称：</span></label>
+              <div class="layui-input-block">
+                <select name="awardsChildType" lay-filter="awardsChildType" id="awardsChildType"
+                  select="awardsChildType" select-skin="normal" select-radio="" dic-base-data=""
+                  placeholder="请选择"></select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
             <div class="layui-form-item">
               <label class="layui-form-label label-required"><span class="text">奖项数量</span></label>
               <div class="layui-input-block">
@@ -144,16 +166,17 @@
           success: function (relData) {
             if (relData.code === '0') {
               var formData = relData.data;
+              if (item && item.expertId) {
+                $('select[name="awardsType"]').attr('dic-base-data', formData.awardsType);
+                createElement(formData.awardsType, "awardsType", "option", "awardsType", 'new',formData)
+                $('select[name="awardsChildType"]').attr('dic-base-data', formData.awardsChildType);
+                createElement(formData.awardsChildType, "awardsChildType", "option", "awardsChildType", 'new',formData)
+              }
               // 给form表单赋初始值
               form.val('formPlatform', formData);
               // 更新表单数据
               form.render();
-              if (formData.awardsType) {
-                layui.formSelects.value('supportingInstitutions', [formData.awardsType]);
-              }
-              if (formData.type) {
-                layui.formSelects.value('type', [formData.type]);
-              }
+
               var scopeDisabled = false;
               if (item.type == 'see') {
                 setFomeDisabled('formPlatform', '.disabled');
@@ -178,8 +201,20 @@
         $('select[name="awardsType"]').attr('dic-base-data', data.value);
         createElement(data.value, "awardsType", "option", "awardsType")
       })
+      form.on('select(awardsType)', function (data) {
+        if (data.value == 'ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ') {
+          $('#selectBox').addClass('hide-box');
+          $('#inputBox').removeClass('hide-box');
+          // $('#inputBox').val('');
+        } else {
+          $('#inputBox').addClass('hide-box');
+          $('#selectBox').removeClass('hide-box');
+          $('select[name="awardsChildType"]').attr('dic-base-data', data.value);
+          createElement(data.value, "awardsChildType", "option", "awardsChildType");
+        }
+      })
       /*动态生成元素*/
-      function createElement(code, id, element, name) {
+      function createElement(code, id, element, name, type,formData) {
         $("#" + id).find('option').remove();
         httpModule({
           url: "/sysDictionary-api/getChildsListByCode/" + code,
@@ -188,9 +223,31 @@
             if (relData.success === true) {
               relData.data.map(function (item) {
                 if (element == "option") {
-                  $("#" + id).append("<option value='" + item.numValue + "' name='" + item.numValue +"'>" + item.name + "</option>")
+                  if (typeof (type) !== 'undefined') {
+                    var str = "<option value='" + item.numValue +
+                    "' name='" + item.numValue + "'>" + item.name + "</option>"
+                  }else{
+                    var str = "<option placeholder='请选择'></option><option value='" + item.numValue +
+                    "' name='" + item.numValue + "'>" + item.name + "</option>"
+                  }
+                  $("#" + id).append(str)
+                  if (typeof (type) !== 'undefined') {
+                    $('input[name="awardsChildType"]').val('');
+                    if (formData.awardsType) {
+                      layui.formSelects.value('awardsType', [formData.awardsType]);
+                    }
+                    if (formData.type) {
+                      layui.formSelects.value('type', [formData.type]);
+                    }
+                    if (formData.awardsChildType && formData.awardsType !== 'ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ') {
+                      layui.formSelects.value('awardsChildType', [formData.awardsChildType]);
+                    } else {
+                      $('input[name="awardsChildType"]').val(formData.awardsChildTypeText);
+                    }
+                  }
                 } else if (element == "radio") {
-                  $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue +'" title="' + item.name + '">')
+                  $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue +
+                    '" title="' + item.name + '">')
                 }
               });
               form.render()
@@ -219,6 +276,7 @@
 
       form.on('submit(formSave)', function (data) {
         console.log(data.field)
+        debugger
         if (id != '') {
           data.field.id = id
         }

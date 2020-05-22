@@ -1,11 +1,9 @@
 package com.pcitc.base.qims;
 
-import com.pcitc.base.common.RecordModel;
-
 import java.io.Serializable;
 import java.util.Date;
 
-public class QualityStatistics extends RecordModel implements Serializable {
+public class QualityStatistics  implements Serializable {
 
     private String id;
     private String key;
@@ -15,9 +13,17 @@ public class QualityStatistics extends RecordModel implements Serializable {
     
     private Date createTime;
     
-    
+    private String secretLevel;
 
-    public Date getCreateTime() {
+    public String getSecretLevel() {
+		return secretLevel;
+	}
+
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+
+	public Date getCreateTime() {
 		return createTime;
 	}
 

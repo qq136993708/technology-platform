@@ -30,13 +30,11 @@ import java.util.Map;
 
 @Api(value = "Qims-API",tags = {"外系统-质量接口"})
 @RestController
-public class QimsController extends RestBaseController {
+public class QimsController extends RestBaseController { 
 
-	private static final String QualityStatistics = "http://localhost:8765/qims-provider/qualityStatistics/qualityStatistics_excute/";
+	private static final String QualityStatistics = "http://localhost:8765/qims-provider/qualityStatistics/qualityStatistics_excute";
 	private static final String QUERY = "http://kjpt-zuul/stp-proxy/qims-provider/qualityStatistics/qualityStatistics_query";
 
-	@Value("${keyStr}")
-	private String keyStr;
 
 	/**
 	 *查询外系统-项目
@@ -45,7 +43,7 @@ public class QimsController extends RestBaseController {
 	@RequestMapping(value = "/qims-api/qualityStatistics", method = RequestMethod.GET)
 	public JSONObject qualityStatistics(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RestTemplate restTemplate_req = new RestTemplate();
-		ResponseEntity<JSONObject> responseEntity = restTemplate_req.exchange(QualityStatistics+keyStr, HttpMethod.GET, new HttpEntity<String>(new HttpHeaders()), JSONObject.class);
+		ResponseEntity<JSONObject> responseEntity = restTemplate_req.exchange(QualityStatistics, HttpMethod.GET, new HttpEntity<String>(new HttpHeaders()), JSONObject.class);
 		return responseEntity.getBody();
 	}
 

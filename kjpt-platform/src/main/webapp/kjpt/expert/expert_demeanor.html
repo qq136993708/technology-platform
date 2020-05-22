@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/expert.css">
-
 </head>
 <body>
 <div class="layout-view-content dialog demeanor">
@@ -25,7 +24,7 @@
         var $ = layui.jquery, form = layui.form, table = layui.table;
         var data = new FormData();
         data.append('page', '1');
-        data.append('limit', '15');
+        data.append('limit', '20005');
         data.append('expertTypes', '02,03');
         $.ajax({
             type: 'post',
