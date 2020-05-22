@@ -74,14 +74,16 @@ public class AchieveMaintainController extends RestBaseController {
             @ApiImplicitParam(name = "startYear", value = "获奖年份开始", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "endYear", value = "获奖年份结束", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "type", value = "获奖类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "awardsChildType", value = "奖项子名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "awardsType", value = "成果奖项", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveMaintain-api/query", method = RequestMethod.GET)
     @ResponseBody
-    public PageInfo query(
+    public PageInfo query(  
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "type") String type,
+            @RequestParam(required = false,value = "awardsChildType") String awardsChildType,
             @RequestParam(required = false,value = "startYear") String startYear,
             @RequestParam(required = false,value = "endYear")  String endYear,
             @RequestParam(required = false,value = "awardsType") String awardsType
@@ -107,6 +109,9 @@ public class AchieveMaintainController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(type)) {
             this.setParam(condition, "type", type);
+        }
+        if (!StringUtils.isEmpty(awardsChildType)) {
+            this.setParam(condition, "awardsChildType", awardsChildType);
         }
         if (!StringUtils.isEmpty(awardsType)) {
             this.setParam(condition, "awardsType", awardsType);
