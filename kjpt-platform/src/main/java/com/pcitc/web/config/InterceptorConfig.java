@@ -42,9 +42,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/out_project_fetch")
 				.excludePathPatterns("/hana-api/out_person_list")
 				
-				
-				
-				
 				;
 		super.addInterceptors(registry);
 	}

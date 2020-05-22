@@ -40,7 +40,8 @@ public class QimsClient {
 
 	@Value("${QIMS_URL}")
 	private String QIMS_URL;
-
+	@Value("${keyStr}")
+	private String keyStr;
 	/**
 	 * 保存
 	 *
@@ -49,15 +50,17 @@ public class QimsClient {
 	 */
 	@ApiOperation(value = "质量信息服务接口", notes = "质量信息服务接口")
 
-	@RequestMapping(value = "/qims-provider/qualityStatistics/qualityStatistics_excute/{keyStr}", method = RequestMethod.GET)
-	public JSONObject save(@PathVariable String keyStr) {
+	@RequestMapping(value = "/qims-provider/qualityStatistics/qualityStatistics_excute", method = RequestMethod.GET)
+	public JSONObject save() {
 		JSONObject jsonObject = new JSONObject(3);
         StringBuffer sb=new StringBuffer();
 		String [] keyArray = keyStr.split(",");
 		for(String str:keyArray){
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.getMessageConverters().add(new WxMappingJackson2HttpMessageConverter());
-			ResponseEntity<String> responseEntity = restTemplate.getForEntity(QIMS_URL+str+"/kjpt",String.class);
+			String url=QIMS_URL+str+"/kjpt";
+			System.out.println(">>>>>>>>>>>url= "+url);
+			ResponseEntity<String> responseEntity = restTemplate.getForEntity(url,String.class);
 			QualityStatistics qualityStatistics = new QualityStatistics();
 			qualityStatistics.setId(UUID.randomUUID().toString().replace("-",""));
 			qualityStatistics.setKey(str);
@@ -66,7 +69,7 @@ public class QimsClient {
 			qualityStatistics.setSecretLevel("4");
 			qualityStatistics.setCreateTime(new Date());
 			qimsService.save(qualityStatistics);
-			sb.append(QIMS_URL+str+"/kjpt").append(",");
+			sb.append(url).append(",");
 		}
 		jsonObject.put("code","success");
 		jsonObject.put("message","成功");
