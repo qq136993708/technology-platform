@@ -214,8 +214,8 @@ public class ExpertController extends BaseController {
     	param.getParam().put("groupType", groupType);
 		SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
-    	param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
-    	param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
+    	//param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
+    	//param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
     	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -551,8 +551,8 @@ public class ExpertController extends BaseController {
 
 			SysUser sysUserInfo = this.getUserProfile();
 			//默认查询小于等于用户密级的专家
-			paramMap.put("userSecretLevel",sysUserInfo.getSecretLevel() );
-			paramMap.put("knowledgeScope", sysUserInfo.getUserName());
+			//paramMap.put("userSecretLevel",sysUserInfo.getSecretLevel() );
+			//paramMap.put("knowledgeScope", sysUserInfo.getUserName());
   	   		
   	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
   	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXPERT_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);

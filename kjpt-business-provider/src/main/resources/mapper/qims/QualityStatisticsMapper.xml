@@ -75,7 +75,7 @@
 
   <select id="queryQualityStatisticsList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List"/> from kjpt_bi.quality_statistics qs
-    left join kjpt_test.sys_dictionary sd on sd.num_value = qs.secret_level
+    left join kjpt_base.sys_dictionary sd on sd.num_value = qs.secret_level
     AND (
     sd.parent_code = 'ROOT_KJPT_XXMJ'
     )
@@ -85,7 +85,7 @@
 
   <select id="queryQualityStatisticsList_COUNT" parameterType="java.util.Map" resultType="Long">
     select count(*) from kjpt_bi.quality_statistics qs
-    left join kjpt_test.sys_dictionary sd on sd.num_value = qs.secret_level
+    left join kjpt_base.sys_dictionary sd on sd.num_value = qs.secret_level
     AND (
     sd.parent_code = 'ROOT_KJPT_XXMJ'
     )
