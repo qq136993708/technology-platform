@@ -401,12 +401,12 @@ layui.config({
   //管理办法
   getTabContentList({
     id: '#glbf_tab_list',
-    name: 'name',
-    url: '/SciencePlan/query',
+    name: 'methodName',
+    url: '/manageMethod-api/query',
     data: { page: 1, limit: 10, reportType: 2},
-    href: '/html/scientificMaterials/planDetails.html',
+    href: '/html/groupInformation/planDetails.html',
     hrefData: ['id'],
-    title: '工作要点',
+    title: '管理办法',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#glbf_tab_list').text(res.message || '请求出错，无法获取数据。')
