@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.CustomQueryConditionMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.CustomQueryCondition">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="tale_name" jdbcType="VARCHAR" property="taleName" />
+    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
+    <result column="column_type" jdbcType="VARCHAR" property="columnType" />
+    <result column="column_code" jdbcType="VARCHAR" property="columnCode" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tale_name, `column_name`, column_type, column_code, notes
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_custom_query_condition
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_custom_query_condition
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.CustomQueryCondition" useGeneratedKeys="true">
+    insert into t_custom_query_condition (id,tale_name, `column_name`, column_type, 
+      column_code, notes)
+    values (#{id,jdbcType=VARCHAR},#{taleName,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, #{columnType,jdbcType=VARCHAR}, 
+      #{columnCode,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.CustomQueryCondition" useGeneratedKeys="true">
+    insert into t_custom_query_condition
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taleName != null">
+        tale_name,
+      </if>
+      <if test="columnName != null">
+        `column_name`,
+      </if>
+      <if test="columnType != null">
+        column_type,
+      </if>
+      <if test="columnCode != null">
+        column_code,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taleName != null">
+        #{taleName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnType != null">
+        #{columnType,jdbcType=VARCHAR},
+      </if>
+      <if test="columnCode != null">
+        #{columnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.CustomQueryCondition">
+    update t_custom_query_condition
+    <set>
+      <if test="taleName != null">
+        tale_name = #{taleName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        `column_name` = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnType != null">
+        column_type = #{columnType,jdbcType=VARCHAR},
+      </if>
+      <if test="columnCode != null">
+        column_code = #{columnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.CustomQueryCondition">
+    update t_custom_query_condition
+    set tale_name = #{taleName,jdbcType=VARCHAR},
+      `column_name` = #{columnName,jdbcType=VARCHAR},
+      column_type = #{columnType,jdbcType=VARCHAR},
+      column_code = #{columnCode,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="taleName != null and taleName  !='' ">                     AND t.tale_name like CONCAT('%',#{taleName},'%')</if>
+	     <if test="columnName != null            and columnName !=''  ">      AND t.column_name = #{columnName}</if>
+	 </trim>
+	</sql>
+	
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  t_custom_query_condition  t <include refid="selectCondition" />
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   
+    
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM t_custom_query_condition t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+  
+  
+  
+</mapper>

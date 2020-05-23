@@ -10,8 +10,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,7 +23,7 @@ import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.system.CustomQueryConditionVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
@@ -345,7 +343,7 @@ public class ExpertServiceImpl implements IExpertService {
 			String expertType=getTableParam(param,"expertType","");
 			String expertTypes=getTableParam(param,"expertTypes","");
 			String knowledgeScope=getTableParam(param,"knowledgeScope","");
-			
+			String customQueryConditionStr=getTableParam(param,"customQueryConditionStr","");
 			
 			Map map=new HashMap();
 			map.put("name", name);
@@ -370,6 +368,27 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("expertType", expertType);
 			map.put("expertTypes", expertTypes);
 			map.put("knowledgeScope", knowledgeScope);
+			StringBuffer sb=new StringBuffer();
+			if(customQueryConditionStr!=null) 
+			{
+				List<CustomQueryConditionVo> voList = JSONObject.parseArray(customQueryConditionStr, CustomQueryConditionVo.class);
+				if(voList!=null)
+				{
+					for(int i=0;i<voList.size();i++)
+					{
+						CustomQueryConditionVo vo=voList.get(i);
+						String conditionSymbol=vo.getCondition();
+						if(conditionSymbol.equals("="))
+						{
+							map.put(vo.getAttributeName(), vo.getValue());
+						}else if(conditionSymbol.equals("like"))
+						{
+							sb.append("");
+						}
+						
+					}
+				}
+			}
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
 			
