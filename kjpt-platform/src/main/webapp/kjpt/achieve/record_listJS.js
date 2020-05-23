@@ -24,6 +24,7 @@ layui.use(['table', 'form','laydate'], function() {
           }}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
+          ,{field: 'affiliatedUnitText', title: '成果所属单位（专业化公司/直属单位)', width: 120 }
           ,{field: 'achieveInfo', title: '成果基本情况', width: 120 }
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
@@ -31,10 +32,10 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'transMoney', title: '拟转化金额（万）', width: 100, sort: true }
           ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100, sort: true }
           ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100, sort: true }
-          ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
-          ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
-            return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
-          }}
+          // ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
+          // ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
+          //   return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
+          // }}
           ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
@@ -82,31 +83,22 @@ layui.use(['table', 'form','laydate'], function() {
       table.reload('tableDemo', {where: searchData});
     }
   }
-//开始日期
-    var insStart = laydate.render({
-        elem: '#inputStart'
-        ,done: function(value, date){
-            //更新结束日期的最小日期
-            insEnd.config.min = lay.extend({}, date, {
-                month: date.month - 1
-            });
+    //开始日期
+  laydate.render({
+    elem: '#inputStart',
+    trigger: 'click',
+    type:'year',
+    change: function(value, date){ //监听日期被切换
+      $('#inputEnd').val(value);
+    }
+  });
 
-            //自动弹出结束日期的选择器
-            insEnd.config.elem[0].focus();
-        }
-    });
-
-    //结束日期
-    var insEnd = laydate.render({
-        elem: '#inputEnd'
-        ,min: 0
-        ,done: function(value, date){
-            //更新开始日期的最大日期
-            insStart.config.max = lay.extend({}, date, {
-                month: date.month - 1
-            });
-        }
-    });
+  //结束日期
+ laydate.render({
+    elem: '#inputEnd',
+    trigger: 'click',
+    type:'year'
+  });
   // 监控表单提交事件
   form.on('submit(formSubmit)', function(data) {
     queryTable(data.field);

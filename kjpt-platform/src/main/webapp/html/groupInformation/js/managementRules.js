@@ -36,7 +36,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.methodName+'</a>';
     }},
     {field: 'edition', title:'版次'},
-    {field: 'publishDate', title: '发布日期',templet: function(d){
+    {field: 'publishDate', title: '发布日期',sort:true,templet: function(d){
       var times = new Date(d.publishDate);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
     }}

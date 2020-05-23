@@ -899,8 +899,9 @@ layui.use(['form', 'formSelects'], function() {
 
 	if ($('.layui-form-screen').length) {
 		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
-			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选'),
-			$form = $(this);
+			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选');
+			
+			var $form = $(this);
 			$foldBtn.off('click').on({
 				'click': function() {
 					if ($form.attr('fold-panel') === 'close') {
@@ -910,10 +911,78 @@ layui.use(['form', 'formSelects'], function() {
 						$form.attr('fold-panel', 'close');
 						$(this).text('高级筛选').closest('.layui-col-btn').addClass('form-col-ly4');
 					}
-				}
+				}	
 			}).closest('.layui-col-btn').addClass('form-col-ly4');
 		});
 	}
+	//自定义条件查询设置
+	$('.layui-fold-btn-custom').on('click',function(){
+		if($('.layui-colla-content').hasClass('layui-hide')){
+			$('.layui-colla-content').removeClass('layui-hide').addClass('layui-show')
+		}else{
+			$('.layui-colla-content').removeClass('layui-show').addClass('layui-hide')
+		}
+	});
+	var curOption
+	window.createCustrom=function(option){
+		curOption=option;
+		if($('.custrom-box').length){
+				$('.custrom-box').each(function(i,val){
+					var select=	$(this).find('div').eq('1').find('select');
+					select.find('option').remove();
+					console.log(select)
+					$.each(curOption,function(index,item){
+						select.append("</option><option value='"+item.field+"' name='"+item.field+"'>"+item.title+"</option>")
+				})
+			})
+		}
+	
+		console.log(curOption)
+	};
+
+	$('#custormAdd').on('click',function(){
+		var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<div class="layui-input-block">'+
+						'<select name="" >'+
+						'<option value=""></option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<div class="layui-input-block">'+
+						'<select name="" >'+
+						'<option value=""></option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<div class="layui-input-block">'+
+						'<select name="" >'+
+						'<option value=""></option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<span class="layui-btn layui-btn-normal custromDel">删除</span>'+
+						'</div></div>'+
+						'</div>'
+						$('#custromFrom').append(str);
+						createCustrom(curOption)
+	})	
+	
+	//自定义删除
+	$(document).on('click','.custromDel',function(){
+		$(this).parents('.custrom-box').remove();
+	})
+
     /*动态生成元素*/
     window.createElement=function (param) {
         httpModule({

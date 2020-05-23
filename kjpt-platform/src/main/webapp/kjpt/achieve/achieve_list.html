@@ -24,42 +24,9 @@
 
     <div class="layui-row layui-col-space20">
       <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">成果名称：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"> -->
-        <!-- <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off" class="layui-input">
-          </div>
-        </div> -->
-        <!-- <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
-          <div class="layui-input-block">
-            <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
-              dic-base-data="ROOT_KJPT_YTDW" ></select>
-          </div>
-        </div> -->
-      <!-- </div> -->
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">申请状态：</span></label>
-          <div class="layui-input-block">
-
-            <select class="auditStatus" name="auditStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
-            <!--<input type="text" name="auditStatusText" placeholder="请输入" autocomplete="off" class="layui-input">-->
-          </div>
-        </div>
-      </div>
-      <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md8"> -->
-        <!-- <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">录入时间：</span></label>
+          <label class="layui-form-label"><span class="text">年份：</span></label>
           <div class="layui-input-block font0">
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
               <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
@@ -69,8 +36,49 @@
               <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
             </div>
           </div>
-        </div> -->
-      <!-- </div> -->
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">成果名称：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">申请状态：</span></label>
+          <div class="layui-input-block">
+
+            <select class="auditStatus" name="auditStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
+          <div class="layui-input-block">
+            <select class="achieveTransType" name="achieveTransType" lay-filter="achieveTransType" dic-base-data="ROOT_KJPT_KJCG_NZHFS"></select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果所属单位（专业化公司/直属单位)：</span></label>
+          <div class="layui-input-block">
+            <select name="affiliatedUnit" xm-select="affiliatedUnit"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
+          <div class="layui-input-block">
+            <select name="finishUnitName" xm-select="finishUnitName"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
+          </div>
+        </div>
+      </div>
 
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
         <div class="layui-form-item text-right">
