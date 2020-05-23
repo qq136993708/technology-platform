@@ -118,6 +118,7 @@ public class AchieveRecordController extends RestBaseController {
         htmlConvertPDF(htmlContent);
     }
 
+
 //    private void parseDataToHtml(String ftlFilePath,String ftlName,String htmlFilePath, AchieveRecord ar) throws IOException {
 //        /** 获取文件路径参数 */
 //        // 模板所在路径
@@ -429,10 +430,41 @@ public class AchieveRecordController extends RestBaseController {
     public AchieveSubmit simpleSave(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
         setRecord(as);
+        //成果转化状态为未完成
         as.getAchieveRecord().setAuditStatus("0");
+        //公示状态为未公示
+        as.getAchieveRecord().setPublicityStatus("1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
+    }
+
+
+    @ApiOperation(value="成果转化备案公示")
+    @RequestMapping(value = "/achieveRecord-api/publicity", method = RequestMethod.POST)
+    @ResponseBody
+    public void publicity(@RequestBody AchieveSubmit as) throws Exception {
+        this.setBaseData(as);
+        setRecord(as);
+        //修改公示状态为正在公示
+        as.getAchieveRecord().setPublicityStatus("2");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+    }
+
+
+    @ApiOperation(value="录入备案信息保存")
+    @RequestMapping(value = "/achieveRecord-api/recordEntryInfoSave", method = RequestMethod.POST)
+    @ResponseBody
+    public void recordEntryInfoSave(@RequestBody AchieveSubmit as){
+        this.setBaseData(as);
+        setRecord(as);
+        //成果转化状态为已完成
+        as.getAchieveRecord().setAuditStatus("1");
+        //公示状态为公示结束
+        as.getAchieveRecord().setPublicityStatus("3");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
 
 

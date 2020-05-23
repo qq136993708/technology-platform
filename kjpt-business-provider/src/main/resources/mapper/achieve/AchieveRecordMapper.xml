@@ -51,6 +51,10 @@
         <result column="achieve_trans_status_text" jdbcType="VARCHAR" property="achieveTransStatusText"/>
         <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
         <result column="achieve_tech_type_text" jdbcType="VARCHAR" property="achieveTechTypeText"/>
+        <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
+        <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
+        <result column="publicity_status" jdbcType="VARCHAR" property="publicityStatus"/>
+        <result column="publicity_status_text" jdbcType="VARCHAR" property="publicityStatusText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
@@ -100,6 +104,8 @@
         team_person,
         intellectual_info,
         grant_invest,
+        affiliated_unit,
+        publicity_status,
         create_unit_id,
         create_unit_name,
         secret_level,
@@ -223,7 +229,7 @@
          values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
          #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
           ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
-          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{affiliatedUnit},#{publicityStatus},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
@@ -327,6 +333,12 @@
             </if>
             <if test="decisionRuleDoc != null and decisionRuleDoc != ''" >
                 decision_rule_doc = #{decisionRuleDoc,jdbcType=VARCHAR},
+            </if>
+            <if test="affiliatedUnit != null and affiliatedUnit != ''" >
+                affiliated_unit = #{affiliatedUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityStatus != null and publicityStatus != ''" >
+                publicity_status = #{publicityStatus,jdbcType=VARCHAR},
             </if>
             <if test="teamPerson != null and teamPerson != ''" >
                 team_person = #{teamPerson,jdbcType=VARCHAR},

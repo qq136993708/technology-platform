@@ -49,11 +49,11 @@ public class AchieveRecord extends RecordModel implements Serializable {
      */
     private String achieveTransStatusText;
     /**
-     * 审核状态：0草稿（或驳回），1审批中，2审核通过
+     * 备案状态：0未完成 1已完成
      */
     private String auditStatus="";
     /**
-     * 审核状态：0草稿（或驳回），1审批中，2审核通过  关联名称
+     * 备案状态：0未完成 1已完成
      */
     private String auditStatusText;
     /**
@@ -68,6 +68,23 @@ public class AchieveRecord extends RecordModel implements Serializable {
      * 完成单位名称翻译
      */
     private String finishUnitNameText="";
+    /**
+     * 所属单位（专业化公司/直属单位）
+     */
+    private String affiliatedUnit="";
+    /**
+     * 所属单位名称翻译（专业化公司/直属单位）
+     */
+    private String affiliatedUnitText="";
+    /**
+     * 公示状态 1未公示  2公式中  3公示完成
+     */
+    private String publicityStatus;
+    /**
+     * 公示状态翻译   1未公示  2公式中  3公示完成
+     */
+    private String publicityStatusText;
+
     /**
      * 预计净收入
      */
@@ -555,5 +572,37 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setFinishUnitNameText(String finishUnitNameText) {
         this.finishUnitNameText = finishUnitNameText;
+    }
+
+    public String getAffiliatedUnit() {
+        return affiliatedUnit;
+    }
+
+    public void setAffiliatedUnit(String affiliatedUnit) {
+        this.affiliatedUnit = affiliatedUnit;
+    }
+
+    public String getAffiliatedUnitText() {
+        return affiliatedUnitText;
+    }
+
+    public void setAffiliatedUnitText(String affiliatedUnitText) {
+        this.affiliatedUnitText = affiliatedUnitText;
+    }
+
+    public String getPublicityStatus() {
+        return publicityStatus;
+    }
+
+    public void setPublicityStatus(String publicityStatus) {
+        this.publicityStatus = publicityStatus;
+    }
+
+    public String getPublicityStatusText() {
+        return publicityStatusText;
+    }
+
+    public void setPublicityStatusText(String publicityStatusText) {
+        this.publicityStatusText = publicityStatusText;
     }
 }
