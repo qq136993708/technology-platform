@@ -38,6 +38,10 @@ layui.use(['table', 'form', 'laydate'], function () {
               title: '完成单位',
               sort: true
             }, {
+              field: 'affiliatedUnitText',
+              title: '成果所属单位（专业化公司/直属单位)',
+              sort: true
+            }, {
               field: 'brief',
               title: '科技成果介绍'
             }, {
@@ -90,29 +94,20 @@ layui.use(['table', 'form', 'laydate'], function () {
     }
   }
   //开始日期
-  var insStart = laydate.render({
+  laydate.render({
     elem: '#inputStart',
-    done: function (value, date) {
-      //更新结束日期的最小日期
-      insEnd.config.min = lay.extend({}, date, {
-        month: date.month - 1
-      });
-
-      //自动弹出结束日期的选择器
-      insEnd.config.elem[0].focus();
+    trigger: 'click',
+    type:'year',
+    change: function(value, date){ //监听日期被切换
+      $('#inputEnd').val(value);
     }
   });
 
   //结束日期
-  var insEnd = laydate.render({
+ laydate.render({
     elem: '#inputEnd',
-    min: 0,
-    done: function (value, date) {
-      //更新开始日期的最大日期
-      insStart.config.max = lay.extend({}, date, {
-        month: date.month - 1
-      });
-    }
+    trigger: 'click',
+    type:'year'
   });
 
   // 监控表单提交事件

@@ -259,6 +259,12 @@ a.link-text:hover {
   -ms-transform: rotate(45deg);
   margin-top: -2px;
 }
+#customForm[fold-panel="close"]{
+  height: 0;
+}
+#customForm[fold-panel="open"]{
+  height: auto;
+}
 
 /* 下拉目录树 */
 .xm-select-parent .xm-input {
@@ -878,4 +884,11 @@ border-width: 5px;
     width: 12px;
     height: 12px;
   }
+}
+/* 自定义条件查询设置 */
+#custromFrom .layui-form-item .layui-input-block{
+  margin-left: 0;
+}
+#custromFrom .layui-form-item .layui-input-block select{
+  display: block !important;
 }

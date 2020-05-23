@@ -24,6 +24,7 @@ layui.use(['table', 'form','laydate'], function() {
           }}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
+          ,{field: 'affiliatedUnitText', title: '成果所属单位（专业化公司/直属单位)', width: 120 }
           ,{field: 'achieveInfo', title: '成果基本情况', width: 120 }
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
@@ -31,10 +32,10 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'transMoney', title: '拟转化金额（万）', width: 100, sort: true }
           ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100, sort: true }
           ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100, sort: true }
-          ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
-          ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
-            return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
-          }}
+          // ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
+          // ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
+          //   return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
+          // }}
           ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';

@@ -15,7 +15,9 @@
   <link rel="stylesheet" href="/css/achieveRecord.css">
   <!-- 更多样式在此引入 -->
 </head>
-
+<style>
+  .layui-col-space20{display: block !important;}
+</style>
 <body>
   <div class="layout-view-content record_input_page">
     <div id="edit_transfrom_maintain"></div>
@@ -31,8 +33,8 @@
         
       </div>
 
-      <div class="layui-row layui-col-space20">
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <!-- <div class="layui-row layui-col-space20"> -->
+        <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">密级：</span></label>
             <div class="layui-input-block">
@@ -41,16 +43,16 @@
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
             <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>
           </div>
-        </div>
+        </div> -->
 
-      </div>
+      <!-- </div> -->
       <!-- 知悉范围 -->
       <div id="scope_list_layout"></div>
       <div class="secret-level-line"></div>
@@ -68,6 +70,16 @@
         </div>
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+            <div class="layui-input-block">
+              <select id="secretLevel" disabled="disabled" lay-filter="secretLevel" name="secretLevel"
+                dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">是否成为集团公司核心技术成果：</span></label>
             <div class="layui-input-block">
               <select name="achieveType" disabled="disabled" lay-verify="required" lay-filter="achieveType">
@@ -79,10 +91,19 @@
         </div>
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">成果完成单位：</span></label>
+            <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="finishUnitName" lay-verify="required" placeholder="请填写..." readonly="readonly"
-                autocomplete="off" class="layui-input">
+              <!-- <input type="text" name="finishUnitName" lay-verify="required" placeholder="请填写..." readonly="readonly"
+                autocomplete="off" class="layui-input"> -->
+                <select name="finishUnitName" xm-select="finishUnitName"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果所属单位（专业化公司/直属单位)：</span></label>
+            <div class="layui-input-block">
+              <select name="affiliatedUnit" lay-verify="required" xm-select="affiliatedUnit"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
             </div>
           </div>
         </div>
@@ -320,7 +341,7 @@
       </div>
 
       <div class="view-title-layout">
-        <div class="text">本单位内部决策情况</div>
+        <div class="text">单位内部决策情况</div>
       </div>
       <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
@@ -375,8 +396,8 @@
       </div>
 
       <div class="view-page-submit-btn-box" id="all_page_submit">
-        <button class="layui-btn layui-btn-normal" type="button" lay-filter="formTempSave">保存</button>
-        <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="formFlow">上报</button>
+        <!-- <button class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="formFlow">暂存</button> -->
+        <button class="layui-btn layui-btn-normal" type="button" lay-filter="formTempSave">提交</button>
         <button type="button" class="layui-btn layui-btn-primary close-iframe-page">关闭</button>
       </div>
 

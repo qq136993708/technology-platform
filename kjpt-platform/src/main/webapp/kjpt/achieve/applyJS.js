@@ -24,7 +24,8 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
      ]*/
     laydate.render({
         elem: '#finishDate',
-        trigger: 'click'
+        trigger: 'click',
+        type:'year'
     });
     /*领域*/
     httpModule({
