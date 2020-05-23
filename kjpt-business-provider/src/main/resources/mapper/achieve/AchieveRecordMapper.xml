@@ -53,8 +53,11 @@
         <result column="achieve_tech_type_text" jdbcType="VARCHAR" property="achieveTechTypeText"/>
         <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
         <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
+
         <result column="publicity_status" jdbcType="VARCHAR" property="publicityStatus"/>
         <result column="publicity_status_text" jdbcType="VARCHAR" property="publicityStatusText"/>
+        <result column="publicity_start_date" jdbcType="TIMESTAMP" property="publicityStartDate"/>
+        <result column="publicity_end_date" jdbcType="TIMESTAMP" property="publicityEndDate"/>
         <result column="level" jdbcType="VARCHAR" property="level"/>
         <result column="level_text" jdbcType="VARCHAR" property="levelText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
@@ -109,6 +112,8 @@
         affiliated_unit,
         publicity_status,
         level,
+        publicity_start_date,
+        publicity_end_date,
         create_unit_id,
         create_unit_name,
         secret_level,
@@ -232,7 +237,7 @@
          values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
          #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
           ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
-          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{affiliatedUnit},#{publicityStatus},#{level},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{affiliatedUnit},#{publicityStatus},#{level},#{publicityStartDate},#{publicityEndDate},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveRecord">
@@ -292,6 +297,7 @@
             <if test="teamInfo != null and teamInfo != ''" >
                 team_info = #{teamInfo,jdbcType=VARCHAR},
             </if>
+            
             <if test="appraisalDoc != null and appraisalDoc != ''" >
                 appraisal_doc = #{appraisalDoc,jdbcType=VARCHAR},
             </if>
@@ -345,6 +351,12 @@
             </if>
             <if test="level != null and level != ''" >
                 level = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityStartDate != null" >
+                publicity_start_date = #{publicityStartDate},
+            </if>
+            <if test="publicityEndDate != null" >
+                publicity_end_date = #{publicityEndDate},
             </if>
             <if test="teamPerson != null and teamPerson != ''" >
                 team_person = #{teamPerson,jdbcType=VARCHAR},

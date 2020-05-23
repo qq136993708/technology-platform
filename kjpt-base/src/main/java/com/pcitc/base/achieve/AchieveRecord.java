@@ -86,6 +86,16 @@ public class AchieveRecord extends RecordModel implements Serializable {
     private String publicityStatusText;
 
     /**
+     * 公示开始时间
+     */
+    private Date publicityStartDate;
+    /**
+     * 公示结束时间
+     */
+    private Date publicityEndDate;
+
+
+    /**
      * 预计净收入
      */
     private BigDecimal incomeMoney = new BigDecimal("0");
@@ -629,5 +639,21 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setLevelText(String levelText) {
         this.levelText = levelText;
+    }
+
+    public Date getPublicityStartDate() {
+        return publicityStartDate;
+    }
+
+    public void setPublicityStartDate(Date publicityStartDate) {
+        this.publicityStartDate = publicityStartDate;
+    }
+
+    public Date getPublicityEndDate() {
+        return publicityEndDate;
+    }
+
+    public void setPublicityEndDate(Date publicityEndDate) {
+        this.publicityEndDate = publicityEndDate;
     }
 }
