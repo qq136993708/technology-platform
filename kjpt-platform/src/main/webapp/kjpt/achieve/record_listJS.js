@@ -15,13 +15,7 @@ layui.use(['table', 'form','laydate'], function() {
         ,cols: [[ //表头
           {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
-          ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
-            if(d.auditStatus!=0){
-              return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
-            }else {
-              return d.auditStatusText
-            }
-          }}
+          ,{field: 'auditStatusText', title: '备案状态', width: 80,}
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
           ,{field: 'affiliatedUnitText', title: '成果所属单位（专业化公司/直属单位)', width: 120 }
