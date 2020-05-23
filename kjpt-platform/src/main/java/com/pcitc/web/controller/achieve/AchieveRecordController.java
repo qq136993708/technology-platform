@@ -441,12 +441,24 @@ public class AchieveRecordController extends RestBaseController {
 
 
     @ApiOperation(value="成果转化备案公示")
+    @RequestMapping(value = "/achieveRecord-api/publicityFinish", method = RequestMethod.POST)
+    @ResponseBody
+    public void publicityFinish(@RequestBody AchieveSubmit as) throws Exception {
+        this.setBaseData(as);
+        setRecord(as);
+        //修改公示状态为正在公示
+        as.getAchieveRecord().setPublicityStatus("3");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+    }
+
+    @ApiOperation(value="成果转化备案结束公示")
     @RequestMapping(value = "/achieveRecord-api/publicity", method = RequestMethod.POST)
     @ResponseBody
     public void publicity(@RequestBody AchieveSubmit as) throws Exception {
         this.setBaseData(as);
         setRecord(as);
-        //修改公示状态为正在公示
+        //公示状态为公示结束
         as.getAchieveRecord().setPublicityStatus("2");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
@@ -461,8 +473,6 @@ public class AchieveRecordController extends RestBaseController {
         setRecord(as);
         //成果转化状态为已完成
         as.getAchieveRecord().setAuditStatus("1");
-        //公示状态为公示结束
-        as.getAchieveRecord().setPublicityStatus("3");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
