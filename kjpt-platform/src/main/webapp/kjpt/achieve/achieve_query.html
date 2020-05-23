@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
@@ -14,68 +15,76 @@
 
     <!-- 更多样式在此引入 -->
 </head>
-<body>
-<div class="layout-view-content min-label">
-    <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
-        <div class="layui-row layui-col-space20">
-            <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
-                <div class="layui-form-item">
-                  <label class="layui-form-label"><span class="text">年份：</span></label>
-                  <div class="layui-input-block font0">
-                    <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                      <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
-                    </div>
-                    <span class="ib-block font14 text-center" style="width: 30px;">-</span>
-                    <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-                      <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">成果名称：</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="achieveName" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">备案状态：</span></label>
-                    <div class="layui-input-block">
-                        <select class="auditStatus" name="auditStatus" placeholder="请选择" lay-filter="auditStatus" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
-                    <div class="layui-input-block">
-                        <select class="achieveTransType" name="achieveTransType" placeholder="请选择" lay-filter="achieveTransType" dic-base-data="ROOT_KJPT_KJCG_NZHFS"></select>
-                    </div>
-                </div>
-            </div> 
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required"><span class="text">所属单位（专业化公司/直属单位)：</span></label>
-                    <div class="layui-input-block">
-                    <select name="affiliatedUnit" xm-select="affiliatedUnit"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
-                    </div>
-                </div>
-                </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
-                    <div class="layui-input-block">
-                      <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
-                        dic-base-data="ROOT_KJPT_YTDW" ></select>
-                    </div>
-                  </div>
-            </div>
 
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+<body>
+    <div class="layout-view-content min-label">
+        <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
+            <div class="layui-row layui-col-space20">
+                <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">年份：</span></label>
+                        <div class="layui-input-block font0">
+                            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                                <input type="text" name="StartDate" id="inputStart" placeholder="请选择" autocomplete="off"
+                                    class="laydate-input">
+                            </div>
+                            <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+                            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                                <input type="text" name="EndDate" id="inputEnd" placeholder="请选择" autocomplete="off"
+                                    class="laydate-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">成果名称：</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="achieveName" placeholder="请输入" autocomplete="off"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">备案状态：</span></label>
+                        <div class="layui-input-block">
+                            <select class="auditStatus" name="auditStatus" placeholder="请选择" lay-filter="auditStatus"
+                                dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
+                        <div class="layui-input-block">
+                            <select class="achieveTransType" name="achieveTransType" placeholder="请选择"
+                                lay-filter="achieveTransType" dic-base-data="ROOT_KJPT_KJCG_NZHFS"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label label-required"><span
+                                class="text">所属单位（专业化公司/直属单位)：</span></label>
+                        <div class="layui-input-block">
+                            <select name="affiliatedUnit" xm-select="affiliatedUnit" xm-select-skin="normal"
+                                dic-base-data="ROOT_KJPT_YTDW"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
+                        <div class="layui-input-block">
+                            <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
+                                dic-base-data="ROOT_KJPT_YTDW"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">拟受让单位：</span></label>
                     <div class="layui-input-block">
@@ -83,7 +92,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">完成情况：</span></label>
                     <div class="layui-input-block">
@@ -91,7 +100,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">录入时间：</span></label>
                     <div class="layui-input-block font0">
@@ -106,141 +115,166 @@
                         </div>
                     </div>
                 </div> -->
-            <!-- </div> -->
+                <!-- </div> -->
 
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
-                <div class="layui-form-item text-right">
-                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
-                    <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
-                    <span class="layui-fold-btn"></span>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                    <div class="layui-form-item text-right">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
+                        <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+                        <span class="layui-fold-btn"></span>
+                    </div>
                 </div>
+
             </div>
+        </form>
+        <div class="view-title-layout" id="opations-btn">
+            <div class="right">
+                <button class="layui-btn border-blue openLayerPage" id="exportData">导出excel</button>
+            </div>
+        </div>
+        <table id="tableDemo" lay-filter="tableDemo"></table>
 
-        </div>
-    </form>
-    <div class="view-title-layout" id="opations-btn">
-        <div class="right">
-            <button class="layui-btn border-blue openLayerPage" id="exportData">导出excel</button>
-        </div>
     </div>
-    <table id="tableDemo"  lay-filter="tableDemo"></table>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script>
+        layui.use(['table', 'form', 'laydate'], function () {
+            var table = layui.table;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var tableRender = false;
 
-</div>
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script>
-    layui.use(['table', 'form','laydate'], function() {
-        var table = layui.table;
-        var form = layui.form;
-        var laydate = layui.laydate;
-        var tableRender = false;
-        function queryTable(searchData) {
-            if (!tableRender) {
-                tableRender = true;
-                table.render({
-                    elem: '#tableDemo'
-                    ,url: '/achieveRecord-api/query' //数据接口
-                    ,cols: [[ //表头
-                        {type: 'numbers', title: '序号', width: 80}
-                        ,{field: 'auditStatusText', title: '备案状态'}
-                        ,{field: 'achieveName', title: '成果名称', sort: true }
-                        ,{field: 'finishUnitNameText', title: '成果持有单位'}
-                        ,{field: 'affiliatedUnitText', title: '所属单位（专业化公司/直属单位)'}
-                        ,{field: 'achieveInfo', title: '成果基本情况', sort: true}
-                        ,{field: 'grantUnitName', title: '拟受让单位'}
-                        ,{field: 'achieveTypeText', title: '是否核心技术成果', sort: true}
-                        ,{field: 'achieveTransTypeText', title: '拟转让方式'}
-                        // ,{field: 'aboutCompleteInfoText', title: '完成情况', sort: true}
-                        // ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', sort: true, templet: function(d) {
-                        //     if (d.aboutCompleteTime) {
-                        //         return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
-                        //     } else {
-                        //         return '-';
-                        //     }
-                        // }}
-                        
-                        ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
-                    ]],
-                    parseData: function(res) {return layuiParseData(res); },
-                    request: {
-                        pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-                        limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+            function queryTable(searchData) {
+                if (!tableRender) {
+                    tableRender = true;
+                    table.render({
+                        elem: '#tableDemo',
+                        url: '/achieveRecord-api/query' //数据接口
+                            ,
+                        cols: [
+                            [ //表头
+                                {
+                                    type: 'numbers',
+                                    title: '序号',
+                                    width: 80
+                                }, {
+                                    field: 'auditStatusText',
+                                    title: '备案状态'
+                                }, {
+                                    field: 'achieveName',
+                                    title: '成果名称',
+                                    sort: true
+                                }, {
+                                    field: 'finishUnitNameText',
+                                    title: '成果持有单位'
+                                }, {
+                                    field: 'affiliatedUnitText',
+                                    title: '所属单位（专业化公司/直属单位)'
+                                }, {
+                                    field: 'achieveInfo',
+                                    title: '成果基本情况',
+                                    sort: true
+                                }, {
+                                    field: 'grantUnitName',
+                                    title: '拟受让单位'
+                                }, {
+                                    field: 'achieveTypeText',
+                                    title: '是否核心技术成果',
+                                    sort: true
+                                }, {
+                                    field: 'achieveTransTypeText',
+                                    title: '拟转让方式'
+                                }
+                                // ,{field: 'aboutCompleteInfoText', title: '完成情况', sort: true}
+                                // ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', sort: true, templet: function(d) {
+                                //     if (d.aboutCompleteTime) {
+                                //         return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
+                                //     } else {
+                                //         return '-';
+                                //     }
+                                // }}
+
+                                , {
+                                    field: 'secretLevelText',
+                                    title: '密级',
+                                    sort: true,
+                                    hide: _hideSecrecylevel()
+                                }
+                            ]
+                        ],
+                        parseData: function (res) {
+                            return layuiParseData(res);
+                        },
+                        request: {
+                            pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+                            limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                        },
+                        page: true, //开启分页
+                        limit: 10, // 每页数据条数,
+                        limits: [5, 10, 15, 20], // 配置分页数据条数
+                        where: searchData
+                    });
+                } else {
+                    table.reload('tableDemo', {
+                        where: searchData
+                    });
+                }
+            }
+            $("#reset").click(function () {
+                queryTable('')
+            })
+            //开始日期
+            laydate.render({
+                elem: '#inputStart',
+                trigger: 'click',
+                type: 'year',
+                change: function (value, date) { //监听日期被切换
+                    $('#inputEnd').val(value);
+                }
+            });
+
+            //结束日期
+            laydate.render({
+                elem: '#inputEnd',
+                trigger: 'click',
+                type: 'year'
+            });
+            // 监控表单提交事件
+            form.on('submit(formSubmit)', function (data) {
+                queryTable(data.field);
+                return false;
+            });
+            $('[lay-filter="formSubmit"]').click();
+
+
+            // 导出 /achieveRecord-api/exportExcel
+            $('#exportData').on('click', function (e) {
+                var formValue = form.val('achTransfrom'),
+                    searchData = {
+                        achieveName: formValue.achieveName, // 成果名称
+                        finishUnitName: formValue.finishUnitName, // 完成单位、持有单位
+                        auditStatus: formValue.auditStatus, // 备案状态
+                        startDate: formValue.startDate, // 录入开始时间
+                        endDate: formValue.endDate, // 录入结束时间
+                        achieveType: "", // 成果类型、是否为核心成果
+                        aboutCompleteInfo: formValue.aboutCompleteInfo, // 完成情况
+                        grantUnitName: formValue.grantUnitName, // 成果受让单位
+                        achieveTransType: '', // 转化方式
+                        secretLevel: '' // 密级
                     },
-                    page: true, //开启分页
-                    limit: 10, // 每页数据条数,
-                    limits: [5, 10, 15, 20], // 配置分页数据条数
-                    where: searchData
-                });
-            } else {
-                table.reload('tableDemo', {where: searchData});
-            }
-        }
-        $("#reset").click(function () {
-            queryTable('')
+                    exportUrl = '';
+
+                for (var key in searchData) {
+                    exportUrl += '&' + key + '=' + searchData[key];
+                }
+                exportUrl = '/achieveRecord-api/exportExcel?' + exportUrl.substring(1);
+                console.log(formValue);
+                // 附件下载
+                window.open(exportUrl, '_blank');
+            })
         })
-        //开始日期
-        var insStart = laydate.render({
-            elem: '#inputStart'
-            ,done: function(value, date){
-                //更新结束日期的最小日期
-                insEnd.config.min = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-
-                //自动弹出结束日期的选择器
-                insEnd.config.elem[0].focus();
-            }
-        });
-
-        //结束日期
-        var insEnd = laydate.render({
-            elem: '#inputEnd'
-            ,min: 0
-            ,done: function(value, date){
-                //更新开始日期的最大日期
-                insStart.config.max = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-            }
-        });
-        // 监控表单提交事件
-        form.on('submit(formSubmit)', function(data) {
-            queryTable(data.field);
-            return false;
-        });
-        $('[lay-filter="formSubmit"]').click();
-
-
-        // 导出 /achieveRecord-api/exportExcel
-        $('#exportData').on('click', function(e) {
-            var formValue = form.val('achTransfrom'),
-            searchData = {
-                achieveName: formValue.achieveName, // 成果名称
-                finishUnitName: formValue.finishUnitName, // 完成单位、持有单位
-                auditStatus: formValue.auditStatus, // 备案状态
-                startDate: formValue.startDate, // 录入开始时间
-                endDate: formValue.endDate, // 录入结束时间
-                achieveType: "", // 成果类型、是否为核心成果
-                aboutCompleteInfo: formValue.aboutCompleteInfo, // 完成情况
-                grantUnitName: formValue.grantUnitName, // 成果受让单位
-                achieveTransType: '', // 转化方式
-                secretLevel: '' // 密级
-            },
-            exportUrl = '';
-
-            for (var key in searchData) {
-            exportUrl += '&' + key + '=' + searchData[key];
-            }
-            exportUrl = '/achieveRecord-api/exportExcel?' + exportUrl.substring(1);
-            console.log(formValue);
-            // 附件下载
-            window.open(exportUrl, '_blank');
-        })
-    })
-
-
-
-</script>
+    </script>
 </body>
+
 </html>

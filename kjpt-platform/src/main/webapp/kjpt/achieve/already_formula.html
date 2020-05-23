@@ -42,13 +42,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">时间：</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="finishDate"
                                    autocomplete="off" placeholder="请选择成果完成时间!" class="layui-input laydate-input" id="finishDate">
                           </div>
+                    </div>
+                </div> -->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">时间：</span></label>
+                        <div class="layui-input-block font0">
+                            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                                <input type="text" name="StartDate" id="inputStart" placeholder="请选择" autocomplete="off"
+                                    class="laydate-input">
+                            </div>
+                            <span class="ib-block font14 text-center" style="width: 30px;">-</span>
+                            <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                                <input type="text" name="EndDate" id="inputEnd" placeholder="请选择" autocomplete="off"
+                                    class="laydate-input">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <input type="text" name="isPublic" value="2" class="layui-input layui-hide">
@@ -104,7 +120,7 @@
                                     field: 'publicityStatusText',
                                     title: '公示状态',
                                     sort: true
-                                }{
+                                } {
                                     field: 'achieveName',
                                     title: '成果名称',
                                     sort: true
@@ -112,23 +128,23 @@
                                     field: 'finishUnitNameText',
                                     title: '完成持有单位',
                                     sort: true
-                                }, 
+                                },
                                 // {
                                 //     field: 'brief',
                                 //     title: '科技成果介绍'
                                 // }, 
                                 {
-                                    field: '',
+                                    field: 'StartDate',
                                     title: '开始时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',
+                                    templet: '<div>{{ layui.laytpl.toDateString(d.StartDate) }}</div>',
                                 },
                                 {
-                                    field: 'finishDate',
+                                    field: 'EndDate',
                                     title: '结束时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',
-                                }, 
+                                    templet: '<div>{{ layui.laytpl.toDateString(d.EndDate) }}</div>',
+                                },
                                 {
                                     field: '',
                                     title: '附件',
@@ -138,7 +154,7 @@
                                 //     title: '拟转让方式',
                                 //     sort: true
                                 // },
-                                 {
+                                {
                                     field: 'secretLevelText',
                                     title: '密级',
                                     sort: true,
@@ -165,29 +181,20 @@
                 }
             }
             //开始日期
-            var insStart = laydate.render({
+            laydate.render({
                 elem: '#inputStart',
-                done: function (value, date) {
-                    //更新结束日期的最小日期
-                    insEnd.config.min = lay.extend({}, date, {
-                        month: date.month - 1
-                    });
-
-                    //自动弹出结束日期的选择器
-                    insEnd.config.elem[0].focus();
+                trigger: 'click',
+                type: 'year',
+                change: function (value, date) { //监听日期被切换
+                    $('#inputEnd').val(value);
                 }
             });
 
             //结束日期
-            var insEnd = laydate.render({
+            laydate.render({
                 elem: '#inputEnd',
-                min: 0,
-                done: function (value, date) {
-                    //更新开始日期的最大日期
-                    insStart.config.max = lay.extend({}, date, {
-                        month: date.month - 1
-                    });
-                }
+                trigger: 'click',
+                type: 'year'
             });
 
             $('.openLayerPage').on('click', function () {
@@ -200,7 +207,7 @@
                 top.layer.open({
                     type: 2,
                     title: '公示',
-                    content: '/kjpt/achieve/formula.html?id='+listData[0].id, // 全局弹窗页面地址
+                    content: '/kjpt/achieve/formula.html?id=' + listData[0].id, // 全局弹窗页面地址
                     btn: null,
                     area: ['60%', '60%'],
                     end: function (lay, index) {

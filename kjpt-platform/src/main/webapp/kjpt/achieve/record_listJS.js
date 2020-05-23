@@ -83,31 +83,22 @@ layui.use(['table', 'form','laydate'], function() {
       table.reload('tableDemo', {where: searchData});
     }
   }
-//开始日期
-    var insStart = laydate.render({
-        elem: '#inputStart'
-        ,done: function(value, date){
-            //更新结束日期的最小日期
-            insEnd.config.min = lay.extend({}, date, {
-                month: date.month - 1
-            });
+    //开始日期
+  laydate.render({
+    elem: '#inputStart',
+    trigger: 'click',
+    type:'year',
+    change: function(value, date){ //监听日期被切换
+      $('#inputEnd').val(value);
+    }
+  });
 
-            //自动弹出结束日期的选择器
-            insEnd.config.elem[0].focus();
-        }
-    });
-
-    //结束日期
-    var insEnd = laydate.render({
-        elem: '#inputEnd'
-        ,min: 0
-        ,done: function(value, date){
-            //更新开始日期的最大日期
-            insStart.config.max = lay.extend({}, date, {
-                month: date.month - 1
-            });
-        }
-    });
+  //结束日期
+ laydate.render({
+    elem: '#inputEnd',
+    trigger: 'click',
+    type:'year'
+  });
   // 监控表单提交事件
   form.on('submit(formSubmit)', function(data) {
     queryTable(data.field);
