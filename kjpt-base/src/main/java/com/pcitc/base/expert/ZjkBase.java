@@ -171,8 +171,28 @@ public class ZjkBase  {
     private String  expertTypeStr;
     
     private Integer orders;
+    private String customQueryConditionStr;//前台转过来的
+    
+    private String condition;//mybatis拼装sql
     
     
+    
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getCustomQueryConditionStr() {
+		return customQueryConditionStr;
+	}
+
+	public void setCustomQueryConditionStr(String customQueryConditionStr) {
+		this.customQueryConditionStr = customQueryConditionStr;
+	}
+
 	public Integer getOrders() {
 		return orders;
 	}
