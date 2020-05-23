@@ -55,11 +55,6 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     private Date recordDate=new Date();
 
     /**
-     * 开发完成日期
-     */
-    private Date developFinishDate=new Date();
-
-    /**
      * 软件简介
      */
     private String softwareIntro="";
@@ -116,6 +111,83 @@ public class ComputerSoftware extends RecordModel implements Serializable {
      */
     private  String secretLevelText="";
 
+    /***
+     登记部门
+     **/
+    private String registerDepartment="";
+
+    /***
+     权利取得方式
+     **/
+    private String copyrightGetway="";
+
+    /***
+     权利取得方式文本
+     **/
+    private String copyrightGetwayText="";
+
+    /***
+     项目名称
+     **/
+    private String projectName;
+
+    /***
+     项目编码
+     **/
+    private String projectCode;
+
+    /***
+     立项部门
+     **/
+    private String topicDepartment;
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    public String getTopicDepartment() {
+        return topicDepartment;
+    }
+
+    public void setTopicDepartment(String topicDepartment) {
+        this.topicDepartment = topicDepartment;
+    }
+
+    public String getCopyrightGetwayText() {
+        return copyrightGetwayText;
+    }
+
+    public void setCopyrightGetwayText(String copyrightGetwayText) {
+        this.copyrightGetwayText = copyrightGetwayText;
+    }
+
+    public String getRegisterDepartment() {
+        return registerDepartment;
+    }
+
+    public void setRegisterDepartment(String registerDepartment) {
+        this.registerDepartment = registerDepartment;
+    }
+
+    public String getCopyrightGetway() {
+        return copyrightGetway;
+    }
+
+    public void setCopyrightGetway(String copyrightGetway) {
+        this.copyrightGetway = copyrightGetway;
+    }
 
     public String getId() {
         return id;
@@ -171,14 +243,6 @@ public class ComputerSoftware extends RecordModel implements Serializable {
 
     public void setRecordDate(Date recordDate) {
         this.recordDate = recordDate;
-    }
-
-    public Date getDevelopFinishDate() {
-        return developFinishDate;
-    }
-
-    public void setDevelopFinishDate(Date developFinishDate) {
-        this.developFinishDate = developFinishDate;
     }
 
     public String getSoftwareIntro() {
