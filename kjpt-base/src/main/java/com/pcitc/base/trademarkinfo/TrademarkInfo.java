@@ -114,10 +114,59 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      * 信息密级翻译
      */
     private String secretLevelText;
+    
+    
+    private Date extensionPeriod;
+    private String isWellKnown;
+    private String isRegistered;
+    private String countryType;
 
     private static final long serialVersionUID = 1L;
+    
+    
+    
 
-    public String getId() {
+    public String getSecretLevelText() {
+		return secretLevelText;
+	}
+
+	public void setSecretLevelText(String secretLevelText) {
+		this.secretLevelText = secretLevelText;
+	}
+
+	public Date getExtensionPeriod() {
+		return extensionPeriod;
+	}
+
+	public void setExtensionPeriod(Date extensionPeriod) {
+		this.extensionPeriod = extensionPeriod;
+	}
+
+	public String getIsWellKnown() {
+		return isWellKnown;
+	}
+
+	public void setIsWellKnown(String isWellKnown) {
+		this.isWellKnown = isWellKnown;
+	}
+
+	public String getIsRegistered() {
+		return isRegistered;
+	}
+
+	public void setIsRegistered(String isRegistered) {
+		this.isRegistered = isRegistered;
+	}
+
+	public String getCountryType() {
+		return countryType;
+	}
+
+	public void setCountryType(String countryType) {
+		this.countryType = countryType;
+	}
+
+	public String getId() {
         return id;
     }
 

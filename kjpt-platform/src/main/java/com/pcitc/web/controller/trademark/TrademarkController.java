@@ -84,7 +84,13 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String trademarkName,
                         @RequestParam(required = false) String lawStatus,
                         @RequestParam(required = false) String applicant,
-                          @RequestParam(required = false,value = "secretLevel") String secretLevel
+
+                        @RequestParam(required = false) String isWellKnown,
+                        @RequestParam(required = false) String isRegistered,
+                        @RequestParam(required = false) String countryType,
+                        
+                        
+                        @RequestParam(required = false,value = "secretLevel") String secretLevel
     ){
         Map<String, Object> condition = new HashMap<>(6);
             if (pageNum == null) {
@@ -115,9 +121,22 @@ public class TrademarkController extends RestBaseController {
         if (!StringUtils.isEmpty(applicant)) {
         this.setParam(condition, "applicant", applicant);
         }
+        
+        
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "isWellKnown", isWellKnown);
+            }
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "isRegistered", isRegistered);
+            }
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "countryType", countryType);
+            }
+        
+        
 
         if(secretLevel != null){
-            this.setParam(condition,"secretLevel",secretLevel);
+            //this.setParam(condition,"secretLevel",secretLevel);
         }
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
