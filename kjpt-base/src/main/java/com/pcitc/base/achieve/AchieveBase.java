@@ -36,11 +36,16 @@ public class AchieveBase extends RecordModel implements Serializable {
      * 完成单位名称
      */
     private String finishUnitNameText="";
+
+    /**
+     * 成果所属单位
+     */
+    private String affiliatedUnit;
+    private String affiliatedUnitText;
     /**
      * 完成时间
      */
-    @DateTimeFormat
-    private Date finishDate = new Date();
+    private String finishDate;
     /**
      * 项目渠道
      */
@@ -152,11 +157,27 @@ public class AchieveBase extends RecordModel implements Serializable {
         this.finishUnitName = finishUnitName;
     }
 
-    public Date getFinishDate() {
+    public String getAffiliatedUnit() {
+        return affiliatedUnit;
+    }
+
+    public void setAffiliatedUnit(String affiliatedUnit) {
+        this.affiliatedUnit = affiliatedUnit;
+    }
+
+    public String getAffiliatedUnitText() {
+        return affiliatedUnitText;
+    }
+
+    public void setAffiliatedUnitText(String affiliatedUnitText) {
+        this.affiliatedUnitText = affiliatedUnitText;
+    }
+
+    public String getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(String finishDate) {
         this.finishDate = finishDate;
     }
 

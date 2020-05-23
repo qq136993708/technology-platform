@@ -9,7 +9,7 @@
         <result column="tech_type" jdbcType="VARCHAR" property="techType"/>
         <result column="finish_unit_name" jdbcType="VARCHAR" property="finishUnitName"/>
         <result column="finish_unit_name_text" jdbcType="VARCHAR" property="finishUnitNameText"/>
-        <result column="finish_date" jdbcType="TIMESTAMP" property="finishDate"/>
+        <result column="finish_date" jdbcType="VARCHAR" property="finishDate"/>
         <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
         <result column="brief" jdbcType="VARCHAR" property="brief"/>
         <result column="achieve_trans_type" jdbcType="VARCHAR" property="achieveTransType"/>
@@ -24,6 +24,8 @@
         <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
         <result column="is_public" jdbcType="VARCHAR" property="isPublic"/>
         <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
+        <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
+        <result column="affiliated_unit_text " jdbcType="VARCHAR" property="affiliatedUnitText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
@@ -59,6 +61,8 @@
         team_person,
         is_public,
         work_info,
+        affiliated_unit,
+        affiliated_unit_text ,
         create_unit_id,
         create_unit_name,
         secret_level,
@@ -97,6 +101,9 @@
         </if>
         <if test="isPublic != null and isPublic != '' " >
             and is_public = #{isPublic}
+        </if>
+        <if test="affiliatedUnit != null and affiliatedUnit != '' " >
+            and affiliated_unit = #{affiliatedUnit}
         </if>
         <if test="startDate != null and startDate != '' " >
             and finish_date <![CDATA[>=]]> #{startDate}
@@ -145,13 +152,14 @@
         team_person,
         is_public,
         work_info,
+        affiliated_unit,
         create_unit_id,
         create_unit_name,
         secret_level,
         knowledge_scope,
         knowledge_person
         ) values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
-         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{affiliatedUnit},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -198,6 +206,9 @@
             </if>
             <if test="workInfo != null and workInfo != ''" >
                 work_info = #{workInfo},
+            </if>
+            <if test="affiliatedUnit != null and affiliatedUnit != ''" >
+                affiliated_unit = #{affiliatedUnit},
             </if>
             <if test="createUnitId != null and createUnitId != ''" >
                 create_unit_id = #{createUnitId,jdbcType=VARCHAR},

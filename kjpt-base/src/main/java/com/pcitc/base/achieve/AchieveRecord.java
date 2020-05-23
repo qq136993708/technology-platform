@@ -211,6 +211,15 @@ public class AchieveRecord extends RecordModel implements Serializable {
      */
     private String files="";
 
+    /**
+     * 成果等级
+     */
+    private String level="";
+    /**
+     * 成果等级字典表翻译
+     */
+    private String levelText="";
+
 
 
     public String getId() {
@@ -604,5 +613,21 @@ public class AchieveRecord extends RecordModel implements Serializable {
 
     public void setPublicityStatusText(String publicityStatusText) {
         this.publicityStatusText = publicityStatusText;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevelText() {
+        return levelText;
+    }
+
+    public void setLevelText(String levelText) {
+        this.levelText = levelText;
     }
 }

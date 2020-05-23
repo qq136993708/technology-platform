@@ -55,6 +55,8 @@
         <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
         <result column="publicity_status" jdbcType="VARCHAR" property="publicityStatus"/>
         <result column="publicity_status_text" jdbcType="VARCHAR" property="publicityStatusText"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="level_text" jdbcType="VARCHAR" property="levelText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
@@ -106,6 +108,7 @@
         grant_invest,
         affiliated_unit,
         publicity_status,
+        level,
         create_unit_id,
         create_unit_name,
         secret_level,
@@ -224,15 +227,15 @@
         </if>
     </sql>
 
-    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
+    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveRecord">
         insert into achieve_record ( <include refid="AchieveRecord_Column_List" /> )
          values(#{id},#{achieveId},#{achieveName},#{achieveType},#{achieveTransType},#{achieveTransStatus},#{auditStatus},#{deleted},#{createDate},#{creator},#{achieveInfo},
          #{finishUnitName},#{incomeMoney},#{transMoney},#{rewardMoney},#{currentRewardMoney},#{aboutCompleteTime},#{aboutCompleteInfo},#{achieveTechType},#{projectChannel},#{projectSource}
           ,#{teamInfo},#{appraisalDoc},#{grantUnitName},#{grantReason},#{grantChooseWay},#{grantDoc},#{transPriceBasis},#{transPriceWay},#{transPublicDoc},#{transContractDoc},#{transAssessDoc}
-          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{affiliatedUnit},#{publicityStatus},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+          ,#{decisionFlow},#{decisionResult},#{decisionMeetingDoc},#{decisionRuleDoc},#{teamPerson},#{intellectualInfo},#{grantInvest},#{affiliatedUnit},#{publicityStatus},#{level},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
-    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
+    <update id="update" parameterType="com.pcitc.base.achieve.AchieveRecord">
         update achieve_record
         <trim prefix="SET" suffixOverrides=",">
             <if test="achieveName != null and achieveName != '' " >
@@ -339,6 +342,9 @@
             </if>
             <if test="publicityStatus != null and publicityStatus != ''" >
                 publicity_status = #{publicityStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null and level != ''" >
+                level = #{level,jdbcType=VARCHAR},
             </if>
             <if test="teamPerson != null and teamPerson != ''" >
                 team_person = #{teamPerson,jdbcType=VARCHAR},
