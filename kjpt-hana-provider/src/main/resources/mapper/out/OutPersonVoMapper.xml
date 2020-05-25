@@ -4,6 +4,22 @@
   <resultMap id="BaseResultMap" type="com.pcitc.base.out.OutPersonVo">
     <result column="ZJYXWMC" jdbcType="VARCHAR" property="zjyxwmc" />
     <result column="ZJYXLMC" jdbcType="VARCHAR" property="zjyxlmc" />
+    
+    <!--人员编号，专家的主键  -->
+    <result column="PERNR" jdbcType="VARCHAR" property="pernr" />
+    <!--单位编码  -->
+    <result column="ZDWBM" jdbcType="VARCHAR" property="zdwbm" />
+    <!--单位全称  -->
+    <result column="ZDWQC" jdbcType="VARCHAR" property="zdwqc" />
+    <!-- 姓名  -->
+    <result column="NACHN" jdbcType="VARCHAR" property="nachn" />
+    <!-- 性别  -->
+    <result column="GESCH" jdbcType="VARCHAR" property="gesch" />
+    <!--出生日期  -->
+    <result column="GBDAT" jdbcType="VARCHAR" property="gbdat" />
+    <!--身份证号码 -->
+    <result column="ICNUM" jdbcType="VARCHAR" property="icnum" />
+    
   </resultMap>
   
   

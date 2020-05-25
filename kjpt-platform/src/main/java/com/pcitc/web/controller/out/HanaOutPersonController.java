@@ -33,7 +33,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 
-@Api(value = "OutPerson-API",tags = {"外系统-人员接口"})
+@Api(value = "OutPerson-API",tags = {"外系统-人才同步接口"})
 @RestController
 public class HanaOutPersonController extends BaseController {
 	
@@ -47,16 +47,9 @@ public class HanaOutPersonController extends BaseController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
   	
 	    @ApiOperation(value = "人才同步", notes = "人才同步")
-		@RequestMapping(value = "/hana-api/out_person_list", method = RequestMethod.GET)
+		@RequestMapping(value = "/getHanaPersonData", method = RequestMethod.GET)
 	    @ResponseBody
 	   	public String out_person_list( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
