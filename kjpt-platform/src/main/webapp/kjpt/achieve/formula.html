@@ -66,7 +66,7 @@
                         <label class="layui-form-label"><span class="text">成果名称:</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="achieveName" readonly="readonly" autocomplete="off"
-                                class="layui-input">
+                                class="layui-input" >
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">完成单位:</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="finishUnitName"  autocomplete="off" class="layui-input"
+                            <input type="text" name="finishUnitName" autocomplete="off" class="layui-input"
                                 readonly="readonly">
                         </div>
                     </div>
@@ -96,7 +96,8 @@
                 </div>
             </div>
             <div class="dialog-footer-btn">
-                <!-- <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button> -->
+                <button class="layui-btn layui-btn-normal" lay-submit="" type="button"
+                    lay-filter="newSubmit">提交</button>
                 <a class="layui-btn layui-btn-primary" data-type="close" id="close">取消</a>
             </div>
         </form>
@@ -113,7 +114,7 @@
             var readonlyFile = false; // 附件是否只读
             var loadData = {} /*获取当前data*/
             var secretLevel = '',
-                approvalDocStr = '',
+                appraisalDocStr = '',
                 publicDocStr = ''
             var fileCols = [{
                     field: 'fileSize',
@@ -138,7 +139,7 @@
             // 获取地址栏传递过来的参数
             var variable = getQueryVariable();
             httpModule({
-                url: "/achieve-api/load/" + variable.id,
+                url: "/achieveRecord-api/load/" + variable.id,
                 type: 'GET',
                 async: false,
                 success: function (relDataForm) {
@@ -151,24 +152,24 @@
                             $('input[name="finishUnitName"]').val(loadData.finishUnitNameText);
                         }
                     }
-                    setFileUpload({
-                        dataID: relDataForm.data.approvalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+                    setFileUpload({ //appraisalDoc
+                        dataID: relDataForm.data.appraisalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
                         callback: function (tableData, type) {
                             console.log(tableData)
                         }
                     });
                     httpModule({
-                        url: '/file/query/' + relDataForm.data.approvalDoc,
+                        url: '/file/query/' + relDataForm.data.appraisalDoc,
                         success: function (data) {
                             if (data.code === '0' && data.data.length > 0) {
                                 data.data.map(function (item, index) {
                                     console.log(item)
-                                    approvalDocStr += item.id + ","
+                                    appraisalDocStr += item.id + ","
                                 })
-                                approvalDocStr = approvalDocStr.substring(0,
-                                    approvalDocStr.length - 1);
+                                appraisalDocStr = appraisalDocStr.substring(0,
+                                    appraisalDocStr.length - 1);
                             } else {
-                                approvalDocStr = ''
+                                appraisalDocStr = ''
                             }
                         }
                     });
@@ -199,12 +200,26 @@
             });
             form.on('submit(newSubmit)', function (data) {
                 var fileDocS = {}
-                fileDocS[loadData.approvalDoc] = approvalDocStr
+                fileDocS[loadData.appraisalDoc] = appraisalDocStr
                 fileDocS[loadData.publicDoc] = publicDocStr
                 loadData.fileDoc = JSON.stringify(fileDocS)
+                var saveData = {
+                    achieveRecord: loadData,
+                    achieveReward: null,
+                    createUnitId: '',
+                    createUnitName: '',
+                    creator: null,
+                    createDate: new Date().getTime(),
+                    updator: null,
+                    updateDate: new Date().getTime(),
+                    deleted: '0'
+                }
+                saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
+                saveData.achieveRecord.achieveRewards = [];
+
                 httpModule({
-                    url: '/achieve-api/public',
-                    data: loadData,
+                    url: '/achieveRecord-api/publicity',
+                    data: saveData,
                     type: "POST",
                     success: function (e) {
                         if (e.code == 0) {
