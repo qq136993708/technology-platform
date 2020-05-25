@@ -21,12 +21,12 @@ public class TrademarkInfo extends RecordModel implements Serializable {
     private String unitName;
 
     /**
-     * 核定使用商品大类
+     * 商品类型
      */
     private String commodityCategory;
 
     /**
-     * 商标申请号
+     * 商标注册号
      */
     private String applicationNumber;
 
@@ -86,7 +86,7 @@ public class TrademarkInfo extends RecordModel implements Serializable {
     private String deleted;
 
     /**
-     * 核定使用商品大类翻译
+     * 商品类型翻译
      */
     private String commodityCategoryText;
 
@@ -115,10 +115,24 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      */
     private String secretLevelText;
     
-    
+    /***
+     延展有效期
+     **/
     private Date extensionPeriod;
+
+    /***
+     是否驰名商标
+     **/
     private String isWellKnown;
+
+    /***
+     是否著名商标
+     **/
     private String isRegistered;
+
+    /***
+     国别
+     **/
     private String countryType;
 
     private static final long serialVersionUID = 1L;
