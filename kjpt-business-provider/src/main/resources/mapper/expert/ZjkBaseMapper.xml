@@ -528,7 +528,7 @@
 	     </if> -->
 	     
 	     <if test="condition != null and condition !=''  ">        
-	       and ${condition}
+	        ${condition}
 	     </if>
 	     
 	 </trim>

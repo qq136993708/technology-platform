@@ -6,11 +6,15 @@
     <result column="tale_name" jdbcType="VARCHAR" property="taleName" />
     <result column="column_name" jdbcType="VARCHAR" property="columnName" />
     <result column="column_type" jdbcType="VARCHAR" property="columnType" />
-    <result column="column_code" jdbcType="VARCHAR" property="columnCode" />
+    <result column="option_code" jdbcType="VARCHAR" property="optionCode" />
     <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="attribute_name" jdbcType="VARCHAR" property="attributeName" />
+    
+    <result column="option_type" jdbcType="VARCHAR" property="optionType" />
+    
   </resultMap>
   <sql id="Base_Column_List">
-    id, tale_name, `column_name`, column_type, column_code, notes
+    id, tale_name, `column_name`, column_type, option_code, notes,attribute_name,option_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -23,10 +27,23 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.CustomQueryCondition" useGeneratedKeys="true">
-    insert into t_custom_query_condition (id,tale_name, `column_name`, column_type, 
-      column_code, notes)
-    values (#{id,jdbcType=VARCHAR},#{taleName,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, #{columnType,jdbcType=VARCHAR}, 
-      #{columnCode,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR})
+    insert into t_custom_query_condition 
+    (
+      id,tale_name, 
+      `column_name`,
+      column_type, 
+      option_code, 
+      notes,
+      attribute_name,option_type)
+      values 
+      (
+      #{id,jdbcType=VARCHAR},#{taleName,jdbcType=VARCHAR}, 
+      #{columnName,jdbcType=VARCHAR}, 
+      #{columnType,jdbcType=VARCHAR}, 
+      #{optionCode,jdbcType=VARCHAR}, 
+      #{notes,jdbcType=VARCHAR}, 
+      #{attributeName,jdbcType=VARCHAR},#{optionType,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.CustomQueryCondition" useGeneratedKeys="true">
     insert into t_custom_query_condition
@@ -40,12 +57,20 @@
       <if test="columnType != null">
         column_type,
       </if>
-      <if test="columnCode != null">
-        column_code,
+      <if test="optionCode != null">
+        option_code,
       </if>
       <if test="notes != null">
         notes,
       </if>
+      <if test="attributeName != null">
+        attribute_name,
+      </if>
+      <if test="optionType != null">
+        option_type,
+      </if>
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="taleName != null">
@@ -57,12 +82,20 @@
       <if test="columnType != null">
         #{columnType,jdbcType=VARCHAR},
       </if>
-      <if test="columnCode != null">
-        #{columnCode,jdbcType=VARCHAR},
+      <if test="optionCode != null">
+        #{optionCode,jdbcType=VARCHAR},
       </if>
       <if test="notes != null">
         #{notes,jdbcType=VARCHAR},
       </if>
+      <if test="attributeName != null">
+        #{attributeName,jdbcType=VARCHAR},
+      </if>
+      <if test="optionType != null">
+        #{optionType,jdbcType=VARCHAR},
+      </if>
+      
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.CustomQueryCondition">
@@ -77,12 +110,20 @@
       <if test="columnType != null">
         column_type = #{columnType,jdbcType=VARCHAR},
       </if>
-      <if test="columnCode != null">
-        column_code = #{columnCode,jdbcType=VARCHAR},
+      <if test="optionCode != null">
+        option_code = #{optionCode,jdbcType=VARCHAR},
       </if>
       <if test="notes != null">
         notes = #{notes,jdbcType=VARCHAR},
       </if>
+      <if test="attributeName != null">
+        attribute_name = #{attributeName,jdbcType=VARCHAR},
+      </if>
+      <if test="optionType != null">
+        option_type = #{optionType,jdbcType=VARCHAR},
+      </if>
+      
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -91,7 +132,9 @@
     set tale_name = #{taleName,jdbcType=VARCHAR},
       `column_name` = #{columnName,jdbcType=VARCHAR},
       column_type = #{columnType,jdbcType=VARCHAR},
-      column_code = #{columnCode,jdbcType=VARCHAR},
+      attribute_name = #{attributeName,jdbcType=VARCHAR},
+      option_code = #{optionCode,jdbcType=VARCHAR},
+      option_type = #{optionType,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -107,6 +150,11 @@
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="taleName != null and taleName  !='' ">                     AND t.tale_name like CONCAT('%',#{taleName},'%')</if>
 	     <if test="columnName != null            and columnName !=''  ">      AND t.column_name = #{columnName}</if>
+	     <if test="attributeName != null            and attributeName !=''  ">      AND t.attribute_name = #{attributeName}</if>
+	     <if test="columnType != null            and columnType !=''  ">            AND t.column_type = #{columnType}</if>
+	     <if test="optionType != null            and optionType !=''  ">            AND t.option_type = #{optionType}</if>
+	 
+	 
 	 </trim>
 	</sql>
 	
@@ -115,7 +163,6 @@
      select * from  t_custom_query_condition  t <include refid="selectCondition" />
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
-   
    
     
    

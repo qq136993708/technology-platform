@@ -19,5 +19,7 @@ public interface CustomQueryConditionMapper {
     int updateByPrimaryKey(CustomQueryCondition record);
     
     List getList(Map map);
+    
     int getCount(Map map);
+    
 }

@@ -33,6 +33,7 @@ import com.pcitc.mapper.expert.ZjkRewardMapper;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
+import com.pcitc.util.BusinessUtil;
 
 
 @Service
@@ -368,27 +369,10 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("expertType", expertType);
 			map.put("expertTypes", expertTypes);
 			map.put("knowledgeScope", knowledgeScope);
-			StringBuffer sb=new StringBuffer();
-			if(customQueryConditionStr!=null) 
-			{
-				List<CustomQueryConditionVo> voList = JSONObject.parseArray(customQueryConditionStr, CustomQueryConditionVo.class);
-				if(voList!=null)
-				{
-					for(int i=0;i<voList.size();i++)
-					{
-						CustomQueryConditionVo vo=voList.get(i);
-						String conditionSymbol=vo.getCondition();
-						if(conditionSymbol.equals("="))
-						{
-							map.put(vo.getAttributeName(), vo.getValue());
-						}else if(conditionSymbol.equals("like"))
-						{
-							sb.append("");
-						}
-						
-					}
-				}
-			}
+			
+			String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
+			map.put("condition", condition);
+			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
 			
