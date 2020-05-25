@@ -135,6 +135,84 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      **/
     private String countryType;
 
+    /***
+     商标类型
+     **/
+    private String tradeMarkType;
+
+    /***
+     驰名商标认定日期
+     **/
+    private Date wellKnownDate;
+
+    /***
+     著名商标认定日期
+     **/
+    private Date famousDate;
+
+    /***
+     著名商标认定机构
+     **/
+    private String famousOrg;
+
+    /***
+     驰名商标认定机构
+     **/
+    private String wellKnownOrg;
+
+    /***
+     注册单位
+     **/
+    private String registerOrg;
+
+    public String getTradeMarkType() {
+        return tradeMarkType;
+    }
+
+    public void setTradeMarkType(String tradeMarkType) {
+        this.tradeMarkType = tradeMarkType;
+    }
+
+    public Date getWellKnownDate() {
+        return wellKnownDate;
+    }
+
+    public void setWellKnownDate(Date wellKnownDate) {
+        this.wellKnownDate = wellKnownDate;
+    }
+
+    public Date getFamousDate() {
+        return famousDate;
+    }
+
+    public void setFamousDate(Date famousDate) {
+        this.famousDate = famousDate;
+    }
+
+    public String getFamousOrg() {
+        return famousOrg;
+    }
+
+    public void setFamousOrg(String famousOrg) {
+        this.famousOrg = famousOrg;
+    }
+
+    public String getWellKnownOrg() {
+        return wellKnownOrg;
+    }
+
+    public void setWellKnownOrg(String wellKnownOrg) {
+        this.wellKnownOrg = wellKnownOrg;
+    }
+
+    public String getRegisterOrg() {
+        return registerOrg;
+    }
+
+    public void setRegisterOrg(String registerOrg) {
+        this.registerOrg = registerOrg;
+    }
+
     private static final long serialVersionUID = 1L;
     
     
