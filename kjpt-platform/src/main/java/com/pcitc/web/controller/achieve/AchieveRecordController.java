@@ -456,7 +456,7 @@ public class AchieveRecordController extends RestBaseController {
         as.getAchieveRecord().setPublicityStatus("3");
         as.getAchieveRecord().setPublicityEndDate(new Date());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
 
     @ApiOperation(value="成果转化备案公示")
@@ -469,7 +469,7 @@ public class AchieveRecordController extends RestBaseController {
         as.getAchieveRecord().setPublicityStatus("2");
         as.getAchieveRecord().setPublicityStartDate(new Date());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
 
 
