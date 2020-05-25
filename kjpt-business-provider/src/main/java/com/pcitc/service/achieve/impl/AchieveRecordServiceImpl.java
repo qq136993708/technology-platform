@@ -14,6 +14,7 @@ import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
 import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.file.FileCommonService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -148,7 +149,7 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
     }
 
     private void handlerFile(String files,String secretLevel){
-        if(files != null){
+        if(StringUtils.isNotBlank(files)){
             JSONObject fileDoc =  JSONObject.parseObject(files);
             for(String key:fileDoc.keySet()){
                 fs.updateFileData(fileDoc.get(key) == null?"":fileDoc.get(key).toString(),key,secretLevel);
