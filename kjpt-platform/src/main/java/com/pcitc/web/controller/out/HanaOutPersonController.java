@@ -70,11 +70,17 @@ public class HanaOutPersonController extends BaseController {
 	   			list = JSONObject.parseArray(jSONArray.toJSONString(), OutPersonVo.class);
 	   			if(list!=null &&  list.size()>0)
 	   			{
+	   			    System.out.println(">>>>共>>>>>"+list.size()+"条");
 	   				for(int i=0;i<list.size();i++)
 	   				{
 	   				   OutPersonVo zjkBase= list.get(i);
-	   				   System.out.println(">>>>>>getZjyxlmc>>>>>"+zjkBase.getZjyxlmc());
-	   				   System.out.println(">>>>>>getZjy xwmc>>>>>"+zjkBase.getZjyxwmc());
+	   				   System.out.println(">>>>>>人员编号，专家的主键pernr>>>>>"+zjkBase.getPernr());
+	   				   System.out.println(">>>>>单位编码zdwqc >>>>>"+zjkBase.getZdwqc());
+	   				   System.out.println(">>>>>姓名nachn >>>>>"+zjkBase.getNachn());
+	   				   System.out.println(">>>>>性别gesch >>>>>"+zjkBase.getGesch());
+	   				   System.out.println(">>>>>出生日期gbdat >>>>>"+zjkBase.getGbdat());
+	   				   System.out.println(">>>>>身份证号码icnum >>>>>"+zjkBase.getIcnum());
+	   				   
 	   				}
 	   			}
 	   		}
