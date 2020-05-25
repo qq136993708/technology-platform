@@ -43,10 +43,10 @@ layui.use(['table', 'form','laydate'], function() {
           
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
-            if (d.publicityStatus == 3){
+            if (d.auditStatus == 02 && d.publicityStatus == 3){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.publicityStatus+'" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
             }
-            if (d.auditStatus == 01 && d.publicityStatus != 3){
+            if (d.auditStatus == 01 ){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
             // if (d.auditStatus == 2){
