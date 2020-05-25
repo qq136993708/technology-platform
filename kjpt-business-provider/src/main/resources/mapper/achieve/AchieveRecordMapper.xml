@@ -207,6 +207,9 @@
         <if test="aboutCompleteInfo != null and aboutCompleteInfo != '' " >
             and about_complete_info = #{aboutCompleteInfo}
         </if>
+        <if test="publicityStatus != null and publicityStatus != '' " >
+            and publicity_status = #{publicityStatus}
+        </if>
         <if test="startDate != null and startDate != '' " >
             and create_time <![CDATA[>=]]> #{startDate}
         </if>

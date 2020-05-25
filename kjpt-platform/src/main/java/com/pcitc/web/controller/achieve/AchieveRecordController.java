@@ -265,6 +265,7 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "grantUnitName", value = "成果受让单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "aboutCompleteInfo", value = "完成情况", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publicityStatus", value = "公示状态", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveRecord-api/query", method = RequestMethod.GET)
@@ -281,6 +282,7 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
             @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
             @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
+            @RequestParam(required = false,value = "publicityStatus") String publicityStatus,
             @RequestParam(required = false,value = "secretLevel") String secretLevel
 
 
@@ -317,6 +319,9 @@ public class AchieveRecordController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(aboutCompleteInfo)) {
             this.setParam(condition, "aboutCompleteInfo", aboutCompleteInfo);
+        }
+        if (!StringUtils.isEmpty(publicityStatus)) {
+            this.setParam(condition, "publicityStatus", publicityStatus);
         }
         if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
             this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
@@ -449,6 +454,7 @@ public class AchieveRecordController extends RestBaseController {
         setRecord(as);
         //修改公示状态为正在公示
         as.getAchieveRecord().setPublicityStatus("3");
+        as.getAchieveRecord().setPublicityEndDate(new Date());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
@@ -461,6 +467,7 @@ public class AchieveRecordController extends RestBaseController {
         setRecord(as);
         //公示状态为公示结束
         as.getAchieveRecord().setPublicityStatus("2");
+        as.getAchieveRecord().setPublicityStartDate(new Date());
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
