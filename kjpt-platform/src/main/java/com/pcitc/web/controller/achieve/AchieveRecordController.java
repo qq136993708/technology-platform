@@ -334,6 +334,10 @@ public class AchieveRecordController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
+        //默认查询当前人所在机构下所有的科研平台领军人物
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+
         this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -417,14 +421,14 @@ public class AchieveRecordController extends RestBaseController {
         this.exportExcel(headers,cols,fileName,list);
     }
 
-    @ApiOperation(value="保存")
+    @ApiOperation(value="录入备案信息保存")
     @RequestMapping(value = "/achieveRecord-api/save", method = RequestMethod.POST)
     @ResponseBody
     public AchieveSubmit save(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
         setRecord(as);
-        //成果转化状态为未完成
-        as.getAchieveRecord().setAuditStatus("02");
+        //录入备案信息保存备案状态更改为已完成
+        as.getAchieveRecord().setAuditStatus("01");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
