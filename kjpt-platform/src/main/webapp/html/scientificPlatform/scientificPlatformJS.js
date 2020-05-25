@@ -1,5 +1,5 @@
 //Demo
-layui.use(['form', 'table', 'layer', 'formSelects'], function(){
+layui.use(['form', 'table', 'layer', 'formSelects'], function() {
   var form = layui.form;
   var $ = layui.$;
   var table = layui.table;
@@ -13,6 +13,19 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function(){
     $('#opations-btn, [form-label-item="unlevel"]').remove();
   }
 
+  layui.formSelects.filter('supportingInstitutions', function(id, inputVal, val, isDisabled){
+    if(val.name.indexOf(inputVal) != -1){
+      return false;
+    }
+    return true;
+  });
+
+  layui.formSelects.filter('researchField', function(id, inputVal, val, isDisabled){
+    if(val.name.indexOf(inputVal) != -1){
+      return false;
+    }
+    return true;
+  });
 
   //表格渲染
   var itemRowData = null; // 选中行的数据
@@ -37,7 +50,9 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function(){
           ,{field: 'platformScoring', title: '平台评分', width: 94 , sort: true}
           ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
         ]],
-        parseData: function(res) {return layuiParseData(res);},
+        parseData: function(res) {
+          return layuiParseData(res);
+          },
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -56,6 +71,7 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function(){
   }
 
   form.on('submit(formDemo)', function(data) {
+    console.log(data);
     data.field.researchField = '';
     $.each(layui.formSelects.value('researchField'), function(i, item) {
       data.field.researchField += ',' + item.value;

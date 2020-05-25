@@ -523,9 +523,14 @@
 			   </foreach>
 	     </if>
 	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
+	     <!-- <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
 	            AND (FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`)  OR  t.secret_level ='0')
+	     </if> -->
+	     
+	     <if test="condition != null and condition !=''  ">        
+	        ${condition}
 	     </if>
+	     
 	 </trim>
 	</sql>
 	

@@ -939,13 +939,14 @@ layui.use(['form', 'formSelects'], function() {
 	
 		console.log(curOption)
 	};
-
+//
 	$('#custormAdd').on('click',function(){
 		var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
-						'<select name="" >'+
+						'<select name="" placeholder="请选择" lay-filter=""'+
+						'dic-base-data="ROOT_XTGL_ZDYCXTJ"></select>'+
 						'<option value=""></option>'+
 						'</select>'+
 						'</div>'+

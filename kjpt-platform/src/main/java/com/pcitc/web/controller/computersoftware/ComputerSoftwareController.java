@@ -74,7 +74,6 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "copyrightOwner", value = "著作权人", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "versionNumber", value = "版本号", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "recordDate", value = "登记日期", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "developFinishDate", value = "开发完成日期", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "softwareIntro", value = "软件简介", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "entryPeople", value = "录入人", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "entryTime", value = "录入时间", dataType = "string", paramType = "query"),
@@ -84,7 +83,13 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "registerDepartment", value = "登记部门", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "copyrightGetway", value = "权利取得方式", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "projectName", value = "项目名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "projectCode", value = "项目编码", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "topicDepartment", value = "立项部门", dataType = "string", paramType = "query")
+
 
     })
 
@@ -101,7 +106,6 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String copyrightOwner,
             @RequestParam(required = false) String versionNumber,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date recordDate,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date developFinishDate,
             @RequestParam(required = false) String softwareIntro,
             @RequestParam(required = false) String entryPeople,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date entryTime,
@@ -111,7 +115,12 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false) String technicalFieldValue,
             @RequestParam(required = false, value = "createUnitId") String createUnitId,
             @RequestParam(required = false, value = "createUnitName") String createUnitName,
-            @RequestParam(required = false, value = "secretLevel") String secretLevel
+            @RequestParam(required = false, value = "secretLevel") String secretLevel,
+            @RequestParam(required = false, value = "registerDepartment") String registerDepartment,
+            @RequestParam(required = false, value = "copyrightGetway") String copyrightGetway,
+            @RequestParam(required = false, value = "projectName") String projectName,
+            @RequestParam(required = false, value = "projectCode") String projectCode,
+            @RequestParam(required = false, value = "topicDepartment") String topicDepartment
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -139,9 +148,6 @@ public class ComputerSoftwareController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(DateUtil.format(recordDate, DateUtil.FMT_SS))) {
             this.setParam(condition, "recordDate", DateUtil.format(recordDate, DateUtil.FMT_SS));
-        }
-        if (developFinishDate != null) {
-            this.setParam(condition, "developFinishDate", developFinishDate);
         }
         if (!StringUtils.isEmpty(softwareIntro)) {
             this.setParam(condition, "softwareIntro", softwareIntro);
@@ -178,6 +184,27 @@ public class ComputerSoftwareController extends RestBaseController {
         if (secretLevel != null) {
             this.setParam(condition, "secretLevel", secretLevel);
         }
+
+        if (registerDepartment != null) {
+            this.setParam(condition, "registerDepartment", registerDepartment);
+        }
+
+        if (copyrightGetway != null) {
+            this.setParam(condition, "copyrightGetway", copyrightGetway);
+        }
+
+        if (projectName != null) {
+            this.setParam(condition, "projectName", projectName);
+        }
+
+        if (projectCode != null) {
+            this.setParam(condition, "projectCode", projectCode);
+        }
+
+        if (topicDepartment != null) {
+            this.setParam(condition, "topicDepartment", topicDepartment);
+        }
+
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -223,8 +250,8 @@ public class ComputerSoftwareController extends RestBaseController {
         }
         this.setBaseParam(condition);
 
-        String[] headers = { "单位名称",  "登记号",    "软件名称"  , "著作权人","版本号","登记日期","开发完成日期","软件简介"};
-        String[] cols =    {"unitNameText","registerNumber","softwareName","copyrightOwner","versionNumber","recordDate","developFinishDate","softwareIntro"};
+        String[] headers = { "单位名称",  "登记号",    "软件名称"  , "著作权人","版本号","登记日期","软件简介"};
+        String[] cols =    {"unitNameText","registerNumber","softwareName","copyrightOwner","versionNumber","recordDate","softwareIntro"};
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ComputerSoftware.class);
         String fileName = "软件著作权明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
@@ -235,6 +262,10 @@ public class ComputerSoftwareController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public ComputerSoftware save(@RequestBody ComputerSoftware cs) {
+        if(cs!=null){
+            SysUser sysUserInfo = this.getUserProfile();
+            cs.setEntryPeople(sysUserInfo.getUserId());
+        }
         this.setBaseData(cs);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<ComputerSoftware> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<ComputerSoftware>(cs, this.httpHeaders), ComputerSoftware.class);

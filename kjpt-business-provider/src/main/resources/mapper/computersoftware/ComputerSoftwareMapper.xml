@@ -13,7 +13,6 @@
         <result column="COPYRIGHT_OWNER" jdbcType="VARCHAR" property="copyrightOwner"/>
         <result column="VERSION_NUMBER" jdbcType="VARCHAR" property="versionNumber"/>
         <result column="RECORD_DATE" jdbcType="TIMESTAMP" property="recordDate"/>
-        <result column="DEVELOP_FINISH_DATE" jdbcType="TIMESTAMP" property="developFinishDate"/>
         <result column="SOFTWARE_INTRO" jdbcType="VARCHAR" property="softwareIntro"/>
         <result column="ENTRY_PEOPLE" jdbcType="VARCHAR" property="entryPeople"/>
         <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime"/>
@@ -34,8 +33,12 @@
         <result column="technical_field_text" jdbcType="VARCHAR" property="technicalFieldText"/>
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
-
-
+        <result column="REGISTER_DEPARTMENT" jdbcType="VARCHAR" property="registerDepartment"/>
+        <result column="COPYRIGHT_GETWAY" jdbcType="VARCHAR" property="copyrightGetway"/>
+        <result column="COPYRIGHT_GETWAY_TEXT" jdbcType="VARCHAR" property="copyrightGetwayText"/>
+        <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName"/>
+        <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode"/>
+        <result column="TOPIC_DEPARTMENT" jdbcType="VARCHAR" property="topicDepartment"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -47,7 +50,6 @@
       COPYRIGHT_OWNER,
       VERSION_NUMBER,
       RECORD_DATE,
-      DEVELOP_FINISH_DATE,
       SOFTWARE_INTRO,
       ENTRY_PEOPLE,
       ENTRY_TIME,
@@ -64,8 +66,12 @@
       create_unit_name,
       secret_level,
       knowledge_scope,
-      knowledge_person
-
+      knowledge_person,
+      REGISTER_DEPARTMENT,
+      COPYRIGHT_GETWAY,
+      PROJECT_NAME,
+      PROJECT_CODE,
+      TOPIC_DEPARTMENT
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -88,7 +94,6 @@
       COPYRIGHT_OWNER,
       VERSION_NUMBER,
       RECORD_DATE,
-      DEVELOP_FINISH_DATE,
       SOFTWARE_INTRO,
       ENTRY_PEOPLE,
       ENTRY_TIME,
@@ -105,7 +110,12 @@
       create_unit_name,
       secret_level,
       knowledge_scope,
-      knowledge_person
+      knowledge_person,
+      REGISTER_DEPARTMENT,
+      COPYRIGHT_GETWAY,
+      PROJECT_NAME,
+      PROJECT_CODE,
+      TOPIC_DEPARTMENT
       )
     values (
        #{id},
@@ -116,7 +126,6 @@
        #{copyrightOwner},
        #{versionNumber},
        #{recordDate},
-       #{developFinishDate},
        #{softwareIntro},
        #{entryPeople},
        #{entryTime},
@@ -133,7 +142,12 @@
        #{createUnitName},
        #{secretLevel},
        #{knowledgeScope},
-       #{knowledgePerson}
+       #{knowledgePerson},
+       #{registerDepartment},
+       #{copyrightGetway},
+       #{projectName},
+       #{projectCode},
+       #{topicDepartment}
       )
   </insert>
 
@@ -167,9 +181,6 @@
                 RECORD_DATE = #{recordDate},
             </if>
 
-            <if test="developFinishDate != null ">
-                DEVELOP_FINISH_DATE = #{developFinishDate},
-            </if>
             <if test="softwareIntro != null and softwareIntro != ''">
                 SOFTWARE_INTRO = #{softwareIntro},
             </if>
@@ -208,7 +219,27 @@
                 knowledge_scope = #{knowledgeScope},
             </if>
             <if test="knowledgePerson != null and knowledgePerson != ''" >
-                knowledge_person = #{knowledgePerson}
+                knowledge_person = #{knowledgePerson},
+            </if>
+
+            <if test="registerDepartment != null and registerDepartment != ''" >
+                REGISTER_DEPARTMENT = #{registerDepartment},
+            </if>
+
+            <if test="copyrightGetway != null and copyrightGetway != ''" >
+                COPYRIGHT_GETWAY = #{copyrightGetway},
+            </if>
+
+            <if test="projectName != null and projectName != ''" >
+                PROJECT_NAME = #{projectName},
+            </if>
+
+            <if test="projectCode != null and projectCode != ''" >
+                PROJECT_CODE = #{projectCode},
+            </if>
+
+            <if test="topicDepartment != null and topicDepartment != ''" >
+                TOPIC_DEPARTMENT = #{topicDepartment}
             </if>
 
         </trim>
@@ -255,38 +286,34 @@
                     and UNIT_NAME like CONCAT('%',#{unitName},'%')
                 </if>
                 <if test="registerNumber != null and registerNumber != ''">
-                    and REGISTER_NUMBER = #{registerNumber}
+                    and REGISTER_NUMBER like CONCAT('%',#{registerNumber},'%')
                 </if>
                 <if test="softwareName != null and softwareName != ''">
-                    and SOFTWARE_NAME = #{softwareName}
+                    and SOFTWARE_NAME like CONCAT('%',#{softwareName},'%')
                 </if>
 
                 <if test="softwareIntroduce != null and softwareIntroduce != ''">
-                    and SOFTWARE_INTRODUCE = #{softwareIntroduce}
+                    and SOFTWARE_INTRODUCE like CONCAT('%',#{softwareIntroduce},'%')
                 </if>
 
                 <if test="copyrightOwner != null and copyrightOwner != ''">
-                    and COPYRIGHT_OWNER = #{copyrightOwner}
+                    and COPYRIGHT_OWNER like CONCAT('%',#{copyrightOwner},'%')
                 </if>
 
                 <if test="versionNumber != null and versionNumber != ''">
-                    and VERSION_NUMBER = #{versionNumber}
+                    and VERSION_NUMBER like CONCAT('%',#{versionNumber},'%')
                 </if>
 
                 <if test="recordDate != null and recordDate != '' ">
-                    and RECORD_DATE = #{recordDate}
-                </if>
-
-                <if test="developFinishDate != null  and developFinishDate != '' ">
-                    and DEVELOP_FINISH_DATE = #{developFinishDate}
+                    and date_format(RECORD_DATE,'%Y-%m-%d') = date_format(#{recordDate},'%Y-%m-%d')
                 </if>
 
                 <if test="softwareIntro != null and softwareIntro != ''">
-                    and SOFTWARE_INTRO = #{softwareIntro}
+                    and SOFTWARE_INTRO like CONCAT('%',#{softwareIntro},'%')
                 </if>
 
                 <if test="entryPeople != null and entryPeople != ''">
-                    and ENTRY_PEOPLE = #{entryPeople}
+                    and ENTRY_PEOPLE like CONCAT('%',#{entryPeople},'%')
                 </if>
 
                 <if test="entryTime != null and entryTime != '' ">
@@ -294,7 +321,7 @@
                 </if>
 
                 <if test="notes != null and notes != ''">
-                    and NOTES = #{notes}
+                    and NOTES like CONCAT('%',#{notes},'%')
                 </if>
                 <if test="files != null and files != ''">
                     and file = #{files}
@@ -325,6 +352,26 @@
 
                 <if test="secretLevel != null and secretLevel != ''" >
                    and secret_level = #{secretLevel}
+                </if>
+
+                <if test="registerDepartment != null  and registerDepartment != ''  ">
+                    and REGISTER_DEPARTMENT like CONCAT('%',#{registerDepartment},'%')
+                </if>
+
+                <if test="copyrightGetway != null  and copyrightGetway != ''  ">
+                    and COPYRIGHT_GETWAY like CONCAT('%',#{copyrightGetway},'%')
+                </if>
+
+                <if test="projectName != null and projectName != ''" >
+                    PROJECT_NAME like CONCAT('%',#{projectName},'%')
+                </if>
+
+                <if test="projectCode != null and projectCode != ''" >
+                    PROJECT_CODE like CONCAT('%',#{projectCode},'%')
+                </if>
+
+                <if test="topicDepartment != null and topicDepartment != ''" >
+                    TOPIC_DEPARTMENT like CONCAT('%',#{topicDepartment},'%')
                 </if>
 
                 and (secret_level = '0' or (

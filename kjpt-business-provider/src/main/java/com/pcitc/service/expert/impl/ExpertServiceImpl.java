@@ -10,8 +10,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,7 +23,7 @@ import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.system.CustomQueryConditionVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
@@ -35,6 +33,7 @@ import com.pcitc.mapper.expert.ZjkRewardMapper;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
+import com.pcitc.util.BusinessUtil;
 
 
 @Service
@@ -345,7 +344,7 @@ public class ExpertServiceImpl implements IExpertService {
 			String expertType=getTableParam(param,"expertType","");
 			String expertTypes=getTableParam(param,"expertTypes","");
 			String knowledgeScope=getTableParam(param,"knowledgeScope","");
-			
+			String customQueryConditionStr=getTableParam(param,"customQueryConditionStr","");
 			
 			Map map=new HashMap();
 			map.put("name", name);
@@ -370,6 +369,10 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("expertType", expertType);
 			map.put("expertTypes", expertTypes);
 			map.put("knowledgeScope", knowledgeScope);
+			
+			String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
+			map.put("condition", condition);
+			
 			JSONObject obj = JSONObject.parseObject(JSONObject.toJSONString(map));
 			System.out.println(">>>>>>>>>专家查询参数:  "+obj.toString());
 			

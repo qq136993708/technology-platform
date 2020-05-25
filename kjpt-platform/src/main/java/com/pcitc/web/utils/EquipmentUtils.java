@@ -20,16 +20,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
+import com.pcitc.base.util.CommonUtil;
+
+import io.swagger.annotations.ApiOperation;
 
 
 public class EquipmentUtils {
@@ -49,6 +55,11 @@ public class EquipmentUtils {
 	public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
 
 	private static final String USER_IDENTITY_ID = "http://kjpt-zuul/system-proxy/user-provider/user/user-identityid/";
+	
+	private static final String getCustomQueryConditionList = "http://kjpt-zuul/stp-proxy/customQueryCondition_provider/getList";
+	
+	
+	
 	
 	
 	public static SysUser getUserByUserNameAndPassword(String username,String password,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
@@ -483,8 +494,30 @@ public class EquipmentUtils {
 	}
 
 
-
-
+	
+	    //获得查询条件接口
+		public static JSONArray getCustomQueryConditionList(RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletRequest request, HttpServletResponse response,String taleName)throws Exception
+	    {
+	    	    
+	            String columnName=CommonUtil.getParameter(request, "columnName", "");
+	    	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		   		paramMap.put("taleName", taleName);
+		   	    paramMap.put("columnName", columnName);
+		   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,httpHeaders);
+		   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getCustomQueryConditionList, HttpMethod.POST, httpEntity, JSONArray.class);
+		   		int statusCode = responseEntity.getStatusCodeValue();
+		   		
+	  	   		JSONArray jSONArray=null;
+	  	   		if (statusCode == 200)
+	  	   		{
+	  	   			jSONArray = responseEntity.getBody();
+	  	   		}
+	  	   		return jSONArray;
+		   		
+		}
+	    
+	 
 
 
 
