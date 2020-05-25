@@ -286,34 +286,34 @@
                     and UNIT_NAME like CONCAT('%',#{unitName},'%')
                 </if>
                 <if test="registerNumber != null and registerNumber != ''">
-                    and REGISTER_NUMBER = #{registerNumber}
+                    and REGISTER_NUMBER like CONCAT('%',#{registerNumber},'%')
                 </if>
                 <if test="softwareName != null and softwareName != ''">
-                    and SOFTWARE_NAME = #{softwareName}
+                    and SOFTWARE_NAME like CONCAT('%',#{softwareName},'%')
                 </if>
 
                 <if test="softwareIntroduce != null and softwareIntroduce != ''">
-                    and SOFTWARE_INTRODUCE = #{softwareIntroduce}
+                    and SOFTWARE_INTRODUCE like CONCAT('%',#{softwareIntroduce},'%')
                 </if>
 
                 <if test="copyrightOwner != null and copyrightOwner != ''">
-                    and COPYRIGHT_OWNER = #{copyrightOwner}
+                    and COPYRIGHT_OWNER like CONCAT('%',#{copyrightOwner},'%')
                 </if>
 
                 <if test="versionNumber != null and versionNumber != ''">
-                    and VERSION_NUMBER = #{versionNumber}
+                    and VERSION_NUMBER like CONCAT('%',#{versionNumber},'%')
                 </if>
 
                 <if test="recordDate != null and recordDate != '' ">
-                    and RECORD_DATE = #{recordDate}
+                    and date_format(RECORD_DATE,'%Y-%m-%d') = date_format(#{recordDate},'%Y-%m-%d')
                 </if>
 
                 <if test="softwareIntro != null and softwareIntro != ''">
-                    and SOFTWARE_INTRO = #{softwareIntro}
+                    and SOFTWARE_INTRO like CONCAT('%',#{softwareIntro},'%')
                 </if>
 
                 <if test="entryPeople != null and entryPeople != ''">
-                    and ENTRY_PEOPLE = #{entryPeople}
+                    and ENTRY_PEOPLE like CONCAT('%',#{entryPeople},'%')
                 </if>
 
                 <if test="entryTime != null and entryTime != '' ">
@@ -321,7 +321,7 @@
                 </if>
 
                 <if test="notes != null and notes != ''">
-                    and NOTES = #{notes}
+                    and NOTES like CONCAT('%',#{notes},'%')
                 </if>
                 <if test="files != null and files != ''">
                     and file = #{files}

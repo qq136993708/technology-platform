@@ -20,15 +20,21 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
           ,{field: 'unitNameText', title: '单位名称', sort: true }
+          ,{field: 'softwareName', title: '软件名称', sort: true }
           ,{field: 'registerNumber', title: '登记号', sort: true}
-          ,{field: 'softwareName', title: '软件名称', sort: true } 
-          ,{field: 'technicalFieldValue', title: '技术领域', sort: true } 
-          ,{field: 'copyrightOwner', title: '著作权人', sort: true}
-          ,{field: 'versionNumber', title: '版本号', sort: true}
           ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {
-            return dateFieldText(d.recordDate);
-          }}
-          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
+                return dateFieldText(d.recordDate);
+             }}
+          ,{field: 'copyrightOwner', title: '著作权人', sort: true}
+          ,{field: 'copyrightGetwayText', title: '权力获得方式', sort: true}
+          ,{field: 'registerDepartment', title: '登记部门', sort: true}
+          ,{field: 'softwareIntro', title: '项目背景', sort: true}
+
+         /* ,{field: 'technicalFieldValue', title: '技术领域', sort: true }
+
+          ,{field: 'versionNumber', title: '版本号', sort: true}
+
+          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} */
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
