@@ -33,7 +33,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 
-@Api(value = "OutPerson-API",tags = {"外系统-人员接口"})
+@Api(value = "OutPerson-API",tags = {"外系统-人才同步接口"})
 @RestController
 public class HanaOutPersonController extends BaseController {
 	
@@ -47,16 +47,9 @@ public class HanaOutPersonController extends BaseController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
   	
 	    @ApiOperation(value = "人才同步", notes = "人才同步")
-		@RequestMapping(value = "/hana-api/out_person_list", method = RequestMethod.GET)
+		@RequestMapping(value = "/getHanaPersonData", method = RequestMethod.GET)
 	    @ResponseBody
 	   	public String out_person_list( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
@@ -77,11 +70,17 @@ public class HanaOutPersonController extends BaseController {
 	   			list = JSONObject.parseArray(jSONArray.toJSONString(), OutPersonVo.class);
 	   			if(list!=null &&  list.size()>0)
 	   			{
+	   			    System.out.println(">>>>共>>>>>"+list.size()+"条");
 	   				for(int i=0;i<list.size();i++)
 	   				{
 	   				   OutPersonVo zjkBase= list.get(i);
-	   				   System.out.println(">>>>>>getZjyxlmc>>>>>"+zjkBase.getZjyxlmc());
-	   				   System.out.println(">>>>>>getZjy xwmc>>>>>"+zjkBase.getZjyxwmc());
+	   				   System.out.println(">>>>>>人员编号，专家的主键pernr>>>>>"+zjkBase.getPernr());
+	   				   System.out.println(">>>>>单位编码zdwqc >>>>>"+zjkBase.getZdwqc());
+	   				   System.out.println(">>>>>姓名nachn >>>>>"+zjkBase.getNachn());
+	   				   System.out.println(">>>>>性别gesch >>>>>"+zjkBase.getGesch());
+	   				   System.out.println(">>>>>出生日期gbdat >>>>>"+zjkBase.getGbdat());
+	   				   System.out.println(">>>>>身份证号码icnum >>>>>"+zjkBase.getIcnum());
+	   				   
 	   				}
 	   			}
 	   		}

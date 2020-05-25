@@ -71,7 +71,11 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "trademarkName", value = "注册商标名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "lawStatus", value = "法律状态", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "extensionPeriod", value = "延展有效期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "isWellKnown", value = "是否驰名商标", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "isRegistered", value = "是否著名商标", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "countryType", value = "国别", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "String", paramType = "query")
     })
 
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -85,6 +89,7 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String lawStatus,
                         @RequestParam(required = false) String applicant,
 
+                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date  extensionPeriod,
                         @RequestParam(required = false) String isWellKnown,
                         @RequestParam(required = false) String isRegistered,
                         @RequestParam(required = false) String countryType,
@@ -125,14 +130,16 @@ public class TrademarkController extends RestBaseController {
         
         if (!StringUtils.isEmpty(applicant)) {
             this.setParam(condition, "isWellKnown", isWellKnown);
-            }
+        }
         if (!StringUtils.isEmpty(applicant)) {
             this.setParam(condition, "isRegistered", isRegistered);
-            }
+        }
         if (!StringUtils.isEmpty(applicant)) {
             this.setParam(condition, "countryType", countryType);
-            }
-        
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(extensionPeriod,DateUtil.FMT_SS))) {
+            this.setParam(condition, "extensionPeriod", DateUtil.format(extensionPeriod,DateUtil.FMT_SS));
+        }
         
 
         if(secretLevel != null){
