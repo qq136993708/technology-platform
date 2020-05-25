@@ -188,7 +188,7 @@ layui.use(['table', 'form','laydate'], function() {
               return false;
             }
           } else if(optionType === 'public') {
-           if(listData[0].publicityStatus !== 3){
+           if(listData[0].publicityStatus == 1 ){
             url += '&id='+listData[0].id;
            }else{
             top.layer.msg('已公示过的不能再次' + dialogTitle);
