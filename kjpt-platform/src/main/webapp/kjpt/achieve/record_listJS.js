@@ -10,12 +10,18 @@ layui.use(['table', 'form','laydate'], function() {
       table.render({
         width: '100%'
         ,elem: '#tableDemo'
-        // ,url: '/achieveRecord-api/query' //数据接口
-        ,url: '/achieveRecord-api/queryAchieveSubsidiarity'
+        ,url: '/achieveRecord-api/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
-          ,{field: 'auditStatusText', title: '备案状态', width: 80,}
+          ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
+            if(d.auditStatus!=0){
+              return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
+            }else {
+              return d.auditStatusText
+            }
+          }}
+          ,{field: 'secretLevelText', title: '密级', sort: true, } //hide: _hideSecrecylevel()
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
           ,{field: 'affiliatedUnitText', title: '成果所属单位（专业化公司/直属单位)', width: 120 }
@@ -24,26 +30,28 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
           ,{field: 'achieveTransTypeText', title: '拟转化方式', width: 120 }
           ,{field: 'transMoney', title: '拟转化金额（万）', width: 100, sort: true }
-          ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100, sort: true }
-          ,{field: 'currentRewardMoney', title: '本年激励额度', width: 100, sort: true }
+          ,{field: 'currentRewardMoney', title: '本年激励额度（万）', width: 100, sort: true }
+          ,{field: 'incomeMoney', title: '预计净收益（万）', width: 100, sort: true }
+          // ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100, sort: true }
+         
           // ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
           // ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
           //   return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
           // }}
-          ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
+          
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
-            if (d.auditStatus == 0 || d.auditStatus == 3){
-              templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
+            if (d.publicityStatus == 3){
+              templet += '<span class="link-text recordDetails" data-auditstatus="'+d.publicityStatus+'" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
             }
-            if (d.auditStatus == 1 || d.auditStatus == 2){
+            if (d.auditStatus == 01 ){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
-            if (d.auditStatus == 2){
-              if (!d.rewardYear || d.status == 0 || d.status == 3 ) {
-                templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
-              }
-            }
+            // if (d.auditStatus == 2){
+            //   if (!d.rewardYear || d.status == 0 || d.status == 3 ) {
+            //     templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
+            //   }
+            // }
             templet += '</div></div>';
             return templet;
           }, fixed: 'right'}
@@ -163,6 +171,9 @@ layui.use(['table', 'form','laydate'], function() {
     } else if (optionType === 'view') {
       dialogTitle = '查看';
       url = '/kjpt/achieve/record_view.html?type=' + optionType;
+    }else if(optionType == 'public'){
+      dialogTitle = '公示';
+      url='/kjpt/achieve/formula.html?type=' + optionType;
     }
 
     if (optionType !== 'add') {
@@ -170,13 +181,20 @@ layui.use(['table', 'form','laydate'], function() {
       if (listData.length) {
         if (listData.length === 1) {
           if (optionType === 'edit') {
-            if (listData[0].auditStatus == 0 || listData[0].auditStatus == 3) {
+            if (listData[0].auditStatus == 02 ) {
               url += '&id='+listData[0].id;
             } else {
               top.layer.msg('审批中或审批通过的数据不能' + dialogTitle);
               return false;
             }
-          } else {
+          } else if(optionType === 'public') {
+           if(listData[0].publicityStatus !== 3){
+            url += '&id='+listData[0].id;
+           }else{
+            top.layer.msg('已公示过的不能再次' + dialogTitle);
+            return false;
+           }
+          }else{
             url += '&id='+listData[0].id;
           }
         } else {
@@ -185,10 +203,9 @@ layui.use(['table', 'form','laydate'], function() {
         }
       } else {
         top.layer.msg('请选择要'+dialogTitle+'的数据！');
-        return false;
+        return  false;
       }
     }
-    
     // 打开弹窗
     top.layer.open({
       type: 2,
