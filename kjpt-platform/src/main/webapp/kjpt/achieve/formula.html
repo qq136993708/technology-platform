@@ -115,6 +115,11 @@
             var loadData = {} /*获取当前data*/
             var secretLevel = '',
                 appraisalDocStr = '',
+                grantDocStr='',
+                transAssessDocStr='',
+                decisionMeetingDocStr='',
+                decisionRuleDocStr=''
+                transContractDocStr='',
                 publicDocStr = ''
             var fileCols = [{
                     field: 'fileSize',
@@ -158,24 +163,33 @@
                             console.log(tableData)
                         }
                     });
-                    httpModule({
-                        url: '/file/query/' + relDataForm.data.appraisalDoc,
-                        success: function (data) {
-                            if (data.code === '0' && data.data.length > 0) {
-                                data.data.map(function (item, index) {
-                                    console.log(item)
-                                    appraisalDocStr += item.id + ","
-                                })
-                                appraisalDocStr = appraisalDocStr.substring(0,
-                                    appraisalDocStr.length - 1);
-                            } else {
-                                appraisalDocStr = ''
-                            }
-                        }
-                    });
+                    queryFile(relDataForm,'appraisalDoc');
+                    queryFile(relDataForm,'grantDoc');
+                    queryFile(relDataForm,'transContractDoc');
+                    queryFile(relDataForm,'transAssessDoc');
+                    queryFile(relDataForm,'decisionMeetingDoc');
+                    queryFile(relDataForm,'decisionRuleDoc');
                     secretLevel = relDataForm.data.secretLevel
                 }
             });
+            function queryFile(relDataForm,id){
+                httpModule({
+                        url: '/file/query/' + relDataForm.data.id,
+                        success: function (data) {
+                            if (data.code === '0' && data.data.length > 0) {
+                                str = id+'Str';
+                                str='';
+                                data.data.map(function (item, index) {
+                                    str += item.id + ","
+                                })
+                                str = str.substring(0,
+                                str.length - 1);
+                            } else {
+                                str = ''
+                            }
+                        }
+                    });
+            };
             setFileUpload({
                 id: 'file-filter-options1', // 附件上传作用域ID值 必传
                 dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
@@ -188,21 +202,28 @@
                     console.log(tableData)
                     if (tableData.length > 0) {
                         fileDoc = ''
+                        publicDocStr='';
                         tableData.map(function (item, index) {
-                            console.log(item)
                             publicDocStr += item.id + ","
                         })
                         publicDocStr = publicDocStr.substring(0, publicDocStr.length - 1);
                     } else {
                         publicDocStr = ''
                     }
+                    console.log(publicDocStr);
                 }
             });
+
             form.on('submit(newSubmit)', function (data) {
                 var fileDocS = {}
                 fileDocS[loadData.appraisalDoc] = appraisalDocStr
-                fileDocS[loadData.publicDoc] = publicDocStr
-                loadData.fileDoc = JSON.stringify(fileDocS)
+                fileDocS[loadData.transPublicDoc] = publicDocStr
+                fileDocS[loadData.grantDoc] = grantDocStr
+                fileDocS[loadData.transAssessDoc] = transAssessDocStr
+                fileDocS[loadData.decisionMeetingDoc] = decisionMeetingDocStr
+                fileDocS[loadData.decisionRuleDoc] = decisionRuleDocStr
+                fileDocS[loadData.transContractDoc] = transContractDocStr
+                loadData.files = JSON.stringify(fileDocS)
                 var saveData = {
                     achieveRecord: loadData,
                     achieveReward: null,
@@ -216,7 +237,6 @@
                 }
                 saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
                 saveData.achieveRecord.achieveRewards = [];
-
                 httpModule({
                     url: '/achieveRecord-api/publicity',
                     data: saveData,

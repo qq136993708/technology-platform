@@ -14,13 +14,15 @@ layui.use(['table', 'form','laydate'], function() {
         ,cols: [[ //表头
           {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
-          ,{field: 'auditStatusText', title: '备案状态', width: 80,templet:function(d) {
-            if(d.auditStatus!=0){
-              return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
-            }else {
-              return d.auditStatusText
-            }
-          }}
+          ,{field: 'auditStatusText', title: '备案状态', width: 80,
+          // templet:function(d) {
+          //   if(d.auditStatus!=0){
+          //     return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
+          //   }else {
+          //     return d.auditStatusText
+          //   }
+          // }
+        }
           ,{field: 'secretLevelText', title: '密级', sort: true, } //hide: _hideSecrecylevel()
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
@@ -44,7 +46,7 @@ layui.use(['table', 'form','laydate'], function() {
             if (d.publicityStatus == 3){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.publicityStatus+'" data-type="input" data-id="'+d.id+'">录入备案信息</span>';
             }
-            if (d.auditStatus == 01 ){
+            if (d.auditStatus == 01 && d.publicityStatus != 3){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
             // if (d.auditStatus == 2){
