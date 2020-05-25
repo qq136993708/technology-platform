@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="text" name="isPublic" value="2" class="layui-input layui-hide">
+                <input type="text" name="publicityStatus" value="2" class="layui-input layui-hide">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
                     <div class="layui-form-item text-right">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
@@ -85,9 +85,7 @@
                 <button class="layui-btn border-red" id="delItem">结束公示</button>
             </div>
         </div>
-
         <table id="tableDemo" lay-filter="tableDemo"></table>
-
     </div>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -97,7 +95,6 @@
             var table = layui.table;
             var form = layui.form;
             var laydate = layui.laydate;
-
             var tableRender = false;
 
             function queryTable(searchData) {
@@ -105,55 +102,53 @@
                     tableRender = true;
                     table.render({
                         elem: '#tableDemo',
-                        url: '/achieve-api/query' //数据接口
+                        url: '/achieveRecord-api/query' //数据接口
                             ,
                         cols: [
                             [ //表头
                                 {
                                     type: 'radio',
                                     field: 'id'
-                                }, {
+                                },
+                                {
                                     type: 'numbers',
                                     title: '序号',
                                     width: 80
-                                }, {
+                                },
+                                {
                                     field: 'publicityStatusText',
                                     title: '公示状态',
                                     sort: true
-                                }, {
+                                },
+                                {
                                     field: 'achieveName',
                                     title: '成果名称',
                                     sort: true
-                                }, {
+                                },
+                                {
                                     field: 'finishUnitNameText',
                                     title: '完成持有单位',
                                     sort: true
                                 },
-                                // {
-                                //     field: 'brief',
-                                //     title: '科技成果介绍'
-                                // }, 
                                 {
-                                    field: 'StartDate',
+                                    field: 'publicityStartDate',
                                     title: '开始时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.StartDate) }}</div>',
+                                    templet: '<div>{{ layui.laytpl.toDateString(d.publicityStartDate) }}</div>',
                                 },
                                 {
-                                    field: 'EndDate',
+                                    field: 'publicityEndDate',
                                     title: '结束时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.EndDate) }}</div>',
+                                    templet: '<div>{{ layui.laytpl.toDateString(d.publicityEndDate) }}</div>',
                                 },
                                 {
-                                    field: '',
+                                    field: 'appraisalDoc',
                                     title: '附件',
+                                    templet: function (d) {
+                                        return queryFile(d.transPublicDoc);
+                                    },
                                 },
-                                // {
-                                //     field: 'achieveTransTypeText',
-                                //     title: '拟转让方式',
-                                //     sort: true
-                                // },
                                 {
                                     field: 'secretLevelText',
                                     title: '密级',
@@ -172,13 +167,35 @@
                         page: true, //开启分页
                         limit: 10, // 每页数据条数,
                         limits: [5, 10, 15, 20], // 配置分页数据条数
-                        where: searchData
+                        where: searchData,
                     });
                 } else {
                     table.reload('tableDemo', {
                         where: searchData
                     });
                 }
+            }
+
+            function queryFile(id) {
+                // return 'id';
+                var html='';
+                httpModule({
+                    url: '/file/query/' + id,
+                    async:false,
+                    success: function (data) {
+                        if (data.code === '0' && data.data.length > 0) {    
+                            var docStr='';
+                            data.data.map(function (item, index) {
+                                docStr+=item.fileName+',';
+                            })    
+                            html = '<a href="/html/scientificMaterials/planDetails.html?id='+id+'" class="layui-table-link">'+docStr+'</a>';
+                          
+                        }else{
+                            return '';
+                        }
+                    }
+                });
+                return html
             }
             //开始日期
             laydate.render({
@@ -214,24 +231,37 @@
                         // 弹窗销毁时获取弹窗返回数据
                         var getData = getDialogData('dialog-data');
                         if (getData !== null && getData.success) {
-                            // tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id)
                             queryTable();
                         }
                     }
                 });
-                //src/main/webapp/kjpt/achieve/formula.html
-                // var index=parent.$("#LAY_app_body div.layui-show").index()-1;
-                // var url = '/kjpt/achieve/apply_view.html?type=view&index='+index+"&id="+listData[0].id;
-                // parent.layui.index.openTabsPage(url,  '查看');
+
 
             })
             $('#delItem').on('click', function () {
                 // 获取被选中的行数据
                 var activeData = table.checkStatus('tableDemo').data;
                 if (activeData.length) {
+                    var saveData = {
+                        achieveRecord: activeData[0],
+                        achieveReward: null,
+                        createUnitId: '',
+                        createUnitName: '',
+                        creator: null,
+                        createDate: new Date().getTime(),
+                        updator: null,
+                        updateDate: new Date().getTime(),
+                        deleted: '0'
+                    }
+                    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
+                    saveData.achieveRecord.achieveRewards = [];
+                    console.log(saveData)
+                    // return ;
+
                     httpModule({
-                        url: "/achieve-api/publicEnd/" + activeData[0].id,
+                        url: "/achieveRecord-api/publicityFinish",
                         type: 'post',
+                        data:saveData,
                         success: function (relData) {
                             if (relData.code == 0) {
                                 layer.msg('结束公示成功!', {

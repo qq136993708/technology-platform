@@ -23,6 +23,15 @@ layui.use(['table', 'form', 'layer'], function() {
       templet += '</div>';
       return templet;
     }}
+  ],
+  [
+    {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
+    {title: '操作', templet: function(d) {
+      var templet = '<div class="file-options">';
+      templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
+      templet += '</div>';
+      return templet;
+    }}
   ]];
 
   if(variable.flag==1){
