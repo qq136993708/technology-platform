@@ -36,6 +36,13 @@
     <result column="is_registered"    jdbcType="VARCHAR" property="isRegistered"/>
     <result column="country_type"     jdbcType="VARCHAR" property="countryType"/>
 
+    <result column="trademark_type"   jdbcType="VARCHAR" property="tradeMarkType"/>
+    <result column="well_known_date" jdbcType="TIMESTAMP" property="wellKnownDate"/>
+    <result column="famous_date" jdbcType="TIMESTAMP" property="famousDate"/>
+    <result column="well_known_org"   jdbcType="VARCHAR" property="wellKnownOrg"/>
+    <result column="famous_org"   jdbcType="VARCHAR" property="famousOrg"/>
+    <result column="register_org"   jdbcType="VARCHAR" property="registerOrg"/>
+
   </resultMap>
   <sql id="Base_Column_List">
      id,
@@ -64,7 +71,13 @@
      extension_period,
      is_well_known,
      is_registered,
-     country_type
+     country_type,
+     trademark_type,
+     well_known_date,
+     famous_date,
+     well_known_org,
+     famous_org,
+     register_org
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -141,8 +154,6 @@
       <if test="knowledgePerson != null">
         knowledge_person
       </if>
-      
-      
       <if test="extensionPeriod != null">
         extension_period
       </if>
@@ -154,6 +165,24 @@
       </if>
       <if test="countryType != null">
         country_type
+      </if>
+      <if test="tradeMarkType != null">
+        trademark_type
+      </if>
+      <if test="wellKnownDate != null">
+        well_known_date
+      </if>
+      <if test="famousDate != null">
+        famous_date
+      </if>
+      <if test="wellKnownOrg != null">
+        well_known_org
+      </if>
+      <if test="famousOrg != null">
+        famous_org
+      </if>
+      <if test="registerOrg != null">
+        register_org
       </if>
 
     </trim>
@@ -230,7 +259,24 @@
       <if test="countryType != null">
         #{countryType,jdbcType=VARCHAR}
       </if>
-
+      <if test="tradeMarkType != null">
+        #{tradeMarkType,jdbcType=VARCHAR}
+      </if>
+      <if test="wellKnownDate != null">
+        #{wellKnownDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="famousDate != null">
+        #{famousDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="wellKnownOrg != null">
+        #{wellKnownOrg,jdbcType=VARCHAR}
+      </if>
+      <if test="famousOrg != null">
+        #{famousOrg,jdbcType=VARCHAR}
+      </if>
+      <if test="registerOrg != null">
+        #{registerOrg,jdbcType=VARCHAR}
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
@@ -256,7 +302,13 @@
 	  is_well_known =  #{isWellKnown,jdbcType=VARCHAR},
 	  is_registered =  #{isRegistered,jdbcType=VARCHAR},
 	  country_type =   #{countryType,jdbcType=VARCHAR},
-	  knowledge_person =  #{knowledgePerson,jdbcType=VARCHAR}
+	  knowledge_person =  #{knowledgePerson,jdbcType=VARCHAR},
+	  trademark_type =  #{tradeMarkType,jdbcType=VARCHAR},
+      well_known_date =  #{wellKnownDate,jdbcType=TIMESTAMP},
+      famous_date =  #{famousDate,jdbcType=TIMESTAMP},
+      well_known_org =  #{wellKnownOrg,jdbcType=VARCHAR},
+      famous_org =  #{famousOrg,jdbcType=VARCHAR},
+      register_org =  #{registerOrg,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -311,15 +363,33 @@
     <if test="extensionPeriod != null and extensionPeriod != '' " >
       and extension_period = #{extensionPeriod}
     </if>
-    
-   <!-- 
-	    and (secret_level = '0' or (
-	    secret_level <![CDATA[<=]]> #{userSecretLevel}
-	    <if test='skipKnowledgeScope=="0"'>
-	      and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-	    </if>
-	    ))
-    -->
+    <if test="tradeMarkType != null and tradeMarkType != '' " >
+      and trademark_type = #{tradeMarkType}
+    </if>
+    <if test="wellKnownDate != null and wellKnownDate != '' " >
+      and well_known_date = #{wellKnownDate}
+    </if>
+    <if test="famousDate != null and famousDate != '' " >
+      and famous_date = #{famousDate}
+    </if>
+    <if test="wellKnownOrg != null and wellKnownOrg != '' " >
+      and well_known_org = #{wellKnownOrg}
+    </if>
+    <if test="famousOrg != null and famousOrg != '' " >
+      and famous_org = #{famousOrg}
+    </if>
+    <if test="registerOrg != null and registerOrg != '' " >
+      and register_org = #{registerOrg}
+    </if>
+
+    <!--
+         and (secret_level = '0' or (
+         secret_level <![CDATA[<=]]> #{userSecretLevel}
+         <if test='skipKnowledgeScope=="0"'>
+           and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+         </if>
+         ))
+     -->
 
   </sql>
 </mapper>

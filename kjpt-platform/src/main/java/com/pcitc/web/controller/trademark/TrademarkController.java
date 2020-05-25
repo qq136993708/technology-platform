@@ -75,7 +75,13 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "isWellKnown", value = "是否驰名商标", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "isRegistered", value = "是否著名商标", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "countryType", value = "国别", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "tradeMarkType", value = "商标类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "wellKnownDate", value = "驰名商标认定日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "famousDate", value = "著名商标认定日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "famousOrg", value = "著名商标认定机构", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "wellKnownOrg", value = "驰名商标认定机构", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "registerOrg", value = "注册机构", dataType = "String", paramType = "query"),
     })
 
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -93,8 +99,14 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String isWellKnown,
                         @RequestParam(required = false) String isRegistered,
                         @RequestParam(required = false) String countryType,
-                        
-                        
+
+                        @RequestParam(required = false) String tradeMarkType,
+                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date wellKnownDate,
+                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date famousDate,
+                        @RequestParam(required = false) String wellKnownOrg,
+                        @RequestParam(required = false) String famousOrg,
+                        @RequestParam(required = false) String registerOrg,
+
                         @RequestParam(required = false,value = "secretLevel") String secretLevel
     ){
         Map<String, Object> condition = new HashMap<>(6);
@@ -128,19 +140,37 @@ public class TrademarkController extends RestBaseController {
         }
         
         
-        if (!StringUtils.isEmpty(applicant)) {
+        if (!StringUtils.isEmpty(isWellKnown)) {
             this.setParam(condition, "isWellKnown", isWellKnown);
         }
-        if (!StringUtils.isEmpty(applicant)) {
+        if (!StringUtils.isEmpty(isRegistered)) {
             this.setParam(condition, "isRegistered", isRegistered);
         }
-        if (!StringUtils.isEmpty(applicant)) {
+        if (!StringUtils.isEmpty(countryType)) {
             this.setParam(condition, "countryType", countryType);
         }
         if (!StringUtils.isEmpty(DateUtil.format(extensionPeriod,DateUtil.FMT_SS))) {
             this.setParam(condition, "extensionPeriod", DateUtil.format(extensionPeriod,DateUtil.FMT_SS));
         }
-        
+
+        if (!StringUtils.isEmpty(tradeMarkType)) {
+            this.setParam(condition, "tradeMarkType", tradeMarkType);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(wellKnownDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "wellKnownDate", DateUtil.format(wellKnownDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(famousDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "famousDate", DateUtil.format(famousDate,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(wellKnownOrg)) {
+            this.setParam(condition, "wellKnownOrg", wellKnownOrg);
+        }
+        if (!StringUtils.isEmpty(famousOrg)) {
+            this.setParam(condition, "famousOrg", famousOrg);
+        }
+        if (!StringUtils.isEmpty(registerOrg)) {
+            this.setParam(condition, "registerOrg", registerOrg);
+        }
 
         if(secretLevel != null){
             //this.setParam(condition,"secretLevel",secretLevel);
