@@ -418,7 +418,8 @@ public class AchieveRecordController extends RestBaseController {
     public AchieveSubmit save(@RequestBody AchieveSubmit as){
         this.setBaseData(as);
         setRecord(as);
-        as.getAchieveRecord().setAuditStatus("01");
+        //成果转化状态为未完成
+        as.getAchieveRecord().setAuditStatus("02");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
         return as;
@@ -431,7 +432,7 @@ public class AchieveRecordController extends RestBaseController {
         this.setBaseData(as);
         setRecord(as);
         //成果转化状态为未完成
-        as.getAchieveRecord().setAuditStatus("01");
+        as.getAchieveRecord().setAuditStatus("02");
         //公示状态为未公示
         as.getAchieveRecord().setPublicityStatus("1");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -472,7 +473,7 @@ public class AchieveRecordController extends RestBaseController {
         this.setBaseData(as);
         setRecord(as);
         //成果转化状态为已完成
-        as.getAchieveRecord().setAuditStatus("02");
+        as.getAchieveRecord().setAuditStatus("01");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(simpleSave, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
     }
