@@ -18,7 +18,27 @@
       margin-right: 10px;
       display: inline-block;
     }
-  </style>
+
+    .more-item:not(:first-child) {
+        margin-top: 20px;
+    }
+
+    .more-item button {
+        width: 30px;
+        height: 30px;
+        background: none;
+        border: 1px solid rgba(10,161,255,1);
+        border-radius: 50%;
+        color: #0AA1FF;
+    }
+
+    .more-item button.more-item-del-btn {
+        background: rgb(194, 200, 203);
+        color: #ffffff;
+        border: none;
+    }
+
+    </style>
   
   <!-- 更多样式在此引入 -->
 </head>
@@ -30,7 +50,7 @@
               <div class="layui-form-item">
                 <label class="layui-form-label label-required"><span class="text">密级：</span></label>
                 <div class="layui-input-block">
-                  <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+                  <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
                   </select>
                 </div>
               </div>
@@ -53,7 +73,6 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">单位名称：</span></label>
            <div class="layui-input-block">
-
                 <select name="unitName"
                 xm-select="unitName"
                 xm-select-skin="normal"
@@ -61,100 +80,342 @@
                 dic-base-data="ROOT_KJPT_YTDW"
                 lay-verify="required"
                 placeholder="请选择"></select>
-
            </div>
          </div>
        </div>
 
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">申请人/专利权人：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="applicant" lay-verify="required"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">专利名称：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="patentName" lay-verify="required"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">发明人：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="inventor" lay-verify="required"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">项目背景：</span></label>
-          <div class="layui-input-block">
-            <input type="text" id="projectBackground" name="projectBackground" lay-verify="required"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">立项部门</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="establishmentDepartment" id="establishmentDepartment"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">项目编号</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="projectNumber" id="projectNumber"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">项目名称</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="projectName" id="projectName"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">申请类型：</span></label>
-           <div class="layui-input-block">
-             <select name="applicationType" dic-base-data="ROOT_KJPT_SQLX" lay-verify="required" placeholder="请选择..."> 
-               
-             </select>
-           </div>
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">专利名称：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="patentName" lay-verify="required"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
          </div>
-       </div>
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">专利类型：</span></label>
-           <div class="layui-input-block">
-             <select name="patentType" dic-base-data="ROOT_KJPT_ZLZL" lay-verify="required" placeholder="请选择..."> 
-     
-             </select>
-           </div>
-         </div>
-       </div>
 
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">专利号：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="applicationNumber" lay-verify="required"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">申请类型：</span></label>
+                 <div class="layui-input-block">
+                     <select name="applicationType" dic-base-data="ROOT_KJPT_SQLX" lay-verify="required" placeholder="请选择...">
+
+                     </select>
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">密级：</span></label>
+                 <div class="layui-input-block">
+                     <select name="" dic-base-data="ROOT_KJPT_XXMJ_JM"  placeholder="请选择...">
+
+                     </select>
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">专利类别：</span></label>
+                 <div class="layui-input-block">
+                     <select name="patentType" dic-base-data="ROOT_KJPT_ZLZL" lay-verify="required" placeholder="请选择...">
+
+                     </select>
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">国别组织：</span></label>
+                 <div class="layui-input-block">
+                     <select name="country" dic-base-data="ROOT_KJPT_GJ" lay-verify="required" placeholder="请选择...">
+                     </select>
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">申请日期：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" id="applicationDate" name="applicationDate" lay-verify="required"
+                            placeholder="请填写..." autocomplete="off" class="laydate-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">授权日期：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" id="authorizationDate" name="authorizationDate"
+                            placeholder="请填写..." autocomplete="off" class="laydate-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">终止日期：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" id="terminationDate" name="terminationDate"
+                            placeholder="请填写..." autocomplete="off" class="laydate-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">申请人(专利权)人：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="applicant" lay-verify="required"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">发明人：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="inventor" lay-verify="required"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">项目背景：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" id="projectBackground" name="projectBackground" lay-verify="required"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">立项部门：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="establishmentDepartment" id="establishmentDepartment"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">项目编号：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="projectNumber" id="projectNumber"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">项目名称：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="projectName" id="projectName"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">应用技术领域(技术类)：</span></label>
+                 <div class="layui-input-block">
+                     <select name="technicalField" lay-verify="required" xm-select="technicalField" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal" lay-verify="required"></select>
+                     <!-- <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select> -->
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">应用技术领域(产品类)：</span></label>
+                 <div class="layui-input-block">
+                     <select name="applicationTechnologyProducts" xm-select="applicationTechnologyProducts" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal"></select>
+                     <!-- <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select> -->
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">应用型号产品名称：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="applicationModelProductName" id="applicationModelProductName"
+                            placeholder="请填写..." autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">应用分系统名称：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="applicationSubsystemName"  id="applicationSubsystemName"
+                            placeholder="请填写..." autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">元器件及配套材料名称：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="nameOfComponentsAndSupportingMaterials" id="nameOfComponentsAndSupportingMaterials"
+                            placeholder="请填写..." autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">自定义分类：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="customClassification" id="customClassification"
+                            placeholder="请填写..." autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">当前法律状态：</span></label>
+                 <div class="layui-input-block">
+                     <select name="legalStatus" dic-base-data="ROOT_KJPT_FLZT(ZL)" lay-verify="required" placeholder="请选择...">
+
+                     </select>
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">变更日期：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" id="legalStatusUpdateTime" name="legalStatusUpdateTime" autocomplete="off" class="laydate-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">主分类号：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="mainClassificationNumber" id="mainClassificationNumber"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">副分类号：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="subCategoryNumber" id="subCategoryNumber"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">联合申请人：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="jointApplicant" id="jointApplicant"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">优先权：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="priorityRight" id="priorityRight"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">代理机构：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="agency" id="agency"
+                            placeholder="请填写..." autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">公开(公告)号：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="publicAnnouncementNo" id="publicAnnouncementNo"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+             <div class="layui-form-item">
+                 <label class="layui-form-label "><span class="text">说明：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="explain" id="explain"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">专利范围：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="patentRange" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">备注：</span></label>
+                 <div class="layui-input-block">
+<!--                     <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>-->
+                     <input name="remark" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+             <div class="layui-form-item">
+                 <label class="layui-form-label"><span class="text">摘要：</span></label>
+                 <div class="layui-input-block">
+<!--                     <textarea name="summary" placeholder="请输入内容" class="layui-textarea"></textarea>-->
+                     <input name="summary" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">失效日期：</span></label>
           <div class="layui-input-block">
@@ -163,8 +424,7 @@
           </div>
         </div>
       </div>
-       
-       <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">技术领域：</span></label>
            <div class="layui-input-block">
@@ -172,62 +432,7 @@
               <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select>
            </div>
          </div>
-       </div> -->
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">应用技术领域(技术类)：</span></label>
-           <div class="layui-input-block">
-              <select name="technicalField" lay-verify="required" xm-select="technicalField" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal" lay-verify="required"></select>
-              <!-- <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select> -->
-           </div>
-         </div>
        </div>
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">应用技术领域(产品类)：</span></label>
-           <div class="layui-input-block">
-              <select name="applicationTechnologyProducts" xm-select="applicationTechnologyProducts" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal"></select>
-              <!-- <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select> -->
-           </div>
-         </div>
-       </div>
-
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">应用型号产品名称</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="applicationModelProductName" id="applicationModelProductName"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">应用分系统名称</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="applicationSubsystemName"  id="applicationSubsystemName"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">元器件及配套材料名称</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="nameOfComponentsAndSupportingMaterials" id="nameOfComponentsAndSupportingMaterials" 
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">自定义分类</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="customClassification" id="customClassification"
-              placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
 
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
@@ -238,27 +443,6 @@
           </div>
         </div>
       </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">代理机构：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="agency" lay-verify="required" id="agency"
-                placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">国别组织：</span></label>
-          <div class="layui-input-block">
-            <select name="country" dic-base-data="ROOT_KJPT_GJ" lay-verify="required" placeholder="请选择..."> 
-            </select>
-          </div>
-        </div>
-      </div>
-
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">录入人：</span></label>
@@ -267,58 +451,11 @@
             </div>
         </div>
      </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">申请日期：</span></label>
-          <div class="layui-input-block">
-            <input type="text" id="applicationDate" name="applicationDate" lay-verify="required" 
-                placeholder="请填写..." autocomplete="off" class="laydate-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">授权日期：</span></label>
-          <div class="layui-input-block">
-            <input type="text" id="authorizationDate" name="authorizationDate"  
-                placeholder="请填写..." autocomplete="off" class="laydate-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">终止日期：</span></label>
-          <div class="layui-input-block">
-            <input type="text" id="terminationDate" name="terminationDate"  
-                placeholder="请填写..." autocomplete="off" class="laydate-input">
-          </div>
-        </div>
-      </div>
-
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">录入日期：</span></label>
           <div class="layui-input-block">
             <input type="text" id="entryDate" name="entryDate" placeholder="请填写..." autocomplete="off" class="laydate-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">法律状态：</span></label>
-          <div class="layui-input-block">
-            <select name="legalStatus" dic-base-data="ROOT_KJPT_FLZT(ZL)" lay-verify="required" placeholder="请选择..."> 
-              
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">变更日期</span></label>
-          <div class="layui-input-block">
-              <input type="text" id="legalStatusUpdateTime" name="legalStatusUpdateTime" placeholder="请填写..." autocomplete="off" class="laydate-input">
           </div>
         </div>
       </div>
@@ -332,94 +469,14 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">主分类号</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="mainClassificationNumber" id="mainClassificationNumber" 
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">副分类号</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="subCategoryNumber" id="subCategoryNumber"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">联合申请人</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="jointApplicant" id="jointApplicant"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">优先权</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="priorityRight" id="priorityRight"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
           <label class="layui-form-label "><span class="text">代理机构</span></label>
           <div class="layui-input-block">
             <input type="text" name="agency" 
               placeholder="" autocomplete="off" class="layui-input">
           </div>
         </div>
-      </div> -->
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">公开（公告）号</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="publicAnnouncementNo" id="publicAnnouncementNo"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label "><span class="text">说明</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="explain" id="explain"
-              placeholder="" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">专利范围：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="patentRange" placeholder="请填写..." autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
+      </div>-->
 
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-         <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">备注：</span></label>
-           <div class="layui-input-block">
-             <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
-           </div>
-         </div>
-       </div>
-
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">摘要：</span></label>
-          <div class="layui-input-block">
-            <textarea name="summary" placeholder="请输入内容" class="layui-textarea"></textarea>
-          </div>
-        </div>
-      </div>
-       
       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">专业转化应用：</span></label>
@@ -440,55 +497,82 @@
             </div>
         </div>
     </div>
- 
-    <div showWhere='03' class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">被许可人：</span></label>
-            <div class="layui-input-block">
-            <input type="text" name="licensee"
-                placeholder="请填写..." autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
 
-    <div showWhere='03' class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">被许可方式：</span></label>
-            <div class="layui-input-block">
-            <input type="text" name="licenseeMode"  placeholder="请填写..." autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+     <div showWhere='03'>
+         <div class="more-item" showWhere='03'>
+             <div showWhere='03' class="layui-col-xs12 layui-col-sm1 layui-col-md1">
+             </div>
+             <div showWhere='03' class="layui-col-xs12 layui-col-sm4 layui-col-md4">
+                 <div class="layui-form-item">
+                     <label class="layui-form-label"><span class="text">被许可人</span></label>
+                     <div class="layui-input-block">
+                         <input type="text" name="licensee" autocomplete="off" class="layui-input">
+                     </div>
+                 </div>
+             </div>
 
-    <div showWhere='03' class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">许可收益：</span></label>
-            <div class="layui-input-block">
-            <input type="text" name="licenseeProfit" lay-verify="number" id="licenseeProfit" 
-                placeholder="请填写..." autocomplete="off" class="layui-input input-wanyuan">万元
-            </div>
-        </div>
-    </div>
+             <!--<div showWhere='03' class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                 <div class="layui-form-item">
+                     <label class="layui-form-label"><span class="text">被许可方式：</span></label>
+                     <div class="layui-input-block">
+                         <input type="text" name="licenseeMode"  placeholder="请填写..." autocomplete="off" class="layui-input">
+                     </div>
+                 </div>
+             </div>-->
 
-    <div showWhere='04' class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">被转让人：</span></label>
-            <div class="layui-input-block">
-            <input type="text" name="assignor" placeholder="请填写..." autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
-        
-    
-    <div showWhere='04' class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">转让收益：</span></label>
-            <div class="layui-input-block">
-            <input type="text" name="assignProfit" lay-verify="number" id="assignProfit"  
-                placeholder="请填写..." autocomplete="off" class="layui-input input-wanyuan">万元
-            </div>
-        </div>
-    </div> 
+             <div showWhere='03' class="layui-col-xs12 layui-col-sm5 layui-col-md5">
+                 <div class="layui-form-item">
+                     <label class="layui-form-label"><span class="text">转让收益(万元)</span></label>
+                     <div class="layui-input-block">
+                         <input type="text" name="licenseeProfit" lay-verify="number" autocomplete="off" class="layui-input input-wanyuan licenseeProfit">
+                     </div>
+                 </div>
+             </div>
+
+             <div showWhere='03' class="layui-col-xs12 layui-col-sm2 layui-col-md2">
+                 <div class="layui-form-item" style="padding-left: 10px;">
+                     <label class="layui-form-label" style="text-align: left">
+                         <button type="button" class="add-more-item-btn">
+                             <i class="layui-icon">&#xe654;</i>
+                         </button>
+                     </label>
+                 </div>
+             </div>
+         </div>
+     </div>
+         <div showWhere='04'>
+             <div class="more-item" showWhere='04'>
+                 <div showWhere='04' class="layui-col-xs12 layui-col-sm1 layui-col-md1">
+                 </div>
+                 <div showWhere='04' class="layui-col-xs12 layui-col-sm4 layui-col-md4">
+                     <div class="layui-form-item">
+                         <label class="layui-form-label"><span class="text">被转让人</span></label>
+                         <div class="layui-input-block">
+                             <input type="text" name="assignor" autocomplete="off" class="layui-input">
+                         </div>
+                     </div>
+                 </div>
+
+                 <div showWhere='04' class="layui-col-xs12 layui-col-sm5 layui-col-md5">
+                     <div class="layui-form-item">
+                         <label class="layui-form-label"><span class="text">转让收益(万元)</span></label>
+                         <div class="layui-input-block">
+                             <input type="text" name="assignProfit" lay-verify="number" id="assignProfit" autocomplete="off" value="0" class="layui-input input-wanyuan assignProfit">
+                         </div>
+                     </div>
+                 </div>
+
+                 <div showWhere='04' class="layui-col-xs12 layui-col-sm2 layui-col-md2">
+                     <div class="layui-form-item" style="padding-left: 10px;">
+                         <label class="layui-form-label" style="text-align: left">
+                             <button type="button" class="add-more-item-btn">
+                                 <i class="layui-icon">&#xe654;</i>
+                             </button>
+                         </label>
+                     </div>
+                 </div>
+             </div>
+         </div>
     
     <div id="file-filter-options">
         <div class="view-title-layout" style="margin-top:40px;">

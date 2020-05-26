@@ -26,47 +26,70 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
           [ //表头
             {
               type: 'radio',
-              field: 'id'
-            }, {
+              field: 'id',
+              align: 'center'
+            },
+            {title: '序号',templet: '#xuhao', align: 'center'},
+            {
+              field: 'unitNameText',
+              title: '单位名称',
+              align: 'center',
+              sort: true,
+              hide: (queryType == '1' ? false : true)
+            },
+            {
               field: 'patentName',
               title: '专利名称',
               sort: true,
+              align: 'center'
               // hide: (queryType == '1' ? true : false)
             }, {
               field: 'applicationNumber',
-              title: '申请(专利)号'
-            }, {
-              field: 'unitNameText',
-              title: '单位名称',
-              sort: true,
-              hide: (queryType == '1' ? false : true)
-            }, {
-              field: 'applicationTypeText',
-              title: '申请类型',
-              sort: true,
-              hide: (queryType == '1' ? false : true)
-            }, {
-              field: 'patentTypeText',
-              title: '专利类型'
-            }, {
+              title: '专利号'
+            },
+            {
               field: 'applicant',
               title: '申请人'
-            }, {
+            },
+            {
               field: 'inventor',
               title: '发明人',
               sort: true
-            }, {
+            },
+            {
+              field: 'applicationTypeText',
+              title: '申请类型',
+              align: 'center',
+              sort: true,
+              hide: (queryType == '1' ? false : true)
+            },
+            {
+              field: 'patentTypeText',
+              title: '专利类型',
+              align: 'center',
+            },
+            {
+              field: 'countryText',
+              title: '国别组织',
+              align: 'center',
+            },
+            {
               field: 'applicationDateStr',
               title: '申请日期',
+              align: 'center',
               sort: true
-            }, {
-              field: 'authorizationDate',
+            },
+            {
+              field: 'authorizationDateStr',
               title: '授权日期',
+              align: 'center',
               sort: true,
-              hide: (queryType == '1' ? true : false)
-            }, {
+              // hide: (queryType == '1' ? true : false)
+            },
+            /*{
               field: 'legalStatusUpdateTime',
               title: '法律状态更新时间',
+              align: 'center',
               sort: true,
               hide: (queryType == '1' ? true : false)
             }, {
@@ -74,9 +97,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '技术领域名称',
               sort: true,
               hide: (queryType == '1' ? true : false)
-            }, {
-              field: 'countryText',
-              title: '国别组织'
             }, {
               field: 'agency',
               title: '代理机构',
@@ -86,7 +106,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'legalStatusText',
               title: '法律状态',
               sort: true
-            }, {
+            }, */
+            {
               field: 'secretLevelText',
               title: '密级',
               hide: _hideSecrecylevel(),
