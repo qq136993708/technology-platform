@@ -276,9 +276,9 @@
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <label class="layui-form-label"><span class="text"></span></label>
           <div class="layui-input-block">
-            <div class="layui-upload-list">
+            <div class="layui-upload-list" id="knownImagesView">
               <!--            <img class="layui-upload-img" >-->
-              <div style="background:rgba(216,216,216,1);width: 78px;height: 71px;"></div>
+<!--              <div style="background:rgba(216,216,216,1);width: 78px;height: 71px;"></div>-->
             </div>
           </div>
         </div>
@@ -321,7 +321,7 @@
 </html>
 
 <script>
-  layui.use(['form', 'jquery', 'laydate','formSelects'], function () {
+  layui.use(['form', 'jquery', 'laydate','formSelects', 'upload'], function () {
     var $ = layui.jquery;
     var form = layui.form;
     var laydate = layui.laydate;
@@ -528,6 +528,26 @@
     setImagesUpload({
       id: 'knownImages',
       accept: 'images',
+    });
+
+    layui.upload.render({
+      elem: '#knownImages',
+      // url: 'file/upload',
+      multiple: true,
+      before: function(obj){
+        obj.preview(function(index, file, result){
+          $('#knownImagesView').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+        });
+      }
+      ,done: function(res){
+        if (res.code !== '0') {
+          top.layer.msg('图片上传失败 => ' + res.message,  {icon: 2});
+        }
+      }
+      ,error: function(error){
+        //请求异常回调
+        top.layer.msg('图片上传失败，请重新尝试',  {icon: 2});
+      }
     });
   });
 </script>

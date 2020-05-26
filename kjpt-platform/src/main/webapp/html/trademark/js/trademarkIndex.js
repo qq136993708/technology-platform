@@ -150,6 +150,14 @@ layui.use(['form', 'laydate', 'table'], function () {
         }
     })
 
+    $('button[data-type="exportEvent"]').on('click', function (e) {
+        console.log('导出')
+    });
+
+    $('button[data-type="importEvent"]').on('click', function (e) {
+        console.log('导入')
+    });
+
     table.on('radio(tableContent)', function (obj) { // 表格行被选中
         itemRowData = obj.data;
     });
