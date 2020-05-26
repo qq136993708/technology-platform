@@ -26,19 +26,27 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'trademarkName',
-                            title: '注册商标名称'
+                            title: '商标名称'
                         },
-                        {
+                        /*{
                             field: 'commodityCategoryText',
                             title: '核定使用商品大类'
-                        },
+                        },*/
                         {
-                            field: 'legalStatusText',
-                            title: '法律状态'
+                            field: 'applicationNumber',
+                            title: '注册号'
                         },
                         {
                             field: 'applicant',
                             title: '申请人'
+                        },
+                        {
+                            field: 'countryType',
+                            title: '国际分类号'
+                        },
+                        {
+                            field: 'registerOrg',
+                            title: '注册单位'
                         },
                         {
                             field: 'registerDate',
@@ -53,14 +61,12 @@ layui.use(['form', 'laydate', 'table'], function () {
                             , sort: true
                         },
                         {
-                            field: 'applicationNumber',
-                            title: '商标申请号'
+                            field: 'extensionPeriod',
+                            title: '延展有效期'
                         },
                         {
-                            field: 'registerNoticeDate',
-                            title: '注册公告日',
-                            templet:'#registerNoticeDate'
-                            , sort: true
+                            field: 'tradeMarkType',
+                            title: '商标类型'
                         },
                         {field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
                     ]
@@ -146,7 +152,6 @@ layui.use(['form', 'laydate', 'table'], function () {
 
     table.on('radio(tableContent)', function (obj) { // 表格行被选中
         itemRowData = obj.data;
-        console.log(obj)
     });
 
     $('#check').on('click', function (e) { // 查看平台
@@ -182,14 +187,11 @@ layui.use(['form', 'laydate', 'table'], function () {
     })
 
     laydate.render({ //渲染时间表单
-        elem: '#startTime',
+        elem: '.registerDate',
         trigger: 'click',
     });
     laydate.render({
-        elem: '#endTime',
+        elem: '.effectiveDate',
         trigger: 'click',
     });
-
-
-
 })

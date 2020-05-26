@@ -19,26 +19,73 @@
             <div class="layui-row layui-col-space20">
                 <div class="layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">注册商标名称:</span></label>
+                        <label class="layui-form-label"><span class="text">单位名称:</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="trademarkName"  placeholder="请填写..." autocomplete="off" class="layui-input">
+                            <select name="unitName"
+                                    xm-select="supportingInstitutions"
+                                    xm-select-skin="normal"
+                                    xm-select-radio=""
+                                    dic-base-data="ROOT_KJPT_YTDW"
+                                    placeholder="请选择"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">商标名称:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="trademarkName"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">注册号:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="applicationNumber"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">注册单位:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="registerOrg"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">注册日期:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="registerDate" autocomplete="off" class="laydate-input registerDate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">有效期:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="effectiveDate" autocomplete="off" class="laydate-input effectiveDate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">商标类型：</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
                 
-                <div class="layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">单位名称:</span></label>
-                        <div class="layui-input-block">
-                            <select name="unitName"
-                                xm-select="supportingInstitutions"
-                                xm-select-skin="normal"
-                                xm-select-radio=""
-                                dic-base-data="ROOT_KJPT_YTDW" 
-                                placeholder="请选择"></select>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">法律状态:</span></label>
@@ -49,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">注册日期:</span></label>
                         <div class="layui-input-block font0">
@@ -62,13 +109,7 @@
                         </div>
                         </div>
                     </div>
-                </div>
-                <div class="layui-col-sm6 layui-col-md4">
-                    <label class="layui-form-label"><span class="text">申请人:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="applicant"  placeholder="请填写..." autocomplete="off" class="layui-input">
-                    </div>
-                </div>
+                </div>-->
                 <div class="layui-col-sm6 layui-col-md12 layui-col-btn">
                     <div class="layui-form-item text-right">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
@@ -84,6 +125,8 @@
                 <button class="layui-btn border-blue" id="editItem" lay-event="edit" button-role="edit">编辑</button>
                 <button class="layui-btn border-blue" id="check" lay-event="detail">查看</button>
                 <button class="layui-btn border-red" id="delItem" lay-event="del" button-role="delete">删除</button>
+                <button class="layui-btn border-blue" data-type="exportEvent">导出</button>
+                <button class="layui-btn border-blue" data-type="importEvent">导入</button>
             </div>
         </div>
         <table id="tableContent" lay-filter="tableContent"></table>
@@ -107,8 +150,6 @@
     <script type="text/html" id="registerNoticeDate">
         {{ dateFieldText(d.registerNoticeDate) }}
     </script>
-
-    
 </body>
 
 </html>

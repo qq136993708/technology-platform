@@ -13,6 +13,26 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
 
+  <style>
+    .more-item:not(:first-child) {
+      margin-top: 20px;
+    }
+
+    .more-item button {
+      width: 30px;
+      height: 30px;
+      background: none;
+      border: 1px solid rgba(10,161,255,1);
+      border-radius: 50%;
+      color: #0AA1FF;
+    }
+
+    .more-item button.more-item-del-btn {
+      background: rgb(194, 200, 203);
+      color: #ffffff;
+      border: none;
+    }
+  </style>
   <!-- 更多样式在此引入 -->
 </head>
 
@@ -60,71 +80,53 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">核定使用商品大类：</span></label>
-            <div class="layui-input-block">
-              <select name="commodityCategory" lay-verify="required" dic-base-data="ROOT_KJPT_HDSYSPDL">
-                <option value=""></option>
-
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">商标注册号：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="applicationNumber" lay-verify="required" placeholder="" autocomplete="off"
-                class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">有效日期：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="effectiveDate" id="validDate" placeholder="请填写..." autocomplete="off"
-                class="laydate-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">注册公告日：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="registerNoticeDate" id="bulletinDate" placeholder="请填写..." autocomplete="off"
-                class="laydate-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">录入人：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="entryPerson" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">注册商标名称：</span></label>
+            <label class="layui-form-label label-required"><span class="text">商标名称：</span></label>
             <div class="layui-input-block">
               <input type="text" name="trademarkName" lay-verify="required" placeholder="" autocomplete="off"
-                class="layui-input">
+                     class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div id="applicant">
+          <div class="more-item">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+              <div class="layui-form-item">
+                <label class="layui-form-label label-required"><span class="text">申请人：</span></label>
+                <div class="layui-input-block">
+                  <input type="text" name="applicant" lay-verify="required" placeholder="" autocomplete="off"
+                         class="layui-input applicantlist">
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+              <div class="layui-form-item" style="padding-left: 20px;">
+                <label class="layui-form-label label-required" style="text-align: left">
+                  <button class="add-more-item-btn" type="button">
+                    <i class="layui-icon">&#xe654;</i>
+                  </button>
+                </label>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label label-required"><span class="text">申请人：</span></label>
+            <label class="layui-form-label"><span class="text">国际分类号：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="applicant" lay-verify="required" placeholder="" autocomplete="off"
-                class="layui-input">
+              <input type="text" name="countryType" placeholder="" autocomplete="off"
+                     class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">注册单位：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="registerOrg" lay-verify="required" placeholder="" autocomplete="off"
+                     class="layui-input">
             </div>
           </div>
         </div>
@@ -133,8 +135,48 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">注册日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="registerDate" id="registerDate" lay-verify="required" placeholder="请填写..."
-                autocomplete="off" class="laydate-input">
+              <input type="text" name="registerDate" id="registerDate" lay-verify="required" placeholder="" autocomplete="off"
+                     class="laydate-input">
+            </div>
+          </div>
+        </div>
+
+        <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">核定使用商品大类：</span></label>
+            <div class="layui-input-block">
+              <select name="commodityCategory" xm-select="commodityCategory" dic-base-data="ROOT_KJPT_HDSYSPDL">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>-->
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">有效期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="effectiveDate" id="effectiveDate" lay-verify="required" placeholder="" autocomplete="off"
+                     class="laydate-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">延展有效期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="extensionPeriod" id="extensionPeriod" placeholder="" autocomplete="off"
+                     class="laydate-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">商标类型：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -144,32 +186,104 @@
             <label class="layui-form-label label-required"><span class="text">法律状态：</span></label>
             <div class="layui-input-block">
               <select name="lawStatus" dic-base-data="ROOT_KJPT_FLZT(SB)" lay-verify="required" placeholder="请选择...">
-
               </select>
             </div>
           </div>
         </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">备注：</span></label>
+            <label class="layui-form-label label-required"><span class="text">驰名商标：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="remark" placeholder="" autocomplete="off" class="layui-input">
+              <select name="isWellKnown" lay-verify="required" placeholder="请选择...">
+                <option selected>是</option>
+                <option>否</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">驰名商标认定日期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="wellKnownDate" id="wellKnownDate" placeholder="" autocomplete="off" class="laydate-input">
             </div>
           </div>
         </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">录入时间：</span></label>
+            <label class="layui-form-label"><span class="text">驰名商标认定机构：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="entryDate" id="importDate" placeholder="请填写..." autocomplete="off"
-                class="laydate-input">
+              <input type="text" name="wellKnownOrg" placeholder="" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
 
-        <div id="file-filter-options">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">著名商标：</span></label>
+            <div class="layui-input-block">
+              <select name="isRegistered" lay-verify="required" placeholder="请选择...">
+                <option selected>是</option>
+                <option>否</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">著名商标认定日期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="famousDate" id="famousDate" placeholder="" autocomplete="off" class="laydate-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">著名商标认定机构：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="famousOrg" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">商标图片：</span></label>
+            <div class="layui-input-block" id="knownImages">
+              <input type="text" value="上&nbsp;&nbsp;&nbsp;&nbsp;传" label="imgUpload" class="layui-input"
+                     style="text-align: center; border: 1px dashed #0AA1FF;color: #0AA1FF; cursor: pointer;">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <label class="layui-form-label"><span class="text"></span></label>
+          <div class="layui-input-block">
+            <div class="layui-upload-list">
+              <!--            <img class="layui-upload-img" >-->
+              <div style="background:rgba(216,216,216,1);width: 78px;height: 71px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--<div id="file-filter-options">
           <div class="view-title-layout disabled-box view-pt0">
             <div class="right">
               <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
@@ -181,7 +295,7 @@
               <table></table>
             </div>
           </div>
-        </div>
+        </div>-->
 
         <div class="dialog-footer-btn">
           <button class="layui-btn layui-btn-normal" type="button" lay-submit="" lay-filter="newSubmit">提交</button>
@@ -225,7 +339,6 @@
           /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
             * type 触发变更的类型 目前只有 delete | upload
           */
-          console.log('tableData',tableData);
           var fileString = "";
           var fileArray = [];
           if (tableData.length) {
@@ -237,7 +350,6 @@
             }
           }
           fileString = fileArray.join(",");
-          console.log("fileString", fileString);
           $("[name=files]").val(fileString);
         }
       })
@@ -256,12 +368,23 @@
           if (relData.code === '0') {
             // 给form表单赋初始值
             var data = relData.data;
-            transToData(data, ['effectiveDate','registerNoticeDate','registerDate','entryDate']);
+            var applicant = data.applicant;
+            var applicantArray = applicant && applicant.indexOf(',')?applicant.split(','):[];
+            if (applicantArray.length > 0) {
+              $.each(applicantArray, function (k, v) {
+                if (k == 0) {
+                  data.applicant = v;
+                } else {
+                  addItem(v, 'edit');
+                }
+              });
+            }
+            transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
             form.val('formPlatform', data);
             // 更新表单数据
             form.render();
             formSelects.value('supportingInstitutions', [data.unitName]);
-            upLoadFile(item.id || relData.data.id);
+            // upLoadFile(item.id || relData.data.id);
 
             // 添加知悉范围
             setJurisdictionScope({
@@ -295,13 +418,21 @@
     getItemInitData(variable);
 
     form.on('submit(newSubmit)', function (data) {
-
+      //处理多个申请人的情况，逗号分隔
+      var els = $(data.form).find('.applicantlist');
+      var applicat = '';
+      els.each(function () {
+        var value = $(this).val();
+        applicat = value ? applicat + value + ',' : applicat;
+      });
+      applicat = applicat.endsWith(',')?applicat.substring(0, applicat.length-1):applicat;
+      var params = data.field;
+      params.applicant = applicat;
 
       //var val = formSelects.value('applicationType2');
-
       httpModule({
         url: '/trademarkController/save',
-        data: data.field,
+        data: params,
         type: "POST",
         success: function (e) {
           setDialogData(e); // 通知上层页面状态 - 弹窗中使用
@@ -326,6 +457,77 @@
     laydate.render({ //渲染时间表单
       elem: '#importDate',
       trigger: 'click',
+    });
+    laydate.render({ //渲染时间表单
+      elem: '#registerDate',
+      trigger: 'click',
+    });
+    laydate.render({ //渲染时间表单
+      elem: '#extensionPeriod',
+      trigger: 'click',
+    });
+    laydate.render({ //渲染时间表单
+      elem: '#effectiveDate',
+      trigger: 'click',
+    });
+    laydate.render({ //渲染时间表单
+      elem: '#famousDate',
+      trigger: 'click',
+    });
+    laydate.render({ //渲染时间表单
+      elem: '#wellKnownDate',
+      trigger: 'click',
+    });
+
+    //新增多个申请人
+    $("body").on("click",".add-more-item-btn", addItem);
+    function addItem (value, type) {
+      var delHtml = '<button class="more-item-del-btn" type="button">\n' +
+              '                    <i class="layui-icon">&#x1006;</i>\n' +
+              '                  </button>';
+      var el = '';
+      if (type && type == 'edit') {
+        el = $('.more-item .add-more-item-btn');
+      } else {
+        el = $(this);
+      }
+      var parent = el.parent();
+      var htmlsel = parent.parent().parent().parent('.more-item');
+      var appendparent = htmlsel.parent();
+      var html = htmlsel.prop("outerHTML");
+      html = html.indexOf('申请人：')>=0?html.replace('申请人：', '&nbsp;'):html;
+      html = html.indexOf('label-required')>=0?html.replace('label-required', ''):html;
+      appendparent.append(html);
+      el.remove();
+      setTimeout(function () {
+        parent.append(delHtml);
+      }, 1);
+
+      //赋值
+      setTimeout(function () {
+        if (typeof value == 'string') {
+          var nextMoreItem = htmlsel.next();
+          nextMoreItem.find('.layui-input-block input').val(value);
+          form.render();
+        }
+      }, 10);
+    }
+
+    $("body").on("click",".more-item-del-btn", delItem);
+    function delItem() {
+      var parent = $(this).parent().parent().parent().parent('.more-item');
+      var html = parent.html();
+      var firstParent = parent.parent();
+      parent.remove();
+      if (html.indexOf('申请人：') >= 0) {
+        firstParent.children(".more-item:first-child").find('.layui-form-label span').text('申请人：');
+      }
+    }
+
+    //上传商标图片
+    setImagesUpload({
+      id: 'knownImages',
+      accept: 'images',
     });
   });
 </script>
