@@ -9,8 +9,7 @@ layui.use(['table', 'form', 'laydate'], function () {
       table.render({
         elem: '#tableDemo',
         url: '/achieve-api/query' //数据接口
-          ,
-        cols: [
+          ,cols: [
           [ //表头
             {
               type: 'radio',

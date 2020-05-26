@@ -14,15 +14,7 @@ layui.use(['table', 'form','laydate'], function() {
         ,cols: [[ //表头
           {type: 'radio', field: 'id', width: 50, fixed: 'left'}
           ,{type: 'numbers', title: '序号', width: 50}
-          ,{field: 'auditStatusText', title: '备案状态', width: 80,
-          // templet:function(d) {
-          //   if(d.auditStatus!=0){
-          //     return "<a class='view link-text recordDetails' id='"+d.id+"'>"+d.auditStatusText+"</a>"
-          //   }else {
-          //     return d.auditStatusText
-          //   }
-          // }
-        }
+          ,{field: 'auditStatusText', title: '备案状态', width: 80,}
           ,{field: 'secretLevelText', title: '密级', sort: true, } //hide: _hideSecrecylevel()
           ,{field: 'achieveName', title: '成果名称', width: 120 }
           ,{field: 'finishUnitNameText', title: '成果持有单位', width: 120 }
@@ -34,13 +26,6 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'transMoney', title: '拟转化金额（万）', width: 100, sort: true }
           ,{field: 'currentRewardMoney', title: '本年激励额度（万）', width: 100, sort: true }
           ,{field: 'incomeMoney', title: '预计净收益（万）', width: 100, sort: true }
-          // ,{field: 'rewardMoney', title: '激励预计总额（万）', width: 100, sort: true }
-         
-          // ,{field: 'aboutCompleteInfoText', title: '完成情况', width: 120, }
-          // ,{field: 'aboutCompleteTime', title: '未完成项目预计完成时间', width: 100, sort: true, templet: function(d) {
-          //   return new Date(d.aboutCompleteTime).format('yyyy-MM-dd');
-          // }}
-          
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
             if (d.auditStatus == 02 && d.publicityStatus == 3){
@@ -49,16 +34,14 @@ layui.use(['table', 'form','laydate'], function() {
             if (d.auditStatus == 01 ){
               templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
             }
-            // if (d.auditStatus == 2){
-            //   if (!d.rewardYear || d.status == 0 || d.status == 3 ) {
-            //     templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="transfrom" data-id="'+d.id+'">转化收益维护</span>';
-            //   }
-            // }
             templet += '</div></div>';
             return templet;
           }, fixed: 'right'}
         ]],
-        parseData: function(res) {return layuiParseData(res);},
+        // parseData: function(res) {return layuiParseData(res);},
+        parseData: function (res) {
+          return layuiParseData(res);
+        },
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
@@ -180,6 +163,9 @@ layui.use(['table', 'form','laydate'], function() {
 
     if (optionType !== 'add') {
       var listData = table.checkStatus('tableDemo').data;
+      // console.log(listData)
+      // debugger
+      // return  ;
       if (listData.length) {
         if (listData.length === 1) {
           if (optionType === 'edit') {

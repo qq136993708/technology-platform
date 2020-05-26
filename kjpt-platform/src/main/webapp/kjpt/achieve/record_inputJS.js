@@ -369,6 +369,7 @@ layui.use(['table', 'form', 'layer'], function() {
   // 成果转化备案上报
   var subFormData = null;
   form.on('submit(formFlow)', function(data) {
+    debugger
     subFormData = data.field;
     
     var achieveTeamPerson = getTableData('teamPersonList'); // 科技成果完成团队情况
@@ -396,6 +397,7 @@ layui.use(['table', 'form', 'layer'], function() {
     } else {
       subFormData.files = JSON.stringify(newFileValue);
     }
+    return 
     $('[lay-filter="editTranfromMaintain"]').click();
     return false;
   })
@@ -416,6 +418,7 @@ layui.use(['table', 'form', 'layer'], function() {
     var fileValue = getFileValue(transfromData), newFileValue = {};
     for (var fileKey in fileValue) {
       if (!fileValue[fileKey][1]) {
+        debugger
         layer.msg(fileValue[fileKey][0] + '附件不能为空！', {icon: 2});
         transfromData = null;
         break;
@@ -576,7 +579,7 @@ layui.use(['table', 'form', 'layer'], function() {
         top.layer.close(loadingIndex);
         $this.prop('disabled', false);
         if (res.code === '0' || res.success) {
-          top.layer.msg('备案信息暂存成功！', {icon: 1});
+          top.layer.msg('备案信息报存成功！', {icon: 1});
           closeTabsPage(variable.index);
           //window.location.reload();
         }

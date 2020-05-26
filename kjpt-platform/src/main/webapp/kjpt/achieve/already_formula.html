@@ -19,9 +19,6 @@
 <body>
     <div class="layout-view-content min-label">
         <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
-
-
-
             <div class="layui-row layui-col-space20">
                 <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
@@ -241,6 +238,7 @@
             $('#delItem').on('click', function () {
                 // 获取被选中的行数据
                 var activeData = table.checkStatus('tableDemo').data;
+                // fo
                 if (activeData.length) {
                     var saveData = {
                         achieveRecord: activeData[0],
@@ -255,7 +253,8 @@
                     }
                     saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
                     saveData.achieveRecord.achieveRewards = [];
-                    console.log(saveData)
+                    // console.log(saveData)
+                    // debugger
                     // return ;
 
                     httpModule({
