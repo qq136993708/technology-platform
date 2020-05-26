@@ -13,10 +13,10 @@ public interface IOutPersonService {
 	
 
 	
+	public List getHanaPantentListByNum(String num)throws Exception;
 	
 	
-	
-	public List getHanaOutPersonVoList(Map map)throws Exception;
+	public List getHanaOutPersonBaseInfoList(Map map)throws Exception;
 	
 	
 	

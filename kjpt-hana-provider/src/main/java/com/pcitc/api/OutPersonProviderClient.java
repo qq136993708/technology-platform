@@ -39,20 +39,29 @@ public class OutPersonProviderClient {
 	
 	
 	
-	@ApiOperation(value = "test", notes = "test")
-	@RequestMapping(value = "/out_person/test", method = RequestMethod.POST)
-	public JSONArray test(@RequestBody  Map map) throws Exception {
-		logger.info("===============================get OutPerson test iddd==========");
+	@ApiOperation(value = "获取所有专家的基本信息", notes = "获取所有专家的基本信息")
+	@RequestMapping(value = "/out_person/getHanaOutPersonBaseInfoList", method = RequestMethod.POST)
+	public JSONArray getHanaOutPersonBaseInfoList(@RequestBody  Map map) throws Exception {
+		logger.info("===============================getHanaOutPersonBaseInfoList==========");
 		
-		List<OutPersonVo> list = outPersonService.getHanaOutPersonVoList(map) ;
+		List<OutPersonVo> list = outPersonService.getHanaOutPersonBaseInfoList(map) ;
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		System.out.println(">>>>>>>>>>人才转为专家 参数: "+json.toJSONString());
 		return json;
 	}
 	
-	
-	
-	
+	@ApiOperation(value = "根据专家编号查询专利信息", notes = "根据专家编号查询专利信息")
+	@RequestMapping(value = "/out_person/getHanaPantentListByNum", method = RequestMethod.POST)
+	public JSONArray getHanaPantentListByNum(@RequestBody  Map map) throws Exception {
+		
+		String num=(String)map.get("pernr");
+		logger.info("========================== getHanaPantentListByNum =====num= "+num);
+		
+		List<OutPersonVo> list = outPersonService.getHanaPantentListByNum(num) ;
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		System.out.println(">>>>>>>>>>根据专家编号查询专利信息: "+json.toJSONString());
+		return json;
+	}
 	
 	
 	

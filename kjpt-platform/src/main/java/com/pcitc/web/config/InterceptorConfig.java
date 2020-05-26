@@ -40,8 +40,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/getPlatformListForOutApi")
 				.excludePathPatterns("/getTechFamilyListByCodesForOutApi")
 				.excludePathPatterns("/out_project_fetch")
-				.excludePathPatterns("/getHanaPersonData")
-				
+				.excludePathPatterns("/getHanaOutPersonBaseInfoList")
+				.excludePathPatterns("/getHanaPantentListByNum")
 				
 				;
 		super.addInterceptors(registry);

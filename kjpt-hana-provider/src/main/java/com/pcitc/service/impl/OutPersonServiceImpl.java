@@ -24,13 +24,17 @@ public class OutPersonServiceImpl implements IOutPersonService {
 	@Autowired
 	private OutPersonVoMapper outPersonVoMapper;
     
-	public List getHanaOutPersonVoList(Map map)throws Exception
+	public List getHanaOutPersonBaseInfoList(Map map)throws Exception
 	{
 		List<OutPersonVo> list = outPersonVoMapper.getHanaOutPersonVoList(map);
 		
 		return list;
 	}
-	
+	public List getHanaPantentListByNum(String num)throws Exception
+	{
+		List<OutPersonVo> list = outPersonVoMapper.getHanaPantentListByNum(num);
+		return list;
+	}
 	
     
     

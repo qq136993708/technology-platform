@@ -10,6 +10,9 @@ public interface OutPersonVoMapper {
     
     
 	public List getHanaOutPersonVoList(Map map);
+	public List getHanaPantentListByNum(String num);
+	
+	
     
     
     

@@ -15,10 +15,58 @@ public class OutPersonVo implements Serializable{
 	 private String gesch;//性别
 	 private String gbdat;//出生日期
 	 private String icnum;//身份证号码
+	 private String zdwmc;//单位名称
 	 
 	 
 	 
 	 
+	 private String zhdzlsj;//获得专利时间
+	 private String seqnr9009;//序号 
+	 private String zfmzlsj;//专利名称
+	 private String zzlh;//专利号
+	 private String zzlpm;//专利排名
+	 
+	 
+	    
+	 
+	 
+	public String getSeqnr9009() {
+		return seqnr9009;
+	}
+	public void setSeqnr9009(String seqnr9009) {
+		this.seqnr9009 = seqnr9009;
+	}
+	public String getZdwmc() {
+		return zdwmc;
+	}
+	public void setZdwmc(String zdwmc) {
+		this.zdwmc = zdwmc;
+	}
+	public String getZhdzlsj() {
+		return zhdzlsj;
+	}
+	public void setZhdzlsj(String zhdzlsj) {
+		this.zhdzlsj = zhdzlsj;
+	}
+	
+	public String getZfmzlsj() {
+		return zfmzlsj;
+	}
+	public void setZfmzlsj(String zfmzlsj) {
+		this.zfmzlsj = zfmzlsj;
+	}
+	public String getZzlh() {
+		return zzlh;
+	}
+	public void setZzlh(String zzlh) {
+		this.zzlh = zzlh;
+	}
+	public String getZzlpm() {
+		return zzlpm;
+	}
+	public void setZzlpm(String zzlpm) {
+		this.zzlpm = zzlpm;
+	}
 	public String getPernr() {
 		return pernr;
 	}
