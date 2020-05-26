@@ -152,34 +152,34 @@
         knowledge_scope,
       </if>
       <if test="knowledgePerson != null">
-        knowledge_person
+        knowledge_person,
       </if>
       <if test="extensionPeriod != null">
-        extension_period
+        extension_period,
       </if>
       <if test="isWellKnown != null">
-        is_well_known
+        is_well_known,
       </if>
       <if test="isRegistered != null">
-        is_registered
+        is_registered,
       </if>
       <if test="countryType != null">
-        country_type
+        country_type,
       </if>
       <if test="tradeMarkType != null">
-        trademark_type
+        trademark_type,
       </if>
       <if test="wellKnownDate != null">
-        well_known_date
+        well_known_date,
       </if>
       <if test="famousDate != null">
-        famous_date
+        famous_date,
       </if>
       <if test="wellKnownOrg != null">
-        well_known_org
+        well_known_org,
       </if>
       <if test="famousOrg != null">
-        famous_org
+        famous_org,
       </if>
       <if test="registerOrg != null">
         register_org
@@ -245,34 +245,34 @@
         #{knowledgeScope,jdbcType=VARCHAR},
       </if>
       <if test="knowledgePerson != null">
-        #{knowledgePerson,jdbcType=VARCHAR}
+        #{knowledgePerson,jdbcType=VARCHAR},
       </if>
       <if test="extensionPeriod != null">
-        #{extensionPeriod,jdbcType=TIMESTAMP}
+        #{extensionPeriod,jdbcType=TIMESTAMP},
       </if>
       <if test="isWellKnown != null">
-        #{isWellKnown,jdbcType=VARCHAR}
+        #{isWellKnown,jdbcType=VARCHAR},
       </if>
       <if test="isRegistered != null">
-        #{isRegistered,jdbcType=VARCHAR}
+        #{isRegistered,jdbcType=VARCHAR},
       </if>
       <if test="countryType != null">
-        #{countryType,jdbcType=VARCHAR}
+        #{countryType,jdbcType=VARCHAR},
       </if>
       <if test="tradeMarkType != null">
-        #{tradeMarkType,jdbcType=VARCHAR}
+        #{tradeMarkType,jdbcType=VARCHAR},
       </if>
       <if test="wellKnownDate != null">
-        #{wellKnownDate,jdbcType=TIMESTAMP}
+        #{wellKnownDate,jdbcType=TIMESTAMP},
       </if>
       <if test="famousDate != null">
-        #{famousDate,jdbcType=TIMESTAMP}
+        #{famousDate,jdbcType=TIMESTAMP},
       </if>
       <if test="wellKnownOrg != null">
-        #{wellKnownOrg,jdbcType=VARCHAR}
+        #{wellKnownOrg,jdbcType=VARCHAR},
       </if>
       <if test="famousOrg != null">
-        #{famousOrg,jdbcType=VARCHAR}
+        #{famousOrg,jdbcType=VARCHAR},
       </if>
       <if test="registerOrg != null">
         #{registerOrg,jdbcType=VARCHAR}
