@@ -1,16 +1,15 @@
 package com.pcitc.web.controller.out;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -20,15 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ExcelException;
-import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.expert.ZjkBaseSync;
 import com.pcitc.base.out.OutPersonVo;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.PoiExcelExportUitl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,10 +40,10 @@ public class HanaOutPersonController extends BaseController {
 	 * 根据ID获取对象信息
 	 */
 	public static final String PAGE_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_person/page";
-
 	public static final String getHanaOutPersonBaseInfoList = "http://kjpt-zuul/hana-proxy/out_person/getHanaOutPersonBaseInfoList";
 	public static final String getHanaPantentListByNum =      "http://kjpt-zuul/hana-proxy/out_person/getHanaPantentListByNum";
-	
+	public static final String BATCH_ADD_JZK_BASE_URL =      "http://kjpt-zuul/stp-proxy/sync-expert-api/insertBatchZjkBaseSync";
+	public static final String BATCH_ADD_JZK_PATENT_URL =      "http://kjpt-zuul/stp-proxy/sync-expert-api/insertBatchPatent";
 	
 	
   	
@@ -56,7 +53,6 @@ public class HanaOutPersonController extends BaseController {
 	   	public String getHanaOutPersonBaseInfoList( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	   		
-	   		
 	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 	   	    System.out.println(">>>>>>>>>getHanaOutPersonBaseInfoList>>>>>>>>>>>>>>>>>>>");
@@ -65,6 +61,7 @@ public class HanaOutPersonController extends BaseController {
 	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getHanaOutPersonBaseInfoList, HttpMethod.POST, httpEntity, JSONArray.class);
 	   		int statusCode = responseEntity.getStatusCodeValue();
 	   		List<OutPersonVo> list =new ArrayList();
+	   		List<ZjkBaseSync> zjkBaseSyncList =new ArrayList();
 	   		JSONArray jSONArray=null;
 	   		if (statusCode == 200)
 	   		{
@@ -79,13 +76,27 @@ public class HanaOutPersonController extends BaseController {
 	   				   //System.out.println(">>>>>>人员编号，专家的主键pernr>>>>>"+zjkBase.getPernr());
 	   				   //System.out.println(">>>>>单位zdwMc >>>>>"+zjkBase.getZdwmc());
 	   				   //System.out.println(">>>>>姓名nachn >>>>>"+zjkBase.getNachn());
-	   				  // System.out.println(">>>>>性别gesch >>>>>"+zjkBase.getGesch());
-	   				  // System.out.println(">>>>>出生日期gbdat >>>>>"+zjkBase.getGbdat());
-	   				  // System.out.println(">>>>>身份证号码icnum >>>>>"+zjkBase.getIcnum());
+	   				   // System.out.println(">>>>>性别gesch >>>>>"+zjkBase.getGesch());
+	   				   // System.out.println(">>>>>出生日期gbdat >>>>>"+zjkBase.getGbdat());
+	   				   // System.out.println(">>>>>身份证号码icnum >>>>>"+zjkBase.getIcnum());
+	   				   
+	   				   
+	   				   ZjkBaseSync  zjkBaseSync=new ZjkBaseSync();
+	   				   String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+	   				   zjkBaseSync.setId(dateid);
+	   				   zjkBaseSync.setCreateTime(new Date());
+	   				   zjkBaseSyncList.add(zjkBaseSync);
 	   				}
 	   			}
 	   		}
-	   		   return jSONArray.toString();
+	   		if(zjkBaseSyncList.size()>0)
+	   		{
+	   			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(zjkBaseSyncList));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				ResponseEntity<Integer> resEntity = restTemplate.exchange(BATCH_ADD_JZK_BASE_URL, HttpMethod.POST, entity, Integer.class);
+				Integer result=	resEntity.getBody();
+	   		}
+	   		return jSONArray.toString();
 	   	}
 	    
 	    
