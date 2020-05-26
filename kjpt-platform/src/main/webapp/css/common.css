@@ -889,6 +889,9 @@ border-width: 5px;
 #custromFrom .layui-form-item .layui-input-block{
   margin-left: 0;
 }
-#custromFrom .layui-form-item .layui-input-block select{
-  display: block !important;
+#custromFrom .layui-form-item .hide-selete{
+  display: none !important;
 }
+/* #custromFrom .layui-form-item .layui-input-block select{
+  display: block !important;
+} */

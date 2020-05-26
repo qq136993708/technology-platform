@@ -65,7 +65,7 @@
                 return r;
             }
             /** *3. 画树 */
-            function drawTree(treeData) {
+            function drawTree(treeData,color) {
                 myChart = echarts.init(document.getElementById("container"));
                 //div元素节点的对象
                 myChart.setOption({
@@ -113,8 +113,20 @@
                         //展示层级数,默认是2
                     } ]
                 });
-                if (option && typeof option === "object") {
+                // if (option && typeof option === "object") {
                     myChart.setOption(option, true);
+                // }
+                if(color == 'color'){
+                    myChart.setOption({
+                        series:[{
+                            itemStyle:{
+                                lineStyle:{
+                                    color : '#1890FF',
+                                    type : 'solid'
+                                }
+                            }
+                        }]
+                    })
                 }
                 
                 //4.树绑定事件
@@ -168,8 +180,6 @@
 						error : function(data) {
 						},
 						success : function(retData) {
-							
-							
 							if (retData.length == 1) {
 								layer.msg("模糊查询结果大于5");
 							} else if (retData.length == 0) {
@@ -181,7 +191,7 @@
 								//2.处理数据	
 								treeData = transData(retData, 'id', 'pId', 'children');
 								//3.展示数据	
-								drawTree(treeData);
+								drawTree(treeData,'color');
 							}
 
 						}

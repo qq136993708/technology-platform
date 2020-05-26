@@ -102,13 +102,18 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       }
     });
   }
-  
+
   // 获取地址栏传递过来的参数
   setRadioShow();
   var variable = getQueryVariable();
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {
+	  $.ajaxSettings.async = false;
+      var params = moreItemSubmit(data, 'assignProfit', data.field);
+      params = moreItemSubmit(data, 'assignor', params);
+      params = moreItemSubmit(data, 'licensee', params);
+      params = moreItemSubmit(data, 'licenseeProfit', params);
 
     if(formSelects.value('technicalField')){
       var technicalFieldText='', technicalFieldIndex='';
@@ -116,13 +121,16 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
         technicalFieldText+=item.name+',';
         technicalFieldIndex+=item.nodePath+',';
       })
-      data.field.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
-      data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
+      params.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
+      // data.field.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
+      // data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
+      params.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
     }
+    console.log(params);
 
 		httpModule({
 			url: '/patentController/save',
-			data: data.field,
+			data: params,
 			type: "POST",
 			success: function(e) { 
 				setDialogData(e); // 通知上层页面状态 - 弹窗中使用
@@ -154,13 +162,13 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             }
         });
   
-        if(val !== '03') {
-          $("#licenseeProfit").val(0);
+        /*if(val !== '03') {
+          $(".licenseeProfit").val(0);
         }
 
         if(val !== '04') {
-          $("#assignProfit").val(0);
-        }
+          $(".assignProfit").val(0);
+        }*/
       }
 
       $("div[showWhere='" + val + "']").css('display',''); 
@@ -217,8 +225,57 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           }  
         });
       }
-       
 
-  });
+
+  //新增多个许可实施
+  $("body").on("click",".add-more-item-btn", addItem);
+  function addItem (value, type) {
+    var delHtml = '<button class="more-item-del-btn" type="button">\n' +
+        '                    <i class="layui-icon">&#x1006;</i>\n' +
+        '                  </button>';
+    var el = '';
+    if (type && type == 'edit') {
+      el = $('.more-item .add-more-item-btn');
+    } else {
+      el = $(this);
+    }
+    var parent = el.parent();
+    var htmlsel = parent.parent().parent().parent('.more-item');
+    var appendparent = htmlsel.parent();
+    var html = htmlsel.prop("outerHTML");
+    appendparent.append(html);
+    el.remove();
+    setTimeout(function () {
+      parent.append(delHtml);
+    }, 1);
+
+    //赋值
+    setTimeout(function () {
+      if (typeof value == 'string') {
+        var nextMoreItem = htmlsel.next();
+        nextMoreItem.find('.layui-input-block input').val(value);
+        form.render();
+      }
+    }, 10);
+  }
+
+  $("body").on("click",".more-item-del-btn", delItem);
+  function delItem() {
+    var parent = $(this).parent().parent().parent().parent('.more-item');
+    parent.remove();
+  }
+
+  function moreItemSubmit(data, inputName, params) {
+    var els = $(data.form).find('input[name="' + inputName + '"]');
+    var value = '';
+    els.each(function () {
+      var _value = $(this).val();
+      value = _value ? value + _value + ',' : value;
+    });
+    value = value.endsWith(',')?value.substring(0, value.length-1):value;
+    params[inputName] = value;
+    return params;
+  }
+});
   
   

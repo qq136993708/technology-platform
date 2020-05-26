@@ -939,15 +939,28 @@ layui.use(['form', 'formSelects'], function() {
 	
 		console.log(curOption)
 	};
-//
+	var count = 0
 	$('#custormAdd').on('click',function(){
-		var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
+		count++;
+		httpModule({
+			url: "/expert-api/getCustomQueryConditionList",
+			type: 'GET',
+			success: function (relData) {
+				if (relData.success) {
+					var optionStr = '';
+					optionStr=relData.data.map(function(item){
+						return '<option value="'+item.attributeName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'">'+item.notes+'</option>'
+					})
+					var id = 'dt'+count;
+					var formid = 'form'+count;
+					var optionCode = 'optionCode'+count;
+					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
-						'<select name="" placeholder="请选择" lay-filter=""'+
-						'dic-base-data="ROOT_XTGL_ZDYCXTJ"></select>'+
-						'<option value=""></option>'+
+						'<select name="" placeholder="请选择" lay-filter="columnName" >'+
+						'<option value="" placeholder="请选择"></option>'+
+							optionStr +
 						'</select>'+
 						'</div>'+
 						'</div>'+
@@ -955,7 +968,7 @@ layui.use(['form', 'formSelects'], function() {
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
-						'<select name="" >'+
+						'<select name="condition" class="dt" dic-base-data="ROOT_XTGL_ZDYCXTJ" id="'+id+'">'+
 						'<option value=""></option>'+
 						'</select>'+
 						'</div>'+
@@ -963,10 +976,13 @@ layui.use(['form', 'formSelects'], function() {
 						'</div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
-						'<div class="layui-input-block">'+
-						'<select name="" >'+
+						'<div class="layui-input-block select-hide">'+
+						'<select class="dt" name="value" id="'+optionCode+'">'+
 						'<option value=""></option>'+
 						'</select>'+
+						'</div>'+
+						'<div class="layui-input-block hide-selete input-hide">'+
+						' <input type="text" name="value" placeholder="请输入" autocomplete="off" class="layui-input">'+
 						'</div>'+
 						'</div>'+
 						'</div>'+
@@ -976,26 +992,53 @@ layui.use(['form', 'formSelects'], function() {
 						'</div></div>'+
 						'</div>'
 						$('#custromFrom').append(str);
-						createCustrom(curOption)
+				}
+				window.createElement({code:'ROOT_XTGL_ZDYCXTJ',id: id,className:'dt',element:'option',index:count,dt:'dt'})
+			}
+		});
 	})	
 	
 	//自定义删除
 	$(document).on('click','.custromDel',function(){
 		$(this).parents('.custrom-box').remove();
 	})
-
+	// commonLayuiForm
+	commonLayuiForm.on('select(columnName)', function(data) {
+		var optionType = $(data.elem).find("option:selected").attr("data-optionType"); 
+		var name = $(this).parents('.layui-input-block').find("option:selected").attr("name"); 
+		$(this).parents('.layui-input-block').find('select').attr('name',name);
+		if(optionType == 1){
+			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide select').attr('name','')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value')
+		}else {
+			$(this).parents('.custrom-box').find('.select-hide select').attr('name','value')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','')
+			var id =$(this).parents('.custrom-box').find('select[name="value"]').attr('id')
+			var optionCode = $(data.elem).find("option:selected").attr("data-optionCode"); 
+			$(this).parents('.custrom-box').find('.input-hide').addClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
+			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
+		}
+	
+})
     /*动态生成元素*/
     window.createElement=function (param) {
         httpModule({
             url: "/sysDictionary-api/getChildsListByCode/"+param.code,
-            type: 'GET',
+						type: 'GET',
             success: function(relData) {
                 if (relData.success === true) {
+									$("#"+param.id).find('option').remove();
                     relData.data.map(function(item){
                         if(param.element=="option"){
-                            if(param.value==item.numValue){
-                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
-                            }else {
+														if(param.dt=='dt'){
+															$("#"+param.id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+														}
+                          	if(param.value==item.numValue){
+                              $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
+                          	}else {
                                 $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"'>"+item.name+"</option>")
                             }
                         }
