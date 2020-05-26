@@ -108,8 +108,10 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "condition",                   value = "条件",     dataType = "string", paramType = "query")
         
+         
     })
     @RequestMapping(value = "/expert-api/list", method = RequestMethod.POST)
 	public String getExpertPage(
@@ -118,11 +120,13 @@ public class ExpertController extends BaseController {
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String expertTypes,
+            @RequestParam(required = false) String condition,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
      	SysUser sysUserInfo = this.getUserProfile();
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("name", name);
+    	param.getParam().put("condition", condition);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
@@ -171,7 +175,9 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "secretLevel",               value = "信息密级",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "groupType",                 value = "专家分组",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "expertType",                 value = "高层次人才类别",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "condition",                   value = "条件",     dataType = "string", paramType = "query")
+        
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -192,6 +198,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String groupType,
             @RequestParam(required = false) String expertType,
             @RequestParam(required = false) String expertTypes,
+            @RequestParam(required = false) String condition,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -200,7 +207,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
-    	
+    	param.getParam().put("condition", condition);
     	param.getParam().put("belongUnit", belongUnit);
     	param.getParam().put("useStatus", useStatus);
     	param.getParam().put("post", post);
