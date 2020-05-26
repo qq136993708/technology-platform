@@ -293,8 +293,12 @@ public class PatentController extends RestBaseController {
             this.setParam(condition, "applicationNumber", applicationNumber);
         }
         this.setBaseParam(condition);
-        String[] headers = { "单位名称",  "专利名称",    "申请类型"  , "专利类型","申请（专利）号","技术领域","专利范围","申请费用","申请人/专利权人"};
-        String[] cols =    {"unitNameText","patentName","applicationTypeText","patentTypeText","applicationNumber","technicalFieldText","patentRange","applicationCost","applicant"};
+        String[] headers = { "专利名称",  "专利号",    "申请（专利权）人"  , "发明人","申请类型","专利类别","国别组织","申请日期","授权日期","终止日期","法律状态",
+                "法律状态变更日期","应用技术领域（技术类）","项目背景","立项部门","项目编号","项目名称","应用技术领域（产品类）","应用型号产品名称","应用分系统名称","元器件及配套材料名称",
+                "主分类号","副分类号","联合申请人","优先权","代理机构","公开（公告）号","说明","法人代码"};
+        String[] cols =    {"patentName","applicationNumber","applicant","inventor","applicationTypeText","patentTypeText","country","applicationDate","authorizationDate",
+                            "terminationDate","legalStatus","legalStatusUpdateTime","technicalFieldText","projectBackground","establishmentDepartment","projectNumber","projectName","applicationTechnologyTechnology",
+                            "applicationModelProductName","applicationSubsystemName","nameOfComponentsAndSupportingMaterials","mainClassificationNumber","subCategoryNumber","jointApplicant","priorityRight","agency","publicAnnouncementNo", "explainer","legalPersonCode"};
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PatentInfo.class);
