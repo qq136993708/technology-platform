@@ -170,10 +170,9 @@
                 createElement(formData.type, "awardsType", "option", "awardsType", 'new',formData)
                 createElement(formData.awardsType, "awardsChildType", "option", "awardsChildType", 'new',formData)
               }
-              // 给form表单赋初始值
-              form.val('formPlatform', formData);
+              
               // 更新表单数据
-              form.render();
+              // form.render();
 
               var scopeDisabled = false;
               if (item.type == 'see') {
@@ -203,7 +202,6 @@
         if (data.value == 'ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ') {
           $('#selectBox').addClass('hide-box');
           $('#inputBox').removeClass('hide-box');
-          // $('#inputBox').val('');
         } else {
           $('#inputBox').addClass('hide-box');
           $('#selectBox').removeClass('hide-box');
@@ -229,26 +227,28 @@
                     "' name='" + item.numValue + "'>" + item.name + "</option>"
                   }
                   $("#" + id).append(str)
-                  if (typeof (type) !== 'undefined') {
-                    $('input[name="awardsChildType"]').val('');
-                    if (formData.awardsType) {
-                      layui.formSelects.value('awardsType', [formData.awardsType]);
-                    }
+                } else if (element == "radio") {
+                  $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue +
+                    '" title="' + item.name + '">')
+                }
+              });
+              if (typeof (type) !== 'undefined') {
+                $('input[name="awardsChildType"]').val('');
                     if (formData.type) {
                       layui.formSelects.value('type', [formData.type]);
+                    }
+                    if (formData.awardsType) {
+                      layui.formSelects.value('awardsType', [formData.awardsType]);
                     }
                     if (formData.awardsChildType && formData.awardsType !== 'ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ') {
                       layui.formSelects.value('awardsChildType', [formData.awardsChildType]);
                     } else {
                       $('input[name="awardsChildType"]').val(formData.awardsChildTypeText);
                     }
-                  }
-                } else if (element == "radio") {
-                  $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue +
-                    '" title="' + item.name + '">')
-                }
-              });
-              form.render()
+                  // 给form表单赋初始值
+              form.val('formPlatform', formData);
+              }
+              form.render();
             }
           }
         });
@@ -274,7 +274,6 @@
 
       form.on('submit(formSave)', function (data) {
         console.log(data.field)
-        debugger
         if (id != '') {
           data.field.id = id
         }

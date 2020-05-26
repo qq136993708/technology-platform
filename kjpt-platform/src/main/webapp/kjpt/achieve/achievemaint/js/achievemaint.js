@@ -64,7 +64,8 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
             {
               field: 'awardsNumber',
               title: '奖项数量',
-              align:'center'
+              align:'center',
+              sort: true,
             }
           ]
         ],
