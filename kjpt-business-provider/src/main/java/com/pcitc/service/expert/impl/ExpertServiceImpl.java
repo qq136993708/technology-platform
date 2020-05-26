@@ -392,6 +392,14 @@ public class ExpertServiceImpl implements IExpertService {
 	
 	public List getZjkBaseList(Map map)throws Exception
 	{
+		String customQueryConditionStr=(String)map.get("customQueryConditionStr");
+		if(customQueryConditionStr!=null)
+		{
+			String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
+			map.put("condition", condition);
+		}
+		
+		
 		List<ZjkBase> list = zjkBaseMapper.getList(map);
 		System.out.println(">>>>>>>>>专家查询结果 "+list.size());
 	    return list;
