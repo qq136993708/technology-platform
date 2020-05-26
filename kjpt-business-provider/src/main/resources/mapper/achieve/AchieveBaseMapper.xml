@@ -123,7 +123,7 @@
         ))
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
-            AND treatisecreate_unit_id in
+            AND create_unit_id in
             <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
