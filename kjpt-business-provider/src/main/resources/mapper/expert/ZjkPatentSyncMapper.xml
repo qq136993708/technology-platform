@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkPatentSyncMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkPatentSync">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="expert_num" jdbcType="VARCHAR" property="expertNum" />
+    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
+    <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
+    <result column="patent_name" jdbcType="VARCHAR" property="patentName" />
+    <result column="patent_type" jdbcType="VARCHAR" property="patentType" />
+    <result column="patent_time" jdbcType="TIMESTAMP" property="patentTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="patent_num" jdbcType="VARCHAR" property="patentNum" />
+    <result column="patent_order" jdbcType="INTEGER" property="patentOrder" />
+    <result column="out_sys_id" jdbcType="VARCHAR" property="outSysId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_num, expert_id, del_status, patent_name, patent_type, patent_time, create_time, 
+    notes, patent_num, patent_order, out_sys_id, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_patent_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_patent_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatentSync" useGeneratedKeys="true">
+    insert into zjk_patent_sync (expert_num, expert_id, del_status, 
+      patent_name, patent_type, patent_time, 
+      create_time, notes, patent_num, 
+      patent_order, out_sys_id, update_time
+      )
+    values (#{expertNum,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
+      #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{patentTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{notes,jdbcType=VARCHAR}, #{patentNum,jdbcType=VARCHAR}, 
+      #{patentOrder,jdbcType=INTEGER}, #{outSysId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatentSync" useGeneratedKeys="true">
+    insert into zjk_patent_sync
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        expert_num,
+      </if>
+      <if test="expertId != null">
+        expert_id,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="patentName != null">
+        patent_name,
+      </if>
+      <if test="patentType != null">
+        patent_type,
+      </if>
+      <if test="patentTime != null">
+        patent_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+      <if test="patentNum != null">
+        patent_num,
+      </if>
+      <if test="patentOrder != null">
+        patent_order,
+      </if>
+      <if test="outSysId != null">
+        out_sys_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="patentName != null">
+        #{patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="patentType != null">
+        #{patentType,jdbcType=VARCHAR},
+      </if>
+      <if test="patentTime != null">
+        #{patentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="patentNum != null">
+        #{patentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="patentOrder != null">
+        #{patentOrder,jdbcType=INTEGER},
+      </if>
+      <if test="outSysId != null">
+        #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkPatentSync">
+    update zjk_patent_sync
+    <set>
+      <if test="expertNum != null">
+        expert_num = #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        expert_id = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="patentName != null">
+        patent_name = #{patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="patentType != null">
+        patent_type = #{patentType,jdbcType=VARCHAR},
+      </if>
+      <if test="patentTime != null">
+        patent_time = #{patentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="patentNum != null">
+        patent_num = #{patentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="patentOrder != null">
+        patent_order = #{patentOrder,jdbcType=INTEGER},
+      </if>
+      <if test="outSysId != null">
+        out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkPatentSync">
+    update zjk_patent_sync
+    set expert_num = #{expertNum,jdbcType=VARCHAR},
+      expert_id = #{expertId,jdbcType=VARCHAR},
+      del_status = #{delStatus,jdbcType=VARCHAR},
+      patent_name = #{patentName,jdbcType=VARCHAR},
+      patent_type = #{patentType,jdbcType=VARCHAR},
+      patent_time = #{patentTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      notes = #{notes,jdbcType=VARCHAR},
+      patent_num = #{patentNum,jdbcType=VARCHAR},
+      patent_order = #{patentOrder,jdbcType=INTEGER},
+      out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="patentName != null and patentName  !='' ">               AND t.patent_name like CONCAT('%',#{patentName},'%')</if>
+	     <if test="expertNum != null             and expertNum !=''  ">      AND t.expert_num = #{expertNum}</if>
+	     <if test="expertId != null             and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  zjk_patent_sync  t <include refid="selectCondition" />
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_patent_sync t <include refid="selectCondition"/>
+    </select>
+  
+  
+    <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+	
+	
+	 insert into zjk_patent_sync 
+	 (id,expert_num, expert_id, del_status, 
+      patent_name, patent_type, patent_time, 
+      create_time, notes, patent_num, 
+      patent_order, out_sys_id, update_time
+      )
+    values 
+     <foreach collection="list" item="item" index="index" separator=",">
+     (
+      #{item.id,jdbcType=VARCHAR}, 
+      #{item.expertNum,jdbcType=VARCHAR}, 
+      #{item.expertId,jdbcType=VARCHAR}, 
+      #{item.delStatus,jdbcType=VARCHAR}, 
+      #{item.patentName,jdbcType=VARCHAR}, 
+      #{item.patentType,jdbcType=VARCHAR}, 
+      #{item.patentTime,jdbcType=TIMESTAMP}, 
+      #{item.createTime,jdbcType=TIMESTAMP}, 
+      #{item.notes,jdbcType=VARCHAR}, 
+      #{item.patentNum,jdbcType=VARCHAR}, 
+      #{item.patentOrder,jdbcType=INTEGER}, 
+      #{item.outSysId,jdbcType=VARCHAR}, 
+      #{item.updateTime,jdbcType=TIMESTAMP}
+      )
+     </foreach> 
+      
+	</insert>
+	
+	
+	 <delete id="deleteAllPatentSync" >
+        delete from zjk_patent_sync
+     </delete>
+  
+  
+  
+</mapper>
