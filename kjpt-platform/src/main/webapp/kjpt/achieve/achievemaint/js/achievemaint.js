@@ -38,7 +38,8 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
             {
               field: 'year',
               title: '获奖年份',
-              align:'center'
+              align:'center',
+              sort: true,
             },
             {
               field: 'typeText',
