@@ -38,6 +38,17 @@ public class OutPersonServiceImpl implements IOutPersonService {
 		return list;
 	}
 	
+	public List getHanaOutPersonBookList(Map map)throws Exception
+	{
+		List<OutPersonVo> list = outPersonVoMapper.getHanaOutPersonBookList(map);
+		
+		return list;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

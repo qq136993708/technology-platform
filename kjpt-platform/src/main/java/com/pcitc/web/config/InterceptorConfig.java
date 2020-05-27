@@ -31,7 +31,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/logout")
 				.excludePathPatterns("/sw_sso")
 				.excludePathPatterns("/sso_error_sw")
-				
 				.excludePathPatterns("/sso")
 				.excludePathPatterns("/error")
 				.excludePathPatterns("/qims-api/qualityStatistics")
@@ -43,7 +42,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/getHanaOutPersonBaseInfoList")
 				.excludePathPatterns("/getHanaPantentListByNum")
 				.excludePathPatterns("/getHanaOutPersonPatentList")
-				
+				.excludePathPatterns("/getHanaOutPersonBookList")
 				
 				;
 		super.addInterceptors(registry);

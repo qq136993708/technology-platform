@@ -14,7 +14,7 @@ import com.pcitc.service.system.SysJobService;
 import com.pcitc.utils.QrtzUtils;
 import com.pcitc.utils.RestfulHttpClient;
 
-//人才数据
+//人才-专利
 public class OutPersonPatentDataJob implements Job, Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String Quality = "http://localhost/getHanaOutPersonPatentList";
@@ -22,7 +22,7 @@ public class OutPersonPatentDataJob implements Job, Serializable {
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("====人才数据获取数据======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "-----");
+		System.out.println("====人才-专利获取数据======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "-----");
         RestfulHttpClient.HttpResponse response = null;        
 		
 		try {

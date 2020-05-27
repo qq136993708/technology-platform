@@ -6,6 +6,7 @@ import java.util.Map;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.out.OutPerson;
+import com.pcitc.base.out.OutPersonVo;
 
 public interface IOutPersonService {
 
@@ -22,7 +23,7 @@ public interface IOutPersonService {
 	public List getHanaOutPersonPatentList(Map map)throws Exception;
 	
 	
-	
+	public List getHanaOutPersonBookList(Map map)throws Exception;
 	
 	
 	
