@@ -46,9 +46,23 @@ public class OutPersonProviderClient {
 		
 		List<OutPersonVo> list = outPersonService.getHanaOutPersonBaseInfoList(map) ;
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
-		System.out.println(">>>>>>>>>>人才转为专家 参数: "+json.toJSONString());
+		//System.out.println(">>>>>>>>>>获取所有专家的基本信息: "+json.toJSONString());
 		return json;
 	}
+	
+	
+	@ApiOperation(value = "获取所有专家相关专利的基本信息", notes = "获取所有专家相关专利的基本信息")
+	@RequestMapping(value = "/out_person/getHanaOutPersonPatentList", method = RequestMethod.POST)
+	public JSONArray getHanaOutPersonPatentList(@RequestBody  Map map) throws Exception {
+		logger.info("===============================getHanaOutPersonBaseInfoList==========");
+		
+		List<OutPersonVo> list = outPersonService.getHanaOutPersonPatentList(map) ;
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		System.out.println("获取所有专家相关专利的基本信息: "+json.toJSONString());
+		return json;
+	}
+	
+	
 	
 	@ApiOperation(value = "根据专家编号查询专利信息", notes = "根据专家编号查询专利信息")
 	@RequestMapping(value = "/out_person/getHanaPantentListByNum", method = RequestMethod.POST)
