@@ -338,7 +338,7 @@ public class PatentController extends RestBaseController {
      * @return PatentInfo
      */
     @ApiOperation(value="批量移除")
-    @RequestMapping(value = "/batchRemove/{ids}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/batchRemove/{ids}", method = RequestMethod.GET)
     @ResponseBody
     public void batchRemove(@PathVariable String ids) {
         Map<String, Object> condition = new HashMap<>(6);
