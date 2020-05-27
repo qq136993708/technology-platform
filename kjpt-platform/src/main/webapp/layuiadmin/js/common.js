@@ -1099,7 +1099,7 @@ layui.use(['form', 'formSelects'], function() {
 					 obj['attributeName']=attributeName
 					 list.push(obj)
 				})
-				return list;
+				return JSON.stringify(list);
  }
 /*动态添加tr*/
 function addTr(id) {

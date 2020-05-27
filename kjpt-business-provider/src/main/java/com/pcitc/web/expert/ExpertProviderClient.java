@@ -71,8 +71,8 @@ public class ExpertProviderClient {
 	@RequestMapping(value = "/expert/page", method = RequestMethod.POST)
 	public LayuiTableData getZjkBaseList(@RequestBody LayuiTableParam param)throws Exception
 	{
-		
-		logger.info("=== ZjkBase param============"+param);
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println("======== 获取专家参数: "+result.toString());
 		return expertService.getZjkBasePage(param) ;
 	}
 	
