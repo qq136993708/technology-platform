@@ -2,6 +2,8 @@ package com.pcitc.base.treatiseinfo;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.util.Date;
+
 public class TreatiseInfo extends RecordModel {
     /**
      * 主键
@@ -51,7 +53,11 @@ public class TreatiseInfo extends RecordModel {
     /**
      * 影响因子
      */
-    private String InfluencingFactors;
+    private String influencingFactors;
+    /**
+     * 发表日期
+     */
+    private Date publishDate;
     /**
      * 附件
      */
@@ -159,5 +165,13 @@ public class TreatiseInfo extends RecordModel {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 }
