@@ -238,11 +238,11 @@ var kyptCharts = {
     })
     
     // 超出长度换行显示
-    var textLenth = config.labelLenth;
+    var textLenth = config.labelLenth || 0;
     $.each(config.data, function(i, item) {
       var itemName = item[config.itemName],
       newText = '';
-      if (textLenth && itemName.length > textLenth) {
+      if (textLenth && (itemName.length > textLenth)) {
         var maxLenth = Math.ceil(itemName.length / textLenth);
         for (var i = 0; i < maxLenth; i++) {
           newText += (itemName.substr(i*textLenth, textLenth) + '\n');
