@@ -15,9 +15,10 @@
         <result column="journal_name" jdbcType="VARCHAR" property="journalName"/>
         <result column="journal_level" jdbcType="TIMESTAMP" property="journalLevel"/>
         <result column="journal_level_text" jdbcType="VARCHAR" property="journalLevelText"/>
-        <result column="Influencing_factors" jdbcType="VARCHAR" property="InfluencingFactors"/>
+        <result column="influencing_factors" jdbcType="VARCHAR" property="influencingFactors"/>
         <result column="summary" jdbcType="VARCHAR" property="summary"/>
 
+        <result column="publish_date" jdbcType="TIMESTAMP" property="publishDate"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
@@ -42,8 +43,9 @@
         unit,
         journal_name,
         journal_level,
-        Influencing_factors,
+        influencing_factors,
         summary,
+        publish_date,
         create_date,
         create_user,
         update_date,
@@ -95,6 +97,9 @@
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
+        <if test="publishDate != null " >
+            and DATE_FORMAT(publish_date,'%Y-%m-%d')  = DATE_FORMAT(#{publishDate},'%Y-%m-%d')
+        </if>
         and (secret_level = '0' or (
         secret_level <![CDATA[<=]]> #{userSecretLevel}
         <if test='skipKnowledgeScope=="0"'>
@@ -121,8 +126,9 @@
         unit,
         journal_name,
         journal_level,
-        Influencing_factors,
+        influencing_factors,
         summary,
+        publish_date,
         create_date,
         create_user,
         update_date,
@@ -133,7 +139,7 @@
         secret_level,
         knowledge_scope,
         knowledge_person
-        ) values(#{id},#{theme},#{keyWord},#{title},#{author},#{unit},#{journalName},#{journalLevel},#{InfluencingFactors},#{summary},#{createDate},#{creator},
+        ) values(#{id},#{theme},#{keyWord},#{title},#{author},#{unit},#{journalName},#{journalLevel},#{influencingFactors},#{summary},#{publishDate},#{createDate},#{creator},
          #{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
@@ -161,8 +167,11 @@
             <if test="journalLevel != null and journalLevel != ''" >
                 journal_level = #{journalLevel},
             </if>
-            <if test="InfluencingFactors != null and InfluencingFactors != ''" >
-                Influencing_factors = #{InfluencingFactors},
+            <if test="influencingFactors != null and influencingFactors != ''" >
+                influencing_factors = #{influencingFactors},
+            </if>
+            <if test="publishDate != null" >
+                publish_date = #{publishDate},
             </if>
             <if test="summary != null and summary != ''" >
                 summary = #{summary},

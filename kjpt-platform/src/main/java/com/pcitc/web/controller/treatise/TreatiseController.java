@@ -5,13 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.treatiseinfo.TreatiseInfo;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -68,25 +71,25 @@ public class TreatiseController extends RestBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "startYear", value = "获奖年份开始", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "endYear", value = "获奖年份结束", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "type", value = "获奖类型", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "awardsChildType", value = "奖项子名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "awardsType", value = "成果奖项", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "theme", value = "论文主题", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "title", value = "篇名", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "journalName", value = "期刊名", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "journalLevel", value = "期刊等级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publishDate", value = "发表日期", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/treatise-api/query", method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
-            @RequestParam(required = false,value = "type") String type,
-            @RequestParam(required = false,value = "awardsChildType") String awardsChildType,
-            @RequestParam(required = false,value = "startYear") String startYear,
-            @RequestParam(required = false,value = "endYear")  String endYear,
-            @RequestParam(required = false,value = "awardsType") String awardsType
+            @RequestParam(required = false,value = "theme") String theme,
+            @RequestParam(required = false,value = "title") String title,
+            @RequestParam(required = false,value = "journalName") String journalName,
+            @RequestParam(required = false,value = "journalLevel")  String journalLevel,
+            @RequestParam(required = false,value = "publishDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date publishDate
     ){
 
-        Map<String, Object> condition = new HashMap<>(6);
+        Map<String, Object> condition = new HashMap<>();
         SysUser sysUserInfo = this.getUserProfile();
         if (pageNum == null) {
             this.setParam(condition, "pageNum", 1);
@@ -98,23 +101,26 @@ public class TreatiseController extends RestBaseController {
         }else {
             this.setParam(condition, "pageSize", pageSize);
         }
-        if (!StringUtils.isEmpty(startYear)) {
-            this.setParam(condition, "startYear", startYear);
+        if (!StringUtils.isEmpty(theme)) {
+            this.setParam(condition, "theme", theme);
         }
-        if (!StringUtils.isEmpty(endYear)) {
-            this.setParam(condition, "endYear", endYear);
+        if (!StringUtils.isEmpty(title)) {
+            this.setParam(condition, "title", title);
         }
-        if (!StringUtils.isEmpty(type)) {
-            this.setParam(condition, "type", type);
+        if (!StringUtils.isEmpty(journalName)) {
+            this.setParam(condition, "journalName", journalName);
         }
-        if (!StringUtils.isEmpty(awardsChildType)) {
-            this.setParam(condition, "awardsChildType", awardsChildType);
+        if (!StringUtils.isEmpty(journalLevel)) {
+            this.setParam(condition, "journalLevel", journalLevel);
         }
-        if (!StringUtils.isEmpty(awardsType)) {
-            this.setParam(condition, "awardsType", awardsType);
+        if (!StringUtils.isEmpty(DateUtil.format(publishDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "publishDate", DateUtil.format(publishDate,DateUtil.FMT_SS));
         }
 
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
         this.setBaseParam(condition);
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
@@ -148,32 +154,38 @@ public class TreatiseController extends RestBaseController {
     }
 
 
-//    @ApiOperation(value="导出excel")
-//    @RequestMapping(value = "/treatise-api/export", method = RequestMethod.GET)
-//    @ResponseBody
-//    public void export(
-//            @RequestParam(required = false,value = "type") String type,
-//            @RequestParam(required = false,value = "startYear") @DateTimeFormat(pattern="yyyy") Date startYear,
-//            @RequestParam(required = false,value = "endYear")  @DateTimeFormat(pattern="yyyy") Date endYear,
-//            @RequestParam(required = false,value = "awardsType") String awardsType
-//    ) throws Exception {
-//        Map<String, Object> condition = new HashMap<>(2);
-//        if (!StringUtils.isEmpty(DateUtil.format(startYear,DateUtil.FMT_YYYY))) {
-//            this.setParam(condition, "startYear", DateUtil.format(startYear,DateUtil.FMT_YYYY));
-//        }
-//        if (!StringUtils.isEmpty(DateUtil.format(endYear,DateUtil.FMT_YYYY))) {
-//            this.setParam(condition, "endYear", DateUtil.format(endYear,DateUtil.FMT_YYYY));
-//        }
-//        if (!StringUtils.isEmpty(type)) {
-//            this.setParam(condition, "type", type);
-//        }
-//        if (!StringUtils.isEmpty(awardsType)) {
-//            this.setParam(condition, "awardsType", awardsType);
-//        }
-//        String[] headers = { "获奖年份",  "奖项级别","奖项名称", "奖项子名称", "奖项数量"  };
-//        String[] cols =    {"year","typeText","awardsTypeText","awardsChildTypeText","awardsNumber"};
-//        export(headers,cols,"成果维护表_",condition);
-//    }
+    @ApiOperation(value="导出excel")
+    @RequestMapping(value = "/treatise-api/export", method = RequestMethod.GET)
+    @ResponseBody
+    public void export(
+            @RequestParam(required = false,value = "theme") String theme,
+            @RequestParam(required = false,value = "title") String title,
+            @RequestParam(required = false,value = "journalName") String journalName,
+            @RequestParam(required = false,value = "journalLevel")  String journalLevel,
+            @RequestParam(required = false,value = "publishDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date publishDate
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(2);
+        if (!StringUtils.isEmpty(theme)) {
+            this.setParam(condition, "theme", theme);
+        }
+        if (!StringUtils.isEmpty(title)) {
+            this.setParam(condition, "title", title);
+        }
+
+        if (!StringUtils.isEmpty(journalName)) {
+            this.setParam(condition, "journalName", journalName);
+        }
+        if (!StringUtils.isEmpty(journalLevel)) {
+            this.setParam(condition, "journalLevel", journalLevel);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(publishDate,DateUtil.FMT_SS))) {
+            this.setParam(condition, "publishDate", DateUtil.format(publishDate,DateUtil.FMT_SS));
+        }
+
+        String[] headers = { "论文主题",  "关键字","篇名", "作者", "单位", "摘要", "期刊名", "期刊等级", "发表日期", "影响因子"  };
+        String[] cols =    {"theme","keyWord","title","author","unitText","summary","journalName","journalLevelText","publishDate","influencingFactors"};
+        export(headers,cols,"论文_",condition);
+    }
 
 
     private void export(String[] headers,String[] cols,String fileName,Map condition) throws Exception {

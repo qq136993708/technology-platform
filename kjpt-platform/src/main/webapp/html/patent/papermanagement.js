@@ -67,13 +67,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               align: 'center',
             },
             {
-              field: 'applicationDateStr',
+              field: 'publishDate',
               title: '发表日期',
               align: 'center',
               sort: true
             },
             {
-              field: 'InfluencingFactors',
+              field: 'influencingFactors',
               title: '影响因子',
               align: 'center',
             },
@@ -124,7 +124,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       url += '&id=' + id;
     } else if (type === 'view') {
       dialogTitle = pageTitle + '信息查看';
-      url = '/html/patent/view.html?id=' + id;
+      url += '&id=' + id;
     }
 
     // 打开弹窗

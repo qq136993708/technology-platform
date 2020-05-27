@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.treatiseinfo.TreatiseInfo;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.treatise.TreatiseInfoMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.treatise.TreatiseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class TreatiseServiceImpl implements TreatiseService {
     @Autowired
     private TreatiseInfoMapper tm;
 
+    @Autowired
+    private FileCommonService fs;
+
     @Override
     public TreatiseInfo load(String id) {
         return tm.load(id);
@@ -32,9 +36,11 @@ public class TreatiseServiceImpl implements TreatiseService {
         if(load(ti.getId()) ==null){
             ti.setCreateDate(ti.getUpdateDate());
             ti.setCreator(ti.getUpdator());
+            fs.updateFileData(ti.getFiles(),ti.getId());
             tm.add(ti);
         }
         else{
+            fs.updateFileData(ti.getFiles(),ti.getId());
             tm.update(ti);
         }
     }

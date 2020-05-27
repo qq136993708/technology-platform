@@ -3,7 +3,6 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects'], function () {
   var form = layui.form;
   var $ = layui.$;
   var formSelects = layui.formSelects;
-
   function getItemInitData(item) {
     var httpUrl = '/treatise-api/newInit';
     if (item && item.id) {
@@ -16,8 +15,22 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects'], function () {
         if (relData.code === '0') {
           // 给form表单赋初始值
           var data = relData.data;
-          form.val('formMain', data);
           var billDataID = data.id;
+          if(data.unit){
+            formSelects.value('unit',[data.unit])
+          }
+          if(item.type == 'view'){
+            $('input').attr('disabled',true);
+            $('select').attr('disabled',true);
+            $('#input-box').removeClass('hide-box');
+            $('#select-box').addClass('hide-box');
+            
+          }else{
+            $('#input-box').addClass('hide-box');
+            $('#select-box').removeClass('hide-box');
+          }
+          form.val('formMain', data);
+          form.render();
           setFileUpload({
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
