@@ -369,8 +369,17 @@ public class PatentInfo extends RecordModel implements Serializable {
     
     
     private String type;
-    
-    
+
+    /**
+     * ---------密级----------
+     * 公开
+     * 内部
+     * 商密
+     */
+    private String level;
+
+    private String levelText;
+
 
     public String getType() {
 		return type;
@@ -955,6 +964,22 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public void setCustomClassification(String customClassification) {
         this.customClassification = customClassification;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevelText() {
+        return levelText;
+    }
+
+    public void setLevelText(String levelText) {
+        this.levelText = levelText;
     }
 
     @Override
