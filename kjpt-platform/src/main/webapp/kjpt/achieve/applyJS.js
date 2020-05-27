@@ -64,15 +64,14 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                     var formData = relData.data;
                     relData.data.finishDate = dateFieldText(relData.data.finishDate)
                     form.val('formPlatform', relData.data);
-                    if (formData.finishUnitName) {
-                       formSelects.value('finishUnitName', [formData.finishUnitName]);
-                      }
                     formSelects.value('techType', relData.data.techType.split(','));
+                    formSelects.value('finishUnitName', relData.data.finishUnitName.split(','));
                     fileDoc = variable.id
                     backfill(relData.data.teamPerson, 'achieveTable', variable.type)
                     approvalDoc = relData.data.approvalDoc
                     publicDoc = relData.data.publicDoc;
-
+                    form.render();
+                    
                     var scope_disabled = false;
                     if (variable.type == 'view') {
                         formSelects.disabled(); // 禁用所有多选下拉框
