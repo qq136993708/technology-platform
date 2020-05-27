@@ -21,7 +21,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">论文主题：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="patentName" autocomplete="off" class="layui-input">
+              <input type="text" name="theme" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">篇名：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="patentName" autocomplete="off" class="layui-input">
+              <input type="text" name="title" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">期刊名：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="patentName" autocomplete="off" class="layui-input">
+              <input type="text" name="journalName" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">期刊等级:</span></label>
             <div class="layui-input-block">
-              <select name="lawStatus" dic-base-data="ROOT_KJPT_FLZT(SB)"  placeholder="请选择...">
+              <select name="journalLevel" dic-base-data="ROOT_KJPT_QKDJ"  placeholder="请选择...">
               </select>
             </div>
           </div>
@@ -57,7 +57,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">发表日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="aboutCompleteTime" id="estimate" placeholder="请填写..." autocomplete="off"
+              <input type="text" name="publishDate" id="estimate" placeholder="请填写..." autocomplete="off"
                 class="laydate-input">
             </div>
           </div>
@@ -78,8 +78,10 @@
         <button class="layui-btn border-blue" id="editItem" >编辑</button>
         <button class="layui-btn border-blue" id="viewItem">查看</button>
         <button class="layui-btn border-red" id="delItem" >删除</button>
-        <button class="layui-btn border-blue" data-type="exportEvent">导出</button>
-        <button class="layui-btn border-blue" data-type="importEvent">导入</button>
+        <div id="importData" style="display: inline-block;margin: 0 12px">
+          <a class="layui-btn border-blue"  data-type="importData" filter="addFile" >导入</a>
+      </div>
+      <a href="/expert-api/exput_excel" class="layui-btn border-blue" id="exportData" data-type="exportData" >导出</a>
       </div>
     </div>
 
@@ -93,6 +95,7 @@
   <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/layuiadmin/js/common.js"></script>
+  <script src="/layuiadmin/js/fileUpload.js"></script>
   <script src="papermanagement.js"></script>
 </body>
 </html>

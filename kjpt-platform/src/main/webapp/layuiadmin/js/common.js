@@ -9,7 +9,18 @@ if (!console) {
 	// IE9下避免 console错误
 	console = {
 		log: function() {},
-  	error: function() {}
+		error: function() {},
+		debug: function() {},
+		info: function() {},
+		warn: function() {},
+		dir: function() {},
+		trace: function() {},
+		group: function() {},
+		groupEnd: function() {},
+		profile: function() {},
+		profileEnd: function() {},
+		time: function() {},
+		timeEnd: function() {}
 	};
 }
 

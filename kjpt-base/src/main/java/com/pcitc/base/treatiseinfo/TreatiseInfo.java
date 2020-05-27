@@ -39,7 +39,7 @@ public class TreatiseInfo extends RecordModel {
      */
     private String journalName;
     /**
-     * 期刊名
+     * 摘要
      */
     private String summary;
     /**
