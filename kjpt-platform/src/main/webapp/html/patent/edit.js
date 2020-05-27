@@ -126,8 +126,10 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       // data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
       params.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
     }
+    debugger
     console.log(params);
 
+    return 
 		httpModule({
 			url: '/patentController/save',
 			data: params,

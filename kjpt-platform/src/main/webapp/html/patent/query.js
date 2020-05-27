@@ -300,11 +300,34 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         }
       }
     });
+  };
+  //导入
+importFiles({
+  id:'#importData',
+  url:'/expert-api/input_excel',
+  callback: function (data, type) {
+    queryTable('');
   }
+})
+// 导出
+$('#exportData').click(function() {
+  var formValue = form.val('patentFormDemo'),
+  searchData = {
+    unitName: formValue.unitName || '', // 单位名称：
+    patentName: formValue.patentName || '', // 项目背景：
+    patentType: formValue.patentType || '', // 专利类型：
+    lawStatus: formValue.lawStatus || '', // 法律状态
+    applicationNumber: formValue.applicationNumber || '', // 专利号：
+  },
+  exportUrl = '';
 
+  for (var key in searchData) {
+    exportUrl += '&' + key + '=' + searchData[key];
+  }
+  exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+  window.open(exportUrl, '_blank');
+})
 
-  // bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-  // bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
 });
 
 function shouUser(userId) {
