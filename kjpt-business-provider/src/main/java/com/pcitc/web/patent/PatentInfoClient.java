@@ -89,6 +89,18 @@ public class PatentInfoClient {
 		return patentInfoService.deletePatent(id);
 	}
 
+	/**
+	 * 批量移除
+	 *
+	 * @param ids
+	 * @return
+	 */
+	@ApiOperation(value = "逻辑删除专利信息", notes = "逻辑删除专利信息")
+	@RequestMapping(value = "/patent-provider/patentInfo/batchRemove/{ids}", method = RequestMethod.DELETE)
+	public Integer batchRemove(@PathVariable String ids) {
+		return patentInfoService.deletePatent(ids);
+	}
+
 	@ApiOperation(value = "查询专利列表", notes = "查询专利列表")
 	@RequestMapping(value = "/patent-provider/patentInfo/queryNoPage", method = RequestMethod.POST)
 	public JSONArray queryNoPage(@RequestBody(required = false) Map param){

@@ -9,7 +9,7 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
 
@@ -32,10 +32,10 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
+                        <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="finishUnitName" placeholder="请输入" autocomplete="off"
-                                class="layui-input">
+                            <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
+                                dic-base-data="ROOT_KJPT_YTDW"></select>
                         </div>
                     </div>
                 </div>
@@ -200,6 +200,7 @@
                 trigger: 'click',
                 type: 'year',
                 change: function (value, date) { //监听日期被切换
+                    $('#inputStart').val(value);
                     $('#inputEnd').val(value);
                 }
             });

@@ -69,8 +69,19 @@ public class ZjkPatentSync implements Serializable {
     private String outSysId;
 
     private Date updateTime;
+    
+    private String patentTimeStr;
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getPatentTimeStr() {
+		return patentTimeStr;
+	}
+
+	public void setPatentTimeStr(String patentTimeStr) {
+		this.patentTimeStr = patentTimeStr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;

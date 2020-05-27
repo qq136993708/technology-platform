@@ -610,6 +610,22 @@ function getObjectData(dataJson, value) {
 	}
 	return tempData;
 }
+function setVal(data){
+	var json={};
+	var custromLength = $('#custromFrom').find('.custrom-box').length;
+	customQueryConditionStr=[];
+	if(custromLength >= 1){
+			json=data.field;
+			delete(json['columnName']);
+			delete(json['condition']);
+			delete(json['value']);
+			customQueryConditionStr=setCustromFrom();
+			json['customQueryConditionStr']=customQueryConditionStr;
+	}else{
+			json=data.field;
+	}
+	return json;
+}
 
 function _getArrKeyValue(data, labelKey) {
 	var targetValue = '';
@@ -923,31 +939,28 @@ layui.use(['form', 'formSelects'], function() {
 			$('.layui-colla-content').removeClass('layui-show').addClass('layui-hide')
 		}
 	});
-	var curOption
-	window.createCustrom=function(option){
-		curOption=option;
-		if($('.custrom-box').length){
-				$('.custrom-box').each(function(i,val){
-					var select=	$(this).find('div').eq('1').find('select');
-					select.find('option').remove();
-					console.log(select)
-					$.each(curOption,function(index,item){
-						select.append("</option><option value='"+item.field+"' name='"+item.field+"'>"+item.title+"</option>")
-				})
-			})
-		}
-	
-		console.log(curOption)
-	};
-//
+	var count = 0
 	$('#custormAdd').on('click',function(){
-		var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
+		count++;
+		httpModule({
+			url: "/expert-api/getCustomQueryConditionList",
+			type: 'GET',
+			success: function (relData) {
+				if (relData.success) {
+					var optionStr = '';
+					optionStr=relData.data.map(function(item){
+						return '<option value="'+item.columnName+'" data-notes="'+item.notes+'" data-columnName="'+item.columnName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'" data-attributeName="'+item.attributeName+'">'+item.notes+'</option>'
+					})
+					var id = 'dt'+count;
+					var formid = 'form'+count;
+					var optionCode = 'optionCode'+count;
+					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
-						'<select name="" placeholder="请选择" lay-filter=""'+
-						'dic-base-data="ROOT_XTGL_ZDYCXTJ"></select>'+
-						'<option value=""></option>'+
+						'<select name="columnName" placeholder="请选择" lay-filter="columnName" >'+
+						'<option value="" placeholder="请选择"></option>'+
+							optionStr +
 						'</select>'+
 						'</div>'+
 						'</div>'+
@@ -955,7 +968,7 @@ layui.use(['form', 'formSelects'], function() {
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
-						'<select name="" >'+
+						'<select name="condition" class="dt" dic-base-data="ROOT_XTGL_ZDYCXTJ" id="'+id+'">'+
 						'<option value=""></option>'+
 						'</select>'+
 						'</div>'+
@@ -963,10 +976,13 @@ layui.use(['form', 'formSelects'], function() {
 						'</div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
-						'<div class="layui-input-block">'+
-						'<select name="" >'+
+						'<div class="layui-input-block select-hide">'+
+						'<select class="dt" name="value" id="'+optionCode+'">'+
 						'<option value=""></option>'+
 						'</select>'+
+						'</div>'+
+						'<div class="layui-input-block hide-selete input-hide">'+
+						' <input type="text" name="value" placeholder="请输入" autocomplete="off" class="layui-input">'+
 						'</div>'+
 						'</div>'+
 						'</div>'+
@@ -976,7 +992,10 @@ layui.use(['form', 'formSelects'], function() {
 						'</div></div>'+
 						'</div>'
 						$('#custromFrom').append(str);
-						createCustrom(curOption)
+				}
+				window.createElement({code:'ROOT_XTGL_ZDYCXTJ',id: id,className:'dt',element:'option',index:count,dt:'dt'})
+			}
+		});
 	})	
 	
 	//自定义删除
@@ -984,18 +1003,43 @@ layui.use(['form', 'formSelects'], function() {
 		$(this).parents('.custrom-box').remove();
 	})
 
+	// commonLayuiForm
+	commonLayuiForm.on('select(columnName)', function(data) {
+		var optionType = $(data.elem).find("option:selected").attr("data-optionType"); 
+		// var name = $(this).parents('.layui-input-block').find("option:selected").attr("name"); 
+		// $(this).parents('.layui-input-block').find('select').attr('name',name);
+		if(optionType == 1){
+			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide select').attr('name','')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value')
+		}else {
+			$(this).parents('.custrom-box').find('.select-hide select').attr('name','value')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','')
+			var id =$(this).parents('.custrom-box').find('select[name="value"]').attr('id')
+			var optionCode = $(data.elem).find("option:selected").attr("data-optionCode"); 
+			$(this).parents('.custrom-box').find('.input-hide').addClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
+			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
+		}
+	
+})
     /*动态生成元素*/
     window.createElement=function (param) {
         httpModule({
             url: "/sysDictionary-api/getChildsListByCode/"+param.code,
-            type: 'GET',
+						type: 'GET',
             success: function(relData) {
                 if (relData.success === true) {
+									$("#"+param.id).find('option').remove();
                     relData.data.map(function(item){
                         if(param.element=="option"){
-                            if(param.value==item.numValue){
-                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
-                            }else {
+														if(param.dt=='dt'){
+															$("#"+param.id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+														}
+                          	if(param.value==item.numValue){
+                              $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
+                          	}else {
                                 $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"'>"+item.name+"</option>")
                             }
                         }
@@ -1033,7 +1077,30 @@ layui.use(['form', 'formSelects'], function() {
 		}
 	})
 })
-
+	// 处理自定义查询方法
+	function setCustromFrom() { 
+		var list=[];
+				$('#custromFrom').find('.custrom-box').each(function(index,item){
+						var obj={};
+					 var optionType = $(this).find('select[name="columnName"]').find("option:selected").attr("data-optionType"); 
+					 var columnName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columnName');
+					 var notes= $(this).find('select[name="columnName"]').find("option:selected").attr('data-notes');
+					 var attributeName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-attributeName');
+					 var condition= $(this).find('select[name="condition"]').find("option:selected").attr('name');
+					 if(optionType == 1){
+						var value= $(this).find('input[name="value"]').val();
+					 }else{
+						var value= $(this).find('select[name="value"]').find("option:selected").attr('name');
+					 }
+					 obj['columnName']=columnName;
+					 obj['condition']=condition;
+					 obj['value']=value;
+					 obj['notes']=notes
+					 obj['attributeName']=attributeName
+					 list.push(obj)
+				})
+				return JSON.stringify(list);
+ }
 /*动态添加tr*/
 function addTr(id) {
     var off=$("#"+id).find(".layui-none");

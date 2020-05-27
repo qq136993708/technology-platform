@@ -23,13 +23,13 @@ public class BusinessUtil {
 					String conditionSymbol=vo.getCondition();
 					if(conditionSymbol.equals("="))
 					{
-						sb.append(" AND "+vo.getColumnName()+" = "+vo.getValue());
+						sb.append(" AND "+vo.getColumnName()+" = '"+vo.getValue()+"'");
 					}else if(conditionSymbol.equals("like"))
 					{
 						sb.append(" AND "+vo.getColumnName()+" like '%"+vo.getValue()+"%'");
 					}else
 					{
-						sb.append(" AND "+vo.getColumnName()+"<![CDATA[ "+conditionSymbol+" ]]>"+vo.getValue());
+						sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> '"+vo.getValue()+"'");
 					}
 					
 				}

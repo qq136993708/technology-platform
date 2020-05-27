@@ -32,17 +32,15 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">技术领域：</span></label>
                     <div class="layui-input-block">
                         <select name="technicalField" xm-select="applaType3" xm-select-skin="normal"></select>
-                        <!--<input type="text" name="technicalField"
-                               placeholder="" autocomplete="off" class="layui-input">-->
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">性别：</span></label>
                     <div class="layui-input-block">
@@ -51,8 +49,8 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">学历：</span></label>
                     <div class="layui-input-block">
@@ -61,8 +59,8 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职称：</span></label>
                     <div class="layui-input-block">
@@ -71,8 +69,8 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职务：</span></label>
                     <div class="layui-input-block">
@@ -81,8 +79,8 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">年龄：</span></label>
                     <div class="layui-input-block">
@@ -91,24 +89,39 @@
                         <input style="width: 90px;float:left;" type="text" name="endAage" id="endAage" placeholder="请输入年龄" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">专业：</span></label>
                     <div class="layui-input-block">
                         <input type="text" name="major" id="major" placeholder="请输入专业" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+            </div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div> -->
+            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div> -->
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
-                <div class="layui-form-item text-right">
+                <div class="layui-form-item text-right layui-colla-item">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
-                    <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
-                    <span class="layui-fold-btn"></span>
+                    <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
+                    <!-- <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button> -->
+                    <!-- <span class="layui-fold-btn"></span> -->
+                    <!-- <span class="layui-fold-btn-custom"></span> -->
                 </div>
             </div>
+        </div>
+        <div class="layui-colla-content layui-hide">
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">
+                    <span class="layui-btn layui-btn-normal" id="custormAdd">增加</span>
+                </div>
+            </div>
+            <div id="custromFrom"></div>
         </div>
     </form>
     <div class="view-title-layout text-right" id="opations-btn">
@@ -161,7 +174,7 @@
                     table.reload('expertTable', {where: where});
                 }
             }
-        }
+        };
         /*初始表格*/
         obj.tableList("");
         /*性别*/
@@ -217,10 +230,26 @@
             }
         });
         form.on('submit(newSubmit)', function(data) {
-            console.log(data.field)
-            obj.tableList(data.field)
+            // var json={};
+            // var custromLength = $('#custromFrom').find('.custrom-box').length;
+            // customQueryConditionStr=[];
+            // if(custromLength >= 1){
+            //     json=data.field;
+            //     delete(json['columnName']);
+            //     delete(json['condition']);
+            //     delete(json['value']);
+            //     customQueryConditionStr=setCustromFrom();
+            //     json['customQueryConditionStr']=customQueryConditionStr;
+            // }else{
+            //     json=data.field;
+            // }
+            // console.log(json)
+            var json=setVal(data);
+            obj.tableList(json)
             return false
         })
+        
+
         $("#addItem").click(function () {
             var activeData = table.checkStatus('expertTable').data;
             if(activeData.length==0){

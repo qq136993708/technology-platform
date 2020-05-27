@@ -123,7 +123,7 @@
         ))
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
-            AND t.create_unit_id in
+            AND create_unit_id in
             <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -159,7 +159,7 @@
         knowledge_scope,
         knowledge_person
         ) values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
-         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{affiliatedUnit},#{workInfo},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{affiliatedUnit},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">

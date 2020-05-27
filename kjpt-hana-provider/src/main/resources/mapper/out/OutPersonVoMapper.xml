@@ -17,8 +17,19 @@
     <result column="GBDAT" jdbcType="VARCHAR" property="gbdat" />
     <!--身份证号码 -->
     <result column="ICNUM" jdbcType="VARCHAR" property="icnum" />
+    <!--单位名称  -->
     <result column="ZDWMC" jdbcType="VARCHAR" property="zdwmc" />
     
+    <!--职务级别名称  -->
+    <result column="ZZWJBMC" jdbcType="VARCHAR" property="zzwjbmc" />
+    <!--职务级别编码  -->
+    <result column="ZZWJBBM" jdbcType="VARCHAR" property="zzwjbbm" />
+    <!--最高学历  -->
+    <result column="ZJYZX" jdbcType="VARCHAR" property="zjyzx" />
+    <!--聘任专业技术职务级别 编码 -->
+    <result column="ZPRZYJSZWJBBM" jdbcType="VARCHAR" property="zprzyjszwjbbm" />
+    <!--聘任专业技术职务级别 名称  -->
+    <result column="ZPRZYJSZWJBMC" jdbcType="VARCHAR" property="zprzyjszwjbmc" />
     
     
     <!--获得专利时间 -->
@@ -34,12 +45,61 @@
     
     
     
+    
+     <!--序号 -->
+    <result column="SEQNR_9010"    jdbcType="VARCHAR" property="seqnr9010" />
+     <!--论文、著作名称 -->
+    <result column="ZLZMC"    jdbcType="VARCHAR" property="zlzmc" />
+     <!--发表时间 -->
+    <result column="ZFBSJ"    jdbcType="VARCHAR" property="zfbsj" />
+     <!--著作方式 -->
+    <result column="ZZZFS"    jdbcType="VARCHAR" property="zzzfs" />
+     <!--刊物或出版社名称 -->
+    <result column="ZCBSMC"    jdbcType="VARCHAR" property="zcbsmc" />
+     <!--出版国家 -->
+    <result column="ZCBGJ"    jdbcType="VARCHAR" property="zcbgj" />
+     <!--备注 -->
+    <result column="ZLZBZ"    jdbcType="VARCHAR" property="zlzbz" />
+    
+    
+    
+    
+    
+
+
+
+
+    
+    
+    
   </resultMap>
   
-  <!--   ZHJT.HR/CAL_HR_DZGB_XL -->
+  <!--   获取所有专家-->
   <select id="getHanaOutPersonVoList" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select PERNR,ZDWBM,ZDWQC,NACHN,GESCH,GBDAT,ICNUM,ZDWMC  from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
+        select PERNR,ZDWBM,ZDWQC,NACHN,GESCH,GBDAT,ICNUM,ZDWMC ,ZZWJBMC,ZZWJBBM,ZJYZX,ZPRZYJSZWJBBM,ZPRZYJSZWJBMC
+         from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
   </select>
+  
+  <!-- 获取所有专家相关专利 -->
+   <select id="getHanaOutPersonPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         select ZHDZLSJ,SEQNR_9009,ZFMZLSJ,ZZLH,ZZLPM
+         from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
+  </select>
+  
+  
+  
+    
+    
+    
+  
+  <!-- 获取所有专家 相关   论著 -->
+   <select id="getHanaOutPersonBookList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         select SEQNR_9010,ZLZMC,ZFBSJ,ZZZFS,ZCBSMC,ZLZBZ
+         from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
+  </select>
+  
+  
+  
   
   <select id="getHanaPantentListByNum" parameterType="string" resultMap="BaseResultMap">
         select ZHDZLSJ,SEQNR_9009,ZFMZLSJ,ZZLH,ZZLPM  

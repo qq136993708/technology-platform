@@ -628,6 +628,13 @@
 
 
   </select>
+  <update id="batchRemove" parameterType="java.lang.String">
+    update patent_info set type = '0' where id in
+    <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
 
   <sql id="selectByParam">
     <if test="unitName != null and unitName != '' " >

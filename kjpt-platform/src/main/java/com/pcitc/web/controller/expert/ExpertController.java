@@ -223,7 +223,7 @@ public class ExpertController extends BaseController {
     	//默认查询小于等于用户密级的专家
     	//param.getParam().put("userSecretLevel",sysUserInfo.getSecretLevel() );
     	//param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
-    	
+		System.out.println("======== customQueryConditionStr: "+customQueryConditionStr);
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);

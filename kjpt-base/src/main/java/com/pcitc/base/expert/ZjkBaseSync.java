@@ -114,8 +114,19 @@ public class ZjkBaseSync implements Serializable {
      * 排序
      */
     private Integer orders;
+    
+    private String birthDateStr;
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getBirthDateStr() {
+		return birthDateStr;
+	}
+
+	public void setBirthDateStr(String birthDateStr) {
+		this.birthDateStr = birthDateStr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;

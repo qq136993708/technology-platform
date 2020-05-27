@@ -89,9 +89,9 @@ layui.config({
     $.each(config.data, function(i, item) {
       var $li = $('<li class="item-details"></li>');
       if(item.noticeCreatetime){
-        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd') : '') +']</span>';
       }else{
-        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd') : '') +']</span>';
       }
       itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
       $li.append(itemHtml);
@@ -273,7 +273,7 @@ layui.config({
     url: '/sysNotice/getSysNoticeList?page=1&limit=10',
     // data: { page: 1, limit: 10 },
     name: 'noticeTitle',
-    href: '',
+    href: '/base/system/notice_list.html',
     hrefData: ['id'],
     title: '公告',
     type: 'POST',
@@ -290,7 +290,7 @@ layui.config({
     url: '/sysNews/getTableData',
     data: { page: 1, limit: 10 },
     name: 'title',
-    href: '',
+    href: '/sysNews/toListPage',
     hrefData: ['id'],
     title: '新闻发布',
     type: 'POST',
@@ -304,10 +304,11 @@ layui.config({
   // 专利列表
   getTabContentList({
     id: '#transform_tab_list',
-    url: '/achieve-api/query',
-    data: { page: 1, limit: 10, isPublic:2 },
+    url: '/achieveRecord-api/query',
+    data: { page: 1, limit: 10, publicityStatus: 2 },
     name: 'achieveName',
-    href: '/html/scientificMaterials/planDetails.html',
+    // href: '/html/scientificMaterials/planDetails.html',
+    href: '/kjpt/achieve/already_formula.html',
     hrefData: ['id'],
     title: '成果转化',
     callback: function(res) {

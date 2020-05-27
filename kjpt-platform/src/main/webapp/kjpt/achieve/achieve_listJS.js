@@ -98,6 +98,7 @@ layui.use(['table', 'form', 'laydate'], function () {
     trigger: 'click',
     type:'year',
     change: function(value, date){ //监听日期被切换
+      $('#inputStart').val(value);
       $('#inputEnd').val(value);
     }
   });

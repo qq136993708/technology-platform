@@ -31,4 +31,6 @@ public interface PatentInfoMapper {
     int updateByPrimaryKey(PatentInfo record);
 
     List<PatentInfo> queryPatentList(Map param);
+
+    int batchRemove(@Param("ids") String ids);
 }
