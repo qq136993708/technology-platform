@@ -192,7 +192,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         layer.close(index);
         // 确认删除
         httpModule({
-          url: '/patentController/delete/' + itemRowData.id,
+          url: '/treatise-api/delete/' + itemRowData.id,
           type: 'DELETE',
           success: function (relData) {
             if (relData.code === '0') {
@@ -216,13 +216,15 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#estimate' //指定元素
   });
-
-
-
-
-  // bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-  // bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
 });
+//导入
+importFiles({
+  id:'#importData',
+  url:'/expert-api/input_excel',
+  callback: function (data, type) {
+      obj.tableList('');
+  }
+})
 
 function shouUser(userId) {
   alert(userId);
