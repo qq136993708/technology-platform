@@ -35,7 +35,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '单位名称',
               align: 'center',
               sort: true,
-              hide: (queryType == '1' ? false : true)
             },
             {
               field: 'patentName',
@@ -61,7 +60,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '申请类型',
               align: 'center',
               sort: true,
-              hide: (queryType == '1' ? false : true)
             },
             {
               field: 'patentTypeText',
@@ -248,6 +246,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       });
     } else {
       layer.msg('请选择需要删除的专利项目！');
+    }
+  });
+
+  $('#removeItem').on('click', function (e) {
+    if (itemRowData) {
+      layer.msg('移除移除！');
+    } else {
+      layer.msg('请选择需要移除的专利项目！');
     }
   });
 
