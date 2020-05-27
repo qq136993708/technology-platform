@@ -173,9 +173,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       content: url,
       btn: null,
       end: function () {
-
         var relData = getDialogData('dialog-data');
-
         if (relData) {
           if (relData.code === '0') {
             layer.msg(dialogTitle + '成功!', {
@@ -188,7 +186,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             });
           }
         }
-
       }
     });
   }
@@ -258,7 +255,46 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#applicationDateEnd' //指定元素
   });
-
+  loadPatent();
+  function loadPatent(){
+    httpModule({
+      url: '/patentController/countByLegalStatus',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '全部'){
+              $('#patentsTotal').text(item.num)
+            }else if(item.name == '申请'){
+              $('#patentNumber').text(item.num)
+            }else if(item.name == '授权'){
+              $('#patentAuthorizations').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  };
+  loadPatentType();
+  function loadPatentType(){
+    httpModule({
+      url: '/patentController/countByPatentType',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '外观设计'){
+              $('#appearanceDesign').text(item.num)
+            }else if(item.name == '发明'){
+              $('#invention').text(item.num)
+            }else if(item.name == '实用新型'){
+              $('#utilityModel').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  }
 
 
   // bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
