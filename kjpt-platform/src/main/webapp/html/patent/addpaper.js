@@ -25,7 +25,7 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
             $('select').attr('disabled',true);
             $('#input-box').removeClass('hide-box');
             $('#select-box').addClass('hide-box');
-            
+            $('.box-hide').addClass('hide-box')
           }else{
             $('#input-box').addClass('hide-box');
             $('#select-box').removeClass('hide-box');

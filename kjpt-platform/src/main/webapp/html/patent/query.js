@@ -248,10 +248,38 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   $('#removeItem').on('click', function (e) {
     if (itemRowData) {
-      layer.msg('移除移除！');
+      layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
+        icon: 3,
+        title: '删除提示'
+      }, function (index) {
+        layer.close(index);
+        // 确认删除
+        httpModule({
+          url: '/patentController/batchRemove/' + itemRowData.id,
+          type: 'GET',
+          success: function (relData) {
+            if (relData.code === '0') {
+              layer.msg('移除成功!', {
+                icon: 1
+              });
+              $('[lay-filter="formDemo"]').click();
+            } else {
+              layer.msg('移除失败', {
+                icon: 2
+              });
+            }
+          }
+        });
+      });
     } else {
       layer.msg('请选择需要移除的专利项目！');
     }
+    // if (itemRowData) {
+    //   // layer.msg('移除移除！');
+
+    // } else {
+    //   layer.msg('请选择需要移除的专利项目！');
+    // }
   });
 
   laydate.render({
@@ -304,7 +332,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   //导入
 importFiles({
   id:'#importData',
-  url:'/expert-api/input_excel',
+  url:'//excelImport/kgjimp',
   callback: function (data, type) {
     queryTable('');
   }
