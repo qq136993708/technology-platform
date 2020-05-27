@@ -17,7 +17,7 @@ import com.pcitc.utils.RestfulHttpClient;
 //人才数据
 public class OutPersonDataJob implements Job, Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final String Quality = "http://localhost/getHanaPersonData";
+	private static final String Quality = "http://localhost/getHanaOutPersonBaseInfoList";
 	public	SysJobService sysJobService = SpringContextUtil.getApplicationContext().getBean(SysJobService.class);
 	
 	@Override

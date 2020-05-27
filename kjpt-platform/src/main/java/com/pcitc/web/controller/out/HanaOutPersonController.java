@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkBaseSync;
 import com.pcitc.base.out.OutPersonVo;
 import com.pcitc.base.util.CommonUtil;
@@ -46,13 +49,17 @@ public class HanaOutPersonController extends BaseController {
 	public static final String BATCH_ADD_JZK_PATENT_URL =      "http://kjpt-zuul/stp-proxy/sync-expert-api/insertBatchPatent";
 	
 	
+	
+	
+	
+	
   	
 	    @ApiOperation(value = "获取所有专家的基本信息", notes = "获取所有专家的基本信息")
 		@RequestMapping(value = "/getHanaOutPersonBaseInfoList", method = RequestMethod.GET)
 	    @ResponseBody
 	   	public String getHanaOutPersonBaseInfoList( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
-	   		
+	    	Result resultsDate = new Result();
 	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 	   	    System.out.println(">>>>>>>>>getHanaOutPersonBaseInfoList>>>>>>>>>>>>>>>>>>>");
@@ -70,24 +77,52 @@ public class HanaOutPersonController extends BaseController {
 	   			if(list!=null &&  list.size()>0)
 	   			{
 	   			    System.out.println(">>>>共>>>>>"+list.size()+"条");
+	   			    resultsDate.setMessage("===HANA获取数据为: "+list.size()+"条");
 	   				for(int i=0;i<list.size();i++)
 	   				{
 	   				   OutPersonVo zjkBase= list.get(i);
+	   				   String expertNum=zjkBase.getPernr();
+	   				   String postBm=zjkBase.getZzwjbbm();//职务级别编码
+	   				   String post=zjkBase.getZzwjbmc();//职务级别名称
+	   				   String title=zjkBase.getZprzyjszwjbmc();//职称名称
+	   				   String education=zjkBase.getZjyzx();
+	   				   String unitName=zjkBase.getZdwqc();
+	   				   String unitId=zjkBase.getZdwbm();
+	   				   String name=zjkBase.getNachn();
+	   				   String sex=zjkBase.getGesch();
+	   				   String idCardNo=zjkBase.getIcnum();
+	   				   String birthDateStr=zjkBase.getGbdat();
+	   				   
 	   				   //System.out.println(">>>>>>人员编号，专家的主键pernr>>>>>"+zjkBase.getPernr());
 	   				   //System.out.println(">>>>>单位zdwMc >>>>>"+zjkBase.getZdwmc());
 	   				   //System.out.println(">>>>>姓名nachn >>>>>"+zjkBase.getNachn());
 	   				   // System.out.println(">>>>>性别gesch >>>>>"+zjkBase.getGesch());
 	   				   // System.out.println(">>>>>出生日期gbdat >>>>>"+zjkBase.getGbdat());
-	   				   // System.out.println(">>>>>身份证号码icnum >>>>>"+zjkBase.getIcnum());
-	   				   
+	   				    System.out.println(">>>>>职务 >>>>>"+post);
+	   				   System.out.println(">>>>>职称 >>>>>"+title);
+	   				    System.out.println(">>>>>birthDateStr >>>>>"+birthDateStr);
 	   				   
 	   				   ZjkBaseSync  zjkBaseSync=new ZjkBaseSync();
 	   				   String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 	   				   zjkBaseSync.setId(dateid);
 	   				   zjkBaseSync.setCreateTime(new Date());
+	   				   zjkBaseSync.setBirthDateStr(birthDateStr);
+	   				   zjkBaseSync.setPost(post);
+	   				   zjkBaseSync.setTitle(title);
+	   				   zjkBaseSync.setIdCardNo(idCardNo);
+	   				   zjkBaseSync.setExpertNum(expertNum);
+	   				   zjkBaseSync.setEducation(education);
+	   				   zjkBaseSync.setName(name);
+	   				   zjkBaseSync.setUnitId(unitId);
+	   				   zjkBaseSync.setUnitName(unitName);
+	   				   zjkBaseSync.setSex(sex);
 	   				   zjkBaseSyncList.add(zjkBaseSync);
 	   				}
 	   			}
+	   		}else
+	   		{
+	   			resultsDate.setSuccess(false);
+	   			resultsDate.setMessage("===HANA获取数据为: "+list.size()+"条,但保存到本地失败===");
 	   		}
 	   		if(zjkBaseSyncList.size()>0)
 	   		{
@@ -95,8 +130,23 @@ public class HanaOutPersonController extends BaseController {
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				ResponseEntity<Integer> resEntity = restTemplate.exchange(BATCH_ADD_JZK_BASE_URL, HttpMethod.POST, entity, Integer.class);
 				Integer result=	resEntity.getBody();
+				if(result.intValue()>0)
+				{
+					resultsDate.setSuccess(true);
+					resultsDate.setData(jSONArray.toString());
+				}else
+				{
+					resultsDate.setSuccess(false);
+					resultsDate.setMessage("===HANA获取数据0条==");
+				}
+				
+	   		}else
+	   		{
+	   			resultsDate.setSuccess(false);
+				resultsDate.setMessage("===HANA获取数据0条==");
 	   		}
-	   		return jSONArray.toString();
+	   		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+	   		return ob.toString();
 	   	}
 	    
 	    

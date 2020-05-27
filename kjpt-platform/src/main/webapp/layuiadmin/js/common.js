@@ -923,22 +923,6 @@ layui.use(['form', 'formSelects'], function() {
 			$('.layui-colla-content').removeClass('layui-show').addClass('layui-hide')
 		}
 	});
-	var curOption
-	window.createCustrom=function(option){
-		curOption=option;
-		if($('.custrom-box').length){
-				$('.custrom-box').each(function(i,val){
-					var select=	$(this).find('div').eq('1').find('select');
-					select.find('option').remove();
-					console.log(select)
-					$.each(curOption,function(index,item){
-						select.append("</option><option value='"+item.field+"' name='"+item.field+"'>"+item.title+"</option>")
-				})
-			})
-		}
-	
-		console.log(curOption)
-	};
 	var count = 0
 	$('#custormAdd').on('click',function(){
 		count++;
@@ -949,7 +933,7 @@ layui.use(['form', 'formSelects'], function() {
 				if (relData.success) {
 					var optionStr = '';
 					optionStr=relData.data.map(function(item){
-						return '<option value="'+item.attributeName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'">'+item.notes+'</option>'
+						return '<option value="'+item.columnName+'" data-notes="'+item.notes+'" data-columnName="'+item.columnName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'" data-attributeName="'+item.attributeName+'">'+item.notes+'</option>'
 					})
 					var id = 'dt'+count;
 					var formid = 'form'+count;
@@ -958,7 +942,7 @@ layui.use(['form', 'formSelects'], function() {
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
-						'<select name="" placeholder="请选择" lay-filter="columnName" >'+
+						'<select name="columnName" placeholder="请选择" lay-filter="columnName" >'+
 						'<option value="" placeholder="请选择"></option>'+
 							optionStr +
 						'</select>'+
@@ -1005,8 +989,8 @@ layui.use(['form', 'formSelects'], function() {
 	// commonLayuiForm
 	commonLayuiForm.on('select(columnName)', function(data) {
 		var optionType = $(data.elem).find("option:selected").attr("data-optionType"); 
-		var name = $(this).parents('.layui-input-block').find("option:selected").attr("name"); 
-		$(this).parents('.layui-input-block').find('select').attr('name',name);
+		// var name = $(this).parents('.layui-input-block').find("option:selected").attr("name"); 
+		// $(this).parents('.layui-input-block').find('select').attr('name',name);
 		if(optionType == 1){
 			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
 			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
