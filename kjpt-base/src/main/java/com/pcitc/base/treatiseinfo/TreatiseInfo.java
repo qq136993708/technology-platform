@@ -128,11 +128,11 @@ public class TreatiseInfo extends RecordModel {
     }
 
     public String getInfluencingFactors() {
-        return InfluencingFactors;
+        return influencingFactors;
     }
 
     public void setInfluencingFactors(String influencingFactors) {
-        InfluencingFactors = influencingFactors;
+        this.influencingFactors = influencingFactors;
     }
 
     public String getFiles() {
