@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 --> 
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <!-- 更多样式在此引入 -->
+</head>
+<body class="">
+<div class="layout-view-content dialog">
+	<form class="layui-form" action="" id="formMain" lay-filter="formMain">
+    <!-- 知悉范围 -->
+    <div id="scope_list_layout"></div>
+
+    <div class="secret-level-line"></div>
+
+    <div class="layui-row layui-col-space20">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">论文主题：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="theme" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">关键词：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="keyWord"  lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">篇名：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="required"
+              placeholder="" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">作者：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="author" lay-verify="required"
+              placeholder="" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">单位：</span></label>
+          <div class="layui-input-block">
+            <select name="unit" xm-select="unit"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">摘要：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="summary" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">期刊名：</span></label>
+          <div class="layui-input-block">
+              <input type="text" id="journalName" name="journalName" placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">期刊等级：</span></label>
+          <div class="layui-input-block">
+             <select name="journalLevel" lay-verify="required" select="journalLevel" dic-base-data="ROOT_KJPT_QKDJ" select-skin="normal" lay-verify="required"></select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">影响因子：</span></label>
+          <div class="layui-input-block">
+            <input type="text" id="InfluencingFactors" name="InfluencingFactors"
+              placeholder="" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="file-filter-options">
+      <div class="view-title-layout" style="margin-top:40px;">
+          <div class="right">
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+          </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="text">附件：</span></label>
+        <div class="layui-input-block"><table></table></div>
+      </div>
+  </div>
+  <div style="height:80px;"></div>
+
+    <div class="dialog-footer-btn">
+      <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
+      <button class="layui-btn layui-btn-primary close-all-dialog" type="button">取消</button>
+    </div>
+
+    <input type="hidden" name="id">
+    <input type="hidden" name="creator">
+    <input type="hidden" name="createDate">
+    <input type="hidden" name="updateDate">
+    <input type="hidden" name="updator"> 
+    <input type="hidden" name="deleted"> 
+    <input type="hidden" name="files" id="files"> 
+  </form>
+</div>
+
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
+<script>var patent_view_page = false; </script>
+<script src="addpaper.js"></script>
+
+</body>
+</html>
