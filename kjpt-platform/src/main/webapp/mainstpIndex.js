@@ -89,9 +89,9 @@ layui.config({
     $.each(config.data, function(i, item) {
       var $li = $('<li class="item-details"></li>');
       if(item.noticeCreatetime){
-        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd') : '') +']</span>';
       }else{
-        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd hh:mm:ss') : '') +']</span>';
+        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd') : '') +']</span>';
       }
       itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
       $li.append(itemHtml);
@@ -304,10 +304,11 @@ layui.config({
   // 专利列表
   getTabContentList({
     id: '#transform_tab_list',
-    url: '/achieve-api/query',
+    url: '/achieveRecord-api/query',
     data: { page: 1, limit: 10, isPublic:2 },
     name: 'achieveName',
-    href: '/html/scientificMaterials/planDetails.html',
+    // href: '/html/scientificMaterials/planDetails.html',
+    href: '/kjpt/achieve/already_formula.html',
     hrefData: ['id'],
     title: '成果转化',
     callback: function(res) {

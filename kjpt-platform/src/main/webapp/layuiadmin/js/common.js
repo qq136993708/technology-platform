@@ -610,6 +610,22 @@ function getObjectData(dataJson, value) {
 	}
 	return tempData;
 }
+function setVal(data){
+	var json={};
+	var custromLength = $('#custromFrom').find('.custrom-box').length;
+	customQueryConditionStr=[];
+	if(custromLength >= 1){
+			json=data.field;
+			delete(json['columnName']);
+			delete(json['condition']);
+			delete(json['value']);
+			customQueryConditionStr=setCustromFrom();
+			json['customQueryConditionStr']=customQueryConditionStr;
+	}else{
+			json=data.field;
+	}
+	return json;
+}
 
 function _getArrKeyValue(data, labelKey) {
 	var targetValue = '';
@@ -986,6 +1002,7 @@ layui.use(['form', 'formSelects'], function() {
 	$(document).on('click','.custromDel',function(){
 		$(this).parents('.custrom-box').remove();
 	})
+
 	// commonLayuiForm
 	commonLayuiForm.on('select(columnName)', function(data) {
 		var optionType = $(data.elem).find("option:selected").attr("data-optionType"); 
@@ -1060,7 +1077,30 @@ layui.use(['form', 'formSelects'], function() {
 		}
 	})
 })
-
+	// 处理自定义查询方法
+	function setCustromFrom() { 
+		var list=[];
+				$('#custromFrom').find('.custrom-box').each(function(index,item){
+						var obj={};
+					 var optionType = $(this).find('select[name="columnName"]').find("option:selected").attr("data-optionType"); 
+					 var columnName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columnName');
+					 var notes= $(this).find('select[name="columnName"]').find("option:selected").attr('data-notes');
+					 var attributeName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-attributeName');
+					 var condition= $(this).find('select[name="condition"]').find("option:selected").attr('name');
+					 if(optionType == 1){
+						var value= $(this).find('input[name="value"]').val();
+					 }else{
+						var value= $(this).find('select[name="value"]').find("option:selected").attr('name');
+					 }
+					 obj['columnName']=columnName;
+					 obj['condition']=condition;
+					 obj['value']=value;
+					 obj['notes']=notes
+					 obj['attributeName']=attributeName
+					 list.push(obj)
+				})
+				return list;
+ }
 /*动态添加tr*/
 function addTr(id) {
     var off=$("#"+id).find(".layui-none");
