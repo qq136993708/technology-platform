@@ -47,12 +47,20 @@
     
   </resultMap>
   
-  <!--   ZHJT.HR/CAL_HR_DZGB_XL -->
+  <!--   获取所有专家-->
   <select id="getHanaOutPersonVoList" parameterType="java.util.Map" resultMap="BaseResultMap">
         select PERNR,ZDWBM,ZDWQC,NACHN,GESCH,GBDAT,ICNUM,ZDWMC ,ZZWJBMC,ZZWJBBM,ZJYZX,ZPRZYJSZWJBBM,ZPRZYJSZWJBMC
-        
          from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
   </select>
+  
+  <!-- 获取所有专家相关专利 -->
+   <select id="getHanaOutPersonPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         select ZHDZLSJ,SEQNR_9009,ZFMZLSJ,ZZLH,ZZLPM
+         from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
+  </select>
+  
+  
+  
   
   <select id="getHanaPantentListByNum" parameterType="string" resultMap="BaseResultMap">
         select ZHDZLSJ,SEQNR_9009,ZFMZLSJ,ZZLH,ZZLPM  

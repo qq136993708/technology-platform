@@ -30,6 +30,17 @@ public class OutPersonServiceImpl implements IOutPersonService {
 		
 		return list;
 	}
+	
+	public List getHanaOutPersonPatentList(Map map)throws Exception
+	{
+		List<OutPersonVo> list = outPersonVoMapper.getHanaOutPersonPatentList(map);
+		
+		return list;
+	}
+	
+	
+	
+	
 	public List getHanaPantentListByNum(String num)throws Exception
 	{
 		List<OutPersonVo> list = outPersonVoMapper.getHanaPantentListByNum(num);

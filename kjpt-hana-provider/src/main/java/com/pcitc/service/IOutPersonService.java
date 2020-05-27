@@ -19,6 +19,7 @@ public interface IOutPersonService {
 	public List getHanaOutPersonBaseInfoList(Map map)throws Exception;
 	
 	
+	public List getHanaOutPersonPatentList(Map map)throws Exception;
 	
 	
 	
