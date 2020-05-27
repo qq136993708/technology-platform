@@ -97,6 +97,9 @@
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
+        <if test="publishDate != null " >
+            and DATE_FORMAT(publish_date,'%Y-%m-%d')  = DATE_FORMAT(#{publishDate},'%Y-%m-%d')
+        </if>
         and (secret_level = '0' or (
         secret_level <![CDATA[<=]]> #{userSecretLevel}
         <if test='skipKnowledgeScope=="0"'>
