@@ -147,6 +147,11 @@ public class PatentInfo extends RecordModel implements Serializable {
     private Long assignProfit;
 
     /**
+     * 被转让人及转让收益
+     */
+    private String assignorAndAssignProfit;
+
+    /**
      * 附件上传
      */
     private String files;
@@ -938,6 +943,14 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public String getCustomClassification() {
         return customClassification;
+    }
+
+    public String getAssignorAndAssignProfit() {
+        return assignorAndAssignProfit;
+    }
+
+    public void setAssignorAndAssignProfit(String assignorAndAssignProfit) {
+        this.assignorAndAssignProfit = assignorAndAssignProfit;
     }
 
     public void setCustomClassification(String customClassification) {

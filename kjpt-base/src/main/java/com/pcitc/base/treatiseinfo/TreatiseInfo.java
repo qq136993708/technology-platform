@@ -37,6 +37,10 @@ public class TreatiseInfo extends RecordModel {
      */
     private String journalName;
     /**
+     * 期刊名
+     */
+    private String summary;
+    /**
      * 期刊等级
      */
     private String journalLevel;
@@ -147,5 +151,13 @@ public class TreatiseInfo extends RecordModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

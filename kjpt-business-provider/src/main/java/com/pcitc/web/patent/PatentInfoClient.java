@@ -109,4 +109,17 @@ public class PatentInfoClient {
 		return json;
 	}
 
+
+	@ApiOperation(value = "根据法律状态查询专利数量", notes = "根据法律状态查询专利数量")
+	@RequestMapping(value = "/patent-provider/patentInfo/countByLegalStatus", method = RequestMethod.POST)
+	public List<Map> countByLegalStatus(@RequestBody(required = false)Map param) {
+		return patentInfoService.countByLegalStatus(param);
+	}
+
+	@ApiOperation(value = "根据专利类型查询专利数量", notes = "根据专利类型查询专利数量")
+	@RequestMapping(value = "/patent-provider/patentInfo/countByPatentType", method = RequestMethod.POST)
+	public List<Map> countByPatentType(@RequestBody(required = false)Map param) {
+		return patentInfoService.countByPatentType(param);
+	}
+
 }

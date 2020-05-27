@@ -79,7 +79,8 @@
     <result column="legal_person_code" jdbcType="VARCHAR" property="legalPersonCode" />
     <result column="custom_classification" jdbcType="VARCHAR" property="customClassification" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-     
+    <result column="assignor_and_assignProfit" jdbcType="VARCHAR" property="assignorAndAssignProfit" />
+
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, unit_name,
@@ -341,7 +342,10 @@
       <if test="type != null">
         type
       </if>
-      
+      <if test="assignorAndAssignProfit != null and assignorAndAssignProfit != ''">
+        assignor_and_assignProfit
+      </if>
+
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -543,6 +547,9 @@
       <if test="type != null">
         #{type,jdbcType=VARCHAR}
       </if>
+      <if test="assignorAndAssignProfit != null and assignorAndAssignProfit !='' ">
+        #{assignorAndAssignProfit,jdbcType=VARCHAR}
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.patent.PatentInfo">
@@ -611,7 +618,8 @@
 	  public_announcement_no = #{publicAnnouncementNo,jdbcType=VARCHAR},
 	  explainer = #{explain,jdbcType=VARCHAR},
 	  legal_person_code = #{legalPersonCode,jdbcType=VARCHAR},
-	  custom_classification = #{customClassification,jdbcType=VARCHAR}
+	  custom_classification = #{customClassification,jdbcType=VARCHAR},
+	  assignor_and_assignProfit = #{assignorAndAssignProfit}
     where id = #{id,jdbcType=VARCHAR}
 </update>
 
@@ -695,4 +703,20 @@
     ))
 
   </sql>
+
+  <select id="countByLegalStatus" parameterType="java.util.Map" resultType="java.util.Map">
+    select '全部' as 'name',count(1) num from patent_info where deleted != '1'
+    <include refid="selectByParam" />
+    union all
+    select b.name 'name',count(1) num from patent_info a left join sys_dictionary b on a.legal_status = b.num_value and b.parent_code = 'ROOT_KJPT_FLZT(ZL)' where deleted != '1'
+    <include refid="selectByParam" />
+     GROUP BY legal_status
+  </select>
+
+  <select id="countByPatentType" parameterType="java.util.Map" resultType="java.util.Map">
+    select b.name,count(1) num from patent_info a left join sys_dictionary b on a.patent_type = b.num_value and b.parent_code = 'ROOT_KJPT_ZLZL'
+    where deleted != '1'
+    <include refid="selectByParam" />
+    GROUP BY patent_type
+  </select>
 </mapper>

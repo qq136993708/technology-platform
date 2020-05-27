@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -42,6 +44,9 @@ public class PatentController extends RestBaseController {
     private static final String DELETE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_delete/";
 
     private static final String batchRemove = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/batchRemove/";
+
+    private static final String countByLegalStatus = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByLegalStatus";
+    private static final String countByPatentType = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByPatentType";
 
     /**
      * 保存-专利信息
@@ -234,6 +239,9 @@ public class PatentController extends RestBaseController {
         if (!StringUtils.isEmpty(technicalFieldIndex)) {
             this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
         }
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(QUERY_PATENT, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         List arraylist = new ArrayList();
@@ -300,6 +308,10 @@ public class PatentController extends RestBaseController {
                             "terminationDate","legalStatus","legalStatusUpdateTime","technicalFieldText","projectBackground","establishmentDepartment","projectNumber","projectName","applicationTechnologyTechnology",
                             "applicationModelProductName","applicationSubsystemName","nameOfComponentsAndSupportingMaterials","mainClassificationNumber","subCategoryNumber","jointApplicant","priorityRight","agency","publicAnnouncementNo", "explainer","legalPersonCode"};
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), PatentInfo.class);
         String fileName = "专利明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
@@ -329,8 +341,45 @@ public class PatentController extends RestBaseController {
     @RequestMapping(value = "/batchRemove/{ids}", method = RequestMethod.DELETE)
     @ResponseBody
     public void batchRemove(@PathVariable String ids) {
+        Map<String, Object> condition = new HashMap<>(6);
         this.restTemplate.exchange(batchRemove+ids, HttpMethod.POST, new HttpEntity(this.httpHeaders),Integer.class);
 //        return responseEntity.getBody();
+
+    }
+    /**
+     * 根据法律状态查询专利数量
+     *
+     * @return PatentInfo
+     */
+    @ApiOperation(value="根据法律状态查询专利数量")
+    @RequestMapping(value = "/countByLegalStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public List countByLegalStatus() {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByLegalStatus, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
+        return responseEntity.getBody();
+    }
+
+    /**
+     * 根据专利类型查询专利数量
+     *
+     * @return PatentInfo
+     */
+    @ApiOperation(value="根据专利类型查询专利数量")
+    @RequestMapping(value = "/countByPatentType", method = RequestMethod.GET)
+    @ResponseBody
+    public List countByPatentType() {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByPatentType, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
+        return responseEntity.getBody();
 
     }
 

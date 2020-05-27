@@ -16,6 +16,7 @@
         <result column="journal_level" jdbcType="TIMESTAMP" property="journalLevel"/>
         <result column="journal_level_text" jdbcType="VARCHAR" property="journalLevelText"/>
         <result column="Influencing_factors" jdbcType="VARCHAR" property="InfluencingFactors"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
 
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
@@ -42,6 +43,7 @@
         journal_name,
         journal_level,
         Influencing_factors,
+        summary,
         create_date,
         create_user,
         update_date,
@@ -120,6 +122,7 @@
         journal_name,
         journal_level,
         Influencing_factors,
+        summary,
         create_date,
         create_user,
         update_date,
@@ -130,8 +133,8 @@
         secret_level,
         knowledge_scope,
         knowledge_person
-        ) values(#{id},#{theme},#{keyWord},#{title},#{author},#{unit},#{journalName},#{journalLevel},#{InfluencingFactors},#{createDate},#{createUser},
-         #{updateDate},#{deleted},#{updateUser},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        ) values(#{id},#{theme},#{keyWord},#{title},#{author},#{unit},#{journalName},#{journalLevel},#{InfluencingFactors},#{summary},#{createDate},#{creator},
+         #{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.treatiseinfo.TreatiseInfo">
@@ -161,17 +164,11 @@
             <if test="InfluencingFactors != null and InfluencingFactors != ''" >
                 Influencing_factors = #{InfluencingFactors},
             </if>
-            <if test="unitAdvice != null and unitAdvice != ''" >
-                unit_advice = #{unitAdvice},
-            </if>
-            <if test="auditStatus != null and auditStatus != ''" >
-                audit_status = #{auditStatus},
+            <if test="summary != null and summary != ''" >
+                summary = #{summary},
             </if>
             <if test="deleted != null and deleted != ''" >
                 deleted = #{deleted},
-            </if>
-            <if test="teamPerson != null " >
-                team_person = #{teamPerson},
             </if>
             <if test="createUnitId != null and createUnitId != ''" >
                 create_unit_id = #{createUnitId,jdbcType=VARCHAR},
