@@ -59,4 +59,11 @@ public interface PatentInfoService {
      * @return
      */
     Integer deletePatent(String id);
+    /**
+     * 批量移除后处理专项
+     *
+     * @param ids
+     * @return
+     */
+    Integer batchRemove(String ids);
 }

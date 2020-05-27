@@ -5,11 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
-import com.pcitc.base.researchplatform.PlatformPatentModel;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
-import com.pcitc.web.utils.EquipmentUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,6 +40,8 @@ public class PatentController extends RestBaseController {
     private static final String LOAD = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_load/";
 
     private static final String DELETE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_delete/";
+
+    private static final String batchRemove = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/batchRemove/";
 
     /**
      * 保存-专利信息
@@ -79,6 +78,7 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "后专项处理", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
 
     })
@@ -319,6 +319,19 @@ public class PatentController extends RestBaseController {
     public PatentInfo load(@PathVariable String id) {
         ResponseEntity<PatentInfo> responseEntity = this.restTemplate.exchange(LOAD+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PatentInfo.class);
         return responseEntity.getBody();
+    }
+    /**
+     * 后专项处理批量移除
+     *
+     * @return PatentInfo
+     */
+    @ApiOperation(value="批量移除")
+    @RequestMapping(value = "/batchRemove/{ids}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void batchRemove(@PathVariable String ids) {
+        this.restTemplate.exchange(batchRemove+ids, HttpMethod.POST, new HttpEntity(this.httpHeaders),Integer.class);
+//        return responseEntity.getBody();
+
     }
 
     /**

@@ -9,6 +9,7 @@ import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.patent.PatentInfoMapper;
 import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.patent.PatentInfoService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -77,6 +78,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     @Override
     public List queryNoPage(Map param) {
         return patentInfoMapper.queryPatentList(param);
+    }
+
+    @Override
+    public Integer batchRemove(String ids) {
+        return patentInfoMapper.batchRemove(ids);
     }
 
     public PatentInfo getPatentInfo(String id){
