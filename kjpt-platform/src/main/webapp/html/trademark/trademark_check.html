@@ -13,6 +13,27 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <!-- 更多样式在此引入 -->
+
+  <style>
+    #knownImagesView img{
+      margin-right: 10px;
+      width: 78px;
+      height: 81px;
+      display: inline-block;
+      border: 1px solid #dddddd;
+    }
+
+    #knownImagesView{
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    #knownImagesView .img-div {
+      margin-right: 20px;
+      width: 90px;
+      height: 90px;
+    }
+  </style>
 </head>
 
 <body class="">
@@ -302,6 +323,18 @@
             form.val('formPlatform', data);
             form.render();
 
+            //images
+            var files = relData.data.files;
+            var filesArray = files?files.split(','):[];
+            if (filesArray.length > 0) {
+              $.each(filesArray, function (k, v) {
+                var src = '/file/imgFile/' + v;
+                $('#knownImagesView').append('<div class="img-div">\n' +
+                        '                <img src="' + src + '" data-field="' + v + '">\n' +
+                        '              </div>');
+              });
+            }
+
             // 添加知悉范围
             setJurisdictionScope({
               elem: 'scope_list_layout',
@@ -310,6 +343,8 @@
               secretLevel: data.secretLevel,
               disabled: true
             });
+
+
           }
         }
       });
