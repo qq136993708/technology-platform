@@ -70,8 +70,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'publishDate',
               title: '发表日期',
               align: 'center',
-              sort: true
-            },
+              sort: true,
+              templet: function(d){
+                var times = new Date(d.publishDate);
+                 return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+              }},
             {
               field: 'influencingFactors',
               title: '影响因子',
