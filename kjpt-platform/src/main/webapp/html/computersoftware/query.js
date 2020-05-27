@@ -158,6 +158,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     elem: '#recordDateEnd' //指定元素
   });
 
+  laydate.render({ //渲染时间表单
+    elem: '#recordDate',
+    trigger: 'click',
+  });
+
  
 });
 
