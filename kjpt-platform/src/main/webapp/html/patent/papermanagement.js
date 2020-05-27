@@ -135,9 +135,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       content: url,
       btn: null,
       end: function () {
-
         var relData = getDialogData('dialog-data');
-
         if (relData) {
           if (relData.code === '0') {
             layer.msg(dialogTitle + '成功!', {
@@ -150,7 +148,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             });
           }
         }
-
       }
     });
   }
@@ -220,9 +217,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 //导入
 importFiles({
   id:'#importData',
-  url:'/expert-api/input_excel',
-  callback: function (data, type) {
-      obj.tableList('');
+  url:'/excelImport/treatiseImp',
+  //treatiseImp
+  callback: function (data,type) {
+      queryTable('');
   }
 });
 
