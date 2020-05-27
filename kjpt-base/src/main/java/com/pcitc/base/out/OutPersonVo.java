@@ -33,6 +33,62 @@ public class OutPersonVo implements Serializable{
 	 private String zfmzlsj;//专利名称
 	 private String zzlh;//专利号
 	 private String zzlpm;//专利排名
+	 
+	 
+	 
+	 private String seqnr9010;//序号 
+	 private String zlzmc;//论文、著作名称
+	 private String zfbsj;//发表时间
+	 private String zzzfs;//著作方式
+	 private String zcbsmc;//刊物或出版社名称
+	 private String zcbgj;//出版国家
+	 private String zlzbz;//备注
+	 
+	 
+	 
+	 
+	public String getSeqnr9010() {
+		return seqnr9010;
+	}
+	public void setSeqnr9010(String seqnr9010) {
+		this.seqnr9010 = seqnr9010;
+	}
+	public String getZlzmc() {
+		return zlzmc;
+	}
+	public void setZlzmc(String zlzmc) {
+		this.zlzmc = zlzmc;
+	}
+	public String getZfbsj() {
+		return zfbsj;
+	}
+	public void setZfbsj(String zfbsj) {
+		this.zfbsj = zfbsj;
+	}
+	public String getZzzfs() {
+		return zzzfs;
+	}
+	public void setZzzfs(String zzzfs) {
+		this.zzzfs = zzzfs;
+	}
+	public String getZcbsmc() {
+		return zcbsmc;
+	}
+	public void setZcbsmc(String zcbsmc) {
+		this.zcbsmc = zcbsmc;
+	}
+	public String getZcbgj() {
+		return zcbgj;
+	}
+	public void setZcbgj(String zcbgj) {
+		this.zcbgj = zcbgj;
+	}
+	public String getZlzbz() {
+		return zlzbz;
+	}
+	public void setZlzbz(String zlzbz) {
+		this.zlzbz = zlzbz;
+	}
 	public String getZjyxlmc() {
 		return zjyxlmc;
 	}

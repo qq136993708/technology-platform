@@ -45,9 +45,16 @@ public class HanaOutPersonController extends BaseController {
 	public static final String PAGE_OUTPROJECT_URL = "http://kjpt-zuul/stp-proxy/out_person/page";
 	//查询所有专家
 	public static final String getHanaOutPersonBaseInfoList =   "http://kjpt-zuul/hana-proxy/out_person/getHanaOutPersonBaseInfoList";
-	//查询所有专家相关专利
+	//查询所有专家相关-专利
     public static final String getHanaOutPersonPatentList =     "http://kjpt-zuul/hana-proxy/out_person/getHanaOutPersonPatentList";
 		
+    //查询所有专家相关-论著
+    public static final String getHanaOutPersonBookList =     "http://kjpt-zuul/hana-proxy/out_person/getHanaOutPersonBookList";
+	
+    
+    
+    
+    
 	public static final String getHanaPantentListByNum =        "http://kjpt-zuul/hana-proxy/out_person/getHanaPantentListByNum";
 	
 	public static final String BATCH_ADD_JZK_BASE_URL =         "http://kjpt-zuul/stp-proxy/sync-expert-api/insertBatchZjkBaseSync";
@@ -239,6 +246,102 @@ public class HanaOutPersonController extends BaseController {
 	   		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 	   		return ob.toString();
 	   	}
+	    
+	    
+	    
+	    
+	    
+	    
+	    @ApiOperation(value = "查询论著信息", notes = "查询论著信息")
+		@RequestMapping(value = "/getHanaOutPersonBookList", method = RequestMethod.GET)
+	    @ResponseBody
+	   	public String getHanaOutPersonBookList( HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	    	Result resultsDate = new Result();
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   	    System.out.println(">>>>>>>>>getHanaOutPersonPatentList>>>>>>>>>>>>>>>>>>>");
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getHanaOutPersonBookList, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<OutPersonVo> list =new ArrayList<OutPersonVo>();
+	   		List<ZjkPatentSync> zjkBaseSyncList =new ArrayList<ZjkPatentSync>();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), OutPersonVo.class);
+	   			if(list!=null &&  list.size()>0)
+	   			{
+	   			    System.out.println(">>>>共>>>>>"+list.size()+"条");
+	   			    resultsDate.setMessage("===HANA获取数据为: "+list.size()+"条");
+	   				for(int i=0;i<list.size();i++)
+	   				{
+	   				   OutPersonVo vo= list.get(i);
+	   				   String patentTimeStr= vo.getZhdzlsj();//获得专利时间
+	   				   String outSysId= vo.getSeqnr9009();//序号
+	   				   String patentName=vo.getZfmzlsj();//专利名称
+	   				   String patentNum=vo.getZzlh();//专利号
+	   				   String patentOrder=vo.getZzlpm();//专利排名
+	   				   String expertNum= vo.getPernr();
+	   				   
+
+	   				   System.out.println(">>>>>patentTimeStr>>>>>"+patentTimeStr);
+	   				   ZjkPatentSync  sync=new ZjkPatentSync();
+	   				   String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+	   				   sync.setId(dateid);
+	   				   sync.setCreateTime(new Date());
+	   				   sync.setExpertNum(expertNum);
+	   				   sync.setPatentNum(patentNum);
+	   				   sync.setOutSysId(outSysId);
+	   				   sync.setPatentName(patentName);
+	   				   if(patentTimeStr!=null && !patentTimeStr.equals("")) 
+	   				   {
+	   					  sync.setPatentTime(DateUtil.strToDate(patentTimeStr, DateUtil.FMT_YYYY_DD));
+	   				   }
+	   				   if(patentOrder!=null && !patentOrder.equals("")) 
+	   				   {
+	   					sync.setPatentOrder(Integer.valueOf(patentOrder));
+	   				   }
+	   				   zjkBaseSyncList.add(sync);
+	   				}
+	   			}
+	   		}else
+	   		{
+	   			resultsDate.setSuccess(false);
+	   			resultsDate.setMessage("===HANA获取数据为: "+list.size()+"条,但保存到本地失败===");
+	   		}
+	   		/*
+	   		if(zjkBaseSyncList.size()>0)
+	   		{
+	   			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(zjkBaseSyncList));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				ResponseEntity<Integer> resEntity = restTemplate.exchange(BATCH_ADD_JZK_BASE_URL, HttpMethod.POST, entity, Integer.class);
+				Integer result=	resEntity.getBody();
+				if(result.intValue()>0)
+				{
+					resultsDate.setSuccess(true);
+					resultsDate.setData(jSONArray.toString());
+				}else
+				{
+					resultsDate.setSuccess(false);
+					resultsDate.setMessage("===HANA获取数据0条==");
+				}
+				
+	   		}else
+	   		{
+	   			resultsDate.setSuccess(false);
+				resultsDate.setMessage("===HANA获取数据0条==");
+	   		}
+	   		*/
+	   		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+	   		return ob.toString();
+	   	}
+	    
+	    
+	    
+	    
 	    
 	    
 	    
