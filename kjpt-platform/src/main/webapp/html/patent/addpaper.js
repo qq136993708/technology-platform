@@ -1,7 +1,8 @@
 var file_readonly = false;
-layui.use(['form', 'table', 'layer', 'upload', 'formSelects'], function () {
+layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], function () {
   var form = layui.form;
   var $ = layui.$;
+  var laydate = layui.laydate;
   var formSelects = layui.formSelects;
   function getItemInitData(item) {
     var httpUrl = '/treatise-api/newInit';
@@ -52,7 +53,9 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects'], function () {
       }
     });
   }
-
+  laydate.render({
+    elem: '#estimate' //指定元素
+  });
   // 获取地址栏传递过来的参数
   var variable = getQueryVariable();
   getItemInitData(variable);

@@ -224,6 +224,25 @@ importFiles({
   callback: function (data, type) {
       obj.tableList('');
   }
+});
+
+// 导出
+$('#exportData').click(function() {
+  var formValue = form.val('patentFormDemo'),
+  searchData = {
+    theme: formValue.theme || '', // 论文主题：
+    title: formValue.title || '', // 篇名：
+    journalName: formValue.journalName || '', // 期刊名：
+    journalLevel: formValue.journalLevel || '', // 期刊等级
+    publishDate: formValue.publishDate || '', // 发表日期：
+  },
+  exportUrl = '';
+
+  for (var key in searchData) {
+    exportUrl += '&' + key + '=' + searchData[key];
+  }
+  exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
+  window.open(exportUrl, '_blank');
 })
 
 function shouUser(userId) {
