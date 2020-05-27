@@ -35,7 +35,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '单位名称',
               align: 'center',
               sort: true,
-              hide: (queryType == '1' ? false : true)
             },
             {
               field: 'patentName',
@@ -61,7 +60,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '申请类型',
               align: 'center',
               sort: true,
-              hide: (queryType == '1' ? false : true)
             },
             {
               field: 'patentTypeText',
@@ -173,9 +171,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       content: url,
       btn: null,
       end: function () {
-
         var relData = getDialogData('dialog-data');
-
         if (relData) {
           if (relData.code === '0') {
             layer.msg(dialogTitle + '成功!', {
@@ -188,7 +184,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             });
           }
         }
-
       }
     });
   }
@@ -251,6 +246,42 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     }
   });
 
+  $('#removeItem').on('click', function (e) {
+    if (itemRowData) {
+      layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
+        icon: 3,
+        title: '删除提示'
+      }, function (index) {
+        layer.close(index);
+        // 确认删除
+        httpModule({
+          url: '/patentController/batchRemove/' + itemRowData.id,
+          type: 'GET',
+          success: function (relData) {
+            if (relData.code === '0') {
+              layer.msg('移除成功!', {
+                icon: 1
+              });
+              $('[lay-filter="formDemo"]').click();
+            } else {
+              layer.msg('移除失败', {
+                icon: 2
+              });
+            }
+          }
+        });
+      });
+    } else {
+      layer.msg('请选择需要移除的专利项目！');
+    }
+    // if (itemRowData) {
+    //   // layer.msg('移除移除！');
+
+    // } else {
+    //   layer.msg('请选择需要移除的专利项目！');
+    // }
+  });
+
   laydate.render({
     elem: '#applicationDateStart' //指定元素
   });
@@ -258,11 +289,73 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#applicationDateEnd' //指定元素
   });
+  loadPatent();
+  function loadPatent(){
+    httpModule({
+      url: '/patentController/countByLegalStatus',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '全部'){
+              $('#patentsTotal').text(item.num)
+            }else if(item.name == '申请'){
+              $('#patentNumber').text(item.num)
+            }else if(item.name == '授权'){
+              $('#patentAuthorizations').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  };
+  loadPatentType();
+  function loadPatentType(){
+    httpModule({
+      url: '/patentController/countByPatentType',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '外观设计'){
+              $('#appearanceDesign').text(item.num)
+            }else if(item.name == '发明'){
+              $('#invention').text(item.num)
+            }else if(item.name == '实用新型'){
+              $('#utilityModel').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  };
+  //导入
+importFiles({
+  id:'#importData',
+  url:'//excelImport/kgjimp',
+  callback: function (data, type) {
+    queryTable('');
+  }
+})
+// 导出
+$('#exportData').click(function() {
+  var formValue = form.val('patentFormDemo'),
+  searchData = {
+    unitName: formValue.unitName || '', // 单位名称：
+    patentName: formValue.patentName || '', // 项目背景：
+    patentType: formValue.patentType || '', // 专利类型：
+    lawStatus: formValue.lawStatus || '', // 法律状态
+    applicationNumber: formValue.applicationNumber || '', // 专利号：
+  },
+  exportUrl = '';
 
+  for (var key in searchData) {
+    exportUrl += '&' + key + '=' + searchData[key];
+  }
+  exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+  window.open(exportUrl, '_blank');
+})
 
-
-  // bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-  // bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
 });
 
 function shouUser(userId) {

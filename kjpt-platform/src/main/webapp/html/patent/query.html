@@ -25,15 +25,15 @@
             </div>
             <div>
               <p>专利总数量</p>
-              <p><span>106</span>个</p>
+              <p><span id="patentsTotal">0</span>个</p>
             </div>
             <div>
               <p>专利申请数</p>
-              <p><span>106</span>个</p>
+              <p><span id="patentNumber">0</span>个</p>
             </div>
             <div>
               <p>专利授权数</p>
-              <p><span>106</span>个</p>
+              <p><span id="patentAuthorizations">0</span>个</p>
             </div>
           </div>
           <div class="header-block-item">
@@ -43,15 +43,15 @@
             </div>
             <div>
               <p>发明</p>
-              <p><span>106</span>个</p>
+              <p><span id="invention">0</span>个</p>
             </div>
             <div>
               <p>实用新型</p>
-              <p><span>106</span>个</p>
+              <p><span id="utilityModel">0</span>个</p>
             </div>
             <div>
               <p>外观设计</p>
-              <p><span>106</span>个</p>
+              <p><span id="appearanceDesign">0</span>个</p>
             </div>
           </div>
           <div class="header-block-item"></div>
@@ -187,8 +187,13 @@
         <button class="layui-btn border-blue" id="editItem" button-role="edit">编辑</button>
         <button class="layui-btn border-blue" id="viewItem">查看</button>
         <button class="layui-btn border-red" id="delItem" button-role="delete">删除</button>
-        <button class="layui-btn border-blue" data-type="exportEvent">导出</button>
-        <button class="layui-btn border-blue" data-type="importEvent">导入</button>
+        <button class="layui-btn border-red" id="removeItem" button-role="remove">移除</button>
+        <a class="layui-btn border-blue" href="/data/kjpt_zzzl.xls" data-type="downloadData">模板下载</a>
+        <div id="importData" style="display: inline-block;margin: 0 12px">
+          <a class="layui-btn border-blue"  data-type="importData" filter="addFile" >导入</a>
+      </div>
+       <a class="layui-btn border-blue" id="exportData">导出</a>
+       
       </div>
     </div>
 
@@ -202,6 +207,7 @@
   <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/layuiadmin/js/common.js"></script>
+  <script src="/layuiadmin/js/fileUpload.js"></script>
   <script src="query.js"></script>
 
   <script type="text/html" id="applicationDateText">

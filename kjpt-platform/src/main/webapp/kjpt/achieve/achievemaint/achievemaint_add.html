@@ -170,10 +170,8 @@
                 createElement(formData.type, "awardsType", "option", "awardsType", 'new',formData)
                 createElement(formData.awardsType, "awardsChildType", "option", "awardsChildType", 'new',formData)
               }
-              
-              // 更新表单数据
-              // form.render();
-
+              form.val('formPlatform', formData);
+              form.render();
               var scopeDisabled = false;
               if (item.type == 'see') {
                 setFomeDisabled('formPlatform', '.disabled');

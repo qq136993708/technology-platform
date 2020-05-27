@@ -70,8 +70,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'publishDate',
               title: '发表日期',
               align: 'center',
-              sort: true
-            },
+              sort: true,
+              templet: function(d){
+                var times = new Date(d.publishDate);
+                 return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+              }},
             {
               field: 'influencingFactors',
               title: '影响因子',
@@ -135,9 +138,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       content: url,
       btn: null,
       end: function () {
-
         var relData = getDialogData('dialog-data');
-
         if (relData) {
           if (relData.code === '0') {
             layer.msg(dialogTitle + '成功!', {
@@ -150,7 +151,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             });
           }
         }
-
       }
     });
   }
@@ -192,7 +192,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         layer.close(index);
         // 确认删除
         httpModule({
-          url: '/patentController/delete/' + itemRowData.id,
+          url: '/treatise-api/delete/' + itemRowData.id,
           type: 'DELETE',
           success: function (relData) {
             if (relData.code === '0') {
@@ -216,13 +216,35 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#estimate' //指定元素
   });
-
-
-
-
-  // bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-  // bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
 });
+//导入
+importFiles({
+  id:'#importData',
+  url:'/excelImport/treatiseImp',
+  //treatiseImp
+  callback: function (data,type) {
+      queryTable('');
+  }
+});
+
+// 导出
+$('#exportData').click(function() {
+  var formValue = form.val('patentFormDemo'),
+  searchData = {
+    theme: formValue.theme || '', // 论文主题：
+    title: formValue.title || '', // 篇名：
+    journalName: formValue.journalName || '', // 期刊名：
+    journalLevel: formValue.journalLevel || '', // 期刊等级
+    publishDate: formValue.publishDate || '', // 发表日期：
+  },
+  exportUrl = '';
+
+  for (var key in searchData) {
+    exportUrl += '&' + key + '=' + searchData[key];
+  }
+  exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
+  window.open(exportUrl, '_blank');
+})
 
 function shouUser(userId) {
   alert(userId);

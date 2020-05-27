@@ -67,7 +67,7 @@
             <select name="unit" xm-select="unit"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
           </div>
             <div class="layui-input-block  hide-box" id="input-box">
-            <input type="text" name="summary" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            <input type="text" name="unitText" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -97,18 +97,27 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">影响因子：</span></label>
+          <label class="layui-form-label label-required"><span class="text">影响因子：</span></label>
           <div class="layui-input-block">
-            <input type="text" id="i  nfluencingFactors" name="influencingFactors"
-              placeholder="" autocomplete="off" class="layui-input">
+            <input type="text" id="influencingFactors" name="influencingFactors"
+              placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
           </div>
         </div>
       </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">发表日期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="publishDate" lay-verify="required" id="estimate" placeholder="请填写..." autocomplete="off"
+                class="laydate-input">
+            </div>
+          </div>
+        </div>
     </div>
     <div id="file-filter-options">
       <div class="view-title-layout" style="margin-top:40px;">
           <div class="right">
-            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            <label type="button" class="layui-btn border-blue box-hide" filter="addFile">添加附件</label>
           </div>
       </div>
       <div class="layui-form-item">
@@ -119,7 +128,7 @@
   <div style="height:80px;"></div>
 
     <div class="dialog-footer-btn">
-      <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
+      <button class="layui-btn layui-btn-normal box-hide" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
       <button class="layui-btn layui-btn-primary close-all-dialog" type="button">取消</button>
     </div>
 
