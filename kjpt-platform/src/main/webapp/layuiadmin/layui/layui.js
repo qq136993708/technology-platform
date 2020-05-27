@@ -1,6 +1,29 @@
 /** layui-v2.3.0 MIT License By https://www.layui.com */
 ;
 !
+// 添加console解决IE兼容问题
+(function() {
+    if (!console) {
+        // IE9下避免 console错误
+        console = {
+            log: function() {},
+            error: function() {},
+            debug: function() {},
+            info: function() {},
+            warn: function() {},
+            dir: function() {},
+            trace: function() {},
+            group: function() {},
+            groupEnd: function() {},
+            profile: function() {},
+            profileEnd: function() {},
+            time: function() {},
+            timeEnd: function() {}
+        };
+    }
+})();!
+
+
     function(e) {
         "use strict";
         var t = document,

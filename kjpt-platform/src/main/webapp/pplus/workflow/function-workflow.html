@@ -309,7 +309,7 @@
 					} else if (typeof (temFunUrl) == "undefined" || temFunUrl == '' || temFunUrl == '#') {
 						layer.msg("请选择功能菜单进行配置");
 					} else {
-						var temUrl = "/workflow/function/add/?id=" + temFunctionId+"&name="+temFunctionName;
+						var temUrl = window.encodeURI("/workflow/function/add/?id=" + temFunctionId+"&name="+temFunctionName);
 						top.layer.open({
 							title:'新增',
 							shadeClose: true,

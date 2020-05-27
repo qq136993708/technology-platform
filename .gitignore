@@ -63,3 +63,7 @@ Thumbs.db
 ./target/*
 *.class
 */target/*
+kjpt-system-provider/.gitignore
+kjpt-base/.gitignore
+kjpt-business-provider/.gitignore
+kjpt-platform/.gitignore
