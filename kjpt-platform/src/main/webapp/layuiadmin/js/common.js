@@ -5,23 +5,13 @@ if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d
 //拓展Array filter方法
 if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
 
-if (!console) {
+if (!window.console) {
 	// IE9下避免 console错误
-	console = {
-		log: function() {},
-		error: function() {},
-		debug: function() {},
-		info: function() {},
-		warn: function() {},
-		dir: function() {},
-		trace: function() {},
-		group: function() {},
-		groupEnd: function() {},
-		profile: function() {},
-		profileEnd: function() {},
-		time: function() {},
-		timeEnd: function() {}
-	};
+	window.console = window.console || (function () {
+    var c = {}; c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile
+    = c.clear = c.exception = c.trace = c.assert = function () { };
+    return c;
+  })();
 }
 
 var _hideSecrecylevel = function() {
