@@ -98,13 +98,27 @@
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-btn" form-label-item="level">
           <div class="layui-form-item text-right">
             <button class="layui-btn layui-btn-normal margin24"  lay-submit lay-filter="formDemo">查询</button>
+            <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <span class="layui-fold-btn"></span>
+            <!-- <span class="layui-fold-btn"></span> -->
           </div>
         </div>
       </div>
 
       <input type="hidden" name="level">
+      <div class="layui-colla-content layui-hide">
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">
+                <span class="layui-btn layui-btn-normal" id="custormAdd">增加</span>
+            </div>
+        </div>
+        <div id="custromFrom"></div>
+    </div>
     </form>
     <div style="padding-top:10px" form-label-item="level"></div>
   
