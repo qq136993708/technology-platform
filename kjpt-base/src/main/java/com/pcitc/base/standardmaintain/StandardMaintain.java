@@ -2,6 +2,8 @@ package com.pcitc.base.standardmaintain;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.util.Date;
+
 /**
  * @author ty
  */
@@ -126,11 +128,11 @@ public class StandardMaintain extends RecordModel {
     /**
      * 发布时间
      */
-    private String publishDate;
+    private Date publishDate;
     /**
      * 实施时间
      */
-    private String effectiveDate;
+    private Date effectiveDate;
     /**
      * 是否已发布英文版
      */
@@ -372,19 +374,19 @@ public class StandardMaintain extends RecordModel {
         this.englishName = englishName;
     }
 
-    public String getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(String publishDate) {
+    public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
     }
 
-    public String getEffectiveDate() {
+    public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
+    public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
