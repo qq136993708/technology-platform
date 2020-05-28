@@ -25,95 +25,62 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         cols: [
           [ //表头
             {
-              type: 'radio',
-              field: 'id',
+              type: 'checkbox',
               align: 'center'
             },
             {title: '序号',templet: '#xuhao', align: 'center'},
             {
               field: 'unitNameText',
-              title: '单位名称',
+              title: '标准状态',
               align: 'center',
               sort: true,
             },
             {
               field: 'patentName',
-              title: '专利名称',
-              sort: true,
+              title: '计划号',
               align: 'center'
-              // hide: (queryType == '1' ? true : false)
             }, {
               field: 'applicationNumber',
-              title: '专利号'
+              title: '标准号'
             },
             {
               field: 'applicant',
-              title: '申请人'
+              title: '标准类型'
             },
             {
               field: 'inventor',
-              title: '发明人',
-              sort: true
+              title: '主编单位',
             },
             {
               field: 'applicationTypeText',
-              title: '申请类型',
+              title: '修改状态',
               align: 'center',
-              sort: true,
             },
             {
               field: 'patentTypeText',
-              title: '专利类型',
+              title: '文件状态',
               align: 'center',
             },
             {
               field: 'countryText',
-              title: '国别组织',
+              title: '主管部门',
               align: 'center',
             },
-            {
-              field: 'applicationDateStr',
-              title: '申请日期',
-              align: 'center',
-              sort: true,
-              templet: function(d){
-                var times = new Date(d.applicationDateStr);
-                 return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
-              }},
+            // {
+            //   field: 'applicationDateStr',
+            //   title: '申请日期',
+            //   align: 'center',
+            //   sort: true,
+            //   templet: function(d){
+            //     var times = new Date(d.applicationDateStr);
+            //      return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+            //   }},
             {
               field: 'authorizationDateStr',
-              title: '授权日期',
+              title: '归口单位',
               align: 'center',
-              sort: true,
-              // hide: (queryType == '1' ? true : false)
+              // sort: true,
             },
-            /*{
-              field: 'legalStatusUpdateTime',
-              title: '法律状态更新时间',
-              align: 'center',
-              sort: true,
-              hide: (queryType == '1' ? true : false)
-            }, {
-              field: 'technicalFieldText',
-              title: '技术领域名称',
-              sort: true,
-              hide: (queryType == '1' ? true : false)
-            }, {
-              field: 'agency',
-              title: '代理机构',
-              sort: true,
-              hide: (queryType == '1' ? false : true)
-            }, {
-              field: 'legalStatusText',
-              title: '法律状态',
-              sort: true
-            }, */
-            {
-              field: 'secretLevelText',
-              title: '密级',
-              hide: _hideSecrecylevel(),
-              sort: true
-            }
           ]
         ],
         parseData: function (res) {
@@ -139,9 +106,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   }
 
   form.on('submit(formDemo)', function (data) {
-    //TODO date error
     var query = data.field;
-    // query.type = queryType;  // 后台去掉了type字段
     queryTable(query);
     return false;
   });
@@ -150,13 +115,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   function openDataDilog(type, id) {
     var pageName = 'edit', pageTitle = '专利';
-    if (queryType == '2') {
-      // 后专项处理
-      pageName = 'handle';
-      pageTitle = '后专项处理';
-    }
-
-    var url = '/html/patent/'+ pageName +'.html?type=' + type;
+    var url = '/html/quality/'+ pageName +'.html?type=' + type;
     var dialogTitle = '新增'+pageTitle;
     if (type === 'edit') {
       dialogTitle = '编辑'+ pageTitle;
