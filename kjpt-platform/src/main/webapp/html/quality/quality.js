@@ -171,7 +171,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#delItem').on('click', function (e) {
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData.length == 1) {
-      layer.confirm('您确定要删除”' + itemRowData.patentName + '“吗？', {
+      layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
