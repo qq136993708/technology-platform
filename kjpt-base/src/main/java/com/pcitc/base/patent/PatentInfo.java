@@ -154,7 +154,7 @@ public class PatentInfo extends RecordModel implements Serializable {
     /**
      * 附件上传
      */
-    private String files;
+    private String files="";
 
     /**
      * 数据创建人

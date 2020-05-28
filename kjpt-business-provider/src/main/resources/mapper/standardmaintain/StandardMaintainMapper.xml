@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.trademarkinfo.TrademarkInfoMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.trademarkinfo.TrademarkInfo">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.standardmaintain.StandardMaintainMapper">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
-    <result column="commodity_category" jdbcType="VARCHAR" property="commodityCategory" />
-    <result column="application_number" jdbcType="VARCHAR" property="applicationNumber" />
-    <result column="effective_date" jdbcType="TIMESTAMP" property="effectiveDate" />
-    <result column="register_notice_date" jdbcType="TIMESTAMP" property="registerNoticeDate" />
-    <result column="entry_person" jdbcType="VARCHAR" property="entryPerson" />
-    <result column="trademark_name" jdbcType="VARCHAR" property="trademarkName" />
-    <result column="applicant" jdbcType="VARCHAR" property="applicant" />
-    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
-    <result column="law_status" jdbcType="VARCHAR" property="lawStatus" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate" />
+    <result column="plan_num" jdbcType="VARCHAR" property="planNum" />
+    <result column="plan_chinese_name" jdbcType="VARCHAR" property="planChineseName" />
+    <result column="plan_english_name" jdbcType="VARCHAR" property="planEnglishName" />
+    <result column="release_year" jdbcType="VARCHAR" property="releaseYear" />
+    <result column="standard_type" jdbcType="VARCHAR" property="standardType" />
+    <result column="standard_type_text" jdbcType="VARCHAR" property="standardTypeText" />
+    <result column="chief_editor_unit" jdbcType="VARCHAR" property="chiefEditorUnit" />
+    <result column="chief_editor_unit_text" jdbcType="VARCHAR" property="chiefEditorUnitText" />
+    <result column="partake_editor_unit" jdbcType="VARCHAR" property="partakeEditorUnit" />
+    <result column="partake_editor_unit_text" jdbcType="VARCHAR" property="partakeEditorUnitText" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="level_text" jdbcType="VARCHAR" property="levelText" />
     <result column="file" jdbcType="VARCHAR" property="files" />
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
 
