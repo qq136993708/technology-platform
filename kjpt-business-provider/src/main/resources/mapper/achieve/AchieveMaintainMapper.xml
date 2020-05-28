@@ -83,7 +83,7 @@
     </sql>
 
 
-    <insert id="add" parameterType="com.pcitc.base.achieve.AROOT_KJPT_XBchieveBase">
+    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveMaintain">
         insert into achieve_maintain(
         id,
         year,
