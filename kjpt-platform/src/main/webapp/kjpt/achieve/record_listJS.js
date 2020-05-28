@@ -165,7 +165,6 @@ layui.use(['table', 'form','laydate'], function() {
     if (optionType !== 'add') {
       var listData = table.checkStatus('tableDemo').data;
       // console.log(listData)
-      // debugger
       // return  ;
       if (listData.length) {
         if (listData.length === 1) {
