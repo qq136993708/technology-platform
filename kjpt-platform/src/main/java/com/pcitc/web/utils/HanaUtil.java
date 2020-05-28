@@ -1,5 +1,7 @@
 package com.pcitc.web.utils;
 
+import com.pcitc.base.util.DateUtil;
+
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -7,10 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.pcitc.base.util.DateUtil;
 
 public class HanaUtil {
 

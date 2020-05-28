@@ -124,11 +124,20 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      是否驰名商标
      **/
     private String isWellKnown;
+    /***
+     是否驰名商标翻译
+     **/
+    private String isWellKnownText;
+
 
     /***
      是否著名商标
      **/
     private String isRegistered;
+    /***
+     是否著名商标翻译
+     **/
+    private String isRegisteredText;
 
     /***
      国别
@@ -214,9 +223,23 @@ public class TrademarkInfo extends RecordModel implements Serializable {
     }
 
     private static final long serialVersionUID = 1L;
-    
-    
-    
+
+
+    public String getIsWellKnownText() {
+        return isWellKnownText;
+    }
+
+    public void setIsWellKnownText(String isWellKnownText) {
+        this.isWellKnownText = isWellKnownText;
+    }
+
+    public String getIsRegisteredText() {
+        return isRegisteredText;
+    }
+
+    public void setIsRegisteredText(String isRegisteredText) {
+        this.isRegisteredText = isRegisteredText;
+    }
 
     public String getSecretLevelText() {
 		return secretLevelText;

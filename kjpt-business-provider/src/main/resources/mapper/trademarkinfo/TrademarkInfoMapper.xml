@@ -33,7 +33,9 @@
     
     <result column="extension_period" jdbcType="TIMESTAMP" property="extensionPeriod"/>
     <result column="is_well_known"    jdbcType="VARCHAR" property="isWellKnown"/>
+    <result column="is_well_known_text"    jdbcType="VARCHAR" property="isWellKnownText"/>
     <result column="is_registered"    jdbcType="VARCHAR" property="isRegistered"/>
+    <result column="is_registered_text"    jdbcType="VARCHAR" property="isRegisteredText"/>
     <result column="country_type"     jdbcType="VARCHAR" property="countryType"/>
 
     <result column="trademark_type"   jdbcType="VARCHAR" property="tradeMarkType"/>

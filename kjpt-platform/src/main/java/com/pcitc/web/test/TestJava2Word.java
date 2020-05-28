@@ -1,14 +1,10 @@
 package com.pcitc.web.test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.pcitc.web.utils.DES3Utils;
 import com.pcitc.web.utils.WordUtil;
+
+import java.io.IOException;
+import java.util.*;
 
 public class TestJava2Word {
 	public static void main(String[] args) throws Exception {

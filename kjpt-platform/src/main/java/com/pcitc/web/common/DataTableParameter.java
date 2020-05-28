@@ -1,9 +1,9 @@
 package com.pcitc.web.common;
 
+import com.google.common.collect.Lists;
+
 import java.io.Serializable;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 public class DataTableParameter implements Serializable {
 

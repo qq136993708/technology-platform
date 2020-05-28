@@ -29,7 +29,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'id',
               align: 'center'
             },
-            {title: '序号', templet: '#xuhao', align: 'center', width: 60 },
+            {title: '序号',templet: '#xuhao', align: 'center'},
             {
               field: 'unitNameText',
               title: '单位名称',
@@ -77,22 +77,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               align: 'center',
               sort: true,
               templet: function(d){
-                var times = new Date(d.applicationDate);
+                var times = new Date(d.applicationDateStr);
                  return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
               }},
             {
-              field: 'authorizationDate',
+              field: 'authorizationDateStr',
               title: '授权日期',
               align: 'center',
               sort: true,
-              templet: function(d){
-            	  if (d.authorizationDate) {
-            		  var times = new Date(d.authorizationDate);
-            		  return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();            		  
-            	  } else {
-            		  return '';
-            	  }
-	          },
               // hide: (queryType == '1' ? true : false)
             },
             /*{
@@ -129,7 +121,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         },
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          limitName: 'pageSize', // 重置默认分页请求请求参数 limit => pageSize
+          
         },
         page: true, //开启分页
         limit: 10, // 每页数据条数,
@@ -149,6 +142,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   form.on('submit(formDemo)', function (data) {
     //TODO date error
     var query = data.field;
+    query['type']=2;
     // query.type = queryType;  // 后台去掉了type字段
     queryTable(query);
     return false;

@@ -1,41 +1,22 @@
 package com.pcitc.web.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLDecoder;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Constant;
+import com.pcitc.base.system.*;
+import com.pcitc.base.util.CommonUtil;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Constant;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysPost;
-import com.pcitc.base.system.SysUnit;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.util.CommonUtil;
-
-import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.util.*;
 
 
 public class EquipmentUtils {

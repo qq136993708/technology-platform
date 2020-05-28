@@ -15,6 +15,10 @@
   <!-- 更多样式在此引入 -->
 
   <style>
+    .more-item:not(:first-child) {
+      margin-top: 20px;
+    }
+
     #knownImagesView img{
       margin-right: 10px;
       width: 78px;
@@ -69,7 +73,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">单位名称:</span></label>
             <div class="layui-input-block">
-              <input type="text" name="unitName"  disabled placeholder="" autocomplete="off"
+              <input type="text" name="unitNameText"  disabled placeholder="" autocomplete="off"
                      class="layui-input">
             </div>
           </div>
@@ -183,7 +187,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">驰名商标：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="isWellKnown" placeholder="" disabled autocomplete="off" class="layui-input">
+              <select name="isWellKnown" lay-filter="isWellKnown" select="isWellKnown" disabled  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -213,7 +217,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">著名商标：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="isRegistered" placeholder="" disabled autocomplete="off" class="layui-input">
+              <select name="isRegistered" select="isRegistered" lay-filter="isRegistered" disabled  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -309,12 +313,13 @@
             var data = relData.data;
             var applicant = data.applicant;
             var applicantArray = applicant && applicant.indexOf(',')?applicant.split(','):[];
+            $.ajaxSettings.async = false;
             if (applicantArray.length > 0) {
               $.each(applicantArray, function (k, v) {
                 if (k == 0) {
                   data.applicant = v;
                 } else {
-                  addItem(v, 'edit');
+                  addItem(v, 'view');
                 }
               });
             }
@@ -385,8 +390,8 @@
 
     function addItem (value, type) {
       var el = '';
-      if (type && type == 'edit') {
-        el = $('.more-item .add-more-item-btn');
+      if (type && type == 'view') {
+        el = $('.more-item:last-child .applicantlist');
       } else {
         el = $(this);
       }
@@ -397,7 +402,9 @@
       html = html.indexOf('申请人：')>=0?html.replace('申请人：', '&nbsp;'):html;
       html = html.indexOf('label-required')>=0?html.replace('label-required', ''):html;
       appendparent.append(html);
-      el.remove();
+      if (type != 'view') {
+        el.remove();
+      }
       //赋值
       setTimeout(function () {
         if (typeof value == 'string') {
