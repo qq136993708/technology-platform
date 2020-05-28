@@ -115,7 +115,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('[lay-filter="formDemo"]').click();
 
   function openDataDilog(type, id) {
-    // debugger
    
      var pageName = 'addpaper';
      var pageTitle = '论文';

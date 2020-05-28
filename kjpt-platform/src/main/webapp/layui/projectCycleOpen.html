@@ -227,7 +227,6 @@
 <script>
     var html = ""
     for(var i = 0; i < json.item.length; i++) {
-        //debugger
         var html2 = ""
         html += "<div class='department''>"
         for(var o = 0; o < json.item[i].navigatItem.length; o++) {
@@ -248,7 +247,6 @@
             var name2 = item2.name;
             var y2 = $("#" + id2).offset().top;
             var x2 = $("#" + id2).offset().left;
-            //debugger
             var arrValue2 = arraylist[id2];
             if(arrValue2 == undefined) {
                 arraylist[id2] = state(item2.colorFlag,x2, y2, name2);
