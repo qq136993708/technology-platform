@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
+	<script type="text/javascript" src="/layuiadmin/javascript/ckeditor4/ckeditor.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
 	<style>
 		body{padding: 10px 10px 0;}
@@ -90,7 +90,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">公告内容<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<textarea name="ckEditor" class="ckeditor" id="content"></textarea>
+						<textarea name="noticeContent"></textarea>
 					</div>
 				</div>
 			</div>
@@ -117,10 +117,14 @@
             ,laydate = layui.laydate
             ,form = layui.form;
         var myEditor = null;
-        ClassicEditor.create(document.querySelector('#content'),{}).then(editor => {
+		
+        CKEDITOR.replace('noticeContent');
+        /* ClassicEditor.create(document.querySelector('#noticeContent'),{}).then(editor => {
             myEditor = editor;
             console.log(myEditor)
-    	});
+    	}); */
+        
+        
         var id = "${id}";
         if (id) {
             $.ajax({
@@ -144,7 +148,8 @@
                             form.render();
                         }
                     }); */
-                    myEditor.setData(data.noticeContent);
+                    CKEDITOR.instances.noticeContent.setData(data.noticeContent);
+                    // myEditor.setData(data.noticeContent);
                     $("input[name=isVariable][value='" + data.isVariable + "']").prop("checked", "checked");
                     $("input[name=isTopRoll][value='" + data.isTopRoll + "']").prop("checked", "checked");
                     form.render();
@@ -195,7 +200,7 @@
             delete formData.unitCode;
             delete formData.unitType;
             // console.log(JSON.stringify(formData))
-            var noticeContent = myEditor.getData();
+            var noticeContent = CKEDITOR.instances.noticeContent.getData();
             if (!(noticeContent && $.trim(noticeContent).length > 0)) {
                 parent.layer.msg("公告内容不能为空");
                 return;
