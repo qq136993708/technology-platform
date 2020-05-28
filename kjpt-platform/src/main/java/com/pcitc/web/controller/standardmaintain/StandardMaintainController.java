@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 /**
- * <p>成果维护</p>
+ * <p>标准维护</p>
  * @author
  */
-@Api(value = "standardMaintain-api", description = "成果维护接口")
+@Api(value = "standardMaintain-api", description = "标准维护接口")
 @RestController
 public class StandardMaintainController extends RestBaseController {
 

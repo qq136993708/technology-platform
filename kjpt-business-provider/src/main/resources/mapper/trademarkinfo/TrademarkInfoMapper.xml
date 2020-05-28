@@ -39,6 +39,7 @@
     <result column="country_type"     jdbcType="VARCHAR" property="countryType"/>
 
     <result column="trademark_type"   jdbcType="VARCHAR" property="tradeMarkType"/>
+    <result column="trademark_type_text"   jdbcType="VARCHAR" property="tradeMarkTypeText"/>
     <result column="well_known_date" jdbcType="TIMESTAMP" property="wellKnownDate"/>
     <result column="famous_date" jdbcType="TIMESTAMP" property="famousDate"/>
     <result column="well_known_org"   jdbcType="VARCHAR" property="wellKnownOrg"/>
@@ -75,6 +76,7 @@
      is_registered,
      country_type,
      trademark_type,
+     trademark_type_text,
      well_known_date,
      famous_date,
      well_known_org,
@@ -392,6 +394,19 @@
          </if>
          ))
      -->
+    and (secret_level = '0' or (
+    secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test='skipKnowledgeScope=="0"'>
+      and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+    </if>
+    ))
+
+    <if test="childUnitIds != null  and childUnitIds !=''  ">
+      AND t.create_unit_id in
+      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
 
   </sql>
 </mapper>

@@ -148,6 +148,10 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      商标类型
      **/
     private String tradeMarkType;
+    /***
+     商标类型字典翻译
+     **/
+    private String tradeMarkTypeText;
 
     /***
      驰名商标认定日期
@@ -439,6 +443,14 @@ public class TrademarkInfo extends RecordModel implements Serializable {
 
     public void setCreateUnitName(String createUnitName) {
         this.createUnitName = createUnitName;
+    }
+
+    public String getTradeMarkTypeText() {
+        return tradeMarkTypeText;
+    }
+
+    public void setTradeMarkTypeText(String tradeMarkTypeText) {
+        this.tradeMarkTypeText = tradeMarkTypeText;
     }
 
     @Override
