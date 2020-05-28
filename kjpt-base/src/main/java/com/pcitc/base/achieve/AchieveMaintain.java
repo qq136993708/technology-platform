@@ -39,6 +39,15 @@ public class AchieveMaintain extends RecordModel {
      */
     private String awardsChildTypeText;
     /**
+     * 授奖等级
+     */
+    private String awardLevel;
+    /**
+     * 授奖等级字典翻译
+     */
+    private String awardLevelText;
+
+    /**
      * 奖项数量
      */
     private String awardsNumber="";
@@ -114,5 +123,21 @@ public class AchieveMaintain extends RecordModel {
 
     public void setAwardsChildTypeText(String awardsChildTypeText) {
         this.awardsChildTypeText = awardsChildTypeText;
+    }
+
+    public String getAwardLevel() {
+        return awardLevel;
+    }
+
+    public void setAwardLevel(String awardLevel) {
+        this.awardLevel = awardLevel;
+    }
+
+    public String getAwardLevelText() {
+        return awardLevelText;
+    }
+
+    public void setAwardLevelText(String awardLevelText) {
+        this.awardLevelText = awardLevelText;
     }
 }

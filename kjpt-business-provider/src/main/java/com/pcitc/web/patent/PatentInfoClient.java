@@ -96,7 +96,7 @@ public class PatentInfoClient {
 	 * @return
 	 */
 	@ApiOperation(value = "批量移除后专项", notes = "批量移除后专项")
-	@RequestMapping(value = "/patent-provider/patentInfo/batchRemove/{ids}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/patent-provider/patentInfo/batchRemove/{ids}", method = RequestMethod.POST)
 	public Integer batchRemove(@PathVariable String ids) {
 		return patentInfoService.batchRemove(ids);
 	}
