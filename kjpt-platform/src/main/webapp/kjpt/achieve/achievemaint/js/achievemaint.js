@@ -56,6 +56,11 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
               title: '奖项子名称',
               align:'center'
             },
+            {
+              field: 'awardLevelText',
+              title: '授奖等级',
+              align:'center'
+            },
             // {
             //   field: 'awardsChildTypeText',
             //   title: '授权等级',
