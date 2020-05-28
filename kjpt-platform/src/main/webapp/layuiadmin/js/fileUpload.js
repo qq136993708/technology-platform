@@ -233,7 +233,6 @@ function setImagesUploadState(config) {
 }
 /*导入文件*/
 function importFiles(config){
-  debugger
     layui.use(['upload'], function(){
         var $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
             addFile = $field.find('[filter="addFile"]').get(0)
