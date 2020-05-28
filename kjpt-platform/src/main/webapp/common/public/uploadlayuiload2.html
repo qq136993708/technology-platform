@@ -241,21 +241,23 @@
             }
         }, reloadTable: function () {
             var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
-            for (var i = 0; i < fileList.list.length; i++) {
-                var file = fileList.list[i];
-                var tr = $(['<tr id="upload-' + i + '">'
-                    , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + file.id + '\' ></td>'
-                    , '<td  style="display: none;">' + (i + 1) + '</td>'
-                    , '<td>' + file.fileName + '</td>'
-                    , '<td>' + (file.fileSize / 1014).toFixed(1) + 'kb</td>'
-                    , '<td><span style="color: #5FB878;">上传成功</span></td>'
-                    , '<td>'
-                    , '' + ((pcitcFile2.file_edit_detail == "detail") ? "" : ('<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete\' href=\"javascript:pcitcFile2.deleteFile(\'' + file.id + '\',\'' + i + '\');" id=\"' + file.id + '\">删除</a>'))
-                    // , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"javascript:pcitcFile2.downloadFile(\'' + file.id + '\');">下载</a>'
-                    , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' target="_top" href=\"/sysfile/download/' + file.id + '">下载</a>'
-                    , '</td>'
-                    , '</tr>'].join(''));
-                $('#' + pcitcFile2.file_table_id).append(tr);
+            if (fileList && typeof(fileList) === 'object') {
+                for (var i = 0; i < fileList.list.length; i++) {
+                    var file = fileList.list[i];
+                    var tr = $(['<tr id="upload-' + i + '">'
+                        , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + file.id + '\' ></td>'
+                        , '<td  style="display: none;">' + (i + 1) + '</td>'
+                        , '<td>' + file.fileName + '</td>'
+                        , '<td>' + (file.fileSize / 1014).toFixed(1) + 'kb</td>'
+                        , '<td><span style="color: #5FB878;">上传成功</span></td>'
+                        , '<td>'
+                        , '' + ((pcitcFile2.file_edit_detail == "detail") ? "" : ('<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete\' href=\"javascript:pcitcFile2.deleteFile(\'' + file.id + '\',\'' + i + '\');" id=\"' + file.id + '\">删除</a>'))
+                        // , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"javascript:pcitcFile2.downloadFile(\'' + file.id + '\');">下载</a>'
+                        , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' target="_top" href=\"/sysfile/download/' + file.id + '">下载</a>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+                    $('#' + pcitcFile2.file_table_id).append(tr);
+                }
             }
         }
     }

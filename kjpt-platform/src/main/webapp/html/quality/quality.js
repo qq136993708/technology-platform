@@ -236,26 +236,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#applicationDateEnd' //指定元素
   });
-  loadPatent();
-  function loadPatent(){
-    httpModule({
-      url: '/patentController/countByLegalStatus',
-      type: 'GET',
-      success: function (relData) {
-        if (relData.success) {
-          $.each(relData.data,function(index,item){
-            if(item.name == '全部'){
-              $('#patentsTotal').text(item.num)
-            }else if(item.name == '申请'){
-              $('#patentNumber').text(item.num)
-            }else if(item.name == '授权'){
-              $('#patentAuthorizations').text(item.num)
-            }
-          })
-        }
-      }
-    });
-  };
+ 
   //导入
 importFiles({
   id:'#importData',
@@ -266,6 +247,7 @@ importFiles({
 })
 // 导出
 $('#exportData').click(function() {
+  debugger
   var formValue = form.val('patentFormDemo'),
   searchData = {
     planNum: formValue.planNum || '', // 计划号：

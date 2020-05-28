@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="/css/form.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
-    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor5_common.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor4/ckeditor.js"></script>
+    <!-- <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor5_common.js"></script> -->
     <script type="text/javascript" src="/common/js/base.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
 </head>
@@ -162,23 +162,25 @@
     var file_ids2 = "bak6";
     var file_edit_detail2 = "edit";
     var myEditor = null;
-    ClassicEditor
-        .create( document.querySelector( '#content' ), {
-            language:"zh-cn"
-            ,image: {
-                toolbar: [ 'imageTextAlternative' ]
-            }
-            ,
-            ckfinder: {
-                uploadUrl: '/sysfile/ckupload5?type=Image'
-            }
-        })
-        .then( editor => {
-            myEditor = editor;
-        } )
-        .catch( error => {
-            console.error( error );
-        } );
+
+    CKEDITOR.replace('content');
+    // ClassicEditor
+    //     .create( document.querySelector( '#content' ), {
+    //         language:"zh-cn"
+    //         ,image: {
+    //             toolbar: [ 'imageTextAlternative' ]
+    //         }
+    //         ,
+    //         ckfinder: {
+    //             uploadUrl: '/sysfile/ckupload5?type=Image'
+    //         }
+    //     })
+    //     .then( editor => {
+    //         myEditor = editor;
+    //     } )
+    //     .catch( error => {
+    //         console.error( error );
+    //     } );
 
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
@@ -206,7 +208,7 @@
             if (id != "0") {
                 ajaxPost("/sysNews/getSysNewsInfo", {"id": id}, function (data) {
                     form.val("sysNews-form", data);
-                    myEditor.setData(data.content);
+                    CKEDITOR.instances.content.setData(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -250,8 +252,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.content = myEditor.getData();
-                console.log("myEditor\n"+myEditor.getData());
+                data.field.content = CKEDITOR.instances.content.getData();
 
                 var stype=  $("#stype").val();
                 var bakvv=  $("#bak6").val();
