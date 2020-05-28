@@ -121,7 +121,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         },
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          limitName: 'pageSize', // 重置默认分页请求请求参数 limit => pageSize
+          
         },
         page: true, //开启分页
         limit: 10, // 每页数据条数,
@@ -141,6 +142,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   form.on('submit(formDemo)', function (data) {
     //TODO date error
     var query = data.field;
+    query['type']=2;
     // query.type = queryType;  // 后台去掉了type字段
     queryTable(query);
     return false;
