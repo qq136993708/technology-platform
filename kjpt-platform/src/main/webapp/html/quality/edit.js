@@ -6,29 +6,12 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     var $ = layui.$; 
     var laydate = layui.laydate;
     var formSelects = layui.formSelects;
- 
-
-    /*领域*/
-  //   httpModule({
-  //     url: "/techFamily-api/getTreeList",
-  //     type: 'GET',
-  //     async: false,  
-  //     success: function(relData) {
-  //         relData.children.map(function (item,index) {
-  //             item.children.map(function (items,i) {
-  //                 delete items.children
-  //             })
-  //         })
-  //         formSelects.data('technicalField', 'local', { arr: relData.children });
-  //         formSelects.btns('technicalField', ['remove']);
-  //     }
-  // });
 
 
   function getItemInitData(item) {
-    var httpUrl = '/patentController/newInit';
+    var httpUrl = '/standardMaintain-api/newInit';
     if (item && item.id) {
-      httpUrl = '/patentController/load/' + item.id;
+      httpUrl = '/standardMaintain-api/load/' + item.id;
     }
     httpModule({
       url: httpUrl,
@@ -36,42 +19,31 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       success: function(relData) {
         if (relData.code === '0') {
           // 给form表单赋初始值
-
           var data = relData.data;
-          transToData(data, ['applicationDate','entryDate']);
           if(data.technicalField) {
             data.technicalField = data.technicalField.split(',');
           } else {
             data.technicalField = [];
           }
-          //data.technicalField = data.technicalField.split(',');
-          if (data.expirationDate) {
-            // 失效日期
-            data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
-          }
+          // if (data.expirationDate) {
+          //   // 失效日期
+          //   data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
+          // }
           if(data.authorizationDate){
-            // 授权日期
+            // 发布时间
             data.authorizationDate = new Date(data.authorizationDate).format('yyyy-MM-dd');
           }
           if(data.terminationDate){
-            // 终止日期
+            // 实施时间
             data.terminationDate = new Date(data.terminationDate).format('yyyy-MM-dd');
-          }
-          if(data.legalStatusUpdateTime){
-            // 变更日期
-            data.legalStatusUpdateTime = new Date(data.legalStatusUpdateTime).format('yyyy-MM-dd');
           }
 
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
-
           formSelects.value('unitName', [data.unitName]);
-
           // 更新表单数据
           //form.render();
-
           setRadioShow();
-
           var billDataID = data.id;
 
           setFileUpload({
@@ -109,27 +81,10 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {
-	  $.ajaxSettings.async = false;
-      var params = moreItemSubmit(data, 'assignProfit', data.field);
-      params = moreItemSubmit(data, 'assignor', params);
-      params = moreItemSubmit(data, 'licensee', params);
-      params = moreItemSubmit(data, 'licenseeProfit', params);
-
-    if(formSelects.value('technicalField')){
-      var technicalFieldText='', technicalFieldIndex='';
-      formSelects.value('technicalField').map(function (item, index) {
-        technicalFieldText+=item.name+',';
-        technicalFieldIndex+=item.nodePath+',';
-      })
-      params.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
-      // data.field.technicalFieldText=technicalFieldText.substring(0,technicalFieldText.length-1);
-      // data.field.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
-      params.technicalFieldIndex=technicalFieldIndex.substring(0,technicalFieldIndex.length-1);
-    }
-    console.log(params);
-
+    params = data.field
+    delete(params.file)
 		httpModule({
-			url: '/patentController/save',
+			url: '/standardMaintain-api/save',
 			data: params,
 			type: "POST",
 			success: function(e) { 
@@ -161,51 +116,25 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
                 val = el.val();
             }
         });
-  
-        /*if(val !== '03') {
-          $(".licenseeProfit").val(0);
-        }
-
-        if(val !== '04') {
-          $(".assignProfit").val(0);
-        }*/
       }
 
       $("div[showWhere='" + val + "']").css('display',''); 
 
     }
  
-    // 申请日期
+    // 下达年份
     laydate.render({
       elem: '#applicationDate' //指定元素
-      ,trigger: 'click'
+      ,trigger: 'click',
+      type:'year'
     });
-
-    // 失效日期
-    laydate.render({
-      elem: '#expirationDate' //指定元素
-      ,trigger: 'click'
-    });
-    
-    //录入日期
-    laydate.render({
-        elem: '#entryDate' //指定元素
-        ,trigger: 'click'
-      });
-
-      //变更日期
-    laydate.render({
-      elem: '#legalStatusUpdateTime' //指定元素
-      ,trigger: 'click'
-    });
-
-      //终止日期
+      //实施时间
     laydate.render({
       elem: '#terminationDate' //指定元素
       ,trigger: 'click'
     });
 
-      //授权日期
+      //发布时间
     laydate.render({
       elem: '#authorizationDate' //指定元素
       ,trigger: 'click'
