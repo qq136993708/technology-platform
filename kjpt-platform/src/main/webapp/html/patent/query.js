@@ -29,7 +29,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'id',
               align: 'center'
             },
-            {title: '序号',templet: '#xuhao', align: 'center'},
+            {title: '序号', templet: '#xuhao', align: 'center', width: 60 },
             {
               field: 'unitNameText',
               title: '单位名称',
@@ -77,14 +77,22 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               align: 'center',
               sort: true,
               templet: function(d){
-                var times = new Date(d.applicationDateStr);
+                var times = new Date(d.applicationDate);
                  return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
               }},
             {
-              field: 'authorizationDateStr',
+              field: 'authorizationDate',
               title: '授权日期',
               align: 'center',
               sort: true,
+              templet: function(d){
+            	  if (d.authorizationDate) {
+            		  var times = new Date(d.authorizationDate);
+            		  return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();            		  
+            	  } else {
+            		  return '';
+            	  }
+	          },
               // hide: (queryType == '1' ? true : false)
             },
             /*{
