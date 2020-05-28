@@ -87,11 +87,31 @@ layui.config({
   function getItemHtml(config) {
     var $parent = $(config.id).empty();
     $.each(config.data, function(i, item) {
-      var $li = $('<li class="item-details"></li>');
+      var $li = $('<li class="item-details"></li>'), itemHtml = '';
       if(item.noticeCreatetime){
-        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd') : '') +']</span>';
+        itemHtml += '<span class="date-text">['+ (function() {
+        	if (item.noticeCreatetime) {
+        		if (typeof(item.noticeCreatetime) === 'string' && item.noticeCreatetime.indexOf('-') > 0) {
+        			return new Date(item.noticeCreatetime.split('-').join('/')).format('yyyy-MM-dd');
+        		} else {
+        			return new Date(item.noticeCreatetime).format('yyyy-MM-dd');
+        		}
+        	} else {
+        		return '';
+        	}
+        })() +']</span>';
       }else{
-        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd') : '') +']</span>';
+        itemHtml += '<span class="date-text">['+ (function() {
+        	if (item.createDate) {
+        		if (typeof(item.createDate) === 'string' && item.createDate.indexOf('-') > 0) {
+        			return new Date(item.createDate.split('-').join('/')).format('yyyy-MM-dd');
+        		} else {
+        			return new Date(item.createDate).format('yyyy-MM-dd');
+        		}
+        	} else {
+        		return '';
+        	}
+        })() +']</span>';
       }
       itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
       $li.append(itemHtml);
