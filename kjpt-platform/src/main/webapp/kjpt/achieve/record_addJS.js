@@ -35,11 +35,9 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
   } else if (variable.type === 'edit') {
     itemInitApi = '/achieveRecord-api/load/' + variable.id
   }
-
   $('#selectAchieve').on('click', '.selectIcon', function() {
     openCorAchieveDialog();
   })
-  
 
   httpModule({
     url: itemInitApi,

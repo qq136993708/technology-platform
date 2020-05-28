@@ -203,4 +203,33 @@ layui.use(['form', 'laydate', 'table'], function () {
         elem: '.effectiveDate',
         trigger: 'click',
     });
+     //导入
+importFiles({
+    id:'#importData',
+    url:'//excelImport/kgjimp',
+    callback: function (data, type) {
+      queryTable('');
+    }
+  })
+  // 导出
+  $('#exportData').click(function() {
+    var formValue = form.val('selectCondition'),
+    searchData = {
+      unitName: formValue.unitName || '', // 单位名称：
+      trademarkName: formValue.trademarkName || '', // 商标名称
+      applicationNumber: formValue.applicationNumber || '', // 注册号
+      registerOrg: formValue.registerOrg || '', // 注册单位
+      registerDate: formValue.registerDate || '', // 注册日期
+      effectiveDate: formValue.effectiveDate || '', // 有效期
+      tradeMarkType: formValue.tradeMarkType || '', // 商标类型：
+      lawStatus: formValue.lawStatus || '', // 商标类型：
+    },
+    exportUrl = '';
+  
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
+  })
 })

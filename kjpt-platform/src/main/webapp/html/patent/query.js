@@ -75,8 +75,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'applicationDateStr',
               title: '申请日期',
               align: 'center',
-              sort: true
-            },
+              sort: true,
+              templet: function(d){
+                var times = new Date(d.applicationDateStr);
+                 return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+              }},
             {
               field: 'authorizationDateStr',
               title: '授权日期',
@@ -332,7 +335,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   //导入
 importFiles({
   id:'#importData',
-  url:'//excelImport/kgjimp',
+  url:'/excelImport/kgjimp',
   callback: function (data, type) {
     queryTable('');
   }
