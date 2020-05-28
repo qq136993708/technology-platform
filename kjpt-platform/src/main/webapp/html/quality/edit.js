@@ -25,10 +25,15 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           } else {
             data.technicalField = [];
           }
-          // if (data.expirationDate) {
-          //   // 失效日期
-          //   data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
-          // }
+          if(data.chiefEditorUnit){
+            formSelects.value('chiefEditorUnit',[data.chiefEditorUnit])
+          }
+          if(data.partakeEditorUnit){
+            formSelects.value('partakeEditorUnit',[data.partakeEditorUnit])
+          }
+          if(data.putUnderUnit){
+            formSelects.value('putUnderUnit',[data.putUnderUnit])
+          }
           if(data.authorizationDate){
             // 发布时间
             data.authorizationDate = new Date(data.authorizationDate).format('yyyy-MM-dd');

@@ -150,7 +150,6 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
     });
 }
   form.on('submit(formDemo)', function (data) {
-    console.log(data.field)
     objLayui.tableList(data.field)
     return false
   })
