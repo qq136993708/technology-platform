@@ -1,12 +1,10 @@
 package com.pcitc.web.common;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.pcitc.base.common.ExcelException;
-import com.pcitc.base.exception.SysException;
-import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.system.SysReqLogs;
+import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -17,19 +15,17 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
-
-import com.pcitc.base.common.Result;
-import com.pcitc.base.system.SysReqLogs;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DateUtil;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author:Administrator

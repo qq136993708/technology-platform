@@ -3,14 +3,13 @@
  */
 package com.pcitc.web.config;
 
-import java.util.Locale;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.servlet.LocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.web.servlet.LocaleResolver;
+import java.util.Locale;
 
 /**
  * @author zhf

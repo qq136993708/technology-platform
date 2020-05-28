@@ -1,18 +1,16 @@
 package com.pcitc.web.common;
 
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-
-import java.io.Serializable;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysUser;
+import java.io.Serializable;
+import java.util.List;
 
 @Component
 public class JwtTokenUtil implements Serializable {

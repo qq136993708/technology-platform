@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.standardmaintain.StandardMaintainMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.standardmaintain.StandardMaintain">
+  <resultMap id="StandardMaintainMap" type="com.pcitc.base.standardmaintain.StandardMaintain">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="plan_num" jdbcType="VARCHAR" property="planNum" />
     <result column="plan_chinese_name" jdbcType="VARCHAR" property="planChineseName" />
@@ -15,383 +15,235 @@
     <result column="partake_editor_unit_text" jdbcType="VARCHAR" property="partakeEditorUnitText" />
     <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="level_text" jdbcType="VARCHAR" property="levelText" />
-    <result column="file" jdbcType="VARCHAR" property="files" />
-    <result column="deleted" jdbcType="VARCHAR" property="deleted" />
+    <result column="update_status" jdbcType="VARCHAR" property="updateStatus" />
+    <result column="update_status_text" jdbcType="VARCHAR" property="updateStatusText" />
+    <result column="file_status" jdbcType="VARCHAR" property="fileStatus" />
+    <result column="file_status_text" jdbcType="VARCHAR" property="fileStatusText" />
+    <result column="is_publish" jdbcType="VARCHAR" property="isPublish" />
+    <result column="is_publish_text" jdbcType="VARCHAR" property="isPublishText" />
+    <result column="manage_org" jdbcType="VARCHAR" property="manageOrg" />
+    <result column="technical_committee" jdbcType="VARCHAR" property="technicalCommittee" />
+    <result column="technical_committee_text" jdbcType="VARCHAR" property="technicalCommitteeText" />
+    <result column="putUnder_unit" jdbcType="VARCHAR" property="putUnderUnit" />
+    <result column="putUnder_unit_text" jdbcType="VARCHAR" property="putUnderUnitText" />
+    <result column="consult_standard" jdbcType="VARCHAR" property="consultStandard" />
+    <result column="uniformity_degree" jdbcType="VARCHAR" property="uniformityDegree" />
+    <result column="to_replaced_standard" jdbcType="VARCHAR" property="toReplacedStandard" />
+    <result column="standard_num" jdbcType="VARCHAR" property="standardNum" />
+    <result column="standard_name" jdbcType="VARCHAR" property="standardName" />
+    <result column="english_name" jdbcType="VARCHAR" property="englishName" />
+    <result column="publish_date" jdbcType="TIMESTAMP" property="publishDate" />
+    <result column="effective_date" jdbcType="TIMESTAMP" property="effectiveDate" />
+    <result column="is_publish_english_edition" jdbcType="VARCHAR" property="isPublishEnglishEdition" />
 
-    <result column="commodity_category_text" jdbcType="VARCHAR" property="commodityCategoryText" />
-    <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
-    <result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText" />
-    <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId" />
-    <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName" />
-
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+    <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+    <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+    <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
     <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
     <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
-
     <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
     <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
-    
-    
-    <result column="extension_period" jdbcType="TIMESTAMP" property="extensionPeriod"/>
-    <result column="is_well_known"    jdbcType="VARCHAR" property="isWellKnown"/>
-    <result column="is_well_known_text"    jdbcType="VARCHAR" property="isWellKnownText"/>
-    <result column="is_registered"    jdbcType="VARCHAR" property="isRegistered"/>
-    <result column="is_registered_text"    jdbcType="VARCHAR" property="isRegisteredText"/>
-    <result column="country_type"     jdbcType="VARCHAR" property="countryType"/>
-
-    <result column="trademark_type"   jdbcType="VARCHAR" property="tradeMarkType"/>
-    <result column="well_known_date" jdbcType="TIMESTAMP" property="wellKnownDate"/>
-    <result column="famous_date" jdbcType="TIMESTAMP" property="famousDate"/>
-    <result column="well_known_org"   jdbcType="VARCHAR" property="wellKnownOrg"/>
-    <result column="famous_org"   jdbcType="VARCHAR" property="famousOrg"/>
-    <result column="register_org"   jdbcType="VARCHAR" property="registerOrg"/>
-
   </resultMap>
-  <sql id="Base_Column_List">
-     id,
-     unit_name,
-     commodity_category,
-     application_number,
-     effective_date,
-     register_notice_date,
-     entry_person,
-     trademark_name,
-     applicant,
-     register_date,
-     law_status,
-     remark,
-     entry_date,
-     file,deleted,
-     commodity_category_text,
-     legal_status_text,
-     unit_name_text,
-     create_unit_id,
-     create_unit_name,
-     secret_level,
-     secret_level_text,
-     knowledge_scope,
-     knowledge_person,
-     extension_period,
-     is_well_known,
-     is_registered,
-     country_type,
-     trademark_type,
-     well_known_date,
-     famous_date,
-     well_known_org,
-     famous_org,
-     register_org
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from view_trademark_info
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    update trademark_info set deleted = '1'
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
-    insert into trademark_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="unitName != null">
-        unit_name,
-      </if>
-      <if test="commodityCategory != null">
-        commodity_category,
-      </if>
-      <if test="applicationNumber != null">
-        application_number,
-      </if>
-      <if test="effectiveDate != null">
-        effective_date,
-      </if>
-      <if test="registerNoticeDate != null">
-        register_notice_date,
-      </if>
-      <if test="entryPerson != null">
-        entry_person,
-      </if>
-      <if test="trademarkName != null">
-        trademark_name,
-      </if>
-      <if test="applicant != null">
-        applicant,
-      </if>
-      <if test="registerDate != null">
-        register_date,
-      </if>
-      <if test="lawStatus != null">
-        law_status,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="entryDate != null">
-        entry_date,
-      </if>
-      <if test="files != null">
-        file,
-      </if>
-      <if test="deleted != null">
-       deleted,
-      </if>
-      <if test="createUnitId != null">
-        create_unit_id,
-      </if>
-      <if test="createUnitName != null">
-        create_unit_name,
-      </if>
 
-      <if test="secretLevel != null">
-        secret_level,
-      </if>
-      <if test="knowledgeScope != null">
-        knowledge_scope,
-      </if>
-      <if test="knowledgePerson != null">
-        knowledge_person,
-      </if>
-      <if test="extensionPeriod != null">
-        extension_period,
-      </if>
-      <if test="isWellKnown != null">
-        is_well_known,
-      </if>
-      <if test="isRegistered != null">
-        is_registered,
-      </if>
-      <if test="countryType != null">
-        country_type,
-      </if>
-      <if test="tradeMarkType != null">
-        trademark_type,
-      </if>
-      <if test="wellKnownDate != null">
-        well_known_date,
-      </if>
-      <if test="famousDate != null">
-        famous_date,
-      </if>
-      <if test="wellKnownOrg != null">
-        well_known_org,
-      </if>
-      <if test="famousOrg != null">
-        famous_org,
-      </if>
-      <if test="registerOrg != null">
-        register_org
-      </if>
+  <select id="load" parameterType="java.lang.String" resultMap="StandardMaintainMap">
+        select  * from view_standard_maintain where id = #{id} and deleted != '1'
+    </select>
 
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="unitName != null">
-        #{unitName,jdbcType=VARCHAR},
-      </if>
-      <if test="commodityCategory != null">
-        #{commodityCategory,jdbcType=VARCHAR},
-      </if>
-      <if test="applicationNumber != null">
-        #{applicationNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="effectiveDate != null">
-        #{effectiveDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="registerNoticeDate != null">
-        #{registerNoticeDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="entryPerson != null">
-        #{entryPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="trademarkName != null">
-        #{trademarkName,jdbcType=VARCHAR},
-      </if>
-      <if test="applicant != null">
-        #{applicant,jdbcType=VARCHAR},
-      </if>
-      <if test="registerDate != null">
-        #{registerDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lawStatus != null">
-        #{lawStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="entryDate != null">
-        #{entryDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="files != null">
-        #{files,jdbcType=VARCHAR},
-      </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=VARCHAR},
-      </if>
-      <if test="createUnitId != null">
-        #{createUnitId,jdbcType=VARCHAR},
-      </if>
-      <if test="createUnitName != null">
-        #{createUnitName,jdbcType=VARCHAR},
-      </if>
-      <if test="secretLevel != null">
-        #{secretLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="knowledgeScope != null">
-        #{knowledgeScope,jdbcType=VARCHAR},
-      </if>
-      <if test="knowledgePerson != null">
-        #{knowledgePerson,jdbcType=VARCHAR},
-      </if>
-      <if test="extensionPeriod != null">
-        #{extensionPeriod,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isWellKnown != null">
-        #{isWellKnown,jdbcType=VARCHAR},
-      </if>
-      <if test="isRegistered != null">
-        #{isRegistered,jdbcType=VARCHAR},
-      </if>
-      <if test="countryType != null">
-        #{countryType,jdbcType=VARCHAR},
-      </if>
-      <if test="tradeMarkType != null">
-        #{tradeMarkType,jdbcType=VARCHAR},
-      </if>
-      <if test="wellKnownDate != null">
-        #{wellKnownDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="famousDate != null">
-        #{famousDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="wellKnownOrg != null">
-        #{wellKnownOrg,jdbcType=VARCHAR},
-      </if>
-      <if test="famousOrg != null">
-        #{famousOrg,jdbcType=VARCHAR},
-      </if>
-      <if test="registerOrg != null">
-        #{registerOrg,jdbcType=VARCHAR}
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
-    update trademark_info
-    set unit_name = #{unitName,jdbcType=VARCHAR},
-      commodity_category = #{commodityCategory,jdbcType=VARCHAR},
-      application_number = #{applicationNumber,jdbcType=VARCHAR},
-      effective_date = #{effectiveDate,jdbcType=TIMESTAMP},
-      register_notice_date = #{registerNoticeDate,jdbcType=TIMESTAMP},
-      entry_person = #{entryPerson,jdbcType=VARCHAR},
-      trademark_name = #{trademarkName,jdbcType=VARCHAR},
-      applicant = #{applicant,jdbcType=VARCHAR},
-      register_date = #{registerDate,jdbcType=TIMESTAMP},
-      law_status = #{lawStatus,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      entry_date = #{entryDate,jdbcType=TIMESTAMP},
-      file = #{files,jdbcType=VARCHAR},
-      create_unit_id = #{createUnitId,jdbcType=VARCHAR},
-	  create_unit_name = #{createUnitName,jdbcType=VARCHAR},
-	  secret_level =  #{secretLevel,jdbcType=VARCHAR},
-	  knowledge_scope =  #{knowledgeScope,jdbcType=VARCHAR},
-	  extension_period =  #{extensionPeriod,jdbcType=TIMESTAMP},
-	  is_well_known =  #{isWellKnown,jdbcType=VARCHAR},
-	  is_registered =  #{isRegistered,jdbcType=VARCHAR},
-	  country_type =   #{countryType,jdbcType=VARCHAR},
-	  knowledge_person =  #{knowledgePerson,jdbcType=VARCHAR},
-	  trademark_type =  #{tradeMarkType,jdbcType=VARCHAR},
-      well_known_date =  #{wellKnownDate,jdbcType=TIMESTAMP},
-      famous_date =  #{famousDate,jdbcType=TIMESTAMP},
-      well_known_org =  #{wellKnownOrg,jdbcType=VARCHAR},
-      famous_org =  #{famousOrg,jdbcType=VARCHAR},
-      register_org =  #{registerOrg,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select  <include refid="Base_Column_List"/> from view_trademark_info where 1=1
-    <include refid="selectByParam" />
-    and deleted != '1'
-  </select>
-  <select id="queryTrademarkList_COUNT" parameterType="java.util.Map" resultType="Long">
-    select  count(*) from trademark_info where 1=1
+  <select id="query" parameterType="java.util.Map" resultMap="StandardMaintainMap">
+    select  * from view_standard_maintain where 1=1
     and deleted != '1'
     <include refid="selectByParam" />
-
   </select>
+
+
+  <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+    select  count(*) from standard_maintain where 1=1
+    and deleted != '1'
+    <include refid="selectByParam" />
+  </select>
+
 
   <sql id="selectByParam">
-    <if test="unitName != null and unitName != '' " >
-      and unit_name like CONCAT('%',#{unitName},'%')
+    <if test="planNum != null and planNum != '' " >
+      and plan_num like CONCAT('%',#{planNum},'%')
     </if>
-    <if test="trademarkName != null and trademarkName != '' " >
-      and trademark_name like CONCAT('%',#{trademarkName},'%')
+    <if test="planChineseName != null and planChineseName != '' " >
+      and plan_chinese_name like CONCAT('%',#{planChineseName},'%')
     </if>
-    <if test="lawStatus != null and lawStatus != '' " >
-      and law_status = #{lawStatus}
+    <if test="standardNum != null and standardNum != ''" >
+      and standard_num like CONCAT('%',#{standardNum},'%')
     </if>
-    <if test="applicant != null and applicant != '' " >
-      and applicant = #{applicant}
+    <if test="standardName != null and standardName != '' ">
+      and standard_name like CONCAT('%',#{standardName},'%')
     </if>
-    <if test="registerDateStart != null and registerDateStart != '' " >
-      and register_date &gt;= #{registerDateStart}
+    and (secret_level = '0' or (
+    secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test='skipKnowledgeScope=="0"'>
+      and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
     </if>
-    <if test="registerDateEnd != null and registerDateEnd != '' " >
-      and register_date &lt;= #{registerDateEnd}
-    </if>
-    <if test="childUnitIds != null          and childUnitIds !=''  ">
+    ))
+
+    <if test="childUnitIds != null  and childUnitIds !=''  ">
       AND create_unit_id in
       <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
         #{item}
       </foreach>
     </if>
-    <if test="secretLevel != null and secretLevel != '' " >
-      and secret_level = #{secretLevel}
-    </if>
-    <if test="isWellKnown != null and isWellKnown != '' " >
-      and is_well_known = #{isWellKnown}
-    </if>
-    <if test="isRegistered != null and isRegistered != '' " >
-      and is_registered = #{isRegistered}
-    </if>
-    <if test="countryType != null and countryType != '' " >
-      and country_type = #{countryType}
-    </if>
-    <if test="extensionPeriod != null and extensionPeriod != '' " >
-      and extension_period = #{extensionPeriod}
-    </if>
-    <if test="tradeMarkType != null and tradeMarkType != '' " >
-      and trademark_type = #{tradeMarkType}
-    </if>
-    <if test="wellKnownDate != null and wellKnownDate != '' " >
-      and well_known_date = #{wellKnownDate}
-    </if>
-    <if test="famousDate != null and famousDate != '' " >
-      and famous_date = #{famousDate}
-    </if>
-    <if test="wellKnownOrg != null and wellKnownOrg != '' " >
-      and well_known_org = #{wellKnownOrg}
-    </if>
-    <if test="famousOrg != null and famousOrg != '' " >
-      and famous_org = #{famousOrg}
-    </if>
-    <if test="registerOrg != null and registerOrg != '' " >
-      and register_org = #{registerOrg}
-    </if>
-
-    <!--
-         and (secret_level = '0' or (
-         secret_level <![CDATA[<=]]> #{userSecretLevel}
-         <if test='skipKnowledgeScope=="0"'>
-           and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-         </if>
-         ))
-     -->
-
   </sql>
+
+
+  <insert id="add" parameterType="com.pcitc.base.standardmaintain.StandardMaintain">
+        insert into standard_maintain(
+        id,
+        plan_num,
+        plan_chinese_name,
+        plan_english_name,
+        release_year,
+        standard_type,
+        chief_editor_unit,
+        partake_editor_unit,
+        level,
+        update_status,
+        file_status,
+        is_publish,
+        manage_org,
+        technical_committee,
+        put_under_unit,
+        consult_standard,
+        uniformity_degree,
+        to_replaced_standard,
+        standard_num,
+        standard_name,
+        english_name,
+        publish_date,
+        effective_date,
+        is_publish_english_edition,
+        create_user,
+        create_date,
+        update_date,
+        deleted,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person
+        ) values(#{id},#{planNum},#{planChineseName},#{planEnglishName},#{releaseYear},#{standardType},#{chiefEditorUnit},#{partakeEditorUnit},
+        #{level},#{updateStatus},#{fileStatus},#{isPublish},#{manageOrg},#{technicalCommittee},#{putUnderUnit},#{consultStandard},#{uniformityDegree},
+        #{toReplacedStandard},#{standardNum},#{standardName},#{englishName},#{publishDate},#{effectiveDate},#{isPublishEnglishEdition},
+        #{creator}, #{createDate},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+    </insert>
+
+  <update id="update" parameterType="com.pcitc.base.standardmaintain.StandardMaintain">
+    update standard_maintain
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="planNum != null and planNum != '' " >
+        plan_num = #{planNum},
+      </if>
+      <if test="planChineseName != null and planChineseName != '' " >
+        plan_chinese_name = #{planChineseName},
+      </if>
+      <if test="planEnglishName != null and planEnglishName != ''" >
+        plan_english_name = #{planEnglishName},
+      </if>
+      <if test="releaseYear != null and releaseYear != ''" >
+        release_year = #{releaseYear},
+      </if>
+      <if test="standardType != null and standardType != '' " >
+        standard_type = #{standardType},
+      </if>
+      <if test="chiefEditorUnit != null and chiefEditorUnit != ''" >
+        chief_editor_unit = #{chiefEditorUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="partakeEditorUnit != null and partakeEditorUnit != ''" >
+        partake_editor_unit = #{partakeEditorUnit},
+      </if>
+      <if test="level != null and level != ''" >
+        level = #{level},
+      </if>
+      <if test="updateStatus != null and updateStatus != ''" >
+        update_status = #{updateStatus},
+      </if>
+      <if test="fileStatus != null and fileStatus != ''" >
+        file_status = #{fileStatus},
+      </if>
+      <if test="isPublish != null and isPublish != ''" >
+        is_publish = #{isPublish},
+      </if>
+      <if test="manageOrg != null and manageOrg != ''" >
+        manage_org = #{manageOrg},
+      </if>
+      <if test="technicalCommittee != null and technicalCommittee != ''" >
+        technical_committee = #{technicalCommittee},
+      </if>
+      <if test="putUnderUnit != null and putUnderUnit != ''" >
+        put_under_unit = #{putUnderUnit},
+      </if>
+      <if test="consultStandard != null and consultStandard != ''" >
+        consult_standard = #{consultStandard},
+      </if>
+      <if test="uniformityDegree != null and uniformityDegree != ''" >
+        uniformity_degree = #{uniformityDegree},
+      </if>
+      <if test="toReplacedStandard != null and toReplacedStandard != ''" >
+        to_replaced_standard = #{toReplacedStandard},
+      </if>
+      <if test="standardNum != null and standardNum != ''" >
+        standard_num = #{standardNum},
+      </if>
+      <if test="standardName != null and standardName != ''" >
+        standard_name = #{standardName},
+      </if>
+      <if test="englishName != null and englishName != ''" >
+        english_name = #{englishName},
+      </if>
+      <if test="publishDate != null" >
+        publish_date = #{publishDate},
+      </if>
+      <if test="effectiveDate != null " >
+        effective_date = #{effectiveDate},
+      </if>
+      <if test="isPublishEnglishEdition != null and isPublishEnglishEdition != ''" >
+        is_publish_english_edition = #{isPublishEnglishEdition},
+      </if>
+      <if test="updateDate != null " >
+        update_date = #{updateDate},
+      </if>
+      <if test="deleted != null and deleted != ''" >
+        deleted = #{deleted},
+      </if>
+      <if test="updator != null and updator != ''" >
+        update_user = #{updator},
+      </if>
+      <if test="createUnitId != null and createUnitId != ''" >
+        create_unit_id = #{createUnitId},
+      </if>
+      <if test="createUnitName != null and createUnitName != ''" >
+        create_unit_name = #{createUnitName},
+      </if>
+      <if test="secretLevel != null and secretLevel != ''" >
+        secret_level = #{secretLevel},
+      </if>
+      <if test="knowledgeScope != null and knowledgeScope != ''" >
+        knowledge_scope = #{knowledgeScope},
+      </if>
+      <if test="knowledgePerson != null and knowledgePerson != ''" >
+        knowledge_person = #{knowledgePerson},
+      </if>
+    </trim>
+    where id = #{id}
+  </update>
+
+  <update id="delete" parameterType="java.lang.String">
+    update standard_maintain set deleted = '1' where id in
+    <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
 </mapper>

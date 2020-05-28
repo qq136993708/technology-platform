@@ -4,16 +4,16 @@ package com.pcitc.web.utils;
  * 该类可以从浏览器请求中提取出cookies并进行对cookis的相关操作
  * 
  */
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
+
+import com.pcitc.web.common.BaseController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.pcitc.web.common.BaseController;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CookiesUtil extends BaseController {
 

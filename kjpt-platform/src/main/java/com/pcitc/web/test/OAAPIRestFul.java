@@ -1,16 +1,10 @@
 package com.pcitc.web.test;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.pcitc.web.utils.RestfulHttpClient;
 import org.springframework.stereotype.Controller;
 
-import com.google.gson.JsonObject;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.MD5Util;
-import com.pcitc.web.utils.RestfulHttpClient;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class OAAPIRestFul {

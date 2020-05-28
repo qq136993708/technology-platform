@@ -92,10 +92,6 @@ public class StandardMaintain extends RecordModel {
      */
     private String technicalCommittee;
     /**
-     * 技术委员会翻译
-     */
-    private String technicalCommitteeText;
-    /**
      * 归口单位
      */
     private String putUnderUnit;
@@ -310,14 +306,6 @@ public class StandardMaintain extends RecordModel {
 
     public void setTechnicalCommittee(String technicalCommittee) {
         this.technicalCommittee = technicalCommittee;
-    }
-
-    public String getTechnicalCommitteeText() {
-        return technicalCommitteeText;
-    }
-
-    public void setTechnicalCommitteeText(String technicalCommitteeText) {
-        this.technicalCommitteeText = technicalCommitteeText;
     }
 
     public String getPutUnderUnit() {

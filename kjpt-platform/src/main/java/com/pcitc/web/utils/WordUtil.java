@@ -1,26 +1,13 @@
 package com.pcitc.web.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.Map;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import org.springframework.util.ClassUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.util.ClassUtils;
-import org.springframework.util.ResourceUtils;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+import java.io.*;
+import java.util.Map;
 
 public class WordUtil {
 	/**
