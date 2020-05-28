@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.trademarkinfo.TrademarkInfoMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.standardmaintain.StandardMaintainMapper">
+<mapper namespace="com.pcitc.mapper.standardmaintain.StandardMaintainMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.standardmaintain.StandardMaintain">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="plan_num" jdbcType="VARCHAR" property="planNum" />
     <result column="plan_chinese_name" jdbcType="VARCHAR" property="planChineseName" />
