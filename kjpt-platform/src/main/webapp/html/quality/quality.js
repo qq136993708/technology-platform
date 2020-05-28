@@ -6,13 +6,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var layer = layui.layer;
   var laydate = layui.laydate;
   var variable = getQueryVariable();
-  var queryType = (function() {
-    if (variable && typeof(variable) === 'object' && variable.type) {
-      return variable.type; } else { return '1'; }
-  })();
-  
   //表格渲染
-  var itemRowData = null; // 选中行的数据
   var tableRender = false;
 
   function queryTable(searchData) {
@@ -20,7 +14,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       tableRender = true;
       table.render({
         elem: '#tableDemo',
-        url: '/patentController/query' //数据接口
+        url: '/standardMaintain-api/query' //数据接口
           ,
         cols: [
           [ //表头
@@ -30,56 +24,52 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {title: '序号',templet: '#xuhao', align: 'center'},
             {
-              field: 'unitNameText',
+              field: 'isPublishEnglishEdition',
               title: '标准状态',
-              align: 'center',
-              sort: true,
+              align: 'center',  
+              templet:function(d){
+                if(d.isPublishEnglishEdition == '0'){
+                  return '<span>已发布</span>'
+                }else{
+                  return '<span>在研</span>'
+                }
+              }
             },
             {
-              field: 'patentName',
+              field: 'planNum',
               title: '计划号',
               align: 'center'
             }, {
-              field: 'applicationNumber',
+              field: 'standardNum',
               title: '标准号'
             },
             {
-              field: 'applicant',
+              field: 'standardType',
               title: '标准类型'
             },
             {
-              field: 'inventor',
+              field: 'chiefEditorUnit',
               title: '主编单位',
             },
             {
-              field: 'applicationTypeText',
+              field: 'updateStatus',
               title: '修改状态',
               align: 'center',
             },
             {
-              field: 'patentTypeText',
+              field: 'fileStatus',
               title: '文件状态',
               align: 'center',
             },
             {
-              field: 'countryText',
+              field: 'manageOrg',
               title: '主管部门',
               align: 'center',
             },
-            // {
-            //   field: 'applicationDateStr',
-            //   title: '申请日期',
-            //   align: 'center',
-            //   sort: true,
-            //   templet: function(d){
-            //     var times = new Date(d.applicationDateStr);
-            //      return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
-            //   }},
             {
-              field: 'authorizationDateStr',
+              field: 'putUnderUnitText',
               title: '归口单位',
               align: 'center',
-              // sort: true,
             },
           ]
         ],
@@ -114,7 +104,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('[lay-filter="formDemo"]').click();
 
   function openDataDilog(type, id) {
-    var pageName = 'edit', pageTitle = '专利';
+    var pageName = 'edit', pageTitle = '质量标准';
     var url = '/html/quality/'+ pageName +'.html?type=' + type;
     var dialogTitle = '新增'+pageTitle;
     if (type === 'edit') {
@@ -122,9 +112,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       url += '&id=' + id;
     } else if (type === 'view') {
       dialogTitle = pageTitle + '信息查看';
-      url = '/html/patent/view.html?id=' + id;
+      url = '/html/quality/view.html?id=' + id;
     }
-
     // 打开弹窗
     top.layer.open({
       type: 2,
@@ -156,22 +145,23 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   })
 
   // 表格行被选中
-  table.on('radio(tableDemo)', function (obj) {
-    itemRowData = obj.data;
-  });
+  // table.on('radio(tableDemo)', function (obj) {
+  //   itemRowData = obj.data;
+  // });
   // 编辑
   $('#editItem').on('click', function (e) {
-    if (itemRowData) {
-      openDataDilog('edit', itemRowData.id);
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData.length == 1) {
+      openDataDilog('edit', itemRowData[0].id);
     } else {
       layer.msg('请选择需要编辑的专利项目！');
     }
   });
-
   // 查看
   $('#viewItem').on('click', function (e) {
-    if (itemRowData) {
-      openDataDilog('view', itemRowData.id);
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData.length == 1) {
+      openDataDilog('view', itemRowData[0].id);
     } else {
       layer.msg('请选择需要查看的专利项目！');
     }
@@ -179,15 +169,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   // 删除
   $('#delItem').on('click', function (e) {
-    if (itemRowData) {
-      layer.confirm('您确定要删除”' + itemRowData.patentName + '“吗？', {
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData.length == 1) {
+      layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
         layer.close(index);
         // 确认删除
         httpModule({
-          url: '/patentController/delete/' + itemRowData.id,
+          url: '/standardMaintain-api/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function (relData) {
             if (relData.code === '0') {
@@ -236,12 +227,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     } else {
       layer.msg('请选择需要移除的专利项目！');
     }
-    // if (itemRowData) {
-    //   // layer.msg('移除移除！');
-
-    // } else {
-    //   layer.msg('请选择需要移除的专利项目！');
-    // }
   });
 
   laydate.render({
@@ -251,74 +236,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#applicationDateEnd' //指定元素
   });
-  loadPatent();
-  function loadPatent(){
-    httpModule({
-      url: '/patentController/countByLegalStatus',
-      type: 'GET',
-      success: function (relData) {
-        if (relData.success) {
-          $.each(relData.data,function(index,item){
-            if(item.name == '全部'){
-              $('#patentsTotal').text(item.num)
-            }else if(item.name == '申请'){
-              $('#patentNumber').text(item.num)
-            }else if(item.name == '授权'){
-              $('#patentAuthorizations').text(item.num)
-            }
-          })
-        }
-      }
-    });
-  };
-  loadPatentType();
-  function loadPatentType(){
-    httpModule({
-      url: '/patentController/countByPatentType',
-      type: 'GET',
-      success: function (relData) {
-        if (relData.success) {
-          $.each(relData.data,function(index,item){
-            if(item.name == '外观设计'){
-              $('#appearanceDesign').text(item.num)
-            }else if(item.name == '发明'){
-              $('#invention').text(item.num)
-            }else if(item.name == '实用新型'){
-              $('#utilityModel').text(item.num)
-            }
-          })
-        }
-      }
-    });
-  };
-  $('#leftItem').on('click',function(){
-    if (itemRowData) {
-      httpModule({
-        //GET /patentController/load/{id}
-        url: '/patentController/load/'+itemRowData.id,
-        type: 'GET',
-        success: function (relData) {
-          if (relData.success) {
-            var params = relData.data;
-            params['type']=2;
-            httpModule({
-              url: '/patentController/save',
-              type: 'POST',
-              data: params,
-              success: function (relData) {
-                if (relData.success) {
-                  debugger
-                  // var data = relData.data;
-                }
-              }
-            });
-          }
-        }
-      });
-    } else {
-      layer.msg('请选择需要查看的专利项目！');
-    }
-  })
+ 
   //导入
 importFiles({
   id:'#importData',
@@ -329,20 +247,20 @@ importFiles({
 })
 // 导出
 $('#exportData').click(function() {
+  debugger
   var formValue = form.val('patentFormDemo'),
   searchData = {
-    unitName: formValue.unitName || '', // 单位名称：
-    patentName: formValue.patentName || '', // 项目背景：
-    patentType: formValue.patentType || '', // 专利类型：
-    lawStatus: formValue.lawStatus || '', // 法律状态
-    applicationNumber: formValue.applicationNumber || '', // 专利号：
+    planNum: formValue.planNum || '', // 计划号：
+    standardNum: formValue.standardNum || '', // 标准号：
+    planChineseName: formValue.planChineseName || '', // 计划名称：
+    standardName: formValue.standardName || '', // 标准名称：
   },
   exportUrl = '';
 
   for (var key in searchData) {
     exportUrl += '&' + key + '=' + searchData[key];
   }
-  exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+  exportUrl = '/standardMaintain-api/export?' + exportUrl.substring(1);
   window.open(exportUrl, '_blank');
 })
 

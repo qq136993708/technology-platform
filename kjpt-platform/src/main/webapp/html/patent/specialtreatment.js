@@ -25,8 +25,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         cols: [
           [ //表头
             {
-              type: 'radio',
-              field: 'id',
+              type: 'checkbox',
               align: 'center'
             },
             {title: '序号',templet: '#xuhao', align: 'center'},
@@ -85,29 +84,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '授权日期',
               align: 'center',
               sort: true,
-              // hide: (queryType == '1' ? true : false)
             },
-            /*{
-              field: 'legalStatusUpdateTime',
-              title: '法律状态更新时间',
-              align: 'center',
-              sort: true,
-              hide: (queryType == '1' ? true : false)
-            }, {
-              field: 'technicalFieldText',
-              title: '技术领域名称',
-              sort: true,
-              hide: (queryType == '1' ? true : false)
-            }, {
-              field: 'agency',
-              title: '代理机构',
-              sort: true,
-              hide: (queryType == '1' ? false : true)
-            }, {
-              field: 'legalStatusText',
-              title: '法律状态',
-              sort: true
-            }, */
             {
               field: 'secretLevelText',
               title: '密级',
@@ -213,54 +190,29 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   // 查看
   $('#viewItem').on('click', function (e) {
-    if (itemRowData) {
-      openDataDilog('view', itemRowData.id);
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData.length == 1) {
+      openDataDilog('view', itemRowData[0].id);
     } else {
       layer.msg('请选择需要查看的专利项目！');
     }
   });
 
-  // 删除
-  $('#delItem').on('click', function (e) {
-    if (itemRowData) {
-      layer.confirm('您确定要删除”' + itemRowData.patentName + '“吗？', {
-        icon: 3,
-        title: '删除提示'
-      }, function (index) {
-        layer.close(index);
-        // 确认删除
-        httpModule({
-          url: '/patentController/delete/' + itemRowData.id,
-          type: 'DELETE',
-          success: function (relData) {
-            if (relData.code === '0') {
-              layer.msg('删除成功!', {
-                icon: 1
-              });
-              $('[lay-filter="formDemo"]').click();
-            } else {
-              layer.msg('删除失败', {
-                icon: 2
-              });
-            }
-          }
-        });
-      });
-    } else {
-      layer.msg('请选择需要删除的专利项目！');
-    }
-  });
 
   $('#removeItem').on('click', function (e) {
-    if (itemRowData) {
-      layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData.length > 0) {
+      layer.confirm('您确定要移除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
         layer.close(index);
+        var ids= itemRowData.map(function(item){
+          return item.id
+        })
         // 确认删除
         httpModule({
-          url: '/patentController/batchRemove/' + itemRowData.id,
+          url: '/patentController/batchRemove/'+ids,
           type: 'GET',
           success: function (relData) {
             if (relData.code === '0') {
@@ -279,12 +231,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     } else {
       layer.msg('请选择需要移除的专利项目！');
     }
-    // if (itemRowData) {
-    //   // layer.msg('移除移除！');
-
-    // } else {
-    //   layer.msg('请选择需要移除的专利项目！');
-    // }
   });
 
   laydate.render({
@@ -362,32 +308,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       layer.msg('请选择需要查看的专利项目！');
     }
   })
-  //导入
-importFiles({
-  id:'#importData',
-  url:'/excelImport/kgjimp',
-  callback: function (data, type) {
-    queryTable('');
-  }
-})
-// 导出
-$('#exportData').click(function() {
-  var formValue = form.val('patentFormDemo'),
-  searchData = {
-    unitName: formValue.unitName || '', // 单位名称：
-    patentName: formValue.patentName || '', // 项目背景：
-    patentType: formValue.patentType || '', // 专利类型：
-    lawStatus: formValue.lawStatus || '', // 法律状态
-    applicationNumber: formValue.applicationNumber || '', // 专利号：
-  },
-  exportUrl = '';
-
-  for (var key in searchData) {
-    exportUrl += '&' + key + '=' + searchData[key];
-  }
-  exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
-  window.open(exportUrl, '_blank');
-})
 
 });
 

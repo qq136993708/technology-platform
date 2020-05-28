@@ -13,6 +13,8 @@
         <result column="awards_child_type" jdbcType="VARCHAR" property="awardsChildType"/>
         <result column="awards_child_type_text" jdbcType="VARCHAR" property="awardsChildTypeText"/>
         <result column="awards_number" jdbcType="VARCHAR" property="awardsNumber"/>
+        <result column="award_level" jdbcType="VARCHAR" property="awardLevel"/>
+        <result column="award_level_text" jdbcType="VARCHAR" property="awardLevelText"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
@@ -89,6 +91,7 @@
         awards_type,
         awards_child_type,
         awards_number,
+        award_level,
         create_date,
         create_user,
         update_date,
@@ -99,7 +102,7 @@
         secret_level,
         knowledge_scope,
         knowledge_person
-        ) values(#{id},#{year},#{type},#{awardsType},#{awardsChildType},#{awardsNumber},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        ) values(#{id},#{year},#{type},#{awardsType},#{awardsChildType},#{awardsNumber},#{awardLevel},#{createDate},#{creator},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -116,6 +119,9 @@
             </if>
             <if test="awardsNumber != null and awardsNumber != '' " >
                 awards_number = #{awardsNumber},
+            </if>
+            <if test="awardLevel != null and awardLevel != '' " >
+                award_level = #{awardLevel},
             </if>
             <if test="deleted != null and deleted != ''" >
                 deleted = #{deleted},
