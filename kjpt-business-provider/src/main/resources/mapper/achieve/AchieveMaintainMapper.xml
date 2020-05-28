@@ -75,7 +75,7 @@
         ))
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
-            AND t.create_unit_id in
+            AND create_unit_id in
             <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -83,7 +83,7 @@
     </sql>
 
 
-    <insert id="add" parameterType="com.pcitc.base.achieve.AchieveBase">
+    <insert id="add" parameterType="com.pcitc.base.achieve.AROOT_KJPT_XBchieveBase">
         insert into achieve_maintain(
         id,
         year,

@@ -144,6 +144,10 @@
             </if>
         ))
 
+        <if test="condition != null and condition !=''  ">
+            ${condition}
+        </if>
+
     </sql>
     
     

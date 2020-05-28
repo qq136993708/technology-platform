@@ -145,7 +145,8 @@ public class PlatformController extends RestBaseController {
             @ApiImplicitParam(name = "level", value = "平台级别", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "platformScorinHigh", value = "平台评分区间高", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "platformScorinLow", value = "平台评分区间低", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/platform-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -159,7 +160,8 @@ public class PlatformController extends RestBaseController {
             @RequestParam(value = "level") String level,
             @RequestParam(required = false,value = "platformScorinHigh") String platformScorinHigh,
             @RequestParam(required = false,value = "platformScorinLow") String platformScorinLow,
-            @RequestParam(required = false,value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel,
+            @RequestParam(required = false) String customQueryConditionStr
 
     ) throws Exception {
         SysUser sysUserInfo = this.getUserProfile();
@@ -198,6 +200,9 @@ public class PlatformController extends RestBaseController {
 
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
+        }
+        if(customQueryConditionStr != null){
+            this.setParam(condition,"customQueryConditionStr",customQueryConditionStr);
         }
 
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
