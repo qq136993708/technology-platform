@@ -28,7 +28,7 @@
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-normal" data-type="searchEvent">查询</button>
-        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button id="reset" type="button" class="layui-btn layui-btn-primary">重置</button>
     </div>
 </div>
 
@@ -129,8 +129,9 @@ var table,selectRowData;
     });
     
     $("#reset").click(function () {
+    	$('[name="jobName"],#createTimeStr').val('');
         renderTable()
-})
+	})
     
     
     function renderTable()

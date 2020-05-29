@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkRewardPunishSync;
 import com.pcitc.base.out.OutPerson;
 
 public interface IOutPersonService {
@@ -44,5 +45,6 @@ public interface IOutPersonService {
 	
 	public long getOutPersonCount(Map map)throws Exception;
 	
-	
+	public int deleteAllOutPerson()throws Exception;
+	public Integer insertBatchOutPerson(List<OutPerson> list)throws Exception;
 }

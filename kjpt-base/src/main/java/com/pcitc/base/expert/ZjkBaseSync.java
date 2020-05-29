@@ -117,8 +117,46 @@ public class ZjkBaseSync implements Serializable {
     
     private String birthDateStr;
     
+    
+    
+    private String titleCode;
+    private String postCode;
+    
+    
+    
+    private String educationCode;
+    
+    
+    
+    
+    
+    
 
-    public String getBirthDateStr() {
+    public String getEducationCode() {
+		return educationCode;
+	}
+
+	public void setEducationCode(String educationCode) {
+		this.educationCode = educationCode;
+	}
+
+	public String getTitleCode() {
+		return titleCode;
+	}
+
+	public void setTitleCode(String titleCode) {
+		this.titleCode = titleCode;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
+
+	public String getBirthDateStr() {
 		return birthDateStr;
 	}
 

@@ -114,23 +114,35 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
   /*表格行被选中*/
   // table.on('checkbox(expertTable)', function (obj) {
   //   itemRowData = obj.data;
-  //   debugger
+  //   
   // });
   form.on('select(type)', function(data){
     $('select[name="awardsType"]').attr('dic-base-data',data.value);
     createElement(data.value,"awardsType","option","awardsType");
     $("#awardsChildType" ).find('option').remove();
+    $('select[name="awardLevel"]').find('option').empty();
   })
   form.on('select(awardsType)', function(data){
+    $('select[name="awardLevel"]').find('option').empty();
     if(data.value == 'ROOT_KJPT_CGWH_HJLX_SBJJ_GSKJJ'){
+      $('#awardsChildType').attr('name','');
+      $('#awardsChildTypeInput').attr('name','awardsChildType');
       $('#selectBox').addClass('hide-box');
       $('#inputBox').removeClass('hide-box');
+      $('select[name="awardLevel"]').attr('dic-base-data', data.value);
+      createElement(data.value, "awardLevel", "option", "awardLevel")
     }else{
       $('#inputBox').addClass('hide-box');
       $('#selectBox').removeClass('hide-box');
+      $('#awardsChildType').attr('name','awardsChildType');
+      $('#awardsChildTypeInput').attr('name','');
       $('select[name="awardsChildType"]').attr('dic-base-data',data.value);
       createElement(data.value,"awardsChildType","option","awardsChildType");
     }
+  })
+  form.on('select(awardsChildType)', function (data) {
+    $('select[name="awardLevel"]').attr('dic-base-data', data.value);
+    createElement(data.value, "awardLevel", "option", "awardLevel")
   })
 
    /*动态生成元素*/

@@ -2,6 +2,7 @@ var file_readonly = false;
 layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], function () {
   var form = layui.form;
   var $ = layui.$;
+  var variable = getQueryVariable(); // 获取地址栏传递过来的参数
   var laydate = layui.laydate;
   var formSelects = layui.formSelects;
   function getItemInitData(item) {
@@ -32,6 +33,12 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
           }
           form.val('formMain', data);
           form.render();
+          
+          if(data.unit) {
+        	  data.unit = data.unit.split(',');
+        	  formSelects.value('unit', data.unit);
+          }
+          
           setFileUpload({
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
@@ -52,12 +59,13 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
         }
       }
     });
-  }
+  };
+  
+
   laydate.render({
     elem: '#estimate' //指定元素
   });
-  // 获取地址栏传递过来的参数
-  var variable = getQueryVariable();
+  
   getItemInitData(variable);
 
   form.on('submit(newSubmit)', function (data) {

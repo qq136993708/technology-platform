@@ -143,6 +143,9 @@
             ]
             // 获取地址栏传递过来的参数
             var variable = getQueryVariable();
+            if(variable.type == 'view'){
+                $('.layui-btn-normal').hide();
+            }
             httpModule({
                 url: "/achieveRecord-api/load/" + variable.id,
                 type: 'GET',
@@ -157,18 +160,29 @@
                             $('input[name="finishUnitName"]').val(loadData.finishUnitNameText);
                         }
                     }
-                    setFileUpload({ //appraisalDoc
-                        dataID: relDataForm.data.appraisalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+                    // setFileUpload({ //appraisalDoc
+                    //     dataID: relDataForm.data.appraisalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+                    //     callback: function (tableData, type) {
+                    //         console.log(tableData)
+                    //     }
+                    // });
+                    if(variable.type == 'view'){
+                        setFileUpload({
+                        id: 'file-filter-options1', // 附件上传作用域ID值 必传
+                        dataID: relDataForm.data.transPublicDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+                        readonly: 'true',
                         callback: function (tableData, type) {
-                            console.log(tableData)
+                            $('.right').hide();
                         }
                     });
-                    queryFile(relDataForm,'appraisalDoc');
-                    queryFile(relDataForm,'grantDoc');
-                    queryFile(relDataForm,'transContractDoc');
-                    queryFile(relDataForm,'transAssessDoc');
-                    queryFile(relDataForm,'decisionMeetingDoc');
-                    queryFile(relDataForm,'decisionRuleDoc');
+                    }else{
+                        queryFile(relDataForm,'appraisalDoc');
+                        queryFile(relDataForm,'grantDoc');
+                        queryFile(relDataForm,'transContractDoc');
+                        queryFile(relDataForm,'transAssessDoc');
+                        queryFile(relDataForm,'decisionMeetingDoc');
+                        queryFile(relDataForm,'decisionRuleDoc');
+                    }
                     secretLevel = relDataForm.data.secretLevel
                 }
             });

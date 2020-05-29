@@ -39,16 +39,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">时间：</span></label>
+                        <label class="layui-form-label label-required"><span class="text">公示状态：</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="finishDate"
-                                   autocomplete="off" placeholder="请选择成果完成时间!" class="layui-input laydate-input" id="finishDate">
-                          </div>
+                            <select name="publicityStatus" xm-select="publicityStatus" xm-select-skin="normal"
+                                dic-base-data="ROOT_KJPT_YTDW"></select>
+                        </div>
                     </div>
-                </div> -->
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                </div>
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">年份：</span></label>
                         <div class="layui-input-block font0">
@@ -63,19 +63,20 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <input type="text" name="publicityStatus" value="2" class="layui-input layui-hide">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
-                    <div class="layui-form-item text-right">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                    <div class="layui-form-item">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                        <!-- <span class="layui-fold-btn"></span> -->
-                        <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
+                        <span class="layui-fold-btn"></span>
+                        <!-- <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span> -->
                     </div>
                 </div>
-
             </div>
-            <div class="layui-colla-content layui-hide">
+            <!-- <div class="layui-colla-content layui-hide">
                 <div class="layui-row">
                     <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
                     <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
@@ -87,12 +88,12 @@
                     </div>
                 </div>
                 <div id="custromFrom"></div>
-            </div>
+            </div> -->
         </form>
 
         <div class="view-title-layout" id="opations-btn">
             <div class="right">
-                <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
+                <!-- <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button> -->
                 <button class="layui-btn border-red" id="delItem">结束公示</button>
             </div>
         </div>
@@ -138,21 +139,43 @@
                                 },
                                 {
                                     field: 'finishUnitNameText',
-                                    title: '完成持有单位',
+                                    title: '成果持有单位',
                                     sort: true
                                 },
                                 {
                                     field: 'publicityStartDate',
                                     title: '开始时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.publicityStartDate) }}</div>',
-                                },
+                                    // templet: function(d){
+                                    //     if(d.publicityStartDate == null){
+                                    //         return '';
+                                    //     }else{
+                                    //         var times = new Date(d.publicityStartDate);
+                                    //         return times.getFullYear();
+                                    //     }
+                                    //  }
+                                    templet: function(d){
+                                        var times = new Date(d.publicityStartDate);
+                                        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                                        }
+                                    },
                                 {
                                     field: 'publicityEndDate',
                                     title: '结束时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.publicityEndDate) }}</div>',
-                                },
+                                    // templet: function(d){
+                                    //     if(d.publicityEndDate == null){
+                                    //         return '';
+                                    //     }else{
+                                    //         var times = new Date(d.publicityEndDate);
+                                    //         return times.getFullYear();
+                                    //     }
+                                    //  }
+                                    templet: function(d){
+                                        var times = new Date(d.publicityEndDate);
+                                        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                                        }
+                                    },
                                 {
                                     field: 'appraisalDoc',
                                     title: '附件',
@@ -189,7 +212,6 @@
             }
 
             function queryFile(id) {
-                // return 'id';
                 var html='';
                 httpModule({
                     url: '/file/query/' + id,
@@ -200,7 +222,7 @@
                             data.data.map(function (item, index) {
                                 docStr+=item.fileName+',';
                             })    
-                            html = '<a href="/html/scientificMaterials/planDetails.html?id='+id+'" class="layui-table-link">'+docStr+'</a>';
+                            html = '<a href="/html/scientificMaterials/planDetails.html?id='+id+'&type=view" class="layui-table-link">'+docStr+'</a>';
                           
                         }else{
                             return '';
@@ -237,7 +259,7 @@
                 top.layer.open({
                     type: 2,
                     title: '公示',
-                    content: '/kjpt/achieve/formula.html?id=' + listData[0].id, // 全局弹窗页面地址
+                    content: '/kjpt/achieve/formula.html?id=' + listData[0].id+'&type=view', // 全局弹窗页面地址
                     btn: null,
                     area: ['60%', '60%'],
                     end: function (lay, index) {

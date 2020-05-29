@@ -24,16 +24,18 @@
 
     <div class="layui-row layui-col-space20">
       <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">年份：</span></label>
           <div class="layui-input-block font0">
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-              <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off" class="laydate-input">
+              <input type="text" name="startDate" id="inputStart" placeholder="请选择" autocomplete="off"
+                class="laydate-input">
             </div>
             <span class="ib-block font14 text-center" style="width: 30px;">-</span>
             <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
-              <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off" class="laydate-input">
+              <input type="text" name="endDate" id="inputEnd" placeholder="请选择" autocomplete="off"
+                class="laydate-input">
             </div>
           </div>
         </div>
@@ -50,7 +52,6 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">申请状态：</span></label>
           <div class="layui-input-block">
-
             <select class="auditStatus" name="auditStatus" lay-filter="achieveTransType" dic-base-data="ROOT_UNIVERSAL_LCZT"></select>
           </div>
         </div>
@@ -71,17 +72,17 @@
           </div>
         </div>
       </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6"></div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
-        <div class="layui-form-item text-right">
+        <div class="layui-form-item">
           <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
           <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
-          <!-- <span class="layui-fold-btn"></span> -->
-          <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
+          <span class="layui-fold-btn"></span>
+          <!-- <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span> -->
         </div>
       </div>
-
     </div>
-    <div class="layui-colla-content layui-hide">
+    <!-- <div class="layui-colla-content layui-hide">
       <div class="layui-row">
           <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
           <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
@@ -93,7 +94,7 @@
           </div>
       </div>
       <div id="custromFrom"></div>
-  </div>
+  </div> -->
   </form>
 
   <div class="view-title-layout" id="opations-btn">

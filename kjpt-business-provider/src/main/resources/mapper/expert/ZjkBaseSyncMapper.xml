@@ -24,11 +24,14 @@
     <result column="expert_type" jdbcType="VARCHAR" property="expertType" />
     <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
     <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="title_code" jdbcType="VARCHAR" property="titleCode" />
+    <result column="post_code"  jdbcType="VARCHAR" property="postCode" />
+    <result column="education_code"  jdbcType="VARCHAR" property="educationCode" />
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_num, expert_id, `name`, sex, birth_date, id_card_no, education, unit_id, 
     unit_name, title, post, work_experience, contact_way, email, brief, head_pic, create_time, 
-    update_time, expert_type, del_status, orders
+    update_time, expert_type, del_status, orders,title_code,post_code,education_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -47,7 +50,7 @@
       title, post, work_experience, 
       contact_way, email, brief, 
       head_pic, create_time, update_time, 
-      expert_type, del_status, orders
+      expert_type, del_status, orders,title_code,post_code,education_code
       )
     values (#{expertNum,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthDate,jdbcType=TIMESTAMP}, #{idCardNo,jdbcType=VARCHAR}, 
@@ -55,7 +58,10 @@
       #{title,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, 
       #{contactWay,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, 
       #{headPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{expertType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, #{orders,jdbcType=INTEGER}
+      #{expertType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}
+      , #{orders,jdbcType=INTEGER}
+      , #{titleCode,jdbcType=VARCHAR}
+      , #{postCode,jdbcType=VARCHAR}, #{educationCode,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBaseSync" useGeneratedKeys="true">
@@ -124,6 +130,14 @@
       <if test="orders != null">
         orders,
       </if>
+      <if test="titleCode != null">
+        title_code,
+      </if>
+      <if test="postCode != null">
+        post_code,
+      </if>
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="expertNum != null">
@@ -189,6 +203,14 @@
       <if test="orders != null">
         #{orders,jdbcType=INTEGER},
       </if>
+      <if test="titleCode != null">
+        #{titleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      
+    
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBaseSync">
@@ -257,6 +279,13 @@
       <if test="orders != null">
         orders = #{orders,jdbcType=INTEGER},
       </if>
+      <if test="titleCode != null">
+        title_code = #{titleCode,jdbcType=INTEGER},
+      </if>
+      <if test="postCode != null">
+        post_code = #{postCode,jdbcType=INTEGER},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -281,11 +310,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       expert_type = #{expertType,jdbcType=VARCHAR},
+      title_code = #{titleCode,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
       del_status = #{delStatus,jdbcType=VARCHAR},
       orders = #{orders,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
   
@@ -313,7 +343,6 @@
     
     
     
-    
     <!-- 批量插入数据 -->
 	<insert id="insertBatch" parameterType="java.util.List">
 			insert into zjk_base_sync 
@@ -324,7 +353,7 @@
 		      title, post, work_experience, 
 		      contact_way, email, brief, 
 		      head_pic, create_time, update_time, 
-		      expert_type, del_status, orders
+		      expert_type, del_status, orders,title_code,post_code,education_code
 		      )
 		    values 
 		    <foreach collection="list" item="item" index="index" separator=",">
@@ -350,11 +379,13 @@
 		      #{item.updateTime,jdbcType=TIMESTAMP}, 
 		      #{item.expertType,jdbcType=VARCHAR}, 
 		      #{item.delStatus,jdbcType=VARCHAR}, 
-		      #{item.orders,jdbcType=INTEGER}
+		      #{item.orders,jdbcType=INTEGER},
+		      #{item.titleCode,jdbcType=VARCHAR}, 
+		      #{item.postCode,jdbcType=VARCHAR},
+		      #{item.educationCode,jdbcType=VARCHAR}
 		      )
 			</foreach>
 	</insert>
-	
 	
   
    <delete id="deleteAllZjkSync" >

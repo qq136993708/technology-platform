@@ -175,8 +175,17 @@ public class ZjkBase  {
     
     private String condition;//mybatis拼装sql
     
+    private Date birthDate;
     
     
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public String getCondition() {
 		return condition;
 	}

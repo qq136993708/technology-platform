@@ -356,7 +356,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               data: params,
               success: function (relData) {
                 if (relData.success) {
-                  debugger
+//                  debugger
                   // var data = relData.data;
                 }
               }

@@ -35,7 +35,9 @@
     <result column="publish_date" jdbcType="TIMESTAMP" property="publishDate" />
     <result column="effective_date" jdbcType="TIMESTAMP" property="effectiveDate" />
     <result column="is_publish_english_edition" jdbcType="VARCHAR" property="isPublishEnglishEdition" />
-
+    <result column="is_publish_english_edition_text" jdbcType="VARCHAR" property="isPublishEnglishEditionText" />
+    <result column="put_under_unit" jdbcType="VARCHAR" property="putUnderUnit" />
+    <result column="put_under_unit_text" jdbcType="VARCHAR" property="putUnderUnitText" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
     <result column="update_user" jdbcType="VARCHAR" property="updator"/>

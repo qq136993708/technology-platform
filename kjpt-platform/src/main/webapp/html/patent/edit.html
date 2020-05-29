@@ -297,10 +297,9 @@
 
          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
              <div class="layui-form-item">
-                 <label class="layui-form-label label-required"><span class="text">当前法律状态：</span></label>
+                 <label class="layui-form-label label-required"><span class="text">法律状态：</span></label>
                  <div class="layui-input-block">
                      <select name="legalStatus" dic-base-data="ROOT_KJPT_FLZT(ZL)" lay-verify="required" placeholder="请选择...">
-
                      </select>
                  </div>
              </div>
@@ -310,7 +309,7 @@
              <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">变更日期：</span></label>
                  <div class="layui-input-block">
-                     <input type="text" id="legalStatusUpdateTime" name="legalStatusUpdateTime" autocomplete="off" class="laydate-input">
+                     <input type="text" id="legalStatusUpdateTime" name="legalStatusUpdateTime" lay-verify="required" autocomplete="off" class="laydate-input">
                  </div>
              </div>
          </div>
@@ -555,7 +554,7 @@
                      <div class="layui-form-item">
                          <label class="layui-form-label"><span class="text">转让收益(万元)</span></label>
                          <div class="layui-input-block">
-                             <input type="text" name="assignProfit" lay-verify="number" id="assignProfit" autocomplete="off" value="0" class="layui-input input-wanyuan assignProfit">
+                             <input type="text" name="assignProfit" id="assignProfit" autocomplete="off" value="0" class="layui-input input-wanyuan assignProfit">
                          </div>
                      </div>
                  </div>

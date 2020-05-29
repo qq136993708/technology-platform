@@ -21,7 +21,7 @@
         <form class="layui-form layui-form-screen" action="" lay-filter="achTransfrom">
             <div class="layui-row layui-col-space20">
                 <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">年份：</span></label>
                         <div class="layui-input-block font0">
@@ -118,7 +118,7 @@
                 <!-- </div> -->
 
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
-                    <div class="layui-form-item text-right">
+                    <div class="layui-form-item">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
                         <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
                         <!-- <span class="layui-fold-btn"></span> -->
@@ -143,7 +143,7 @@
         </form>
         <div class="view-title-layout" id="opations-btn">
             <div class="right">
-                <button class="layui-btn border-blue openLayerPage" id="exportData">导出excel</button>
+                <button class="layui-btn border-blue openLayerPage" id="exportData">导出</button>
             </div>
         </div>
         <table id="tableDemo" lay-filter="tableDemo"></table>
@@ -178,7 +178,11 @@
                                 }, {
                                     field: 'achieveName',
                                     title: '成果名称',
-                                    sort: true
+                                    sort: true,
+                                    templet:function(d){
+                                        var templet = '<div class="options-list middle-block"><div class="ib-block">';
+                                            templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
+                                    }
                                 }, {
                                     field: 'finishUnitNameText',
                                     title: '成果持有单位'

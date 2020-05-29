@@ -16,7 +16,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkBaseSync;
+import com.pcitc.base.expert.ZjkBookSync;
 import com.pcitc.base.expert.ZjkPatentSync;
+import com.pcitc.base.expert.ZjkRewardPunishSync;
+import com.pcitc.base.expert.ZjkRewardSync;
 import com.pcitc.service.expert.IExpertSynService;
 
 import io.swagger.annotations.Api;
@@ -51,7 +54,7 @@ public class SyncExpertClient {
     }
 
     @ApiOperation(value = "查询专家信息列表", notes = "查询专家信息列表")
-    @RequestMapping(value = "/getZjkBaseList", method = RequestMethod.POST)
+    @RequestMapping(value = "/getZjkBaseSyncList", method = RequestMethod.POST)
     public JSONArray getZjkBaseSyncList(@RequestBody(required = false) Map map)throws Exception{
         List list=expertSynService.getZjkBaseSyncList(map);
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
@@ -64,6 +67,26 @@ public class SyncExpertClient {
     public Integer deleteZjkBaseSync(@PathVariable String id)throws Exception{
     	return expertSynService.deleteZjkBaseSync(id);
     }
+    @ApiOperation(value = "批量保存专家", notes = "批量保存专家")
+  	@RequestMapping(value = "/insertBatchZjkBaseSync", method = RequestMethod.POST)
+  	public Integer insertBatchZjkBaseSync(@RequestBody String jsonStr) throws Exception 
+      {
+      	
+  		System.out.println("insertBatchZjkBaseSync==================" + jsonStr);
+  		List<ZjkBaseSync> list = JSONObject.parseArray(jsonStr, ZjkBaseSync.class);
+  		expertSynService.deleteAllZjkSync();
+  		return expertSynService.insertBatchZjkBaseSync(list);
+
+  	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -103,21 +126,6 @@ public class SyncExpertClient {
     }
     
     
-    
-    @ApiOperation(value = "批量保存专家", notes = "批量保存专家")
-	@RequestMapping(value = "/insertBatchZjkBaseSync", method = RequestMethod.POST)
-	public Integer insertBatchZjkBaseSync(@RequestBody String jsonStr) throws Exception 
-    {
-    	
-		System.out.println("insertBatchZjkBaseSync==================" + jsonStr);
-		List<ZjkBaseSync> list = JSONObject.parseArray(jsonStr, ZjkBaseSync.class);
-		expertSynService.deleteAllZjkSync();
-		return expertSynService.insertBatchZjkBaseSync(list);
-
-	}
-    
-    
-    
     @ApiOperation(value = "批量保存专利", notes = "批量保存专利")
 	@RequestMapping(value = "/insertBatchPatent", method = RequestMethod.POST)
 	public Integer insertBatchPatent(@RequestBody String jsonStr) throws Exception 
@@ -129,5 +137,181 @@ public class SyncExpertClient {
 		return expertSynService.insertBatchPatent(list);
 
 	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @ApiOperation(value = "根据主键获取一个奖励的信息", notes = "根据主键获取一个奖励的信息")
+    @RequestMapping(value = "/getReward/{id}", method = RequestMethod.GET)
+    public ZjkRewardSync selectZjkRewardSync(@PathVariable String id)throws Exception{
+    	return expertSynService.selectZjkRewardSync(id);
+    }
+
+    @ApiOperation(value = "科研奖励保存", notes = "科研奖励保存")
+    @RequestMapping(value = "/saveReward", method = RequestMethod.POST)
+    public Integer insertZjkRewardSync(@RequestBody ZjkRewardSync record)throws Exception{
+        return	expertSynService.insertZjkRewardSync(record);
+    }
+
+
+    @ApiOperation(value = "查询科研奖励列表", notes = "查询科研奖励列表")
+    @RequestMapping(value = "/queryReward", method = RequestMethod.POST)
+    public LayuiTableData queryZjkRewardSync(@RequestBody(required = false) LayuiTableParam param)throws Exception{
+    	return expertSynService.getZjkRewardSyncPage(param);
+    }
+
+    @ApiOperation(value = "查询奖励信息列表", notes = "查询奖励信息列表")
+    @RequestMapping(value = "/getZjkRewardSyncList", method = RequestMethod.POST)
+    public JSONArray getZjkRewardSyncList(@RequestBody(required = false) Map map)throws Exception{
+        List list=expertSynService.getZjkRewardSyncList(map);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+
+
+    @ApiOperation(value = "科研奖励删除", notes = "科研奖励删除")
+    @RequestMapping(value = "/deleteZjkRewardSync/{id}", method = RequestMethod.DELETE)
+    public Integer deleteZjkRewardSync(@PathVariable String id)throws Exception{
+    	return expertSynService.deleteZjkRewardSync(id);
+    }
+    
+    
+    @ApiOperation(value = "批量保存奖励", notes = "批量保存奖励")
+	@RequestMapping(value = "/insertBatchReward", method = RequestMethod.POST)
+	public Integer insertBatchZjkRewardSync(@RequestBody String jsonStr) throws Exception 
+    {
+    	
+		System.out.println("insertBatchZjkRewardSync==================" + jsonStr);
+		List<ZjkRewardSync> list = JSONObject.parseArray(jsonStr, ZjkRewardSync.class);
+		expertSynService.deleteAllReward();
+		return expertSynService.insertBatchRewardSync(list);
+
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @ApiOperation(value = "根据主键获取一个论著的信息", notes = "根据主键获取一个论著的信息")
+    @RequestMapping(value = "/getBookSync/{id}", method = RequestMethod.GET)
+    public ZjkBookSync selectZjkBookSync(@PathVariable String id)throws Exception{
+    	return expertSynService.selectZjkBookSync(id);
+    }
+
+    @ApiOperation(value = "科研论著保存", notes = "科研论著保存")
+    @RequestMapping(value = "/saveBookSync", method = RequestMethod.POST)
+    public Integer insertZjkBookSync(@RequestBody ZjkBookSync record)throws Exception{
+        return	expertSynService.insertZjkBookSync(record);
+    }
+
+
+    @ApiOperation(value = "查询科研论著列表", notes = "查询科研论著列表")
+    @RequestMapping(value = "/queryBookSync", method = RequestMethod.POST)
+    public LayuiTableData queryZjkBookSync(@RequestBody(required = false) LayuiTableParam param)throws Exception{
+    	return expertSynService.getZjkBookSyncPage(param);
+    }
+
+    @ApiOperation(value = "查询论著信息列表", notes = "查询论著信息列表")
+    @RequestMapping(value = "/getBookSyncList", method = RequestMethod.POST)
+    public JSONArray getZjkBookSyncList(@RequestBody(required = false) Map map)throws Exception{
+        List list=expertSynService.getZjkBookSyncList(map);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+
+
+    @ApiOperation(value = "科研论著删除", notes = "科研论著删除")
+    @RequestMapping(value = "/deleteBookSync/{id}", method = RequestMethod.DELETE)
+    public Integer deleteZjkBookSync(@PathVariable String id)throws Exception{
+    	return expertSynService.deleteZjkBookSync(id);
+    }
+    
+    
+    @ApiOperation(value = "批量保存论著", notes = "批量保存论著")
+	@RequestMapping(value = "/insertBatchBookSync", method = RequestMethod.POST)
+	public Integer insertBatchBookSync(@RequestBody String jsonStr) throws Exception 
+    {
+    	
+		System.out.println("======insertBatchBookSync===========" + jsonStr);
+		List<ZjkBookSync> list = JSONObject.parseArray(jsonStr, ZjkBookSync.class);
+		expertSynService.deleteAllBookSync();
+		return expertSynService.insertBatchBookSync(list);
+
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @ApiOperation(value = "根据主键获取一个奖惩的信息", notes = "根据主键获取一个奖惩的信息")
+    @RequestMapping(value = "/getPunishSync/{id}", method = RequestMethod.GET)
+    public ZjkRewardPunishSync selectZjkRewardPunishSync(@PathVariable String id)throws Exception{
+    	return expertSynService.selectZjkRewardPunishSync(id);
+    }
+
+    @ApiOperation(value = "科研奖惩保存", notes = "科研奖惩保存")
+    @RequestMapping(value = "/savePunishSSync", method = RequestMethod.POST)
+    public Integer insertZjkRewardPunishSync(@RequestBody ZjkRewardPunishSync record)throws Exception{
+        return	expertSynService.insertZjkRewardPunishSync(record);
+    }
+
+
+    @ApiOperation(value = "查询科研奖惩列表", notes = "查询科研奖惩列表")
+    @RequestMapping(value = "/queryPunishSSync", method = RequestMethod.POST)
+    public LayuiTableData queryZjkRewardPunishSync(@RequestBody(required = false) LayuiTableParam param)throws Exception{
+    	return expertSynService.getZjkRewardPunishSyncPage(param);
+    }
+
+    @ApiOperation(value = "查询奖惩信息列表", notes = "查询奖惩信息列表")
+    @RequestMapping(value = "/getPunishSSyncList", method = RequestMethod.POST)
+    public JSONArray getZjkRewardPunishSyncList(@RequestBody(required = false) Map map)throws Exception{
+        List list=expertSynService.getZjkRewardPunishSyncList(map);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+
+
+    @ApiOperation(value = "科研奖惩删除", notes = "科研奖惩删除")
+    @RequestMapping(value = "/deletePunishSSync/{id}", method = RequestMethod.DELETE)
+    public Integer deleteZjkRewardPunishSync(@PathVariable String id)throws Exception{
+    	return expertSynService.deleteZjkRewardPunishSync(id);
+    }
+    
+    
+    @ApiOperation(value = "批量保存奖惩", notes = "批量保存奖惩")
+	@RequestMapping(value = "/insertBatchPunishSync", method = RequestMethod.POST)
+	public Integer insertBatchPunishSync(@RequestBody String jsonStr) throws Exception 
+    {
+    	
+		System.out.println("======insertBatchPunishSync===========" + jsonStr);
+		List<ZjkRewardPunishSync> list = JSONObject.parseArray(jsonStr, ZjkRewardPunishSync.class);
+		expertSynService.deleteAllBookSync();
+		return expertSynService.insertBatchPunishSync(list);
+
+	}
+    
+    
+    
     
 }

@@ -1,5 +1,6 @@
 package com.pcitc.mapper.out;
 
+import com.pcitc.base.expert.ZjkRewardPunishSync;
 import com.pcitc.base.out.OutPerson;
 
 import java.util.List;
@@ -24,4 +25,9 @@ public interface OutPersonMapper {
     List getList(Map map);
     
     long getCount(Map map);
+    
+    
+    public int deleteAll()throws Exception;
+    public Integer insertBatch(List<OutPerson> list);
+    
 }

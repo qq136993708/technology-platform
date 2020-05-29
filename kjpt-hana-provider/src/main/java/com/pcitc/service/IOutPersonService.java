@@ -25,7 +25,8 @@ public interface IOutPersonService {
 	
 	public List getHanaOutPersonBookList(Map map)throws Exception;
 	
-	
+	public List getHanaOutPersonAwardList(Map map)throws Exception;
+	public List getHanaOutPersonPunishList(Map map)throws Exception;
 	
 	
 	

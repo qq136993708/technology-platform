@@ -171,12 +171,12 @@ public class StandardMaintainController extends RestBaseController {
             this.setParam(condition, "awardsType", awardsType);
         }
         String[] headers = { "计划号",  "计划中文名称","计划英文名称", "下达年度", "标准类型",
-                "主编单位", "参编单位", "密级", "修改状态", "文件状态", "是否已发布", "主管部门", "技术委员会", "主管部门", "归口单位", "参考标准", "一致性程度","拟替代标准",
-                "标准号", "标准名称", "英文名称", "发布时间", "实施时间"};
+                "主编单位", "参编单位", "密级", "修改状态", "文件状态", "是否已发布", "主管部门", "技术委员会", "主管部门", "归口单位", "参照标准", "一致性程度","拟替代标准",
+                "标准号", "标准名称", "英文名称", "发布时间", "实施时间","是否已发布英文版"};
         String[] cols =    {"planNum","planChineseName","planEnglishName","releaseYear","standardTypeText",
                 "chiefEditorUnitText","partakeEditorUnitText","levelText","updateStatusText","fileStatusText","isPublishText","manageOrg"
                 ,"technicalCommittee","putUnderUnitText","consultStandard","manageOrg","uniformityDegree"
-                ,"toReplacedStandard","standardNum","standardName","englishName","publishDate","effectiveDate"};
+                ,"toReplacedStandard","standardNum","standardName","englishName","publishDate","effectiveDate","isPublishEnglishEditionText"};
         export(headers,cols,"标准维护表_",condition);
     }
 

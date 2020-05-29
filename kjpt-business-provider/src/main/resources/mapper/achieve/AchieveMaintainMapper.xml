@@ -108,6 +108,9 @@
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
         update achieve_maintain
         <trim prefix="SET" suffixOverrides=",">
+            <if test="year != null and year != '' " >
+                year = #{year},
+            </if>
             <if test="awardsType != null and awardsType != '' " >
                 awards_type = #{awardsType},
             </if>

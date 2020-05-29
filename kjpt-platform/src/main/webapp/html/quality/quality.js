@@ -48,7 +48,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '标准类型'
             },
             {
-              field: 'chiefEditorUnit',
+              field: 'chiefEditorUnitText',
               title: '主编单位',
             },
             {
@@ -240,14 +240,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   //导入
 importFiles({
   id:'#importData',
-  url:'/excelImport/kgjimp',
+  url:'/excelImport/standardImp',
   callback: function (data, type) {
     queryTable('');
   }
 })
 // 导出
 $('#exportData').click(function() {
-  debugger
+//  debugger
   var formValue = form.val('patentFormDemo'),
   searchData = {
     planNum: formValue.planNum || '', // 计划号：

@@ -176,13 +176,17 @@
 						style : 'cursor: pointer;'
 					}, ] ],
 					done : function(res, curr, count) {
-						debugger
+						/* debugger */
 						// 关闭等待刷新
 						if(typeof count === 'undefined'){
 							count = 0
 						}
 						layer.close(lodingMsg);
-            parent.$("#pendingCount").html(count)
+						if (count == 0) {
+							parent.$("#pendingCount").hide();
+						} else {
+            				parent.$("#pendingCount").show().html(count);						
+						}
 						$("#system").html(count);
 						
 						// 点击行联动选择框--单选

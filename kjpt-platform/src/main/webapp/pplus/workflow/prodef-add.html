@@ -117,11 +117,9 @@
 
 			</div>
 
-			<div class="form-bottom">
-				<div class="dialog-footer-btn">
-					<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="form-submit">提交</button>
-					<button type="button" class="layui-btn layui-btn-primary" id="closeBtn">取消</button>
-				</div>
+			<div class="dialog-footer-btn">
+				<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="form-submit">提交</button>
+				<button type="button" class="layui-btn layui-btn-primary" id="closeBtn">取消</button>
 			</div>
 		</form>
 	</div>
@@ -173,8 +171,20 @@
 
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
-				console.log("----aa-"+JSON.stringify(data));
-				$.ajax({
+				
+				httpModule({
+					type : 'POST',
+					url : "/workflow/function/prodef/save",
+					contentType : "application/json;charset=UTF-8",
+					data: data.field,
+					async : false,
+					success: function(relData) {
+						setDialogData(relData); // 通知上层页面状态 - 弹窗中使用
+						top.layer.closeAll(); // 关闭弹窗
+					}
+				})
+				
+				/* $.ajax({
 					type : 'POST',
 					url : "/workflow/function/prodef/save",
 					data : JSON.stringify(data.field),
@@ -189,7 +199,7 @@
                         top.layer.closeAll(); // 关闭弹窗
 						return false;
 					}
-				});
+				}); */
 			});
 
 			$("#closeBtn").click(function() {

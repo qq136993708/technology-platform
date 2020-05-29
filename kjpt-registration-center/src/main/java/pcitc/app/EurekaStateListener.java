@@ -27,12 +27,12 @@ public class EurekaStateListener {
     @EventListener
     public void listen(EurekaInstanceRegisteredEvent event) {
         InstanceInfo instanceInfo = event.getInstanceInfo();
-        logger.info(DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS)+"服务{}进行注册", instanceInfo.getAppName()+ instanceInfo.getHostName() +"  "+ instanceInfo.getIPAddr() +"  "+ instanceInfo.getPort());
+        //logger.info(DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS)+"服务{}进行注册", instanceInfo.getAppName()+ instanceInfo.getHostName() +"  "+ instanceInfo.getIPAddr() +"  "+ instanceInfo.getPort());
     }
 
     @EventListener
     public void listen(EurekaInstanceRenewedEvent event) {
-        logger.info(DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS)+"服务{}进行续约", event.getServerId() +"  "+ event.getAppName());
+        //logger.info(DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS)+"服务{}进行续约", event.getServerId() +"  "+ event.getAppName());
     }
 
     @EventListener

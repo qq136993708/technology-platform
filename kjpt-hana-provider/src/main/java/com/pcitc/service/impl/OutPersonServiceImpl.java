@@ -44,10 +44,19 @@ public class OutPersonServiceImpl implements IOutPersonService {
 		
 		return list;
 	}
+	public List getHanaOutPersonAwardList(Map map)throws Exception
+	{
+		List<OutPersonVo> list = outPersonVoMapper.getHanaOutPersonAwardList(map);
+		
+		return list;
+	}
 	
-	
-	
-	
+	public List getHanaOutPersonPunishList(Map map)throws Exception
+	{
+		List<OutPersonVo> list = outPersonVoMapper.getHanaOutPersonPunishList(map);
+		
+		return list;
+	}
 	
 	
 	
