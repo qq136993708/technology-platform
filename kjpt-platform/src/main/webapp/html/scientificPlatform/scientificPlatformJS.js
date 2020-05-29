@@ -76,7 +76,6 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
     //   data.field.researchField += ',' + item.value;
     // });
     // data.field.researchField = data.field.researchField.substring(1);
-    debugger
     var json=setVal(data);
     queryTable(json);
     return false;
