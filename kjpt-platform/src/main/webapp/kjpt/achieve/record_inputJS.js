@@ -374,9 +374,9 @@ layui.use(['table', 'form', 'layer'], function() {
     
     var achieveTeamPerson = getTableData('teamPersonList'); // 科技成果完成团队情况
     if (!achieveTeamPerson) {
-      layer.msg('激励人员名单不能为空！', {icon: 2});
+      // layer.msg('激励人员名单不能为空！', {icon: 2});
       subFormData = null;
-      return false;
+      // return false;
     } else {
       subFormData.teamPerson = achieveTeamPerson;
     }
@@ -397,7 +397,6 @@ layui.use(['table', 'form', 'layer'], function() {
     } else {
       subFormData.files = JSON.stringify(newFileValue);
     }
-    return 
     $('[lay-filter="editTranfromMaintain"]').click();
     return false;
   })
