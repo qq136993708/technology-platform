@@ -66,7 +66,9 @@ layui.use(['laypage', 'layer'], function() {
       fileHtml += '<div class="file-item-list">';
       fileHtml += '<div class="file-icon"><i class="layui-icon layui-icon-file"></i></div>';
       fileHtml += '<div class="file-title">'+ item.fileName +'</div>';
-      fileHtml += '<div class="file-option"><span class="link-text downloadFile" data-fileid="'+item.id+'">下载</span>';
+      if(variable.type !=='view'){
+        fileHtml += '<div class="file-option"><span class="link-text downloadFile" data-fileid="'+item.id+'">下载</span>';
+      }
       if (item.fileName.indexOf('.docx') > 0 ||
         item.fileName.indexOf('.doc') > 0  ||
         item.fileName.indexOf('.png') > 0  ||

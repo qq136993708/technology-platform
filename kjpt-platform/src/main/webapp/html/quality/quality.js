@@ -240,7 +240,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   //导入
 importFiles({
   id:'#importData',
-  url:'/excelImport/kgjimp',
+  url:'/excelImport/standardImp',
   callback: function (data, type) {
     queryTable('');
   }
