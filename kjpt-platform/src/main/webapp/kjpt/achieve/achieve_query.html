@@ -178,10 +178,9 @@
                                 }, {
                                     field: 'achieveName',
                                     title: '成果名称',
-                                    sort: true,
-                                    templet:function(d){
+                                        templet:function(d){
                                         var templet = '<div class="options-list middle-block"><div class="ib-block">';
-                                            templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
+                                            templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">'+d.achieveName+'</span>';
                                     }
                                 }, {
                                     field: 'finishUnitNameText',

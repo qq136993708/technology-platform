@@ -334,7 +334,6 @@ layui.config({
     url: '/achieveRecord-api/query',
     data: { page: 1, limit: 10, publicityStatus: 2 },
     name: 'achieveName',
-    // href: '/html/scientificMaterials/planDetails.html',
     href: '/kjpt/achieve/already_formula.html',
     hrefData: ['id'],
     title: '成果转化',
@@ -368,7 +367,7 @@ layui.config({
     name: 'name',
     url: '/SciencePlan/query',
     data: { page: 1, limit: 10, reportType: 1},
-    href: '/html/scientificMaterials/planDetails.html',
+    href: '/tml/groupInformation/groupInformation.html?reportType=1',
     hrefData: ['id'],
     title: '科技规划',
     callback: function(res) {
