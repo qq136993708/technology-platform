@@ -674,6 +674,9 @@
     <if test="inventor != null and inventor != '' " >
       and inventor = #{inventor}
     </if>
+    <if test="legalStatus != null and legalStatus != '' " >
+        and legal_status = #{legalStatus}
+    </if>
     <if test="applicationDateStart != null and applicationDateStart != '' " >
       and application_date &gt;= #{applicationDateStart}
     </if>
