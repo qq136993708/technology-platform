@@ -180,7 +180,8 @@
                                     title: '成果名称',
                                     sort: true,
                                     templet:function(d){
-                                        templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
+                                        var templet = '<div class="options-list middle-block"><div class="ib-block">';
+                                            templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">查看备案信息</span>';
                                     }
                                 }, {
                                     field: 'finishUnitNameText',
