@@ -19,17 +19,24 @@
     <result column="ICNUM" jdbcType="VARCHAR" property="icnum" />
     <!--单位名称  -->
     <result column="ZDWMC" jdbcType="VARCHAR" property="zdwmc" />
-    
     <!--职务级别名称  -->
     <result column="ZZWJBMC" jdbcType="VARCHAR" property="zzwjbmc" />
     <!--职务级别编码  -->
     <result column="ZZWJBBM" jdbcType="VARCHAR" property="zzwjbbm" />
-    <!--最高学历  -->
+    <!--最高学历   -->
     <result column="ZJYZX" jdbcType="VARCHAR" property="zjyzx" />
+     <!--最高学历编码  -->
+    <result column="ZJYXLBM_N" jdbcType="VARCHAR" property="zjyxlbmn" />
     <!--聘任专业技术职务级别 编码 -->
     <result column="ZPRZYJSZWJBBM" jdbcType="VARCHAR" property="zprzyjszwjbbm" />
     <!--聘任专业技术职务级别 名称  -->
     <result column="ZPRZYJSZWJBMC" jdbcType="VARCHAR" property="zprzyjszwjbmc" />
+    
+    
+    
+    
+    
+    
     
     
     <!--获得专利时间 -->
@@ -46,7 +53,7 @@
     
     
     
-     <!--序号 -->
+     <!-- 著作 序号 -->
     <result column="SEQNR_9010"    jdbcType="VARCHAR" property="seqnr9010" />
      <!--论文、著作名称 -->
     <result column="ZLZMC"    jdbcType="VARCHAR" property="zlzmc" />
@@ -62,41 +69,133 @@
     <result column="ZLZBZ"    jdbcType="VARCHAR" property="zlzbz" />
     
     
+    <!--获奖 序号 -->
+    <result column="SEQNR_9007"    jdbcType="VARCHAR" property="seqnr9007" /> 
+    <!--高层次人才等级编码 -->
+    <result column="ZGCCRCDJBM"    jdbcType="VARCHAR" property="zgccrcdjbm" />
+    <!--高层次人才等级名称 -->
+    <result column="ZGCCRCDJMC"    jdbcType="VARCHAR" property="zgccrcdjmc" />
+    <!--高层次人才类别编码 -->
+    <result column="ZGCCRCLB1BM"    jdbcType="VARCHAR" property="zgccrclb1bm" />
+    <!--高层次人才类别名称 -->
+    <result column="ZGCCRCLB1MC"    jdbcType="VARCHAR" property="zgccrclb1mc" />
+    <!--获奖类别编码 -->
+    <result column="ZHJLB"    jdbcType="VARCHAR" property="zhjlb" />
+    <!--获奖类别名称 -->
+    <result column="ZHJLBMS"    jdbcType="VARCHAR" property="zhjlbms" />
+    <!--获奖级别编码 -->
+    <result column="ZHJJB"    jdbcType="VARCHAR" property="zhjjb" />
+    <!--获奖级别名称 -->
+    <result column="ZHJJBMS"    jdbcType="VARCHAR" property="zhjjbms" />
+    <!--授予时间 -->
+    <result column="ZSYSJ"    jdbcType="VARCHAR" property="zsysj" />
     
     
     
-
-
-
-
     
+    <!--获奖 序号 -->
+    <result column="SEQNR_9025" jdbcType="VARCHAR" property="seqnr9025" />
+    <!--奖励或惩罚名称 -->
+    <result column="ZJCMC"    jdbcType="VARCHAR" property="zjcmc" />
+    <!--奖励种类 -->
+    <result column="ZJLZL"    jdbcType="VARCHAR" property="zjlzl" />
+    <result column="ZJLZLBM"    jdbcType="VARCHAR" property="zjlzlbm" />
+    <!--奖惩类别 -->
+    <result column="ZJCLB"    jdbcType="VARCHAR" property="zjclb" /> 
+    <result column="ZJCLBBM"    jdbcType="VARCHAR" property="zjclbbm" /> 
+    <!--奖惩情况描述 -->
+    <result column="ZJCQKMS"    jdbcType="VARCHAR" property="zjcqkms" /> 
+    <!--奖惩级别 -->
+    <result column="ZJCJB"    jdbcType="VARCHAR" property="zjcjb" /> 
+    <result column="ZJCJBBM"    jdbcType="VARCHAR" property="zjcjbbm" /> 
+    <!--批准时间 -->
+    <result column="ZPZSJ"    jdbcType="VARCHAR" property="zpzsj" /> 
+    <!--奖惩批准单位 -->
+    <result column="ZJCPBDW"    jdbcType="VARCHAR" property="zjcpbdw" /> 
     
     
   </resultMap>
   
   <!--   获取所有专家-->
   <select id="getHanaOutPersonVoList" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select PERNR,ZDWBM,ZDWQC,NACHN,GESCH,GBDAT,ICNUM,ZDWMC ,ZZWJBMC,ZZWJBBM,ZJYZX,ZPRZYJSZWJBBM,ZPRZYJSZWJBMC
+        select 
+         PERNR,
+         ZDWBM,
+         ZDWMC ,
+         NACHN,
+         GESCH,
+         GBDAT,
+         ICNUM,
+         ZZWJBMC,
+         ZZWJBBM,
+         ZJYZX,
+         ZJYXLBM_N,
+         ZPRZYJSZWJBBM,
+         ZPRZYJSZWJBMC
          from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
   </select>
-  
   <!-- 获取所有专家相关专利 -->
    <select id="getHanaOutPersonPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
-         select ZHDZLSJ,SEQNR_9009,ZFMZLSJ,ZZLH,ZZLPM
+         select 
+         PERNR,ZHDZLSJ,SEQNR_9009,ZFMZLSJ,ZZLH,ZZLPM
          from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
   </select>
-  
-  
-  
-    
-    
-    
-  
   <!-- 获取所有专家 相关   论著 -->
    <select id="getHanaOutPersonBookList" parameterType="java.util.Map" resultMap="BaseResultMap">
-         select SEQNR_9010,ZLZMC,ZFBSJ,ZZZFS,ZCBSMC,ZLZBZ
+         select 
+         PERNR,SEQNR_9010,ZLZMC,ZFBSJ,ZZZFS,ZCBSMC,ZLZBZ
          from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
   </select>
+  
+  <!-- 获取获奖  -->
+   <select id="getHanaOutPersonAwardList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         select 
+         PERNR,SEQNR_9007,ZGCCRCDJBM,ZGCCRCDJMC,
+         ZGCCRCLB1BM,
+         ZGCCRCLB1MC,
+         ZHJLB,
+         ZHJLBMS,
+         ZHJJB,
+         ZHJJBMS,
+         ZSYSJ
+         from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
+  </select>
+  
+  
+  
+  
+  
+  
+  <!-- 奖惩  -->
+   <select id="getHanaOutPersonPunishList" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select 
+         PERNR,
+         SEQNR_9025,
+         ZJCMC,
+         ZJLZL,
+         ZJLZLBM,
+         ZJCLB,
+         ZJCLBBM,
+         ZJCQKMS,
+         ZJCJB,
+         ZJCJBBM,
+         ZPZSJ,
+         ZJCPBDW
+       from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

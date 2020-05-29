@@ -144,9 +144,31 @@ public class OutPerson  {
     
     
     
+    private Date birthDate;
+    
+    private String belongUnitCode;
+
+    
+    
     
 
-    public String getMajor() {
+    public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getBelongUnitCode() {
+		return belongUnitCode;
+	}
+
+	public void setBelongUnitCode(String belongUnitCode) {
+		this.belongUnitCode = belongUnitCode;
+	}
+
+	public String getMajor() {
 		return major;
 	}
 

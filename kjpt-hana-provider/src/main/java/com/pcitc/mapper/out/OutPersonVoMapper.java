@@ -13,8 +13,8 @@ public interface OutPersonVoMapper {
 	public List getHanaPantentListByNum(String num);
 	public List getHanaOutPersonPatentList(Map map);
 	public List getHanaOutPersonBookList(Map map);
-	
-    
+	public List getHanaOutPersonAwardList(Map map);
+	public List getHanaOutPersonPunishList(Map map);
     
 	
 }

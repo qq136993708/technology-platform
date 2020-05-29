@@ -36,13 +36,15 @@
     <result column="rewards_punish" jdbcType="VARCHAR" property="rewardsPunish" />
     <result column="major" jdbcType="VARCHAR" property="major" />
     
+    <result column="birth_date"        jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="belong_unit_code"  jdbcType="VARCHAR" property="belongUnitCode" />
     
   </resultMap>
   <sql id="Base_Column_List">
     id, user_no, sex, `name`, birth_year, education, belong_unit_name, belong_unit_id, 
     tech_type, create_time, create_user, tech_type_name, id_card, email, contact_way, 
     work_experience, post, title, age, is_expert, id_card_type, award_info, patent_info, 
-    achievement_info, project_info, rewards_punish,major
+    achievement_info, project_info, rewards_punish,major,birth_date,belong_unit_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -55,14 +57,17 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
-    insert into out_person (id,user_no, sex, `name`, 
+    insert into out_person 
+    ( 
+      id,user_no, sex, `name`, 
       birth_year, education, belong_unit_name, 
       belong_unit_id, tech_type, create_time, 
       create_user, tech_type_name, id_card, 
       email, contact_way, work_experience, 
       post, title, age, is_expert, 
       id_card_type, award_info, patent_info, 
-      achievement_info, project_info, rewards_punish,major
+      achievement_info, project_info, 
+      rewards_punish,major,birth_date,belong_unit_code
       )
     values 
     (
@@ -76,6 +81,8 @@
       #{achievementInfo,jdbcType=VARCHAR}, #{projectInfo,jdbcType=VARCHAR}
       , #{rewardsPunish,jdbcType=VARCHAR}
       , #{major,jdbcType=VARCHAR}
+      , #{birth_date,jdbcType=TIMESTAMP}
+      , #{belong_unit_code,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.out.OutPerson" useGeneratedKeys="true">
@@ -159,6 +166,16 @@
       <if test="major != null">
         major,
       </if>
+     <if test="birthDate != null">
+        birth_date,
+      </if> 
+     <if test="belongUnitCode != null">
+        belong_unit_code,
+      </if> 
+      
+      
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userNo != null">
@@ -239,6 +256,15 @@
       <if test="major != null">
         #{major,jdbcType=VARCHAR},
       </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belongUnitCode != null">
+        #{belongUnitCode,jdbcType=VARCHAR},
+      </if>
+      
+     
+    
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.out.OutPerson">
@@ -322,6 +348,21 @@
       <if test="major != null">
         major = #{major,jdbcType=VARCHAR},
       </if>
+      
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belongUnitCode != null">
+        belong_unit_code = #{belongUnitCode,jdbcType=VARCHAR},
+      </if>
+      
+      
+       
+     
+    
+    
+    
+    
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -346,6 +387,11 @@
       title = #{title,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       is_expert = #{isExpert,jdbcType=VARCHAR},
+      
+      birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      belong_unit_code = #{belongUnitCode,jdbcType=VARCHAR},
+      
+      
       id_card_type = #{idCardType,jdbcType=VARCHAR},
       award_info = #{awardInfo,jdbcType=VARCHAR},
       patent_info = #{patentInfo,jdbcType=VARCHAR},
@@ -355,6 +401,10 @@
       rewards_punish = #{rewardsPunish,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+   
+    
   
   <sql id="view_out_person">
 	   SELECT t1.*,
@@ -414,9 +464,68 @@
   
   
   
-  <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+     <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
         select  count(*) from out_person t <include refid="selectCondition" />
      </select>
+  
+  
+  
+  <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+    insert into out_person 
+     (
+      id,user_no, sex, `name`, 
+      birth_year, education, belong_unit_name, 
+      belong_unit_id, tech_type, create_time, 
+      create_user, tech_type_name, id_card, 
+      email, contact_way, work_experience, 
+      post, title, age, is_expert, 
+      id_card_type, award_info, patent_info, 
+      achievement_info, project_info, rewards_punish,major,birth_date,belong_unit_code
+      )
+    values 
+     <foreach collection="list" item="item" index="index" separator=",">
+    (
+      #{item.id,jdbcType=VARCHAR},
+      #{item.userNo,jdbcType=VARCHAR}, 
+      #{item.sex,jdbcType=VARCHAR}, 
+      #{item.name,jdbcType=VARCHAR}, 
+      #{item.birthYear,jdbcType=VARCHAR},
+      #{item.education,jdbcType=VARCHAR}, 
+      #{item.belongUnitName,jdbcType=VARCHAR}, 
+      #{item.belongUnitId,jdbcType=VARCHAR}, 
+      #{item.techType,jdbcType=VARCHAR}, 
+      #{item.createTime,jdbcType=TIMESTAMP}, 
+      #{item.createUser,jdbcType=VARCHAR}, 
+      #{item.techTypeName,jdbcType=VARCHAR}, 
+      #{item.idCard,jdbcType=VARCHAR}, 
+      #{item.email,jdbcType=VARCHAR}, 
+      #{item.contactWay,jdbcType=VARCHAR}, 
+      #{item.workExperience,jdbcType=VARCHAR}, 
+      #{item.post,jdbcType=VARCHAR}, 
+      #{item.title,jdbcType=VARCHAR}, 
+      #{item.age,jdbcType=INTEGER}, 
+      #{item.isExpert,jdbcType=VARCHAR}, 
+      #{item.idCardType,jdbcType=VARCHAR}, 
+      #{item.awardInfo,jdbcType=VARCHAR}, 
+      #{item.patentInfo,jdbcType=VARCHAR}, 
+      #{item.achievementInfo,jdbcType=VARCHAR}, 
+      #{item.projectInfo,jdbcType=VARCHAR}
+      , #{item.rewardsPunish,jdbcType=VARCHAR}
+      , #{item.major,jdbcType=VARCHAR}
+      , #{item.birthDate,jdbcType=TIMESTAMP}
+      , #{item.belongUnitCode,jdbcType=VARCHAR}
+      )
+      </foreach> 
+	</insert>
+	
+	
+	 <delete id="deleteAll" >
+        delete from out_person
+     </delete>
+  
+  
+  
   
   
 </mapper>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkRewardPunishSyncMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkRewardPunishSync">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="expert_num" jdbcType="VARCHAR" property="expertNum" />
+    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
+    <result column="out_sys_id" jdbcType="VARCHAR" property="outSysId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="reward_type" jdbcType="VARCHAR" property="rewardType" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="reward_punish_type" jdbcType="VARCHAR" property="rewardPunishType" />
+    <result column="reward_punish_level" jdbcType="VARCHAR" property="rewardPunishLevel" />
+    <result column="approve_date" jdbcType="TIMESTAMP" property="approveDate" />
+    <result column="approve_unit" jdbcType="VARCHAR" property="approveUnit" />
+    
+    <result column="reward_punish_level_code" jdbcType="VARCHAR" property="rewardPunishLevelCode" />
+    <result column="reward_punish_type_code" jdbcType="VARCHAR" property="rewardPunishTypeCode" />
+    <result column="reward_type_code" jdbcType="VARCHAR" property="rewardTypeCode" />
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_num, expert_id, out_sys_id, create_time, title, reward_type, notes, reward_punish_type, 
+    reward_punish_level, approve_date, approve_unit,
+    reward_punish_level_code,reward_punish_type_code,reward_type_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_reward_punish_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_reward_punish_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkRewardPunishSync" useGeneratedKeys="true">
+    insert into zjk_reward_punish_sync 
+    (
+      id,expert_num, expert_id, out_sys_id, 
+      create_time, title, reward_type, 
+      notes, reward_punish_type, reward_punish_level, 
+      approve_date, approve_unit,reward_punish_level_code,
+      reward_punish_type_code,reward_type_code,reward_punish_level_code,reward_punish_type_code,reward_type_code
+      )
+    values (#{id,jdbcType=VARCHAR},#{expertNum,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{outSysId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, #{rewardType,jdbcType=VARCHAR}, 
+      #{notes,jdbcType=VARCHAR}, #{rewardPunishType,jdbcType=VARCHAR}, #{rewardPunishLevel,jdbcType=VARCHAR}, 
+      #{approveDate,jdbcType=TIMESTAMP}, #{approveUnit,jdbcType=VARCHAR}
+      
+      , #{rewardPunishLevelCode,jdbcType=VARCHAR}
+      , #{rewardPunishTypeCode,jdbcType=VARCHAR}
+      , #{rewardTypeCode,jdbcType=VARCHAR}
+      
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkRewardPunishSync" useGeneratedKeys="true">
+    insert into zjk_reward_punish_sync
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        expert_num,
+      </if>
+      <if test="expertId != null">
+        expert_id,
+      </if>
+      <if test="outSysId != null">
+        out_sys_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="rewardType != null">
+        reward_type,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+      <if test="rewardPunishType != null">
+        reward_punish_type,
+      </if>
+      <if test="rewardPunishLevel != null">
+        reward_punish_level,
+      </if>
+      <if test="approveDate != null">
+        approve_date,
+      </if>
+      <if test="approveUnit != null">
+        approve_unit,
+      </if>
+      
+      <if test="rewardPunishLevelCode != null">
+        reward_punish_level_code,
+      </if>
+      <if test="rewardPunishTypeCode != null">
+        reward_punish_type_code,
+      </if>
+      <if test="rewardTypeCode != null">
+        reward_type_code,
+      </if>
+      
+      
+     
+    
+    
+    
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="outSysId != null">
+        #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardType != null">
+        #{rewardType,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishType != null">
+        #{rewardPunishType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishLevel != null">
+        #{rewardPunishLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="approveDate != null">
+        #{approveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveUnit != null">
+        #{approveUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishLevelCode != null">
+        #{rewardPunishLevelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishTypeCode != null">
+        #{rewardPunishTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardTypeCode != null">
+        #{rewardTypeCode,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+     
+    
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkRewardPunishSync">
+    update zjk_reward_punish_sync
+    <set>
+      <if test="expertNum != null">
+        expert_num = #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        expert_id = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="outSysId != null">
+        out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardType != null">
+        reward_type = #{rewardType,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishType != null">
+        reward_punish_type = #{rewardPunishType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishLevel != null">
+        reward_punish_level = #{rewardPunishLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="approveDate != null">
+        approve_date = #{approveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveUnit != null">
+        approve_unit = #{approveUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardPunishLevelCode != null">
+        reward_punish_level_code = #{approveUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="approveUnit != null">
+        reward_punish_type_code = #{rewardPunishTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="approveUnit != null">
+        reward_type_code = #{rewardTypeCode,jdbcType=VARCHAR},
+      </if>
+      
+      
+    
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkRewardPunishSync">
+    update zjk_reward_punish_sync
+    set expert_num = #{expertNum,jdbcType=VARCHAR},
+      expert_id = #{expertId,jdbcType=VARCHAR},
+      out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      
+      reward_punish_level_code = #{rewardPunishLevelCode,jdbcType=VARCHAR},
+      reward_punish_type_code = #{rewardPunishTypeCode,jdbcType=VARCHAR},
+      reward_type_code = #{rewardTypeCode,jdbcType=VARCHAR},
+      
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      reward_type = #{rewardType,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      reward_punish_type = #{rewardPunishType,jdbcType=VARCHAR},
+      reward_punish_level = #{rewardPunishLevel,jdbcType=VARCHAR},
+      approve_date = #{approveDate,jdbcType=TIMESTAMP},
+      approve_unit = #{approveUnit,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="expertNum != null             and expertNum !=''  ">      AND t.expert_num = #{expertNum}</if>
+	     <if test="outSysId != null             and outSysId !=''  ">       AND t.out_sys_id = #{outSysId}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  zjk_reward_punish_sync  t <include refid="selectCondition" />
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_reward_punish_sync t <include refid="selectCondition"/>
+    </select>
+  
+  
+    <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+	
+	
+	
+	insert into zjk_reward_punish_sync
+	 (
+      id,expert_num, expert_id, out_sys_id, 
+      create_time, title, reward_type, 
+      notes, reward_punish_type, reward_punish_level, 
+      approve_date, approve_unit
+      )
+    values 
+     <foreach collection="list" item="item" index="index" separator=",">
+    (
+      #{item.id,jdbcType=VARCHAR},
+      #{item.expertNum,jdbcType=VARCHAR}, 
+      #{item.expertId,jdbcType=VARCHAR}, 
+      #{item.outSysId,jdbcType=VARCHAR}, 
+      #{item.createTime,jdbcType=TIMESTAMP}, 
+      #{item.title,jdbcType=VARCHAR}, 
+      #{item.rewardType,jdbcType=VARCHAR}, 
+      #{item.notes,jdbcType=VARCHAR}, 
+      #{item.rewardPunishType,jdbcType=VARCHAR},
+      #{item.rewardPunishLevel,jdbcType=VARCHAR}, 
+      #{item.approveDate,jdbcType=TIMESTAMP}, 
+      #{item.approveUnit,jdbcType=VARCHAR}
+      )
+       </foreach> 
+	</insert>
+	
+	
+	 <delete id="deleteAll" >
+        delete from zjk_reward_punish_sync
+     </delete>
+  
+  
+  
+  
+  
+</mapper>

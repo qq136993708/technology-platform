@@ -1,5 +1,6 @@
 package com.pcitc.web.config;
 
+import com.pcitc.web.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import com.pcitc.web.interceptor.TokenInterceptor;
 
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurerAdapter {

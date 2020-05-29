@@ -1,6 +1,7 @@
 package com.pcitc.base.out;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class OutPersonVo implements Serializable{
 	
@@ -21,6 +22,8 @@ public class OutPersonVo implements Serializable{
 	 private String zzwjbmc;//职务级别名称
 	 private String zzwjbbm;//职务级别编码
 	 private String zjyzx;//最高学历
+	 private String zjyxlbmn;//最高学历编码
+	 
 	 private String zprzyjszwjbbm;//聘任专业技术职务级别 编码
 	 private String zprzyjszwjbmc;//聘任专业技术职务级别 名称
 	 
@@ -45,49 +48,122 @@ public class OutPersonVo implements Serializable{
 	 private String zlzbz;//备注
 	 
 	 
+	 private String seqnr9007;//序号
+	 private String zgccrcdjbm;//高层次人才等级编码 
+	 private String zgccrcdjmc;//高层次人才等级名称
+	 private String zgccrclb1bm;//高层次人才类别编码 
+	 private String zgccrclb1mc;//高层次人才类别名称
+	 private String zhjlb;//获奖类别编码
+	 private String zhjlbms;//获奖类别名称 
+	 private String zhjjb;//获奖级别编码
+	 private String zhjjbms;//获奖级别名称
+	 private String zsysj;//授予时间
+	 private String zsysjStr;
 	 
 	 
-	public String getSeqnr9010() {
-		return seqnr9010;
+	 
+	 
+	 
+	 private String seqnr9025;//序号
+	 private String zjcmc;//奖励或惩罚名称
+	 private String zjlzl;//奖励种类
+	 private String zjlzlbm;
+	 private String zjclb;//奖惩类别
+	 private String zjclbbm;
+	 private String zjcqkms;//奖惩情况描述
+	 private String zjcjb;//奖惩级别
+	 private String zjcjbbm;
+	 private String zjcpbdw;//奖惩批准单位
+	 private String zpzsj;//批准时间
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	public String getZjyxlbmn() {
+		return zjyxlbmn;
 	}
-	public void setSeqnr9010(String seqnr9010) {
-		this.seqnr9010 = seqnr9010;
+	public void setZjyxlbmn(String zjyxlbmn) {
+		this.zjyxlbmn = zjyxlbmn;
 	}
-	public String getZlzmc() {
-		return zlzmc;
+	public String getZjlzlbm() {
+		return zjlzlbm;
 	}
-	public void setZlzmc(String zlzmc) {
-		this.zlzmc = zlzmc;
+	public void setZjlzlbm(String zjlzlbm) {
+		this.zjlzlbm = zjlzlbm;
 	}
-	public String getZfbsj() {
-		return zfbsj;
+	public String getZjclb() {
+		return zjclb;
 	}
-	public void setZfbsj(String zfbsj) {
-		this.zfbsj = zfbsj;
+	public void setZjclb(String zjclb) {
+		this.zjclb = zjclb;
 	}
-	public String getZzzfs() {
-		return zzzfs;
+	public String getZjclbbm() {
+		return zjclbbm;
 	}
-	public void setZzzfs(String zzzfs) {
-		this.zzzfs = zzzfs;
+	public void setZjclbbm(String zjclbbm) {
+		this.zjclbbm = zjclbbm;
 	}
-	public String getZcbsmc() {
-		return zcbsmc;
+	public String getZjcjbbm() {
+		return zjcjbbm;
 	}
-	public void setZcbsmc(String zcbsmc) {
-		this.zcbsmc = zcbsmc;
+	public void setZjcjbbm(String zjcjbbm) {
+		this.zjcjbbm = zjcjbbm;
 	}
-	public String getZcbgj() {
-		return zcbgj;
+	public String getZpzsj() {
+		return zpzsj;
 	}
-	public void setZcbgj(String zcbgj) {
-		this.zcbgj = zcbgj;
+	public void setZpzsj(String zpzsj) {
+		this.zpzsj = zpzsj;
 	}
-	public String getZlzbz() {
-		return zlzbz;
+	public String getSeqnr9025() {
+		return seqnr9025;
 	}
-	public void setZlzbz(String zlzbz) {
-		this.zlzbz = zlzbz;
+	public void setSeqnr9025(String seqnr9025) {
+		this.seqnr9025 = seqnr9025;
+	}
+	public String getZjcmc() {
+		return zjcmc;
+	}
+	public void setZjcmc(String zjcmc) {
+		this.zjcmc = zjcmc;
+	}
+	public String getZjlzl() {
+		return zjlzl;
+	}
+	public void setZjlzl(String zjlzl) {
+		this.zjlzl = zjlzl;
+	}
+	
+	public String getZjcqkms() {
+		return zjcqkms;
+	}
+	public void setZjcqkms(String zjcqkms) {
+		this.zjcqkms = zjcqkms;
+	}
+	public String getZjcjb() {
+		return zjcjb;
+	}
+	public void setZjcjb(String zjcjb) {
+		this.zjcjb = zjcjb;
+	}
+	public String getZjcpbdw() {
+		return zjcpbdw;
+	}
+	public void setZjcpbdw(String zjcpbdw) {
+		this.zjcpbdw = zjcpbdw;
 	}
 	public String getZjyxlmc() {
 		return zjyxlmc;
@@ -209,8 +285,117 @@ public class OutPersonVo implements Serializable{
 	public void setZzlpm(String zzlpm) {
 		this.zzlpm = zzlpm;
 	}
+	public String getSeqnr9010() {
+		return seqnr9010;
+	}
+	public void setSeqnr9010(String seqnr9010) {
+		this.seqnr9010 = seqnr9010;
+	}
+	public String getZlzmc() {
+		return zlzmc;
+	}
+	public void setZlzmc(String zlzmc) {
+		this.zlzmc = zlzmc;
+	}
+	public String getZfbsj() {
+		return zfbsj;
+	}
+	public void setZfbsj(String zfbsj) {
+		this.zfbsj = zfbsj;
+	}
+	public String getZzzfs() {
+		return zzzfs;
+	}
+	public void setZzzfs(String zzzfs) {
+		this.zzzfs = zzzfs;
+	}
+	public String getZcbsmc() {
+		return zcbsmc;
+	}
+	public void setZcbsmc(String zcbsmc) {
+		this.zcbsmc = zcbsmc;
+	}
+	public String getZcbgj() {
+		return zcbgj;
+	}
+	public void setZcbgj(String zcbgj) {
+		this.zcbgj = zcbgj;
+	}
+	public String getZlzbz() {
+		return zlzbz;
+	}
+	public void setZlzbz(String zlzbz) {
+		this.zlzbz = zlzbz;
+	}
+	public String getSeqnr9007() {
+		return seqnr9007;
+	}
+	public void setSeqnr9007(String seqnr9007) {
+		this.seqnr9007 = seqnr9007;
+	}
+	public String getZgccrcdjbm() {
+		return zgccrcdjbm;
+	}
+	public void setZgccrcdjbm(String zgccrcdjbm) {
+		this.zgccrcdjbm = zgccrcdjbm;
+	}
+	public String getZgccrcdjmc() {
+		return zgccrcdjmc;
+	}
+	public void setZgccrcdjmc(String zgccrcdjmc) {
+		this.zgccrcdjmc = zgccrcdjmc;
+	}
+	public String getZgccrclb1bm() {
+		return zgccrclb1bm;
+	}
+	public void setZgccrclb1bm(String zgccrclb1bm) {
+		this.zgccrclb1bm = zgccrclb1bm;
+	}
+	public String getZgccrclb1mc() {
+		return zgccrclb1mc;
+	}
+	public void setZgccrclb1mc(String zgccrclb1mc) {
+		this.zgccrclb1mc = zgccrclb1mc;
+	}
+	public String getZhjlb() {
+		return zhjlb;
+	}
+	public void setZhjlb(String zhjlb) {
+		this.zhjlb = zhjlb;
+	}
+	public String getZhjlbms() {
+		return zhjlbms;
+	}
+	public void setZhjlbms(String zhjlbms) {
+		this.zhjlbms = zhjlbms;
+	}
+	public String getZhjjb() {
+		return zhjjb;
+	}
+	public void setZhjjb(String zhjjb) {
+		this.zhjjb = zhjjb;
+	}
+	public String getZhjjbms() {
+		return zhjjbms;
+	}
+	public void setZhjjbms(String zhjjbms) {
+		this.zhjjbms = zhjjbms;
+	}
+	public String getZsysj() {
+		return zsysj;
+	}
+	public void setZsysj(String zsysj) {
+		this.zsysj = zsysj;
+	}
+	public String getZsysjStr() {
+		return zsysjStr;
+	}
+	public void setZsysjStr(String zsysjStr) {
+		this.zsysjStr = zsysjStr;
+	}
 	 
 	 
+	
 	    
 	 
 	 

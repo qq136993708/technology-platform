@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkRewardSyncMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkRewardSync">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="expert_num" jdbcType="VARCHAR" property="expertNum" />
+    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
+    <result column="out_sys_id" jdbcType="VARCHAR" property="outSysId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="person_type" jdbcType="VARCHAR" property="personType" />
+    <result column="height_person_level" jdbcType="VARCHAR" property="heightPersonLevel" />
+    <result column="height_person_type" jdbcType="VARCHAR" property="heightPersonType" />
+    <result column="reward_level_code" jdbcType="VARCHAR" property="rewardLevelCode" />
+    <result column="reward_level_name" jdbcType="VARCHAR" property="rewardLevelName" />
+    
+    <result column="reward_type_code" jdbcType="VARCHAR" property="rewardTypeCode" />
+    <result column="reward_type_name" jdbcType="VARCHAR" property="rewardTypeName" />
+    
+    <result column="reward_date" jdbcType="TIMESTAMP" property="rewardDate" />
+    
+    
+    <result column="height_person_level_name" jdbcType="VARCHAR" property="heightPersonLevelName" />
+    <result column="height_person_type_name" jdbcType="VARCHAR" property="heightPersonTypeName" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_num, expert_id, out_sys_id, create_time, person_type, height_person_level, 
+    height_person_type, reward_level_code, reward_level_name, reward_type_code, reward_type_name, 
+    reward_date,height_person_level_name,height_person_type_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_reward_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_reward_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkRewardSync" useGeneratedKeys="true">
+    insert into zjk_reward_sync (id,expert_num, expert_id, out_sys_id, 
+      create_time, person_type, height_person_level, 
+      height_person_type, reward_level_code, reward_level_name, 
+      reward_type_code, reward_type_name, reward_date,height_person_level_name,height_person_type_name
+      )
+    values (#{id,jdbcType=VARCHAR},#{expertNum,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{outSysId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{personType,jdbcType=VARCHAR}, #{heightPersonLevel,jdbcType=VARCHAR}, 
+      #{heightPersonType,jdbcType=VARCHAR}, #{rewardLevelCode,jdbcType=VARCHAR}, #{rewardLevelName,jdbcType=VARCHAR}, 
+      #{rewardTypeCode,jdbcType=VARCHAR}, #{rewardTypeName,jdbcType=VARCHAR}
+      , #{rewardDate,jdbcType=TIMESTAMP}
+      , #{heightPersonLevelName,jdbcType=VARCHAR}
+      , #{heightPersonTypeName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkRewardSync" useGeneratedKeys="true">
+    insert into zjk_reward_sync
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        expert_num,
+      </if>
+      <if test="expertId != null">
+        expert_id,
+      </if>
+      <if test="outSysId != null">
+        out_sys_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="personType != null">
+        person_type,
+      </if>
+      <if test="heightPersonLevel != null">
+        height_person_level,
+      </if>
+      <if test="heightPersonType != null">
+        height_person_type,
+      </if>
+      <if test="rewardLevelCode != null">
+        reward_level_code,
+      </if>
+      <if test="rewardLevelName != null">
+        reward_level_name,
+      </if>
+      <if test="rewardTypeCode != null">
+        reward_type_code,
+      </if>
+      <if test="rewardTypeName != null">
+        reward_type_name,
+      </if>
+      <if test="rewardDate != null">
+        reward_date,
+      </if>
+      
+      <if test="heightPersonLevelName != null">
+        height_person_level_name,
+      </if>
+      <if test="heightPersonTypeName != null">
+        height_person_type_name,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="outSysId != null">
+        #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personType != null">
+        #{personType,jdbcType=VARCHAR},
+      </if>
+      <if test="heightPersonLevel != null">
+        #{heightPersonLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="heightPersonType != null">
+        #{heightPersonType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardLevelCode != null">
+        #{rewardLevelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardLevelName != null">
+        #{rewardLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardTypeCode != null">
+        #{rewardTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardTypeName != null">
+        #{rewardTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardDate != null">
+        #{rewardDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="heightPersonLevelName != null">
+        #{heightPersonLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="heightPersonTypeName != null">
+        #{heightPersonTypeName,jdbcType=VARCHAR},
+      </if>
+      
+       
+     
+    
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkRewardSync">
+    update zjk_reward_sync
+    <set>
+      <if test="expertNum != null">
+        expert_num = #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        expert_id = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="outSysId != null">
+        out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personType != null">
+        person_type = #{personType,jdbcType=VARCHAR},
+      </if>
+      <if test="heightPersonLevel != null">
+        height_person_level = #{heightPersonLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="heightPersonType != null">
+        height_person_type = #{heightPersonType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardLevelCode != null">
+        reward_level_code = #{rewardLevelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardLevelName != null">
+        reward_level_name = #{rewardLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardTypeCode != null">
+        reward_type_code = #{rewardTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardTypeName != null">
+        reward_type_name = #{rewardTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardDate != null">
+        reward_date = #{rewardDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="heightPersonLevelName != null">
+        height_person_level_name = #{heightPersonLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="heightPersonTypeName != null">
+        height_person_type_name = #{heightPersonTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkRewardSync">
+    update zjk_reward_sync
+    set expert_num = #{expertNum,jdbcType=VARCHAR},
+      expert_id = #{expertId,jdbcType=VARCHAR},
+      height_person_level_name = #{heightPersonLevelName,jdbcType=VARCHAR},
+      height_person_type_name = #{heightPersonTypeName,jdbcType=VARCHAR},
+      out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      person_type = #{personType,jdbcType=VARCHAR},
+      height_person_level = #{heightPersonLevel,jdbcType=VARCHAR},
+      height_person_type = #{heightPersonType,jdbcType=VARCHAR},
+      reward_level_code = #{rewardLevelCode,jdbcType=VARCHAR},
+      reward_level_name = #{rewardLevelName,jdbcType=VARCHAR},
+      reward_type_code = #{rewardTypeCode,jdbcType=VARCHAR},
+      reward_type_name = #{rewardTypeName,jdbcType=VARCHAR},
+      reward_date = #{rewardDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="patentName != null and patentName  !='' ">               AND t.patent_name like CONCAT('%',#{patentName},'%')</if>
+	     <if test="expertNum != null             and expertNum !=''  ">      AND t.expert_num = #{expertNum}</if>
+	     <if test="outSysId != null             and outSysId !=''  ">       AND t.out_sys_id = #{outSysId}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  zjk_patent_sync  t <include refid="selectCondition" />
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_patent_sync t <include refid="selectCondition"/>
+    </select>
+  
+  
+    <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+    
+	 insert into zjk_reward_sync 
+	 (id,expert_num, expert_id, out_sys_id, 
+      create_time, person_type, height_person_level, 
+      height_person_type, reward_level_code, reward_level_name, 
+      reward_type_code, reward_type_name, reward_date,
+      height_person_level_name,height_person_type_name
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+     #{item.id,jdbcType=VARCHAR},
+     #{item.expertNum,jdbcType=VARCHAR}, 
+     #{item.expertId,jdbcType=VARCHAR}, 
+     #{item.outSysId,jdbcType=VARCHAR}, 
+     #{item.createTime,jdbcType=TIMESTAMP}, 
+     #{item.personType,jdbcType=VARCHAR},
+     #{item.heightPersonLevel,jdbcType=VARCHAR}, 
+     #{item.heightPersonType,jdbcType=VARCHAR}, 
+     #{item.rewardLevelCode,jdbcType=VARCHAR}, 
+     #{item.rewardLevelName,jdbcType=VARCHAR}, 
+     #{item.rewardTypeCode,jdbcType=VARCHAR}, 
+     #{item.rewardTypeName,jdbcType=VARCHAR}, 
+     #{item.rewardDate,jdbcType=TIMESTAMP},
+     #{item.heightPersonLevelName,jdbcType=VARCHAR},
+     #{item.heightPersonTypeName,jdbcType=VARCHAR}
+      )
+	 </foreach> 
+      
+	</insert>
+	
+	
+	 <delete id="deleteAll" >
+        delete from zjk_patent_sync
+     </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

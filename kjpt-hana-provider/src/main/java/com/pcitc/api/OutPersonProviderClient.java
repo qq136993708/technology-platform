@@ -54,11 +54,11 @@ public class OutPersonProviderClient {
 	@ApiOperation(value = "获取所有专家相关-专利", notes = "获取所有专家相关--专利")
 	@RequestMapping(value = "/out_person/getHanaOutPersonPatentList", method = RequestMethod.POST)
 	public JSONArray getHanaOutPersonPatentList(@RequestBody  Map map) throws Exception {
-		logger.info("===============================getHanaOutPersonBaseInfoList==========");
+		logger.info("===============================getHanaOutPersonPatentList==========");
 		
 		List<OutPersonVo> list = outPersonService.getHanaOutPersonPatentList(map) ;
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
-		System.out.println("获取所有专家相关专利的基本信息: "+json.toJSONString());
+		//System.out.println("获取所有专家相关专利的基本信息: "+json.toJSONString());
 		return json;
 	}
 	
@@ -70,13 +70,32 @@ public class OutPersonProviderClient {
 		
 		List<OutPersonVo> list = outPersonService.getHanaOutPersonBookList(map) ;
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
-		System.out.println("获取所有专家相关-论著: "+json.toJSONString());
+		//System.out.println("获取所有专家相关-论著: "+json.toJSONString());
+		return json;
+	}
+	
+	@ApiOperation(value = "获取所有专家相关-获奖", notes = "获取所有专家相关-获奖")
+	@RequestMapping(value = "/out_person/getHanaOutPersonAwardList", method = RequestMethod.POST)
+	public JSONArray getHanaOutPersonAwardList(@RequestBody  Map map) throws Exception {
+		logger.info("===============================getHanaOutPersonAwardList==========");
+		
+		List<OutPersonVo> list = outPersonService.getHanaOutPersonAwardList(map) ;
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		//System.out.println("获取所有专家 获奖: "+json.toJSONString());
 		return json;
 	}
 	
 	
 	
-	
+	@ApiOperation(value = "获取所有专家相关-奖惩", notes = "获取所有专家相关-奖惩")
+	@RequestMapping(value = "/out_person/getHanaOutPersonPunishList", method = RequestMethod.POST)
+	public JSONArray getHanaOutPersonPunishList(@RequestBody  Map map) throws Exception {
+		logger.info("===============================奖惩getHanaOutPersonAwardList==========");
+		
+		List<OutPersonVo> list = outPersonService.getHanaOutPersonPunishList(map) ;
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
 	
 	
 	

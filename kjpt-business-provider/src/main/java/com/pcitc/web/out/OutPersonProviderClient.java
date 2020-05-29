@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkRewardPunishSync;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.service.out.IOutPersonService;
 
@@ -99,7 +100,17 @@ public class OutPersonProviderClient {
 	
 	
 	
-	
+	@ApiOperation(value = "批量保存人员", notes = "批量保存人员")
+	@RequestMapping(value = "/out_person/insertBatchOutPerson", method = RequestMethod.POST)
+	public Integer insertBatchOutPerson(@RequestBody String jsonStr) throws Exception 
+    {
+    	
+		System.out.println("======insertBatchOutPerson===========" + jsonStr);
+		List<OutPerson> list = JSONObject.parseArray(jsonStr, OutPerson.class);
+		outPersonService.deleteAllOutPerson();
+		return outPersonService.insertBatchOutPerson(list);
+
+	}
 	
 	
 	

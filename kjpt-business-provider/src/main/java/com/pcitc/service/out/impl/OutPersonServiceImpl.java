@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkBookSync;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.mapper.out.OutPersonMapper;
@@ -141,12 +142,18 @@ public class OutPersonServiceImpl implements IOutPersonService {
     
     
     
+	public Integer insertBatchOutPerson(List<OutPerson> list)throws Exception
+	{
+		return outPersonMapper.insertBatch(list);
+	}
     
     
     
     
-    
-    
+	public int deleteAllOutPerson()throws Exception
+	{
+		return outPersonMapper.deleteAll();
+	}
     
     
     

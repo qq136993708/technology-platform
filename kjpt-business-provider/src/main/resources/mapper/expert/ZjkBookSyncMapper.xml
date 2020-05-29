@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkBookSyncMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkBookSync">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="expert_num" jdbcType="VARCHAR" property="expertNum" />
+    <result column="out_sys_id" jdbcType="VARCHAR" property="outSysId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="book_type" jdbcType="VARCHAR" property="bookType" />
+    <result column="book_date" jdbcType="TIMESTAMP" property="bookDate" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="book_country" jdbcType="VARCHAR" property="bookCountry" />
+    <result column="public_org" jdbcType="VARCHAR" property="publicOrg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_num, out_sys_id, create_time, book_name, book_type, book_date, notes, 
+    book_country, public_org
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_book_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_book_sync
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBookSync" useGeneratedKeys="true">
+    insert into zjk_book_sync (expert_num, out_sys_id, create_time, 
+      book_name, book_type, book_date, 
+      notes, book_country, public_org
+      )
+    values (#{expertNum,jdbcType=VARCHAR}, #{outSysId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{bookName,jdbcType=VARCHAR}, #{bookType,jdbcType=VARCHAR}, #{bookDate,jdbcType=TIMESTAMP}, 
+      #{notes,jdbcType=VARCHAR}, #{bookCountry,jdbcType=VARCHAR}, #{publicOrg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBookSync" useGeneratedKeys="true">
+    insert into zjk_book_sync
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        expert_num,
+      </if>
+      <if test="outSysId != null">
+        out_sys_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="bookName != null">
+        book_name,
+      </if>
+      <if test="bookType != null">
+        book_type,
+      </if>
+      <if test="bookDate != null">
+        book_date,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+      <if test="bookCountry != null">
+        book_country,
+      </if>
+      <if test="publicOrg != null">
+        public_org,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertNum != null">
+        #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="outSysId != null">
+        #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookName != null">
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookType != null">
+        #{bookType,jdbcType=VARCHAR},
+      </if>
+      <if test="bookDate != null">
+        #{bookDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCountry != null">
+        #{bookCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="publicOrg != null">
+        #{publicOrg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBookSync">
+    update zjk_book_sync
+    <set>
+      <if test="expertNum != null">
+        expert_num = #{expertNum,jdbcType=VARCHAR},
+      </if>
+      <if test="outSysId != null">
+        out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookName != null">
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookType != null">
+        book_type = #{bookType,jdbcType=VARCHAR},
+      </if>
+      <if test="bookDate != null">
+        book_date = #{bookDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCountry != null">
+        book_country = #{bookCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="publicOrg != null">
+        public_org = #{publicOrg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkBookSync">
+    update zjk_book_sync
+    set expert_num = #{expertNum,jdbcType=VARCHAR},
+      out_sys_id = #{outSysId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      book_type = #{bookType,jdbcType=VARCHAR},
+      book_date = #{bookDate,jdbcType=TIMESTAMP},
+      notes = #{notes,jdbcType=VARCHAR},
+      book_country = #{bookCountry,jdbcType=VARCHAR},
+      public_org = #{publicOrg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="patentName != null and patentName  !='' ">               AND t.patent_name like CONCAT('%',#{patentName},'%')</if>
+	     <if test="expertNum != null             and expertNum !=''  ">      AND t.expert_num = #{expertNum}</if>
+	     <if test="outSysId != null             and outSysId !=''  ">       AND t.out_sys_id = #{outSysId}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  zjk_book_sync  t <include refid="selectCondition" />
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_book_sync t <include refid="selectCondition"/>
+    </select>
+  
+  
+    <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+	  insert into zjk_book_sync 
+	  (
+	  id,expert_num, out_sys_id, create_time, 
+      book_name, book_type, book_date, 
+      notes, book_country, public_org
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+     (
+     #{item.id,jdbcType=VARCHAR}, 
+     #{item.expertNum,jdbcType=VARCHAR}, 
+     #{item.outSysId,jdbcType=VARCHAR}, 
+     #{item.createTime,jdbcType=TIMESTAMP}, 
+     #{item.bookName,jdbcType=VARCHAR},
+     #{item.bookType,jdbcType=VARCHAR},
+     #{item.bookDate,jdbcType=TIMESTAMP}, 
+     #{item.notes,jdbcType=VARCHAR},
+     #{item.bookCountry,jdbcType=VARCHAR},
+     #{item.publicOrg,jdbcType=VARCHAR}
+      )
+	</foreach> 
+	
+	
+	</insert>
+	
+	
+	 <delete id="deleteAll" >
+        delete from zjk_book_sync
+     </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>
