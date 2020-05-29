@@ -120,6 +120,8 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
+            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(unitName, restTemplate, httpHeaders);
+            this.setParam(condition,"childUnitIds",childUnitIds);
         }
         if (!StringUtils.isEmpty(DateUtil.format(applicationDateStart,DateUtil.FMT_SS))) {
             this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
