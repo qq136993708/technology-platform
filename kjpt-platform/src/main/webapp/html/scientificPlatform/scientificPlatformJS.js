@@ -46,7 +46,7 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
           ,{field: 'researchFieldText', title: '技术领域'}
           // ,{field: 'experience', title: '主要项目', sort: true}
           ,{field: 'overallSituation', title: '科研整体情况', sort: true}
-          ,{field: 'researchFunds', title: '科研经费', sort: true}
+          ,{field: 'researchFunds', title: '科研经费(万元)', sort: true}
           ,{field: 'platformScoring', title: '平台评分', width: 94 , sort: true}
           ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
         ]],

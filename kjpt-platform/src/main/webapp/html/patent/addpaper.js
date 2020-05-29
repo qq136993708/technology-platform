@@ -21,6 +21,9 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
           if(data.unit){
             formSelects.value('unit',[data.unit])
           }
+          if(data.publishDate){
+            data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
+          }
           if(item.type == 'view'){
             $('input').attr('disabled',true);
             $('select').attr('disabled',true);
@@ -63,7 +66,9 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
   
 
   laydate.render({
-    elem: '#estimate' //指定元素
+    elem: '#estimate', //指定元素
+    trigger: 'click'
+
   });
   
   getItemInitData(variable);

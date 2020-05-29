@@ -215,18 +215,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   laydate.render({
     elem: '#estimate' //指定元素
   });
-});
-//导入
-importFiles({
-  id:'#importData',
-  url:'/excelImport/treatiseImp',
-  //treatiseImp
-  callback: function (data,type) {
-      queryTable('');
-  }
-});
-
-// 导出
+  // 导出
 $('#exportData').click(function() {
   var formValue = form.val('patentFormDemo'),
   searchData = {
@@ -244,6 +233,20 @@ $('#exportData').click(function() {
   exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
   window.open(exportUrl, '_blank');
 })
+//导入
+importFiles({
+  id:'#importData',
+  url:'/excelImport/treatiseImp',
+  //treatiseImp
+  callback: function (data,type) {
+      queryTable('');
+  }
+});
+
+});
+
+
+
 
 function shouUser(userId) {
   alert(userId);
