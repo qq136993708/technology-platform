@@ -71,13 +71,14 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
   }
 
   form.on('submit(formDemo)', function(data) {
-    console.log(data);
-    data.field.researchField = '';
-    $.each(layui.formSelects.value('researchField'), function(i, item) {
-      data.field.researchField += ',' + item.value;
-    });
-    data.field.researchField = data.field.researchField.substring(1);
-    queryTable(data.field);
+    // data.field.researchField = '';
+    // $.each(layui.formSelects.value('researchField'), function(i, item) {
+    //   data.field.researchField += ',' + item.value;
+    // });
+    // data.field.researchField = data.field.researchField.substring(1);
+    debugger
+    var json=setVal(data);
+    queryTable(json);
     return false;
   });
 

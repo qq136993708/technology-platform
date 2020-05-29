@@ -48,7 +48,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '标准类型'
             },
             {
-              field: 'chiefEditorUnit',
+              field: 'chiefEditorUnitText',
               title: '主编单位',
             },
             {
