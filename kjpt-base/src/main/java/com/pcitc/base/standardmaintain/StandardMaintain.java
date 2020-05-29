@@ -138,6 +138,10 @@ public class StandardMaintain extends RecordModel {
      */
     private String isPublishEnglishEdition;
     /**
+     * 是否已发布英文版字典翻译
+     */
+    private String isPublishEnglishEditionText;
+    /**
      * 附件
      */
     private String files;
@@ -404,5 +408,13 @@ public class StandardMaintain extends RecordModel {
 
     public void setFiles(String files) {
         this.files = files;
+    }
+
+    public String getIsPublishEnglishEditionText() {
+        return isPublishEnglishEditionText;
+    }
+
+    public void setIsPublishEnglishEditionText(String isPublishEnglishEditionText) {
+        this.isPublishEnglishEditionText = isPublishEnglishEditionText;
     }
 }
