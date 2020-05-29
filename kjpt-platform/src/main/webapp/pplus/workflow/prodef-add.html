@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" typeof="text/css" href="/css/form.css">
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
@@ -232,7 +232,6 @@
 
 		//回显工作流
 		window.setWorkflow = function(data) {
-			console.info(data);
 			$('#prodefId').val(data.id);
 			$('#deploymentId').val(data.deploymentId);
 			if (typeof (data.name) == "undefined") {

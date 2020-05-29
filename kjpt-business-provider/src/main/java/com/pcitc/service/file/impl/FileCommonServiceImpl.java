@@ -36,13 +36,15 @@ public class FileCommonServiceImpl implements FileCommonService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFileData(String fileIds, String dataId,String baseSsecretLevel) {
-        String[] fileArr = fileIds.split(",");
-        //检查附件的密级有没有大于当前数据的密级的
-        if(fcm.checkSecretLevel(baseSsecretLevel,fileArr)>0){
-            throw new SysException("附件与当前数据的密级不符，请检查！");
-        }
         fcm.delete(dataId);
-        fcm.updateSetDataID(dataId,fileArr);
+        if(StringUtils.isNotBlank(fileIds)){
+            String[] fileArr = fileIds.split(",");
+            //检查附件的密级有没有大于当前数据的密级的
+            if(fcm.checkSecretLevel(baseSsecretLevel,fileArr)>0){
+                throw new SysException("附件与当前数据的密级不符，请检查！");
+            }
+            fcm.updateSetDataID(dataId,fileArr);
+        }
     }
 
     @Override

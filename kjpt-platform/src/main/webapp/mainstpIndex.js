@@ -87,11 +87,31 @@ layui.config({
   function getItemHtml(config) {
     var $parent = $(config.id).empty();
     $.each(config.data, function(i, item) {
-      var $li = $('<li class="item-details"></li>');
+      var $li = $('<li class="item-details"></li>'), itemHtml = '';
       if(item.noticeCreatetime){
-        var itemHtml = '<span class="date-text">['+ (item.noticeCreatetime ? new Date(item.noticeCreatetime).format('yyyy-MM-dd') : '') +']</span>';
+        itemHtml += '<span class="date-text">['+ (function() {
+        	if (item.noticeCreatetime) {
+        		if (typeof(item.noticeCreatetime) === 'string' && item.noticeCreatetime.indexOf('-') > 0) {
+        			return new Date(item.noticeCreatetime.split('-').join('/')).format('yyyy-MM-dd');
+        		} else {
+        			return new Date(item.noticeCreatetime).format('yyyy-MM-dd');
+        		}
+        	} else {
+        		return '';
+        	}
+        })() +']</span>';
       }else{
-        var itemHtml = '<span class="date-text">['+ (item.createDate ? new Date(item.createDate).format('yyyy-MM-dd') : '') +']</span>';
+        itemHtml += '<span class="date-text">['+ (function() {
+        	if (item.createDate) {
+        		if (typeof(item.createDate) === 'string' && item.createDate.indexOf('-') > 0) {
+        			return new Date(item.createDate.split('-').join('/')).format('yyyy-MM-dd');
+        		} else {
+        			return new Date(item.createDate).format('yyyy-MM-dd');
+        		}
+        	} else {
+        		return '';
+        	}
+        })() +']</span>';
       }
       itemHtml += '<span class="details-text">'+item[config.name]+'</span>';
       $li.append(itemHtml);
@@ -273,7 +293,7 @@ layui.config({
     url: '/sysNotice/getSysNoticeList?page=1&limit=10',
     // data: { page: 1, limit: 10 },
     name: 'noticeTitle',
-    href: '/base/system/notice_list.html',
+    href: '/html/groupInformation/planDetails.html',
     hrefData: ['id'],
     title: '公告',
     type: 'POST',
@@ -290,7 +310,7 @@ layui.config({
     url: '/sysNews/getTableData',
     data: { page: 1, limit: 10 },
     name: 'title',
-    href: '/sysNews/toListPage',
+    href: '/html/groupInformation/planDetails.html',
     hrefData: ['id'],
     title: '新闻发布',
     type: 'POST',
@@ -324,10 +344,10 @@ layui.config({
     url: '/achieveMaintain-api/query',
     data: { page: 1, limit: 10 },
     name: 'awardsTypeText',
-    href: '',
+    href: '/html/groupInformation/planDetails.html',
     hrefData: ['id'],
     title: '成果获奖',
-    openType: 'layer',
+    // openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#patent_tab_list').text(res.message || '请求出错，无法获取数据。')

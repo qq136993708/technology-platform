@@ -1,12 +1,12 @@
 package com.pcitc.web.test;
 
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.util.DateUtil;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.util.DateUtil;
 
 public class ExampleTest {
 

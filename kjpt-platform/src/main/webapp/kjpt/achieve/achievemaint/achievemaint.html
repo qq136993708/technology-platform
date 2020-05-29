@@ -78,10 +78,24 @@
           <div class="layui-form-item text-right">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
             <button data-type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <span class="layui-fold-btn"></span>
+            <!-- <span class="layui-fold-btn"></span> -->
+            <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
           </div>
         </div>
       </div>
+      <div class="layui-colla-content layui-hide">
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">
+                <span class="layui-btn layui-btn-normal" id="custormAdd">增加</span>
+            </div>
+        </div>
+        <div id="custromFrom"></div>
+    </div>
     </form>
 
     <div class="view-title-layout">
@@ -97,7 +111,7 @@
     <table id="expertTable" lay-filter="expertTable"></table>
   </div>
 
-  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/layuiadmin/js/common.js"></script>
   <script src="./js/achievemaint.js"></script>

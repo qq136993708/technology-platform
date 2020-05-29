@@ -13,6 +13,31 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <!-- 更多样式在此引入 -->
+
+  <style>
+    .more-item:not(:first-child) {
+      margin-top: 20px;
+    }
+
+    #knownImagesView img{
+      margin-right: 10px;
+      width: 78px;
+      height: 81px;
+      display: inline-block;
+      border: 1px solid #dddddd;
+    }
+
+    #knownImagesView{
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    #knownImagesView .img-div {
+      margin-right: 20px;
+      width: 90px;
+      height: 90px;
+    }
+  </style>
 </head>
 
 <body class="">
@@ -48,7 +73,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">单位名称:</span></label>
             <div class="layui-input-block">
-              <input type="text" name="unitName"  disabled placeholder="" autocomplete="off"
+              <input type="text" name="unitNameText"  disabled placeholder="" autocomplete="off"
                      class="layui-input">
             </div>
           </div>
@@ -162,7 +187,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">驰名商标：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="isWellKnown" placeholder="" disabled autocomplete="off" class="layui-input">
+              <select name="isWellKnown" lay-filter="isWellKnown" select="isWellKnown" disabled  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -192,7 +217,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">著名商标：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="isRegistered" placeholder="" disabled autocomplete="off" class="layui-input">
+              <select name="isRegistered" select="isRegistered" lay-filter="isRegistered" disabled  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -261,7 +286,7 @@
       <input type="hidden" name="level">
     </form>
   </div>
-  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/layuiadmin/js/common.js"></script>
   <script src="/layuiadmin/js/fileUpload.js"></script>
@@ -286,21 +311,37 @@
         success: function (relData) {
           if (relData.code === '0') {
             var data = relData.data;
-
             var applicant = data.applicant;
             var applicantArray = applicant && applicant.indexOf(',')?applicant.split(','):[];
+            $.ajaxSettings.async = false;
             if (applicantArray.length > 0) {
               $.each(applicantArray, function (k, v) {
                 if (k == 0) {
                   data.applicant = v;
                 } else {
-                  addItem(v, 'edit');
+                  addItem(v, 'view');
                 }
               });
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
             form.val('formPlatform', data);
+            if (item && item.id) {
+              data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
+              data.isRegistered == '0'? $('#isRegisteredBox').attr("class",'') : $('#isRegisteredBox').attr('class','layui-hide');
+            }
             form.render();
+
+            //images
+            var files = relData.data.files;
+            var filesArray = files?files.split(','):[];
+            if (filesArray.length > 0) {
+              $.each(filesArray, function (k, v) {
+                var src = '/file/imgFile/' + v;
+                $('#knownImagesView').append('<div class="img-div">\n' +
+                        '                <img src="' + src + '" data-field="' + v + '">\n' +
+                        '              </div>');
+              });
+            }
 
             // 添加知悉范围
             setJurisdictionScope({
@@ -310,6 +351,8 @@
               secretLevel: data.secretLevel,
               disabled: true
             });
+
+
           }
         }
       });
@@ -347,8 +390,8 @@
 
     function addItem (value, type) {
       var el = '';
-      if (type && type == 'edit') {
-        el = $('.more-item .add-more-item-btn');
+      if (type && type == 'view') {
+        el = $('.more-item:last-child .applicantlist');
       } else {
         el = $(this);
       }
@@ -359,7 +402,9 @@
       html = html.indexOf('申请人：')>=0?html.replace('申请人：', '&nbsp;'):html;
       html = html.indexOf('label-required')>=0?html.replace('label-required', ''):html;
       appendparent.append(html);
-      el.remove();
+      if (type != 'view') {
+        el.remove();
+      }
       //赋值
       setTimeout(function () {
         if (typeof value == 'string') {
@@ -369,7 +414,6 @@
         }
       }, 10);
     }
-
     // 获取地址栏传递过来的参数
     var variable = getQueryVariable();
     getItemInitData(variable);

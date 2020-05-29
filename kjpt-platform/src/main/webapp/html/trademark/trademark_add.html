@@ -32,6 +32,39 @@
       color: #ffffff;
       border: none;
     }
+
+    #knownImagesView img{
+      margin-right: 10px;
+      width: 78px;
+      height: 81px;
+      display: inline-block;
+      border: 1px solid #dddddd;
+    }
+
+    #knownImagesView{
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    #knownImagesView .img-div {
+      margin-right: 20px;
+      width: 90px;
+      height: 90px;
+      position: relative;
+    }
+
+    #knownImagesView .sb-img {
+      position: absolute;
+      right: 0;
+      top: -8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #8D8D8D;
+      padding: 2px;
+      color: #ffffff;
+    }
+
   </style>
   <!-- 更多样式在此引入 -->
 </head>
@@ -176,7 +209,9 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">商标类型：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input">
+              <!-- <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input"> -->
+              <select name="tradeMarkType" dic-base-data="ROOT_KJPT_SBLX"  placeholder="请选择...">
+              </select>
             </div>
           </div>
         </div>
@@ -198,31 +233,28 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">驰名商标：</span></label>
             <div class="layui-input-block">
-              <select name="isWellKnown" lay-verify="required" placeholder="请选择...">
-                <option selected>是</option>
-                <option>否</option>
-              </select>
+              <select name="isWellKnown" lay-filter="isWellKnown" select="isWellKnown"  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">驰名商标认定日期：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="wellKnownDate" id="wellKnownDate" placeholder="" autocomplete="off" class="laydate-input">
+        <div id="wellKnownDateBox" class="">
+          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label"><span class="text">驰名商标认定日期：</span></label>
+              <div class="layui-input-block">
+                <input type="text" name="wellKnownDate" id="wellKnownDate" placeholder="" autocomplete="off" class="laydate-input">
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">驰名商标认定机构：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="wellKnownOrg" placeholder="" autocomplete="off" class="layui-input">
+          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label"><span class="text">驰名商标认定机构：</span></label>
+              <div class="layui-input-block">
+                <input type="text" name="wellKnownOrg" placeholder="" autocomplete="off" class="layui-input">
+              </div>
             </div>
           </div>
         </div>
@@ -231,17 +263,13 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">著名商标：</span></label>
             <div class="layui-input-block">
-              <select name="isRegistered" lay-verify="required" placeholder="请选择...">
-                <option selected>是</option>
-                <option>否</option>
-              </select>
+              <select name="isRegistered" select="isRegistered" lay-filter="isRegistered"  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
-
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         </div>
-
+        <div id="isRegisteredBox" class="">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">著名商标认定日期：</span></label>
@@ -259,13 +287,23 @@
             </div>
           </div>
         </div>
+      </div>
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">商标图片：</span></label>
             <div class="layui-input-block" id="knownImages">
-              <input type="text" value="上&nbsp;&nbsp;&nbsp;&nbsp;传" label="imgUpload" class="layui-input"
+              <input type="text" value="上&nbsp;&nbsp;&nbsp;&nbsp;传" class="layui-input"
                      style="text-align: center; border: 1px dashed #0AA1FF;color: #0AA1FF; cursor: pointer;">
+<!--              <div label="imgUpload"></div>-->
+<!--              <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>-->
+              <!--<div class="img-view-block middle-block" id="imgFileUpload">
+                <img src="" alt="请选择图片上传" />
+                <div class="file-img-btn" label="imgUpload" >
+                  <span class="btn-icon"></span>
+                  <span class="btn-text">点击此区域上传照片，请上传.jpg, .jpeg, .bmp, .gif格式</span>
+                </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -273,12 +311,10 @@
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         </div>
 
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
           <label class="layui-form-label"><span class="text"></span></label>
           <div class="layui-input-block">
             <div class="layui-upload-list" id="knownImagesView">
-              <!--            <img class="layui-upload-img" >-->
-<!--              <div style="background:rgba(216,216,216,1);width: 78px;height: 71px;"></div>-->
             </div>
           </div>
         </div>
@@ -309,10 +345,10 @@
       <input type="hidden" name="updator">
       <input type="hidden" name="deleted">
       <input type="hidden" name="level">
-      <input type="hidden" name="files">
+      <input type="hidden" name="files" id="files">
     </form>
   </div>
-  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/layuiadmin/js/common.js"></script>
   <script src="/layuiadmin/js/fileUpload.js"></script>
@@ -365,6 +401,7 @@
         url: httpUrl,
         type: 'GET',
         success: function (relData) {
+          console.log(relData)
           if (relData.code === '0') {
             // 给form表单赋初始值
             var data = relData.data;
@@ -381,10 +418,26 @@
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
             form.val('formPlatform', data);
+            if (item && item.id) {
+              data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
+              data.isRegistered == '0'? $('#isRegisteredBox').attr("class",'') : $('#isRegisteredBox').attr('class','layui-hide');
+            }
             // 更新表单数据
             form.render();
             formSelects.value('supportingInstitutions', [data.unitName]);
-            // upLoadFile(item.id || relData.data.id);
+
+            //images
+            var files = relData.data.files;
+            var filesArray = files?files.split(','):[];
+            if (filesArray.length > 0) {
+              $.each(filesArray, function (k, v) {
+                var src = '/file/imgFile/' + v;
+                $('#knownImagesView').append('<div class="img-div">\n' +
+                        '                <img src="' + src + '" data-field="' + v + '">\n' +
+                        '                <span class="sb-img" data-field="' + v + '"><i class="layui-icon">&#x1006;</i></span>\n' +
+                        '              </div>');
+              });
+            }
 
             // 添加知悉范围
             setJurisdictionScope({
@@ -478,7 +531,12 @@
       elem: '#wellKnownDate',
       trigger: 'click',
     });
-
+    form.on('select(isWellKnown)', function(data){
+        data.value == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
+      });
+    form.on('select(isRegistered)', function(data){
+        data.value == '0'? $('#isRegisteredBox').attr("class",'')  : $('#isRegisteredBox').attr('class','layui-hide');
+      });
     //新增多个申请人
     $("body").on("click",".add-more-item-btn", addItem);
     function addItem (value, type) {
@@ -525,29 +583,46 @@
     }
 
     //上传商标图片
-    setImagesUpload({
+    /*setImagesUpload({
       id: 'knownImages',
-      accept: 'images',
-    });
+      accept: 'images'
+    });*/
 
     layui.upload.render({
       elem: '#knownImages',
-      // url: 'file/upload',
-      multiple: true,
+      url: '/file/upload',
       before: function(obj){
-        obj.preview(function(index, file, result){
-          $('#knownImagesView').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-        });
       }
       ,done: function(res){
         if (res.code !== '0') {
           top.layer.msg('图片上传失败 => ' + res.message,  {icon: 2});
+        } else {
+          top.layer.msg('图片上传成功！',  {icon: 1});
+          var src = '/file/imgFile/' + res.data.id;
+          var fileValue = $("#files").val();
+          var newFiles = fileValue ? fileValue + ',' + res.data.id : res.data.id;
+          $("#files").val(newFiles);
+          $('#knownImagesView').append('<div class="img-div">\n' +
+                  '                <img src="' + src + '" data-field="' + res.data.id + '">\n' +
+                  '                <span class="sb-img" data-field="' + res.data.id + '"><i class="layui-icon">&#x1006;</i></span>\n' +
+                  '              </div>');
         }
       }
       ,error: function(error){
         //请求异常回调
         top.layer.msg('图片上传失败，请重新尝试',  {icon: 2});
       }
+    });
+
+    $("body").on("click",".sb-img", function () {
+      var datafield = $(this).attr('data-field');
+      var files = $("#files").val();
+      var newFiles = files ? files.split(',') : [];
+      var result = newFiles.filter(function (value, index) {
+        return value != datafield;
+      });
+      $("#files").val(result?result.join(','):'');
+      $(this).parent().remove();
     });
   });
 </script>

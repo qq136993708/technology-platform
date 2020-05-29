@@ -211,8 +211,9 @@ public class TrademarkController extends RestBaseController {
         }
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String[] headers = { "单位名称",  "注册商标名称",    "商标申请号"  , "注册日期","注册公告日","核定使用商品大类","申请人/注册人","有效日期","法律状态"};
-        String[] cols =    {"unitNameText","trademarkName","applicationNumber","registerDate","registerNoticeDate","commodityCategory","applicant","effectiveDate","legalStatusText"};
+        //String[] headers = { "单位名称",  "注册商标名称",    "商标申请号"  , "注册日期","注册公告日","核定使用商品大类","申请人/注册人","有效日期","法律状态"};
+        String[] headers = { "单位名称",  "商标名称",    "注册号"  , "申请人","国际分类号","注册单位","注册日期","有效日期","延展有效期","商标类型"};
+        String[] cols =    {"unitNameText","trademarkName","applicationNumber","applicant","countryType","registerOrg","registerDate","effectiveDate","extensionPeriod","tradeMarkTypeText"};
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), TrademarkInfo.class);
         String fileName = "商标明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");

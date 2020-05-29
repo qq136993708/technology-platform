@@ -66,4 +66,20 @@ public interface PatentInfoService {
      * @return
      */
     Integer batchRemove(String ids);
+
+    /**
+     * 根据法律状态查询专利数量
+     *
+     * @param param
+     * @return
+     */
+    List<Map> countByLegalStatus(Map param);
+
+    /**
+     * 根据专利类型查询专利数量
+     *
+     * @param param
+     * @return
+     */
+    List<Map> countByPatentType(Map param);
 }

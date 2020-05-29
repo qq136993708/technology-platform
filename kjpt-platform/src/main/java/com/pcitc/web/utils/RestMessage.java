@@ -1,9 +1,9 @@
 package com.pcitc.web.utils;
 
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 
 @ApiModel(description= "返回响应数据")
 public class RestMessage implements Serializable{

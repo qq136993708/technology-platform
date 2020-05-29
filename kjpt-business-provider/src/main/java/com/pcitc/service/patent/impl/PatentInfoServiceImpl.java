@@ -85,6 +85,16 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         return patentInfoMapper.batchRemove(ids);
     }
 
+    @Override
+    public List<Map> countByLegalStatus(Map param) {
+        return patentInfoMapper.countByLegalStatus(param);
+    }
+
+    @Override
+    public List<Map> countByPatentType(Map param) {
+        return patentInfoMapper.countByPatentType(param);
+    }
+
     public PatentInfo getPatentInfo(String id){
         return patentInfoMapper.selectByPrimaryKey(id);
     }

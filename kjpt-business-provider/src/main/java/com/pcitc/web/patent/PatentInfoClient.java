@@ -95,10 +95,10 @@ public class PatentInfoClient {
 	 * @param ids
 	 * @return
 	 */
-	@ApiOperation(value = "逻辑删除专利信息", notes = "逻辑删除专利信息")
-	@RequestMapping(value = "/patent-provider/patentInfo/batchRemove/{ids}", method = RequestMethod.DELETE)
+	@ApiOperation(value = "批量移除后专项", notes = "批量移除后专项")
+	@RequestMapping(value = "/patent-provider/patentInfo/batchRemove/{ids}", method = RequestMethod.POST)
 	public Integer batchRemove(@PathVariable String ids) {
-		return patentInfoService.deletePatent(ids);
+		return patentInfoService.batchRemove(ids);
 	}
 
 	@ApiOperation(value = "查询专利列表", notes = "查询专利列表")
@@ -107,6 +107,19 @@ public class PatentInfoClient {
 		List list=patentInfoService.queryNoPage(param);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
+	}
+
+
+	@ApiOperation(value = "根据法律状态查询专利数量", notes = "根据法律状态查询专利数量")
+	@RequestMapping(value = "/patent-provider/patentInfo/countByLegalStatus", method = RequestMethod.POST)
+	public List<Map> countByLegalStatus(@RequestBody(required = false)Map param) {
+		return patentInfoService.countByLegalStatus(param);
+	}
+
+	@ApiOperation(value = "根据专利类型查询专利数量", notes = "根据专利类型查询专利数量")
+	@RequestMapping(value = "/patent-provider/patentInfo/countByPatentType", method = RequestMethod.POST)
+	public List<Map> countByPatentType(@RequestBody(required = false)Map param) {
+		return patentInfoService.countByPatentType(param);
 	}
 
 }

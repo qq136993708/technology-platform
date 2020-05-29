@@ -369,7 +369,7 @@ layui.use(['table', 'form', 'layer'], function() {
   // 成果转化备案上报
   var subFormData = null;
   form.on('submit(formFlow)', function(data) {
-    debugger
+    
     subFormData = data.field;
     
     var achieveTeamPerson = getTableData('teamPersonList'); // 科技成果完成团队情况
@@ -418,7 +418,6 @@ layui.use(['table', 'form', 'layer'], function() {
     var fileValue = getFileValue(transfromData), newFileValue = {};
     for (var fileKey in fileValue) {
       if (!fileValue[fileKey][1]) {
-        debugger
         layer.msg(fileValue[fileKey][0] + '附件不能为空！', {icon: 2});
         transfromData = null;
         break;

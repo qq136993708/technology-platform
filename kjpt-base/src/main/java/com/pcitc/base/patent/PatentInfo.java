@@ -147,9 +147,14 @@ public class PatentInfo extends RecordModel implements Serializable {
     private Long assignProfit;
 
     /**
+     * 被转让人及转让收益
+     */
+    private String assignorAndAssignProfit;
+
+    /**
      * 附件上传
      */
-    private String files;
+    private String files="";
 
     /**
      * 数据创建人
@@ -364,8 +369,17 @@ public class PatentInfo extends RecordModel implements Serializable {
     
     
     private String type;
-    
-    
+
+    /**
+     * ---------密级----------
+     * 公开
+     * 内部
+     * 商密
+     */
+    private String level;
+
+    private String levelText;
+
 
     public String getType() {
 		return type;
@@ -940,8 +954,32 @@ public class PatentInfo extends RecordModel implements Serializable {
         return customClassification;
     }
 
+    public String getAssignorAndAssignProfit() {
+        return assignorAndAssignProfit;
+    }
+
+    public void setAssignorAndAssignProfit(String assignorAndAssignProfit) {
+        this.assignorAndAssignProfit = assignorAndAssignProfit;
+    }
+
     public void setCustomClassification(String customClassification) {
         this.customClassification = customClassification;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevelText() {
+        return levelText;
+    }
+
+    public void setLevelText(String levelText) {
+        this.levelText = levelText;
     }
 
     @Override

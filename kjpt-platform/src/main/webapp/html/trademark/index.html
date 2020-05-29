@@ -30,7 +30,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">商标名称:</span></label>
@@ -125,19 +124,21 @@
                 <button class="layui-btn border-blue" id="editItem" lay-event="edit" button-role="edit">编辑</button>
                 <button class="layui-btn border-blue" id="check" lay-event="detail">查看</button>
                 <button class="layui-btn border-red" id="delItem" lay-event="del" button-role="delete">删除</button>
-                <button class="layui-btn border-blue" data-type="exportEvent">导出</button>
-                <button class="layui-btn border-blue" data-type="importEvent">导入</button>
-            </div>
+                <!-- <button class="layui-btn border-blue" data-type="importEvent">导入</button>
+                <button class="layui-btn border-blue" data-type="exportEvent">导出</button> -->
+                <a class="layui-btn border-blue" href="/data/kjpt_zzzl.xls" data-type="downloadData">模板下载</a>
+                <div id="importData" class="ib-block" style="margin: 0 12px; overflow: hidden;">
+                    <a class="layui-btn border-blue"  data-type="importData" filter="addFile" >导入</a>
+                </div>
+                <a class="layui-btn border-blue" id="exportData">导出</a>
+            </div>  
         </div>
         <table id="tableContent" lay-filter="tableContent"></table>
     </div>
-
-    
-
-
-    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/fileUpload.js"></script>
     <script src="./js/trademarkIndex.js"></script>
 
 
@@ -147,8 +148,8 @@
     <script type="text/html" id="effectiveDate">
         {{ dateFieldText(d.effectiveDate) }}
     </script>
-    <script type="text/html" id="registerNoticeDate">
-        {{ dateFieldText(d.registerNoticeDate) }}
+    <script type="text/html" id="extensionPeriod">
+        {{ dateFieldText(d.extensionPeriod) }}
     </script>
 </body>
 

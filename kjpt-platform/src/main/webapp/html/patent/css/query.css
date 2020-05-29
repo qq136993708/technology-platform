@@ -1,35 +1,53 @@
-.header-block {
-    height: 92px;
-    width: 100%;
-}
+
 .header-block-line {
     width: 100%;
     height: 1px;
     background: #D7DDE0;
     margin-bottom: 32px;
 }
-
 .header-block {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 20px;
+   display: table;
+   width: 100%;
+   table-layout: fixed;
+   height: 92px;
 }
 
 .header-block-item {
-    flex: 1;
-    display: flex;
-    justify-content: space-around;
-    align-items:center;
+    display: table-cell;
+   vertical-align: top;
+   font-size: 0;
 }
-
-.header-block-item:first-child {
-    border-right: 1px dashed #CECBCB;
+.header-block-item:before {
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 72px;
+	font-size: 0;
 }
-
-.header-block-item div{
-    text-align: center;
+.header-block .header-block-item:nth-child(2) {
+	padding-left: 36px;
+	width: calc(33.33% + 36px);
+	position: relative;
 }
-
+.header-block .header-block-item:nth-child(2):after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 18px;
+	height:72px;
+	top: 0;
+    border-left: 1px dashed #CECBCB;
+}
+.header-block-item> div {
+	display: inline-block;
+	vertical-align: middle;
+	white-space: nowrap;
+	width: calc(33.33% - 21px);
+	text-align: center;
+}
+.header-block-item> div:nth-child(1) {
+	width: 60px;
+}
 .header-block-item div:first-child p{
     font-size:20px;
     font-family:PingFang-SC-Bold,PingFang-SC;

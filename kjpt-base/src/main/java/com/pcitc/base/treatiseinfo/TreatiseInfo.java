@@ -2,6 +2,8 @@ package com.pcitc.base.treatiseinfo;
 
 import com.pcitc.base.common.RecordModel;
 
+import java.util.Date;
+
 public class TreatiseInfo extends RecordModel {
     /**
      * 主键
@@ -37,6 +39,10 @@ public class TreatiseInfo extends RecordModel {
      */
     private String journalName;
     /**
+     * 摘要
+     */
+    private String summary;
+    /**
      * 期刊等级
      */
     private String journalLevel;
@@ -47,7 +53,11 @@ public class TreatiseInfo extends RecordModel {
     /**
      * 影响因子
      */
-    private String InfluencingFactors;
+    private String influencingFactors;
+    /**
+     * 发表日期
+     */
+    private Date publishDate;
     /**
      * 附件
      */
@@ -118,11 +128,11 @@ public class TreatiseInfo extends RecordModel {
     }
 
     public String getInfluencingFactors() {
-        return InfluencingFactors;
+        return influencingFactors;
     }
 
     public void setInfluencingFactors(String influencingFactors) {
-        InfluencingFactors = influencingFactors;
+        this.influencingFactors = influencingFactors;
     }
 
     public String getFiles() {
@@ -147,5 +157,21 @@ public class TreatiseInfo extends RecordModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 }

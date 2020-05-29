@@ -1,27 +1,15 @@
 package com.pcitc.web.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.system.SysLog;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.JwtTokenUtil;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 public class TokenInterUtils {
 	

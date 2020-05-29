@@ -124,11 +124,20 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      是否驰名商标
      **/
     private String isWellKnown;
+    /***
+     是否驰名商标翻译
+     **/
+    private String isWellKnownText;
+
 
     /***
      是否著名商标
      **/
     private String isRegistered;
+    /***
+     是否著名商标翻译
+     **/
+    private String isRegisteredText;
 
     /***
      国别
@@ -139,6 +148,10 @@ public class TrademarkInfo extends RecordModel implements Serializable {
      商标类型
      **/
     private String tradeMarkType;
+    /***
+     商标类型字典翻译
+     **/
+    private String tradeMarkTypeText;
 
     /***
      驰名商标认定日期
@@ -214,9 +227,23 @@ public class TrademarkInfo extends RecordModel implements Serializable {
     }
 
     private static final long serialVersionUID = 1L;
-    
-    
-    
+
+
+    public String getIsWellKnownText() {
+        return isWellKnownText;
+    }
+
+    public void setIsWellKnownText(String isWellKnownText) {
+        this.isWellKnownText = isWellKnownText;
+    }
+
+    public String getIsRegisteredText() {
+        return isRegisteredText;
+    }
+
+    public void setIsRegisteredText(String isRegisteredText) {
+        this.isRegisteredText = isRegisteredText;
+    }
 
     public String getSecretLevelText() {
 		return secretLevelText;
@@ -416,6 +443,14 @@ public class TrademarkInfo extends RecordModel implements Serializable {
 
     public void setCreateUnitName(String createUnitName) {
         this.createUnitName = createUnitName;
+    }
+
+    public String getTradeMarkTypeText() {
+        return tradeMarkTypeText;
+    }
+
+    public void setTradeMarkTypeText(String tradeMarkTypeText) {
+        this.tradeMarkTypeText = tradeMarkTypeText;
     }
 
     @Override

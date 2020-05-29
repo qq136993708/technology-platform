@@ -1,10 +1,11 @@
 package com.pcitc.web.utils;
 
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.security.Key;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.codec.binary.Base64;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
@@ -12,13 +13,11 @@ import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.commons.codec.binary.Base64;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.security.Key;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DES3Utils {
 	// 秘钥（身份验证）
