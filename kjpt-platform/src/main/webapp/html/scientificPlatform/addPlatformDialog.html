@@ -309,8 +309,8 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
 			data: saveData,
 			type: "POST",
 			success: function(e) {
-        setDialogData(e); // 通知上层页面状态 - 弹窗中使用
-        parent.layui.index.openTabsPage(pageUrl,pageName);
+        		setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+        		/* parent.layui.index.openTabsPage(pageUrl,pageName); */
 				top.layer.closeAll(); // 关闭弹窗
 			}
 		});

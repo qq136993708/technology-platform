@@ -99,11 +99,11 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
 		  content: '/html/scientificPlatform/addPlatformDialog.html?level='+value+'&id='+ID,
 		  btn: null,
 		  end: function() {
-        var relData = getDialogData('dialog-data');
+			  var relData = getDialogData('dialog-data');
 			  if (relData) {
 				  if (relData.code === '0') {
-            layer.msg(dialogTitle+'成功!', {icon: 1});
-            $('[lay-filter="formDemo"]').click();
+					  layer.msg(dialogTitle+'成功!', {icon: 1});
+					  $('[lay-filter="formDemo"]').click();
 				  } else {
 					  layer.msg(relData.message, {icon: 2});
 				  }
