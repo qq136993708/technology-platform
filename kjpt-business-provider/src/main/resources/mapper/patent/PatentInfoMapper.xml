@@ -663,7 +663,7 @@
       and patent_type = #{patentType}
     </if>
     <if test="applicationNumber != null and applicationNumber != '' " >
-      and application_number = #{applicationNumber}
+      and application_number like CONCAT('%',#{applicationNumber},'%')
     </if>
     <if test="patentName != null and patentName != '' " >
       and patent_name like CONCAT('%',#{patentName},'%')
