@@ -31,7 +31,6 @@ layui.use(['table', 'form', 'laydate'], function () {
             }, {
               field: 'achieveName',
               title: '成果名称',
-              sort: true
             }, {
               field: 'finishUnitNameText',
               title: '完成单位',
@@ -59,7 +58,7 @@ layui.use(['table', 'form', 'laydate'], function () {
             },
              {
               field: 'achieveTransTypeText',
-              title: '拟转让方式',
+              title: '拟转化方式',
               sort: true
             }, {
               field: 'secretLevelText',
