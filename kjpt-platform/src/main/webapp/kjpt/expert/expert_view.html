@@ -15,6 +15,12 @@
         .bg-blue-box{margin:0;}
         .layui-tab-content{padding: 10px 0}
         .layui-table-view .layui-table,.layui-table-box tr.layui-none{width: 100% !important;}
+        .layui-tab-title > a.layui-btn {
+        	position: absolute;
+        	right: 0;
+        	top:50%;
+        	margin-top: -15px;
+        }
     </style>
 </head>
 <body>
@@ -62,6 +68,8 @@
                 <li>成果信息</li>
                 <li>专利信息</li>
                 <li>奖励信息</li>
+                
+                <a class="layui-btn border-blue" id="gobackClick" href="./expert_demeanor.html">返回</a>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
