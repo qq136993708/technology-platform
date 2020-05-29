@@ -188,8 +188,8 @@
 			table.on('rowDouble(tableData)', function(obj) {
 
 				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
 				parent.setWorkflow(obj.data);
+				parent.layer.close(index);
 			});
 
 			//区别按钮属性

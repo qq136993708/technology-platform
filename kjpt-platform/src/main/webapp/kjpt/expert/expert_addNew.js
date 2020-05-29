@@ -24,8 +24,8 @@ layui.config({
     createElement("ROOT_KJPT_XL", "education", "option", "education")
     /*职称*/
     createElement("ROOT_KJPT_JSZC", "title", "option", "title")
-    /*职务*/
-    createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
+    // /*职务*/
+    // createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
     /*分组*/
     createElement("ROOT_KJPT_ZJFZ", "groupType", "option", "groupType")
     /*专家分类*/
@@ -372,12 +372,11 @@ layui.config({
             data: data.field,
             type: "POST",
             success: function (e) {
-                console.log(e)
                 if (e.success) {
-                    layer.msg('保存成功!', {
-                        icon: 1
+                    top.layer.alert('保存成功!', { icon: 1 }, function() {
+                    	top.layer.closeAll();
+                    	closeTabsPage(variable.index);               	
                     });
-                    closeTabsPage(variable.index)
                 }
             }
         });

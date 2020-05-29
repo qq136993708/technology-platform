@@ -247,7 +247,7 @@ importFiles({
 })
 // 导出
 $('#exportData').click(function() {
-  debugger
+//  debugger
   var formValue = form.val('patentFormDemo'),
   searchData = {
     planNum: formValue.planNum || '', // 计划号：

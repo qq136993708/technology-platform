@@ -6,7 +6,6 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     var $ = layui.$; 
     var laydate = layui.laydate;
     var formSelects = layui.formSelects;
- 
 
     /*领域*/
   //   httpModule({
@@ -36,7 +35,6 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       success: function(relData) {
         if (relData.code === '0') {
           // 给form表单赋初始值
-
           var data = relData.data;
           transToData(data, ['applicationDate','entryDate']);
           if(data.technicalField) {
@@ -44,7 +42,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           } else {
             data.technicalField = [];
           }
-          //data.technicalField = data.technicalField.split(',');
+          if(data.applicationTechnologyProducts){
+            formSelects.value('applicationTechnologyProducts',[data.applicationTechnologyProducts])
+          }
           if (data.expirationDate) {
             // 失效日期
             data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');

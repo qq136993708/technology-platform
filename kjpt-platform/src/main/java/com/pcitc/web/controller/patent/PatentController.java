@@ -84,7 +84,8 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "type", value = "后专项处理", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "legalStatus", value = "法律状态", dataType = "string", paramType = "query")
 
     })
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -103,8 +104,8 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String inventor,
             @RequestParam(required = false) String technicalFieldIndex,
             @RequestParam(required = false) String secretLevel,
-            @RequestParam(required = false) String type
-
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String legalStatus
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
@@ -119,6 +120,8 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
+            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(unitName, restTemplate, httpHeaders);
+            this.setParam(condition,"childUnitIds",childUnitIds);
         }
         if (!StringUtils.isEmpty(DateUtil.format(applicationDateStart,DateUtil.FMT_SS))) {
             this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
@@ -154,6 +157,10 @@ public class PatentController extends RestBaseController {
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
         }
+        if(legalStatus != null){
+            this.setParam(condition,"legalStatus",legalStatus);
+        }
+
         this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

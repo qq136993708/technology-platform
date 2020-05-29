@@ -65,8 +65,8 @@
                     </div>
                 </div>
                 <input type="text" name="publicityStatus" value="2" class="layui-input layui-hide">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
-                    <div class="layui-form-item text-right">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                    <div class="layui-form-item">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         <!-- <span class="layui-fold-btn"></span> -->
@@ -145,14 +145,26 @@
                                     field: 'publicityStartDate',
                                     title: '开始时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.publicityStartDate) }}</div>',
-                                },
+                                    templet: function(d){
+                                        if(d.publicityStartDate == null){
+                                            return '';
+                                        }else{
+                                            var times = new Date(d.publicityStartDate);
+                                            return times.getFullYear();
+                                        }
+                                     }},
                                 {
                                     field: 'publicityEndDate',
                                     title: '结束时间',
                                     sort: true,
-                                    templet: '<div>{{ layui.laytpl.toDateString(d.publicityEndDate) }}</div>',
-                                },
+                                    templet: function(d){
+                                        if(d.publicityEndDate == null){
+                                            return '';
+                                        }else{
+                                            var times = new Date(d.publicityEndDate);
+                                            return times.getFullYear();
+                                        }
+                                     }},
                                 {
                                     field: 'appraisalDoc',
                                     title: '附件',
@@ -189,7 +201,6 @@
             }
 
             function queryFile(id) {
-                // return 'id';
                 var html='';
                 httpModule({
                     url: '/file/query/' + id,
@@ -237,7 +248,7 @@
                 top.layer.open({
                     type: 2,
                     title: '公示',
-                    content: '/kjpt/achieve/formula.html?id=' + listData[0].id, // 全局弹窗页面地址
+                    content: '/kjpt/achieve/formula.html?id=' + listData[0].id+'&type=view', // 全局弹窗页面地址
                     btn: null,
                     area: ['60%', '60%'],
                     end: function (lay, index) {
