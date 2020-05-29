@@ -53,15 +53,15 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">单位名称：</span></label>
            <div class="layui-input-block">
-
-                <select name="unitName"
+                <!-- <select name="unitName"
                 xm-select="unitName"
                 xm-select-skin="normal"
                 xm-select-radio=""
                 dic-base-data="ROOT_KJPT_YTDW"
                 lay-verify="required"
-                placeholder="请选择" disabled="disabled"></select>
-
+                placeholder="请选择" disabled="disabled"></select> -->
+                <input type="text" name="unitNameText" lay-verify="required" disabled="disabled"
+                placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
        </div>
@@ -137,9 +137,8 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">申请类型：</span></label>
            <div class="layui-input-block">
-             <select name="applicationType" dic-base-data="ROOT_KJPT_SQLX" lay-verify="required" placeholder="请选择..." disabled="disabled">
-               
-             </select>
+             <input type="text" name="applicationTypeText" lay-verify="required" disabled="disabled"
+             placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
        </div>
@@ -147,9 +146,11 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">专利类型：</span></label>
            <div class="layui-input-block">
-             <select name="patentType" dic-base-data="ROOT_KJPT_ZLZL" lay-verify="required" placeholder="请选择..." disabled="disabled"> 
+             <!-- <select name="patentType" dic-base-data="ROOT_KJPT_ZLZL" lay-verify="required" placeholder="请选择..." disabled="disabled"> 
      
-             </select>
+             </select> -->
+             <input type="text" name="patentTypeText" lay-verify="required" disabled="disabled"
+             placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
        </div>
@@ -177,8 +178,10 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">应用技术领域(技术类)：</span></label>
            <div class="layui-input-block">
-              <select name="technicalField" xm-select="technicalField" disabled="disabled" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal" lay-verify="required"></select>
+              <!-- <select name="technicalField" xm-select="technicalField" disabled="disabled" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal" lay-verify="required"></select> -->
               <!-- <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select> -->
+              <input type="text" name="technicalFieldText" lay-verify="required" disabled="disabled"
+             placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
        </div>
@@ -186,8 +189,10 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">应用技术领域(产品类)：</span></label>
            <div class="layui-input-block">
-              <select name="applicationTechnologyProducts" disabled="disabled" xm-select="applicationTechnologyProducts" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal"></select>
+              <!-- <select name="applicationTechnologyProducts" disabled="disabled" xm-select="applicationTechnologyProducts" dic-base-data="ROOT_KJPT_JSLY" xm-select-skin="normal"></select> -->
               <!-- <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select> -->
+              <input type="text" name="applicationTechnologyProductsText" lay-verify="required" disabled="disabled"
+             placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
        </div>
@@ -253,8 +258,10 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">国别组织：</span></label>
           <div class="layui-input-block">
-            <select name="country" disabled="disabled" dic-base-data="ROOT_KJPT_GJ" lay-verify="required" placeholder="请选择..."> 
-            </select>
+            <!-- <select name="country" disabled="disabled" dic-base-data="ROOT_KJPT_GJ" lay-verify="required" placeholder="请选择..."> 
+            </select> -->
+            <input type="text" name="countryText" lay-verify="required" disabled="disabled"
+             placeholder="" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
