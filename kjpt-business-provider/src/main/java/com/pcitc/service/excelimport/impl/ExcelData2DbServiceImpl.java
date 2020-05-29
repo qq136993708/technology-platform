@@ -2,7 +2,7 @@ package com.pcitc.service.excelimport.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ExcelImportConfig;
-import com.pcitc.mapper.excelimport.,ExcelImportMapper;
+import com.pcitc.mapper.excelimport.ExcelImportMapper;
 import com.pcitc.service.excelimport.ExcelData2DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
