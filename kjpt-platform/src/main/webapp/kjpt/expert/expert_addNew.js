@@ -372,12 +372,11 @@ layui.config({
             data: data.field,
             type: "POST",
             success: function (e) {
-                console.log(e)
                 if (e.success) {
-                    layer.msg('保存成功!', {
-                        icon: 1
+                    top.layer.alert('保存成功!', { icon: 1 }, function() {
+                    	top.layer.closeAll();
+                    	closeTabsPage(variable.index);               	
                     });
-                    closeTabsPage(variable.index)
                 }
             }
         });
