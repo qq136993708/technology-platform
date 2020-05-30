@@ -210,7 +210,7 @@
             <label class="layui-form-label"><span class="text">商标类型：</span></label>
             <div class="layui-input-block">
               <!-- <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input"> -->
-              <select name="tradeMarkType" dic-base-data="ROOT_KJPT_SBLX"  placeholder="请选择...">
+              <select name="tradeMarkType"  xm-select="tradeMarkType"  xm-select-skin="normal" dic-base-data="ROOT_KJPT_SBLX"  placeholder="请选择...">
               </select>
             </div>
           </div>
@@ -401,7 +401,6 @@
         url: httpUrl,
         type: 'GET',
         success: function (relData) {
-          console.log(relData)
           if (relData.code === '0') {
             // 给form表单赋初始值
             var data = relData.data;
@@ -421,6 +420,9 @@
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
               data.isRegistered == '0'? $('#isRegisteredBox').attr("class",'') : $('#isRegisteredBox').attr('class','layui-hide');
+            }
+            if(data.tradeMarkType){
+              formSelects.value('tradeMarkType', data.tradeMarkType.split(','));
             }
             // 更新表单数据
             form.render();

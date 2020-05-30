@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    .content-info .ci-title{ width: 100%; text-align: center; font-size: 20px; font-weight: bold; text-align: center;}
+    .content-info .ci-field{ color: #C3C3C3;font-size: 14px;height: 32px;line-height: 32px;text-align: center;border-bottom: 1px solid #e8e8e8;}
+</style>
+</head>
+<body>
+<section id="content-info" class="content-info">
+    <div class="ci-title" id="ci-title">我的消息数量一直都在测试</div>
+    <div class="ci-field">
+        <!--<span class="ci-field-source">信息来源：<span id="ci-field-source">中国石化报</span></span>-->
+        <span class="ci-field-date">
+	        发布时间:	<span id="ci-field">未发布</span>
+        </span>
+    </div>
+    <div class="ci-content" id="ci-content"></div>
+</section>
+
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+$(function() {
+	var Variable = getQueryVariable();
+	httpModule({
+		type: 'post',
+		useForm: true,
+		url: '/sysNews/getSysNewsInfo',
+		dataType: 'json',
+		data: {id: Variable.id },
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		success: function(res) {
+			if (res) {
+				$('#ci-field').text(res.publicDate || '未发布');
+				$('#ci-title').text(res.title);
+				$('#ci-content').html(res.content);
+			}
+		}
+	});
+})
+
+</script>
+</body>
+</html>

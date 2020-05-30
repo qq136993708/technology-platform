@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果所属单位（专业化公司/直属单位)：</span></label>
           <div class="layui-input-block">
@@ -72,18 +72,27 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6"></div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
+            <div class="layui-input-block">
+              <select name="finishUnitName" xm-select="finishUnitName" xm-select-skin="normal"
+                dic-base-data="ROOT_KJPT_YTDW" ></select>
+            </div>
+          </div>
+    </div>
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
         <div class="layui-form-item">
           <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
           <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
-          <!-- <span class="layui-fold-btn"></span> -->
-          <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
+          <span class="layui-fold-btn"></span>
+          <!-- <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span> -->
         </div>
       </div>
-
     </div>
-    <div class="layui-colla-content layui-hide">
+    <!-- <div class="layui-colla-content layui-hide">
       <div class="layui-row">
           <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
           <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
@@ -95,7 +104,7 @@
           </div>
       </div>
       <div id="custromFrom"></div>
-  </div>
+  </div> -->
   </form>
 
   <div class="view-title-layout" id="opations-btn">

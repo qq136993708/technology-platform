@@ -132,7 +132,11 @@ layui.config({
           }else {
               var dataList = '';
               for (var i = 0; i < config.hrefData.length; i++) {
-                  dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];
+            	  if (typeof(config.hrefData[i]) === 'object') {
+            		  dataList +=  '&' + config.hrefData[i].name + '=' + item[config.hrefData[i].value];
+            	  } else {
+            		  dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];            		  
+            	  }
               }
               if (itemHref.indexOf('?') === -1) {
                   itemHref += ('?' + dataList.substring(1));
@@ -293,10 +297,11 @@ layui.config({
     url: '/sysNotice/getSysNoticeList?page=1&limit=10',
     // data: { page: 1, limit: 10 },
     name: 'noticeTitle',
-    href: '/html/groupInformation/planDetails.html',
-    hrefData: ['id'],
+    href: '/sysNotice/readNotice',
+    hrefData: [{name:'id', value: 'noticeId'}],
     title: '公告',
     type: 'POST',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#platform-notice-list').text(res.message || '请求出错，无法获取数据。')
@@ -310,10 +315,12 @@ layui.config({
     url: '/sysNews/getTableData',
     data: { page: 1, limit: 10 },
     name: 'title',
-    href: '/html/groupInformation/planDetails.html',
-    hrefData: ['id'],
+    href: '/stp/system/sysNews_view_dis.html',
+    openType: 'layer',
+    hrefData: [{name: 'id', value: 'dataId'}],
     title: '新闻发布',
     type: 'POST',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#news-press-list').text(res.message || '请求出错，无法获取数据。')
@@ -327,7 +334,6 @@ layui.config({
     url: '/achieveRecord-api/query',
     data: { page: 1, limit: 10, publicityStatus: 2 },
     name: 'achieveName',
-    // href: '/html/scientificMaterials/planDetails.html',
     href: '/kjpt/achieve/already_formula.html',
     hrefData: ['id'],
     title: '成果转化',
@@ -361,7 +367,7 @@ layui.config({
     name: 'name',
     url: '/SciencePlan/query',
     data: { page: 1, limit: 10, reportType: 1},
-    href: '/html/scientificMaterials/planDetails.html',
+    href: '/tml/groupInformation/groupInformation.html?reportType=1',
     hrefData: ['id'],
     title: '科技规划',
     callback: function(res) {

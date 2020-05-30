@@ -44,20 +44,20 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '标准号'
             },
             {
-              field: 'standardType',
+              field: 'standardTypeText',
               title: '标准类型'
             },
             {
-              field: 'chiefEditorUnitText',
+              field: 'chiefEditorUnit',
               title: '主编单位',
             },
             {
-              field: 'updateStatus',
+              field: 'updateStatusText',
               title: '修改状态',
               align: 'center',
             },
             {
-              field: 'fileStatus',
+              field: 'fileStatusText',
               title: '文件状态',
               align: 'center',
             },
@@ -240,7 +240,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   //导入
 importFiles({
   id:'#importData',
-  url:'/excelImport/kgjimp',
+  url:'/excelImport/standardImp',
   callback: function (data, type) {
     queryTable('');
   }
