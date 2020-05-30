@@ -208,7 +208,10 @@
             and about_complete_info = #{aboutCompleteInfo}
         </if>
         <if test="publicityStatus != null and publicityStatus != '' " >
-            and publicity_status = #{publicityStatus}
+            AND publicity_status in
+            <foreach item="item"  collection="publicityStatus.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         <if test="startDate != null and startDate != '' " >
             and create_time <![CDATA[>=]]> #{startDate}
@@ -232,6 +235,10 @@
             <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
                 #{item}
             </foreach>
+        </if>
+
+        <if test="condition != null and condition !=''  ">
+            ${condition}
         </if>
     </sql>
 

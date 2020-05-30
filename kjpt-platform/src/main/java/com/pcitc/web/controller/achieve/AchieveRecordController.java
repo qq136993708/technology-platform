@@ -283,7 +283,8 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
             @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
             @RequestParam(required = false,value = "publicityStatus") String publicityStatus,
-            @RequestParam(required = false,value = "secretLevel") String secretLevel
+            @RequestParam(required = false,value = "secretLevel") String secretLevel,
+            @RequestParam(required = false) String customQueryConditionStr
 
 
     ) throws Exception {
@@ -314,7 +315,7 @@ public class AchieveRecordController extends RestBaseController {
         if (!StringUtils.isEmpty(grantUnitName)) {
             this.setParam(condition, "grantUnitName", grantUnitName);
         }
-        if (!StringUtils.isEmpty(achieveTransType)) {
+        if (!StringUtils.isEmpty(achieveTransType) || !"undefined".equals(achieveType)) {
             this.setParam(condition, "achieveTransType", achieveTransType);
         }
         if (!StringUtils.isEmpty(aboutCompleteInfo)) {
@@ -333,6 +334,9 @@ public class AchieveRecordController extends RestBaseController {
 
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
+        }
+        if(customQueryConditionStr != null){
+            this.setParam(condition,"customQueryConditionStr",customQueryConditionStr);
         }
         //默认查询当前人所在机构下所有的科研平台领军人物
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);

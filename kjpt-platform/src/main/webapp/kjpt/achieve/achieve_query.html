@@ -143,7 +143,7 @@
         </form>
         <div class="view-title-layout" id="opations-btn">
             <div class="right">
-                <button class="layui-btn border-blue openLayerPage" id="exportData">导出</button>
+                <button class="layui-btn border-blue openLayerPage" id="exportData" button-role="export">导出</button>
             </div>
         </div>
         <table id="tableDemo" lay-filter="tableDemo"></table>
@@ -246,6 +246,9 @@
             $("#reset").click(function () {
                 queryTable('')
             })
+            window.returnTableName = function(){ //返回自定义查询需要的表格字段
+            return 'achieve_record'
+        }
             //开始日期
             laydate.render({
                 elem: '#inputStart',
@@ -265,7 +268,8 @@
             });
             // 监控表单提交事件
             form.on('submit(formSubmit)', function (data) {
-                queryTable(data.field);
+                var json=setVal(data);
+                queryTable(json);
                 return false;
             });
             $('[lay-filter="formSubmit"]').click();

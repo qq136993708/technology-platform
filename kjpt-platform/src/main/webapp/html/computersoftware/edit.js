@@ -5,7 +5,8 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
     var $ = layui.$; 
     var laydate = layui.laydate;
     var formSelects = layui.formSelects
-    
+    // 获取地址栏传递过来的参数
+  var variable = getQueryVariable();
 
   function getItemInitData(item) {
     var httpUrl = '/ComputerSoftware/newInit';
@@ -18,11 +19,14 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
       success: function(relData) {
         if (relData.code === '0') {
           // 给form表单赋初始值
-
           var data = relData.data;
           transToData(data, ['recordDate','developFinishDate','entryTime']);
 
           form.val('formMain', data);
+          if (variable.type === 'view') {
+            debugger
+        	  setFomeDisabled('formMain', '.disabled');
+          }
           // 更新表单数据
           form.render();
           if (data.technicalField) {
@@ -58,8 +62,7 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
     });
   }
   
-	// 获取地址栏传递过来的参数
-  var variable = getQueryVariable();
+	
   getItemInitData(variable);
 	form.on('submit(newSubmit)', function(data) {
     var technicalVal = formSelects.value('technicalField');
