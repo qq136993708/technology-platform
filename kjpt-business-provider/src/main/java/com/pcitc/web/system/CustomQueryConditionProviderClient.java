@@ -37,6 +37,9 @@ public class CustomQueryConditionProviderClient {
 	public JSONArray getCustomQueryConditionList(@RequestBody Map map)throws Exception{
     	List<CustomQueryCondition> list= customQueryConditionService.getCustomQueryConditionList(map);
     	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+    	
+    	System.out.println(">>>>>>>>>查询条件接口列表: "+json.toJSONString());
+    	
     	return json;
 	}
     

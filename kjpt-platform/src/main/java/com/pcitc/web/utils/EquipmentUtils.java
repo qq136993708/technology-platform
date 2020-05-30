@@ -477,15 +477,14 @@ public class EquipmentUtils {
 
 	
 	    //获得查询条件接口
-		public static JSONArray getCustomQueryConditionList(RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletRequest request, HttpServletResponse response,String taleName)throws Exception
+		public static JSONArray getCustomQueryConditionList(RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletRequest request, HttpServletResponse response,String tableName)throws Exception
 	    {
 	    	    
-	            String columnName=CommonUtil.getParameter(request, "columnName", "");
+	           
 	    	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
-		   		paramMap.put("taleName", taleName);
-		   	    paramMap.put("columnName", columnName);
-		   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,httpHeaders);
+		   		Map<String ,String> paramMap = new HashMap<String ,String>();
+		   		paramMap.put("tableName", tableName);
+		   		HttpEntity<Map<String, String>> httpEntity = new HttpEntity<Map<String, String>>(paramMap,httpHeaders);
 		   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getCustomQueryConditionList, HttpMethod.POST, httpEntity, JSONArray.class);
 		   		int statusCode = responseEntity.getStatusCodeValue();
 		   		
@@ -493,6 +492,7 @@ public class EquipmentUtils {
 	  	   		if (statusCode == 200)
 	  	   		{
 	  	   			jSONArray = responseEntity.getBody();
+	  	   		    System.out.println(">>>>>>>>>>获得查询条件接口: "+jSONArray.toJSONString());
 	  	   		}
 	  	   		return jSONArray;
 		   		

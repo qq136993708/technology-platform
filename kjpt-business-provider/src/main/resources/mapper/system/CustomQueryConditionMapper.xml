@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.system.CustomQueryConditionMapper">
+  
   <resultMap id="BaseResultMap" type="com.pcitc.base.system.CustomQueryCondition">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="table_name" jdbcType="VARCHAR" property="tableName" />
     <result column="column_name" jdbcType="VARCHAR" property="columnName" />
     <result column="column_type" jdbcType="VARCHAR" property="columnType" />
-    <result column="option_code" jdbcType="VARCHAR" property="optionCode" />
-    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="notes"       jdbcType="VARCHAR" property="notes" />
     <result column="attribute_name" jdbcType="VARCHAR" property="attributeName" />
+    <result column="option_type"    jdbcType="VARCHAR" property="optionType" />
+    <result column="option_code"    jdbcType="VARCHAR" property="optionCode" />
     
-    <result column="option_type" jdbcType="VARCHAR" property="optionType" />
+    
     
   </resultMap>
-  <sql id="Base_Column_List">
-    id, table_name, `column_name`, column_type, option_code, notes,attribute_name,option_type
-  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from t_custom_query_condition
     where id = #{id,jdbcType=VARCHAR}
   </select>
@@ -34,7 +33,8 @@
       column_type, 
       option_code, 
       notes,
-      attribute_name,option_type)
+      attribute_name,
+      option_type)
       values 
       (
       #{id,jdbcType=VARCHAR},#{tableName,jdbcType=VARCHAR}, 
@@ -148,13 +148,11 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="tableName != null and tableName  !='' ">                     AND t.table_name like CONCAT('%',#{tableName},'%')</if>
-	     <if test="columnName != null            and columnName !=''  ">      AND t.column_name = #{columnName}</if>
+	     <if test="columnName != null            and columnName !=''  ">            AND t.column_name = #{columnName}</if>
 	     <if test="attributeName != null            and attributeName !=''  ">      AND t.attribute_name = #{attributeName}</if>
 	     <if test="columnType != null            and columnType !=''  ">            AND t.column_type = #{columnType}</if>
 	     <if test="optionType != null            and optionType !=''  ">            AND t.option_type = #{optionType}</if>
-	 
-	 
+	     <if test="tableName != null            and tableName !=''  ">              AND t.table_name = #{tableName}</if>
 	 </trim>
 	</sql>
 	

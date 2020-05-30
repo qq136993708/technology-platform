@@ -12,7 +12,6 @@ public class CustomQueryConditionVo implements Serializable{
 	private String columnType;
 	
 	
-	
 	public String getColumnType() {
 		return columnType;
 	}

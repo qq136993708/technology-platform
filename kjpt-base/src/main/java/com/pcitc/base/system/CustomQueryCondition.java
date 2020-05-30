@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author 
  */
 public class CustomQueryCondition implements Serializable {
+	private static final long serialVersionUID = 11L;
     private String id;
 
     /**
@@ -37,23 +38,18 @@ public class CustomQueryCondition implements Serializable {
     
     private String attributeName;
     private String optionType;
-    
-    
-    
-    
-	public String getTableName() {
-		return tableName;
-	}
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+	public String getTableName() {
+		return tableName;
+	}
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 	public String getColumnName() {
 		return columnName;
 	}
@@ -90,6 +86,9 @@ public class CustomQueryCondition implements Serializable {
 	public void setOptionType(String optionType) {
 		this.optionType = optionType;
 	}
+    
+    
+    
     
     
 
