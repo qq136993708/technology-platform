@@ -120,8 +120,6 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
-            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(unitName, restTemplate, httpHeaders);
-            this.setParam(condition,"childUnitIds",childUnitIds);
         }
         if (!StringUtils.isEmpty(DateUtil.format(applicationDateStart,DateUtil.FMT_SS))) {
             this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
@@ -164,6 +162,8 @@ public class PatentController extends RestBaseController {
         this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(unitName, restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
     }
@@ -361,11 +361,14 @@ public class PatentController extends RestBaseController {
     @ApiOperation(value="根据法律状态查询专利数量")
     @RequestMapping(value = "/countByLegalStatus", method = RequestMethod.GET)
     @ResponseBody
-    public List countByLegalStatus() {
+    public List countByLegalStatus(@RequestParam(required = false) String type) {
         Map<String, Object> condition = new HashMap<>(6);
         SysUser sysUserInfo = this.getUserProfile();
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
+        }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByLegalStatus, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
         return responseEntity.getBody();
@@ -379,11 +382,14 @@ public class PatentController extends RestBaseController {
     @ApiOperation(value="根据专利类型查询专利数量")
     @RequestMapping(value = "/countByPatentType", method = RequestMethod.GET)
     @ResponseBody
-    public List countByPatentType() {
+    public List countByPatentType(@RequestParam(required = false) String type) {
         Map<String, Object> condition = new HashMap<>(6);
         SysUser sysUserInfo = this.getUserProfile();
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
+        }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByPatentType, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
         return responseEntity.getBody();
