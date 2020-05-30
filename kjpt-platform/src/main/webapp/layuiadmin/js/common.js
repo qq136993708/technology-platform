@@ -1097,6 +1097,7 @@ layui.use(['form', 'formSelects','laydate'], function() {
 					 var notes= $(this).find('select[name="columnName"]').find("option:selected").attr('data-notes');
 					 var attributeName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-attributeName');
 					 var condition= $(this).find('select[name="condition"]').find("option:selected").attr('name');
+					 var columnType= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columntype');
 					 if(optionType == 1){
 						var value= $(this).find('input[name="value"]').val();
 					 }else{
@@ -1107,6 +1108,7 @@ layui.use(['form', 'formSelects','laydate'], function() {
 					 obj['value']=value;
 					 obj['notes']=notes
 					 obj['attributeName']=attributeName
+					 obj['columnType']=columnType
 					 list.push(obj)
 				})
 				return JSON.stringify(list);

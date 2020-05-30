@@ -108,7 +108,7 @@ layui.use(['table', 'form','laydate'], function() {
       })
 
       if (!deleteStatus) {
-        top.layer.msg('审批中或审批通过的备案信息不能删除!');
+        top.layer.msg('当前信息不能删除!');
         return false;
       }
 
@@ -164,15 +164,13 @@ layui.use(['table', 'form','laydate'], function() {
 
     if (optionType !== 'add') {
       var listData = table.checkStatus('tableDemo').data;
-      // console.log(listData)
-      // return  ;
       if (listData.length) {
         if (listData.length === 1) {
           if (optionType === 'edit') {
             if (listData[0].auditStatus == 02 ) {
               url += '&id='+listData[0].id;
             } else {
-              top.layer.msg('审批中或审批通过的数据不能' + dialogTitle);
+              top.layer.msg('当前状态不能' + dialogTitle);
               return false;
             }
           } else if(optionType === 'public') {
