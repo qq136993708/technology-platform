@@ -160,112 +160,85 @@
                             $('input[name="finishUnitName"]').val(loadData.finishUnitNameText);
                         }
                     }
-                    // setFileUpload({ //appraisalDoc
-                    //     dataID: relDataForm.data.appraisalDoc, // 用来查找当前单据下绑定的附件，没有则不查找
-                    //     callback: function (tableData, type) {
-                    //         console.log(tableData)
-                    //     }
-                    // });
+
                     if(variable.type == 'view'){
                         setFileUpload({
-                        id: 'file-filter-options1', // 附件上传作用域ID值 必传
-                        dataID: relDataForm.data.transPublicDoc, // 用来查找当前单据下绑定的附件，没有则不查找
-                        readonly: 'true',
-                        callback: function (tableData, type) {
-                            $('.right').hide();
-                        }
-                    });
-                    }else{
-                        queryFile(relDataForm,'appraisalDoc');
-                        queryFile(relDataForm,'grantDoc');
-                        queryFile(relDataForm,'transContractDoc');
-                        queryFile(relDataForm,'transAssessDoc');
-                        queryFile(relDataForm,'decisionMeetingDoc');
-                        queryFile(relDataForm,'decisionRuleDoc');
+	                        id: 'file-filter-options1', // 附件上传作用域ID值 必传
+	                        dataID: relDataForm.data.transPublicDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+	                        readonly: true,
+	                        callback: function (tableData, type) {
+	                            $('.right').hide();
+	                        }
+	                    });
                     }
                     secretLevel = relDataForm.data.secretLevel
                 }
             });
-            function queryFile(relDataForm,id){
-                httpModule({
-                        url: '/file/query/' + relDataForm.data.id,
-                        success: function (data) {
-                            if (data.code === '0' && data.data.length > 0) {
-                                str = id+'Str';
-                                str='';
-                                data.data.map(function (item, index) {
-                                    str += item.id + ","
-                                })
-                                str = str.substring(0,
-                                str.length - 1);
-                            } else {
-                                str = ''
-                            }
-                        }
-                    });
-            };
-            setFileUpload({
-                id: 'file-filter-options1', // 附件上传作用域ID值 必传
-                dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
-                cols: fileCols,
-                readonly: readonlyFile,
-                secretLevel: function () {
-                    return secretLevel;
-                },
-                callback: function (tableData, type) {
-                    console.log(tableData)
-                    if (tableData.length > 0) {
-                        fileDoc = ''
-                        publicDocStr='';
-                        tableData.map(function (item, index) {
-                            publicDocStr += item.id + ","
-                        })
-                        publicDocStr = publicDocStr.substring(0, publicDocStr.length - 1);
-                    } else {
-                        publicDocStr = ''
-                    }
-                    console.log(publicDocStr);
-                }
-            });
-
-            form.on('submit(newSubmit)', function (data) {
-                var fileDocS = {}
-                fileDocS[loadData.appraisalDoc] = appraisalDocStr
-                fileDocS[loadData.transPublicDoc] = publicDocStr
-                fileDocS[loadData.grantDoc] = grantDocStr
-                fileDocS[loadData.transAssessDoc] = transAssessDocStr
-                fileDocS[loadData.decisionMeetingDoc] = decisionMeetingDocStr
-                fileDocS[loadData.decisionRuleDoc] = decisionRuleDocStr
-                fileDocS[loadData.transContractDoc] = transContractDocStr
-                loadData.files = JSON.stringify(fileDocS)
-                var saveData = {
-                    achieveRecord: loadData,
-                    achieveReward: null,
-                    createUnitId: '',
-                    createUnitName: '',
-                    creator: null,
-                    createDate: new Date().getTime(),
-                    updator: null,
-                    updateDate: new Date().getTime(),
-                    deleted: '0'
-                }
-                saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
-                saveData.achieveRecord.achieveRewards = [];
-                httpModule({
-                    url: '/achieveRecord-api/publicity',
-                    data: saveData,
-                    type: "POST",
-                    success: function (e) {
-                        if (e.code == 0) {
-                            layer.msg('保存成功!', {
-                                icon: 1
-                            });
-                            setDialogData(e); // 通知上层页面状态 - 弹窗中使用
-                            top.layer.closeAll(); // 关闭弹窗
+    		
+            if (variable.type != 'view') {
+            	setFileUpload({
+                    id: 'file-filter-options1', // 附件上传作用域ID值 必传
+                    dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
+                    cols: fileCols,
+                    readonly: readonlyFile,
+                    secretLevel: function () {
+                        return secretLevel;
+                    },
+                    callback: function (tableData, type) {
+                        console.log(tableData)
+                        if (tableData.length > 0) {
+                            fileDoc = ''
+                            publicDocStr='';
+                            tableData.map(function (item, index) {
+                                publicDocStr += item.id + ","
+                            })
+                            publicDocStr = publicDocStr.substring(0, publicDocStr.length - 1);
+                        } else {
+                            publicDocStr = ''
                         }
                     }
                 });
-            })
+
+                form.on('submit(newSubmit)', function (data) {
+                    var fileDocS = {}
+                    fileDocS[loadData.appraisalDoc] = appraisalDocStr
+                    fileDocS[loadData.transPublicDoc] = publicDocStr
+                    fileDocS[loadData.grantDoc] = grantDocStr
+                    fileDocS[loadData.transAssessDoc] = transAssessDocStr
+                    fileDocS[loadData.decisionMeetingDoc] = decisionMeetingDocStr
+                    fileDocS[loadData.decisionRuleDoc] = decisionRuleDocStr
+                    fileDocS[loadData.transContractDoc] = transContractDocStr
+                    loadData.files = JSON.stringify(fileDocS)
+
+                    var saveData = {
+                        achieveRecord: loadData,
+                        achieveReward: null,
+                        createUnitId: '',
+                        createUnitName: '',
+                        creator: null,
+                        createDate: new Date().getTime(),
+                        updator: null,
+                        updateDate: new Date().getTime(),
+                        deleted: '0'
+                    }
+                    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
+                    saveData.achieveRecord.achieveRewards = [];
+                    httpModule({
+                        url: '/achieveRecord-api/publicity',
+                        data: saveData,
+                        type: "POST",
+                        success: function (e) {
+                            if (e.code == 0) {
+                                layer.msg('保存成功!', {
+                                    icon: 1
+                                });
+                                setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+                                top.layer.closeAll(); // 关闭弹窗
+                            }
+                        }
+                    });
+                })
+            }
             $("#close").click(function () {
                 top.layer.closeAll(); // 关闭弹窗
             })

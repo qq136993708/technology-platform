@@ -147,13 +147,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   }
 
   form.on('submit(formDemo)', function (data) {
-    //TODO date error
     var query = data.field;
     // query.type = queryType;  // 后台去掉了type字段
     queryTable(query);
     return false;
   });
   
+  // queryTable();
   $('[lay-filter="formDemo"]').click();
 
   function openDataDilog(type, id) {
@@ -343,7 +343,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#leftItem').on('click',function(){
     if (itemRowData) {
       httpModule({
-        //GET /patentController/load/{id}
         url: '/patentController/load/'+itemRowData.id,
         type: 'GET',
         success: function (relData) {

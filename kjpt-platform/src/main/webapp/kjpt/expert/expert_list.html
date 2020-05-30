@@ -249,6 +249,7 @@
        
         form.on('submit(newSubmit)', function(data) {
             var json=setVal(data);
+            console.log(json)
             obj.tableList(json)
             return false
         })
@@ -256,7 +257,7 @@
         window.returnTableName = function(){ //返回自定义查询需要的表格字段
             return 'zjk_base'
         }
-        
+
         var $ = layui.$, active = {
             queryData:function () {
                 /*查询*/

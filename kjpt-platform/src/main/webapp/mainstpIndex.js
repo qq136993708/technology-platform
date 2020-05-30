@@ -119,32 +119,19 @@ layui.config({
       if (config.href) {
         var itemHref = config.href;
         if (config.hrefData) {
-          if(config.name=='achieveName'){
-              var dataList = '';
-              for (var i = 0; i < config.hrefData.length; i++) {
-                  dataList +=  '&' + config.hrefData[i] + '=' + item.publicDoc;
-              }
-              if (itemHref.indexOf('?') === -1) {
-                  itemHref += ('?' + dataList.substring(1));
-              } else {
-                  itemHref += dataList;
-              }
-          }else {
-              var dataList = '';
-              for (var i = 0; i < config.hrefData.length; i++) {
-            	  if (typeof(config.hrefData[i]) === 'object') {
-            		  dataList +=  '&' + config.hrefData[i].name + '=' + item[config.hrefData[i].value];
-            	  } else {
-            		  dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];            		  
-            	  }
-              }
-              if (itemHref.indexOf('?') === -1) {
-                  itemHref += ('?' + dataList.substring(1));
-              } else {
-                  itemHref += dataList;
-              }
-          }
-
+        	var dataList = '';
+            for (var i = 0; i < config.hrefData.length; i++) {
+          	  if (typeof(config.hrefData[i]) === 'object') {
+          		  dataList +=  '&' + config.hrefData[i].name + '=' + (config.hrefData[i].value || item[config.hrefData[i].key]);
+          	  } else {
+          		  dataList +=  '&' + config.hrefData[i] + '=' + item[config.hrefData[i]];            		  
+          	  }
+            }
+            if (itemHref.indexOf('?') === -1) {
+                itemHref += ('?' + dataList.substring(1));
+            } else {
+                itemHref += dataList;
+            }
         }
 
         $li.click(function(e) {
@@ -298,7 +285,7 @@ layui.config({
     // data: { page: 1, limit: 10 },
     name: 'noticeTitle',
     href: '/sysNotice/readNotice',
-    hrefData: [{name:'id', value: 'noticeId'}],
+    hrefData: [{name:'id', key: 'noticeId'}],
     title: '公告',
     type: 'POST',
     openType: 'layer',
@@ -317,7 +304,7 @@ layui.config({
     name: 'title',
     href: '/stp/system/sysNews_view_dis.html',
     openType: 'layer',
-    hrefData: [{name: 'id', value: 'dataId'}],
+    hrefData: [{name: 'id', key: 'dataId'}],
     title: '新闻详情',
     type: 'POST',
     openType: 'layer',  
@@ -327,16 +314,17 @@ layui.config({
       }
     }
   });
-
-  // 专利列表
+  
+  // 成果转化
   getTabContentList({
     id: '#transform_tab_list',
     url: '/achieveRecord-api/query',
     data: { page: 1, limit: 10, publicityStatus: 2 },
     name: 'achieveName',
-    href: '/kjpt/achieve/already_formula.html',
-    hrefData: ['id'],
+    href: '/kjpt/achieve/formula.html',
+    hrefData: ['id', {name: 'type', value: 'view'}],
     title: '成果转化',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#transform_tab_list').text(res.message || '请求出错，无法获取数据。')
@@ -350,10 +338,10 @@ layui.config({
     url: '/achieveMaintain-api/query',
     data: { page: 1, limit: 10 },
     name: 'awardsTypeText',
-    href: '/html/groupInformation/planDetails.html',
-    hrefData: ['id'],
+    href: '/kjpt/achieve/achievemaint/achievemaint_add.html',
+    hrefData: [{name: 'expertId', key: 'id' }, {name: 'type', value: 'see'}],
     title: '成果获奖',
-    // openType: 'layer',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#patent_tab_list').text(res.message || '请求出错，无法获取数据。')
@@ -367,9 +355,10 @@ layui.config({
     name: 'name',
     url: '/SciencePlan/query',
     data: { page: 1, limit: 10, reportType: 1},
-    href: '/tml/groupInformation/groupInformation.html?reportType=1',
-    hrefData: ['id'],
+    href: '/html/scientificMaterials/addPlan.html',
+    hrefData: ['id', {name: 'type', value: 'see'}, {name: 'reportType', value: '1'}],
     title: '科技规划',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#plan_tab_list').text(res.message || '请求出错，无法获取数据。')
@@ -383,9 +372,10 @@ layui.config({
     name: 'name',
     url: '/blocScientificPlan/query',
     data: { page: 1, limit: 10, reportType: 3},
-    href: '/html/scientificMaterials/planDetails.html',
-    hrefData: ['id'],
+    href: '/html/groupInformation/addPlan.html',
+    hrefData: ['id', {name: 'type', value: 'see'}, {name: 'reportType', value: '3'}],
     title: '工作要点',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#work_imp_tab_list').text(res.message || '请求出错，无法获取数据。')
@@ -399,9 +389,10 @@ layui.config({
     name: 'name',
     url: '/blocScientificPlan/query',
     data: { page: 1, limit: 10, reportType: 2},
-    href: '/html/scientificMaterials/planDetails.html',
-    hrefData: ['id'],
+    href: '/html/groupInformation/addPlan.html',
+    hrefData: ['id', {name: 'type', value: 'see'}, {name: 'reportType', value: '2'}],
     title: '工作指南',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#work_tab_list').text(res.message || '请求出错，无法获取数据。')
@@ -415,9 +406,10 @@ layui.config({
     name: 'name',
     url: '/blocScientificPlan/query',
     data: { page: 1, limit: 10, reportType: 4},
-    href: '/html/groupInformation/planDetails.html',
-    hrefData: ['id'],
+    href: '/html/groupInformation/addPlan.html',
+    hrefData: ['id', {name: 'type', value: 'see'}, {name: 'reportType', value: '4'}],
     title: '质量信息',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#zlxx_tab_list').text(res.message || '请求出错，无法获取数据。')
@@ -431,9 +423,10 @@ layui.config({
     name: 'methodName',
     url: '/manageMethod-api/query',
     data: { page: 1, limit: 10, reportType: 2},
-    href: '/html/groupInformation/planDetails.html',
-    hrefData: ['id'],
+    href: '/html/groupInformation/addManage.html',
+    hrefData: ['id', {name: 'type', value: 'see'}],
     title: '管理办法',
+    openType: 'layer',
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#glbf_tab_list').text(res.message || '请求出错，无法获取数据。')

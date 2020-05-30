@@ -83,7 +83,10 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
 
   $('[lay-filter="formDemo"]').click();
 
-
+  window.returnTableName = function(){ //返回自定义查询需要的表格字段
+    return 'kypt_info'
+  }
+  
   function openDataDilog(value, ID) {
 	  var dialogTitle = '新增平台';
       console.log(ID)

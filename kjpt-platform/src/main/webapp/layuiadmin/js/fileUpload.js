@@ -140,25 +140,28 @@ function setFileUpload(config) {
     })
 
     // 绑定上传事件
-    selectFileUpload({
-      elem: addFile,
-      upload: layui.upload,
-      accept: configOption.accept || 'file',
-      secretLevel : config.secretLevel,
-      callback: function(res) {
-        //上传完毕回调
-        if (res.code === '0') {
-          fileListData.push(res.data);
-          table.reload(tableID, {data: fileListData});
-
-          // 表格数据变化时执行回调函数
-          if (configOption.callback) {
-            configOption.callback(fileListData, 'upload');
-          }
-        }
-      }
-    });
-
+    if (readonly !== true) {
+		selectFileUpload({
+	      elem: addFile,
+	      upload: layui.upload,
+	      accept: configOption.accept || 'file',
+	      secretLevel : config.secretLevel,
+	      callback: function(res) {
+	        //上传完毕回调
+	        if (res.code === '0') {
+	          fileListData.push(res.data);
+	          table.reload(tableID, {data: fileListData});
+	
+	          // 表格数据变化时执行回调函数
+	          if (configOption.callback) {
+	            configOption.callback(fileListData, 'upload');
+	          }
+	        }
+	      }
+	    });
+    } else if ($(addFile).length){
+    	$(addFile).remove();
+    }
   })
 }
 
