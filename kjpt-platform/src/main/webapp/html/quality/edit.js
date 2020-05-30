@@ -34,13 +34,13 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           if(data.putUnderUnit){
             formSelects.value('putUnderUnit',[data.putUnderUnit])
           }
-          if(data.authorizationDate){
+          if(data.publishDate){
             // 发布时间
-            data.authorizationDate = new Date(data.authorizationDate).format('yyyy-MM-dd');
+            data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
-          if(data.terminationDate){
+          if(data.effectiveDate){
             // 实施时间
-            data.terminationDate = new Date(data.terminationDate).format('yyyy-MM-dd');
+            data.effectiveDate = new Date(data.effectiveDate).format('yyyy-MM-dd');
           }
 
           form.val('formMain', data);
