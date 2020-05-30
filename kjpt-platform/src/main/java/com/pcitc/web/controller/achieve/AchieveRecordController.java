@@ -363,8 +363,8 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
             @RequestParam(required = false,value = "auditStatus") String auditStatus,
-            @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
-            @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "startDate")String startDate,
+            @RequestParam(required = false,value = "endDate")String endDate,
             @RequestParam(required = false,value = "achieveType") String achieveType,
             @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
             @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
@@ -373,32 +373,32 @@ public class AchieveRecordController extends RestBaseController {
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
         SysUser sysUserInfo = this.getUserProfile();
-        if (!StringUtils.isEmpty(achieveName)) {
+        if (!StringUtils.isEmpty(achieveName) && !"undefined".equals(achieveName)) {
             this.setParam(condition, "achieveName", achieveName);
         }
-        if (!StringUtils.isEmpty(finishUnitName)) {
+        if (!StringUtils.isEmpty(finishUnitName) && !"undefined".equals(finishUnitName)) {
             this.setParam(condition, "finishUnitName", finishUnitName);
         }
-        if (!StringUtils.isEmpty(achieveType)) {
+        if (!StringUtils.isEmpty(achieveType) && !"undefined".equals(achieveType)) {
             this.setParam(condition, "achieveType", achieveType);
         }
-        if (!StringUtils.isEmpty(auditStatus)) {
+        if (!StringUtils.isEmpty(auditStatus) && !"undefined".equals(auditStatus)) {
             this.setParam(condition, "auditStatus", auditStatus);
         }
-        if (!StringUtils.isEmpty(grantUnitName)) {
+        if (!StringUtils.isEmpty(grantUnitName) && !"undefined".equals(grantUnitName)) {
             this.setParam(condition, "grantUnitName", grantUnitName);
         }
-        if (!StringUtils.isEmpty(achieveTransType)) {
+        if (!StringUtils.isEmpty(achieveTransType) && !"undefined".equals(achieveTransType)) {
             this.setParam(condition, "achieveTransType", achieveTransType);
         }
-        if (!StringUtils.isEmpty(aboutCompleteInfo)) {
+        if (!StringUtils.isEmpty(aboutCompleteInfo) && !"undefined".equals(aboutCompleteInfo)) {
             this.setParam(condition, "aboutCompleteInfo", aboutCompleteInfo);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(startDate) && !"undefined".equals(startDate)) {
+            this.setParam(condition, "startDate", DateUtil.strToDate(startDate,DateUtil.FMT_SS));
         }
-        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(endDate) && !"undefined".equals(endDate)) {
+            this.setParam(condition, "endDate", DateUtil.strToDate(endDate,DateUtil.FMT_SS));
         }
 
 
@@ -414,7 +414,7 @@ public class AchieveRecordController extends RestBaseController {
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         String[] headers = { "备案状态",  "成果名称",    "成果基本情况"  , "成果持有单位"  , "拟受让单位"  , "是否核心技术成果"  , "拟转让方式"  , "完成情况"  , "未完成项目预计完成时间" };
-        String[] cols =    {"auditStatusText","achieveName","achieveInfo","finishUnitName","grantUnitName","achieveTypeText","achieveTransTypeText","aboutCompleteInfoText","aboutCompleteTime"};
+        String[] cols =    {"auditStatusText","achieveName","achieveInfo","finishUnitNameText","grantUnitName","achieveTypeText","achieveTransTypeText","aboutCompleteInfoText","aboutCompleteTime"};
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), AchieveRecord.class);
         String fileName = "成果转化表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
