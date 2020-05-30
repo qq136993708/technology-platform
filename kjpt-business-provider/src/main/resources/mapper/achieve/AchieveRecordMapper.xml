@@ -233,6 +233,10 @@
                 #{item}
             </foreach>
         </if>
+
+        <if test="condition != null and condition !=''  ">
+            ${condition}
+        </if>
     </sql>
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveRecord">
