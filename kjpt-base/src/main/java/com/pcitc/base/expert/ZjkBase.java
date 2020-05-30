@@ -177,7 +177,19 @@ public class ZjkBase  {
     
     private Date birthDate;
     
+    private String birthDateStr;
     
+    
+    
+    
+	public String getBirthDateStr() {
+		return birthDateStr;
+	}
+
+	public void setBirthDateStr(String birthDateStr) {
+		this.birthDateStr = birthDateStr;
+	}
+
 	public Date getBirthDate() {
 		return birthDate;
 	}

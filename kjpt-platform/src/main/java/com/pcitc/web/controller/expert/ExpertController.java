@@ -304,9 +304,6 @@ public class ExpertController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}
-    
-    
-    
   
     
     
@@ -351,6 +348,8 @@ public class ExpertController extends BaseController {
 		{
 			ResponseEntity<ZjkBase> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
 			ZjkBase oldZjkBase = se.getBody();
+			Date date=DateUtil.strToDate(oldZjkBase.getBirthDateStr(), DateUtil.FMT_DD);
+			
 			oldZjkBase.setAge(zjkBase.getAge());
 			oldZjkBase.setAchievement(zjkBase.getAchievement());
 			oldZjkBase.setBelongUnit(zjkBase.getBelongUnit());
@@ -370,8 +369,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setPersonnelNum(zjkBase.getPersonnelNum());
 			oldZjkBase.setUseStatus(zjkBase.getUseStatus());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
-			
-			
+			oldZjkBase.setBirthDate(date);
 			oldZjkBase.setIdCardNo(zjkBase.getIdCardNo());
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
