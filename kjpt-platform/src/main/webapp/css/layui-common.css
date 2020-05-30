@@ -132,12 +132,15 @@
   border-radius: 5px;
   font-size: 14px;
 }
-.layui-input[disabled], .layui-textarea[disabled],.laydate-input[disabled]{
+.layui-input[disabled],
+.layui-textarea[disabled],
+.laydate-input[disabled],
+.layui-input.layui-disabled{
   border-color: #eee!important;
   background-color: #e8e8e8;
 }
 .laydate-input[disabled] {
-  background: #fff
+  /* background: #fff */
 }
 .layui-disabled{
   color: black !important;

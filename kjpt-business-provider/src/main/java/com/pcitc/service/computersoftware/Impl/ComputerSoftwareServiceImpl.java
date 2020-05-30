@@ -68,4 +68,9 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
     public List queryNoPage(Map paramMap) {
         return computerSoftwareMapper.query(paramMap);
     }
+
+    @Override
+    public List countByCopyrightGetway(Map paramMap) {
+        return computerSoftwareMapper.countByCopyrightGetway(paramMap);
+    }
 }

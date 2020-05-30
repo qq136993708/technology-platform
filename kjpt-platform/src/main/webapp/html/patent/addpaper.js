@@ -24,16 +24,6 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
           if(data.publishDate){
             data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
-          if(item.type == 'view'){
-            $('input').attr('disabled',true);
-            $('select').attr('disabled',true);
-            $('#input-box').removeClass('hide-box');
-            $('#select-box').addClass('hide-box');
-            $('.box-hide').addClass('hide-box')
-          }else{
-            $('#input-box').addClass('hide-box');
-            $('#select-box').removeClass('hide-box');
-          }
           form.val('formMain', data);
           form.render();
           
@@ -41,12 +31,11 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
         	  data.unit = data.unit.split(',');
         	  formSelects.value('unit', data.unit);
           }
-          
           setFileUpload({
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
             readonly: file_readonly,
-            secretLevel: function () {
+            secretLevel: function () {  
               return $("#secretLevel").val();
             },
             callback: function (tableData, type) {
@@ -57,6 +46,16 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
                 return item.id
               });
               $("#files").val(files.join(','));
+              if(item.type == 'view'){
+                $('input').attr('disabled',true);
+                $('select').attr('disabled',true);
+                $('#input-box').removeClass('hide-box');
+                $('#select-box').addClass('hide-box');
+                $('.box-hide').addClass('hide-box')
+              }else{
+                $('#input-box').addClass('hide-box');
+                $('#select-box').removeClass('hide-box');
+              }
             }
           });
         }

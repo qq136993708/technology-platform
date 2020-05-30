@@ -84,6 +84,12 @@
         <if test="title != null and title != '' " >
             and title like CONCAT('%',#{title},'%')
         </if>
+        <if test="author != null and author != ''" >
+            and author like CONCAT('%',#{author},'%')
+        </if>
+        <if test="unit != null and unit != ''" >
+            and unit like CONCAT('%',#{unit},'%')
+        </if>
         <if test="journalName != null and journalName != '' " >
             and journal_name like CONCAT('%',#{journalName},'%')
         </if>

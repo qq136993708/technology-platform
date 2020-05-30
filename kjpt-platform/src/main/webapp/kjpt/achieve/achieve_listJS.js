@@ -33,7 +33,7 @@ layui.use(['table', 'form', 'laydate'], function () {
               title: '成果名称',
             }, {
               field: 'finishUnitNameText',
-              title: '完成单位',
+              title: '成果持有单位',
               sort: true
             }, {
               field: 'affiliatedUnitText',

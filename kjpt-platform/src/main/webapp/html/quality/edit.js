@@ -6,6 +6,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     var $ = layui.$; 
     var laydate = layui.laydate;
     var formSelects = layui.formSelects;
+    var variable = getQueryVariable();
 
 
   function getItemInitData(item) {
@@ -34,20 +35,26 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           if(data.putUnderUnit){
             formSelects.value('putUnderUnit',[data.putUnderUnit])
           }
-          if(data.authorizationDate){
+          if(data.publishDate){
             // 发布时间
-            data.authorizationDate = new Date(data.authorizationDate).format('yyyy-MM-dd');
+            data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
-          if(data.terminationDate){
+          if(data.effectiveDate){
             // 实施时间
-            data.terminationDate = new Date(data.terminationDate).format('yyyy-MM-dd');
+            data.effectiveDate = new Date(data.effectiveDate).format('yyyy-MM-dd');
           }
-
+          
+          if (variable.type === 'view') {
+        	  setFomeDisabled('formMain', '.disabled');
+          }
+          
           form.val('formMain', data);
+          form.render();
+ 
           formSelects.value('technicalField', data.technicalField);
           formSelects.value('unitName', [data.unitName]);
           // 更新表单数据
-          //form.render();
+          
           setRadioShow();
           var billDataID = data.id;
 
@@ -96,7 +103,6 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
   // 获取地址栏传递过来的参数
   setRadioShow();
-  var variable = getQueryVariable();
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {

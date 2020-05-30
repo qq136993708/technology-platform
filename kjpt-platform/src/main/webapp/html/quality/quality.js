@@ -36,6 +36,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               }
             },
             {
+              field: 'publishDate',
+              title: '发布时间',
+              align: 'center',
+              templet:function (d) {
+               return  new Date(d.publishDate).format('yyyy-MM-dd')
+                }
+            },
+            {
               field: 'planNum',
               title: '计划号',
               align: 'center'
@@ -112,7 +120,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       url += '&id=' + id;
     } else if (type === 'view') {
       dialogTitle = pageTitle + '信息查看';
-      url = '/html/quality/view.html?id=' + id;
+      url = '/html/quality/view.html?id=' + id + '&type=' + type;
     }
     // 打开弹窗
     top.layer.open({
