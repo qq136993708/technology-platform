@@ -1478,6 +1478,7 @@ layui.use(['form', 'formSelects','laydate'], function() {
 			}).closest('.layui-col-btn').addClass('form-col-ly4');
 		});
 	}
+	
 	//自定义条件查询设置
 	$('.layui-fold-btn-custom').on('click',function(){
 		if($('.layui-colla-content').hasClass('layui-hide')){
@@ -1530,8 +1531,11 @@ layui.use(['form', 'formSelects','laydate'], function() {
 						'<option value=""></option>'+
 						'</select>'+
 						'</div>'+
-						'<div class="layui-input-block hide-selete input-hide">'+
-						' <input type="text" name="value" id="'+dataId+'" placeholder="请输入" autocomplete="off" class="layui-input">'+
+						'<div class="layui-input-block hide-selete input-hide input-hide-input">'+
+						' <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">'+
+						'</div>'+
+						'<div class="layui-input-block hide-selete  input-hide input-hide-date">'+
+						' <input type="text" name="" id="'+dataId+'" placeholder="请输入" autocomplete="off" class="laydate-input">'+
 						'</div>'+
 						'</div>'+
 						'</div>'+
@@ -1557,16 +1561,22 @@ layui.use(['form', 'formSelects','laydate'], function() {
 		var optionType = $(data.elem).find("option:selected").attr("data-optionType");
 		var columnType = $(data.elem).find("option:selected").attr("data-columnType");   
 		if(optionType == 1){
-			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
 			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
 			$(this).parents('.custrom-box').find('.select-hide select').attr('name','')
-			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value');
 			if(columnType == 'int'){
-				$(this).parents('.custrom-box').find('.input-hide input').attr('lay-verify','number')
-			}else if(columnType == 'date'){
-				var dataId = $(this).parents('.custrom-box').find('.input-hide input').attr('id')
-				$(this).parents('.custrom-box').find('.input-hide input').attr('class','laydate-input')
-				laydate.render({elem: '#'+dataId, trigger:'click',});
+				$(this).parents('.custrom-box').find('.input-hide-input').removeClass('hide-selete');
+				$(this).parents('.custrom-box').find('.input-hide-input input').attr('name','value');
+				$(this).parents('.custrom-box').find('.input-hide-input').attr('lay-verify','number');
+			}else if(columnType == 'date'){	
+				var id = $(this).parents('.custrom-box').find(".input-hide-date input").attr("id"); 
+				$(this).parents('.custrom-box').find('.input-hide-date').removeClass('hide-selete');
+				$(this).parents('.custrom-box').find('.input-hide-date input').attr('name','value');
+				$(this).parents('.custrom-box').find('.input-hide-input').addClass('hide-selete');
+				laydate.render({elem: '#'+id, trigger:'click',});
+			}else if(columnType == 'string'){
+				$(this).parents('.custrom-box').find('.input-hide-input').removeClass('hide-selete');
+				$(this).parents('.custrom-box').find(' .input-hide-date').addClass('hide-selete');
+				$(this).parents('.custrom-box').find('.input-hide-input input').attr('name','value');
 			}
 		}else {
 			$(this).parents('.custrom-box').find('.select-hide select').attr('name','value')
@@ -1577,7 +1587,7 @@ layui.use(['form', 'formSelects','laydate'], function() {
 			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
 			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
 		}
-	
+		
 	})
     /*动态生成元素*/
     window.createElement=function (param) {
