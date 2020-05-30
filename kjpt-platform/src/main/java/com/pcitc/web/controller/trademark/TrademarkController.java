@@ -40,6 +40,8 @@ public class TrademarkController extends RestBaseController {
 
     private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/queryNoPage";
 
+    private static final String countByLawType = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/countByLawType";
+
     /**
      * 保存-商标信息
      *
@@ -263,5 +265,24 @@ public class TrademarkController extends RestBaseController {
         trademarkInfo.setId(UUID.randomUUID().toString().replace("-",""));
         trademarkInfo.setDeleted("0");
         return trademarkInfo;
+    }
+
+
+    /**
+     * 根据专法律状态查询商标数量
+     *
+     */
+    @ApiOperation(value="根据法律状态查询商标数量")
+    @RequestMapping(value = "/countByLawType", method = RequestMethod.GET)
+    @ResponseBody
+    public List countByPatentType() {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByLawType, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
+        return responseEntity.getBody();
+
     }
 }

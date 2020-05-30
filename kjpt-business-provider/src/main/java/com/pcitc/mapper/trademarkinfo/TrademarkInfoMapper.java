@@ -31,4 +31,6 @@ public interface TrademarkInfoMapper {
     int updateByPrimaryKey(TrademarkInfo record);
 
     List<TrademarkInfo> queryTrademarkList(Map param);
+
+    List<Map> countByLawType(Map param);
 }

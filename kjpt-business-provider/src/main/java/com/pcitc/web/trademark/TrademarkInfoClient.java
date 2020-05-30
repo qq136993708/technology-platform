@@ -85,4 +85,10 @@ public class TrademarkInfoClient {
         return json;
     }
 
+    @ApiOperation(value = "根据法律状态查询商标数量", notes = "根据法律状态查询商标数量")
+    @RequestMapping(value = "/trademark-provider/trademarkInfo/countByLawType", method = RequestMethod.POST)
+    public List<Map> countByPatentType(@RequestBody(required = false)Map param) {
+        return trademarkInfoService.countByLawType(param);
+    }
+
 }

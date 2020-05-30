@@ -69,4 +69,9 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
     public List queryNoPage(Map param) {
         return trademarkInfoMapper.queryTrademarkList(param);
     }
+
+    @Override
+    public List countByLawType(Map param) {
+        return trademarkInfoMapper.countByLawType(param);
+    }
 }

@@ -402,11 +402,20 @@
     ))
 
     <if test="childUnitIds != null  and childUnitIds !=''  ">
-      AND t.create_unit_id in
+      AND create_unit_id in
       <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
         #{item}
       </foreach>
     </if>
 
   </sql>
+
+
+  <select id="countByLawType" parameterType="java.util.Map" resultType="java.util.Map">
+    select  b.name,count(1) as num from trademark_info a  left join sys_dictionary b on a.law_status = b.num_value and b.parent_code = 'ROOT_KJPT_FLZT(SB)'
+    where a.deleted != '1' <include refid="selectByParam" />
+    GROUP BY  a.law_status
+    union all
+    select '全部' as name,count(1) as num from trademark_info where deleted != '1' <include refid="selectByParam" />
+  </select>
 </mapper>
