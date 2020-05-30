@@ -13,7 +13,15 @@
     <link rel="stylesheet" href="./css/trademarkIndex.css">
     <link rel="stylesheet" href="../patent/css/query.css">
 </head>
-
+<style>
+    .header-block-item> div {
+      display: inline-block;
+      vertical-align: middle;
+      white-space: nowrap;
+      width: calc(25% - 21px);
+      text-align: center;
+  }
+  </style>
 <body>
     <div class="layout-view-content min-label">
         <div class="view-content">
@@ -24,19 +32,23 @@
                   <p>数量</p>
                 </div>
                 <div>
-                  <p>专利总数量</p>
+                  <p>商标总数量</p>
                   <p><span id="patentsTotal">0</span>个</p>
                 </div>
                 <div>
-                  <p>专利申请数</p>
+                  <p>商标有效数</p>
                   <p><span id="patentNumber">0</span>个</p>
                 </div>
                 <div>
-                  <p>专利授权数</p>
+                  <p>商标无效数</p>
                   <p><span id="patentAuthorizations">0</span>个</p>
                 </div>
+                <div>
+                    <p>商标申请中数</p>
+                    <p><span id="invention">0</span>个</p>
+                  </div>
               </div>
-              <div class="header-block-item">
+              <!-- <div class="header-block-item">
                 <div>
                   <p>专利</p>
                   <p>类型</p>
@@ -53,8 +65,8 @@
                   <p>外观设计</p>
                   <p><span id="appearanceDesign">0</span>个</p>
                 </div>
-              </div>
-              <div class="header-block-item"></div>
+              </div> -->
+              <!-- <div class="header-block-item"></div> -->
             </div>
             <div class="header-block-line"></div>
         </div>

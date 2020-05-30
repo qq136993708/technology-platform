@@ -246,6 +246,9 @@
             return false
         })
         
+        window.returnTableName = function(){ //返回自定义查询需要的表格字段
+            return 'out_person'
+        }
 
         $("#addItem").click(function () {
             var activeData = table.checkStatus('expertTable').data;
