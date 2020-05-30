@@ -275,7 +275,16 @@
             })
             $('#delItem').on('click', function () {
                 // 获取被选中的行数据
-                var activeData = table.checkStatus('tableDemo').data;
+                var activeData = switchHttpData(table.checkStatus('tableDemo').data, '', function(item) {
+                	var temp_Json = {};
+                	for (var key in item) {
+                		temp_Json[key] = item[key];
+                		if (temp_Json[key] === '-') {
+                			temp_Json[key] = '';
+                		}
+                	}
+                	return temp_Json;
+                });
                 // fo
                 if (activeData.length) {
                     var saveData = {
