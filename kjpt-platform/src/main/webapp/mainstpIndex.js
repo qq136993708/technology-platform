@@ -318,7 +318,7 @@ layui.config({
     href: '/stp/system/sysNews_view_dis.html',
     openType: 'layer',
     hrefData: [{name: 'id', value: 'dataId'}],
-    title: '新闻发布',
+    title: '新闻详情',
     type: 'POST',
     openType: 'layer',  
     callback: function(res) {
