@@ -47,7 +47,10 @@
     <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
     <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
     <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
-      <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+      
+    <result column="birth_date"   jdbcType="TIMESTAMP" property="birthDate" />
+      
     
   </resultMap>
   
@@ -66,7 +69,7 @@
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
       audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
-     ,knowledge_scope,knowledge_person,orders
+     ,knowledge_scope,knowledge_person,orders,birth_date
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -83,7 +86,9 @@
       , #{secretLevel,jdbcType=VARCHAR}
       , #{expertType,jdbcType=VARCHAR}
       , #{knowledgeScope,jdbcType=VARCHAR}
-      , #{knowledgePerson,jdbcType=VARCHAR} , #{orders,jdbcType=INTEGER}
+      , #{knowledgePerson,jdbcType=VARCHAR} ,
+       #{orders,jdbcType=INTEGER} , 
+       #{birthDate,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -198,10 +203,14 @@
       <if test="knowledgePerson != null">
         knowledge_person,
       </if>
-    <if test="orders != null">
+      <if test="orders != null">
         orders,
       </if>
-   
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      
+      
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -318,6 +327,11 @@
        <if test="orders != null">
         #{orders,jdbcType=INTEGER},
       </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      
     
     </trim>
   </insert>
@@ -432,6 +446,9 @@
       <if test="orders != null">
         orders = #{orders,jdbcType=INTEGER},
       </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -440,6 +457,7 @@
     set del_status = #{delStatus,jdbcType=VARCHAR},
       num = #{num,jdbcType=VARCHAR},
       personnel_num = #{personnelNum,jdbcType=VARCHAR},
+       birth_date = #{birthDate,jdbcType=TIMESTAMP},
       source_type = #{sourceType,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},

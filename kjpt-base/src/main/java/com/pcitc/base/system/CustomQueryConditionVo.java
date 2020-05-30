@@ -9,6 +9,16 @@ public class CustomQueryConditionVo implements Serializable{
 	private String value;
 	private String notes;
 	private String attributeName;
+	private String columnType;
+	
+	
+	
+	public String getColumnType() {
+		return columnType;
+	}
+	public void setColumnType(String columnType) {
+		this.columnType = columnType;
+	}
 	public String getColumnName() {
 		return columnName;
 	}
