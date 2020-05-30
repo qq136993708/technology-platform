@@ -64,18 +64,6 @@
 </div>    
 <script type="text/javascript">
     var table,unitNodes,funcNodes,unitTree,funcTree,unitId,functionId,selectRowData,postType={},functionButtonMap={};
-    var unitTreeSetting = {
-    		data: {simpleData: {enable: true}},
-        callback: {onClick: unitTreeMenueOnClick}
-    };
-    var funcTreeSetting = {
-        data: {simpleData: {enable: true}},
-        callback: {
-        	onClick: funcTreeMenueOnClick,
-        	onCheck: funcTreeMenueOnCheck
-        	},
-        check: {enable: true,chkboxType: {"Y": "ps", "N": "s"}}
-    };
     function unitTreeMenueOnClick(event,treeId,treeNode,clickFlag) {
         unitId = treeNode.id;
         selectRowData=null;
@@ -85,6 +73,11 @@
         //删除表头复选框
         $(".postTable .layui-table-header table thead th input").remove();
     }
+    var unitTreeSetting = {
+    		data: {simpleData: {enable: true}},
+        callback: {onClick: unitTreeMenueOnClick}
+    };
+ 
     function funcTreeMenueOnClick(event,treeId,treeNode,clickFlag)
     {
     	/* funcTree.checkNode(treeNode,!treeNode.checked,true);*/
@@ -107,14 +100,25 @@
     	}
     	$(".funcButtonTable .layui-table-header table thead th input").remove();
     }
+    var funcTreeSetting = {
+            data: {simpleData: {enable: true}},
+            callback: {
+            	onClick: funcTreeMenueOnClick,
+            	onCheck: funcTreeMenueOnCheck
+            	},
+            check: {enable: true,chkboxType: {"Y": "ps", "N": "s"}}
+        };
+    
     //设置展开前三级节点
 	function expandThreeLevel(treeObj) {
 		var nodeList = treeObj.getNodes();//展开第一个根节点
 		for(var i = 0; i < nodeList.length; i++) { //设置节点展开第二级节点
 			treeObj.expandNode(nodeList[i], true, false, true);
 			var nodespan = nodeList[i].children;
-			for(var j = 0; j < nodespan.length; j++) { //设置第三级节点隐藏
-				treeObj.expandNode(nodespan[j], true, false, true);
+			if (nodespan && typeof(nodespan) === 'object') {
+				for(var j = 0; j < nodespan.length; j++) { //设置第三级节点隐藏
+					treeObj.expandNode(nodespan[j], true, false, true);
+				}				
 			}
 		}
 	}
@@ -172,8 +176,13 @@
  		});
 		return nodeIds;
 	}
+	
+    
+	
+	
+	
 	//检索(改变事件)
-	$("#searchUnitName").on("change",function(){
+	$("#searchUnitName").on("change", function(){
 		searchUnit();
 	});
 	//检索(键盘回车)
