@@ -36,6 +36,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               }
             },
             {
+              field: 'publishDate',
+              title: '发布时间',
+              align: 'center',
+              templet:function (d) {
+               return  new Date(d.publishDate).format('yyyy-MM-dd')
+                }
+            },
+            {
               field: 'planNum',
               title: '计划号',
               align: 'center'
