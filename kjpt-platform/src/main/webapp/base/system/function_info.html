@@ -175,7 +175,7 @@
 		$("input[name='parentId']").val("${parentId}");
 		$("input[name='parentCode']").val("${parentCode}");
 		$("input[name='levelCode']").val("${levelCode}");
-		console.log(functionId)
+
 		if (!isBlank(functionId)) {// 编辑
 			$.ajax({
 				type : 'post',
@@ -186,7 +186,7 @@
 				},
 				url : '/function/getFunction?i=' + Math.random(),
 				success : function(data) {
-					console.log(data)
+
 					$("input[name='id']").val(data.id);
 					$("input[name='name']").val(data.name);
 					$("input[name='url']").val(data.url);
@@ -239,14 +239,30 @@
 		/* 监听保存 */
 		form.on('submit(component-form-save)', function(data) {
 			var formData = data.field;
-			console.log("formData:" + JSON.stringify(formData))
-			$.ajax({
+	
+			httpModule({
+                url: '/function/saveFunction?i=' + Math.random(),
+                type: 'post',
+                data: formData,
+                async : false,
+                success: function (data) {
+                	if (data == '200') {
+						var index = parent.layer.getFrameIndex(window.name);
+						setDialogData({ code: '0', success: true, data: '保存成功。' }); // 通知上层页面状态 - 弹窗中使用
+						top.layer.close(index);
+					} else if (data == '201') {
+						layer.msg("菜单名称重复，请核对后再保存")
+					} else {
+						layer.msg("保存失败");
+					}
+                }
+            });
+			
+			/* $.ajax({
 				type : 'post',
 				dataType : 'json',
 				data : JSON.stringify(formData),
-				headers : {
-					'Content-Type' : 'application/json',
-				},
+				ContentType: 'application/json',
 				url : '/function/saveFunction?i=' + Math.random(),
 				async : false,
 				success : function(data) {
@@ -266,11 +282,11 @@
 				error : function() {
 					layer.msg("出错了");
 				}
-			});
+			}); */
 			return false;
 		});
 
-		console.log("functionId:" + functionId)
+
 		$ = layui.jquery;
 		table = layui.table;
 		//渲染
@@ -404,7 +420,6 @@
 
 		//监听排序
 		table.on('sort(buttonTable)', function(obj) {
-			console.log(this, obj.field, obj.type)
 			//return;
 			//服务端排序
 			table.reload('buttonTable', {
