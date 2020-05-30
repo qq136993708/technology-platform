@@ -354,7 +354,7 @@ public class ExpertController extends BaseController {
 		{
 			ResponseEntity<ZjkBase> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
 			ZjkBase oldZjkBase = se.getBody();
-			Date date=DateUtil.strToDate(oldZjkBase.getBirthDateStr(), DateUtil.FMT_DD);
+			Date date=DateUtil.strToDate(zjkBase.getBirthDateStr(), DateUtil.FMT_DD);
 			
 			oldZjkBase.setAge(zjkBase.getAge());
 			oldZjkBase.setAchievement(zjkBase.getAchievement());
