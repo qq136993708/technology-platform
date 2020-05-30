@@ -176,6 +176,9 @@ public class TrademarkController extends RestBaseController {
             //this.setParam(condition,"secretLevel",secretLevel);
         }
         this.setBaseParam(condition);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

@@ -1,7 +1,10 @@
 package com.pcitc.web.controller.achieve;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
+import com.pcitc.base.achieve.AchieveMaintain;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
@@ -14,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -60,6 +64,11 @@ public class AchieveBaseController extends RestBaseController {
      */
     private static final String WORKFLOW_URL = "http://kjpt-zuul/stp-proxy/achieve-api/task/start_activity/";
 
+
+    /**
+     * 查询成果列表不分页
+     */
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/achieve-api/queryNoPage";
 	
 
     @ApiOperation(value="读取")
@@ -83,7 +92,9 @@ public class AchieveBaseController extends RestBaseController {
             @ApiImplicitParam(name = "startDate", value = "录入开始时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "endDate", value = "录入结束时间", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "isPublic", value = "是否公示", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "isPublic", value = "是否公示", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "achieveTransType", value = "拟转化方式", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "affiliatedUnit", value = "成果所属单位", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieve-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -93,10 +104,12 @@ public class AchieveBaseController extends RestBaseController {
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
             @RequestParam(required = false,value = "auditStatus") String auditStatus,
-            @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
-            @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "startDate") String startDate,
+            @RequestParam(required = false,value = "endDate") String endDate,
             @RequestParam(required = false,value = "secretLevel") String secretLevel,
-            @RequestParam(required = false,value = "isPublic") String isPublic
+            @RequestParam(required = false,value = "isPublic") String isPublic,
+            @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
+            @RequestParam(required = false,value = "affiliatedUnit") String affiliatedUnit
     ){
         Map<String, Object> condition = new HashMap<>(6);
         SysUser sysUserInfo = this.getUserProfile();
@@ -110,11 +123,11 @@ public class AchieveBaseController extends RestBaseController {
         }else {
             this.setParam(condition, "pageSize", pageSize);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(startDate)) {
+            this.setParam(condition, "startDate",startDate);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(endDate)) {
+            this.setParam(condition, "endDate", endDate);
         }
 
         if (!StringUtils.isEmpty(achieveName)) {
@@ -135,6 +148,15 @@ public class AchieveBaseController extends RestBaseController {
         if(isPublic != null){
             this.setParam(condition,"isPublic",isPublic);
         }
+
+        if(achieveTransType != null){
+            this.setParam(condition,"achieveTransType",achieveTransType);
+        }
+
+        if(affiliatedUnit != null){
+            this.setParam(condition,"affiliatedUnit",affiliatedUnit);
+        }
+
         this.setBaseParam(condition);
 
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
@@ -142,6 +164,65 @@ public class AchieveBaseController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
+    }
+
+
+//    @ApiOperation(value="导出excel")
+//    @RequestMapping(value = "/achieveMaintain-api/export", method = RequestMethod.GET)
+//    @ResponseBody
+//    public void export(
+//                @RequestParam(required = false,value = "achieveName") String achieveName,
+//                @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
+//                @RequestParam(required = false,value = "auditStatus") String auditStatus,
+//                @RequestParam(required = false,value = "startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+//                @RequestParam(required = false,value = "endDate")  @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+//                @RequestParam(required = false,value = "secretLevel") String secretLevel,
+//                @RequestParam(required = false,value = "isPublic") String isPublic
+//    ) throws Exception {
+//        Map<String, Object> condition = new HashMap<>(2);
+//            SysUser sysUserInfo = this.getUserProfile();
+//            if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
+//                this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+//            }
+//            if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
+//                this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+//            }
+//
+//            if (!StringUtils.isEmpty(achieveName)) {
+//                this.setParam(condition, "achieveName", achieveName);
+//            }
+//            if (!StringUtils.isEmpty(finishUnitName)) {
+//                this.setParam(condition, "finishUnitName", finishUnitName);
+//            }
+//            if (!StringUtils.isEmpty(auditStatus)) {
+//                this.setParam(condition, "auditStatus", auditStatus);
+//            }
+//
+//
+//            if(secretLevel != null){
+//                this.setParam(condition,"secretLevel",secretLevel);
+//            }
+//
+//            if(isPublic != null){
+//                this.setParam(condition,"isPublic",isPublic);
+//            }
+//            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+//            this.setParam(condition,"childUnitIds",childUnitIds);
+//            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        String[] headers = { "科技成果名称",  "所属《核心成果目录》技术方向","成果持有单位", "成果所属单位（专业化公司/直属单位)", "项目来源及经费渠道", "成果完成时间", "拟转化方式",
+//                "集团内部已开展的科技成果转化工作情况","科技成果简介","科技成果完成团队情况（按贡献度排序）", "科技成果完成单位意见","单位联系人和联系方式" };
+//        String[] cols =    {"achieveName","techTypeText","finishUnitNameText","affiliatedUnitText","projectChannel","finishDate","achieveTransTypeText","workInfo",""};
+//        export(headers,cols,"成果申请表_",condition);
+//    }
+
+
+    private void export(String[] headers,String[] cols,String fileName,Map condition) throws Exception {
+        this.setBaseParam(condition);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), AchieveMaintain.class);
+        fileName = fileName+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
     }
 
     @ApiOperation(value="保存")
@@ -210,6 +291,7 @@ public class AchieveBaseController extends RestBaseController {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(updatePublic, HttpMethod.POST, new HttpEntity<Map>(param, this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
+
 
 
     
