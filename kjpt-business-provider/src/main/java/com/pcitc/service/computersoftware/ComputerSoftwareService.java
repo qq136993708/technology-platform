@@ -37,4 +37,7 @@ public interface ComputerSoftwareService {
      */
     List queryNoPage(Map paramMap);
 
+
+    List countByCopyrightGetway(Map paramMap);
+
 }

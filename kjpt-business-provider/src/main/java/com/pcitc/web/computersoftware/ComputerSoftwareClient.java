@@ -60,4 +60,9 @@ public class ComputerSoftwareClient {
     }
 
 
+    @ApiOperation(value = "统计查询", notes = "统计查询")
+    @RequestMapping(value = "/countByCopyrightGetway", method = RequestMethod.POST)
+    public List<Map> countByCopyrightGetway(@RequestBody(required = false)Map param) {
+        return computerSoftwareService.countByCopyrightGetway(param);
+    }
 }

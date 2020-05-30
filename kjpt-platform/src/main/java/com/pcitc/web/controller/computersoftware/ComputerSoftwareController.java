@@ -52,6 +52,10 @@ public class ComputerSoftwareController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/computerSoftware-api/delete/";
+    /**
+     * 统计查询
+     */
+    private static final String countByCopyrightGetway = "http://kjpt-zuul/stp-proxy/computerSoftware-api/countByCopyrightGetway";
 
 
     @ApiOperation(value = "读取")
@@ -282,6 +286,26 @@ public class ComputerSoftwareController extends RestBaseController {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete + id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
+
+    /**
+     * 统计查询
+     *
+     * @return PatentInfo
+     */
+    @ApiOperation(value="统计查询")
+    @RequestMapping(value = "/countByCopyrightGetway", method = RequestMethod.GET)
+    @ResponseBody
+    public List countByCopyrightGetway() {
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByCopyrightGetway, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
+        return responseEntity.getBody();
+
+    }
+
 
     @ApiOperation(value = "初始化")
     @RequestMapping(value = "/newInit", method = RequestMethod.GET)

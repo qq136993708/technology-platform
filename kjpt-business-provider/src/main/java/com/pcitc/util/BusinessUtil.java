@@ -26,10 +26,10 @@ public class BusinessUtil {
 					{
 						if(columnType.equals("string"))
 						{
-							sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> '"+vo.getValue()+"'");
+							sb.append(" AND "+vo.getColumnName()+getConditionSymbol(conditionSymbol)+" '"+vo.getValue()+"'");
 						}else if(columnType.equals("date"))
 						{
-							sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') <![CDATA[ "+conditionSymbol+" ]]> '"+vo.getValue()+"'");
+							sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') "+getConditionSymbol(conditionSymbol)+" '"+vo.getValue()+"'");
 						}else if(columnType.equals("int"))
 						{
 							sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> "+vo.getValue()+"");
@@ -47,6 +47,28 @@ public class BusinessUtil {
 		}
 		System.out.println("----自定义查询条件："+sb.toString());
 		return sb.toString();
+	}
+	
+	private static String getConditionSymbol(String  conditionSymbol)
+	{
+		
+		if(conditionSymbol.equals(">"))
+		{
+			conditionSymbol=" &gt; ";
+		}
+		if(conditionSymbol.equals(">="))
+		{
+			conditionSymbol=" &gt;= ";
+		}
+		if(conditionSymbol.equals("<"))
+		{
+			conditionSymbol=" &lt; ";
+		}
+		if(conditionSymbol.equals("<="))
+		{
+			conditionSymbol=" &lt;= ";
+		}
+		return conditionSymbol;
 	}
 
 }
