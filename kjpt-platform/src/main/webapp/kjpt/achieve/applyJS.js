@@ -62,7 +62,7 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                 if (relData.code == 0) {
                     /*回显tr*/
                     var formData = relData.data;
-                    relData.data.finishDate = dateFieldText(relData.data.finishDate)
+                    // relData.data.finishDate = dateFieldText(relData.data.finishDate)
                     form.val('formPlatform', relData.data);
                     formSelects.value('techType', relData.data.techType.split(','));
                     formSelects.value('finishUnitName', relData.data.finishUnitName.split(','));
