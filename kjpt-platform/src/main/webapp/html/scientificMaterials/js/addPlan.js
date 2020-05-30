@@ -1,8 +1,10 @@
 layui.use(['form', 'formSelects', 'laydate',], function(){
-	var form = layui.form;
+  var form = layui.form;
+  var formSelects = layui.formSelects;
+  var laydate = layui.laydate;
   var variable = getQueryVariable();
-  var reportTypeVal = +variable.reportType;
-  var formSelects=layui.formSelects;
+  var reportTypeVal = variable.reportType;
+  
   switch(reportTypeVal){
     case 1:
         $('#configName').html("科技规划名称:");
@@ -30,7 +32,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
   var billID = variable.id || '';
   var msgTitle = '新增';
   var readonlyFile = false; // 附件是否只读
-  // layui.laydate.render({elem: '#releaseTimes',trigger:'click'});
+   laydate.render({elem: '#releaseTimes', type: 'date', trigger:'click'});
   
   if (variable.type === 'see') {
     // 查看-设置表单元素为disabled
