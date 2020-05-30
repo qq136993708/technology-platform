@@ -25,7 +25,7 @@
         <result column="is_public" jdbcType="VARCHAR" property="isPublic"/>
         <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
         <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
-        <result column="affiliated_unit_text " jdbcType="VARCHAR" property="affiliatedUnitText"/>
+        <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
