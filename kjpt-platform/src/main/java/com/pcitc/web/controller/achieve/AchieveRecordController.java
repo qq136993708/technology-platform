@@ -276,8 +276,8 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "achieveName") String achieveName,
             @RequestParam(required = false,value = "finishUnitName") String finishUnitName,
             @RequestParam(required = false,value = "auditStatus") String auditStatus,
-            @RequestParam(required = false,value = "startDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
-            @RequestParam(required = false,value = "endDate")@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(required = false,value = "startDate")  String startDate,
+            @RequestParam(required = false,value = "endDate") String endDate,
             @RequestParam(required = false,value = "achieveType") String achieveType,
             @RequestParam(required = false,value = "grantUnitName") String grantUnitName,
             @RequestParam(required = false,value = "achieveTransType") String achieveTransType,
@@ -323,11 +323,11 @@ public class AchieveRecordController extends RestBaseController {
         if (!StringUtils.isEmpty(publicityStatus)) {
             this.setParam(condition, "publicityStatus", publicityStatus);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(startDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "startDate", DateUtil.format(startDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(startDate)) {
+            this.setParam(condition, "startDate", DateUtil.strToDate(startDate,DateUtil.FMT_SS));
         }
-        if (!StringUtils.isEmpty(DateUtil.format(endDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "endDate", DateUtil.format(endDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(endDate)) {
+            this.setParam(condition, "endDate", DateUtil.strToDate(endDate,DateUtil.FMT_SS));
         }
 
 
