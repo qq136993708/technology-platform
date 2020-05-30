@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-	<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 </head>
 <body>
 	<div class="treeTableContainer">
@@ -48,10 +48,10 @@
 					<button class="layui-btn border-red" data-type="deleteEvent">删除</button>
 				</div>
 			</div>
-			<table id="functionTable" class="layui-hide" lay-filter="tableEvent"></table>
+			<table id="functionTable" class="layui-hide" lay-filter="functionTable"></table>
 		</div>
 	</div>
-	<script src="/layuiadmin/js/common.js"></script>
+
 	<script>
 		var zNodes;
 		var treeId;
@@ -105,7 +105,6 @@
 			parentCode = treeNode.code;
 			levelCode = treeNode.levelCode;
 
-			console.log(treeNode);
 			table.reload('function', {
 				where : {
 					param : {
@@ -281,12 +280,13 @@
 							content:  temUrl,
 							end: function(lay, index) {
 								// 弹窗销毁时获取弹窗返回数据
-								var getDialogData = getDialogData('dialog-data');
+								var dialogData = getDialogData('dialog-data');
 								/*判断成功刷新table*/
-								if(getDialogData){
-									table.reload('tableEvent',null)
+								if(dialogData){
+									table.reload('function', {'parentId': parentId});
+									initTree();
 								}
-
+								top.layer.msg("保存成功");
 							}
 						});
 					/*	layer.open({
@@ -317,12 +317,13 @@
 							content:  temUrl,
 							end: function(lay, index) {
 								// 弹窗销毁时获取弹窗返回数据
-								var getDialogData = getDialogData('dialog-data');
+								var dialogData = getDialogData('dialog-data');
 								/*判断成功刷新table*/
-								if(getDialogData){
-									table.reload('tableEvent',null)
+								if(dialogData){
+									table.reload('function', {'parentId': parentId});
+									initTree();
 								}
-
+								top.layer.msg("保存成功");
 							}
 						});
 						/*layer.open({
@@ -374,9 +375,9 @@
 								var getData = getDialogData('dialog-data');
 								/*判断成功刷新table*/
 								if(getData){
-									table.reload('tableEvent',null)
+									table.reload('function', {'parentId': parentId});
 								}
-
+								top.layer.msg("保存成功");
 							}
 						});
 					} else {
@@ -395,9 +396,9 @@
 								var getData = getDialogData('dialog-data');
 								/*判断成功刷新table*/
 								if(getData){
-									table.reload('tableEvent',null)
+									table.reload('function', {'parentId': parentId});
 								}
-
+								top.layer.msg("保存成功");
 							}
 						});
 						/*layer.open({
@@ -484,7 +485,7 @@
 			};
 
 			//监听排序
-			table.on('sort(tableEvent)', function(obj) {
+			table.on('sort(functionTable)', function(obj) {
 				console.log(this, obj.field, obj.type)
 				//return;
 				//服务端排序

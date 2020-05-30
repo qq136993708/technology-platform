@@ -64,14 +64,6 @@ public class OutPersonController extends BaseController {
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/out_person/get/";
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	  * 获取人员（分页）
 	 */
@@ -88,7 +80,8 @@ public class OutPersonController extends BaseController {
         @ApiImplicitParam(name = "endAage",        value = "截止年龄",     dataType = "int", paramType = "query"),
         @ApiImplicitParam(name = "sex",            value = "性别",        dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "techType",       value = "技术领域",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "isExpert",       value = "0不是专家，1是专家",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "isExpert",       value = "0不是专家，1是专家",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
         
         
     
@@ -109,10 +102,7 @@ public class OutPersonController extends BaseController {
             @RequestParam(required = false) String sex,
             @RequestParam(required = false) String technicalField,
             @RequestParam(required = false) String isExpert,
-            
-            
-            
-            
+            @RequestParam(required = false) String customQueryConditionStr,
             
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
@@ -131,6 +121,7 @@ public class OutPersonController extends BaseController {
     	param.getParam().put("endAage", endAage);
     	param.getParam().put("sex", sex);
     	param.getParam().put("techType", technicalField);
+    	param.getParam().put("customQueryConditionStr", customQueryConditionStr);
     	param.getParam().put("isExpert", isExpert);
     	param.setLimit(limit);
     	param.setPage(page);

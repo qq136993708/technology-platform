@@ -448,7 +448,10 @@
 	       </if>
 	       <if test="userNo != null              and userNo !=''  ">            AND t.user_no = #{userNo}</if>
            <if test="isExpert != null              and isExpert !=''  ">            AND t.is_expert = #{isExpert}</if>
-
+        <if test="condition != null and condition !=''  ">        
+	        ${condition}
+	     </if>
+	     
 
 	 </trim>
 	</sql>
