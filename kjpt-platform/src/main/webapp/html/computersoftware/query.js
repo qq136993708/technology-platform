@@ -75,7 +75,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       url += '&id=' + id;
 	  } else if (type === 'view') {
       dialogTitle = '著作权信息查看'; 
-      url = '/html/computersoftware/view.html?id=' + id;
+      url = '/html/computersoftware/view.html?id='+ id +'&type=' + type;
     } 
 
 	  // 打开弹窗

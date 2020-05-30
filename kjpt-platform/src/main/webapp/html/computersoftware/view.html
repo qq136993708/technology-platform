@@ -11,22 +11,20 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-    <style>
-        .xm-select-parent .xm-select-sj{display: none!important; }
-    </style>
+  
   <!-- 更多样式在此引入 -->
 </head>
 <body class="">
-<div class="layout-view-content">
+<div class="layout-view-content dialog">
 	<form class="layui-form" action="" id="formMain" lay-filter="formMain">
 
-      <div class="layui-row layui-col-space20" style="display: none;">
+      <div class="layui-row layui-col-space20">
           <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
               <div class="layui-form-item">
-                <label class="layui-form-label "><span class="text">密级：</span></label>
+                <label class="layui-form-label label-required"><span class="text">密级：</span></label>
                 <div class="layui-input-block">
-                  <input type="hidden" id="secretLevel" >
-                  <input type="text" name="secretLevelText" placeholder="" autocomplete="off" class="layui-input" disabled>
+                  <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择..."> 
+                  </select>
                 </div>
               </div>
           </div>  
@@ -41,87 +39,144 @@
       </div>
       <!-- 知悉范围 -->
       <div id="scope_list_layout"></div>
-      <div class="secret-level-line"></div>
+    <div class="secret-level-line"></div>
 
      <div class="layui-row layui-col-space20">
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">单位名称：</span></label>
-           <div class="layui-input-block">
-             <input type="text" name="unitNameText"  disabled="true" class="layui-input">
-           </div>
+          <label class="layui-form-label label-required"><span class="text">单位名称：</span></label>
+          <div class="layui-input-block">
+              <select name="unitName"
+                xm-select="supportingInstitutions"
+                xm-select-skin="normal"
+                xm-select-radio=""
+                dic-base-data="ROOT_KJPT_YTDW"
+                lay-verify="required"
+                placeholder="请选择"></select>
+          </div>
          </div>
        </div>
 
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">软件名称：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="softwareName" lay-verify="required"
+                            placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">登记号：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="registerNumber" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+
        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">登记日期：</span></label>
+            <label class="layui-form-label label-required"><span class="text">登记日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="recordDate"   disabled="true" class="layui-input">
+              <input type="text" name="recordDate" id="recordDate" lay-verify="required" placeholder="请填写..." autocomplete="off" class="laydate-input">
             </div>
           </div>
         </div>
 
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">登记号：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="registerNumber"  disabled="true" class="layui-input">
-          </div>
-        </div>
-      </div>
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">著作权人：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="copyrightOwner" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
 
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">权利取得方式：</span></label>
+                 <div class="layui-input-block">
+                     <select name="copyrightGetway" lay-filter="copyrightGetway" dic-base-data="ROOT_KJPT_QLHDFS" placeholder="请选择" lay-verify="required"></select>
+                 </div>
+             </div>
+         </div>
+
+         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">登记部门：</span></label>
+                 <div class="layui-input-block">
+                     <input type="text" name="registerDepartment" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                 </div>
+             </div>
+         </div>
+         <br>
+         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+             <div class="layui-form-item">
+                 <label class="layui-form-label label-required"><span class="text">项目背景：</span></label>
+                 <div class="layui-input-block">
+                     <textarea name="softwareIntro" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+                     <!--<input type="text" name="softwareIntro" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                 </div>
+             </div>
+         </div>
+         <p></p>
+
+      <!--
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">技术领域：</span></label>
           <div class="layui-input-block">
-              <select name="technicalField" dic-base-data="ROOT_KJPT_JSLY" xm-select="technicalField" xm-select-skin="normal" disabled></select>
+              <select name="technicalField" dic-base-data="ROOT_KJPT_JSLY" xm-select="technicalField" xm-select-skin="normal"></select>
           </div>
         </div>
-      </div>
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      </div>-->
+
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+             <label class="layui-form-label"><span class="text">立项部门：</span></label>
+             <div class="layui-input-block">
+                 <input type="text" name="topicDepartment"  placeholder="" autocomplete="off" class="layui-input">
+             </div>
+         </div>
+     </div>
+
+     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+             <label class="layui-form-label"><span class="text">项目名称：</span></label>
+             <div class="layui-input-block">
+                 <input type="text" name="projectName"  placeholder="" autocomplete="off" class="layui-input">
+             </div>
+         </div>
+     </div>
+
+     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+             <label class="layui-form-label"><span class="text">项目编号：</span></label>
+             <div class="layui-input-block">
+                 <input type="text" name="projectCode"  placeholder="" autocomplete="off" class="layui-input">
+             </div>
+         </div>
+     </div>
+
+
+      <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">开发完成日期：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="developFinishDate"  autocomplete="off" class="layui-input" disabled>
+            <input type="text" name="developFinishDate" id="developFinishDate"  placeholder="请填写..." autocomplete="off" class="laydate-input">
           </div>
         </div>
       </div>
 
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">软件名称：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="softwareName"  disabled="true" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">软件介绍：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="softwareIntro"  disabled="true" class="layui-input">
-          </div>
-        </div>
-      </div>
-
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">著作权人：</span></label>
-          <div class="layui-input-block">
-            <input type="text" name="copyrightOwner"  disabled="true" class="layui-input">
-          </div>
-        </div>
-      </div>
- 
 
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">录入人：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="entryPeople"  disabled="true" class="layui-input">
+            <input type="text" name="entryPeople"
+              placeholder="" autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -130,7 +185,8 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">版本号：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="versionNumber" disabled="true" class="layui-input">
+              <input type="text" name="versionNumber"
+                placeholder="" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -139,7 +195,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">录入日期：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="entryTime"  disabled="true" class="layui-input">
+             <input type="text" name="entryTime" id="entryTime"  placeholder="请填写..." autocomplete="off" class="laydate-input">
            </div>
          </div>
        </div>
@@ -149,13 +205,18 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">备注：</span></label>
            <div class="layui-input-block">
-             <textarea name="notes" placeholder="请输入内容"  disabled="true" class="layui-textarea"></textarea>
+             <textarea name="notes" placeholder="请输入内容" class="layui-textarea"></textarea>
            </div>
          </div>
-       </div>
- 
+       </div>-->
+         
     
     <div id="file-filter-options">
+        <div class="view-title-layout" > <!--style="margin-top:40px;"-->
+            <div class="right">
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+            </div>
+        </div>
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">附件：</span></label>
           <div class="layui-input-block"><table></table></div>
@@ -167,7 +228,8 @@
     <div style="height:80px;"></div>
 
     <div class="dialog-footer-btn">
-        <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
+        <button class="layui-btn layui-btn-normal" type="button" lay-submit="" lay-filter="newSubmit">提交</button>
+        <button class="layui-btn layui-btn-primary close-all-dialog" type="button">取消</button>
     </div>
 
      <input type="hidden" name="id">
@@ -175,6 +237,8 @@
      <input type="hidden" name="createDate">
      <input type="hidden" name="updateDate">
      <input type="hidden" name="updator"> 
+     <input type="hidden" name="deleted"> 
+     <input type="hidden" name='technicalFieldValue'>
    </form>
 </div>
  
@@ -183,14 +247,11 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/fileUpload.js"></script>
-<script>var scope_disabled = true;  </script>
+<script>var scope_disabled = false;  </script>
 <script src="edit.js"></script>
 
+ 
 
-<script > 
-        gray()
-        file_readonly = true;
-</script>
-
+      
 </body>
 </html>
