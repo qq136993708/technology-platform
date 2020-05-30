@@ -26,13 +26,13 @@ public class BusinessUtil {
 					{
 						if(columnType.equals("string"))
 						{
-							sb.append(" AND "+vo.getColumnName()+getConditionSymbol(conditionSymbol)+" '"+vo.getValue()+"'");
+							sb.append(" AND "+vo.getColumnName()+conditionSymbol+" '"+vo.getValue()+"'");
 						}else if(columnType.equals("date"))
 						{
-							sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') "+getConditionSymbol(conditionSymbol)+" '"+vo.getValue()+"'");
+							sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') "+conditionSymbol+" '"+vo.getValue()+"'");
 						}else if(columnType.equals("int"))
 						{
-							sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> "+vo.getValue()+"");
+							sb.append(" AND "+vo.getColumnName()+" "+conditionSymbol+" "+vo.getValue()+"");
 						}
 					}else if(conditionSymbol.contains("like"))
 					{
