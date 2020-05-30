@@ -338,7 +338,7 @@ html{ background-color: #F9F9F9; color: #666;}
 }
 .layui-header .layui-icon-next{position: absolute;right: 250px;top: 18px;cursor: pointer;}
 .layui-header .layui-icon-prev:before{
-    content: "鍏朵粬涓氬姟";
+    content: "其他业务";
     font-size: 14px; 
     color: rgba(255,255,255,0.9);
     display: block;

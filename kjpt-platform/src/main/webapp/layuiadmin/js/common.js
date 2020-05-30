@@ -1090,6 +1090,9 @@ function _getButtonRoles() {
 
 function _useButtonRoles() { 
 	var btnRoles = _getButtonRoles();
+	if (console && console.log) {
+		console.log('btnRoles =>', btnRoles);
+	}
 	if(btnRoles) {
 		$("[button-role]").each(function(index, item) { 
 			var btn = $(item), role = ',' + btn.attr('button-role');
