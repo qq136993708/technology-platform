@@ -14,6 +14,7 @@ import com.pcitc.mapper.achieve.AchieveRewardMapper;
 import com.pcitc.service.achieve.AchieveRecordService;
 import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.file.FileCommonService;
+import com.pcitc.util.BusinessUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -168,6 +169,10 @@ public class AchieveRecordServiceImpl implements AchieveRecordService {
         int pageNum = (int)param.get("pageNum");
         int pageSize = (int)param.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
+        Object par = param.get("customQueryConditionStr");
+        String customQueryConditionStr =  param ==null?"":(String)par;
+        String condition= BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
+        param.put("condition", condition);
         List dataList = arm.query(param);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
