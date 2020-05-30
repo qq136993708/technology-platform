@@ -102,6 +102,9 @@
         <if test="isPublic != null and isPublic != '' " >
             and is_public = #{isPublic}
         </if>
+        <if test="achieveTransType != null and achieveTransType != '' " >
+            and achieve_trans_type = #{achieveTransType}
+        </if>
         <if test="affiliatedUnit != null and affiliatedUnit != '' " >
             and affiliated_unit = #{affiliatedUnit}
         </if>
