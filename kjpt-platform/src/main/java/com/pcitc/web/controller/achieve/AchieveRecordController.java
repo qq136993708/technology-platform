@@ -314,7 +314,7 @@ public class AchieveRecordController extends RestBaseController {
         if (!StringUtils.isEmpty(grantUnitName)) {
             this.setParam(condition, "grantUnitName", grantUnitName);
         }
-        if (!StringUtils.isEmpty(achieveTransType)) {
+        if (!StringUtils.isEmpty(achieveTransType) || !"undefined".equals(achieveType)) {
             this.setParam(condition, "achieveTransType", achieveTransType);
         }
         if (!StringUtils.isEmpty(aboutCompleteInfo)) {
