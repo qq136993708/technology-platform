@@ -294,6 +294,11 @@ public class ExpertController extends BaseController {
     	ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		ZjkBase zjkBase = responseEntity.getBody();
+		Date datev=zjkBase.getBirthDate();
+		if(datev!=null)
+		{
+			zjkBase.setBirthDateStr(DateUtil.dateToStr(zjkBase.getBirthDate() , DateUtil.FMT_DD));
+		}
 		logger.info("============远程返回  statusCode " + statusCode);
 		if (statusCode == 200) {
 			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
@@ -329,7 +334,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form")
+        @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "birthDateStr",         value = "出生日期", dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -440,8 +446,8 @@ public class ExpertController extends BaseController {
 			zjkBase.setCreateUnitId(sysUserInfo.getUnitId());
 			zjkBase.setCreateUnitName(sysUserInfo.getUserUnitName());
 			
-			
-			
+			Date birthDate=DateUtil.strToDate(zjkBase.getBirthDateStr(), DateUtil.FMT_DD);
+			zjkBase.setBirthDate(birthDate);
 			
 			//处理知悉范围
 			String userName=sysUserInfo.getUserName();
