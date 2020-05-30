@@ -806,13 +806,12 @@ public class ExpertController extends BaseController {
   	
   	
   	 @ApiOperation(value = "获得查询条件接口", notes = "获得查询条件接口")
-     @RequestMapping(value = "/expert-api/getCustomQueryConditionList", method = RequestMethod.GET)
- 	 public String getFamilyList(HttpServletRequest request, HttpServletResponse response)throws Exception
+     @RequestMapping(value = "/expert-api/getCustomQueryConditionList/{tableName}", method = RequestMethod.GET)
+ 	 public String getFamilyList(@PathVariable("tableName") String tableName,HttpServletRequest request, HttpServletResponse response)throws Exception
      {
      	    Result resultsDate = new Result();
-            String taleName=CommonUtil.getParameter(request, "taleName", "");
      	    this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
-     	    JSONArray jSONArray= EquipmentUtils.getCustomQueryConditionList(restTemplate, httpHeaders, request, response, taleName);
+     	    JSONArray jSONArray= EquipmentUtils.getCustomQueryConditionList(restTemplate, httpHeaders, request, response, tableName);
    	   		if (jSONArray !=null)
    	   		{
    	   		    resultsDate.setData(jSONArray);
