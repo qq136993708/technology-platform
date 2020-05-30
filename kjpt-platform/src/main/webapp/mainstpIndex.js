@@ -320,7 +320,7 @@ layui.config({
     hrefData: [{name: 'id', value: 'dataId'}],
     title: '新闻发布',
     type: 'POST',
-    openType: 'layer',
+    openType: 'layer',  
     callback: function(res) {
       if (res.code === '-1' || res.success === false) {
         $('#news-press-list').text(res.message || '请求出错，无法获取数据。')
