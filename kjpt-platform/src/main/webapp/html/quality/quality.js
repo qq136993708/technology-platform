@@ -44,7 +44,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '标准号'
             },
             {
-              field: 'standardType',
+              field: 'standardTypeText',
               title: '标准类型'
             },
             {
@@ -52,12 +52,12 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '主编单位',
             },
             {
-              field: 'updateStatus',
+              field: 'updateStatusText',
               title: '修改状态',
               align: 'center',
             },
             {
-              field: 'fileStatus',
+              field: 'fileStatusText',
               title: '文件状态',
               align: 'center',
             },
