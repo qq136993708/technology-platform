@@ -45,11 +45,11 @@ public class PlatformServiceImpl implements PlatformService {
         int pageNum = (int)paramMap.get("pageNum");
         int pageSize = (int)paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
-        List dataList = platformServiceMapper.query(paramMap);
         Object param = paramMap.get("customQueryConditionStr");
         String customQueryConditionStr =  param ==null?"":(String)param;
         String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
         paramMap.put("condition", condition);
+        List dataList = platformServiceMapper.query(paramMap);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
