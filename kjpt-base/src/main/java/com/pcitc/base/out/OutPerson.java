@@ -149,10 +149,28 @@ public class OutPerson  {
     private String belongUnitCode;
 
     
+private String customQueryConditionStr;//前台转过来的
     
+    private String condition;//mybatis拼装sql
     
 
-    public Date getBirthDate() {
+    public String getCustomQueryConditionStr() {
+		return customQueryConditionStr;
+	}
+
+	public void setCustomQueryConditionStr(String customQueryConditionStr) {
+		this.customQueryConditionStr = customQueryConditionStr;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
