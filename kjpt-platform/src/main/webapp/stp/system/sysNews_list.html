@@ -79,7 +79,7 @@
                     data-type="deleteEvent">删除
             </button>
             <button class="layui-btn border-blue"
-                    data-type="detailEvent">详情
+                    data-type="detailEvent">查看
             </button>
 
         </div>
@@ -102,8 +102,18 @@
             $("#content").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
-
-
+	
+   	function viewTitleContent(event, data) {
+   		event.stopPropagation();
+    	top.layer.open({
+           type: 2,
+           title: '查看新闻',
+           content: '/stp/system/sysNews_view_dis.html?id=' + data,
+           area: ['880px', '70%'],
+           btn: null,
+        });
+   	}
+    
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
@@ -136,7 +146,9 @@
                 // },
                 {
                     field: "title",
-                    title: "标题", event: 'setActive', style: 'cursor: pointer;', width:300
+                    title: "标题", event: 'setActive', style: 'cursor: pointer;', width:300, templet: function(d) {
+                    	return "<span class='link-text' onClick='viewTitleContent(event, \""+ d.dataId +"\")'>"+ d.title +"</span>";
+                    }
                 },
                 {
                     field: "sysFlag",
@@ -438,7 +450,7 @@
             active[type] ? active[type].call(this) : '';
         });
         //监听行双击事件
-        table.on('rowDouble(tableEvent)', function(obj){
+        /* table.on('rowDouble(tableEvent)', function(obj){
             var dataId =  obj.data.dataId;
             top.layer.open({
                 title:param.name+'-查看',
@@ -451,7 +463,7 @@
                 area: ['70%','90%'],
                 content: "/sysNews/view/" + selectRowData.dataId
             });
-        });
+        }); */
     });
 </script>
 </body>

@@ -176,8 +176,8 @@ public class AchieveMaintainController extends RestBaseController {
         if (!StringUtils.isEmpty(awardsType)) {
             this.setParam(condition, "awardsType", awardsType);
         }
-        String[] headers = { "获奖年份",  "奖项级别","奖项名称", "奖项子名称", "奖项数量"  };
-        String[] cols =    {"year","typeText","awardsTypeText","awardsChildTypeText","awardsNumber"};
+        String[] headers = { "获奖年份",  "奖项级别","奖项名称", "奖项子名称", "授奖等级", "奖项数量"  };
+        String[] cols =    {"year","typeText","awardsTypeText","awardsChildTypeText","awardLevelText","awardsNumber"};
         export(headers,cols,"成果维护表_",condition);
     }
 

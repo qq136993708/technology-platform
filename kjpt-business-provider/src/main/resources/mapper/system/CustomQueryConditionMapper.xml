@@ -3,7 +3,7 @@
 <mapper namespace="com.pcitc.mapper.system.CustomQueryConditionMapper">
   <resultMap id="BaseResultMap" type="com.pcitc.base.system.CustomQueryCondition">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="tale_name" jdbcType="VARCHAR" property="taleName" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
     <result column="column_name" jdbcType="VARCHAR" property="columnName" />
     <result column="column_type" jdbcType="VARCHAR" property="columnType" />
     <result column="option_code" jdbcType="VARCHAR" property="optionCode" />
@@ -14,7 +14,7 @@
     
   </resultMap>
   <sql id="Base_Column_List">
-    id, tale_name, `column_name`, column_type, option_code, notes,attribute_name,option_type
+    id, table_name, `column_name`, column_type, option_code, notes,attribute_name,option_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -29,7 +29,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.CustomQueryCondition" useGeneratedKeys="true">
     insert into t_custom_query_condition 
     (
-      id,tale_name, 
+      id,table_name, 
       `column_name`,
       column_type, 
       option_code, 
@@ -37,7 +37,7 @@
       attribute_name,option_type)
       values 
       (
-      #{id,jdbcType=VARCHAR},#{taleName,jdbcType=VARCHAR}, 
+      #{id,jdbcType=VARCHAR},#{tableName,jdbcType=VARCHAR}, 
       #{columnName,jdbcType=VARCHAR}, 
       #{columnType,jdbcType=VARCHAR}, 
       #{optionCode,jdbcType=VARCHAR}, 
@@ -48,8 +48,8 @@
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.system.CustomQueryCondition" useGeneratedKeys="true">
     insert into t_custom_query_condition
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="taleName != null">
-        tale_name,
+      <if test="tableName != null">
+        table_name,
       </if>
       <if test="columnName != null">
         `column_name`,
@@ -73,8 +73,8 @@
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="taleName != null">
-        #{taleName,jdbcType=VARCHAR},
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
       </if>
       <if test="columnName != null">
         #{columnName,jdbcType=VARCHAR},
@@ -101,8 +101,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.CustomQueryCondition">
     update t_custom_query_condition
     <set>
-      <if test="taleName != null">
-        tale_name = #{taleName,jdbcType=VARCHAR},
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
       </if>
       <if test="columnName != null">
         `column_name` = #{columnName,jdbcType=VARCHAR},
@@ -129,7 +129,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.CustomQueryCondition">
     update t_custom_query_condition
-    set tale_name = #{taleName,jdbcType=VARCHAR},
+    set table_name = #{tableName,jdbcType=VARCHAR},
       `column_name` = #{columnName,jdbcType=VARCHAR},
       column_type = #{columnType,jdbcType=VARCHAR},
       attribute_name = #{attributeName,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="taleName != null and taleName  !='' ">                     AND t.tale_name like CONCAT('%',#{taleName},'%')</if>
+	     <if test="tableName != null and tableName  !='' ">                     AND t.table_name like CONCAT('%',#{tableName},'%')</if>
 	     <if test="columnName != null            and columnName !=''  ">      AND t.column_name = #{columnName}</if>
 	     <if test="attributeName != null            and attributeName !=''  ">      AND t.attribute_name = #{attributeName}</if>
 	     <if test="columnType != null            and columnType !=''  ">            AND t.column_type = #{columnType}</if>
