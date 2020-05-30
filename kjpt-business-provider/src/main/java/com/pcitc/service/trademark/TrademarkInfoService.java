@@ -55,5 +55,10 @@ public interface TrademarkInfoService {
      */
     List queryNoPage(Map param);
 
-
+    /**
+     * 根据法律状态查
+     * @param param
+     * @return
+     */
+    List countByLawType(Map param);
 }
