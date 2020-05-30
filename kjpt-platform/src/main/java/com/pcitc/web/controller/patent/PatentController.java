@@ -162,7 +162,8 @@ public class PatentController extends RestBaseController {
         this.setBaseParam(condition);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(unitName, restTemplate, httpHeaders);
+        SysUser sysUserInfo = this.getUserProfile();
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(QUERY, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

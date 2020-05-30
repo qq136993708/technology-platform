@@ -2,12 +2,11 @@ package com.pcitc.service.researchplatform.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.Page;
-import com.pcitc.base.patent.KgjImportModel;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.researchplatform.PlatformMapper;
 import com.pcitc.service.researchplatform.PlatformService;
+import com.pcitc.util.BusinessUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +46,10 @@ public class PlatformServiceImpl implements PlatformService {
         int pageSize = (int)paramMap.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         List dataList = platformServiceMapper.query(paramMap);
+        Object param = paramMap.get("customQueryConditionStr");
+        String customQueryConditionStr =  param ==null?"":(String)param;
+        String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
+        paramMap.put("condition", condition);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }

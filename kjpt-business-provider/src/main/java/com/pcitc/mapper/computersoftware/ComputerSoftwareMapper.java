@@ -24,6 +24,11 @@ public interface ComputerSoftwareMapper {
      */
     List<ComputerSoftware> query(Map paramMap);
 
+    /**
+     * 统计查询
+     */
+    List<Map> countByCopyrightGetway(Map paramMap);
+
 
     /**
      * 修改计算机软件
