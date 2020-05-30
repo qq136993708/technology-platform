@@ -396,7 +396,7 @@
                 var param = {"postId": selectRowData.postId,"functionIds": JSON.stringify(functionButtons)};
                 ajaxPostAsyn("/post/save-post-functions",param,function (data, status) {
                 	 if(data.success){
-                         setDialogData(dt); // 通知上层页面状态 - 弹窗中使用
+                         setDialogData(data); // 通知上层页面状态 - 弹窗中使用
                          top.layer.closeAll(); // 关闭弹窗
                 		 /*layer.close(lodingMsg);
                 		 layer.alert("操作成功");*/

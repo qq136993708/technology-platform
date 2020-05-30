@@ -1090,16 +1090,15 @@ function _getButtonRoles() {
 
 function _useButtonRoles() { 
 	var btnRoles = _getButtonRoles();
-    if(btnRoles) {
-      $("[button-role]").each(function(index, item) { 
-    var btn = $(item);
-    var role = ',' + btn.attr('button-role');
-    if(btnRoles.indexOf(role)<0) {
-      btn.css('display', 'none');
-        }
-      });
-        
-    }
+	if(btnRoles) {
+		$("[button-role]").each(function(index, item) { 
+			var btn = $(item), role = ',' + btn.attr('button-role');
+			if(btnRoles.indexOf(role)<0) {
+//				btn.css('display', 'none');
+				btn.remove();
+			}
+		});  
+	}
 }
 function gray(){
 	$(".layui-form-label").removeClass("label-required")
