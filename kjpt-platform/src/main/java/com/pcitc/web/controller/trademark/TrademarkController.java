@@ -134,7 +134,7 @@ public class TrademarkController extends RestBaseController {
         if (!StringUtils.isEmpty(trademarkName)) {
         this.setParam(condition, "trademarkName", trademarkName);
         }
-        if (!StringUtils.isEmpty(lawStatus)) {
+        if (!StringUtils.isEmpty(lawStatus) && !"undefined".equals(lawStatus)) {
         this.setParam(condition, "lawStatus", lawStatus);
         }
         if (!StringUtils.isEmpty(applicant)) {

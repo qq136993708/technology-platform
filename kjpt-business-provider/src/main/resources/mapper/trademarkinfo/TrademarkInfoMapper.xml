@@ -338,7 +338,7 @@
       and law_status = #{lawStatus}
     </if>
     <if test="applicant != null and applicant != '' " >
-      and applicant = #{applicant}
+      and applicant like CONCAT('%',#{applicant},'%')
     </if>
     <if test="registerDateStart != null and registerDateStart != '' " >
       and register_date &gt;= #{registerDateStart}
@@ -401,12 +401,7 @@
     </if>
     ))
 
-    <if test="childUnitIds != null  and childUnitIds !=''  ">
-      AND create_unit_id in
-      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    </if>
+
 
   </sql>
 
