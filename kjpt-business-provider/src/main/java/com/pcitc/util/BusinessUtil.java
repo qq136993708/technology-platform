@@ -21,20 +21,31 @@ public class BusinessUtil {
 				{
 					CustomQueryConditionVo vo=voList.get(i);
 					String conditionSymbol=vo.getCondition();
-					if(conditionSymbol.equals("="))
+					String columnType=vo.getColumnType();
+					if(conditionSymbol.contains("=") || conditionSymbol.contains(">") || conditionSymbol.contains("<"))
 					{
-						sb.append(" AND "+vo.getColumnName()+" = '"+vo.getValue()+"'");
-					}else if(conditionSymbol.equals("like"))
+						if(columnType.equals("string"))
+						{
+							sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> '"+vo.getValue()+"'");
+						}else if(columnType.equals("date"))
+						{
+							sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') <![CDATA[ "+conditionSymbol+" ]]> '"+vo.getValue()+"'");
+						}else if(columnType.equals("int"))
+						{
+							sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> "+vo.getValue()+"");
+						}
+					}else if(conditionSymbol.contains("like"))
 					{
-						sb.append(" AND "+vo.getColumnName()+" like '%"+vo.getValue()+"%'");
-					}else
-					{
-						sb.append(" AND "+vo.getColumnName()+" <![CDATA[ "+conditionSymbol+" ]]> '"+vo.getValue()+"'");
+						if(columnType.equals("string"))
+						{
+							sb.append(" AND "+vo.getColumnName()+" "+conditionSymbol+" '%"+vo.getValue()+"%'");
+						}
 					}
 					
 				}
 			}
 		}
+		System.out.println("----自定义查询条件："+sb.toString());
 		return sb.toString();
 	}
 

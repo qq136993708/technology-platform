@@ -25,7 +25,7 @@
         <result column="is_public" jdbcType="VARCHAR" property="isPublic"/>
         <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
         <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
-        <result column="affiliated_unit_text " jdbcType="VARCHAR" property="affiliatedUnitText"/>
+        <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
@@ -101,6 +101,9 @@
         </if>
         <if test="isPublic != null and isPublic != '' " >
             and is_public = #{isPublic}
+        </if>
+        <if test="achieveTransType != null and achieveTransType != '' " >
+            and achieve_trans_type = #{achieveTransType}
         </if>
         <if test="affiliatedUnit != null and affiliatedUnit != '' " >
             and affiliated_unit = #{affiliatedUnit}

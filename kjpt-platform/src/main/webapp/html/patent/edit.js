@@ -226,6 +226,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
         });
       }
 
+      form.on('radio(applicationOfPatentTransformation)', function(data){
+        console.log(data.value); //被点击的radio的value值
+        if(data.value == '03'){
+          $('input[name="licensee"]').attr('lay-verify',required)
+        }else if(data.value == '04'){
+          $('input[name="assignor"]').attr('lay-verify',required)
+        }
+      });
 
   //新增多个许可实施
   $("body").on("click",".add-more-item-btn", addItem);

@@ -70,7 +70,7 @@
                                 class="text">所属单位（专业化公司/直属单位)：</span></label>
                         <div class="layui-input-block">
                             <select name="affiliatedUnit" xm-select="affiliatedUnit" xm-select-skin="normal"
-                                dic-base-data="ROOT_KJPT_YTDW"></select>
+                                dic-base-data="ROOT_KJPT_CGSSDW_ZYHGSZSDW"></select>
                         </div>
                     </div>
                 </div>
@@ -178,9 +178,14 @@
                                 }, {
                                     field: 'achieveName',
                                     title: '成果名称',
-                                        templet:function(d){
-                                        var templet = '<div class="options-list middle-block"><div class="ib-block">';
-                                            templet += '<span class="link-text recordDetails" data-auditstatus="'+d.auditStatus+'" data-type="view" data-id="'+d.id+'">'+d.achieveName+'</span>';
+                                    templet: function (d) {
+                                        var templet =
+                                            '<div class="options-list middle-block"><div class="ib-block">';
+                                        templet +=
+                                            '<span class="link-text recordDetails" data-auditstatus="' +
+                                            d.auditStatus + '" data-type="view" data-id="' + d
+                                            .id + '">' + d.achieveName + '</span>';
+                                        return templet;
                                     }
                                 }, {
                                     field: 'finishUnitNameText',
@@ -265,6 +270,18 @@
             });
             $('[lay-filter="formSubmit"]').click();
 
+            // 备案详情，查看，录入，转化
+            $('#record_list_table').on('click', '.recordDetails', function (e) {
+                var index = parent.$("#LAY_app_body div.layui-show").index() - 1;
+                var optionType = $(this).data('type'),
+                    dialogTitle = $(this).text().trim(),
+                    id = $(this).data('id'),
+                    auditStatus = $(this).data('auditstatus');
+                url = '/kjpt/achieve/record_input.html?type=' + optionType + '&id=' + id + "&index=" +
+                    index;
+                url += '&functionId=' + functionId;
+                parent.layui.index.openTabsPage(url, dialogTitle + '申请');
+            })
 
             // 导出 /achieveRecord-api/exportExcel
             $('#exportData').on('click', function (e) {

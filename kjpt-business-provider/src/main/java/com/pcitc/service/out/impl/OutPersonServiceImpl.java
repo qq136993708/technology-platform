@@ -17,6 +17,7 @@ import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.service.out.IOutPersonService;
+import com.pcitc.util.BusinessUtil;
 @Service("outPersonService")
 public class OutPersonServiceImpl implements IOutPersonService {
 
@@ -96,6 +97,7 @@ public class OutPersonServiceImpl implements IOutPersonService {
 			String sex=getTableParam(param,"sex","");
 			String techType=getTableParam(param,"techType","");
 			String isExpert=getTableParam(param,"isExpert",""); 
+			String customQueryConditionStr=getTableParam(param,"customQueryConditionStr","");
 			
 			
 			
@@ -110,6 +112,8 @@ public class OutPersonServiceImpl implements IOutPersonService {
 			map.put("sex", sex);
 			map.put("techType", techType);
 			map.put("isExpert", isExpert);
+			String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
+			map.put("condition", condition);
 			
 			List<OutPerson> list = outPersonMapper.getList(map);
 			PageInfo<OutPerson> pageInfo = new PageInfo<OutPerson>(list);
