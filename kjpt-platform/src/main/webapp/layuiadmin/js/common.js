@@ -896,222 +896,31 @@ function closeCurrentDialog() {
 	var currentIndex = top.layer.getFrameIndex(window.name);
 	top.layer.close(currentIndex);
 }
-
-// 渲染字典
-var commonLayuiForm = null;
-layui.use(['form', 'formSelects','laydate'], function() {
-	commonLayuiForm = layui.form;
-	laydate = layui.laydate;
-
-	// 自定义表单校验规则
-	commonLayuiForm.verify({
-		length: function(value, item) {
-			// <input type="text" lay-filter="length" length="20">
-			var lengthNumber = $(item).attr('length') || 10;
-			if ((''+value).length > lengthNumber) {
-				return '字符长度不能超过 '+ lengthNumber + '个';
-			}
-		}
-	})
-
-
-	if ($('.layui-form-screen').length) {
-		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
-			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选');
-			
-			var $form = $(this);
-			$foldBtn.off('click').on({
-				'click': function() {
-					if ($form.attr('fold-panel') === 'close') {
-						$form.attr('fold-panel', 'open');
-						$(this).text('收起筛选').closest('.layui-col-btn').removeClass('form-col-ly4');
-					} else {
-						$form.attr('fold-panel', 'close');
-						$(this).text('高级筛选').closest('.layui-col-btn').addClass('form-col-ly4');
-					}
-				}	
-			}).closest('.layui-col-btn').addClass('form-col-ly4');
-		});
-	}
-	//自定义条件查询设置
-	$('.layui-fold-btn-custom').on('click',function(){
-		if($('.layui-colla-content').hasClass('layui-hide')){
-			$('.layui-colla-content').removeClass('layui-hide').addClass('layui-show')
-		}else{
-			$('.layui-colla-content').removeClass('layui-show').addClass('layui-hide')
-		}
-	});
-	var count = 0
-	$('#custormAdd').on('click',function(){
-		var tableName = returnTableName();
-		count++;
-		httpModule({
-			url: "/expert-api/getCustomQueryConditionList/"+tableName,
-			type: 'GET',
-			success: function (relData) {
-				if (relData.success) {
-					var optionStr = '';
-					optionStr=relData.data.map(function(item){
-						return '<option value="'+item.columnName+'" data-notes="'+item.notes+'" data-columnName="'+item.columnName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'" data-attributeName="'+item.attributeName+'" data-columnType="'+item.columnType+'">'+item.notes+'</option>'
-					})
-					var id = 'dt'+count;
-					var formid = 'form'+count;
-					var dataId = 'data'+count;
-					var optionCode = 'optionCode'+count;
-					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
-						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
-						'<div class="layui-form-item">'+
-						'<div class="layui-input-block">'+
-						'<select name="columnName" placeholder="请选择" lay-filter="columnName" >'+
-						'<option value="" placeholder="请选择"></option>'+
-							optionStr +
-						'</select>'+
-						'</div>'+
-						'</div>'+
-						'</div>'+
-						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
-						'<div class="layui-form-item">'+
-						'<div class="layui-input-block">'+
-						'<select name="condition" class="dt" dic-base-data="ROOT_XTGL_ZDYCXTJ" id="'+id+'">'+
-						'<option value=""></option>'+
-						'</select>'+
-						'</div>'+
-						'</div>'+
-						'</div>'+
-						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
-						'<div class="layui-form-item">'+
-						'<div class="layui-input-block select-hide">'+
-						'<select class="dt" name="value" id="'+optionCode+'">'+
-						'<option value=""></option>'+
-						'</select>'+
-						'</div>'+
-						'<div class="layui-input-block hide-selete input-hide">'+
-						' <input type="text" name="value" id="'+dataId+'" placeholder="请输入" autocomplete="off" class="layui-input">'+
-						'</div>'+
-						'</div>'+
-						'</div>'+
-						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
-						'<div class="layui-form-item">'+
-						'<span class="layui-btn layui-btn-normal custromDel">删除</span>'+
-						'</div></div>'+
-						'</div>'
-						$('#custromFrom').append(str);
-				}
-				window.createElement({code:'ROOT_XTGL_ZDYCXTJ',id: id,className:'dt',element:'option',index:count,dt:'dt'})
-			}
-		});
-	})	
-	
-	//自定义删除
-	$(document).on('click','.custromDel',function(){
-		$(this).parents('.custrom-box').remove();
-	})
-
-	// commonLayuiForm
-	commonLayuiForm.on('select(columnName)', function(data) {
-		var optionType = $(data.elem).find("option:selected").attr("data-optionType");
-		var columnType = $(data.elem).find("option:selected").attr("data-columnType");   
-		if(optionType == 1){
-			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
-			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
-			$(this).parents('.custrom-box').find('.select-hide select').attr('name','')
-			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value');
-			if(columnType == 'int'){
-				$(this).parents('.custrom-box').find('.input-hide input').attr('lay-verify','number')
-			}else if(columnType == 'date'){
-				var dataId = $(this).parents('.custrom-box').find('.input-hide input').attr('id')
-				$(this).parents('.custrom-box').find('.input-hide input').attr('class','laydate-input')
-				laydate.render({elem: '#'+dataId,trigger:'click',});
-			}
-		}else {
-			$(this).parents('.custrom-box').find('.select-hide select').attr('name','value')
-			$(this).parents('.custrom-box').find('.input-hide input').attr('name','')
-			var id =$(this).parents('.custrom-box').find('select[name="value"]').attr('id')
-			var optionCode = $(data.elem).find("option:selected").attr("data-optionCode"); 
-			$(this).parents('.custrom-box').find('.input-hide').addClass('hide-selete');
-			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
-			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
-		}
-	
-})
-    /*动态生成元素*/
-    window.createElement=function (param) {
-        httpModule({
-            url: "/sysDictionary-api/getChildsListByCode/"+param.code,
-						type: 'GET',
-            success: function(relData) {
-                if (relData.success === true) {
-									$("#"+param.id).find('option').remove();
-                    relData.data.map(function(item){
-                        if(param.element=="option"){
-														if(param.dt=='dt'){
-															$("#"+param.id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
-														}
-                          	if(param.value==item.numValue){
-                              $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
-                          	}else {
-                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"'>"+item.name+"</option>")
-                            }
-                        }
-                    });
-                    commonLayuiForm.render()
-                }
-            }
-        });
-    }
-	// 关闭 top层 所有弹窗
-	$('.close-all-dialog').click(function() {
-		top.layer.closeAll();
-	})
-	// 关闭当前弹窗；即关闭本身;
-	$('.close-current-dialog').click(function(e) {
-		closeCurrentDialog();
-	});
-
-	// 自动渲染下拉框
-	$('select[dic-base-data]').each(function() {
-		if ($(this).attr('dic-base-data')) {
-			$(this).empty();
-			if ($(this).attr('xm-select')) {
-				bindSelectorDic($(this), $(this).attr('dic-base-data'), layui.formSelects, $(this).attr('xm-select'), 'xm-select');
-			} else {
-				bindSelectorDic($(this), $(this).attr('dic-base-data'), layui.form, $(this).attr('lay-filter'), 'select');
-			}
-		}
-	});
-
-	// 模版下载
-	$('[download-templet]').on('click', function() {
-		if ($(this).attr('download-templet')) {
-			downloadExeclTemplet($(this).attr('download-templet'));
-		}
-	})
-})
-	// 处理自定义查询方法
-	function setCustromFrom() { 
-		var list=[];
-				$('#custromFrom').find('.custrom-box').each(function(index,item){
-						var obj={};
-					 var optionType = $(this).find('select[name="columnName"]').find("option:selected").attr("data-optionType"); 
-					 var columnName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columnName');
-					 var notes= $(this).find('select[name="columnName"]').find("option:selected").attr('data-notes');
-					 var attributeName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-attributeName');
-					 var condition= $(this).find('select[name="condition"]').find("option:selected").attr('name');
-					 var columnType= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columntype');
-					 if(optionType == 1){
-						var value= $(this).find('input[name="value"]').val();
-					 }else{
-						var value= $(this).find('select[name="value"]').find("option:selected").attr('name');
-					 }
-					 obj['columnName']=columnName;
-					 obj['condition']=condition;
-					 obj['value']=value;
-					 obj['notes']=notes
-					 obj['attributeName']=attributeName
-					 obj['columnType']=columnType
-					 list.push(obj)
-				})
-				return JSON.stringify(list);
+// 处理自定义查询方法
+function setCustromFrom() { 
+	var list=[];
+			$('#custromFrom').find('.custrom-box').each(function(index,item){
+				var obj={};
+			 var optionType = $(this).find('select[name="columnName"]').find("option:selected").attr("data-optionType"); 
+			 var columnName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columnName');
+			 var notes= $(this).find('select[name="columnName"]').find("option:selected").attr('data-notes');
+			 var attributeName= $(this).find('select[name="columnName"]').find("option:selected").attr('data-attributeName');
+			 var condition= $(this).find('select[name="condition"]').find("option:selected").attr('name');
+			 var columnType= $(this).find('select[name="columnName"]').find("option:selected").attr('data-columntype');
+			 if(optionType == 1){
+				var value= $(this).find('input[name="value"]').val();
+			 }else{
+				var value= $(this).find('select[name="value"]').find("option:selected").attr('name');
+			 }
+			 obj['columnName']=columnName;
+			 obj['condition']=condition;
+			 obj['value']=value;
+			 obj['notes']=notes
+			 obj['attributeName']=attributeName
+			 obj['columnType']=columnType
+			 list.push(obj)
+		})
+		return JSON.stringify(list);
  }
 /*动态添加tr*/
 function addTr(id) {
@@ -1277,28 +1086,25 @@ function _getButtonRoles() {
     }else {
       return null;
     }
+}
 
-  }
-
-  function _useButtonRoles() { 
+function _useButtonRoles() { 
 	var btnRoles = _getButtonRoles();
-    if(btnRoles) {
-      $("[button-role]").each(function(index, item) { 
-        var btn = $(item);
-        var role = ',' + btn.attr('button-role');
-        if(btnRoles.indexOf(role)<0) {
-          btn.css('display', 'none');
-        }
-      });
-        
-    }
-  }
-	function gray(){
-		$(".layui-form-label").removeClass("label-required")
-		$(".xm-select-sj,.layui-edge").hide()
-		$(".xm-select-parent .xm-input").css("borderColor","#eee")
+	if(btnRoles) {
+		$("[button-role]").each(function(index, item) { 
+			var btn = $(item), role = ',' + btn.attr('button-role');
+			if(btnRoles.indexOf(role)<0) {
+//				btn.css('display', 'none');
+				btn.remove();
+			}
+		});  
 	}
-	_useButtonRoles();
+}
+function gray(){
+	$(".layui-form-label").removeClass("label-required")
+	$(".xm-select-sj,.layui-edge").hide()
+	$(".xm-select-parent .xm-input").css("borderColor","#eee")
+}
 	
 /* 知悉范围 *--- start ----*/
 function setJurisdictionScope(config) {
@@ -1631,3 +1437,199 @@ function setJurisdictionScope(config) {
 	}
 }
 /* 知悉范围 *--- end ----*/
+
+
+//渲染字典
+var commonLayuiForm = null;
+layui.use(['form', 'formSelects','laydate'], function() {
+	commonLayuiForm = layui.form;
+	laydate = layui.laydate;
+
+	// 自定义表单校验规则
+	commonLayuiForm.verify({
+		length: function(value, item) {
+			// <input type="text" lay-filter="length" length="20">
+			var lengthNumber = $(item).attr('length') || 10;
+			if ((''+value).length > lengthNumber) {
+				return '字符长度不能超过 '+ lengthNumber + '个';
+			}
+		}
+	})
+
+
+	if ($('.layui-form-screen').length) {
+		$('.layui-form-screen').attr('fold-panel', 'close').each(function() {
+			var $foldBtn = $(this).find('.layui-fold-btn').empty().text('高级筛选');
+			
+			var $form = $(this);
+			$foldBtn.off('click').on({
+				'click': function() {
+					if ($form.attr('fold-panel') === 'close') {
+						$form.attr('fold-panel', 'open');
+						$(this).text('收起筛选').closest('.layui-col-btn').removeClass('form-col-ly4');
+					} else {
+						$form.attr('fold-panel', 'close');
+						$(this).text('高级筛选').closest('.layui-col-btn').addClass('form-col-ly4');
+					}
+				}	
+			}).closest('.layui-col-btn').addClass('form-col-ly4');
+		});
+	}
+	//自定义条件查询设置
+	$('.layui-fold-btn-custom').on('click',function(){
+		if($('.layui-colla-content').hasClass('layui-hide')){
+			$('.layui-colla-content').removeClass('layui-hide').addClass('layui-show')
+		}else{
+			$('.layui-colla-content').removeClass('layui-show').addClass('layui-hide')
+		}
+	});
+	var count = 0
+	$('#custormAdd').on('click',function(){
+		var tableName = returnTableName();
+		count++;
+		httpModule({
+			url: "/expert-api/getCustomQueryConditionList/"+tableName,
+			type: 'GET',
+			success: function (relData) {
+				if (relData.success) {
+					var optionStr = '';
+					optionStr=relData.data.map(function(item){
+						return '<option value="'+item.columnName+'" data-notes="'+item.notes+'" data-columnName="'+item.columnName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'" data-attributeName="'+item.attributeName+'" data-columnType="'+item.columnType+'">'+item.notes+'</option>'
+					})
+					var id = 'dt'+count;
+					var formid = 'form'+count;
+					var dataId = 'data'+count;
+					var optionCode = 'optionCode'+count;
+					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<div class="layui-input-block">'+
+						'<select name="columnName" placeholder="请选择" lay-filter="columnName" >'+
+						'<option value="" placeholder="请选择"></option>'+
+							optionStr +
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<div class="layui-input-block">'+
+						'<select name="condition" class="dt" dic-base-data="ROOT_XTGL_ZDYCXTJ" id="'+id+'">'+
+						'<option value=""></option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<div class="layui-input-block select-hide">'+
+						'<select class="dt" name="value" id="'+optionCode+'">'+
+						'<option value=""></option>'+
+						'</select>'+
+						'</div>'+
+						'<div class="layui-input-block hide-selete input-hide">'+
+						' <input type="text" name="value" id="'+dataId+'" placeholder="请输入" autocomplete="off" class="layui-input">'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
+						'<div class="layui-form-item">'+
+						'<span class="layui-btn layui-btn-normal custromDel">删除</span>'+
+						'</div></div>'+
+						'</div>'
+						$('#custromFrom').append(str);
+				}
+				window.createElement({code:'ROOT_XTGL_ZDYCXTJ',id: id,className:'dt',element:'option',index:count,dt:'dt'})
+			}
+		});
+	})	
+	
+	//自定义删除
+	$(document).on('click','.custromDel',function(){
+		$(this).parents('.custrom-box').remove();
+	})
+
+	// commonLayuiForm
+	commonLayuiForm.on('select(columnName)', function(data) {
+		var optionType = $(data.elem).find("option:selected").attr("data-optionType");
+		var columnType = $(data.elem).find("option:selected").attr("data-columnType");   
+		if(optionType == 1){
+			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide select').attr('name','')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value');
+			if(columnType == 'int'){
+				$(this).parents('.custrom-box').find('.input-hide input').attr('lay-verify','number')
+			}else if(columnType == 'date'){
+				var dataId = $(this).parents('.custrom-box').find('.input-hide input').attr('id')
+				$(this).parents('.custrom-box').find('.input-hide input').attr('class','laydate-input')
+				laydate.render({elem: '#'+dataId, trigger:'click',});
+			}
+		}else {
+			$(this).parents('.custrom-box').find('.select-hide select').attr('name','value')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','')
+			var id =$(this).parents('.custrom-box').find('select[name="value"]').attr('id')
+			var optionCode = $(data.elem).find("option:selected").attr("data-optionCode"); 
+			$(this).parents('.custrom-box').find('.input-hide').addClass('hide-selete');
+			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
+			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
+		}
+	
+	})
+    /*动态生成元素*/
+    window.createElement=function (param) {
+        httpModule({
+            url: "/sysDictionary-api/getChildsListByCode/"+param.code,
+						type: 'GET',
+            success: function(relData) {
+                if (relData.success === true) {
+									$("#"+param.id).find('option').remove();
+                    relData.data.map(function(item){
+                        if(param.element=="option"){
+														if(param.dt=='dt'){
+															$("#"+param.id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
+														}
+                          	if(param.value==item.numValue){
+                              $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"' selected='selected'>"+item.name+"</option>")
+                          	}else {
+                                $("#"+param.id+" tbody tr:eq("+param.index+")").find("."+param.className).append("<option value='"+item.numValue+"'>"+item.name+"</option>")
+                            }
+                        }
+                    });
+                    commonLayuiForm.render()
+                }
+            }
+        });
+    }
+	// 关闭 top层 所有弹窗
+	$('.close-all-dialog').click(function() {
+		top.layer.closeAll();
+	})
+	// 关闭当前弹窗；即关闭本身;
+	$('.close-current-dialog').click(function(e) {
+		closeCurrentDialog();
+	});
+
+	// 自动渲染下拉框
+	$('select[dic-base-data]').each(function() {
+		if ($(this).attr('dic-base-data')) {
+			$(this).empty();
+			if ($(this).attr('xm-select')) {
+				bindSelectorDic($(this), $(this).attr('dic-base-data'), layui.formSelects, $(this).attr('xm-select'), 'xm-select');
+			} else {
+				bindSelectorDic($(this), $(this).attr('dic-base-data'), layui.form, $(this).attr('lay-filter'), 'select');
+			}
+		}
+	});
+
+	// 模版下载
+	$('[download-templet]').on('click', function() {
+		if ($(this).attr('download-templet')) {
+			downloadExeclTemplet($(this).attr('download-templet'));
+		}
+	})
+	
+	
+	// 配置按鈕權限
+	_useButtonRoles();
+})
