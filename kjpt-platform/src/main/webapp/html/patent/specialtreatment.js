@@ -243,7 +243,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   loadPatent();
   function loadPatent(){
     httpModule({
-      url: '/patentController/countByLegalStatus',
+      url: '/patentController/countByLegalStatus?type=2',
       type: 'GET',
       success: function (relData) {
         if (relData.success) {
@@ -263,7 +263,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   loadPatentType();
   function loadPatentType(){
     httpModule({
-      url: '/patentController/countByPatentType',
+      url: '/patentController/countByPatentType?type=2',
       type: 'GET',
       success: function (relData) {
         if (relData.success) {

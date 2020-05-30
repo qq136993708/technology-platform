@@ -148,7 +148,6 @@ layui.use(['table', 'form','laydate'], function() {
   
   // 新增、编辑、查看
   $('.openLayerPage').on('click', function() {
-    debugger
     var optionType = $(this).data('type'),
     dialogTitle = '新增',
     url = '/kjpt/achieve/record_add.html?type=' + optionType;

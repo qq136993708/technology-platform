@@ -899,8 +899,9 @@ function closeCurrentDialog() {
 
 // 渲染字典
 var commonLayuiForm = null;
-layui.use(['form', 'formSelects'], function() {
+layui.use(['form', 'formSelects','laydate'], function() {
 	commonLayuiForm = layui.form;
+	laydate = layui.laydate;
 
 	// 自定义表单校验规则
 	commonLayuiForm.verify({
@@ -942,18 +943,20 @@ layui.use(['form', 'formSelects'], function() {
 	});
 	var count = 0
 	$('#custormAdd').on('click',function(){
+		var tableName = returnTableName();
 		count++;
 		httpModule({
-			url: "/expert-api/getCustomQueryConditionList",
+			url: "/expert-api/getCustomQueryConditionList/"+tableName,
 			type: 'GET',
 			success: function (relData) {
 				if (relData.success) {
 					var optionStr = '';
 					optionStr=relData.data.map(function(item){
-						return '<option value="'+item.columnName+'" data-notes="'+item.notes+'" data-columnName="'+item.columnName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'" data-attributeName="'+item.attributeName+'">'+item.notes+'</option>'
+						return '<option value="'+item.columnName+'" data-notes="'+item.notes+'" data-columnName="'+item.columnName+'" data-optionCode="'+item.optionCode+'" data-optionType="'+item.optionType+'" name="'+item.attributeName+'" data-attributeName="'+item.attributeName+'" data-columnType="'+item.columnType+'">'+item.notes+'</option>'
 					})
 					var id = 'dt'+count;
 					var formid = 'form'+count;
+					var dataId = 'data'+count;
 					var optionCode = 'optionCode'+count;
 					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
@@ -983,7 +986,7 @@ layui.use(['form', 'formSelects'], function() {
 						'</select>'+
 						'</div>'+
 						'<div class="layui-input-block hide-selete input-hide">'+
-						' <input type="text" name="value" placeholder="请输入" autocomplete="off" class="layui-input">'+
+						' <input type="text" name="value" id="'+dataId+'" placeholder="请输入" autocomplete="off" class="layui-input">'+
 						'</div>'+
 						'</div>'+
 						'</div>'+
@@ -1006,14 +1009,20 @@ layui.use(['form', 'formSelects'], function() {
 
 	// commonLayuiForm
 	commonLayuiForm.on('select(columnName)', function(data) {
-		var optionType = $(data.elem).find("option:selected").attr("data-optionType"); 
-		// var name = $(this).parents('.layui-input-block').find("option:selected").attr("name"); 
-		// $(this).parents('.layui-input-block').find('select').attr('name',name);
+		var optionType = $(data.elem).find("option:selected").attr("data-optionType");
+		var columnType = $(data.elem).find("option:selected").attr("data-columnType");   
 		if(optionType == 1){
 			$(this).parents('.custrom-box').find('.input-hide').removeClass('hide-selete');
 			$(this).parents('.custrom-box').find('.select-hide').addClass('hide-selete');
 			$(this).parents('.custrom-box').find('.select-hide select').attr('name','')
-			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value')
+			$(this).parents('.custrom-box').find('.input-hide input').attr('name','value');
+			if(columnType == 'int'){
+				$(this).parents('.custrom-box').find('.input-hide input').attr('lay-verify','number')
+			}else if(columnType == 'date'){
+				var dataId = $(this).parents('.custrom-box').find('.input-hide input').attr('id')
+				$(this).parents('.custrom-box').find('.input-hide input').attr('class','laydate-input')
+				laydate.render({elem: '#'+dataId,trigger:'click',});
+			}
 		}else {
 			$(this).parents('.custrom-box').find('.select-hide select').attr('name','value')
 			$(this).parents('.custrom-box').find('.input-hide input').attr('name','')

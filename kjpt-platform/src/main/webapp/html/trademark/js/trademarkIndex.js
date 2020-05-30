@@ -232,4 +232,45 @@ importFiles({
     exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
     window.open(exportUrl, '_blank');
   })
+  loadPatent();
+  function loadPatent(){
+    httpModule({
+      url: '/trademarkController/countByLawType',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '全部'){
+              $('#patentsTotal').text(item.num)
+            }else if(item.name == '申请'){
+              $('#patentNumber').text(item.num)
+            }else if(item.name == '授权'){
+              $('#patentAuthorizations').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  };
+//   loadPatentType();
+  function loadPatentType(){
+    httpModule({
+      url: '/trademarkController/countByPatentType?type=2',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '外观设计'){
+              $('#appearanceDesign').text(item.num)
+            }else if(item.name == '发明'){
+              $('#invention').text(item.num)
+            }else if(item.name == '实用新型'){
+              $('#utilityModel').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  };
+
 })
