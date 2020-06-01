@@ -909,6 +909,9 @@
 			}
 			//树状结构的选择
 			var treeId = dd.attr('tree-id');
+			
+			console.log('target => ', e.target);
+			
 			if(treeId){
 				//忽略右边的图标
 				if(othis.is('i:not(.icon-expand)')){
@@ -918,7 +921,9 @@
 				var ajaxConfig = ajaxs[id] || ajax;
 				var treeConfig = ajaxConfig.tree;
 				var childrens = dd.nextAll('dd[tree-id^="'+treeId+'"]');
-				if(childrens && childrens.length){
+				console.log('click-dd =>');
+
+				if(childrens && childrens.length && othis.is('.x-tree-icon')){
 					var len = childrens[0].clientHeight;
 					len ? (
 						_this.addTreeHeight(dd, len),
