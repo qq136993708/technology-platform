@@ -146,7 +146,9 @@
                 <button class="layui-btn border-blue openLayerPage" id="exportData" button-role="export">导出</button>
             </div>
         </div>
-        <table id="tableDemo" lay-filter="tableDemo"></table>
+        <div id="record_list_table">
+            <table id="tableDemo" lay-filter="tableDemo"></table>
+        </div>
 
     </div>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
@@ -268,7 +270,7 @@
             });
             // 监控表单提交事件
             form.on('submit(formSubmit)', function (data) {
-                var json=setVal(data);
+                var json=setVal(data);  
                 queryTable(json);
                 return false;
             });
