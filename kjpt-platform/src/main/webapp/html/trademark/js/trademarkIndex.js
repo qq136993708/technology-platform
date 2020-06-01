@@ -163,7 +163,7 @@ layui.use(['form', 'laydate', 'table'], function () {
         itemRowData = obj.data;
     });
 
-    $('#check').on('click', function (e) { // 查看平台
+    $('#check').on('click', function (e) {
         if (itemRowData) {
             checkDilog(itemRowData.id);
         } else {
@@ -171,12 +171,10 @@ layui.use(['form', 'laydate', 'table'], function () {
         }
     })
 
-    $('#delItem').on('click', function (e) { // 删除平台
-        console.log('sss',itemRowData);
+    $('#delItem').on('click', function (e) {
         if (itemRowData) {
-            layer.confirm('您确定要删除”' + itemRowData.unitNameText + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
+            layer.confirm('您确定要删除”' + itemRowData.trademarkName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
                 layer.close(index);
-                // 确认删除
                 httpModule({
                     url: '/trademarkController/delete/' + itemRowData.id,
                     type: 'DELETE',

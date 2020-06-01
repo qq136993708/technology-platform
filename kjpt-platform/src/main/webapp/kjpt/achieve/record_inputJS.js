@@ -374,7 +374,7 @@ layui.use(['table', 'form', 'layer'], function() {
     
     var achieveTeamPerson = getTableData('teamPersonList'); // 科技成果完成团队情况
     if (!achieveTeamPerson) {
-      layer.msg('激励人员名单不能为空！', {icon: 2});
+      layer.msg('科技成果完成团队人员名单不能为空！', {icon: 2});
       subFormData = null;
       return false;
     } else {
@@ -408,7 +408,7 @@ layui.use(['table', 'form', 'layer'], function() {
     transfromData = data.field,
     tipsTitle = '备案信息提交审批';
     if (!teamPerson) {
-      layer.msg('科技成果完成团队情况不能为空！', {icon: 2});
+      layer.msg('激励人员名单不能为空！', {icon: 2});
       return false;
     } else {
       transfromData.teamPerson = teamPerson;
