@@ -276,6 +276,7 @@
             });
             $('[lay-filter="formSubmit"]').click();
 
+            var functionId = parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code");
             // 备案详情，查看，录入，转化
             $('#record_list_table').on('click', '.recordDetails', function (e) {
                 var index = parent.$("#LAY_app_body div.layui-show").index() - 1;
