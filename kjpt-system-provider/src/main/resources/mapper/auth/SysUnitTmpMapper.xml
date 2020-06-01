@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysUnitTmpMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysUnitTmp">
+    <id column="unit_id" jdbcType="VARCHAR" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_abbr" jdbcType="VARCHAR" property="unitAbbr" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="unit_flag" jdbcType="VARCHAR" property="unitFlag" />
+    <result column="unit_kind" jdbcType="VARCHAR" property="unitKind" />
+    <result column="unit_create_time" jdbcType="TIMESTAMP" property="unitCreateTime" />
+    <result column="unit_extend" jdbcType="VARCHAR" property="unitExtend" />
+    <result column="unit_order" jdbcType="INTEGER" property="unitOrder" />
+    <result column="unit_comment" jdbcType="VARCHAR" property="unitComment" />
+    <result column="unit_phone" jdbcType="VARCHAR" property="unitPhone" />
+    <result column="unit_fax" jdbcType="VARCHAR" property="unitFax" />
+    <result column="unit_manager" jdbcType="VARCHAR" property="unitManager" />
+    <result column="unit_address" jdbcType="VARCHAR" property="unitAddress" />
+    <result column="unit_control" jdbcType="VARCHAR" property="unitControl" />
+    <result column="unit_account" jdbcType="VARCHAR" property="unitAccount" />
+    <result column="unit_delflag" jdbcType="INTEGER" property="unitDelflag" />
+    <result column="unit_level" jdbcType="INTEGER" property="unitLevel" />
+    <result column="unit_relation" jdbcType="VARCHAR" property="unitRelation" />
+    <result column="unit_path" jdbcType="VARCHAR" property="unitPath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    unit_id, unit_name, unit_abbr, unit_code, unit_flag, unit_kind, unit_create_time, 
+    unit_extend, unit_order, unit_comment, unit_phone, unit_fax, unit_manager, unit_address, 
+    unit_control, unit_account, unit_delflag, unit_level, unit_relation, unit_path
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_unit_tmp
+    where unit_id = #{unitId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_unit_tmp
+    where unit_id = #{unitId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysUnitTmp">
+    insert into sys_unit_tmp (unit_id, unit_name, unit_abbr, 
+      unit_code, unit_flag, unit_kind, 
+      unit_create_time, unit_extend, unit_order, 
+      unit_comment, unit_phone, unit_fax, 
+      unit_manager, unit_address, unit_control, 
+      unit_account, unit_delflag, unit_level, 
+      unit_relation, unit_path)
+    values (#{unitId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{unitAbbr,jdbcType=VARCHAR}, 
+      #{unitCode,jdbcType=VARCHAR}, #{unitFlag,jdbcType=VARCHAR}, #{unitKind,jdbcType=VARCHAR}, 
+      #{unitCreateTime,jdbcType=TIMESTAMP}, #{unitExtend,jdbcType=VARCHAR}, #{unitOrder,jdbcType=INTEGER}, 
+      #{unitComment,jdbcType=VARCHAR}, #{unitPhone,jdbcType=VARCHAR}, #{unitFax,jdbcType=VARCHAR}, 
+      #{unitManager,jdbcType=VARCHAR}, #{unitAddress,jdbcType=VARCHAR}, #{unitControl,jdbcType=VARCHAR}, 
+      #{unitAccount,jdbcType=VARCHAR}, #{unitDelflag,jdbcType=INTEGER}, #{unitLevel,jdbcType=INTEGER}, 
+      #{unitRelation,jdbcType=VARCHAR}, #{unitPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysUnitTmp">
+    insert into sys_unit_tmp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="unitAbbr != null">
+        unit_abbr,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
+      </if>
+      <if test="unitFlag != null">
+        unit_flag,
+      </if>
+      <if test="unitKind != null">
+        unit_kind,
+      </if>
+      <if test="unitCreateTime != null">
+        unit_create_time,
+      </if>
+      <if test="unitExtend != null">
+        unit_extend,
+      </if>
+      <if test="unitOrder != null">
+        unit_order,
+      </if>
+      <if test="unitComment != null">
+        unit_comment,
+      </if>
+      <if test="unitPhone != null">
+        unit_phone,
+      </if>
+      <if test="unitFax != null">
+        unit_fax,
+      </if>
+      <if test="unitManager != null">
+        unit_manager,
+      </if>
+      <if test="unitAddress != null">
+        unit_address,
+      </if>
+      <if test="unitControl != null">
+        unit_control,
+      </if>
+      <if test="unitAccount != null">
+        unit_account,
+      </if>
+      <if test="unitDelflag != null">
+        unit_delflag,
+      </if>
+      <if test="unitLevel != null">
+        unit_level,
+      </if>
+      <if test="unitRelation != null">
+        unit_relation,
+      </if>
+      <if test="unitPath != null">
+        unit_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAbbr != null">
+        #{unitAbbr,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFlag != null">
+        #{unitFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="unitKind != null">
+        #{unitKind,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCreateTime != null">
+        #{unitCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitExtend != null">
+        #{unitExtend,jdbcType=VARCHAR},
+      </if>
+      <if test="unitOrder != null">
+        #{unitOrder,jdbcType=INTEGER},
+      </if>
+      <if test="unitComment != null">
+        #{unitComment,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPhone != null">
+        #{unitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFax != null">
+        #{unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="unitManager != null">
+        #{unitManager,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null">
+        #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="unitControl != null">
+        #{unitControl,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAccount != null">
+        #{unitAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="unitDelflag != null">
+        #{unitDelflag,jdbcType=INTEGER},
+      </if>
+      <if test="unitLevel != null">
+        #{unitLevel,jdbcType=INTEGER},
+      </if>
+      <if test="unitRelation != null">
+        #{unitRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPath != null">
+        #{unitPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysUnitTmp">
+    update sys_unit_tmp
+    <set>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAbbr != null">
+        unit_abbr = #{unitAbbr,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFlag != null">
+        unit_flag = #{unitFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="unitKind != null">
+        unit_kind = #{unitKind,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCreateTime != null">
+        unit_create_time = #{unitCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitExtend != null">
+        unit_extend = #{unitExtend,jdbcType=VARCHAR},
+      </if>
+      <if test="unitOrder != null">
+        unit_order = #{unitOrder,jdbcType=INTEGER},
+      </if>
+      <if test="unitComment != null">
+        unit_comment = #{unitComment,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPhone != null">
+        unit_phone = #{unitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFax != null">
+        unit_fax = #{unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="unitManager != null">
+        unit_manager = #{unitManager,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null">
+        unit_address = #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="unitControl != null">
+        unit_control = #{unitControl,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAccount != null">
+        unit_account = #{unitAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="unitDelflag != null">
+        unit_delflag = #{unitDelflag,jdbcType=INTEGER},
+      </if>
+      <if test="unitLevel != null">
+        unit_level = #{unitLevel,jdbcType=INTEGER},
+      </if>
+      <if test="unitRelation != null">
+        unit_relation = #{unitRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPath != null">
+        unit_path = #{unitPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where unit_id = #{unitId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysUnitTmp">
+    update sys_unit_tmp
+    set unit_name = #{unitName,jdbcType=VARCHAR},
+      unit_abbr = #{unitAbbr,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      unit_flag = #{unitFlag,jdbcType=VARCHAR},
+      unit_kind = #{unitKind,jdbcType=VARCHAR},
+      unit_create_time = #{unitCreateTime,jdbcType=TIMESTAMP},
+      unit_extend = #{unitExtend,jdbcType=VARCHAR},
+      unit_order = #{unitOrder,jdbcType=INTEGER},
+      unit_comment = #{unitComment,jdbcType=VARCHAR},
+      unit_phone = #{unitPhone,jdbcType=VARCHAR},
+      unit_fax = #{unitFax,jdbcType=VARCHAR},
+      unit_manager = #{unitManager,jdbcType=VARCHAR},
+      unit_address = #{unitAddress,jdbcType=VARCHAR},
+      unit_control = #{unitControl,jdbcType=VARCHAR},
+      unit_account = #{unitAccount,jdbcType=VARCHAR},
+      unit_delflag = #{unitDelflag,jdbcType=INTEGER},
+      unit_level = #{unitLevel,jdbcType=INTEGER},
+      unit_relation = #{unitRelation,jdbcType=VARCHAR},
+      unit_path = #{unitPath,jdbcType=VARCHAR}
+    where unit_id = #{unitId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="unitName != null and unitName  !='' ">    AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="unitId != null   and unitId !=''  ">      AND t.unit_id = #{unitId}</if>
+	     <if test="unitRelation != null   and unitRelation !=''  ">  AND t.unit_relation = #{unitRelation}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from  sys_unit_tmp  t <include refid="selectCondition" />
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sys_unit_tmp t <include refid="selectCondition"/>
+    </select>
+    
+    
+    
+    
+    
+    
+    <resultMap id="TreeNodeBaseResultMap" type="com.pcitc.base.common.TreeNode">
+		<id column="id"       property="id" jdbcType="VARCHAR" />
+		<result column="pId"  property="pId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="parentFlag" property="parentFlag" jdbcType="VARCHAR" />
+		<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+		<result column="parentCode" property="parentCode" jdbcType="VARCHAR" />
+		<result column="secretLevel" property="secretLevel" jdbcType="VARCHAR" />
+	</resultMap>
+    
+    <select id="getTreeNodeList" resultMap="TreeNodeBaseResultMap"  >
+    SELECT
+	      t.unit_id AS id,
+		  t.`unit_relation` AS pId,
+		  t.`unit_name` AS NAME,
+		  t.`unit_path` AS nodePath
+	  FROM sys_unit_tmp  t  <include refid="selectCondition" /> 
+	  ORDER BY unit_level,unit_path
+	</select>
+    
+    
+    
+    
+</mapper>

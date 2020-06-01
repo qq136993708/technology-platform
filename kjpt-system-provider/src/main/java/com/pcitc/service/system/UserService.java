@@ -6,9 +6,12 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.SysCollect;
+import com.pcitc.base.system.SysUnitTmp;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
+import com.pcitc.base.system.SysUserTmp;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DataTableInfo;
 
@@ -149,6 +152,31 @@ public interface UserService {
 
 
 	public SysUser getUserByUnifyIdentityId(String unifyIdentityId);
+	
+	
+	
+	
+	
+	
+	
+	public SysUserTmp selectSysUserTmp(String id) throws Exception;
+	public Integer updateSysUserTmp(SysUserTmp record)throws Exception;
+	public int deleteSysUserTmp(String id)throws Exception;
+	public Integer insertSysUserTmp(SysUserTmp record)throws Exception;
+	public LayuiTableData getSysUserTmpPage(LayuiTableParam param)throws Exception;
+	public List getSysUserTmpList(Map map)throws Exception;
+
+	
+	
+	public SysUnitTmp selectSysUnitTmp(String id) throws Exception;
+	public Integer updateSysUnitTmp(SysUnitTmp record)throws Exception;
+	public int deleteSysUnitTmp(String id)throws Exception;
+	public Integer insertSysUnitTmp(SysUnitTmp record)throws Exception;
+	public LayuiTableData getSysUnitTmpPage(LayuiTableParam param)throws Exception;
+	public List getSysUnitTmpList(Map map)throws Exception;
+
+	
+	public List<TreeNode> getTreeNodeList(Map map)throws Exception;
 
 
 }

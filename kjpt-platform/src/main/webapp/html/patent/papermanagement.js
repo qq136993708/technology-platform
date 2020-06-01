@@ -184,7 +184,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   // 删除
   $('#delItem').on('click', function (e) {
     if (itemRowData) {
-      layer.confirm('您确定要删除”' + itemRowData.patentName + '“吗？', {
+      layer.confirm('您确定要删除”' + itemRowData.title + '“吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {

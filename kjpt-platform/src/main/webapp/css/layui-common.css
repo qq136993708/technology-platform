@@ -138,6 +138,8 @@
 .layui-input.layui-disabled{
   border-color: #eee!important;
   background-color: #e8e8e8;
+  opacity: .72;
+  color: #000;
 }
 .laydate-input[disabled] {
   /* background: #fff */
@@ -353,7 +355,10 @@
 .layui-table-page .layui-laypage span {
   margin-bottom: 0;
 }
-
+.layui-table-page .layui-laypage a.layui-disabled {
+	background-color: #fff !important;
+    box-shadow: none;
+}
 .layui-table-cell {
   padding-left: 8px;
   padding-right: 8px;

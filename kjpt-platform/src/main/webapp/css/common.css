@@ -287,6 +287,7 @@ a.link-text:hover {
   font-size: 18px;
   color: #1E9FFF;
   overflow: hidden;
+  background-color: #fff;
 }
 .x-tree-item-parent > .x-tree-icon::before {
   content: '-';

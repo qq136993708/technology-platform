@@ -24,6 +24,9 @@ var _hideSecrecylevel = function() {
 var TREE_DICKIND_CODE = {
 	ROOT_KJPT_YTDW: '/unit-api/getTreeList' //依托单位
 	,ROOT_KJPT_JSLY: '/techFamily-api/getTreeList' // 技术领域
+	,ROOT_KJPT_YYJSLYCPL:'/sysDictionary-api/getAllList/ROOT_KJPT_YYJSLYCPL' //应用技术领域产品类
+	,ROOT_KJPT_YYJSLYJSLJSL:'/sysDictionary-api/getAllList/ROOT_KJPT_YYJSLYJSLJSL' //应用技术领域技术类
+	,ROOT_KJPT_XMBJ:'/sysDictionary-api/getAllList/ROOT_KJPT_XMBJ' //项目背景
 
 };
 
@@ -394,10 +397,10 @@ function _commonLoadDic(dicKindCode, callback) {
 		if (TREE_DICKIND_CODE[dicKindCode]) {
 			httpUrl = TREE_DICKIND_CODE[dicKindCode];
 		}
-
 		httpModule({
 			url: httpUrl,
 			type: 'GET',
+			async: false,
 			success: function(relData) {
 				var success = false;
 				if (relData.hasOwnProperty('code')) {
@@ -414,7 +417,15 @@ function _commonLoadDic(dicKindCode, callback) {
 				if (success) {
 					var __dicData = null;
 					if (TREE_DICKIND_CODE[dicKindCode]) {
-						__dicData = relData.children || [];
+						__dicData = (function() {
+							if (typeof(relData.children) === 'object') {
+								return relData.children;
+							} else if (typeof(relData.data) === 'object') {
+								return relData.data.children;
+							} else {
+								return [];
+							}
+						})();
 					} else {
 						if (!relData.data) {
 							__dicData = [];
@@ -1093,7 +1104,7 @@ function _useButtonRoles() {
 	if (console && console.log) {
 		console.log('btnRoles =>', btnRoles);
 	}
-	if(btnRoles) {
+	if(btnRoles && btnRoles.indexOf('ALL') == -1) {
 		$("[button-role]").each(function(index, item) { 
 			var btn = $(item), role = ',' + btn.attr('button-role');
 			if(btnRoles.indexOf(role)<0) {

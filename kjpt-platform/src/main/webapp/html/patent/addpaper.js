@@ -24,9 +24,20 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
           if(data.publishDate){
             data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
+
+          if (variable.type === 'view') {
+        	  setFomeDisabled('formMain', '.disabled');
+        	  //单位和添加附件按钮disabled
+              $('#file-filter-options label[filter="addFile"]').attr('disabled', true);
+              // formSelects.disabled('unit');
+              form.render('select');
+              // $('.box-hide').hide();
+             formSelects.disabled();
+          }
+          
           form.val('formMain', data);
           form.render();
-          
+
           if(data.unit) {
         	  data.unit = data.unit.split(',');
         	  formSelects.value('unit', data.unit);

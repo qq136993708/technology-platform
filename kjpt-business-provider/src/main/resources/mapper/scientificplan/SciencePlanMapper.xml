@@ -170,7 +170,7 @@
         </if>
 
         <if test="releaseTime != null and releaseTime != '' ">
-            and RELEASE_TIME = #{releaseTime}
+            and DATE_FORMAT(RELEASE_TIME,'%Y-%m-%d') = DATE_FORMAT(#{releaseTime},'%Y-%m-%d')
         </if>
 
         <if test="accessory != null and accessory != '' ">

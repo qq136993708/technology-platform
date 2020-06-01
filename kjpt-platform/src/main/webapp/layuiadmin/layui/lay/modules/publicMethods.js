@@ -500,7 +500,8 @@ layui.define(['jquery','form','table','laydate'],
                         count: 500 //数据总数，从服务端得到
                         , groups: 5
                         , limits: [15, 30, 45, 60]
-                        , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                        // , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                        , layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'] //自定义分页布局
                         , first: '首页' //不显示首页
                         , last: '尾页' //不显示尾页
                         , theme: '#0F9EE0'
