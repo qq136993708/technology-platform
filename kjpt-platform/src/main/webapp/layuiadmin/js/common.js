@@ -1104,7 +1104,7 @@ function _useButtonRoles() {
 	if (console && console.log) {
 		console.log('btnRoles =>', btnRoles);
 	}
-	if(btnRoles) {
+	if(btnRoles && btnRoles.indexOf('ALL') == -1) {
 		$("[button-role]").each(function(index, item) { 
 			var btn = $(item), role = ',' + btn.attr('button-role');
 			if(btnRoles.indexOf(role)<0) {
