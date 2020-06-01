@@ -527,7 +527,16 @@ var __base_dic_store = {
 							var obj = eval('(' + data.data + ')');
 							if (obj.status == '1') {
 								var collectMenu = document.getElementById("dlCollect").innerHTML;
-								collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
+								// collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
+								// document.getElementById("dlCollect").innerHTML = collectMenu;
+								let html = '<dd id="' + obj.dataId + '"><a lay-href="' + obj.collectUrl + '" lay-text="' + obj.collectName + '" data-id="' + obj.functionId + '" data-code="' + obj.functionCode + '" data-functionbuttons="ALL">' +
+										'<div class="item-row-block">' +
+										'<span class="icon_name "></span>' +
+										'<span class="item-title">' + obj.collectName + '</span>' +
+										'<img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide">' +
+										'</div>' +
+										'</a></dd>';
+								collectMenu = collectMenu + html;
 								document.getElementById("dlCollect").innerHTML = collectMenu;
 							} else if (obj.status == '0') {
 								var dl = document.getElementById("dlCollect");
