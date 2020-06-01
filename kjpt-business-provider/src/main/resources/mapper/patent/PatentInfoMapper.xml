@@ -62,11 +62,14 @@
     <result column="termination_date" jdbcType="TIMESTAMP" property="terminationDate" />
     <result column="legal_status_update_time" jdbcType="TIMESTAMP" property="legalStatusUpdateTime" />
     <result column="application_technology_technology" jdbcType="VARCHAR" property="applicationTechnologyTechnology" />
+    <result column="application_technology_technology_text" jdbcType="VARCHAR" property="applicationTechnologyTechnologyText" />
     <result column="project_background" jdbcType="VARCHAR" property="projectBackground" />
+    <result column="project_background_text" jdbcType="VARCHAR" property="projectBackgroundText" />
     <result column="establishment_department" jdbcType="VARCHAR" property="establishmentDepartment" />
     <result column="project_number" jdbcType="VARCHAR" property="projectNumber" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="application_technology_products" jdbcType="VARCHAR" property="applicationTechnologyProducts" />
+    <result column="application_technology_products_text" jdbcType="VARCHAR" property="applicationTechnologyProductsText" />
     <result column="application_model_product_name" jdbcType="VARCHAR" property="applicationModelProductName" />
     <result column="application_subsystem_name" jdbcType="VARCHAR" property="applicationSubsystemName" />
     <result column="name_of_components_and_supporting_materials" jdbcType="VARCHAR" property="nameOfComponentsAndSupportingMaterials" />
@@ -118,9 +121,9 @@
     knowledge_scope,
     knowledge_person,
     expiration_date,out_id,input_type,authorization_date,
-    termination_date,legal_status_update_time,application_technology_technology,
-    project_background,establishment_department,
-    project_number,project_name,application_technology_products,
+    termination_date,legal_status_update_time,application_technology_technology,application_technology_technology_text,
+    project_background,project_background_text,establishment_department,
+    project_number,project_name,application_technology_products,application_technology_products_text,
     application_model_product_name,application_subsystem_name,
     name_of_components_and_supporting_materials,main_classification_number,
     sub_category_number,priority_right,joint_applicant,

@@ -1,5 +1,6 @@
 package com.pcitc.web.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
@@ -40,7 +41,8 @@ public class EquipmentUtils {
 	private static final String getCustomQueryConditionList = "http://kjpt-zuul/stp-proxy/customQueryCondition_provider/getList";
 	
 	
-	
+	private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
+
 	
 	
 	public static SysUser getUserByUserNameAndPassword(String username,String password,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
@@ -500,7 +502,102 @@ public class EquipmentUtils {
 	    
 	 
 
+		    public static Map  setUserDetailSession(RestTemplate restTemplate,HttpHeaders httpHeaders,HttpServletRequest request,String userId)
+		    {
+		    	
+		    	
+		    	 System.out.println("----userId---"+userId);
+		    	SysUser userDetails = restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class).getBody();
+		        System.out.println("----setUserDetailSession---"+userDetails.getUserId());
+		    	List<SysFunction> aLLList = userDetails.getFunList();
+		        JSONArray array= JSONArray.parseArray(JSON.toJSONString(aLLList));
+		        aLLList= setUpList( userDetails, aLLList);
+		        List<SysFunction> upList = new ArrayList<SysFunction>();
+		        // 个人工作台菜单
+		        List<SysFunction> grgztList = new ArrayList<SysFunction>();
+		        HashSet authSet = new HashSet();
+		        for (SysFunction sysfun : aLLList)
+		        {
+		            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限"))
+		            {
+		                upList.add(sysfun);
+		            }
+		            // 个人工作台的二级、三级菜单
+		            if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
+		                grgztList.add(sysfun);
+		            }
+		            if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+		                authSet.add(sysfun.getUrl().split("/")[1]);
+		            }
+		        }
+		        
+		        
+		        JSONArray array2= JSONArray.parseArray(JSON.toJSONString(grgztList));
+		        System.out.println("-------grgztList:"+array2.toString());
+		        // 收藏的菜单
+		        List<SysCollect> scList = userDetails.getScList();
+		        Map map=new HashMap();
+		        map.put("authSet", authSet);
+		        map.put("scList", scList);
+		        map.put("funList", aLLList);
+		        map.put("grgztList", grgztList);
+		        map.put("upList", upList);
+		        map.put("userInfo", userDetails);
+		        
+		        
+		        request.getSession().setAttribute("sysUser", userDetails);
+		        
+		        request.getSession().setAttribute("authSet", authSet);
+		        request.getSession().setAttribute("scList", scList);
+		        request.getSession().setAttribute("funList", aLLList);
+		        request.getSession().setAttribute("grgztList", grgztList);
+		        request.getSession().setAttribute("userInfo", userDetails);
+		        request.getSession().setAttribute("upList", upList);
+		        
+		        return map;
+		        
+		    }
+		    
+		    
+		    private static List setUpList(SysUser userDetails, List<SysFunction>  aLLList)
+		    {
 
+		        List<SysFunction> relustList = new ArrayList<SysFunction>();
+		        List<SysRole> roleList=  userDetails.getRoleList();
+		        boolean isHas=false;
+		        if(roleList!=null)
+		        {
+
+		            for(int i=0;i<roleList.size();i++)
+		            {
+		                SysRole sysRole=roleList.get(i);
+		                String str=sysRole.getRoleFlag();
+		                if(str.equals(Constant.ROLE_WHITE_USER))//知悉范围白名单
+		                {
+		                    isHas=true;//在白名单
+		                }
+
+		            }
+		        }
+		        //如果不在白名单，则不要 领导驾驶舱 和 辅助（人才和项目）
+		        if(isHas==false)
+		        {
+		            for(int i=0;i<aLLList.size();i++)
+		            {
+		                SysFunction sf=aLLList.get(i);
+		                String str=sf.getName();
+		                //看不到以上菜单
+		                if(!str.equals("领导驾驶舱") && !str.equals("科技人才") && !str.equals("科研项目"))
+		                {
+		                    relustList.add(sf);
+		                }
+		            }
+		        }else
+		        {
+		            relustList =aLLList;
+		        }
+		        return relustList;
+		    }
 
 
 

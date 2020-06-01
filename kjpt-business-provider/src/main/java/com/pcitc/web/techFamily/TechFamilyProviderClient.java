@@ -150,7 +150,7 @@ public class TechFamilyProviderClient {
 			JSONObject rootJson = new JSONObject();
 			rootJson.put("id", "10");
 			rootJson.put("pId", "-");
-			rootJson.put("name", "中国石化技术族");
+			rootJson.put("name", "中核集团技术族");
 			temJson.add(rootJson);
 			for (int k = 0; k < list.size(); k++) {
 				System.out.println(list.size() + "====================技术族");

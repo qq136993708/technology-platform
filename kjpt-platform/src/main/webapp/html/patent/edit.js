@@ -61,7 +61,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             // 变更日期
             data.legalStatusUpdateTime = new Date(data.legalStatusUpdateTime).format('yyyy-MM-dd');
           }
-
+          if (variable.type === 'view') {
+        	  setFomeDisabled('formMain', '.disabled');
+          }
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
 

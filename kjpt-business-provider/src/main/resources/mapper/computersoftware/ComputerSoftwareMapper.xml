@@ -39,6 +39,8 @@
         <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName"/>
         <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode"/>
         <result column="TOPIC_DEPARTMENT" jdbcType="VARCHAR" property="topicDepartment"/>
+        <result column="project_background" jdbcType="VARCHAR" property="projectBackground"/>
+        <result column="project_background_text" jdbcType="VARCHAR" property="projectBackgroundText"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -71,7 +73,8 @@
       COPYRIGHT_GETWAY,
       PROJECT_NAME,
       PROJECT_CODE,
-      TOPIC_DEPARTMENT
+      TOPIC_DEPARTMENT,
+      project_background
   </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -115,7 +118,8 @@
       COPYRIGHT_GETWAY,
       PROJECT_NAME,
       PROJECT_CODE,
-      TOPIC_DEPARTMENT
+      TOPIC_DEPARTMENT,
+      project_background
       )
     values (
        #{id},
@@ -147,7 +151,8 @@
        #{copyrightGetway},
        #{projectName},
        #{projectCode},
-       #{topicDepartment}
+       #{topicDepartment},
+       #{projectBackground}
       )
   </insert>
 
@@ -239,7 +244,10 @@
             </if>
 
             <if test="topicDepartment != null and topicDepartment != ''" >
-                TOPIC_DEPARTMENT = #{topicDepartment}
+                TOPIC_DEPARTMENT = #{topicDepartment},
+            </if>
+            <if test="projectBackground != null and projectBackground != ''" >
+                project_background = #{projectBackground}
             </if>
 
         </trim>
