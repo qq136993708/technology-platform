@@ -25,6 +25,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         // ,height: 382
         ,url: config.url //数据接口
         ,page: true //开启分页
+        ,cellMinWidth: 80
         ,cols: config.cols,
         request: {
           pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageNum
@@ -190,7 +191,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
   var tableFilterArr = [
     {tableId: '', title: '平台简介' },
-    {tableId: 'tableProject', title: '科研项目'},
+    // {tableId: 'tableProject', title: '科研项目'},
     {tableId: 'leadingFigure', title: '领军人物'},
     {tableId: 'tablePaper', title: '论文'},
     {tableId: 'teamMembers', title: '成员'},

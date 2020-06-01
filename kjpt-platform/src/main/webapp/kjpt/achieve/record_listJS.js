@@ -157,7 +157,7 @@ layui.use(['table', 'form','laydate'], function() {
     } else if (optionType === 'view') {
       dialogTitle = '查看';
       url = '/kjpt/achieve/record_view.html?type=' + optionType;
-    }else if(optionType == 'public'){
+    }else if(optionType == 'publicly'){
       dialogTitle = '公示';
       url='/kjpt/achieve/formula.html?type=' + optionType;
     }
@@ -173,7 +173,7 @@ layui.use(['table', 'form','laydate'], function() {
               top.layer.msg('当前状态不能' + dialogTitle);
               return false;
             }
-          } else if(optionType === 'public') {
+          } else if(optionType === 'publicly') {
            if(listData[0].publicityStatus == 1 ){
             url += '&id='+listData[0].id;
            }else{

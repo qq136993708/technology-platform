@@ -24,6 +24,11 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
           if(data.publishDate){
             data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
+
+          if (variable.type === 'view') {
+        	  setFomeDisabled('formMain', '.disabled');
+          }
+          
           form.val('formMain', data);
           form.render();
           
