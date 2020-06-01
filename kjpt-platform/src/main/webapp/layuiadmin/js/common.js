@@ -400,6 +400,7 @@ function _commonLoadDic(dicKindCode, callback) {
 		httpModule({
 			url: httpUrl,
 			type: 'GET',
+			async: false,
 			success: function(relData) {
 				var success = false;
 				if (relData.hasOwnProperty('code')) {
@@ -416,7 +417,15 @@ function _commonLoadDic(dicKindCode, callback) {
 				if (success) {
 					var __dicData = null;
 					if (TREE_DICKIND_CODE[dicKindCode]) {
-						__dicData = relData.children || [];
+						__dicData = (function() {
+							if (typeof(relData.children) === 'object') {
+								return relData.children;
+							} else if (typeof(relData.data) === 'object') {
+								return relData.data.children;
+							} else {
+								return [];
+							}
+						})();
 					} else {
 						if (!relData.data) {
 							__dicData = [];

@@ -138,6 +138,8 @@
 .layui-input.layui-disabled{
   border-color: #eee!important;
   background-color: #e8e8e8;
+  opacity: .72;
+  color: #000;
 }
 .laydate-input[disabled] {
   /* background: #fff */
