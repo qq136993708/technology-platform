@@ -43,8 +43,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">公示状态：</span></label>
                         <div class="layui-input-block">
-                            <select name="publicityStatus" xm-select="publicityStatus" xm-select-skin="normal"
-                                dic-base-data="ROOT_KJPT_YTDW"></select>
+                            <select name="publicityStatus" select="publicityStatus" select-skin="normal"
+                                dic-base-data="ROOT_KJPT_KJCG_GWZT"></select>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">时间：</span></label>
                         <div class="layui-input-block font0">
@@ -82,11 +82,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <input type="text" name="publicityStatus" value="2" class="layui-input layui-hide">
+                <input type="text" name="publicityStatus" value="1,2" class="layui-input layui-hide">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
-                <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>-->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
                     <div class="layui-form-item">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formSubmit">查询</button>
@@ -217,7 +217,6 @@
                         request: {
                             pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
                             limitName: 'pageSize',
-                            publicityStatus: '1,2'// 重置默认分页请求请求参数 limit => pageSize
                         },
                         page: true, //开启分页
                         limit: 10, // 每页数据条数,
@@ -330,7 +329,7 @@
                                     icon: 1
                                 });
                                 top.layer.closeAll(); // 关闭弹窗
-                                queryTable({publicityStatus: '1,2'})
+                                queryTable()
                             }
                         }
                     });
