@@ -142,7 +142,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       url += '&id=' + id;
     } else if (type === 'view') {
       dialogTitle = pageTitle + '信息查看';
-      url = '/html/patent/view.html?id=' + id;
+      url = '/html/patent/view.html?id=' + id+'&type=' + type;
     }
 
     // 打开弹窗

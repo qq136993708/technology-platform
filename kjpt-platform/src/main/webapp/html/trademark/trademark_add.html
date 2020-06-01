@@ -443,7 +443,7 @@
               $.each(filesArray, function (k, v) {
                 var src = '/file/imgFile/' + v;
                 $('#knownImagesView').append('<div class="img-div">\n' +
-                        '                <img src="' + src + '" data-field="' + v + '">\n' +
+                        '                <a href="' + src + '" target="_blank"><img src="' + src + '" data-field="' + v + '"></a>' +
                         '                <span class="sb-img" data-field="' + v + '"><i class="layui-icon">&#x1006;</i></span>\n' +
                         '              </div>');
               });
@@ -613,7 +613,8 @@
           var newFiles = fileValue ? fileValue + ',' + res.data.id : res.data.id;
           $("#files").val(newFiles);
           $('#knownImagesView').append('<div class="img-div">\n' +
-                  '                <img src="' + src + '" data-field="' + res.data.id + '">\n' +
+                  '                <a href="' + src + '" target="_blank">'+
+                  '                <img src="' + src + '" data-field="' + res.data.id + '"></a>' +
                   '                <span class="sb-img" data-field="' + res.data.id + '"><i class="layui-icon">&#x1006;</i></span>\n' +
                   '              </div>');
         }
@@ -624,7 +625,8 @@
       }
     });
 
-    $("body").on("click",".sb-img", function () {
+    $("body").on("click",".sb-img", function (event) {
+      event.stopPropagation();
       var datafield = $(this).attr('data-field');
       var files = $("#files").val();
       var newFiles = files ? files.split(',') : [];

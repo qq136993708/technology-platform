@@ -201,8 +201,8 @@
              <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">项目背景：</span></label>
                  <div class="layui-input-block">
-                     <input type="text" id="projectBackground" name="projectBackground" lay-verify="required"
-                            placeholder="" autocomplete="off" class="layui-input">
+                            <select name="projectBackground" lay-verify="required" xm-select="projectBackground" id="projectBackground" xm-select-skin="normal" xm-select-radio=""
+                      dic-base-data="ROOT_KJPT_XMBJ" placeholder="请选择"></select>
                  </div>
              </div>
          </div>
@@ -241,7 +241,7 @@
              <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">应用技术领域(技术类)：</span></label>
                  <div class="layui-input-block">
-                     <select name="technicalField" lay-verify="required" xm-select="technicalField" dic-base-data="ROOT_KJPT_YYJSLYJSLJSL" xm-select-skin="normal" lay-verify="required"></select>
+                     <select name="technicalField" lay-verify="required" xm-select-max="3" xm-select="technicalField" dic-base-data="ROOT_KJPT_YYJSLYJSLJSL" xm-select-skin="normal" lay-verify="required"></select>
                  </div>
              </div>
          </div>
