@@ -11,7 +11,6 @@ function setTreeData(data, id) {
 				}
 			if (nodeId == 10) {
 				nodeJson.open = true;
-				console.log(nodeJson);
 			}
 			for (var key in data[i]) {
 				if (key !== 'childNodes') {
@@ -40,7 +39,7 @@ layui.use(['table', 'laypage'], function() {
 	    callback: {
 	    	onClick: function(e, id, data) {
 	    		selectedUnitId = data.id;
-	    		getTableData({page: tablePage.page, limit: tablePage.limit, userUnit: selectedUnitId })
+	    		getTableData({page: tablePage.page, limit: tablePage.limit, userUnit: data.id })
 	    	}
 	    }
 	};
@@ -113,14 +112,6 @@ layui.use(['table', 'laypage'], function() {
 	});
 	
 	getTableData({page: 1, limit: 10, userUnit: ''})
-	
-//	layuiParseData(res)
-//	
-
-	
-	
-//	table.reload('tableDemo', { where: searchData });
-	
 })
 
 
