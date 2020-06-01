@@ -266,6 +266,7 @@ public class AchieveRecordController extends RestBaseController {
             @ApiImplicitParam(name = "achieveTransType", value = "转化方式", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "aboutCompleteInfo", value = "完成情况", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "publicityStatus", value = "公示状态", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "affiliatedUnit", value = "所属单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveRecord-api/query", method = RequestMethod.GET)
@@ -284,7 +285,9 @@ public class AchieveRecordController extends RestBaseController {
             @RequestParam(required = false,value = "aboutCompleteInfo") String aboutCompleteInfo,
             @RequestParam(required = false,value = "publicityStatus") String publicityStatus,
             @RequestParam(required = false,value = "secretLevel") String secretLevel,
+            @RequestParam(required = false,value = "affiliatedUnit") String affiliatedUnit,
             @RequestParam(required = false) String customQueryConditionStr
+
 
 
     ) throws Exception {
@@ -334,6 +337,9 @@ public class AchieveRecordController extends RestBaseController {
 
         if(secretLevel != null){
             this.setParam(condition,"secretLevel",secretLevel);
+        }
+        if(!StringUtils.isEmpty(affiliatedUnit)){
+            this.setParam(condition,"affiliatedUnit",affiliatedUnit);
         }
         if(customQueryConditionStr != null){
             this.setParam(condition,"customQueryConditionStr",customQueryConditionStr);
