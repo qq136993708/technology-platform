@@ -18,18 +18,21 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysCollectExample;
 import com.pcitc.base.system.SysCollectExample.Criteria;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysRole;
+import com.pcitc.base.system.SysUnitTmp;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.system.SysUserPost;
 import com.pcitc.base.system.SysUserPostExample;
 import com.pcitc.base.system.SysUserRole;
 import com.pcitc.base.system.SysUserRoleExample;
+import com.pcitc.base.system.SysUserTmp;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.system.SysUserUnitExample;
 import com.pcitc.base.util.CommonUtil;
@@ -39,10 +42,12 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.system.SysCollectMapper;
 import com.pcitc.mapper.system.SysFunctionMapper;
 import com.pcitc.mapper.system.SysRoleMapper;
+import com.pcitc.mapper.system.SysUnitTmpMapper;
 import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.mapper.system.SysUserPostMapper;
 import com.pcitc.mapper.system.SysUserPropertyMapper;
 import com.pcitc.mapper.system.SysUserRoleMapper;
+import com.pcitc.mapper.system.SysUserTmpMapper;
 import com.pcitc.mapper.system.SysUserUnitMapper;
 import com.pcitc.service.system.UserService;
 
@@ -77,6 +82,13 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
+	
+	@Autowired
+	private SysUserTmpMapper sysUserTmpMapper;
+
+	
+	@Autowired
+	private SysUnitTmpMapper sysUnitTmpMapper;
 
 	@Override
 	public SysUser selectUserByUserId(String userId) {
@@ -904,4 +916,183 @@ public class UserServiceImpl implements UserService {
 		map.put("userDelflag", 0);
 		return userMapper.getUserByUserNameAndPassword(map);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public SysUserTmp selectSysUserTmp(String id) throws Exception
+	{
+		return sysUserTmpMapper.selectByPrimaryKey(id);
+	}
+	
+	public Integer updateSysUserTmp(SysUserTmp record)throws Exception
+	{
+		return sysUserTmpMapper.updateByPrimaryKey(record);
+	}
+	
+	
+	public int deleteSysUserTmp(String id)throws Exception
+	{
+		return sysUserTmpMapper.deleteByPrimaryKey(id);
+	}
+	
+	
+	public Integer insertSysUserTmp(SysUserTmp record)throws Exception
+	{
+		return sysUserTmpMapper.insert(record);
+	}
+	
+	public LayuiTableData getSysUserTmpPage(LayuiTableParam param)throws Exception
+	{
+		
+	        //每页显示条数
+			int pageSize = param.getLimit();
+			//从第多少条开始
+			int pageStart = (param.getPage()-1)*pageSize;
+			//当前是第几页
+			int pageNum = pageStart/pageSize + 1;
+			// 1、设置分页信息，包括当前页数和每页显示的总计数
+			PageHelper.startPage(pageNum, pageSize);
+			String userRelation=getTableParam(param,"userRelation","");
+			String userUnit=getTableParam(param,"userUnit","");
+			String expertId=getTableParam(param,"expertId","");
+			
+			Map map=new HashMap();
+			map.put("userRelation", userRelation);
+			map.put("userUnit", userUnit);
+			
+			
+			List<SysUserTmp> list = sysUserTmpMapper.getList(map);
+			PageInfo<SysUserTmp> pageInfo = new PageInfo<SysUserTmp>(list);
+			System.out.println(">>>>>>>>>论著查询分页结果 "+pageInfo.getList().size());
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+	}
+	
+	public List getSysUserTmpList(Map map)throws Exception
+	{
+		
+			List<SysUserTmp> list = sysUserTmpMapper.getList(map);
+		    return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	public SysUnitTmp selectSysUnitTmp(String id) throws Exception
+	{
+		return sysUnitTmpMapper.selectByPrimaryKey(id);
+	}
+	
+	public Integer updateSysUnitTmp(SysUnitTmp record)throws Exception
+	{
+		return sysUnitTmpMapper.updateByPrimaryKey(record);
+	}
+	
+	
+	public int deleteSysUnitTmp(String id)throws Exception
+	{
+		return sysUnitTmpMapper.deleteByPrimaryKey(id);
+	}
+	
+	
+	public Integer insertSysUnitTmp(SysUnitTmp record)throws Exception
+	{
+		return sysUnitTmpMapper.insert(record);
+	}
+	
+	public LayuiTableData getSysUnitTmpPage(LayuiTableParam param)throws Exception
+	{
+		
+	        //每页显示条数
+			int pageSize = param.getLimit();
+			//从第多少条开始
+			int pageStart = (param.getPage()-1)*pageSize;
+			//当前是第几页
+			int pageNum = pageStart/pageSize + 1;
+			// 1、设置分页信息，包括当前页数和每页显示的总计数
+			PageHelper.startPage(pageNum, pageSize);
+			String unitId=getTableParam(param,"unitId","");
+			String unitRelation=getTableParam(param,"unitRelation","");
+			
+			Map map=new HashMap();
+			map.put("unitId", unitId);
+			map.put("unitRelation", unitRelation);
+			
+			
+			List<SysUnitTmp> list = sysUnitTmpMapper.getList(map);
+			PageInfo<SysUnitTmp> pageInfo = new PageInfo<SysUnitTmp>(list);
+			System.out.println(">>>>>>>>>论著查询分页结果 "+pageInfo.getList().size());
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+	}
+	
+	public List getSysUnitTmpList(Map map)throws Exception
+	{
+		
+			List<SysUnitTmp> list = sysUnitTmpMapper.getList(map);
+		    return list;
+	}
+	
+	
+	
+	
+	
+	public List<TreeNode> getTreeNodeList(Map map)throws Exception
+	{
+		return sysUnitTmpMapper.getTreeNodeList(map);
+	}
+	
+	
+	
+	
+	
+	
+	
+	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
+
+	
+	
+	
+	
 }
