@@ -27,11 +27,14 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
 
           if (variable.type === 'view') {
         	  setFomeDisabled('formMain', '.disabled');
+        	  //单位和添加附件按钮disabled
+              $('#file-filter-options label[filter="addFile"]').attr('disabled', true);
+              formSelects.disabled('unit');
           }
           
           form.val('formMain', data);
           form.render();
-          
+
           if(data.unit) {
         	  data.unit = data.unit.split(',');
         	  formSelects.value('unit', data.unit);
