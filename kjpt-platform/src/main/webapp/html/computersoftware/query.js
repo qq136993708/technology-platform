@@ -150,6 +150,27 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     }
   });
 
+  loadPatent();
+  function loadPatent(){
+    httpModule({
+      url: '/ComputerSoftware/countByCopyrightGetway',
+      type: 'GET',
+      success: function (relData) {
+        if (relData.success) {
+          $.each(relData.data,function(index,item){
+            if(item.name == '全部'){
+              $('#patentsTotal').text(item.num)
+            }else if(item.name == '原始获得'){
+              $('#patentNumber').text(item.num)
+            }else if(item.name == '维受取得'){
+              $('#patentAuthorizations').text(item.num)
+            }
+          })
+        }
+      }
+    });
+  };
+
   laydate.render({
     elem: '#recordDateStart' //指定元素
   });
