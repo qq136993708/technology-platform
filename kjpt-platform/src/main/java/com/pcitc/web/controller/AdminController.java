@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -54,6 +55,10 @@ public class AdminController extends BaseController {
 
     // 访问zuul中的登录方法
     private static final String LOGIN_URL = "http://kjpt-zuul/auth/login";
+    
+    
+    private static final String GET_USER_INFO_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
+
 
     private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
 
@@ -134,11 +139,12 @@ public class AdminController extends BaseController {
                         @RequestParam(value="error", required = false) String error) throws Exception 
     {
 
-    	System.out.println("===========login_submit===================");
     	String sername= request.getServerName();
     	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
 		if(sysUser!=null)
 		{
+			   
+			    //Map map= EquipmentUtils.setUserDetailSession(restTemplate, httpHeaders, request, this.getUserProfile().getUserId());
 			    request.getSession().setAttribute("sysUser", sysUser);
 	            String userName=sysUser.getUserName();
 	            boolean isWhite = is_White(sysUser);
@@ -164,44 +170,6 @@ public class AdminController extends BaseController {
     	
     }
     
-    //判断当前是否为秘钥单点登录配置，是的话直接跳转到单点认证页面
-   /* @RequestMapping(value = "/login")
-    public String login(@RequestParam(value="username", required = false) String userName,
-                        @RequestParam(value="password", required = false) String password,
-                        @RequestParam(value="error", required = false) String error) throws Exception {
-
-        if (loginType != null && loginType.trim().equals("1")) {
-            return "redirect:" + sosPortlURL;
-        }
-
-        HttpServletRequest request = this.getCurrentRequest();
-        request.setAttribute("ssoOortlUrl", sosPortlURL);
-
-        if("ssoError1".equals(error)) {
-            request.setAttribute("err", "统一身份认证失败");
-        } else if("ssoError2".equals(error)){
-            request.setAttribute("err", "未知用户，尚未在本系统注册");
-        }
-
-        if(userName == null) {
-            return "/login";
-        }
-
-        boolean result = buildTokenByPassword(userName, MD5Util.MD5Encode(password));
-        boolean isWhite = isWhite(userName, MD5Util.MD5Encode(password));
-        if(isWhite){
-            return "redirect:/jsc_web/index.html";
-        }
-        if(result) {
-            return "redirect:/index";
-        }else {
-            request.setAttribute("err", "用户名密码错误");
-            return "/login";
-        }
-
-    }*/
-    
-
 
     @RequestMapping(value = "/loginSave")
     @ResponseBody
@@ -401,39 +369,7 @@ public class AdminController extends BaseController {
     }
 
 
-    /*
-     * public boolean buildTokenByIdentityId(String unifyIdentityId,RestTemplate
-     * restTemplate,HttpHeaders httpHeaders) throws Exception{
-     *
-     * if(unifyIdentityId == null) { return false; }
-     *
-     * System.out.println("============name=====a=============== ");
-     *
-     * SysUser u= EquipmentUtils.getUserByIdentityId(unifyIdentityId, restTemplate,
-     * httpHeaders); if(u!=null) {
-     * System.out.println("============name: "+u.getUnifyIdentityId());
-     * HttpServletResponse response = this.getCurrentResponse();
-     *
-     * httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-     * MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String,
-     * String>(); valueMap.add("username", u.getUserName());
-     * valueMap.add("password", u.getUserPassword()); //从数据库中查到 然后返回 TOKEN
-     * HttpEntity<MultiValueMap<String, String>> entity = new
-     * HttpEntity<MultiValueMap<String, String>>(valueMap, httpHeaders);
-     * ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(LOGIN_URL,
-     * HttpMethod.POST, entity, JSONObject.class); JSONObject retJson =
-     * responseEntity.getBody();
-     * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8); //
-     * 获取的token有问题(用户名或密码不正确) 返回登录 if (retJson == null || retJson.get("token") ==
-     * null) { return false; } //token保存到Cookie Cookie cookie = new Cookie("token",
-     * retJson.getString("token")); cookie.setMaxAge(-1);// 设置有效期为一小时
-     * cookie.setPath("/"); response.addCookie(cookie); return true; }else {
-     * System.out.println("===========unifyIdentityId======== "
-     * +unifyIdentityId+" 不存在--"); return false; }
-     *
-     * }
-     *
-     */
+    
 
 
 
@@ -451,54 +387,18 @@ public class AdminController extends BaseController {
 
         HttpServletRequest request = this.getCurrentRequest();
         HttpServletResponse response = this.getCurrentResponse();
-
-        SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-        List<SysFunction> aLLList = userDetails.getFunList();
-        JSONArray array= JSONArray.parseArray(JSON.toJSONString(aLLList));
         
-        System.out.println("-------SysFunction-array:"+array.toString());
+        SysUser sysUser = this.restTemplate.exchange(GET_USER_INFO_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
         
+      Map map= EquipmentUtils.setUserDetailSession(restTemplate, httpHeaders, request, this.getUserProfile().getUserId());
         
-        aLLList= setUpList( userDetails, aLLList);
-        List<SysFunction> upList = new ArrayList<SysFunction>();
-        // 个人工作台菜单
-        List<SysFunction> grgztList = new ArrayList<SysFunction>();
-        HashSet authSet = new HashSet();
-        for (SysFunction sysfun : aLLList)
-        {
-            if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限"))
-            {
-                upList.add(sysfun);
-            }
-            // 个人工作台的二级、三级菜单
-            if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
-                grgztList.add(sysfun);
-            }
-            if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
-                authSet.add(sysfun.getUrl().split("/")[1]);
-            }
-        }
-        request.getSession().setAttribute("authSet", authSet);
-        // 收藏的菜单
-        List<SysCollect> scList = userDetails.getScList();
-        request.setAttribute("scList", scList);
-        request.setAttribute("funList", aLLList);
-        request.setAttribute("grgztList", grgztList);
-        
-        
-        JSONArray array2= JSONArray.parseArray(JSON.toJSONString(grgztList));
-        System.out.println("-------grgztList:"+array2.toString());
-        
-        
-        request.setAttribute("upList", upList);
-        request.setAttribute("userInfo", userDetails);
         Cookie loginCookie = new Cookie("loginErrorCount", null);
-        loginCookie.setMaxAge(0);// 设置过期
+        loginCookie.setMaxAge(0);
         loginCookie.setPath("/");
         response.addCookie(loginCookie);
-        request.setAttribute("userId", userDetails.getUserId());
+        request.setAttribute("userId", sysUser.getUserId());
 
-        String userName = userDetails.getUserName();
+        String userName = sysUser.getUserName();
         if (userName.equals(Constant.LOG_SYSTEMADMIN) || userName.equals(Constant.LOG_SECURITYADMIN) || userName.equals(Constant.LOG_AUDITADMIN)) {
             request.setAttribute("userName", userName);
             return "/adminIndex";
@@ -507,48 +407,11 @@ public class AdminController extends BaseController {
         }
 
     }
+    
+    
+    
 
-    private List setUpList(SysUser userDetails, List<SysFunction>  aLLList)
-    {
-
-        List<SysFunction> relustList = new ArrayList<SysFunction>();
-        List<SysRole> roleList=  userDetails.getRoleList();
-        boolean isHas=false;
-        if(roleList!=null)
-        {
-
-            for(int i=0;i<roleList.size();i++)
-            {
-                SysRole sysRole=roleList.get(i);
-                String str=sysRole.getRoleFlag();
-                System.out.println("--------角色:"+str);
-                if(str.equals(Constant.ROLE_WHITE_USER))//知悉范围白名单
-                {
-                    isHas=true;//在白名单
-                }
-
-            }
-        }
-        //如果不在白名单，则不要 领导驾驶舱 和 辅助（人才和项目）
-        if(isHas==false)
-        {
-            for(int i=0;i<aLLList.size();i++)
-            {
-                SysFunction sf=aLLList.get(i);
-                String str=sf.getName();
-                //看不到以上菜单
-                if(!str.equals("领导驾驶舱") && !str.equals("科技人才") && !str.equals("科研项目"))
-                {
-                    relustList.add(sf);
-                }
-            }
-        }else
-        {
-            relustList =aLLList;
-        }
-        return relustList;
-    }
-
+    
     @RequestMapping(value = "/instituteRedrect")
     public String instituteRedrect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
