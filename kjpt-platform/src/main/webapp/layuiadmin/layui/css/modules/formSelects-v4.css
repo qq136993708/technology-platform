@@ -1,6 +1,6 @@
-/* formSelects多选css */
+/* formSelects澶氶�塩ss */
 select[xm-select]{display: none !important;}
-.xm-select-parent * {margin: 0;padding: 0;font-family: "Helvetica Neue", Helvetica, "PingFang SC", 微软雅黑, Tahoma, Arial, sans-serif; box-sizing: initial;}
+.xm-select-parent * {margin: 0;padding: 0;font-family: "Helvetica Neue", Helvetica, "PingFang SC", 寰蒋闆呴粦, Tahoma, Arial, sans-serif; box-sizing: initial;}
 .xm-select-parent {text-align: left;}
 .xm-select-parent select {display: none;}
 .xm-select-parent .xm-select-title {position: relative;min-height: 36px;}
@@ -65,7 +65,7 @@ select[xm-select]{display: none !important;}
 .xm-select-hide {display: none !important;}
 div[xm-hg] .xm-select-label{white-space: nowrap; overflow: hidden; position: absolute; right: 30px; left: 0; padding-left: 10px;}
 
-/* 颜色相关 */
+/* 棰滆壊鐩稿叧 */
 div[xm-select-skin] .xm-select-title div.xm-select-label>span {border: 1px solid #1890ff}
 div[xm-select-skin] .xm-select-title div.xm-select-label>span i:hover {opacity: .8;filter: alpha(opacity=80);cursor: pointer}
 div[xm-select-skin=default] .xm-select-title div.xm-select-label>span {background-color: #F0F2F5;color: #909399;border: 1px solid #F0F2F5}
@@ -96,7 +96,7 @@ div[xm-select-skin=danger] dl dd.xm-select-this:not(.xm-dis-disabled) i {color: 
 div[xm-select-skin=danger].xm-form-selected .xm-select,div[xm-select-skin=danger].xm-form-selected .xm-select:hover {border-color: #FF5722!important}
 
 
-/* 多选联动  */
+/* 澶氶�夎仈鍔�  */
 .xm-select-parent .layui-form-danger+.xm-select-title .xm-select {border-color: #FF5722 !important;}
 .xm-select-linkage li {padding: 10px 0px;cursor: pointer;}
 .xm-select-linkage li span {padding-left: 20px;padding-right: 30px;display: inline-block;height: 20px;overflow: hidden;text-overflow: ellipsis;}
@@ -129,7 +129,7 @@ div[xm-select-skin='danger'] .xm-select-linkage li.xm-select-this span {border-l
 div[xm-select-skin='danger'] .xm-select-linkage-group li:hover {border-left-color: #FF5722;}
 
 
-/* 快捷操作 */
+/* 蹇嵎鎿嶄綔 */
 .xm-select-tips[style]:hover{background-color: #FFF!important;}
 .xm-select-parent dd > .xm-cz{position: absolute; top: 0px; right: 10px;}
 .xm-select-parent dd > .xm-cz-group{margin-right: 30px; border-right: 2px solid #ddd; height: 16px; margin-top: 10px; line-height: 16px; overflow: hidden;}
@@ -145,14 +145,14 @@ div[xm-select-skin='warm'] dd .xm-cz:hover{color: #FFB800;}
 div[xm-select-skin='danger'] dd .xm-cz:hover{color: #FF5722;}
 
 
-/* 下拉里面的搜索 */
+/* 涓嬫媺閲岄潰鐨勬悳绱� */
 .xm-select-tips .xm-input{border: none; border-bottom: 1px solid #E6E6E6; padding-left: 27px;}
 .xm-select-tips .icon-sousuo{position: absolute;}
 .xm-select-tips.xm-dl-input{display: none;}
 div[xm-select-search-type="1"] .xm-select-tips.xm-dl-input{display: block;}
 div[xm-select-search-type="1"] .xm-select .xm-select-input{display: none !important;}
 
-/* 阿里巴巴矢量图标库 */
+/* 闃块噷宸村反鐭㈤噺鍥炬爣搴� */
 @font-face {font-family: "xm-iconfont";
   src: url('//at.alicdn.com/t/font_792691_qxv28s6g1l9.eot?t=1534240067831'); /* IE9*/
   src: url('//at.alicdn.com/t/font_792691_qxv28s6g1l9.eot?t=1534240067831#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -172,3 +172,13 @@ div[xm-select-search-type="1"] .xm-select .xm-select-input{display: none !import
 .icon-close:before { content: "\e601"; }
 .icon-expand:before { content: "\e641"; }
 
+.xm-select-parent .xm-form-select .xm-select-dis .xm-select-label > span {
+	background-color: #e8e8e8;
+	border-color: #e8e8e8;
+	color: #000;
+	opacity: .85;
+	padding-right: 3px;
+}
+.xm-select-parent .xm-form-select .xm-select-dis .xm-select-label > span > i.icon-close {
+	display: none;
+}
