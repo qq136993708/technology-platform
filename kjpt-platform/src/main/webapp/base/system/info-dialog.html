@@ -1,24 +1,73 @@
 <style>
-    .content-info .ci-title{ width: 100%; text-align: center; font-size: 20px; font-weight: bold; text-align: center;}
-    .content-info .ci-field{ color: #C3C3C3;font-size: 14px;height: 32px;line-height: 32px;text-align: center;border-bottom: 1px solid #e8e8e8;}
+    .content-info .ci-title {
+        width: 100%;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .content-info .ci-field {
+        color: #C3C3C3;
+        font-size: 14px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        border-bottom: 1px solid #e8e8e8;
+    }
 </style>
 <section id="content-info" class="content-info">
     <div class="ci-title" id="ci-title">${info.title}</div>
     <div class="ci-field">
         <!--<span class="ci-field-source">信息来源：<span id="ci-field-source">中国石化报</span></span>-->
         <span class="ci-field-date" id="ci-field">
-	        发布时间:<#if info.date??>
-	        	${info.date}
-			<#else>
-				未发布
-			</#if>
+            发布时间:<#if info.date??>
+                ${info.date}
+                <#else>
+                    未发布
+            </#if>
         </span>
     </div>
     <div class="ci-content" id="ci-content">
         ${info.content}
     </div>
 </section>
+<div id="file-filter-options">
+    <div class="view-title-layout">
+        <!--style="margin-top:40px;"-->
+        <div class="right">
+            <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span class="text">附件：</span></label>
+        <div class="layui-input-block">
+            <table></table>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="files" id="files">
+
+<div style="height:80px;"></div>
+<!-- <script src="/layuiadmin/js/common.js"></script> -->
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script>
+    var variable = getQueryVariable();
+    setFileUpload({
+        id: 'file-filter-options', // 附件上传作用域ID值 必传
+        dataID: variable.id, // 用来查找当前单据下绑定的附件，没有则不查找
+        readonly: file_readonly,
+        callback: function (tableData, type) {
+            /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+             * type 触发变更的类型 目前只有 delete | upload
+             */
+            var files = $.map(tableData, function (item) {
+                return item.id
+            });
+            $("#files").val(files.join(','));
+        }
+    });
     // $(function () {
     //     var mainHeaderHeight=$(".main-header").outerHeight();
     //     $("#content-info").slimScroll({
