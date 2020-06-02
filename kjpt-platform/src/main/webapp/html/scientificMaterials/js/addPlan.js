@@ -4,6 +4,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
   var laydate = layui.laydate;
   var variable = getQueryVariable();
   var reportTypeVal = variable.reportType;
+  var userInfo = getUserInfo();
   
   switch(reportTypeVal){
     case 1:
@@ -40,6 +41,8 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
     msgTitle = '查看';
     readonlyFile = true;
   } else if (variable.type === 'add') {
+    formSelects.value('authenticateUtil', [userInfo.unitId]);//申报单位
+    form.render();
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
   } else if (variable.type === 'edit') {
