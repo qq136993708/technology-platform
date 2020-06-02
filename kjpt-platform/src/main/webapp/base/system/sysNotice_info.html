@@ -209,9 +209,7 @@
                         alertError("出错了！", e);
                     }
                 });
-            }
-            
-            if (_variable && _variable.type == 'add') {
+            } else {
             	setFileUpload({
                     id: 'file-filter-options', // 附件上传作用域ID值 必传
                     dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
