@@ -41,7 +41,7 @@ public class ExcelImportConfig {
     /**
      * 数据
      */
-    private List<Object> dataList;
+    private List<List<Object>> dataList;
 
     public String getImportType() {
         return importType;
@@ -83,11 +83,11 @@ public class ExcelImportConfig {
         this.dbColName = dbColName;
     }
 
-    public List<Object> getDataList() {
+    public List<List<Object>> getDataList() {
         return dataList;
     }
 
-    public void setDataList(List<Object> dataList) {
+    public void setDataList(List<List<Object>> dataList) {
         this.dataList = dataList;
     }
 

@@ -208,10 +208,14 @@ public class AchieveBaseController extends RestBaseController {
             }
             String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
             this.setParam(condition,"childUnitIds",childUnitIds);
+//            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        String[] headers = { "科技成果名称",  "所属《核心成果目录》技术方向","成果持有单位", "成果所属单位（专业化公司/直属单位)", "项目来源及经费渠道", "成果完成时间", "拟转化方式",
+//                "集团内部已开展的科技成果转化工作情况","科技成果简介","科技成果完成团队情况（按贡献度排序）", "科技成果完成单位意见","单位联系人和联系方式" };
+//        String[] cols =    {"achieveName","techTypeText","finishUnitNameText","affiliatedUnitText","projectChannel","finishDate","achieveTransTypeText","workInfo","brief","teamPerson","unitAdvice","contactInfo"};
             this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         String[] headers = { "科技成果名称",  "所属《核心成果目录》技术方向","成果持有单位", "成果所属单位（专业化公司/直属单位)", "项目来源及经费渠道", "成果完成时间", "拟转化方式",
-                "集团内部已开展的科技成果转化工作情况","科技成果简介","科技成果完成团队情况（按贡献度排序）", "科技成果完成单位意见","单位联系人和联系方式" };
-        String[] cols =    {"achieveName","techTypeText","finishUnitNameText","affiliatedUnitText","projectChannel","finishDate","achieveTransTypeText","workInfo","brief","teamPerson","unitAdvice","contactInfo"};
+                "集团内部已开展的科技成果转化工作情况","科技成果简介", "科技成果完成单位意见","单位联系人和联系方式" };
+        String[] cols =    {"achieveName","techTypeText","finishUnitNameText","affiliatedUnitText","projectChannel","finishDate","achieveTransTypeText","workInfo","brief","unitAdvice","contactInfo"};
         export(headers,cols,"成果申请表_",condition);
     }
 

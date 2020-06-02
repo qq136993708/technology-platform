@@ -21,11 +21,14 @@
             <foreach collection="dbColName"  item="colName" index="index"  separator=",">
                 ${colName}
             </foreach>
-        )values(
-            <foreach collection="dataList"  item="data" index="index"  separator=",">
+        )values
+        <foreach collection="dataList" item="row" separator=",">
+            (
+            <foreach collection="row" item="data" index="index" separator=",">
                 #{data}
             </foreach>
-        )
+            )
+        </foreach>
 
     </insert>
 
