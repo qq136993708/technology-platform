@@ -146,13 +146,15 @@ public class TechFamilyProviderClient {
 		List<TreeNode> list = techFamilyService.selectTreeNodeByLevel(temT);
 		
 		List<TreeNode> retList = new ArrayList<TreeNode>();
-		if (list != null && list.size() >= 1 && list.size() <= 5) {
+		if (list != null ) //&& list.size() >= 1 && list.size() <= 5
+		{
 			JSONObject rootJson = new JSONObject();
 			rootJson.put("id", "10");
 			rootJson.put("pId", "-");
 			rootJson.put("name", "中核集团技术族");
 			temJson.add(rootJson);
-			for (int k = 0; k < list.size(); k++) {
+			for (int k = 0; k < list.size(); k++) 
+			{
 				System.out.println(list.size() + "====================技术族");
 				TreeNode temNode = list.get(k);
 				techType.setLevelCode("2");
@@ -160,7 +162,8 @@ public class TechFamilyProviderClient {
 				String nodePath = temNode.getNodePath();
 				String[] nodes = nodePath.split("@");
 				System.out.println(nodePath + "====================技术族");
-				for (int i = 1; i < nodes.length; i++) {
+				for (int i = 1; i < nodes.length; i++) 
+				{
 					typeCodeCond.add(nodes[i]);
 				}
 				System.out.println(nodes.length + "====================技术族"+nodes[nodes.length - 1]);
@@ -174,40 +177,47 @@ public class TechFamilyProviderClient {
 			System.out.println(retList.size() + "====================1技术族");
 			
 			List<TreeNode> zList = new ArrayList<TreeNode>();
-			for (int i = 0; i < retList.size(); i++) {
+			for (int i = 0; i < retList.size(); i++) 
+			{
 				TreeNode iNode = retList.get(i);
 				boolean temB = true;
 				for (int j = 0; j < zList.size(); j++) {
 					TreeNode jNode = zList.get(j);
-					if (iNode.getCode().equals(jNode.getCode())) {
+					if (iNode.getCode().equals(jNode.getCode())) 
+					{
 						temB = false;
 						break;
 					}
 				}
-				if (temB) {
+				if (temB) 
+				{
 					zList.add(iNode);
 				}
 			}
 			
 			System.out.println(zList.size() + "====================2技术族");
-			for (int i = 0; i < zList.size(); i++) {
+			for (int i = 0; i < zList.size(); i++) 
+			{
 				JSONObject treeJson = new JSONObject();
 				treeJson.put("id", zList.get(i).getId());
 				treeJson.put("pId", zList.get(i).getpId());
 				treeJson.put("name", zList.get(i).getName());
-				if (zList.get(i).getLevelCode() > 2) {
+				if (zList.get(i).getLevelCode() > 2)
+				{
 					treeJson.put("symbolSize", "[90, 70]");
 					treeJson.put("symbol", "'image://http://localhost:8080/image/house.png'");
 				}
 				temJson.add(treeJson);
 			}
-		} else if (list.size() > 5) {
+		} 
+		/*
+		else if (list.size() > 5) {
 			JSONObject rootJson = new JSONObject();
 			rootJson.put("id", "10");
 			rootJson.put("pId", "-");
 			rootJson.put("name", "技术族");
 			temJson.add(rootJson);
-		} 
+		} */
 
 		return temJson;
 	}
