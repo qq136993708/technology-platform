@@ -167,6 +167,16 @@ public class SysNews extends DataEntity implements Serializable {
      */
     private String stype;
 
+    private String files;
+
+    public String getFiles() {
+        return files;
+    }
+
+    public void setFiles(String files) {
+        this.files = files;
+    }
+
     public String getDataId() {
         return this.dataId;
     }

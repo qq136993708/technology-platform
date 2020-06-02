@@ -143,7 +143,8 @@ public class AdminController extends BaseController {
     	SysUser sysUser= EquipmentUtils.getUserByUserNameAndPassword(username, MD5Util.MD5Encode(password), restTemplate, httpHeaders);
 		if(sysUser!=null)
 		{
-			   
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(sysUser));
+	        System.out.println("========sysUserresult====" + result.toString());
 			    //Map map= EquipmentUtils.setUserDetailSession(restTemplate, httpHeaders, request, this.getUserProfile().getUserId());
 			    request.getSession().setAttribute("sysUser", sysUser);
 	            String userName=sysUser.getUserName();
@@ -390,7 +391,7 @@ public class AdminController extends BaseController {
         
         SysUser sysUser = this.restTemplate.exchange(GET_USER_INFO_URL + this.getUserProfile().getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
         
-      Map map= EquipmentUtils.setUserDetailSession(restTemplate, httpHeaders, request, this.getUserProfile().getUserId());
+        Map map= EquipmentUtils.setUserDetailSession(restTemplate, httpHeaders, request, this.getUserProfile().getUserId());
         
         Cookie loginCookie = new Cookie("loginErrorCount", null);
         loginCookie.setMaxAge(0);

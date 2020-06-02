@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.SysUser;
@@ -253,7 +256,14 @@ public class LocalApiController extends BaseController
 	    
 	    
 	    
-	    
+	    @ApiOperation(value = "获取当前用户信息", notes = "获取当前用户信息")
+		@RequestMapping(value = "/getCurrentUserInfo", method = RequestMethod.GET)
+		public SysUser getCurrentUserInfo( HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    	Result resultsDate = new Result();
+	    	SysUser sysUser=(SysUser)request.getSession().getAttribute("sysUser");
+			//JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return sysUser;
+		}
 	    
 	    
 	    

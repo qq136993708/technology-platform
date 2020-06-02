@@ -200,7 +200,7 @@ public class TaskController extends BaseController {
 		System.out.println("iniDoneTaskList----------------" + request.getParameter("functionId"));
 		request.setAttribute("functionId", request.getParameter("functionId"));
 
-		return "/pplus/workflow/done-task-list";
+		return "/pplus/workflow/done-task-list"; 
 	}
 
 	@RequestMapping(value = "/task/done-instance/list/ini")
