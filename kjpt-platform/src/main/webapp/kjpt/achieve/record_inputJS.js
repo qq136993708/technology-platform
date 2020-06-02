@@ -431,7 +431,7 @@ layui.use(['table', 'form', 'layer'], function() {
       transfromData.files = JSON.stringify(newFileValue);
     }
 
-    var baseUrl = '/achieveReward-api/save',
+    var baseUrl = '/achieveReward-api/recordEntryInfoSave',
       allData = null;
 
     if (variable.type === 'input') {
@@ -440,7 +440,7 @@ layui.use(['table', 'form', 'layer'], function() {
       transfromData.secretLevel = subFormData.secretLevel;
 
       // 备案信息录入 上报前需先暂存且所有必填项不能为空
-      baseUrl = '/achieveRecord-api/save';
+      baseUrl = '/achieveRecord-api/recordEntryInfoSave';
       allData = {
         creator: null,
         createDate: new Date().getTime(),

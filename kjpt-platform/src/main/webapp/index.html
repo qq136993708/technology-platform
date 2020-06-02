@@ -28,7 +28,7 @@ var __base_dic_store = {
 	// }
 };
 </script>
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 </head>
 <body class="layui-layout-body">
 
@@ -304,7 +304,9 @@ var __base_dic_store = {
 			<div class="layadmin-body-shade" layadmin-event="shade"></div>
 		</div>
 	</div>
-
+	
+	<input type="text" value="${userId}" id="userId" class="layui-hide">
+	
 	<script src="/layuiadmin/javascript/jquery.liMarquee.js"></script>
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
@@ -314,9 +316,8 @@ var __base_dic_store = {
 		}).extend({
 			index : 'lib/index' //主入口模块
 		}).use( [ 'index', 'jquery', "publicMethods", "element"], function() {
-			var layuiElement = layui.element;
-
-
+			var layuiElement = layui.element, $ = layui.jquery;
+			
 			function setHeaderMoreItem(params) {
 				setTimeout(function (params) {
 					var $showItemNav = $('#showItemNav'),
@@ -347,11 +348,23 @@ var __base_dic_store = {
                 url: '/sysNotice/getSysNoticeList?page=1&limit=1',
                 type: 'post',
                 success: function(res) {
-                    if(res.code==0){
-                        $("#numberChat").html(res.count)
-                        $("#numberChat").removeClass("layui-hide")
+                    if(res.code == 0 && res.count > 0){
+                        $("#numberChat").text(res.count).removeClass("layui-hide");
+					} else {
+						$("#numberChat").text('').addClass("layui-hide");
 					}
-					console.log(res)
+                }
+            });
+			//代办
+            httpModule({
+                url: '/task/pending-list?page=1&limit=1',
+                type: 'post',
+                success: function(res) {
+                    if(res.code==0 && res.count > 0){
+                        $("#pendingCount").text(res.count).removeClass("layui-hide");
+                    } else {
+                    	$("#pendingCount").text(res.count).addClass("layui-hide");
+                    }
                 }
             });
 			var $ = layui.jquery, publicMethods = layui.publicMethods;
@@ -466,51 +479,48 @@ var __base_dic_store = {
                 $("#LAY_app_body>div").eq(0).addClass("layui-show")
 
             })
-			$("#nav li dl dd a").hover(
-					function() {
-						$(this).find("img").removeClass("layui-hide");
-						$(this).find("img").off("click").on(
-								"click",
-								function() {
-									$.ajax({
-										type : 'post',
-										dataType : 'json',
-										async : false,
-										url : '/admin/collect?functionCode=' + $(this).parent().parent().attr("data-code") + "&functionName=" + $(this).parent().parent().attr("lay-text") + "&functionId=" + $(this).parent().parent().attr("data-id"),
-										success : function(data) {
-											layer.msg(data.message);
-											if (data.success) {
-												// 动态修改当前我的收藏
-												var obj = eval('(' + data.data + ')');
-												if (obj.status == '1') {
-													var collectMenu = document.getElementById("dlCollect").innerHTML;
-													collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName
-															+ "<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
-													document.getElementById("dlCollect").innerHTML = collectMenu;
+			$("#nav li dl dd a").hover(function() {
+				$(this).find("img").removeClass("layui-hide");
+				$(this).find("img").off("click").on( "click", function() {
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						async : false,
+						url : '/admin/collect?functionCode=' + $(this).parent().parent().attr("data-code") + "&functionName=" + $(this).parent().parent().attr("lay-text") + "&functionId=" + $(this).parent().parent().attr("data-id"),
+						success : function(data) {
+							layer.msg(data.message);
+							if (data.success) {
+								// 动态修改当前我的收藏
+								var obj = eval('(' + data.data + ')');
+								if (obj.status == '1') {
+									var collectMenu = document.getElementById("dlCollect").innerHTML;
+									collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName
+											+ "<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
+									document.getElementById("dlCollect").innerHTML = collectMenu;
 
-												} else if (obj.status == '0') {
-													var dl = document.getElementById("dlCollect");
-													// 查找dl里的所有dd
-													var dds = document.getElementsByTagName('dd');
-													for (var i = dds.length - 1; i >= 0; i--) {
-														if (dds[i].id == obj.dataId) {
-															dl.removeChild(dds[i]);
-														}
-													}
-												}
-
-											}
-
-										},
-										error : function(e) {
-											console.log(e);
+								} else if (obj.status == '0') {
+									var dl = document.getElementById("dlCollect");
+									// 查找dl里的所有dd
+									var dds = document.getElementsByTagName('dd');
+									for (var i = dds.length - 1; i >= 0; i--) {
+										if (dds[i].id == obj.dataId) {
+											dl.removeChild(dds[i]);
 										}
-									});
-									return false;
-								});
-					}, function() {
-						$(this).find("img").addClass("layui-hide");
+									}
+								}
+
+							}
+
+						},
+						error : function(e) {
+							console.log(e);
+						}
 					});
+					return false;
+				});
+			}, function() {
+				$(this).find("img").addClass("layui-hide");
+			});
 			// 菜单收藏
 			$("#collectFunction").on("click", function() {
 				var param = JSON.parse(window.localStorage.getItem("param"));
@@ -529,7 +539,7 @@ var __base_dic_store = {
 								var collectMenu = document.getElementById("dlCollect").innerHTML;
 								// collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
 								// document.getElementById("dlCollect").innerHTML = collectMenu;
-								let html = '<dd id="' + obj.dataId + '"><a lay-href="' + obj.collectUrl + '" lay-text="' + obj.collectName + '" data-id="' + obj.functionId + '" data-code="' + obj.functionCode + '" data-functionbuttons="ALL">' +
+								var html = '<dd id="' + obj.dataId + '"><a lay-href="' + obj.collectUrl + '" lay-text="' + obj.collectName + '" data-id="' + obj.functionId + '" data-code="' + obj.functionCode + '" data-functionbuttons="ALL">' +
 										'<div class="item-row-block">' +
 										'<span class="icon_name "></span>' +
 										'<span class="item-title">' + obj.collectName + '</span>' +

@@ -57,7 +57,7 @@
         <table id="showTable" class="layui-hide" lay-filter="showTable"></table>
     </div>
 </div>
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
@@ -71,7 +71,7 @@
                 ,url: '/techFamily-api/page' //数据接口
                 ,cols: [[ //表头
                     {type: 'radio' },
-                    {title: '序号',type:'numbers',width:55 },
+                    // {title: '序号',type:'numbers',width:55 },
                     {field:'typeName',   title:'分类名称',  style:'cursor: pointer;'},
                     {field:'parentName',      title:'上级分类名称', style:'cursor: pointer;'},
                     {field:'secretLevelStr',   title:'密级',  style:'cursor: pointer;', width: 100, hide: _hideSecrecylevel()}

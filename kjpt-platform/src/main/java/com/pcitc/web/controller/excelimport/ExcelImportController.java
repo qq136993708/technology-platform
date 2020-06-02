@@ -1,6 +1,8 @@
 package com.pcitc.web.controller.excelimport;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.exception.SysException;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
@@ -32,24 +34,36 @@ public class ExcelImportController extends BaseController {
 
     @ApiOperation(value="Excel导入")
     @RequestMapping(value = {"/excelImport/{importType}"}, method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    @ResponseBody
     public String kgjImport(@RequestParam(value = "file", required = false) MultipartFile impExcel, @PathVariable String importType, @RequestParam(value="pid",required=false) String pid, HttpServletRequest request) throws Exception {
-        InputStream in = new BufferedInputStream(impExcel.getInputStream());
-        String fileName = impExcel.getOriginalFilename();
-        List dataList = null;
-        if(fileName.contains("xml")){
-            dataList = new ImportExcelUtil().generateData(in);
-        }else{
-            dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
-        }
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
-        if(!responseEntity.getBody().isEmpty() && !"kgjimp".equals(importType)){
-            SysException sys = new SysException(JSON.toJSONString(responseEntity.getBody()));
-            sys.setCode("1");
-            throw sys;
-        }
-        return responseEntity.getBody().toString();
+       try{
+           InputStream in = new BufferedInputStream(impExcel.getInputStream());
+           String fileName = impExcel.getOriginalFilename();
+           List dataList = null;
+           if(fileName.contains("xml")){
+               dataList = new ImportExcelUtil().generateData(in);
+           }else{
+               dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
+           }
+           this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+           ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
+           if(!responseEntity.getBody().isEmpty() && !"kgjimp".equals(importType)){
+               SysException sys = new SysException(JSON.toJSONString(responseEntity.getBody()));
+               sys.setCode("1");
+               throw sys;
+           }
+           Result r = new Result();
+           r.setCode(Result.RESPONSE_SUCC_CODE);
+           r.setMessage(Result.RESPONSE_SUCC_MSG);
+           r.setData(responseEntity.getBody().toString());
+           return JSONObject.toJSONString(r);
+       }catch (Exception e){
+           Result r1 = new Result();
+           r1.setCode("-1");
+           r1.setMessage(e.getMessage());
+           r1.setSuccess(false);
+           return JSONObject.toJSONString(r1);
+       }
+
     }
 
 }

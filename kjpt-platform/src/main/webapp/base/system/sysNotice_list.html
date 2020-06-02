@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/layuiadmin/style/common.css">
 	<link rel="stylesheet" href="/css/layui-common.css">
 	<script src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
 	<style>
 		.searchBox .dateInput span{
@@ -159,7 +159,7 @@
                     ,area: ['70%', '90%']
                     ,content: "/sysNotice/sysNotice_info"
                 });*/
-                var temUrl = "/sysNotice/sysNotice_info";
+                var temUrl = "/sysNotice/sysNotice_info?type=add";
 				top.layer.open({
 					title:'新增',
 					shadeClose: false,
@@ -200,7 +200,7 @@
 	                    ,area: ['70%', '90%']
 	                    ,content: '/sysNotice/sysNotice_info?id='+id
 	                });*/
-					var temUrl = '/sysNotice/sysNotice_info?id='+id;
+					var temUrl = '/sysNotice/sysNotice_info?id='+id+'&type=edit';
 					top.layer.open({
 						title:'编辑',
 						shadeClose: false,
@@ -257,7 +257,7 @@
                     ,maxmin: false
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     ,area: ['70%', '90%']
-                    ,content: '/sysNotice/readNotice?id='+selectRowData.noticeId
+                    ,content: '/sysNotice/readNotice?id='+selectRowData.noticeId+'&type=view'
                 });
             }
             ,deleteEvent: function(){  //点击删除按钮

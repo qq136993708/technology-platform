@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/layuiadmin/style/common.css">
 	<link rel="stylesheet" href="/css/layui-common.css">
 	<script src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/plugins/jQuery/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
 	<style>
 		.searchBox .dateInput span{
@@ -80,7 +80,7 @@
                 {field:'noticePublishtime', title:'发布时间' ,event: 'setActive',style:'cursor: pointer;'},
                 {field:'isPublished', title:'是否发布' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
-	                	if(d.isPublished == 1){
+	                	if(d.isPublished == 0){
 	                		return "<span>是<span>";
 	                	} else {
 	                		return "否";

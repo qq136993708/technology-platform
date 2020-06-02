@@ -23,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -239,9 +240,11 @@ public class BaseController implements ErrorController
 	public void exportExcel(String[] headers, String[] cols, String fileName, List dataList) throws Exception {
 		HttpServletResponse response =  this.getCurrentResponse();
 		response.reset();
-		response.setCharacterEncoding("UTF-8");
+//		response.setCharacterEncoding("ISO8859-1");
 		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+		fileName = URLEncoder.encode(fileName + ".xls", "UTF-8");
+		//response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+		response.setHeader("Content-disposition", "attachment;filename=" + fileName);
 		try {
 			OutputStream os = response.getOutputStream();
 			PoiExcelExportUitl<Object> pee = new PoiExcelExportUitl<Object>(fileName, headers, cols, dataList,os);

@@ -150,7 +150,7 @@
 	     <if test="jobName != null and jobName  !='' ">           AND t.job_name like CONCAT('%',#{jobName},'%')</if>
 	     <if test="title != null and title  !='' ">               AND t.title like CONCAT('%',#{title},'%')</if>
 	     <if test="createTimeStr != null and createTimeStr  !='' ">     
-	          DATE_FORMAT(create_time,'%Y-%m-%d')=#{createTimeStr}
+	        and  DATE_FORMAT(create_time,'%Y-%m-%d')=#{createTimeStr}
 	      </if>
 	     <if test="logType != null and logType !='' ">            AND t.log_type = #{logType}</if>
 	 </trim>

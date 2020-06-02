@@ -492,23 +492,8 @@ layui.config({
         })
       }
     }
-  });
-    httpModule({
-        url: '/task-api/getPendingCountByUserId?userId='+$("#userId").val(),
-        type: 'get',
-        success: function(res) {
-            if(res.success){
-                $("#oneItem").html(res.data)
-                parent.$("#pendingCount").html(res.data)
-                $("#text").html("项")
-            }else {
-                $("#oneItem").html("0")
-                parent.$("#pendingCount").html('')
-                parent.$("#pendingCount").hide()
-                $("#text").html("项")
-            }
-        }
-    });*/
+  });*/
+    
   $('a.tab-more-link').click(function() {
     var itemHref = $(this).attr('lay-href'),
     title = $(this).attr('lay-text');
