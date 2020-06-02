@@ -53,7 +53,7 @@
 	        <select id="funcgroup">
 	        	<option value="">--分组快速选中--</option>
 	        </select>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" data-type="addEvent">保存</button>
+            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" data-type="addEvent">保存</button>
         </div>
         <div class="right-side-tree">
             <div class="layui-side-scroll" style="width: 100%;">
@@ -176,20 +176,18 @@
  		});
 		return nodeIds;
 	}
-	
-    
-	
-	
-	
-	//检索(改变事件)
-	$("#searchUnitName").on("change", function(){
-		searchUnit();
-	});
-	//检索(键盘回车)
-	$(document).keyup(function (e) {
-	    if (e.keyCode == 13) {
-	    	searchUnit();
-	    }
+
+	$("#searchUnitName").on({
+		"change": function(){
+			//检索(改变事件)
+			searchUnit();
+		},
+		'keyup': function (e) {
+			//检索(键盘回车)
+		    if (e.keyCode == 13) {
+		    	searchUnit();
+		    }
+		}
 	});
 	
     $(document).ready(function () {
