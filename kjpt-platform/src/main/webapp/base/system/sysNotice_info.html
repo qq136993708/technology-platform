@@ -12,6 +12,7 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" href="/css/form.css">
 
@@ -30,7 +31,7 @@
 </head>
 
 <body>
-    <div class="formBox">
+    <div class="formBox" style="width: calc(100% - 60px);">
         <form id="noticeForm" class="layui-form" action="" lay-filter="component-form-group layui-container">
             <input type="hidden" name="noticeId" />
             <div class="box-body">
@@ -107,12 +108,11 @@
                 </div>
             </div>
             <div id="file-filter-options">
-                <div class="view-title-layout">
-                    <!--style="margin-top:40px;"-->
-                    <div class="right">
-                        <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
-                    </div>
-                </div>
+            	<div class="view-title-layout" style="padding-top: 0;">
+                   <div class="right">
+                       <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
+                   </div>
+               </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">附件：</span></label>
                     <div class="layui-input-block">
@@ -134,6 +134,8 @@
         </form>
     </div>
     <script>
+    	var _variable = getQueryVariable();
+    
         layui.config({
             base: '../../../../' //静态资源所在路径
         }).extend({
@@ -185,6 +187,21 @@
                             "checked");
                         $("input[name=isTopRoll][value='" + data.isTopRoll + "']").prop("checked",
                             "checked");
+	
+                        setFileUpload({
+                            id: 'file-filter-options', // 附件上传作用域ID值 必传
+                            dataID: data.noticeId, // 用来查找当前单据下绑定的附件，没有则不查找
+                            readonly: false,
+                            callback: function (tableData, type) {
+                                /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+                                 * type 触发变更的类型 目前只有 delete | upload
+                                 */
+                                var files = $.map(tableData, function (item) {
+                                    return item.id
+                                });
+                                $("#files").val(files.join(','));
+                            }
+                        });
 
                         form.render();
                     },
@@ -192,21 +209,23 @@
                         alertError("出错了！", e);
                     }
                 });
+            } else {
+            	setFileUpload({
+                    id: 'file-filter-options', // 附件上传作用域ID值 必传
+                    dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
+                    readonly: false,
+                    callback: function (tableData, type) {
+                        /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+                         * type 触发变更的类型 目前只有 delete | upload
+                         */
+                        var files = $.map(tableData, function (item) {
+                            return item.id
+                        });
+                        $("#files").val(files.join(','));
+                    }
+                });
             }
-            setFileUpload({
-                id: 'file-filter-options', // 附件上传作用域ID值 必传
-                dataID: data.id, // 用来查找当前单据下绑定的附件，没有则不查找
-                readonly: file_readonly,
-                callback: function (tableData, type) {
-                    /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
-                     * type 触发变更的类型 目前只有 delete | upload
-                     */
-                    var files = $.map(tableData, function (item) {
-                        return item.id
-                    });
-                    $("#files").val(files.join(','));
-                }
-            });
+            
             /* 自定义验证规则 */
             form.verify({
                 title: function (value) {

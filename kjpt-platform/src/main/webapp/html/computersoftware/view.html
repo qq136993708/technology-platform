@@ -46,13 +46,15 @@
          <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">单位名称：</span></label>
           <div class="layui-input-block">
-              <select name="unitName"
+              <!-- <select name="unitName"
                 xm-select="supportingInstitutions"
                 xm-select-skin="normal"
                 xm-select-radio=""
                 dic-base-data="ROOT_KJPT_YTDW"
-                lay-verify="required"
-                placeholder="请选择"></select>
+                lay-verify="required" -->
+                <!-- placeholder="请选择"></select> -->
+                <input type="text" name="unitName" lay-verify="required"
+                placeholder="" autocomplete="off" class="layui-input" disabled>
           </div>
          </div>
        </div>

@@ -6,7 +6,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     var $ = layui.$; 
     var laydate = layui.laydate;
     var formSelects = layui.formSelects;
-
+    var userInfo = getUserInfo();
     /*领域*/
   //   httpModule({
   //     url: "/techFamily-api/getTreeList",
@@ -64,6 +64,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           if (variable.type === 'view') {
         	  setFomeDisabled('formMain', '.disabled');
           }
+          data['unitName']=userInfo.unitName;
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
 

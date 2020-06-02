@@ -31,13 +31,24 @@ public class ExcelData2DbServiceImpl implements ExcelData2DbService {
         eic.setDbColName(dbColList);
         //eic.getDbColName().add("batch_id");
 
+        int count = 0;
         for (int i = 0; i < dataList.size(); i++) {
             List list = dataList.get(i);
             list.add(batchId);
             list.add(i+1);
             eic.setDataList(list);
             System.out.println("excel row============================================================="+JSONObject.toJSONString(list));
-            em.excelData2Db(eic);
+
+            count++;
+            if(count > 200 || i == dataList.size() -1) {
+                List<List<Object>> listData = dataList.subList(i - count + 1, i + 1);
+                eic.setDataList(listData);
+                em.excelData2Db(eic);
+                count = 0;
+            }
+
+
+           // em.excelData2Db(eic);
         }
          return em.handlerData(eic.getProcessName(),batchId,pid,creator,new Date());
     }

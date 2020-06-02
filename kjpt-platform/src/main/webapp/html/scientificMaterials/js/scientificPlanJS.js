@@ -61,7 +61,7 @@ setSelectInput();
     {field: 'name', title: tipTitle + '名称', templet: function(d) {
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
-    {field: 'nameText', title: '申报单位', sort: true },
+    {field: 'authenticateUtil', title: '申报单位', sort: true },
     {field: 'technicalFieldName', title: '技术领域'},
     {field: 'releaseTime', title: '发布日期', sort: true,templet: function(d){
       var times = new Date(d.releaseTime);
@@ -207,7 +207,6 @@ setSelectInput();
 
     // 导出
     $('#exportData').click(function() {
-
         var formValue = form.val('patentFormDemo'),
             searchData = {
                 authenticateUtil: formValue.authenticateUtil || '', // 申报单位：
