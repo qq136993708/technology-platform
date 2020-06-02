@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +43,12 @@ public class AchieveClient {
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageInfo query(@RequestBody(required = false) Map param){
         return abs.query(param);
+    }
+
+    @ApiOperation(value = "查询成果列表", notes = "查询成果列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public List queryNoPage(@RequestBody(required = false) Map param){
+        return abs.queryNoPage(param);
     }
 
 

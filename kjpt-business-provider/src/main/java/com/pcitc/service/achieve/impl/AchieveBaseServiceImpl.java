@@ -43,6 +43,7 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
         return abm.load(id);
     }
 
+
     @Override
     public Integer save(AchieveBase ab) {
 
@@ -92,9 +93,14 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
-    
-    
-        //流程
+
+	@Override
+	public List queryNoPage(Map param) {
+		return abm.query(param);
+	}
+
+
+	//流程
   		public Result dealWorkFlow(String id, Map map) throws Exception
   		{
   			
