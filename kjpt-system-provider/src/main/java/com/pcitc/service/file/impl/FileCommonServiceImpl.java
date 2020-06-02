@@ -3,7 +3,7 @@ package com.pcitc.service.file.impl;
 import com.pcitc.base.common.FileModel;
 import com.pcitc.base.exception.SysException;
 import com.pcitc.base.util.IsEmptyUtil;
-import com.pcitc.mapper.FileCommonMapper;
+import com.pcitc.mapper.system.FileCommonMapper;
 import com.pcitc.service.file.FileCommonService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

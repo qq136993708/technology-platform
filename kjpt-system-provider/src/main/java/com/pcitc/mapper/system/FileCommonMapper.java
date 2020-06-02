@@ -1,4 +1,4 @@
-package com.pcitc.mapper;
+package com.pcitc.mapper.system;
 
 
 import com.pcitc.base.common.FileModel;
