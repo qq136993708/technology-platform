@@ -3,6 +3,7 @@ package com.pcitc.service.groupinformation;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
 
+import java.util.List;
 import java.util.Map;
 
 public interface BlocScientificPlanService {
@@ -26,5 +27,12 @@ public interface BlocScientificPlanService {
      * 逻辑删除
      */
     Integer delete(String id);
+
+    /**
+     * 查询计算机软件项目
+     * @param paramMap
+     * @return
+     */
+    List queryNoPage(Map paramMap);
 
 }

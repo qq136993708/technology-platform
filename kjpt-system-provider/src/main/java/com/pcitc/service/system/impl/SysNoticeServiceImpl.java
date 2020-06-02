@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.pcitc.service.file.FileCommonService;
+import com.pcitc.service.system.FileService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +46,9 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 	
 	@Autowired
 	private SysUserNoticeMapper sysUserNoticeMapper;
-	
-	
+
+	@Autowired
+	private FileCommonService fs;
 	
 	@Override
 	public JSONObject selectSysNoticeAll(SysNoticeVo vo) throws Exception {
@@ -123,10 +126,12 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 	public int updateOrInsertSysNotice(SysNotice obj) throws Exception {
 		int result = 500;
 		if(obj.getNoticeId()!=null && obj.getNoticeId()!=""){
+			fs.updateFileData(obj.getFiles(),obj.getNoticeId());
 			sysNoticeMapper.updateByPrimaryKeySelective(obj);
 		}else{
 			String id = UUID.randomUUID().toString().replace("-", "");
 			obj.setNoticeId(id);
+			fs.updateFileData(obj.getFiles(),obj.getNoticeId());
 			sysNoticeMapper.insertSelective(obj);
 		}
 		result = 200;

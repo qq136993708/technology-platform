@@ -404,7 +404,7 @@
             ${orderByClause}
        	</when>  
        	<otherwise>
-           	notice_publishtime DESC
+           	notice_publishtime,notice_createtime DESC
        	</otherwise> 
    	</choose>    
   </select> 
