@@ -29,7 +29,7 @@
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-normal margin24" data-type="searchEvent">查询</button>
-			<button class="layui-btn layui-btn-primary" data-type="resetEvent">重置</button>
+			<button class="layui-btn layui-btn-primary" style="display:none" data-type="resetEvent">重置</button>
 		</div>
 	</div>
 	<div id="container" style="width: 100%; height: 1200px;"></div>
@@ -162,7 +162,6 @@
                     drawTree(treeData);
                 }
             });
-
 			// 触发不同的按钮事件
 			var $ = layui.$;
 			active = {
@@ -180,6 +179,17 @@
 						error : function(data) {
 						},
 						success : function(retData) {
+							
+							
+							treeData = null;
+							myChart.clear();
+							levelCount = 5;
+							//2.处理数据	
+							treeData = transData(retData, 'id', 'pId', 'children');
+							//3.展示数据	
+							drawTree(treeData,'color');
+							
+							/*
 							if (retData.length == 1) {
 								layer.msg("模糊查询结果大于5");
 							} else if (retData.length == 0) {
@@ -188,12 +198,9 @@
 								treeData = null;
 								myChart.clear();
 								levelCount = 5;
-								//2.处理数据	
 								treeData = transData(retData, 'id', 'pId', 'children');
-								//3.展示数据	
 								drawTree(treeData,'color');
-							}
-
+							}*/
 						}
 					});
 				},
