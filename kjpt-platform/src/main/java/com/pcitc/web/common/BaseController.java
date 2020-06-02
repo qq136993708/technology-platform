@@ -241,7 +241,7 @@ public class BaseController implements ErrorController
 		response.reset();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+		response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "UTF-8") + ".xls");
 		try {
 			OutputStream os = response.getOutputStream();
 			PoiExcelExportUitl<Object> pee = new PoiExcelExportUitl<Object>(fileName, headers, cols, dataList,os);
