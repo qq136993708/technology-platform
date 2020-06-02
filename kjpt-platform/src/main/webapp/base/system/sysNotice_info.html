@@ -14,12 +14,14 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" href="/css/form.css">
+
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/javascript/ckeditor4/ckeditor.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/fileUpload.js"></script>
     <style>
         body {
             padding: 10px 10px 0;
@@ -191,20 +193,20 @@
                     }
                 });
             }
-            // setFileUpload({
-            //     id: 'file-filter-options', // 附件上传作用域ID值 必传
-            //     dataID: data.id, // 用来查找当前单据下绑定的附件，没有则不查找
-            //     readonly: file_readonly,
-            //     callback: function (tableData, type) {
-            //         /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
-            //          * type 触发变更的类型 目前只有 delete | upload
-            //          */
-            //         var files = $.map(tableData, function (item) {
-            //             return item.id
-            //         });
-            //         $("#files").val(files.join(','));
-            //     }
-            // });
+            setFileUpload({
+                id: 'file-filter-options', // 附件上传作用域ID值 必传
+                dataID: data.id, // 用来查找当前单据下绑定的附件，没有则不查找
+                readonly: file_readonly,
+                callback: function (tableData, type) {
+                    /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+                     * type 触发变更的类型 目前只有 delete | upload
+                     */
+                    var files = $.map(tableData, function (item) {
+                        return item.id
+                    });
+                    $("#files").val(files.join(','));
+                }
+            });
             /* 自定义验证规则 */
             form.verify({
                 title: function (value) {

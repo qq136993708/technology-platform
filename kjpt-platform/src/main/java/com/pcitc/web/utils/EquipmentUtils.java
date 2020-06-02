@@ -551,8 +551,11 @@ public class EquipmentUtils {
 		        request.getSession().setAttribute("scList", scList);
 		        request.getSession().setAttribute("funList", aLLList);
 		        request.getSession().setAttribute("grgztList", grgztList);
-		        request.getSession().setAttribute("userInfo", userDetails);
+		        //request.getSession().setAttribute("userInfo", userDetails);
 		        request.getSession().setAttribute("upList", upList);
+		        
+		        
+		        request.setAttribute("userInfo", userDetails);
 		        
 		        return map;
 		        
