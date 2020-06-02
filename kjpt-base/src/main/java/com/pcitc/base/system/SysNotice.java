@@ -35,6 +35,8 @@ public class SysNotice extends DataTableInfo {
 	private Integer userNoticeStatus;
 	
 	private String isTopRoll;
+
+	private String files;
 	
 	
 	
@@ -152,4 +154,11 @@ public class SysNotice extends DataTableInfo {
 		this.userNoticeStatus = userNoticeStatus;
 	}
 
+	public String getFiles() {
+		return files;
+	}
+
+	public void setFiles(String files) {
+		this.files = files;
+	}
 }

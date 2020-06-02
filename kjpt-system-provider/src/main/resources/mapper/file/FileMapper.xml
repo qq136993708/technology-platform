@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.FileCommonMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.common.FileModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="kind" jdbcType="VARCHAR" property="kind"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
+        <result column="file_path" jdbcType="VARCHAR" property="filePath"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        data_id,
+        kind,
+        file_name,
+        file_size,
+        file_path,
+        type,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="query" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from view_file where data_id = #{dataId} and deleted != '1'
+    </select>
+
+    <select id="downLoad" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from view_file where id = #{id} and deleted != '1'
+    </select>
+
+    <insert id="save" parameterType="com.pcitc.base.common.FileModel">
+        insert into file (
+            id,
+            data_id,
+            kind,
+            file_name,
+            file_size,
+            file_path,
+            type,
+            secret_level,
+            deleted,
+            create_user,
+            create_date,
+            update_user,
+            update_date
+        )values(
+            #{id},
+            #{dataId},
+            #{kind},
+            #{fileName},
+            #{fileSize},
+            #{filePath},
+            #{type},
+            #{secretLevel},
+            #{deleted},
+            #{creator},
+            #{createDate},
+            #{updator},
+            #{updateDate}
+            )
+    </insert>
+
+
+    <update id="delete">
+        update file set deleted = '1' where data_id = #{dataId}
+    </update>
+
+
+    <update id="updateSetDataID">
+        update file set deleted = '0',data_id = #{dataId} where id in
+        <foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="checkSecretLevel" resultType="java.lang.Integer">
+        select count(*) from file where id in
+        <foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and secret_level <![CDATA[>]]> #{baseSsecretLevel}
+    </select>
+
+</mapper>
