@@ -16,5 +16,6 @@ public interface ManageMethodService {
     void save(ManageMethod am);
     Integer delete(String ids);
     PageInfo query(Map param);
+    List queryNoPage(Map paramMap);
 
 }

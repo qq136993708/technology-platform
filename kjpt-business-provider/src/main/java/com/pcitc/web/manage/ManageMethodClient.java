@@ -1,5 +1,7 @@
 package com.pcitc.web.manage;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.common.Constant;
@@ -13,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +56,13 @@ public class ManageMethodClient {
          return mms.delete(id);
     }
 
-
+    @ApiOperation(value = "查询管理办法列表", notes = "查询管理办法列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param) {
+        List list = mms.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
 
 
 }

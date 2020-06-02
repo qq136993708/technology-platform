@@ -1,6 +1,9 @@
 package com.pcitc.web.controller.manage;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.manage.ManageMethod;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
@@ -10,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -18,10 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>管理办法</p>
@@ -48,7 +49,10 @@ public class ManageMethodController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/manageMethod-api/delete/";
-
+    /**
+     * 导出
+     */
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/manageMethod-api/queryNoPage";
 
 
 
@@ -138,6 +142,46 @@ public class ManageMethodController extends RestBaseController {
         a.setId(UUID.randomUUID().toString().replace("-",""));
         return a;
     }
+
+
+
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "methodName", value = "管理办法名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "edition", value = "版次", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publishDate", value = "发布日期", dataType = "string", paramType = "query")
+    })
+
+    @GetMapping(value = "/manageMethod-api/exportExcel")
+    @ResponseBody
+    public void exportExcel(
+            @RequestParam(required = false) String methodName,
+            @RequestParam(required = false) String edition,
+            @RequestParam(required = false) String publishDate
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        if (!StringUtils.isEmpty(methodName)) {
+            this.setParam(condition, "methodName", methodName);
+        }
+
+        if (!StringUtils.isEmpty(edition)) {
+            this.setParam(condition, "edition", edition);
+        }
+        if (!StringUtils.isEmpty(publishDate)) {
+            this.setParam(condition, "publishDate", publishDate);
+        }
+
+        this.setBaseParam(condition);
+        String[] headers = { "管理办法名称","版次","发布日期"};
+        String[] cols =    {"methodName","edition","publishDate","annual"};
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ManageMethod.class);
+        String fileName = "管理办法明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
+    }
+
+
 
 
 
