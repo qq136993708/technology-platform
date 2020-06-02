@@ -90,7 +90,19 @@ function getQueryVariable(key) {
   }
   return variable;
 }
-
+//获取用户信息
+function getUserInfo(){
+	var userInfo = null;
+	httpModule({
+		url: '/getCurrentUserInfo',
+		type: 'GET',
+		async:false,
+		success: function(relData) {
+			userInfo = relData;
+		}
+	})
+	return userInfo;
+};
 // layui 表格http请求返回结果转换可识别
 function layuiParseData(RelData, callback, number) {
 	var codeData = { code: '-1', msg: '无数据', count: 0, data: []};
