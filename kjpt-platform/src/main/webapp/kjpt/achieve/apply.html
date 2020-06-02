@@ -70,7 +70,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">所属《核心成果目录》技术方向：</span></label>
           <div class="layui-input-block">
-            <select name="techType" xm-select="techType"  xm-select-skin="normal"></select>
+            <select name="techType" xm-select="techType"  xm-select-skin="normal" lay-verify="required"></select>
             <!--<input type="text" name="companyName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">-->
           </div>
@@ -80,7 +80,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果持有单位：</span></label>
           <div class="layui-input-block">
-            <select name="finishUnitName" select="finishUnitName"  select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
+            <select name="finishUnitName" select="finishUnitName" lay-verify="required"  select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果所属单位（专业化公司/直属单位)：</span></label>
           <div class="layui-input-block">
-            <select name="affiliatedUnit" select="affiliatedUnit"  select-skin="normal"  dic-base-data="ROOT_KJPT_CGSSDW_ZYHGSZSDW"></select>
+            <select name="affiliatedUnit" select="affiliatedUnit" lay-verify="required"  select-skin="normal"  dic-base-data="ROOT_KJPT_CGSSDW_ZYHGSZSDW"></select>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">成果完成时间：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="finishDate"
+            <input type="text" name="finishDate" lay-verify="required"
                    autocomplete="off" placeholder="请选择成果完成时间!" class="layui-input laydate-input" id="finishDate">
             <!--<input type="text" name="companyName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">-->
@@ -128,7 +128,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">集团内部已开展的科技成果转化工作情况：</span></label>
           <div class="layui-input-block">
-            <textarea name="workInfo" placeholder="请输入内容" class="layui-textarea" style="min-height: 72px;"></textarea>
+            <textarea name="workInfo" placeholder="请输入内容" lay-verify="required" class="layui-textarea" style="min-height: 72px;"></textarea>
           </div>
         </div>
       </div>
@@ -136,7 +136,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">科技成果简介：</span></label>
           <div class="layui-input-block">
-            <textarea name="brief" placeholder="请输入内容" class="layui-textarea" style="min-height: 72px;"></textarea>
+            <textarea name="brief" placeholder="请输入内容" lay-verify="required" class="layui-textarea" style="min-height: 72px;"></textarea>
             <p class="not-text">注：重点描述成果创新点、技术成熟度、应用前景、知识产权情况等</p>
           </div>
         </div>
