@@ -22,6 +22,8 @@ function selectFileUpload(config) {
       return true;
     }
     ,done: function(res){
+    	console.log('file_res =>', res);
+    	
       top.layer.close(layerLoadIndex);
       if (res.code !== '0') {
         top.layer.msg('附件上传失败 => ' + res.message,  {icon: 2});
