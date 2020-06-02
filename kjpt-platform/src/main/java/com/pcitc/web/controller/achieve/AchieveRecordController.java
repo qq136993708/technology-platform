@@ -500,17 +500,17 @@ public class AchieveRecordController extends RestBaseController {
     }
 
 
-    @ApiOperation(value="提交")
-    @RequestMapping(value = "/achieveRecord-api/submit", method = RequestMethod.POST)
-    @ResponseBody
-    public AchieveSubmit submit(@RequestBody AchieveSubmit as){
-        this.setBaseData(as);
-        setRecord(as);
-        as.getAchieveRecord().setAuditStatus("1");
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
-        return as;
-    }
+//    @ApiOperation(value="提交")
+//    @RequestMapping(value = "/achieveRecord-api/submit", method = RequestMethod.POST)
+//    @ResponseBody
+//    public AchieveSubmit submit(@RequestBody AchieveSubmit as){
+//        this.setBaseData(as);
+//        setRecord(as);
+//        as.getAchieveRecord().setAuditStatus("01");
+//        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveSubmit>(as, this.httpHeaders), AchieveSubmit.class);
+//        return as;
+//    }
 
 
 
