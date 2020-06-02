@@ -183,9 +183,9 @@
 						}
 						layer.close(lodingMsg);
 						if (count == 0) {
-							parent.$("#pendingCount").hide();
+							parent.$("#pendingCount").addClass('layui-hide');
 						} else {
-            				parent.$("#pendingCount").show().html(count);						
+            				parent.$("#pendingCount").removeClass('layui-hide').html(count);						
 						}
 						$("#system").html(count);
 						

@@ -304,7 +304,9 @@ var __base_dic_store = {
 			<div class="layadmin-body-shade" layadmin-event="shade"></div>
 		</div>
 	</div>
-
+	
+	<input type="text" value="${userId}" id="userId" class="layui-hide">
+	
 	<script src="/layuiadmin/javascript/jquery.liMarquee.js"></script>
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
@@ -314,8 +316,20 @@ var __base_dic_store = {
 		}).extend({
 			index : 'lib/index' //主入口模块
 		}).use( [ 'index', 'jquery', "publicMethods", "element"], function() {
-			var layuiElement = layui.element;
-
+			var layuiElement = layui.element, $ = layui.jquery;
+			
+			// 获取待办任务数
+			httpModule({
+		        url: '/task-api/getPendingCountByUserId?userId='+$("#userId").val(),
+		        type: 'get',
+		        success: function(res) {
+		            if(res.success && res.data){
+		                $("#pendingCount").removeClass('layui-hide').html(res.data);
+		            } else {
+		            	$("#pendingCount").addClass('layui-hide').html('');
+		            }
+		        }
+		    });
 
 			function setHeaderMoreItem(params) {
 				setTimeout(function (params) {
