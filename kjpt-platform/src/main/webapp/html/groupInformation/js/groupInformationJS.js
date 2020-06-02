@@ -157,6 +157,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     	layer.msg('请选择需要编辑的'+tipTitle+'！');
     }
   })
+
   // 删除规划
   $('#delItem').on('click', function(e) {
     // 获取表格中选中的数据
@@ -182,6 +183,23 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     	layer.msg('请选择需要删除的'+tipTitle+'！');
     }
   })
+
+    $('#exportData').click(function() {
+        var formValue = form.val('patentFormDemo'),
+            searchData = {
+                name: formValue.name || '', // 名称：
+                publication: formValue.publication || '', // 发布处室：
+                annual: formValue.annual || '', // 年度/月度：
+                releaseTime: formValue.releaseTime || '' // 发布日期
+            },
+            exportUrl = '';
+
+        for (var key in searchData) {
+            exportUrl += '&' + key + '=' + searchData[key];
+        }
+        exportUrl = '/blocScientificPlan/exportExcel?reportType='+ params.reportType;
+        window.open(exportUrl, '_blank');
+    })
 
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });

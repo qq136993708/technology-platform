@@ -150,6 +150,26 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     }
   });
 
+    // 导出
+    $('#exportData').click(function() {
+        debugger;
+        var formValue = form.val('patentFormDemo'),
+            searchData = {
+                unitName: formValue.unitName || '', // 单位名称：
+                patentName: formValue.registerNumber || '', // 登记号：
+                patentType: formValue.softwareName || '', // 软件名称：
+                lawStatus: formValue.copyrightOwner || '', // 著作权人
+                applicationNumber: formValue.versionNumber || '', // 版本号：
+            },
+            exportUrl = '';
+
+        for (var key in searchData) {
+            exportUrl += '&' + key + '=' + searchData[key];
+        }
+        exportUrl = '/ComputerSoftware/exportExcel?' + exportUrl.substring(1);
+        window.open(exportUrl, '_blank');
+    })
+
   loadPatent();
   function loadPatent(){
     httpModule({

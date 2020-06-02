@@ -63,4 +63,9 @@ public class SciencePlanServiceImpl implements SciencePlanService {
 
         return pageInfo;
     }
+
+    @Override
+    public List queryNoPage(Map paramMap) {
+        return sciencePlanMapper.query(paramMap);
+    }
 }

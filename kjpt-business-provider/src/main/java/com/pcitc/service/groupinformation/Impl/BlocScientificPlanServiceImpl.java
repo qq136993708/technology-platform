@@ -62,4 +62,9 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
     public Integer delete(String id) {
         return blocScientificPlanMapper.delete(id);
     }
+
+    @Override
+    public List queryNoPage(Map paramMap) {
+        return blocScientificPlanMapper.query(paramMap);
+    }
 }

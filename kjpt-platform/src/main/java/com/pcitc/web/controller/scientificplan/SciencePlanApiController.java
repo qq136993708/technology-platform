@@ -1,7 +1,10 @@
 package com.pcitc.web.controller.scientificplan;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
+import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
@@ -12,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,10 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Api(value = "sciencePlan-api", description = "科技规划接口")
 @RestController
@@ -47,6 +48,12 @@ public class SciencePlanApiController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/sciencePlan-api/delete/";
+
+    /**
+     * 导出
+     */
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/sciencePlan-api/queryNoPage";
+
 
 
     @ApiOperation(value = "读取")
@@ -169,6 +176,58 @@ public class SciencePlanApiController extends RestBaseController {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
+    }
+
+
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "researchField", value = "技术领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "professionalField", value = "专业领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "specialtyCategory", value = "专业类别", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "reportType", value = "类型", dataType = "string", paramType = "query")
+    })
+
+    @GetMapping(value = "/exportExcel")
+    @ResponseBody
+    public void exportExcel(
+            @RequestParam(required = false) String authenticateUtil,
+            @RequestParam(required = false) String researchField,
+            @RequestParam(required = false) String professionalField,
+            @RequestParam(required = false) String specialtyCategory,
+            @RequestParam(required = false) String annual,
+            @RequestParam(required = false) String reportType
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        if (!StringUtils.isEmpty(reportType)) {
+            this.setParam(condition, "reportType", reportType);
+        }
+
+        if (!StringUtils.isEmpty(authenticateUtil)) {
+            this.setParam(condition, "authenticateUtil", authenticateUtil);
+        }
+        if (!StringUtils.isEmpty(researchField)) {
+            this.setParam(condition, "researchField", researchField);
+        }
+        if (!StringUtils.isEmpty(professionalField)) {
+            this.setParam(condition, "professionalField", professionalField);
+        }
+        if (!StringUtils.isEmpty(specialtyCategory)) {
+            this.setParam(condition, "specialtyCategory", specialtyCategory);
+        }
+        if (!StringUtils.isEmpty(annual)) {
+            this.setParam(condition, "annual", annual);
+        }
+        this.setBaseParam(condition);
+
+        String[] headers = { "创建单位", "技术领域", "专业领域", "专业类别","年度/月度"};
+        String[] cols =    {"createUnitName","researchField","professionalField","specialtyCategory","annual"};
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), SciencePlan.class);
+        String fileName = "科技材料_"+reportType+"明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
     }
 
     @ApiOperation(value = "保存")
