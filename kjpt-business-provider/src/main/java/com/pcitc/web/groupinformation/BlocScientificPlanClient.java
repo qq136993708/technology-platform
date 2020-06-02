@@ -1,6 +1,8 @@
 package com.pcitc.web.groupinformation;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.service.groupinformation.BlocScientificPlanService;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,6 +48,14 @@ public class BlocScientificPlanClient {
     public Integer delete(@PathVariable String id) {
         return blocScientificPlanService.delete(id);
 
+    }
+
+    @ApiOperation(value = "无分页集团信息发布—科技规划信息查询", notes = "无分页集团信息发布—科技规划信息查询")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param) {
+        List list = blocScientificPlanService.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
     }
 
 

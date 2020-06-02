@@ -205,5 +205,26 @@ setSelectInput();
     }
   })
 
+    // 导出
+    $('#exportData').click(function() {
+
+        var formValue = form.val('patentFormDemo'),
+            searchData = {
+                authenticateUtil: formValue.authenticateUtil || '', // 申报单位：
+                researchField: formValue.researchField || '', // 技术领域：
+                professionalField: formValue.professionalField || '', // 专业领域：
+                specialtyCategory: formValue.specialtyCategory || '', // 专业类别
+                annual: formValue.annual || '', // 年度/月度：
+            },
+            exportUrl = '';
+
+        for (var key in searchData) {
+            exportUrl += '&' + key + '=' + searchData[key];
+        }
+        exportUrl = '/SciencePlan/exportExcel?reportType='+params.reportType + exportUrl;
+        debugger;
+        window.open(exportUrl, '_blank');
+    })
+
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });

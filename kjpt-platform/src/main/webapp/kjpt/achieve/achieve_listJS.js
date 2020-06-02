@@ -217,4 +217,26 @@ layui.use(['table', 'form', 'laydate'], function () {
       parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }
   })
+   // 导出 /achieveRecord-api/exportExcel
+   $('#exportData').on('click', function(e) {
+    var formValue = form.val('achTransfrom'),
+    searchData = {
+      startDate: formValue.startDate, 
+      endDate: formValue.endDate, 
+      achieveName: formValue.achieveName, // 备案状态
+      auditStatus: formValue.auditStatus, // 录入开始时间
+      achieveTransType: formValue.achieveTransType, // 录入结束时间
+      affiliatedUnit: formValue.affiliatedUnit, // 成果类型、是否为核心成果
+      finishUnitName: formValue.finishUnitName, // 完成情况
+    },
+    exportUrl = '';
+
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/achieve-api/export?' + exportUrl.substring(1);
+    console.log(formValue);
+    // 附件下载
+    window.open(exportUrl, '_blank');
+  });
 })

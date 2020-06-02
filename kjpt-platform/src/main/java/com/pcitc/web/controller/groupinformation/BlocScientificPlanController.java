@@ -1,7 +1,10 @@
 package com.pcitc.web.controller.groupinformation;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
@@ -11,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -19,10 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Api(value = "blocScientificPlan-api", description = "集团信息发布—科技规划接口")
 @RestController
@@ -45,6 +46,11 @@ public class BlocScientificPlanController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/blocScientificPlan-api/delete/";
+
+    /**
+     * 导出
+     */
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/blocScientificPlan-api/queryNoPage";
 
     @ApiOperation(value = "读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
@@ -162,4 +168,52 @@ public class BlocScientificPlanController extends RestBaseController {
         p.setCreator(this.getUserProfile().getUserName());
         return p;
     }
+
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publication", value = "发布处室", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "releaseTime", value = "发布日期", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "reportType", value = "类型", dataType = "string", paramType = "query")
+    })
+
+    @GetMapping(value = "/exportExcel")
+    @ResponseBody
+    public void exportExcel(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String publication,
+            @RequestParam(required = false) String annual,
+            @RequestParam(required = false) String releaseTime,
+            @RequestParam(required = false) String reportType
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        if (!StringUtils.isEmpty(reportType)) {
+            this.setParam(condition, "reportType", reportType);
+        }
+
+        if (!StringUtils.isEmpty(name)) {
+            this.setParam(condition, "name", name);
+        }
+        if (!StringUtils.isEmpty(publication)) {
+            this.setParam(condition, "publication", publication);
+        }
+        if (!StringUtils.isEmpty(annual)) {
+            this.setParam(condition, "annual", annual);
+        }
+        if (!StringUtils.isEmpty(releaseTime)) {
+            this.setParam(condition, "releaseTime", releaseTime);
+        }
+
+        this.setBaseParam(condition);
+        String[] headers = { "名称","发布处室","发布日期","年度/月度"};
+        String[] cols =    {"name","publication","releaseTime","annual"};
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), BlocScientificPlan.class);
+        String fileName = "集团信息发布_"+reportType+"_明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
+    }
+
+
 }

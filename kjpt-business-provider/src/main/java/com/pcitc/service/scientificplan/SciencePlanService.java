@@ -3,6 +3,7 @@ package com.pcitc.service.scientificplan;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.scientificplan.SciencePlan;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SciencePlanService {
@@ -32,6 +33,13 @@ public interface SciencePlanService {
      * @return
      */
     PageInfo query(Map paramMap);
+
+    /**
+     * 无分页查询科技规划
+     * @param paramMap
+     * @return
+     */
+    List queryNoPage(Map paramMap);
 
 
 }
