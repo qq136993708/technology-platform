@@ -12,6 +12,7 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.system.SysNewsMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.system.SysNewsService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class SysNewsServiceImpl implements SysNewsService {
     @Autowired
     private SysNewsMapper sysNewsMapper;
 
+    @Autowired
+    private FileCommonService fs;
+
     public List<SysNews> findSysNewsList(SysNews sysNews) {
         List<SysNews> record = sysNewsMapper.findSysNewsList(sysNews);
         return record;
@@ -47,9 +51,11 @@ public class SysNewsServiceImpl implements SysNewsService {
     public int updateOrInsertSysNews(SysNews sysNews) throws Exception {
         int result = 500;
         if (sysNews.getDataId() != null && sysNews.getDataId() != null) {
+            fs.updateFileData(sysNews.getFileIds(),sysNews.getDataId());
             sysNewsMapper.updateByPrimaryKeySelective(sysNews);
         } else {
             sysNews.setDataId(IdUtil.createIdByTime());
+            fs.updateFileData(sysNews.getFileIds(),sysNews.getDataId());
             sysNewsMapper.insertSelective(sysNews);
         }
         result = 200;
