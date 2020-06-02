@@ -7,6 +7,7 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
     var formSelects = layui.formSelects
     // 获取地址栏传递过来的参数
   var variable = getQueryVariable();
+  var userInfo = getUserInfo();
 
   function getItemInitData(item) {
     var httpUrl = '/ComputerSoftware/newInit';
@@ -21,7 +22,7 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
           // 给form表单赋初始值
           var data = relData.data;
           transToData(data, ['recordDate','developFinishDate','entryTime']);
-
+          data['unitName']=userInfo.unitName
           form.val('formMain', data);
           if (variable.type === 'view') {
             setFomeDisabled('formMain', '.disabled');

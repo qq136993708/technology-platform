@@ -156,4 +156,20 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     	layer.msg('请选择需要删除的'+tipTitle+'！');
     }
   })
+
+    $('#exportData').click(function() {
+        var formValue = form.val('patentFormDemo'),
+            searchData = {
+                methodName: formValue.methodName || '', // 管理办法名称：
+                edition: formValue.edition || '', // 版次：
+                publishDate: formValue.publishDate || '' // 发布日期：
+            },
+            exportUrl = '';
+
+        for (var key in searchData) {
+            exportUrl += '&' + key + '=' + searchData[key];
+        }
+        exportUrl = '/manageMethod-api/exportExcel?' + exportUrl.substring(1);
+        window.open(exportUrl, '_blank');
+    })
 });

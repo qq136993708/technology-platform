@@ -60,4 +60,9 @@ public class ManageMethodServiceImpl implements ManageMethodService {
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
     }
+
+    @Override
+    public List queryNoPage(Map paramMap) {
+        return mapper.query(paramMap);
+    }
 }
