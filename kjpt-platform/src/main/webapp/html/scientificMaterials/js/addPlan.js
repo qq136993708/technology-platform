@@ -41,8 +41,6 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
     msgTitle = '查看';
     readonlyFile = true;
   } else if (variable.type === 'add') {
-    formSelects.value('authenticateUtil', [userInfo.unitId]);//申报单位
-    form.render();
     // 年份月度
     layui.laydate.render({elem: '#annualDate', type: 'month',trigger:'click'});
   } else if (variable.type === 'edit') {
@@ -64,6 +62,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         if(formData.releaseTime){
           formData.releaseTime = new Date(formData.releaseTime).format('yyyy-MM-dd');
         }
+        formData['authenticateUtil']= userInfo.unitName;
         form.val('formAddPlan', formData);
         form.render();
         $('#reportType').val(reportTypeVal);
@@ -78,6 +77,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         var scopeDisabled = false;
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
+          formSelects.disabled();
           $('.disabled-box').remove();
           form.render('select');
           $('#reportType').val(reportTypeVal);
