@@ -227,7 +227,7 @@ importFiles({
     for (var key in searchData) {
       exportUrl += '&' + key + '=' + searchData[key];
     }
-    exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+    exportUrl = '/trademarkController/export?' + exportUrl.substring(1);
     window.open(exportUrl, '_blank');
   })
   loadPatent();

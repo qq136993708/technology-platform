@@ -446,7 +446,7 @@ public class AdminController extends BaseController {
             }
         }
         request.setAttribute("scShowList", scShowList);
-        request.setAttribute("scList", scList);
+        //request.setAttribute("scList", scList);
 
 
         request.setAttribute("userId", sysUserInfo.getUserId());
