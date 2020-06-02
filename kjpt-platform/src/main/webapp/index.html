@@ -354,6 +354,18 @@ var __base_dic_store = {
 					console.log(res)
                 }
             });
+			//代办
+            httpModule({
+                url: '/sysNotice/pending-list?page=1&limit=1',
+                type: 'post',
+                success: function(res) {
+                    if(res.code==0){
+                        $("#pendingCount").html(res.count)
+                        $("#pendingCount").removeClass("layui-hide")
+                    }
+                    console.log(res)
+                }
+            });
 			var $ = layui.jquery, publicMethods = layui.publicMethods;
 			$('.dowebok').liMarquee();
 			// var headerNav = $(".layui-header-nav ul.layui-layout-left").html();
