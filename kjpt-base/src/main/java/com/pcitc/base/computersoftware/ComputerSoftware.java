@@ -141,6 +141,15 @@ public class ComputerSoftware extends RecordModel implements Serializable {
      **/
     private String topicDepartment;
 
+    /**
+     * 项目背景
+     */
+    private String projectBackground;
+    /**
+     * 项目背景文本翻译
+     */
+    private String projectBackgroundText;
+
     public String getProjectName() {
         return projectName;
     }
@@ -353,4 +362,19 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     }
 
 
+    public String getProjectBackground() {
+        return projectBackground;
+    }
+
+    public void setProjectBackground(String projectBackground) {
+        this.projectBackground = projectBackground;
+    }
+
+    public String getProjectBackgroundText() {
+        return projectBackgroundText;
+    }
+
+    public void setProjectBackgroundText(String projectBackgroundText) {
+        this.projectBackgroundText = projectBackgroundText;
+    }
 }

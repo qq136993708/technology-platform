@@ -29,7 +29,10 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
         	  setFomeDisabled('formMain', '.disabled');
         	  //单位和添加附件按钮disabled
               $('#file-filter-options label[filter="addFile"]').attr('disabled', true);
-              formSelects.disabled('unit');
+              // formSelects.disabled('unit');
+              form.render('select');
+              // $('.box-hide').hide();
+             formSelects.disabled();
           }
           
           form.val('formMain', data);

@@ -84,7 +84,7 @@
                     </div>
                 </div> -->
 
-                <input type="text" name="publicityStatus" value="1,2" class="layui-input layui-hide">
+                <input type="text" name="publicityStatus" value="2,3" class="layui-input layui-hide">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
@@ -166,35 +166,35 @@
                                     field: 'publicityStartDate',
                                     title: '开始时间',
                                     sort: true,
-                                    // templet: function(d){
-                                    //     if(d.publicityStartDate == null){
-                                    //         return '';
-                                    //     }else{
-                                    //         var times = new Date(d.publicityStartDate);
-                                    //         return times.getFullYear();
-                                    //     }
-                                    //  }
                                     templet: function(d){
-                                        var times = new Date(d.publicityStartDate);
-                                        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                                        if(d.publicityStartDate == null){
+                                            return '';
+                                        }else{
+                                            var times = new Date(d.publicityStartDate);
+                                            return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
                                         }
+                                     }
+                                    // templet: function(d){
+                                    //     var times = new Date(d.publicityStartDate);
+                                    //     return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                                    //     }
                                     },
                                 {
                                     field: 'publicityEndDate',
                                     title: '结束时间',
                                     sort: true,
-                                    // templet: function(d){
-                                    //     if(d.publicityEndDate == null){
-                                    //         return '';
-                                    //     }else{
-                                    //         var times = new Date(d.publicityEndDate);
-                                    //         return times.getFullYear();
-                                    //     }
-                                    //  }
                                     templet: function(d){
-                                        var times = new Date(d.publicityEndDate);
-                                        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                                        if(d.publicityEndDate == null){
+                                            return '';
+                                        }else{
+                                            var times = new Date(d.publicityEndDate);
+                                            return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
                                         }
+                                     }
+                                    // templet: function(d){
+                                    //     var times = new Date(d.publicityEndDate);
+                                    //     return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                                    //     }
                                     },
                                 {
                                     field: 'appraisalDoc',
@@ -285,7 +285,7 @@
                         // 弹窗销毁时获取弹窗返回数据
                         var getData = getDialogData('dialog-data');
                         if (getData !== null && getData.success) {
-                            queryTable();
+                            queryTable({'publicityStatus':'2,3'});
                         }
                     }
                 });

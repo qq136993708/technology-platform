@@ -112,13 +112,15 @@
              </div>
          </div>
          <br>
-         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
              <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">项目背景：</span></label>
                  <div class="layui-input-block">
-                     <textarea name="softwareIntro" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+                     <!-- <textarea name="softwareIntro" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea> -->
                      <!--<input type="text" name="softwareIntro" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
-                 </div>
+                     <select name="projectBackground" xm-select="projectBackground" xm-select-skin="normal" xm-select-radio=""
+                     dic-base-data="ROOT_KJPT_XMBJ" placeholder="请选择"></select>
+                    </div>
              </div>
          </div>
          <p></p>

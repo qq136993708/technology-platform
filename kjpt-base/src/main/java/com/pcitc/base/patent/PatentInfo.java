@@ -290,11 +290,19 @@ public class PatentInfo extends RecordModel implements Serializable {
      * 应用技术领域技术类
      */
     private String applicationTechnologyTechnology;
+    /**
+     * 应用技术领域技术类文本翻译
+     */
+    private String applicationTechnologyTechnologyText;
 
     /**
      * 项目背景
      */
     private String projectBackground;
+    /**
+     * 项目背景文本翻译
+     */
+    private String projectBackgroundText;
 
     //establishment_department project_number project_name
     //application_technology_products application_model_product_name
@@ -318,6 +326,10 @@ public class PatentInfo extends RecordModel implements Serializable {
      * 应用技术领域产品类
      */
     private String applicationTechnologyProducts;
+    /**
+     * 应用技术领域产品类文本翻译
+     */
+    private String applicationTechnologyProductsText;
     /**
      * 应用模型产品名称
      */
@@ -932,6 +944,30 @@ public class PatentInfo extends RecordModel implements Serializable {
 
     public void setPublicAnnouncementNo(String publicAnnouncementNo) {
         this.publicAnnouncementNo = publicAnnouncementNo;
+    }
+
+    public String getApplicationTechnologyTechnologyText() {
+        return applicationTechnologyTechnologyText;
+    }
+
+    public void setApplicationTechnologyTechnologyText(String applicationTechnologyTechnologyText) {
+        this.applicationTechnologyTechnologyText = applicationTechnologyTechnologyText;
+    }
+
+    public String getProjectBackgroundText() {
+        return projectBackgroundText;
+    }
+
+    public void setProjectBackgroundText(String projectBackgroundText) {
+        this.projectBackgroundText = projectBackgroundText;
+    }
+
+    public String getApplicationTechnologyProductsText() {
+        return applicationTechnologyProductsText;
+    }
+
+    public void setApplicationTechnologyProductsText(String applicationTechnologyProductsText) {
+        this.applicationTechnologyProductsText = applicationTechnologyProductsText;
     }
 
     public String getExplain() {

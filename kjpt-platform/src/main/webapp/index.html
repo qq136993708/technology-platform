@@ -476,7 +476,7 @@ var __base_dic_store = {
 										type : 'post',
 										dataType : 'json',
 										async : false,
-										url : '/admin/collect?functionCode=' + $(this).parent().attr("data-code") + "&functionName=" + $(this).parent().attr("lay-text") + "&functionId=" + $(this).parent().attr("data-id"),
+										url : '/admin/collect?functionCode=' + $(this).parent().parent().attr("data-code") + "&functionName=" + $(this).parent().parent().attr("lay-text") + "&functionId=" + $(this).parent().parent().attr("data-id"),
 										success : function(data) {
 											layer.msg(data.message);
 											if (data.success) {

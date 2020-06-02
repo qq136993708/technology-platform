@@ -24,8 +24,10 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
 
           form.val('formMain', data);
           if (variable.type === 'view') {
-            debugger
-        	  setFomeDisabled('formMain', '.disabled');
+            setFomeDisabled('formMain', '.disabled');
+            form.render('select');
+            $('.box-hide').hide();
+            formSelects.disabled();
           }
           // 更新表单数据
           form.render();
