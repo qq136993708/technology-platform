@@ -56,7 +56,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'effectiveDate',
-                            title: '有效日期',
+                            title: '有效期',
                             templet:'#effectiveDate'
                             , sort: true
                         },
