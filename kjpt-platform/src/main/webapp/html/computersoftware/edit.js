@@ -50,6 +50,8 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
             }
           });
           formSelects.value('supportingInstitutions', [data.unitName]);
+          formSelects.value('projectBackground', [data.projectBackground]);
+
 
           // 添加知悉范围
           setJurisdictionScope({

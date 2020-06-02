@@ -28,7 +28,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'copyrightOwner', title: '著作权人', sort: true}
           ,{field: 'copyrightGetwayText', title: '权利取得方式', sort: true}
           ,{field: 'registerDepartment', title: '登记部门', sort: true}
-          ,{field: 'softwareIntro', title: '项目背景', sort: true}
+          ,{field: 'projectBackgroundText', title: '项目背景', sort: true}
 
          /* ,{field: 'technicalFieldValue', title: '技术领域', sort: true }
 
