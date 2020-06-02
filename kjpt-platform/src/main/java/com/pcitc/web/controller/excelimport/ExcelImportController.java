@@ -32,7 +32,6 @@ public class ExcelImportController extends BaseController {
 
     @ApiOperation(value="Excel导入")
     @RequestMapping(value = {"/excelImport/{importType}"}, method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    @ResponseBody
     public String kgjImport(@RequestParam(value = "file", required = false) MultipartFile impExcel, @PathVariable String importType, @RequestParam(value="pid",required=false) String pid, HttpServletRequest request) throws Exception {
         InputStream in = new BufferedInputStream(impExcel.getInputStream());
         String fileName = impExcel.getOriginalFilename();
