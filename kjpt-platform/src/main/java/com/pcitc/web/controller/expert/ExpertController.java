@@ -588,8 +588,8 @@ public class ExpertController extends BaseController {
   	   			}
   	   		}
   	   		
-  	   		    String[] headers = { "专家姓名",  "身份证号码",    "性别"  , "出生日期"  ,  "职称"  ,  "职务", "所在单位", "联系电话" };
-  	   		    String[] cols =    {"name",    "idCardNo","sexStr",  "age",      "titleStr",   "post", "belongUnitStr" ,"contactWay"};
+  	   		    String[] headers = { "专家姓名",  "身份证号码",    "性别"  ,   "出生日期"  ,  "职称"  ,  "职务", "所在单位", "联系电话" };
+  	   		    String[] cols =    {"name",    "idCardNo",    "sexStr",  "age",      "titleStr",   "post", "belongUnitStr" ,"contactWay"};
   	   		   
   	   	        // 文件名默认设置为当前时间：年月日时分秒
   	   	        String fileName = "专家表__"+DateFormatUtils.format(new Date(), "ddhhmmss");
@@ -691,13 +691,9 @@ public class ExpertController extends BaseController {
 		  	            Object col_7 = lo.get(7);
 		  	            Object col_8 = lo.get(8);
 		  	            String aname=String.valueOf(lo.get(0));
-		  	            String agestr=String.valueOf(lo.get(3));
+		  	            String datestr=String.valueOf(lo.get(3));
 		  	          
-		  	            //System.out.println(i+"----------"+aname);
-		  	            //System.out.println(i+"----------"+agestr);
 		  	  			ZjkBase obj = new ZjkBase();
-		  	  			Integer count=Integer.valueOf(Math.round(Float.valueOf(agestr)));
-		  	  		    Integer year=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		  	  			
 		  	  			obj.setCreateTime(new Date());
 		  	  			obj.setDelStatus(Constant.DEL_STATUS_NOT);
@@ -722,7 +718,7 @@ public class ExpertController extends BaseController {
 		  				}
 		  				
 		  				String sexStr="1";
-		  				String str=String.valueOf(lo.get(2));
+		  				String str=String.valueOf(col_2);
 		  				if(str.equals("女"))
 		  				{
 		  					sexStr="2";
@@ -731,10 +727,12 @@ public class ExpertController extends BaseController {
 		  	  			obj.setName(String.valueOf(lo.get(0)));
 		  	  			obj.setIdCardNo(String.valueOf(lo.get(1)));
 		  	  			obj.setSex(sexStr);
-		  	  			obj.setAge(year.intValue()-count.intValue());
+		  	  		    obj.setBirthDate(DateUtil.strToDate(datestr, DateUtil.FMT_DD));
+		  	  		    obj.setBelongUnit(String.valueOf(col_4));
 		  	  			obj.setTitle(String.valueOf(lo.get(5)));
 		  	  			obj.setPost(String.valueOf(lo.get(6)));
 		  	  			obj.setContactWay(String.valueOf(lo.get(7)));
+		  	  		    obj.setTechnicalFieldName(String.valueOf(lo.get(8)));
 						obj.setSecretLevel("0");
 		  	  			obj.setBelongUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
 		  	  			list.add(obj);
@@ -773,6 +771,8 @@ public class ExpertController extends BaseController {
 	            Object col_4 = lo.get(4);
 	            Object col_5 = lo.get(5);
 	            Object col_6 = lo.get(6);
+	            Object col_7 = lo.get(7);
+	            Object col_8 = lo.get(8);
 	            if(col_0==null)
 	            {
 	            	sb.append("第"+(i+1)+"行专家姓名为空,");
@@ -787,13 +787,19 @@ public class ExpertController extends BaseController {
 	  				sb.append("第"+(i+1)+"出生年份为空,");
 	            }else if(col_4==null)
 	            {
-	            	sb.append("第"+(i+1)+"职称为空,");
+	  				sb.append("第"+(i+1)+"所在单位为空,");
 	            }else if(col_5==null)
 	            {
-	            	sb.append("第"+(i+1)+"职务为空,");
+	            	sb.append("第"+(i+1)+"职称为空,");
 	            }else if(col_6==null)
 	            {
+	            	sb.append("第"+(i+1)+"职务为空,");
+	            }else if(col_7==null)
+	            {
 	            	sb.append("第"+(i+1)+"联系方式为空,");
+	            }else if(col_8==null)
+	            {
+	            	sb.append("第"+(i+1)+"技术领域为空,");
 	            }
 	  		}
   		resultsDate.setMessage(sb.toString());

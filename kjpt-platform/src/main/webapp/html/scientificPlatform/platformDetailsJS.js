@@ -11,6 +11,12 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   var variable = getQueryVariable();
   console.log(variable);
 
+
+  //隐藏操作按钮
+  if (variable && variable.type == 'view') {
+    $('.layui-tab-item .view-title-layout .right').css('display', 'none');
+  }
+
   function addTableData(config) {
     if (!config.update) {
       var searchData = { platformId: variable.id };
