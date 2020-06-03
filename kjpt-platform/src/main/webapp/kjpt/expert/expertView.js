@@ -15,6 +15,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
                 }
             }
         });
+
+        //隐藏操作按钮
+        if (variable.type == 'view') {
+            $('.layui-tab-item .view-title-layout .right').css('display', 'none');
+        }
     }
     $(".label-value").eq(2).hover(function () {
         $(this).attr("title",$(this).html())
