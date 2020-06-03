@@ -94,7 +94,7 @@
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
                     <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
-                    <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
+                    <span class="layui-btn layui-btn-normal layui-fold-btn-custom" id="custormAdd">自定义查询</span>
                     <!-- <span class="layui-fold-btn"></span> -->
                 </div>
             </div>
@@ -106,9 +106,6 @@
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">
-                    <span class="layui-btn layui-btn-normal" id="custormAdd">增加</span>
-                </div>
             </div>
             <div id="custromFrom"></div>
         </div>
@@ -166,7 +163,7 @@
                         {field: 'educationStr', title: '学历' },
                         {field: 'belongUnitStr', title: '所在单位'},
                         {field: 'technicalFieldName', title: '技术领域'},
-                        {field: 'contactWay', title: '联系方式'},
+                        {field: 'contactWay', title: '联系电话'},
                         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()}
                     ]],
                     method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
