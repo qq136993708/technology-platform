@@ -114,7 +114,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/researchPlatformLeader-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'name', title: '姓名', templet: function(d) {
+        ,{field: 'name', title: '领军人物姓名', templet: function(d) {
           if (d.baseId && d.baseId != '-') {
             return '<a class="link-text expert_list_link" lay-text="'+d.name+'" lay-href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
           } else {
@@ -134,9 +134,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/platformTreatise-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'thesisTitle', title: '论文题目' }
+        ,{field: 'thesisTitle', title: '论文名称' }
         ,{field: 'thesisLevelText', title: '论文级别', sort: true }
-        ,{field: 'journalTitle', title: '期刊名称', sort: true}
+        ,{field: 'journalTitle', title: '刊物或出版社名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '发表时间', sort: true}
         ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
@@ -158,8 +158,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         }}
         ,{field: 'birth', title: '出生年月', sort: true }
         ,{field: 'educationText', title: '学历', sort: true}
-        ,{field: 'technicalTitle', title: '技术职称'} 
-        ,{field: 'graduateSchool', title: '毕业学校'}
+        ,{field: 'technicalTitle', title: '担任职务'}
+        ,{field: 'graduateSchool', title: '学校名称'}
         ,{field: 'majorStudied', title: '所学专业'}
         // ,{field: 'postName', title: '岗位名称'} 
       ]]
