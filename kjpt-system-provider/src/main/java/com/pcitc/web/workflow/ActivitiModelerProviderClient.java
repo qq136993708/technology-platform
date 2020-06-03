@@ -521,7 +521,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			return new Result(true, workflowVo.getProcessDefineId(), "操作成功，已经挂起");
 		} else if (workflowVo.getState().equals("2")) {
 			repositoryService.activateProcessDefinitionById(workflowVo.getProcessDefineId(), true, null);
-			return new Result(false, workflowVo.getProcessDefineId(), "操作成功，已经激活");
+			return new Result(true, workflowVo.getProcessDefineId(), "操作成功，已经激活");
 		} else {
 			return new Result(false, workflowVo.getProcessDefineId(), "操作失败");
 		}
