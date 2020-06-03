@@ -1544,6 +1544,7 @@ layui.use(['form', 'formSelects','laydate'], function() {
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
 						'<select name="columnName" placeholder="请选择" lay-filter="columnName" >'+
+						'<option value="" placeholder="请选择"></option>'+
 							optionStr +
 						'</select>'+
 						'</div>'+
@@ -1638,8 +1639,8 @@ layui.use(['form', 'formSelects','laydate'], function() {
 			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
 			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
 		}
-		
 	})
+	
     /*动态生成元素*/
     window.createElement=function (param) {
         httpModule({
