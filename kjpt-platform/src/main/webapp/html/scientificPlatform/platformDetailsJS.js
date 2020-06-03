@@ -134,9 +134,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/platformTreatise-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'thesisTitle', title: '论文题目' }
+        ,{field: 'thesisTitle', title: '论文名称' }
         ,{field: 'thesisLevelText', title: '论文级别', sort: true }
-        ,{field: 'journalTitle', title: '期刊名称', sort: true}
+        ,{field: 'journalTitle', title: '刊物或出版社名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '发表时间', sort: true}
         ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
