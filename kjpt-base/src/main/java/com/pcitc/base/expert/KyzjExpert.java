@@ -1,6 +1,7 @@
 package com.pcitc.base.expert;
 
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /***
  * @Author xiaoh
@@ -119,6 +120,7 @@ public class KyzjExpert {
         this.yearStr = yearStr;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public Date getCreateDate() {
         return createDate;
     }
@@ -135,6 +137,7 @@ public class KyzjExpert {
         this.createUser = createUser;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public Date getUpdateDate() {
         return updateDate;
     }
