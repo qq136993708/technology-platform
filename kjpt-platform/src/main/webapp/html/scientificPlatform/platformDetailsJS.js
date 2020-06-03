@@ -156,7 +156,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             return d.name;
           }
         }}
-        ,{field: 'birth', title: '出生年月', sort: true }
+        ,{field: 'birth', title: '出生日期', sort: true }
         ,{field: 'educationText', title: '学历', sort: true}
         ,{field: 'technicalTitle', title: '担任职务'}
         ,{field: 'graduateSchool', title: '学校名称'}

@@ -5,22 +5,22 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
   var variable = getQueryVariable();
   var reportTypeVal = variable.reportType;
   var userInfo = getUserInfo();
-  
-  switch(reportTypeVal){
+
+  switch(Number(reportTypeVal)){
     case 1:
-        $('#configName').html("科技规划名称:");
+        $('#configName').text("科技规划名称:");
     break;
     case 2:
-        $('#configName').html("工作要点名称:");
+        $('#configName').text("工作要点名称:");
     break;
     case 3:
-        $('#configName').html("科技进展名称:");
+        $('#configName').text("科技进展名称:");
     break;
     case 4:
-        $('#configName').html("年度总结名称:");
+        $('#configName').text("年度总结名称:");
     break;
     case 5:
-        $('#configName').html("研究报告名称:");
+        $('#configName').text("研究报告名称:");
     break;
   }
 
