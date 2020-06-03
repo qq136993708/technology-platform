@@ -731,6 +731,6 @@
     select b.name,count(1) num from patent_info a left join sys_dictionary b on a.patent_type = b.num_value and b.parent_code = 'ROOT_KJPT_ZLZL'
     where deleted != '1'
     <include refid="selectByParam" />
-    GROUP BY patent_type
+    GROUP BY a.patent_type,b.name
   </select>
 </mapper>
