@@ -232,7 +232,7 @@ public class UnitProviderClient
 	{
 		return unitService.getUnitByUnitPath(unitPath);
 	}
-	
+
 	
 	@ApiOperation(value="检索机构树",notes="检索完整的机构树，从根节点开始。")
 	@RequestMapping(value = "/unit-provider/unit/tree-data", method = RequestMethod.POST)

@@ -2,6 +2,7 @@ package com.pcitc.service.groupinformation;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
+import com.pcitc.base.scientificplan.SciencePlan;
 
 import java.util.List;
 import java.util.Map;
@@ -34,5 +35,8 @@ public interface BlocScientificPlanService {
      * @return
      */
     List queryNoPage(Map paramMap);
+
+
+    public int insertBatch(List<BlocScientificPlan> list)throws Exception;
 
 }

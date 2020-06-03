@@ -3,6 +3,7 @@ package com.pcitc.service.scientificplan.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Page;
+import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.scientificplan.SciencePlanMapper;
@@ -67,5 +68,19 @@ public class SciencePlanServiceImpl implements SciencePlanService {
     @Override
     public List queryNoPage(Map paramMap) {
         return sciencePlanMapper.query(paramMap);
+    }
+
+    @Override
+    public int insertBatch(List<SciencePlan> list) throws Exception {
+        int count=0;
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                SciencePlan sciencePlan=list.get(i);
+                count=sciencePlanMapper.add(sciencePlan);
+            }
+        }
+        return count;
     }
 }

@@ -4,12 +4,16 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
+import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.computersoftware.ComputerSoftware;
+import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.ImportExcelUtil;
 import io.swagger.annotations.Api;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,7 +28,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.*;
 
 @Api(value = "sciencePlan-api", description = "科技规划接口")
@@ -53,6 +61,16 @@ public class SciencePlanApiController extends RestBaseController {
      * 导出
      */
     private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/sciencePlan-api/queryNoPage";
+
+
+    private static final String SCIENCE_PLAN_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/sciencePlan-api/excel_input";
+
+    /**
+     * 导入模板头部所占行数
+     */
+    private static final Integer IMPORT_HEAD = 3;
+
+    private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
 
 
 
@@ -265,4 +283,149 @@ public class SciencePlanApiController extends RestBaseController {
         p.setCreator(this.getUserProfile().getUserName());
         return p;
     }
+
+
+    @ApiOperation(value = "根据模板导入科技材料（EXCEL）", notes = "根据模板导入科技材料（EXCEL）")
+    @RequestMapping(value = "/input_excel", method = RequestMethod.POST)
+    public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
+    {
+        Result resultsDate = new Result();
+        String type = req.getQueryString();
+        if(StringUtils.isBlank(type)){
+            resultsDate.setSuccess(false);
+            resultsDate.setMessage("未能获取科技材料类型，请重试");
+        }else{
+            type = getReportTypeFromQueryString(type);
+        }
+        SysUser sysUserInfo = this.getUserProfile();
+
+        if (file.isEmpty())
+        {
+            resultsDate.setSuccess(false);
+            resultsDate.setMessage("上传异常，请重试");
+        }else
+        {
+            InputStream in = file.getInputStream();
+            List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+            System.out.println(">>>>>>行数:"+listob.size());
+            List<SciencePlan> list = new ArrayList<SciencePlan>();
+            resultsDate= getResult( listob );
+            if(resultsDate.isSuccess()==true)
+            {
+                for (int i = IMPORT_HEAD; i < listob.size(); i++)
+                {
+                    List<Object> lo = listob.get(i);
+
+                    Object col_1 = lo.get(1);//名称
+                    Object col_2 = lo.get(2);//申报单位
+                    Object col_3 = lo.get(3);//技术领域
+                    Object col_4 = lo.get(4);//年度/月度
+                    Object col_5 = lo.get(5);//发布日期
+
+                    if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)&&checkIfBlank(col_5)) break;
+
+                    //将excel导入数据转换为SciencePlan对象
+                    SciencePlan obj = new SciencePlan();
+
+                    obj.setReportType(type);
+                    obj.setCreateUnitId(sysUserInfo.getUnitId());
+                    obj.setAuthenticateUtil(getAuthenticateUtilByName(String.valueOf(col_2)));
+                    obj.setAuthenticateUitlText(String.valueOf(col_2));
+                    obj.setName(String.valueOf(col_1));
+                    obj.setTechnicalFieldName(String.valueOf(col_3));
+                    Date annual = DateUtil.strToDate(String.valueOf(col_4),DateUtil.FMT_DD);
+                    Date releaseTime = DateUtil.strToDate(String.valueOf(col_5),DateUtil.FMT_DD);
+                    obj.setAnnual(annual);
+                    obj.setReleaseTime(releaseTime);
+                    String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+                    obj.setId(dateid);
+                    obj.setSecretLevel("0");
+                    list.add(obj);
+                }
+                ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(SCIENCE_PLAN_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
+                int statusCode = responseEntity.getStatusCodeValue();
+                // 返回结果代码
+                if (statusCode == 200) {
+                    resultsDate.setSuccess(true);
+                    resultsDate.setCode("0");
+                } else {
+                    Result back = responseEntity.getBody();
+                    resultsDate.setSuccess(false);
+                    resultsDate.setMessage(back.getMessage());
+                }
+            }
+
+        }
+        return resultsDate;
+    }
+
+
+    private String getAuthenticateUtilByName(String name){
+
+        String authenticateUtil = "";
+        try {
+            authenticateUtil =  EquipmentUtils.getUnitByUnitName(name,restTemplate,httpHeaders);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return authenticateUtil;
+    }
+
+    private Result getResult(List<List<Object>> listob )
+    {
+        Result resultsDate = new Result();
+        resultsDate.setSuccess(true);
+        StringBuffer sb=new StringBuffer();
+        for (int i = IMPORT_HEAD; i < listob.size(); i++)
+        {
+            List<Object> lo = listob.get(i);
+            Object col_1 = lo.get(1);
+            Object col_2 = lo.get(2);
+            Object col_3 = lo.get(3);
+            Object col_4 = lo.get(4);
+            Object col_5 = lo.get(5);
+
+            if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)&&checkIfBlank(col_5)) break;
+
+            if(col_1==null)
+            {
+                sb.append("第"+(i+1)+"行名称为空,");
+            }else if(col_2==null)
+            {
+                sb.append("第"+(i+1)+"行申报单位为空,");
+            }else if(col_3==null)
+            {
+                sb.append("第"+(i+1)+"行技术领域为空,");
+            }else if(col_4==null)
+            {
+                sb.append("第"+(i+1)+"行年度/月度为空,");
+            }else if(col_5==null)
+            {
+                sb.append("第"+(i+1)+"行发布日期为空,");
+            }
+        }
+        resultsDate.setMessage(sb.toString());
+        if((sb.toString()).equals(""))
+        {
+            resultsDate.setSuccess(true);
+        }else
+        {
+            resultsDate.setSuccess(false);
+        }
+        return resultsDate;
+    }
+
+    private Boolean checkIfBlank(Object o){
+        if(o==null) return true;
+        if(String.valueOf(o)=="") return true;
+        return false;
+    }
+
+    private String getReportTypeFromQueryString(String queryString){
+        String[] querys = queryString.split("=");
+        return querys[1];
+    }
+
+
+
 }
