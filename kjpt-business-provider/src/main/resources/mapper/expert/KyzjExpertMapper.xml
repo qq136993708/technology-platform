@@ -168,6 +168,7 @@
              <if test="expertType != null and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
              <if test="yearStr != null and yearStr  !='' ">                   AND t.yearStr = #{year}</if>
              <if test="createUnitId != null and createUnitId !=''  ">   AND t.create_unit_id = #{createUnitId}</if>
+             <if test="deleted != null and deleted !=''  ">   AND t.deleted = #{deleted}</if>
              <if test="childUnitIds != null and childUnitIds !=''  ">
                  AND t.create_unit_id in
                   <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">

@@ -596,8 +596,11 @@
         //ORDER BY  create_time desc
       </otherwise>
      </choose>-->
-     ORDER BY  orders 
-     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+     ORDER BY  orders
+       <if test="order != null and order !=''  ">
+           ${order}
+       </if>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
    </select>
    
    

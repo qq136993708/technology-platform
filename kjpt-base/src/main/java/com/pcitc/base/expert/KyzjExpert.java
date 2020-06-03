@@ -1,12 +1,14 @@
 package com.pcitc.base.expert;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /***
  * @Author xiaoh
  * @Description 科研专家维护
  * @Date 2020/6/2 16:29
- * @param null
+ * @param
  * @return
  **/
 public class KyzjExpert {
@@ -41,6 +43,8 @@ public class KyzjExpert {
      */
     private Date createDate;
 
+    private String createDateStr;
+
     /**
      * 创建人
      */
@@ -49,7 +53,7 @@ public class KyzjExpert {
     /**
      * 修改时间
      */
-    private Date updateDate=new Date();
+    private Date updateDate;
 
     /**
      * 修改人
@@ -119,12 +123,26 @@ public class KyzjExpert {
         this.yearStr = yearStr;
     }
 
+    /*@JsonFormat(pattern = "yyyy-MM-dd")*/
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getCreateDateStr() {
+        createDateStr = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (createDate!=null){
+            createDateStr = simpleDateFormat.format(createDate);
+        }
+        return createDateStr;
+    }
+
+    public void setCreateDateStr(String createDateStr) {
+        this.createDateStr = createDateStr;
     }
 
     public String getCreateUser() {
@@ -135,6 +153,7 @@ public class KyzjExpert {
         this.createUser = createUser;
     }
 
+    /*@JsonFormat(pattern = "yyyy-MM-dd")*/
     public Date getUpdateDate() {
         return updateDate;
     }
