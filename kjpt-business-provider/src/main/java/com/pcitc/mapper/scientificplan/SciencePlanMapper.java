@@ -44,4 +44,5 @@ public interface SciencePlanMapper {
      * @return
      */
     List<SciencePlan> query(Map paramMap);
+
 }

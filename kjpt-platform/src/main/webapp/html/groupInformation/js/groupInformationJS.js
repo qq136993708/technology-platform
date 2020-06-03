@@ -201,5 +201,18 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         window.open(exportUrl, '_blank');
     })
 
+    importFiles({
+        id:'#importData',
+        url:'/blocScientificPlan/input_excel?reportType='+params.reportType,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
   // https://www.layui.com/demo/table/user/?page=2&limit=10
 });

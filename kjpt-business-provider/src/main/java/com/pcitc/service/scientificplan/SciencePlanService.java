@@ -41,5 +41,7 @@ public interface SciencePlanService {
      */
     List queryNoPage(Map paramMap);
 
+    public int insertBatch(List<SciencePlan> list)throws Exception;
+
 
 }

@@ -32,6 +32,7 @@ layui.use(['laypage', 'layer'], function() {
                   }
                 }
                 fileImgLoading = layer.load(2);
+                // $('.preview-content').show();
                 $('#getPdfPageContent').show().attr('src', '/file/getPdfPageContent/'+ fileId +'/' + (page.curr - 1));
               }
             });
