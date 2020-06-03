@@ -44,6 +44,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
           } else {
             return layuiParseData(res);
           }
+        },
+        done: function(res, curr, count){
+          if (config.id == 'tablePaper') {
+            $('#tablePaperCount').text(res.count);
+          }
         }
       });
     } else {
