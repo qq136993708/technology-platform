@@ -50,7 +50,7 @@ public class KyzjExpert {
     /**
      * 修改时间
      */
-    private Date updateDate=new Date();
+    private Date updateDate;
 
     /**
      * 修改人
@@ -120,7 +120,7 @@ public class KyzjExpert {
         this.yearStr = yearStr;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    /*@JsonFormat(pattern = "yyyy-MM-dd")*/
     public Date getCreateDate() {
         return createDate;
     }
@@ -137,7 +137,7 @@ public class KyzjExpert {
         this.createUser = createUser;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    /*@JsonFormat(pattern = "yyyy-MM-dd")*/
     public Date getUpdateDate() {
         return updateDate;
     }
