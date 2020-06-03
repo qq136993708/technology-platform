@@ -84,7 +84,7 @@ public class KyzjExpertProviderClient {
 	@RequestMapping(value = "/kyzjExpert/logic_delete/{id}", method = RequestMethod.POST)
 	public int deleteLoginKyzjExpert(@PathVariable("id") String id)throws Exception{
 		logger.info("=============================根据ID逻辑删除专家信息 kyzjExpert==="+id+"==============");
-		return kyzjExpertService.deleteKyzjExpert(id);
+		return kyzjExpertService.deleteLogicKyzjExpert(id);
 	}
 	
 	

@@ -75,49 +75,6 @@ public class KyzjExpertController extends BaseController {
 	/**
 	  * 获取专家（分页）
 	 */
-	
-	
-    @ApiOperation(value = "科研专家管理（分页）", notes = "科研专家管理（分页）")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "yearStr", value = "年份", dataType = "string", paramType = "query"),
-		@ApiImplicitParam(name = "expertType", value = "科研专家类型", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
-    })
-    @RequestMapping(value = "/KyzjExpert-api/list", method = RequestMethod.POST)
-	public String getExpertPage(
-			@RequestParam(required = true) Integer page,
-            @RequestParam(required = true) Integer limit,
-            @RequestParam(required = false) String yearStr,
-            @RequestParam(required = false) String expertType,
-            @RequestParam(required = false) String customQueryConditionStr,
-			HttpServletRequest request, HttpServletResponse response)throws Exception 
-     {
-     	SysUser sysUserInfo = this.getUserProfile();
-    	LayuiTableParam param =new LayuiTableParam();
-    	param.getParam().put("yearStr", yearStr);
-    	param.getParam().put("expertType",expertType);
-    	param.getParam().put("customQueryConditionStr", customQueryConditionStr);
-    	param.getParam().put("deleted", Constant.DEL_STATUS_NOT);
-    	param.setLimit(limit);
-    	param.setPage(page);
-    	String userName=sysUserInfo.getUserName();
-    	//默认查询当前人所在机构及子机构的所有专家
-    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
-    	//param.getParam().put("childUnitIds", childUnitIds);
-    	
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			layuiTableData = responseEntity.getBody();
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取科研专家列表（分页） " + result.toString());
-		return result.toString();
-	}
     
     @ApiOperation(value = "科研专家查询（分页）", notes = "科研专家查询（分页）")
     @ApiImplicitParams({
@@ -125,7 +82,7 @@ public class KyzjExpertController extends BaseController {
         @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "yearStr",           value = "年份", dataType = "string", paramType = "query"),
 		@ApiImplicitParam(name = "expertType",     value = "科研专家分类", dataType = "string", paramType = "query"),
-		@ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
+		@ApiImplicitParam(name = "customQueryConditionStr",    value = "条件",     dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/KyzjExpert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -160,7 +117,7 @@ public class KyzjExpertController extends BaseController {
 		return result.toString();
 	}
     
-    @ApiOperation(value = "查询科研专家个数", notes = "查询科研专家个数")
+    /*@ApiOperation(value = "查询科研专家个数", notes = "查询科研专家个数")
     @RequestMapping(value = "/KyzjExpert-api/getCount", method = RequestMethod.GET)
 	public String getKyzjExpertCount() throws Exception {
     	Result resultsDate = new Result();
@@ -174,7 +131,7 @@ public class KyzjExpertController extends BaseController {
 		resultsDate.setData(count);
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return ob.toString();
-    }
+    }*/
 
     /**
 	  * 删除专家
@@ -224,7 +181,7 @@ public class KyzjExpertController extends BaseController {
     	@ApiImplicitParam(name = "id", value = "主键", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "yearStr", value = "年份", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "expertType", value = "科研专家类别", dataType = "string", paramType = "form",required=true),
-        @ApiImplicitParam(name = "num", value = "数量", dataType = "Integer", paramType = "form")
+        @ApiImplicitParam(name = "num", value = "数量", dataType = "string", paramType = "form",required=true)
     })
     @RequestMapping(method = RequestMethod.POST, value = "/KyzjExpert-api/save")
 	public String saveExpert(@RequestBody  KyzjExpert kyzjExpert,HttpServletRequest request, HttpServletResponse response) throws Exception {
