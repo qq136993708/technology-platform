@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -104,7 +105,10 @@ public class ProcessDefController extends BaseController {
 		workflowVo.setState(state);
 		workflowVo.setProcessDefineId(processDefinitionId);
 		ResponseEntity<Result> resultRes = this.restTemplate.exchange(PROCESS_DEFINE_STATE, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), Result.class);
-		System.out.println("deleteModel=====" + resultRes.getBody());
+		
+		
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultRes.getBody()));
+		System.out.println("deleteModel=====" + ob.toString());
 		return resultRes.getBody();
 	}
 

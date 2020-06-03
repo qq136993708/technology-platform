@@ -38,27 +38,27 @@ setSelectInput();
     case 1:
         $('#configName').html("科技规划名称:");
         tipTitle = "科技规划";
-        $("#moduleid").attr("href","/data/科技材料-科技材料上报-科技规划导入模板.xlsx");
+        $("#moduleid").attr("href","/data/科技材料-科技材料上报-科技规划导入模板.xls");
     break;
     case 2:
         $('#configName').html("工作要点名称:");
         tipTitle = "工作要点";
-        $("#moduleid").attr("href","/data/科技材料-科技材料上报-工作要点导入模板.xlsx");
+        $("#moduleid").attr("href","/data/科技材料-科技材料上报-工作要点导入模板.xls");
     break;
     case 3:
         $('#configName').html("科技进展名称:");
         tipTitle = "科技进展";
-        $("#moduleid").attr("href","/data/科技材料-科技材料上报-科技进展动态导入模板.xlsx");
+        $("#moduleid").attr("href","/data/科技材料-科技材料上报-科技进展动态导入模板.xls");
     break;
     case 4:
         $('#configName').html("年度总结名称:");
         tipTitle = "年度总结";
-        $("#moduleid").attr("href","/data/科技材料-科技材料上报-年度总结导入模板.xlsx");
+       $("#moduleid").attr("href","/data/科技材料-科技材料上报-年度总结导入模板.xls");
     break;
     case 5:
         $('#configName').html("研究报告名称:");
         tipTitle = "研究报告";
-        $("#moduleid").attr("href","/data/科技材料-科技材料上报-研究报告导入模板.xlsx");
+        $("#moduleid").attr("href","/data/科技材料-科技材料上报-研究报告导入模板.xls");
     break;
   }
   var cols  = [ //表头
