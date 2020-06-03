@@ -178,11 +178,11 @@
                 end: function () {
                     var relData = getDialogData('dialog-data');
                     if (relData) {
-                        if (relData.code === '0') {
+                        if (relData.success == true) {
                             layer.msg(dialogTitle + '成功!', {
                                 icon: 1
                             });
-                            $('[lay-filter="formDemo"]').click();
+                            $('[lay-filter="newSubmit"]').click();
                         } else {
                             layer.msg(relData.message, {
                                 icon: 2
