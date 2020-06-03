@@ -4,10 +4,15 @@ package com.pcitc.web.groupinformation;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
+import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.service.groupinformation.BlocScientificPlanService;
+import com.pcitc.web.scientificplan.SciencePlanClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/blocScientificPlan-api")
 public class BlocScientificPlanClient {
+
+    private final static Logger logger = LoggerFactory.getLogger(BlocScientificPlanClient.class);
 
     @Autowired
     private BlocScientificPlanService blocScientificPlanService;
@@ -56,6 +63,22 @@ public class BlocScientificPlanClient {
         List list = blocScientificPlanService.queryNoPage(param);
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
         return json;
+    }
+
+    @ApiOperation(value = "导入集团发布信息", notes = "导入集团发布信息")
+    @RequestMapping(value = "/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<BlocScientificPlan> list) throws Exception
+    {
+        Result result=new Result();
+        try {
+            int count = blocScientificPlanService.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("导入科技规划失败");
+            logger.error("导入专家信息失败", e);
+        }
+        return result;
     }
 
 

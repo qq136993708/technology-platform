@@ -724,7 +724,7 @@
     union all
     select b.name 'name',count(1) num from patent_info a left join sys_dictionary b on a.legal_status = b.num_value and b.parent_code = 'ROOT_KJPT_FLZT(ZL)' where deleted != '1'
     <include refid="selectByParam" />
-     GROUP BY legal_status
+     GROUP BY legal_status,b.name
   </select>
 
   <select id="countByPatentType" parameterType="java.util.Map" resultType="java.util.Map">

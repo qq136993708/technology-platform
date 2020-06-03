@@ -34,18 +34,22 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     case 1:
         $('#configName').html("科技规划名称:");
         tipTitle = "科技规划";
+        $("#moduleid").attr("href","/data/集团公司发布-科技规划导入模板.xls");
     break;
     case 2:
         $('#configName').html("工作指南名称:");
         tipTitle = "工作指南";
+        $("#moduleid").attr("href","/data/集团公司发布-工作指南导入模板.xls");
     break;
     case 3:
         $('#configName').html("工作要点名称:");
         tipTitle = "工作要点";
+        $("#moduleid").attr("href","/data/集团公司发布-工作要点导入模板.xls");
     break;
     case 4:
         $('#configName').html("质量信息名称:");
         tipTitle = "质量信息";
+        $("#moduleid").attr("href","/data/集团公司发布-质量信息导入模板.xls");
     break;
   }
 
@@ -199,6 +203,19 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         }
         exportUrl = '/blocScientificPlan/exportExcel?reportType='+ params.reportType;
         window.open(exportUrl, '_blank');
+    })
+
+    importFiles({
+        id:'#importData',
+        url:'/blocScientificPlan/input_excel?reportType='+params.reportType,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
     })
 
   // https://www.layui.com/demo/table/user/?page=2&limit=10

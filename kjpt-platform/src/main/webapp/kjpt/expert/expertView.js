@@ -138,7 +138,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     ];
     // 导入
     $('.ib-button').each(function(e) {
-        debugger;
+
         var buttonId = $(this).attr('id'),
             exportType = $(this).attr('export-type');
         importFiles({

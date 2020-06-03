@@ -391,6 +391,15 @@ public class EquipmentUtils {
 	}
 
 
+	//根据机构名称检索机构信息
+	public static String getUnitByUnitName(String unitName,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		String UNIT_GET_UNIT = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name/";
+		String unit = restTemplate.exchange(UNIT_GET_UNIT + unitName, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), String.class).getBody();
+		return unit;
+	}
+
+
 	//根据机构ID检索机构信息
 	public static SysUnit getUnitByUnitId(String unitId,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
 	{

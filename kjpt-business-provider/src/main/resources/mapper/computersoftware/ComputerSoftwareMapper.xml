@@ -396,7 +396,7 @@
         select b.name,count(1) num from  computer_software a left join sys_dictionary b on a.COPYRIGHT_GETWAY = b.num_value and b.parent_code = 'ROOT_KJPT_QLHDFS'
          where deleted != '1'
         <include refid="selectByParam"/>
-         GROUP BY a.COPYRIGHT_GETWAY
+         GROUP BY a.COPYRIGHT_GETWAY,b.name
         union all
         select '全部' as name,count(1) num from computer_software where deleted != '1'
         <include refid="selectByParam"/>

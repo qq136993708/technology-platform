@@ -88,6 +88,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发布时间<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="publicDate" name="publicDate"
+                                    placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-form-item">
@@ -225,7 +234,12 @@
                     }
                 });
             }
-            
+            laydate.render({
+                elem: '#publicDate',
+                value: new Date() //必须遵循format参数设定的格式
+                    ,
+                position: 'fixed'
+            });
             /* 自定义验证规则 */
             form.verify({
                 title: function (value) {

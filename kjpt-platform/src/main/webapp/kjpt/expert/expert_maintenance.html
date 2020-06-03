@@ -29,7 +29,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">科研专家类型：</span></label>
                     <div class="layui-input-block">
-                        <select name="level" dic-base-data="ROOT_KJPT_KYZJLX" lay-verify="required"  placeholder="请选择...">
+                        <select name="level" dic-base-data="ROOT_KJPT_KYZJLX"  placeholder="请选择...">
                         </select>
                     </div>
                 </div>
@@ -80,16 +80,16 @@
                     tableRender = true;
                     table.render({
                         elem: '#expertTable' // 表格元素ID
-                        ,url: '/outPerson-api/page' //数据接口
+                        ,url: '/KyzjExpert-api/query' //数据接口KyzjExpert-api/query
                         ,cols: [[ //表头
                             {type: 'checkbox' },
                             {title: '序号',type:'numbers',width:55 },
-                            {field: 'name', title: '年份' },
+                            {field: 'yearStr', title: '年份' },
                             {field: 'techTypeName', title: '科研专家类型' },
-                            {field: 'sexStr', title: '数量'},
+                            {field: 'num', title: '数量'},
                             {field: 'age', title: '录入日期'},
                         ]],
-                        method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                        method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                         where: where
                         ,request: {
                             page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
@@ -106,7 +106,8 @@
         };
         laydate.render({
             elem: '#authorizationDate' //指定元素
-            ,trigger: 'click'
+            ,trigger: 'click',
+            type:'year'
         });
 
         // 新增
@@ -135,14 +136,14 @@
                     layer.close(index);
                     // 确认删除
                     httpModule({
-                        url: '/standardMaintain-api/delete/' + itemRowData[0].id,
-                        type: 'DELETE',
+                        url: '/KyzjExpert-api/delete/' + itemRowData[0].id,
+                        type: 'GET',
                         success: function (relData) {
-                            if (relData.code === '0') {
+                            if (relData.success == true) {
                                 layer.msg('删除成功!', {
                                     icon: 1
                                 });
-                                $('[lay-filter="formDemo"]').click();
+                                $('[lay-filter="newSubmit"]').click();
                             } else {
                                 layer.msg('删除失败', {
                                     icon: 2
