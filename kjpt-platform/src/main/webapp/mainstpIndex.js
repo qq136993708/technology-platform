@@ -353,7 +353,7 @@ layui.config({
   getTabContentList({
     id: '#plan_tab_list',
     name: 'name',
-    url: '/SciencePlan/query',
+    url: '/blocScientificPlan/query',
     data: { page: 1, limit: 10, reportType: 1},
     href: '/html/scientificMaterials/addPlan.html',
     hrefData: ['id', {name: 'type', value: 'see'}, {name: 'reportType', value: '1'}],

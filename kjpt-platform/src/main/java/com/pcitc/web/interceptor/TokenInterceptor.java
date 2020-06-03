@@ -70,13 +70,15 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					if(serverName.equals(serverIp))
 					{
 						System.out.println(">>>>a>>>serverName ============="+serverName);
-						response.sendRedirect("/login");
+						//response.sendRedirect("/login");
+						response.getWriter().write("<script> parent.document.location= '/login"+"' </script>");
 						
 					}else
 					{
 						System.out.println(">>>>>>b>serverName ============="+serverName);
 						//response.sendRedirect(proxyUrl + "sso_error_sw");
-						response.sendRedirect("/login");
+						//response.sendRedirect("/login");
+						response.getWriter().write("<script> parent.document.location= '/login"+"' </script>");
 						
 					}
 					return false;
@@ -96,12 +98,14 @@ public class TokenInterceptor extends BaseController implements HandlerIntercept
 					if(serverName.equals(serverIp))
 					{
 						System.out.println(">>>>c>>>serverName ============="+serverName);
-						response.sendRedirect("/login");
+						//response.sendRedirect("/login");
+						response.getWriter().write("<script> parent.document.location= '/login"+"' </script>");
 						
 					}else
 					{
 						System.out.println(">>>>>>d>serverName ============="+serverName);
-						response.sendRedirect("/login");
+						//response.sendRedirect("/login");
+						response.getWriter().write("<script> parent.document.location= '/login"+"' </script>");
 						//response.sendRedirect(proxyUrl + "sso_error_sw");
 						
 					}

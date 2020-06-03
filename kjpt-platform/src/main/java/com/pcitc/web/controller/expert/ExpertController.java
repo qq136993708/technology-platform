@@ -586,7 +586,7 @@ public class ExpertController extends BaseController {
   	   			}
   	   		}
   	   		
-  	   		    String[] headers = { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务", "所在单位", "联系方式" };
+  	   		    String[] headers = { "专家姓名",  "身份证号码",    "性别"  , "出生日期"  ,  "职称"  ,  "职务", "所在单位", "联系电话" };
   	   		    String[] cols =    {"name",    "idCardNo","sexStr",  "age",      "titleStr",   "post", "belongUnitStr" ,"contactWay"};
   	   		   
   	   	        // 文件名默认设置为当前时间：年月日时分秒

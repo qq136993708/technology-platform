@@ -88,7 +88,7 @@ setSelectInput();
     $('#professionalField').css("display","none");
     $('#professionalType').css("display","none");
   }else{
-    cols = cols.concat(additional);
+    // cols = cols.concat(additional);
   }
 
   cols = cols.concat(
