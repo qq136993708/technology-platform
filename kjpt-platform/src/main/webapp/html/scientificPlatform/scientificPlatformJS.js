@@ -28,6 +28,7 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
   });
 
   //表格渲染
+  var level = variable&&variable.level?variable.level:'';
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
   function queryTable(searchData) {
@@ -39,7 +40,9 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
         ,url: '/platform-api/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'platformName', title: '平台名称', templet: '#detailsTpl'}
+          ,{field: 'platformName', title: '平台名称', templet: function (d) {
+              return '<a href="./platformDetails.html?type=view&id=' + d.id + '&level=' + level + '" class="layui-table-link">' + d.platformName +'</a>';
+            }}
           ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
           ,{field: 'personLiable', title: '主要负责人', sort: true}
           ,{field: 'levelText', title: '平台类型'} 

@@ -128,6 +128,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("name", name);
     	param.getParam().put("customQueryConditionStr", customQueryConditionStr);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
+    	param.getParam().put("order", ",create_time ASC ");
     	param.setLimit(limit);
     	param.setPage(page);
     	param.getParam().put("expertTypes", expertTypes);
@@ -218,6 +219,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("secretLevel", secretLevel);
     	param.getParam().put("expertType", expertType);
     	param.getParam().put("expertTypes", expertTypes);
+		 param.getParam().put("order", ",update_time DESC ");
     	param.getParam().put("groupType", groupType);
 		SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
@@ -380,7 +382,7 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
 			oldZjkBase.setName(zjkBase.getName());
-			
+			oldZjkBase.setUpdateTime(new Date());
 			
 			//处理知悉范围
 			String userName=sysUserInfo.getUserName();
