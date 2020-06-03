@@ -33,6 +33,16 @@
             </div>
 
 
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">科研专家类型：</span></label>
+                    <div class="layui-input-block">
+                        <select name="expertType" dic-base-data="ROOT_XTCSPZ_KYZJLX"  placeholder="请选择...">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">数量：</span></label>
@@ -76,35 +86,27 @@
 
 
         function getItemInitData(item) {
-            var httpUrl = '/standardMaintain-api/newInit';
-            if (item && item.id) {
-                httpUrl = '/standardMaintain-api/load/' + item.id;
+            if(item.type === "add"){
+                return
             }
+                var  httpUrl = '/KyzjExpert-api/get/' + item.id;
             httpModule({
-                url: '/outPerson-api/page',
+                url: httpUrl,
                 type: 'GET',
                 success: function(relData) {
-                    if (relData.code === '0') {
+                    if (relData.success == true) {
                         // 给form表单赋初始值
                         var data = relData.data;
-                        if(data.technicalField) {
-                            data.technicalField = data.technicalField.split(',');
-                        } else {
-                            data.technicalField = [];
+                        if(data.expertType){
+                            //专家类型
+                            formSelects.value('expertType',[data.expertType])
                         }
-                        if(data.chiefEditorUnit){
-                            formSelects.value('chiefEditorUnit',[data.chiefEditorUnit])
+                        if(data.num){
+                            formSelects.value('num',[data.num])
                         }
-                        if(data.partakeEditorUnit){
-                            formSelects.value('partakeEditorUnit',[data.partakeEditorUnit])
-                        }
-                        if(data.publishDate){
-                            // 发布时间
-                            data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
-                        }
-                        if(data.effectiveDate){
-                            // 实施时间
-                            data.effectiveDate = new Date(data.effectiveDate).format('yyyy-MM-dd');
+                        if(data.yearStr){
+                            // 年份
+                            data.yearStr = new Date(data.yearStr).format('yyyy');
                         }
 
                         if (variable.type === 'view') {
