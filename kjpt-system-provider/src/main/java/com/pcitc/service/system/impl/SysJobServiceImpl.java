@@ -319,6 +319,9 @@ public class SysJobServiceImpl implements SysJobService {
 				String logType=getTableParam(param,"logType","");
 				String createTimeStr=getTableParam(param,"createTimeStr","");
 				
+				System.out.println(">>>>>>>>>>>>>>>createTimeStr："+createTimeStr);
+				System.out.println(">>>>>>>>>>>>>>>jobName："+jobName);
+				
 				Map map=new HashMap();
 				map.put("jobName", jobName);
 				map.put("createTimeStr", createTimeStr);

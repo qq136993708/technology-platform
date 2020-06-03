@@ -11,6 +11,12 @@
     <result column="job_bigin_time" jdbcType="TIMESTAMP" property="jobBiginTime" />
     <result column="log_type"       jdbcType="VARCHAR"   property="logType" />
     <result column="title"          jdbcType="VARCHAR"   property="title" />
+     <result column="createTimeStr"          jdbcType="VARCHAR"   property="createTimeStr" />
+    
+    
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, create_time, content, job_class, job_name, remark, job_bigin_time,log_type,title
@@ -157,7 +163,7 @@
 	</sql>
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sys_qrtz_log t <include refid="selectCondition" />    
+     select *,DATE_FORMAT(create_time, '%Y-%m-%d') createTimeStr  from sys_qrtz_log t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
