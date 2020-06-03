@@ -176,13 +176,8 @@ public class KyzjExpertController extends BaseController {
 		return result.toString();
 	}
 
+
     @ApiOperation(value = "保存、修改科研专家信息", notes = "保存、修改科研专家信息")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "id", value = "主键", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "yearStr", value = "年份", dataType = "string", paramType = "form",required=true),
-        @ApiImplicitParam(name = "expertType", value = "科研专家类别", dataType = "string", paramType = "form",required=true),
-        @ApiImplicitParam(name = "num", value = "数量", dataType = "string", paramType = "form",required=true)
-    })
     @RequestMapping(method = RequestMethod.POST, value = "/KyzjExpert-api/save")
 	public String saveExpert(@RequestBody  KyzjExpert kyzjExpert,HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
