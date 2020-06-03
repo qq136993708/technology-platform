@@ -47,7 +47,7 @@ layui.use(['table', 'form', 'laydate'], function () {
               title: '成果完成时间',
               // templet: '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',
               templet: function(d){
-                if(d.finishDate == null){
+                if(d.finishDate == null || d.finishDate == ''){
                     return '';
                 }else{
                     var times = new Date(d.finishDate);

@@ -1512,6 +1512,15 @@ layui.use(['form', 'formSelects','laydate'], function() {
 	});
 	var count = 0
 	$('#custormAdd').on('click',function(){
+			var custromLen = $('.custrom-box').length;
+			if(custromLen == '0'){
+				custromFrom();
+			}else{
+				$('.custrom-box').remove();
+			}
+	});
+
+	function custromFrom(){
 		var tableName = returnTableName();
 		count++;
 		httpModule({
@@ -1527,12 +1536,14 @@ layui.use(['form', 'formSelects','laydate'], function() {
 					var formid = 'form'+count;
 					var dataId = 'data'+count;
 					var optionCode = 'optionCode'+count;
+					var addStr = '<button class="add-more-item-btn" type="button">'+
+					'<i class="layui-icon">&#xe654;</i>'+
+					'</button>';
 					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
 						'<div class="layui-input-block">'+
 						'<select name="columnName" placeholder="请选择" lay-filter="columnName" >'+
-						'<option value="" placeholder="请选择"></option>'+
 							optionStr +
 						'</select>'+
 						'</div>'+
@@ -1562,24 +1573,41 @@ layui.use(['form', 'formSelects','laydate'], function() {
 						'</div>'+
 						'</div>'+
 						'</div>'+
-						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
-						'<div class="layui-form-item">'+
-						'<span class="layui-btn layui-btn-normal custromDel">删除</span>'+
-						'</div></div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn more-item">'+
+						'<div class="layui-form-item" style="padding-left: 20px;">'+
+						'	<label class="layui-form-label custrom-label" style="text-align: left">'+
+							addStr +
+						'</label>'+
+						'</div>'+
 						'</div>'
+						'</div>'
+						
 						$('#custromFrom').append(str);
 				}
 				window.createElement({code:'ROOT_XTGL_ZDYCXTJ',id: id,className:'dt',element:'option',index:count,dt:'dt'})
 			}
 		});
-	})	
+	};
+	//自定义增加
+	$(document).on('click','.add-more-item-btn',function(){
+		custromFrom();
+		var delStr='<button class="more-item-del-btn custromDel" type="button">' +
+					  					'<i class="layui-icon">&#x1006;</i>' +
+											'</button>';
+			$(this).parents('.more-item').find('.custrom-label').append(delStr);
+			$(this).hide();
+	})
 	
 	//自定义删除
 	$(document).on('click','.custromDel',function(){
+		var addStr = '<button class="add-more-item-btn" type="button">'+
+											'<i class="layui-icon">&#xe654;</i>'+
+											'</button>';
+		$(this).parents('.custrom-label').append(addStr);
 		$(this).parents('.custrom-box').remove();
+
 	})
 
-	// commonLayuiForm
 	commonLayuiForm.on('select(columnName)', function(data) {
 		var optionType = $(data.elem).find("option:selected").attr("data-optionType");
 		var columnType = $(data.elem).find("option:selected").attr("data-columnType");   

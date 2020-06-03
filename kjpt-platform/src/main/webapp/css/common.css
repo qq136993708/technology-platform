@@ -897,3 +897,21 @@ border-width: 5px;
 /* #custromFrom .layui-form-item .layui-input-block select{
   display: block !important;
 } */
+.more-item button {
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 1px solid rgba(10,161,255,1);
+  border-radius: 50%;
+  color: #0AA1FF;
+}
+.more-item button.more-item-del-btn {
+  background: rgb(194, 200, 203);
+  color: #ffffff;
+  border: none;
+}
+#custormAdd {
+  border: 1px solid #1890FF;
+  background-color: #fff;
+  color: #1890FF;
+}

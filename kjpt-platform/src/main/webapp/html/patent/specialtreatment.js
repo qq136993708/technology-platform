@@ -62,7 +62,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {
               field: 'patentTypeText',
-              title: '专利类型',
+              title: '专利类别',
               align: 'center',
             },
             {
