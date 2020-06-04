@@ -57,7 +57,7 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
         if (variable.type === 'view') {
           setFomeDisabled('newRecordFome', '.disabled');
         } else {
-          laydate.render({elem: '#estimate'})
+          laydate.render({elem: '#estimate',trigger:'click'})
         }
         form.render();
         if (newData.finishUnitName) {
