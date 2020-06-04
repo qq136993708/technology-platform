@@ -42,6 +42,38 @@
 			/* publicMethods.ajaxPost('/dictionary/desc/ROOT_XTCSPZ_DLSRCWCS', null, function (data, status) { 
 				maxErrorNum = data.numValue;
 		    }); */
+
+
+
+        if(!placeholderSupport()){   // 判断浏览器是否支持 placeholder 不支持则执行一下自定义代码
+            $('[placeholder]').focus(function() {
+                var input = $(this);
+                //判断如果你密码框，获取焦点之后属性修改为密码框 如果没有密码框此处判断可以删除 一下同理
+                if(input[0].id=='LAY-user-login-password'){
+                    input.prop('type','password');
+                }
+                if (input.val() == input.attr('placeholder')) {
+                    input.val('');
+                    input.removeClass('placeholder');
+                }
+            }).blur(function() {
+                var input = $(this);
+                if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                    //将所有input置为文本框  主要为了重置密码框
+                    input.prop('type','text');
+                    input.addClass('placeholder');
+                    input.val(input.attr('placeholder'));
+                }else{
+                    //密码框填写密码后 密码后恢复 密码框
+                    if(input[0].id=='LAY-user-login-password'){
+                        input.prop('type','password');
+                    }
+                }
+            }).blur();
+        };
+        function placeholderSupport() {
+            return 'placeholder' in document.createElement('input');
+        }
 			
 			//刷新验证码
 			$("#LAY-user-get-vercode").on("click",function(){

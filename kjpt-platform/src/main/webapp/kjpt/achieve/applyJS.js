@@ -10,18 +10,6 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         id = '',
         approvalDoc = '',
         publicDoc = '';
-    /*判断id，回显*/
-
-    /* var fileCols = [
-         {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
-         {title: '操作', templet: function(d) {
-                 var templet = '<div class="file-options">';
-                 templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
-                 templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
-                 templet += '</div>';
-                 return templet;
-             }}
-     ]*/
     laydate.render({
         elem: '#finishDate',
         trigger: 'click',
@@ -33,14 +21,15 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         type: 'GET',
         async: false,
         success: function (relData) {
-            relData.children.map(function (item, index) {
-                item.children.map(function (items, i) {
-                    delete items.children
-                })
-            })
-            formSelects.data('techType', 'local', {
-                arr: relData.children
-            });
+            // relData.children.map(function (item, index) {
+            //     item.children.map(function (items, i) {
+            //         delete items.children
+            //     })
+            // })
+            // formSelects.data('techType', 'local', {
+            //     arr: relData.children
+            // });
+            formSelects.data('techType', 'local', { arr: [relData] });
             formSelects.btns('techType', ['remove']);
         }
     });
