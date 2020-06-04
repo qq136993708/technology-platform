@@ -1,6 +1,7 @@
 package com.pcitc.mapper.expert;
 
 import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.out.OutPerson;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +45,10 @@ public interface ZjkPatentMapper {
      * 查询专家信息管理项目列表
      */
     List<ZjkPatent> query(Map paramMap);
+    
+    
+
+    public int deleteAll()throws Exception;
+    public Integer insertBatch(List<ZjkPatent> list);
+    
 }

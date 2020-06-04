@@ -14,14 +14,14 @@ import com.pcitc.service.system.SysJobService;
 import com.pcitc.utils.QrtzUtils;
 import com.pcitc.utils.RestfulHttpClient;
 
-public class PersonToPersonJob implements Job, Serializable{
+public class PunishToPunishJob implements Job, Serializable{
 	private static final long serialVersionUID = 2L;
-	private static final String Quality = "http://localhost/getPersonToPersonList";
+	private static final String Quality = "http://localhost/getPunishToPunishList";
 	public	SysJobService sysJobService = SpringContextUtil.getApplicationContext().getBean(SysJobService.class);
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("===本地人才同步getPersonToPersonList======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "-----");
+		System.out.println("===本地奖惩 getPunishToPunishList======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "-----");
         RestfulHttpClient.HttpResponse response = null;        
 		
 		try {
@@ -29,12 +29,12 @@ public class PersonToPersonJob implements Job, Serializable{
 					.get()          
 					.request();
 			//保存任务日志
-			QrtzUtils.saveSysQrtzLog(context, sysJobService, "1", "com.pcitc.service.job.PersonToPersonJob", response.getContent());
+			QrtzUtils.saveSysQrtzLog(context, sysJobService, "1", "com.pcitc.service.job.PunishToPunishJob", response.getContent());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			//保存任务日志
-			QrtzUtils.saveSysQrtzLog(context, sysJobService, "2", "com.pcitc.service.job.PersonToPersonJob", e.getMessage());
+			QrtzUtils.saveSysQrtzLog(context, sysJobService, "2", "com.pcitc.service.job.PunishToPunishJob", e.getMessage());
 			
 		}
 

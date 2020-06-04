@@ -21,15 +21,16 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.expert.ZjkRewardPunish;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.system.CustomQueryConditionVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
+import com.pcitc.mapper.expert.ZjkRewardPunishMapper;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
@@ -55,7 +56,8 @@ public class ExpertServiceImpl implements IExpertService {
 	@Autowired
     private OutPersonMapper outPersonMapper;
 	
-	  
+	@Autowired
+    private ZjkRewardPunishMapper zjkRewardPunishMapper;
 	
 	
 
@@ -68,6 +70,17 @@ public class ExpertServiceImpl implements IExpertService {
 		ZjkBase zjkBase= zjkBaseMapper.selectByPrimaryKey(id);
 		return zjkBase;
 	}
+	
+	
+	public ZjkBase getZjkBaseByNum(String num) throws Exception
+	{
+		
+		ZjkBase zjkBase= zjkBaseMapper.getZjkBaseByNum(num);
+		return zjkBase;
+	}
+	
+	
+	  
 
 	 /**
 	     *修改专家信息
@@ -755,7 +768,18 @@ public class ExpertServiceImpl implements IExpertService {
 	}
 		
 		
-		
+	public Integer insertBatchZjkPatent(List<ZjkPatent> list)throws Exception
+	{
+		return zjkPatentMapper.insertBatch(list);
+	}
+    
+    
+    
+    
+	public int deleteAllZjkPatent()throws Exception
+	{
+		return zjkPatentMapper.deleteAll();
+	}
 	
 	
 	
@@ -837,7 +861,7 @@ public class ExpertServiceImpl implements IExpertService {
 			
 			List<ZjkReward> list = zjkRewardMapper.getList(map);
 			PageInfo<ZjkReward> pageInfo = new PageInfo<ZjkReward>(list);
-			System.out.println(">>>>>>>>>专家奖励查询分页结果 "+pageInfo.getList().size());
+			System.out.println(">>>>>>>>>getZjkRewardPage分页结果 "+pageInfo.getList().size());
 			
 			LayuiTableData data = new LayuiTableData();
 			data.setData(pageInfo.getList());
@@ -845,6 +869,100 @@ public class ExpertServiceImpl implements IExpertService {
 			data.setCount(total.intValue());
 		    return data;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public ZjkRewardPunish selectZjkRewardPunish(String id) throws Exception
+	{
+		return zjkRewardPunishMapper.selectByPrimaryKey(id);
+	}
+	
+	public Integer updateZjkRewardPunish(ZjkRewardPunish record)throws Exception
+	{
+		return zjkRewardPunishMapper.updateByPrimaryKey(record);
+	}
+	
+	
+	public int deleteZjkRewardPunish(String id)throws Exception
+	{
+		return zjkRewardPunishMapper.deleteByPrimaryKey(id);
+	}
+	
+	
+	public Integer insertZjkRewardPunish(ZjkRewardPunish record)throws Exception
+	{
+		return zjkRewardPunishMapper.insert(record);
+	}
+	
+	public Integer insertBatchZjkRewardPunish(List<ZjkRewardPunish> list)throws Exception
+	{
+		return zjkRewardPunishMapper.insertBatch(list);
+	}
+	
+	public LayuiTableData getZjkRewardPunishPage(LayuiTableParam param)throws Exception
+	{
+		
+			int pageSize = param.getLimit();
+			int pageStart = (param.getPage()-1)*pageSize;
+			int pageNum = pageStart/pageSize + 1;
+			PageHelper.startPage(pageNum, pageSize);
+			String delStatus=getTableParam(param,"delStatus","");
+			String expertNum=getTableParam(param,"expertNum","");
+			String expertId=getTableParam(param,"expertId","");
+			
+			Map map=new HashMap();
+			map.put("expertId", expertId);
+			map.put("expertNum", expertNum);
+			map.put("delStatus", delStatus);
+			
+			
+			List<ZjkRewardPunish> list = zjkRewardPunishMapper.getList(map);
+			PageInfo<ZjkRewardPunish> pageInfo = new PageInfo<ZjkRewardPunish>(list);
+			System.out.println(">>>>>>>>getZjkRewardPunishPage分页结果 "+pageInfo.getList().size());
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+	}
+	
+	public List getZjkRewardPunishList(Map map)throws Exception
+	{
+			List<ZjkRewardPunish> list = zjkRewardPunishMapper.getList(map);
+		    return list;
+	}
+	
+	public int deleteAllZjkRewardPunish()throws Exception
+	{
+		return zjkRewardPunishMapper.deleteAll();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -53,12 +53,6 @@
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        <if test='skipKnowledgeScope=="0"'>
-            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-        </if>
-        ))
     </select>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -71,12 +65,6 @@
         <if test="secretLevel != null and secretLevel != '' ">
             and secret_level = #{secretLevel}
         </if>
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        <if test='skipKnowledgeScope=="0"'>
-            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-        </if>
-        ))
     </select>
 
 
@@ -103,12 +91,6 @@
             </if>
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel},
-            </if>
-            <if test="knowledgeScope != null and knowledgeScope != ''" >
-                knowledge_scope = #{knowledgeScope},
-            </if>
-            <if test="knowledgePerson != null and knowledgePerson != ''" >
-                knowledge_person = #{knowledgePerson}
             </if>
 
         </trim>

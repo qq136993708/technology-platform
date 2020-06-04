@@ -47,9 +47,17 @@ public class ZjkPatent implements Serializable {
     private String knowledgeScope="";
     private String knowledgePerson="";
     private String createUser="";
+    private String expertNum="";
     
     
-    
+
+	public String getExpertNum() {
+		return expertNum;
+	}
+
+	public void setExpertNum(String expertNum) {
+		this.expertNum = expertNum;
+	}
 
 	public String getKnowledgeScope() {
 		return knowledgeScope;
