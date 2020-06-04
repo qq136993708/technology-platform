@@ -66,12 +66,12 @@
                         <label class="layui-form-label"><span class="text">成果名称:</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="achieveName" readonly="readonly" autocomplete="off"
-                                class="layui-input" >
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">   
+                    <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">完成单位:</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="finishUnitName" autocomplete="off" class="layui-input"
@@ -80,17 +80,17 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="layui-row layui-col-space20">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">公示时间:</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" name="finishUnitName" autocomplete="off" class="layui-input"
-                                readonly="readonly">
-                        </div>
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label "><span class="text">开始时间：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" id="publicityStartDate" name="publicityStartDate" placeholder="请填写..."
+                            autocomplete="off" class="laydate-input">
                     </div>
                 </div>
-            </div> -->
+            </div>
+
             <div class="layui-row layui-col-space20">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="file-filter-options1">
                     <div class="view-title-layout disabled-box view-pt0">
@@ -118,19 +118,20 @@
     <script src="/layuiadmin/js/common.js"></script>
     <script src="/layuiadmin/js/fileUpload.js"></script>
     <script>
-        layui.use(['form', 'jquery', 'formSelects'], function () {
+        layui.use(['form', 'jquery', 'formSelects', 'laydate'], function () {
             var $ = layui.jquery,
                 form = layui.form,
+                laydate = layui.laydate,
                 formSelects = layui.formSelects;
             var readonlyFile = false; // 附件是否只读
             var loadData = {} /*获取当前data*/
             var secretLevel = '',
                 appraisalDocStr = '',
-                grantDocStr='',
-                transAssessDocStr='',
-                decisionMeetingDocStr='',
-                decisionRuleDocStr=''
-                transContractDocStr='',
+                grantDocStr = '',
+                transAssessDocStr = '',
+                decisionMeetingDocStr = '',
+                decisionRuleDocStr = ''
+            transContractDocStr = '',
                 publicDocStr = ''
             var fileCols = [{
                     field: 'fileSize',
@@ -152,9 +153,11 @@
                     }
                 }
             ]
+
             // 获取地址栏传递过来的参数
             var variable = getQueryVariable();
-            if(variable.type == 'view'){
+
+            if (variable.type == 'view') {
                 $('.layui-btn-normal').hide();
             }
             httpModule({
@@ -164,30 +167,34 @@
                 success: function (relDataForm) {
                     loadData = relDataForm.data
                     if (relDataForm.success) {
-                        form.val('formPlatform', relDataForm.data);
-                        // 更新表单数据
-                        form.render();
+                        if (loadData.publicityStartDate) {
+                            loadData.publicityStartDate = new Date(loadData.publicityStartDate).format('yyyy-MM-dd')
+                        }
                         if (loadData.finishUnitName) {
                             $('input[name="finishUnitName"]').val(loadData.finishUnitNameText);
                         }
+                        form.val('formPlatform', relDataForm.data);
+                         // 更新表单数据
+                         form.render();
                     }
 
-                    if(variable.type == 'view'){
+                    if (variable.type == 'view') {
                         setFileUpload({
-	                        id: 'file-filter-options1', // 附件上传作用域ID值 必传
-	                        dataID: relDataForm.data.transPublicDoc, // 用来查找当前单据下绑定的附件，没有则不查找
-	                        readonly: true,
-	                        callback: function (tableData, type) {
-	                            $('.right').hide();
-	                        }
-	                    });
+                            id: 'file-filter-options1', // 附件上传作用域ID值 必传
+                            dataID: relDataForm.data
+                            .transPublicDoc, // 用来查找当前单据下绑定的附件，没有则不查找
+                            readonly: true,
+                            callback: function (tableData, type) {
+                                $('.right').hide();
+                            }
+                        });
                     }
                     secretLevel = relDataForm.data.secretLevel
                 }
             });
-    		
+
             if (variable.type != 'view') {
-            	setFileUpload({
+                setFileUpload({
                     id: 'file-filter-options1', // 附件上传作用域ID值 必传
                     dataID: '', // 用来查找当前单据下绑定的附件，没有则不查找
                     cols: fileCols,
@@ -199,7 +206,7 @@
                         console.log(tableData)
                         if (tableData.length > 0) {
                             fileDoc = ''
-                            publicDocStr='';
+                            publicDocStr = '';
                             tableData.map(function (item, index) {
                                 publicDocStr += item.id + ","
                             })
@@ -232,7 +239,8 @@
                         updateDate: new Date().getTime(),
                         deleted: '0'
                     }
-                    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
+                    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord
+                        .aboutCompleteTime).getTime();
                     saveData.achieveRecord.achieveRewards = [];
                     httpModule({
                         url: '/achieveRecord-api/publicity',
@@ -249,7 +257,13 @@
                         }
                     });
                 })
-            }
+            };
+            laydate.render({
+                elem: '#publicityStartDate' //指定元素
+                    ,
+                trigger: 'click',
+                
+            });
             $("#close").click(function () {
                 top.layer.closeAll(); // 关闭弹窗
             })
