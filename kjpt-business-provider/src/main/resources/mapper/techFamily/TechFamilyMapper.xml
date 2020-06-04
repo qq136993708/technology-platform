@@ -486,12 +486,6 @@
 	     <if test="parentId != null       and parentId !=''  ">            AND t.parent_id = #{parentId}</if>
 	     <if test="parentCode != null        and parentCode !=''  ">       AND t.parent_code = #{parentCode}</if>
 	     <if test="secretLevel != null        and secretLevel !=''  ">      AND t.secret_level = #{secretLevel}</if>
-	     <if test="knowledgeScope != null     and knowledgeScope !=''  "> 
-	            AND (FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) &lt; 0 OR  t.secret_level ='0' )
-	      </if>
-	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
-	     </if>
 	      <if test="status != null            and status !=''  ">              AND t.status = #{status}</if>
 	      <if test="levelCode != null         and levelCode !=''  ">  
 	               AND t.level_code &lt;= #{levelCode}

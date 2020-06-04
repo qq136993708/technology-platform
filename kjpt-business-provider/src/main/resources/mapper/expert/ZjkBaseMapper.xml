@@ -521,12 +521,6 @@
 			          #{item}
 			   </foreach>
 	     </if>
-	     <if test="secretLevel != null and secretLevel !=''  ">        
-	        AND t.secret_level = #{secretLevel}
-	     </if>
-	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND (t.secret_level &lt;= #{userSecretLevel} )
-	     </if>
 	     <if test="technicalField != null        and technicalField !=''  ">   
 	      AND
 	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
@@ -541,9 +535,6 @@
 			   </foreach>
 	     </if>
 	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <!-- <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
-	            AND (FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`)  OR  t.secret_level ='0')
-	     </if> -->
 	     
 	     <if test="condition != null and condition !=''  ">        
 	        ${condition}
@@ -622,6 +613,9 @@
   
   
   
+   <select id="getZjkBaseByNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from zjk_base where num = #{num,jdbcType=VARCHAR}
+   </select>
   
   
   

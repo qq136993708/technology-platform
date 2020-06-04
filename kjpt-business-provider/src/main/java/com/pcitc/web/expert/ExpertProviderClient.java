@@ -1,6 +1,5 @@
 package com.pcitc.web.expert;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
-import com.pcitc.base.out.OutPerson;
+import com.pcitc.base.expert.ZjkRewardPunish;
 import com.pcitc.service.expert.IExpertService;
 
 import io.swagger.annotations.Api;
@@ -136,6 +135,17 @@ public class ExpertProviderClient {
 		logger.info("===============================get zjkBase id "+id+"===========");
 		return expertService.selectZjkBase(id);
 	}
+	
+	
+	
+	@ApiOperation(value = "根据ID获取专家详情", notes = "根据ID获取专家详情")
+	@RequestMapping(value = "/expert/getByNum/{num}", method = RequestMethod.GET)
+	public ZjkBase getZjkBaseByNum(@PathVariable(value = "num", required = true) String num) throws Exception {
+		logger.info("===============================get getZjkBaseByNum num "+num+"===========");
+		return expertService.getZjkBaseByNum(num);
+	}
+	
+	
 	
 	
 	@ApiOperation(value = "导入专家信息", notes = "导入专家信息")
@@ -278,6 +288,10 @@ public class ExpertProviderClient {
 	
 	
 	
+	
+	
+	
+	
 
 
 	@ApiOperation(value = "获取专家专利（分页）", notes = "获取专家专利（分页）")
@@ -329,7 +343,17 @@ public class ExpertProviderClient {
 	}
 	
 	
-	
+	@ApiOperation(value = "批量保存-专家专利", notes = "批量保存-专家专利")
+	@RequestMapping(value = "/expert_patent/insertBatchZjkPatent", method = RequestMethod.POST)
+	public Integer insertBatchZjkPatent(@RequestBody String jsonStr) throws Exception 
+    {
+    	
+		System.out.println("======insertBatchZjkPatent===========" + jsonStr);
+		List<ZjkPatent> list = JSONObject.parseArray(jsonStr, ZjkPatent.class);
+		expertService.deleteAllZjkPatent();
+		return expertService.insertBatchZjkPatent(list);
+
+	}
 	
 	
 	
@@ -401,6 +425,73 @@ public class ExpertProviderClient {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	@ApiOperation(value = "获取专家奖惩（分页）", notes = "获取专家奖惩（分页）")
+	@RequestMapping(value = "/expert_punish/page", method = RequestMethod.POST)
+	public LayuiTableData getZjkRewardPunishList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		
+		logger.info("=== getZjkRewardPunishList param============"+param);
+		return expertService.getZjkRewardPunishPage(param) ;
+	}
+	
+	@ApiOperation(value = "增加专家奖惩信息", notes = "增加专家奖惩信息")
+	@RequestMapping(value = "/expert_punish/add", method = RequestMethod.POST)
+	public String insertZjkRewardPunish(@RequestBody ZjkRewardPunish ZjkRewardPunish) throws Exception{
+		logger.info("====================add getZjkRewardPunishList....========================");
+		Integer count= expertService.insertZjkRewardPunish(ZjkRewardPunish);
+		return ZjkRewardPunish.getId();
+	}
+	
+	@ApiOperation(value = "修改专家奖惩信息", notes = "修改专家奖惩信息")
+	@RequestMapping(value = "/expert_punish/update", method = RequestMethod.POST)
+	public Integer updateZjkRewardPunish(@RequestBody ZjkRewardPunish ZjkRewardPunish) throws Exception{
+		logger.info("==================update getZjkRewardPunishList===========================");
+		return expertService.updateZjkRewardPunish(ZjkRewardPunish);
+	}
+	
+	@ApiOperation(value = "根据ID物理删除专家奖惩信息", notes = "根据ID删除专家奖惩信息")
+	@RequestMapping(value = "/expert_punish/delete/{id}", method = RequestMethod.POST)
+	public int deleteZjkRewardPunish(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================根据ID物理删除专家奖惩信息 ZjkRewardPunish==="+id+"==============");
+		return expertService.deleteZjkRewardPunish(id) ;
+	}
+	
+	
+	@ApiOperation(value = "根据ID获取专家奖惩信息详情", notes = "根据ID获取专家奖惩信息详情")
+	@RequestMapping(value = "/expert_punish/get/{id}", method = RequestMethod.GET)
+	public ZjkRewardPunish selectZjkRewardPunishId(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get getZjkRewardPunishList id "+id+"===========");
+		return expertService.selectZjkRewardPunish(id);
+	}
+	
+	
+	@ApiOperation(value = "批量保存-专家奖惩", notes = "批量保存-专家奖惩")
+	@RequestMapping(value = "/expert_punish/insertBatchPunish", method = RequestMethod.POST)
+	public Integer insertBatchPunish(@RequestBody String jsonStr) throws Exception 
+    {
+    	
+		System.out.println("==============insertBatchPunish=============" + jsonStr);
+		List<ZjkRewardPunish> list = JSONObject.parseArray(jsonStr, ZjkRewardPunish.class);
+		expertService.deleteAllZjkRewardPunish();
+		return expertService.insertBatchZjkRewardPunish(list);
+
+	}
 	
 
 }

@@ -43,7 +43,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/getHanaOutPersonPatentList")
 				.excludePathPatterns("/getHanaOutPersonBookList")
 				.excludePathPatterns("/getPersonToPersonList")
-				
+				.excludePathPatterns("/getPatentToPatentList")
+				.excludePathPatterns("/getPunishToPunishList")
 				
 				
 				;
