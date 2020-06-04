@@ -4,6 +4,7 @@ package com.pcitc.base.researchplatform;
 import com.pcitc.base.common.RecordModel;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>平台成员</p>
@@ -31,7 +32,7 @@ public class PlatformMemberModel extends RecordModel implements Serializable {
     /**
      * 出生年月
      */
-    private String birth="";
+    private Date birth;
     /**
      * 学历
      */
@@ -87,11 +88,11 @@ public class PlatformMemberModel extends RecordModel implements Serializable {
         this.name = name;
     }
 
-    public String getBirth() {
+    public Date getBirth() {
         return birth;
     }
 
-    public void setBirth(String birth) {
+    public void setBirth(Date birth) {
         this.birth = birth;
     }
 
