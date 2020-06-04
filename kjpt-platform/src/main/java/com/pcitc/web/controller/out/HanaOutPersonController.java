@@ -178,7 +178,7 @@ public class HanaOutPersonController extends BaseController {
 	    @ApiOperation(value = "查询专利信息", notes = "查询专利信息")
 		@RequestMapping(value = "/getHanaOutPersonPatentList", method = RequestMethod.GET)
 	    @ResponseBody
-	   	public String getHanaOutPersonPatentList( HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	public String getHanaOutPersonPatentList( HttpServletRequest request, HttpServletResponse response) 
 	   	{
 	    	Result resultsDate = new Result();
 	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -210,7 +210,7 @@ public class HanaOutPersonController extends BaseController {
 	   				   String expertNum= vo.getPernr();
 	   				   
 
-	   				   //System.out.println(">>>>>patentTimeStr>>>>>"+patentTimeStr);
+	   				   System.out.println(">>>>>patentTimeStr:"+patentTimeStr+" patentOrder="+patentOrder+" outSysId="+outSysId);
 	   				   ZjkPatentSync  sync=new ZjkPatentSync();
 	   				   String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 	   				   sync.setId(dateid);
@@ -219,13 +219,23 @@ public class HanaOutPersonController extends BaseController {
 	   				   sync.setPatentNum(patentNum);
 	   				   sync.setOutSysId(outSysId);
 	   				   sync.setPatentName(patentName);
-	   				   if(patentTimeStr!=null && !patentTimeStr.equals("")) 
+	   				   if(patentTimeStr!=null && !patentTimeStr.equals("") && patentTimeStr.length()>4 && !patentTimeStr.equals("null") && !patentTimeStr.equals("00000000")) 
 	   				   {
-	   					  sync.setPatentTime(DateUtil.strToDate(patentTimeStr, DateUtil.FMT_YYYY_DD));
+	   					try {
+							sync.setPatentTime(DateUtil.strToDate(patentTimeStr, DateUtil.FMT_YYYY_DD));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							//continue;
+						}
 	   				   }
-	   				   if(patentOrder!=null && !patentOrder.equals("")) 
+	   				   if(patentOrder!=null && !patentOrder.equals("") && !patentOrder.equals("null") && !patentOrder.equals(" ")) 
 	   				   {
-	   					sync.setPatentOrder(Integer.valueOf(patentOrder));
+	   					  try {
+							sync.setPatentOrder(Integer.valueOf(patentOrder));
+						} catch (Exception e) {
+							//continue;
+							//e.printStackTrace();
+						}
 	   				   }
 	   				   zjkBaseSyncList.add(sync);
 	   				}

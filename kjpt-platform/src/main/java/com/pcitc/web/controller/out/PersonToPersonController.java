@@ -42,14 +42,14 @@ public class PersonToPersonController extends BaseController {
 	
   	
 	    @ApiOperation(value = "专家临时同步到人才表", notes = "专家临时同步到人才表")
-		@RequestMapping(value = "/personToPersonSyn", method = RequestMethod.GET)
+		@RequestMapping(value = "/getPersonToPersonList", method = RequestMethod.GET)
 	    @ResponseBody
-	   	public String getHanaOutPersonBaseInfoList( HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	public String getPersonToPersonList( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	    	Result resultsDate = new Result();
 	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
-	   	    System.out.println(">>>>>>>>>personToPersonSyn>>>>>>>>>>>>>>>>>>>");
+	   	    System.out.println(">>>>>>>>>getPersonToPersonList>>>>>>>>>>>>>>>>>>>");
 	   		
 	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZjkBaseSyncList, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -77,6 +77,8 @@ public class PersonToPersonController extends BaseController {
 	   				   String sexStr=sync.getSex();
 	   				   String educationStr=sync.getEducation();
 	   				   String educationCode=sync.getEducationCode();
+	   				   String postStr=sync.getPost();
+	   				   String titleStr=sync.getTitle();
 	   				   
 	   				   
 	   				    OutPerson  outPerson=new OutPerson();
@@ -96,9 +98,12 @@ public class PersonToPersonController extends BaseController {
 		   					outPerson.setAge(50);
 		   				}
 		   				outPerson.setTitle(title);
+		   				outPerson.setTitleStr(titleStr);
 		   				outPerson.setIsExpert("0");
 		   				outPerson.setPost(post);
+		   				
 		   				outPerson.setIdCard(idCard); 
+		   				outPerson.setPostStr(postStr);
 		   				outPerson.setName(name);
 		   				outPerson.setBelongUnitName(belongUnitName);
 		   				outPerson.setBelongUnitCode(belongUnitCode);

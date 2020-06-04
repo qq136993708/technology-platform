@@ -57,8 +57,11 @@ public class OutPersonProviderClient {
 		logger.info("===============================getHanaOutPersonPatentList==========");
 		
 		List<OutPersonVo> list = outPersonService.getHanaOutPersonPatentList(map) ;
+		
+		System.out.println("获取所有专家相关专利的基本信息list: "+list.size());
+		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
-		//System.out.println("获取所有专家相关专利的基本信息: "+json.toJSONString());
+		System.out.println("获取所有专家相关专利的基本信息: "+json.toJSONString());
 		return json;
 	}
 	

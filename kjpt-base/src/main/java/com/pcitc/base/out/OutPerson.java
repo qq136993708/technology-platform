@@ -149,12 +149,25 @@ public class OutPerson  {
     private String belongUnitCode;
 
     
-private String customQueryConditionStr;//前台转过来的
+    private String customQueryConditionStr;//前台转过来的
     
     private String condition;//mybatis拼装sql
     
+    
+    
+    private String postStr;
+    
+    
 
-    public String getCustomQueryConditionStr() {
+    public String getPostStr() {
+		return postStr;
+	}
+
+	public void setPostStr(String postStr) {
+		this.postStr = postStr;
+	}
+
+	public String getCustomQueryConditionStr() {
 		return customQueryConditionStr;
 	}
 
