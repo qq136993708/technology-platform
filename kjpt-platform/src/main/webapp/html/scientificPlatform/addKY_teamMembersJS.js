@@ -42,6 +42,10 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 							layui.formSelects.value('workUnit', [formData.workUnit]);
 						}
 					}
+					if(formData.birth){
+            // 出生日期
+            formData.publishDate = new Date(formData.birth).format('yyyy-MM-dd');
+          }
 					form.val('formProject', formData);
 
 					// 添加知悉范围

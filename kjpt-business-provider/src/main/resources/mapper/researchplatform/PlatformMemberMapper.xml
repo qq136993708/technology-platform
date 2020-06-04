@@ -8,7 +8,7 @@
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="birth" jdbcType="DECIMAL" property="birth"/>
+        <result column="birth" jdbcType="DATE" property="birth"/>
         <result column="education" jdbcType="VARCHAR" property="education"/>
         <result column="technical_title" jdbcType="VARCHAR" property="technicalTitle"/>
         <result column="graduate_school" jdbcType="VARCHAR" property="graduateSchool"/>
@@ -161,6 +161,9 @@
             </if>
             <if test="workUnit != null and workUnit != ''" >
                 work_unit = #{workUnit},
+            </if>
+            <if test="birth != null" >
+                birth = #{birth},
             </if>
 
             <if test="secretLevel != null and secretLevel != ''" >
