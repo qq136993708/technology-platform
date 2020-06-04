@@ -45,16 +45,7 @@ layui.use(['table', 'form', 'laydate'], function () {
             }, {
               field: 'finishDate',
               title: '成果完成时间',
-              // templet: '<div>{{ layui.laytpl.toDateString(d.finishDate) }}</div>',
-              templet: function(d){
-                if(d.finishDate == null || d.finishDate == ''){
-                    return '';
-                }else{
-                    var times = new Date(d.finishDate);
-                    return times.getFullYear();
-                }
-             },
-             sort: true
+              sort: true
             },
              {
               field: 'achieveTransTypeText',

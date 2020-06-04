@@ -23,9 +23,9 @@ layui.use(['table', 'form','laydate'], function() {
           ,{field: 'grantUnitName', title: '拟受让单位', width: 120} 
           ,{field: 'achieveTypeText', title: '是否核心技术成果', width: 120}
           ,{field: 'achieveTransTypeText', title: '拟转化方式', width: 120 }
-          ,{field: 'transMoney', title: '拟转化金额（万）', width: 100, sort: true }
-          ,{field: 'currentRewardMoney', title: '本年激励额度（万）', width: 100, sort: true }
-          ,{field: 'incomeMoney', title: '预计净收益（万）', width: 100, sort: true }
+          ,{field: 'transMoney', title: '拟转化金额（万元）', width: 100, sort: true }
+          ,{field: 'currentRewardMoney', title: '本年激励额度（万元）', width: 100, sort: true }
+          ,{field: 'incomeMoney', title: '预计净收益（万元）', width: 100, sort: true }
           ,{field: '', title: '操作', width: '100', templet: function(d) {
             var templet = '<div class="options-list middle-block"><div class="ib-block">';
             if (d.auditStatus == 02 && d.publicityStatus == 3){

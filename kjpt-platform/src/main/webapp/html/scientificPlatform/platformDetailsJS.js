@@ -243,7 +243,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     if ($(this).data('item')) {
       dialogPage += '&item=' + $(this).data('item'); // 成员 | 领军人物
     }
-
     // 打开弹窗
     top.layer.open({
       type: 2,

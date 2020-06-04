@@ -85,7 +85,7 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	getItemData(variable);
 
 	if ($('#birth').length) {
-		laydate.render({ elem: '#birth', type: 'month', btns: ['clear', 'confirm']});
+		laydate.render({ elem: '#birth', btns: ['clear', 'confirm']});
 	}
 
 	// 监听录入方式变化
