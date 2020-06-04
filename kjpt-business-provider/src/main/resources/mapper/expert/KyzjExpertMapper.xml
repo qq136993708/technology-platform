@@ -198,13 +198,18 @@
    
    
     <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
-        select  count(*) from kyzj_expert t <include refid="selectCondition" />
+        select sum(num) as sum_num
+        from kyzj_expert t
+        <include refid="selectCondition" />
     </select>
     
     
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
-      SELECT count(*) FROM kyzj_expert t <include refid="selectCondition"/>
+          SELECT sum(num) as sum_num,yearStr,expert_type
+          FROM kyzj_expert t
+            <include refid="selectCondition"/>
+          group by yearStr,expert_type
     </select>
   
    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.achieve.AchieveMaintainBIMapper">
+
+    <resultMap id="AchieveMaintainMap" type="com.pcitc.base.achieve.AchieveMaintainBI">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="year" jdbcType="VARCHAR" property="year"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="type_text" jdbcType="VARCHAR" property="typeText"/>
+        <result column="awards_type" jdbcType="VARCHAR" property="awardsType"/>
+        <result column="awards_type_text" jdbcType="VARCHAR" property="awardsTypeText"/>
+        <result column="awards_child_type" jdbcType="VARCHAR" property="awardsChildType"/>
+        <result column="awards_child_type_text" jdbcType="VARCHAR" property="awardsChildTypeText"/>
+        <result column="awards_number" jdbcType="VARCHAR" property="awardsNumber"/>
+        <result column="awardsNumber_sum" jdbcType="INTEGER" property="awardsNumber_sum"/>
+        <result column="award_level" jdbcType="VARCHAR" property="awardLevel"/>
+        <result column="award_level_text" jdbcType="VARCHAR" property="awardLevelText"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+    </resultMap>
+
+
+    <select id="getAwardSumByQuery" parameterType="java.util.Map" resultMap="AchieveMaintainMap">
+        select  * from view_bi_achieveaward
+        where 1=1
+        <include refid="selectByParam" />
+        order by year desc
+    </select>
+
+    <sql id="selectByParam">
+        <if test="awardsType != null and awardsType != '' " >
+            and awards_type = #{awardsType}
+        </if>
+        <if test="type != null and type != '' " >
+            and type = #{type}
+        </if>
+        <if test="awardsChildType != null and awardsChildType != '' " >
+            and awards_child_type = #{awardsChildType}
+        </if>
+        <if test="year != null and year != '' " >
+            and year = #{year}
+        </if>
+        <if test="secretLevel != null and secretLevel != '' ">
+            and secret_level = #{secretLevel}
+        </if>
+        and (secret_level = '0' or (
+            secret_level <![CDATA[<=]]> #{userSecretLevel}
+            <if test='skipKnowledgeScope=="0"'>
+                and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+            </if>
+        ))
+        <if test="childUnitIds != null  and childUnitIds !=''  ">
+            AND create_unit_id in
+            <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+
+</mapper>
