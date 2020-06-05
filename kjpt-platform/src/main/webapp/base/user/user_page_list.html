@@ -179,8 +179,8 @@
             }
             ,addEvent: function(){ 
                 //点击新增按钮
-            	// var temUrl = '/user/user_page_edit';
-            	var temUrl = '/base/user/user_page_edit.html';
+            	var temUrl = '/user/user_page_edit';
+            	//var temUrl = '/base/user/user_page_edit.html';
                 top.layer.open({
                     title:'新增用户',
                     shadeClose: true,
@@ -209,8 +209,8 @@
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	// var temUrl = '/user/user_page_edit?userId='+selectRowData.userId;
-            	var temUrl = '//base/user/user_page_edit.html?userId='+selectRowData.userId;
+            	var temUrl = '/user/user_page_edit?userId='+selectRowData.userId;
+            	//var temUrl = '//base/user/user_page_edit.html?userId='+selectRowData.userId;
                 top.layer.open({
                     title:'编辑用户',
                     shadeClose: true,

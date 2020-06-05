@@ -280,6 +280,8 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserDisp(sysUser.getUserDisp());
 			oldSysUser.setUserUnit(sysUser.getUserUnit());
 			oldSysUser.setUserUnitName(sysUser.getUserUnitName());
+			oldSysUser.setUnitName(sysUser.getUserUnitName());
+			oldSysUser.setUnitId(sysUser.getUserUnit());
 			oldSysUser.setDataScopeUnitName(sysUser.getDataScopeUnitName());
 			oldSysUser.setDataScopeUnitId(sysUser.getDataScopeUnitId());
 			oldSysUser.setUserPhone(sysUser.getUserPhone());
@@ -292,8 +294,6 @@ public class SysUserApiController extends BaseController{
 			{
 				oldSysUser.setUserUnitPath(sysUnit.getUnitPath());
 			}
-			
-			
 			SysUnit datesysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getDataScopeUnitId(), restTemplate, httpHeaders);
 			if(datesysUnit!=null)
 			{
@@ -334,6 +334,27 @@ public class SysUserApiController extends BaseController{
 				sysUser.setUserLevel(2);
 				sysUser.setUserPassword(MD5Util.MD5Encode(sysUser.getUserPassword()));
 				sysUser.setSecretLevel(Constant.USER_SECRET_LEVEL_NOT);
+			
+				
+				
+				sysUser.setUnitName(sysUser.getUserUnitName());
+				sysUser.setUnitId(sysUser.getUserUnit());
+				
+				
+				
+				
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getUserUnit(), restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					sysUser.setUserUnitPath(sysUnit.getUnitPath());
+				}
+				SysUnit datesysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getDataScopeUnitId(), restTemplate, httpHeaders);
+				if(datesysUnit!=null)
+				{
+					sysUser.setDataScopeUnitPath(datesysUnit.getUnitPath());
+				}
+				
+				
 				ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, this.httpHeaders), String.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				String dataId = responseEntity.getBody();
