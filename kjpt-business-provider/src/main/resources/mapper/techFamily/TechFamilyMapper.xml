@@ -511,6 +511,14 @@
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
+
+	<select id="getTechFalmilyByAccurateInfo" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.techFamily.TechFamily" >
+		select * from tfm_type t
+		where 1=1 and status = '1' and type_index is not null
+		<if test="typeName != null and typeName  !='' ">
+			AND t.type_name = #{typeName}
+		</if>
+	</select>
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM tfm_type t <include refid="selectCondition"/>

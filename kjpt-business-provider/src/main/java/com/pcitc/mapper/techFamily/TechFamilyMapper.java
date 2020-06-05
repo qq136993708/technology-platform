@@ -25,9 +25,6 @@ public interface TechFamilyMapper {
 
     TechFamily selectByPrimaryKey(String tfmTypeId);
 
-
-
-
     int updateByPrimaryKey(TechFamily record);
     
     
@@ -89,10 +86,11 @@ public interface TechFamilyMapper {
 	public List<TreeNode> getTreeNodeList(Map map);
 	
 	public List<TreeNodeApi> getTreeNodeApiList(Map map);
-	
-	
+
 	public String getMaxTechTypeCodeByParentId(String parentId);
 	
 	 int deleteByParentId(String tfmTypeId);
+
+	 public List<TechFamily> getTechFalmilyByAccurateInfo(TechFamily techType);
 	
 }
