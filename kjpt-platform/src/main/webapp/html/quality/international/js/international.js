@@ -10,59 +10,51 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var tableRender = false;
 
   
-  var researchCol=[  //在研
+  var researchCol=[  //标准维护
     { type: 'checkbox',align: 'center'},
     {title: '序号',templet: '#xuhao', align: 'center'},
-    {field: 'planNum',title: '计划号',align: 'center'},
-    {field: 'planChineseName',title: '计划中文名称',align: 'center'},
-    {field: 'planEnglishName',title: '计划英文名称',align: 'center'},
-    {field: 'applicationDate',title: '下达年度',align: 'center',
+    {field: 'planNum',title: '对应的国际标准化组织',align: 'center'},
+    {field: 'planChineseName',title: '对应的国际标准工作组',align: 'center'},
+    {field: 'planEnglishName',title: '标准编号',align: 'center'},
+    {field: 'standardTypeText',title: '标准中文名称'},
+    {field: 'standardTypeText',title: '标准英文名称'},
+    {field: 'chiefEditorUnit',title: '国内提案单位',},
+    {field: 'partakeEditorUnit',title: '参与国家',},
+    {field: 'partakeEditorUnit',title: '标准状态',},
+    {field: 'partakeEditorUnit',title: '管理状态',},
+    {field: 'applicationDate',title: '立项时间',align: 'center',
       templet:function (d) {
        return  new Date(d.applicationDate).format('yyyy-MM-dd')
         }
     },
-   
-    {field: 'standardTypeText',title: '标准类型'},
-    {field: 'chiefEditorUnit',title: '主编单位',},
-    {field: 'partakeEditorUnit',title: '参编单位',},
-    {field: 'levelText',title: '密级',},
-    {field: 'updateStatusText',title: '修改状态',align: 'center',},
-    {field: 'fileStatusText',title: '文件状态',align: 'center',},
-    {field: 'isPublishText',title: '是否已发布',align: 'center',},
-    {field: 'manageOrg',title: '主管部门',align: 'center',},
-    {field: 'technicalCommittee',title: '技术委员会',align: 'center',},
-    {field: 'putUnderUnitText',title: '归口单位',align: 'center',},
-    {field: 'consultStandard',title: '参照标准',align: 'center',},
-    {field: 'uniformityDegree',title: '一致性程度',align: 'center',},
-    {field: 'toReplacedStandard',title: '拟代替标准',align: 'center',},
+    {field: 'applicationDate',title: '发布时间',align: 'center',
+      templet:function (d) {
+       return  new Date(d.applicationDate).format('yyyy-MM-dd')
+        }
+    },
   ]
-  var publishedCol =[  //已发布
+  var publishedCol =[  //查询
     { type: 'checkbox',align: 'center'},
     {title: '序号',templet: '#xuhao', align: 'center'},
-    {field: 'standardNum',title: '标准号',align: 'center'},
-    {field: 'planEnglishName',title: '英文名称',align: 'center'},
-    {field: 'publishDate',title: '发布时间',align: 'center',
+    {field: 'planNum',title: '对应的国际标准化组织',align: 'center'},
+    {field: 'planChineseName',title: '对应的国际标准工作组',align: 'center'},
+    {field: 'planEnglishName',title: '标准编号',align: 'center'},
+    {field: 'standardTypeText',title: '标准中文名称'},
+    {field: 'standardTypeText',title: '标准英文名称'},
+    {field: 'chiefEditorUnit',title: '国内提案单位',},
+    {field: 'partakeEditorUnit',title: '参与国家',},
+    {field: 'partakeEditorUnit',title: '标准状态',},
+    {field: 'partakeEditorUnit',title: '管理状态',},
+    {field: 'applicationDate',title: '立项时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.publishDate).format('yyyy-MM-dd')
+       return  new Date(d.applicationDate).format('yyyy-MM-dd')
         }
     },
-    {field: 'terminationDate',title: '实施时间',align: 'center',
+    {field: 'applicationDate',title: '发布时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.terminationDate).format('yyyy-MM-dd')
+       return  new Date(d.applicationDate).format('yyyy-MM-dd')
         }
     },
-   
-    {field: 'chiefEditorUnit',title: '主编单位',},
-    {field: 'partakeEditorUnit',title: '参编单位',},
-    {field: 'updateStatusText',title: '修改状态',align: 'center',},
-    {field: 'fileStatusText',title: '文件状态',align: 'center',},
-    {field: 'isPublishText',title: '是否已发布英文版',align: 'center',},
-    {field: 'manageOrg',title: '主管部门',align: 'center',},
-    {field: 'technicalCommittee',title: '技术委员会',align: 'center',},
-    {field: 'putUnderUnitText',title: '归口单位',align: 'center',},
-    {field: 'consultStandard',title: '参照标准',align: 'center',},
-    {field: 'uniformityDegree',title: '一致性程度',align: 'center',},
-    {field: 'toReplacedStandard',title: '拟代替标准',align: 'center',},
   ]
   var curCol = null;
   

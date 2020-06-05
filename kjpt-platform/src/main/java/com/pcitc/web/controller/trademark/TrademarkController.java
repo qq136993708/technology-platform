@@ -3,12 +3,14 @@ package com.pcitc.web.controller.trademark;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.ImportExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,7 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.*;
 
 @Api(value = "trademark-api", description = "商标接口")
@@ -41,6 +47,13 @@ public class TrademarkController extends RestBaseController {
     private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/queryNoPage";
 
     private static final String countByLawType = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/countByLawType";
+
+    private static final String TRADE_MARK_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/excel_input";
+
+    /**
+     * 导入模板头部所占行数
+     */
+    private static final Integer IMPORT_HEAD = 3;
 
     /**
      * 保存-商标信息
@@ -284,5 +297,186 @@ public class TrademarkController extends RestBaseController {
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByLawType, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
         return responseEntity.getBody();
 
+    }
+
+    @ApiOperation(value = "根据模板导入商标管理信息（EXCEL）", notes = "根据模板导入商标管理信息（EXCEL）")
+    @RequestMapping(value = "/input_excel", method = RequestMethod.POST)
+    public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
+    {
+        Result resultsDate = new Result();
+        SysUser sysUserInfo = this.getUserProfile();
+
+        if (file.isEmpty())
+        {
+            resultsDate.setSuccess(false);
+            resultsDate.setMessage("上传异常，请重试");
+        }else
+        {
+            InputStream in = file.getInputStream();
+            List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+            System.out.println(">>>>>>行数:"+listob.size());
+            List<TrademarkInfo> list = new ArrayList<TrademarkInfo>();
+            resultsDate= getResult( listob );
+            if(resultsDate.isSuccess()==true)
+            {
+                for (int i = IMPORT_HEAD; i < listob.size(); i++)
+                {
+                    List<Object> lo = listob.get(i);
+
+                    Object col_1 = lo.get(1);   // 商标名称
+                    Object col_2 = lo.get(2);   // 注册号
+                    Object col_3 = lo.get(3);   // 国际分类号
+                    Object col_4 = lo.get(4);   // 申请人
+                    Object col_5 = lo.get(5);   // 注册单位
+                    Object col_6 = lo.get(6);   // 注册日期
+                    Object col_7 = lo.get(7);   // 有效期
+                    Object col_8 = lo.get(8);   // 延展有效期
+                    Object col_9 = lo.get(9);   // 商标类型
+                    Object col_10 = lo.get(10); // 法律状态
+                    Object col_11 = lo.get(11); // 驰名商标
+                    Object col_12 = lo.get(12); // 驰名商标认定日期
+                    Object col_13 = lo.get(13); // 驰名商标认定机构
+                    Object col_14 = lo.get(14); // 著名商标
+                    Object col_15 = lo.get(15); // 著名商标认定日期
+                    Object col_16 = lo.get(16); // 著名商标认定机构
+
+                    if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)
+                            &&checkIfBlank(col_5)&&checkIfBlank(col_6)&&checkIfBlank(col_7)&&checkIfBlank(col_8)
+                            &&checkIfBlank(col_9)&&checkIfBlank(col_10)&&checkIfBlank(col_11)&&checkIfBlank(col_12)
+                            &&checkIfBlank(col_13)&&checkIfBlank(col_14)&&checkIfBlank(col_15)&&checkIfBlank(col_16)) break;
+
+                    //将excel导入数据转换为SciencePlan对象
+                    TrademarkInfo obj = new TrademarkInfo();
+
+                    obj.setUnitName(sysUserInfo.getUnitId());
+                    obj.setTrademarkName(String.valueOf(col_1));
+                    obj.setApplicationNumber(String.valueOf(col_2));
+                    obj.setCountryType(String.valueOf(col_3));
+                    obj.setApplicant(sysUserInfo.getUserId());
+                    obj.setRegisterOrg(String.valueOf(col_5));
+                    Date registerDate = DateUtil.strToDate(String.valueOf(col_6),DateUtil.FMT_DD);
+                    obj.setRegisterDate(registerDate);
+                    Date effectiveDate =DateUtil.strToDate(String.valueOf(col_7),DateUtil.FMT_DD);
+                    obj.setEffectiveDate(effectiveDate);
+                    if(col_8 != null){
+                        Date extensionPeriod = DateUtil.strToDate(String.valueOf(col_8),DateUtil.FMT_DD);
+                        obj.setExtensionPeriod(extensionPeriod);
+                    }
+                    obj.setTradeMarkType(String.valueOf(col_9));
+                    obj.setLawStatus(String.valueOf(col_10));
+                    obj.setIsWellKnown(String.valueOf(col_11));
+                    if(col_12 != null){
+                        Date wellKnownDate = DateUtil.strToDate(String.valueOf(col_12),DateUtil.FMT_DD);
+                        obj.setExtensionPeriod(wellKnownDate);
+                    }
+                    obj.setWellKnownOrg(String.valueOf(col_13));
+                    obj.setIsRegistered(String.valueOf(col_14));
+                    if(col_15 != null){
+                        Date famousDate = DateUtil.strToDate(String.valueOf(col_15),DateUtil.FMT_DD);
+                        obj.setFamousDate(famousDate);
+                    }
+                    obj.setFamousOrg(String.valueOf(col_15));
+                    obj.setCreateUnitId(sysUserInfo.getUnitId());
+                    String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+                    obj.setId(dateid);
+                    obj.setDeleted("0");
+                    obj.setSecretLevel("0");
+                    list.add(obj);
+                }
+                ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(TRADE_MARK_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
+                int statusCode = responseEntity.getStatusCodeValue();
+                // 返回结果代码
+                if (statusCode == 200) {
+                    resultsDate.setSuccess(true);
+                    resultsDate.setCode("0");
+                } else {
+                    Result back = responseEntity.getBody();
+                    resultsDate.setSuccess(false);
+                    resultsDate.setMessage(back.getMessage());
+                }
+            }
+
+        }
+        return resultsDate;
+    }
+
+    private Result getResult(List<List<Object>> listob )
+    {
+        Result resultsDate = new Result();
+        resultsDate.setSuccess(true);
+        StringBuffer sb=new StringBuffer();
+        for (int i = IMPORT_HEAD; i < listob.size(); i++)
+        {
+            List<Object> lo = listob.get(i);
+            Object col_1 = lo.get(1);   // 商标名称
+            Object col_2 = lo.get(2);   // 注册号
+            Object col_3 = lo.get(3);   // 国际分类号
+            Object col_4 = lo.get(4);   // 申请人
+            Object col_5 = lo.get(5);   // 注册单位
+            Object col_6 = lo.get(6);   // 注册日期
+            Object col_7 = lo.get(7);   // 有效期
+            Object col_8 = lo.get(8);   // 延展有效期
+            Object col_9 = lo.get(9);   // 商标类型
+            Object col_10 = lo.get(10); // 法律状态
+            Object col_11 = lo.get(11); // 驰名商标
+            Object col_12 = lo.get(12); // 驰名商标认定日期
+            Object col_13 = lo.get(13); // 驰名商标认定机构
+            Object col_14 = lo.get(14); // 著名商标
+            Object col_15 = lo.get(15); // 著名商标认定日期
+            Object col_16 = lo.get(16); // 著名商标认定机构
+
+            if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)
+            &&checkIfBlank(col_5)&&checkIfBlank(col_6)&&checkIfBlank(col_7)&&checkIfBlank(col_8)
+            &&checkIfBlank(col_9)&&checkIfBlank(col_10)&&checkIfBlank(col_11)&&checkIfBlank(col_12)
+            &&checkIfBlank(col_13)&&checkIfBlank(col_14)&&checkIfBlank(col_15)&&checkIfBlank(col_16)) break;
+
+            if(col_1==null)
+            {
+                sb.append("第"+(i+1)+"行商标名称为空,");
+            }else if(col_2==null)
+            {
+                sb.append("第"+(i+1)+"行注册号为空,");
+            }else if(col_4==null)
+            {
+                sb.append("第"+(i+1)+"行申请人为空,");
+            }else if(col_5==null)
+            {
+                sb.append("第"+(i+1)+"行注册单位为空,");
+            }else if(col_6==null)
+            {
+                sb.append("第"+(i+1)+"行注册日期为空,");
+            }else if(col_7==null)
+            {
+                sb.append("第"+(i+1)+"行有效期为空,");
+            }else if(col_9==null)
+            {
+                sb.append("第"+(i+1)+"行商标类型为空,");
+            }else if(col_10==null)
+            {
+                sb.append("第"+(i+1)+"行法律状态为空,");
+            }else if(col_11==null)
+            {
+                sb.append("第"+(i+1)+"行驰名商标为空,");
+            }else if(col_14==null)
+            {
+                sb.append("第"+(i+1)+"行著名商标为空,");
+            }
+
+        }
+        resultsDate.setMessage(sb.toString());
+        if((sb.toString()).equals(""))
+        {
+            resultsDate.setSuccess(true);
+        }else
+        {
+            resultsDate.setSuccess(false);
+        }
+        return resultsDate;
+    }
+
+    private Boolean checkIfBlank(Object o){
+        if(o==null) return true;
+        if(String.valueOf(o)=="") return true;
+        return false;
     }
 }
