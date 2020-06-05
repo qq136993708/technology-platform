@@ -49,11 +49,12 @@
 			<button type="button" class="layui-btn layui-btn-primary" id="cancel">取消</button>
 		</div>
 	</div>
-
+<script src="/layuiadmin/js/common.js"></script>
 	<script type="text/javascript">
 	 var table,unitNodes,funcNodes,unitTree,postType={},functionButtonMap={};
 	 var unitIds = [];
 	 var unitNames = [];
+	 var variable = getQueryVariable();
 	    var unitTreeSetting = 
 	    {        view: {
 			        dblClickExpand: false,
@@ -197,7 +198,10 @@
 			});
 	        //提交
 			$("#selectEvent").click(function() {
-				parent.callbackUnitTreeChoose(unitIds, unitNames);
+				var type = variable.type;
+					parent.callbackUnitTreeChoose(unitIds, unitNames,type);
+				
+				
 				//parent.chooseUnit_callback(unitIds,unitName);
 				/* var funcName=$("#funcName").val();
 				if(unitIds!=null && unitIds!='')

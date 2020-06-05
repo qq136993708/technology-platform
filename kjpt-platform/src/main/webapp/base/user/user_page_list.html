@@ -20,7 +20,64 @@
         }
         .layout-view-content.min-label .layui-input-block{margin-left: 122px}
 	</style>
-	<script type="text/javascript">
+</head>
+<body>
+<div class="layout-view-content min-label">
+    <div class="layui-row layui-col-space20 layui-form">
+        <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">登录名称：</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="userNameKey" id="userNameKey" placeholder="请输入登录名或显示名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">统一身份认证ID：</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="unifyIdentityId" id="unifyIdentityId" placeholder="请输入统一身份认证ID" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">组织机构：</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="unitName" id="unitName" autocomplete="off" class="layui-input">
+                    <input type="hidden" name="userUnit" id="userUnit">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-normal" data-type="searchEvent">查询
+                </button>
+                <button class="layui-btn layui-btn-primary"
+                        data-type="resetEvent">重置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tableBox">
+        <div class="tableToolBox">
+            <div class="whiteLine"></div>
+            <div  class="tableBtns">
+                <button class="layui-btn border-blue" data-type="addEvent">新增</button>
+                <button class="layui-btn border-blue" data-type="editEvent">编辑</button>
+                <button class="layui-btn border-red" data-type="deleteEvent">删除</button>
+                <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg" data-type="resetPassEvent">密码重置</button>
+                  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent">打印</button>
+                  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent1">打印案例</button> -->
+            </div>
+        </div>
+        <table id="userTable" class="layui-hide"  lay-filter="userEvent"></table>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
 	var table,selectRowData,renderfunc;
     layui.use(['jquery','selectTree','table','laypage','publicMethods'], function(){
     	var $ = layui.jquery, element = layui.element, layer = layui.layer;
@@ -48,6 +105,7 @@
                     ,{field: 'userName', title: '登录名称'}
                     ,{field: 'userDisp', title: '展示名称', sort: true }
                     ,{field: 'userUnitName', title: '所属机构'}
+                    ,{field: 'dataScopeUnitName', title: '数据范围机构'}
                     ,{field: 'postName', title: '所属岗位', sort: true}
                     ,{field: 'userRoleText', title: '所属角色', sort: true}
                     ,{field: 'userMail', title: '邮箱'}
@@ -120,8 +178,9 @@
                 // });
             }
             ,addEvent: function(){ 
-            	//点击新增按钮
+                //点击新增按钮
             	var temUrl = '/user/user_page_edit';
+            	//var temUrl = '/base/user/user_page_edit.html';
                 top.layer.open({
                     title:'新增用户',
                     shadeClose: true,
@@ -151,6 +210,7 @@
             		return;
             	}
             	var temUrl = '/user/user_page_edit?userId='+selectRowData.userId;
+            	//var temUrl = '//base/user/user_page_edit.html?userId='+selectRowData.userId;
                 top.layer.open({
                     title:'编辑用户',
                     shadeClose: true,
@@ -338,63 +398,4 @@
         });
     });
 </script>
-</head>
-<body>
-<div class="layout-view-content min-label">
-    <div class="layui-row layui-col-space20 layui-form">
-        <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">登录名称：</span></label>
-                <div class="layui-input-block">
-                    <input type="text" name="userNameKey" id="userNameKey" placeholder="请输入登录名或显示名" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">统一身份认证ID：</span></label>
-                <div class="layui-input-block">
-                    <input type="text" name="unifyIdentityId" id="unifyIdentityId" placeholder="请输入统一身份认证ID" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">组织机构：</span></label>
-                <div class="layui-input-block">
-                    <input type="text" name="unitName" id="unitName" autocomplete="off" class="layui-input">
-                    <input type="hidden" name="userUnit" id="userUnit">
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-            <div class="layui-form-item">
-                <button class="layui-btn layui-btn-normal" data-type="searchEvent">查询
-                </button>
-                <button class="layui-btn layui-btn-primary"
-                        data-type="resetEvent">重置
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="tableBox">
-        <div class="tableToolBox">
-            <div class="whiteLine"></div>
-            <div  class="tableBtns">
-                <button class="layui-btn border-blue" data-type="addEvent">新增</button>
-                <button class="layui-btn border-blue" data-type="editEvent">编辑</button>
-                <button class="layui-btn border-red" data-type="deleteEvent">删除</button>
-                <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg" data-type="resetPassEvent">密码重置</button>
-                  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent">打印</button>
-                  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent1">打印案例</button> -->
-            </div>
-        </div>
-        <table id="userTable" class="layui-hide"  lay-filter="userEvent"></table>
-    </div>
-
-</div>
-
-</body>
 </html>

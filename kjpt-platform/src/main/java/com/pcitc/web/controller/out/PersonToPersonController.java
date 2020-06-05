@@ -52,7 +52,7 @@ public class PersonToPersonController extends BaseController {
 	public static final String BATCH_ADD_PUNISH_URL =        "http://kjpt-zuul/stp-proxy/expert_punish/insertBatchPunish";
 	public static final String getZjkRewardPunishSyncList =  "http://kjpt-zuul/stp-proxy/sync-expert-api/getPunishSSyncList";
 	
-	
+	public static final String head_Pic="http://10.2.11.211:8080/WEB-IMG01/PIC/";//‘icnum’.jpg
 	
   	
 	    @ApiOperation(value = "专家临时同步到人才表", notes = "专家临时同步到人才表")
@@ -115,7 +115,8 @@ public class PersonToPersonController extends BaseController {
 		   				outPerson.setTitleStr(titleStr);
 		   				outPerson.setIsExpert("0");
 		   				outPerson.setPost(post);
-		   				
+		   				outPerson.setHeadPic(head_Pic+idCard+".jpg");
+		   				outPerson.setUserNo(sync.getExpertNum());
 		   				outPerson.setIdCard(idCard); 
 		   				outPerson.setPostStr(postStr);
 		   				outPerson.setName(name);

@@ -50,8 +50,8 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
         if (!newData.achieveType && newData.achieveType !== 0) {
           newData.achieveType = '0';
         }
-        if (newData.aboutCompleteTime) {
-          newData.aboutCompleteTime = new Date(newData.aboutCompleteTime).format('yyyy-MM-dd')
+        if (newData.publicityStartDate) {
+          newData.publicityStartDate = new Date(newData.publicityStartDate).format('yyyy-MM-dd')
         }
         form.val('newRecordFome', newData);
         if (variable.type === 'view') {
@@ -112,7 +112,7 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
       updateDate: new Date().getTime(),
       deleted: '0'
     }
-    saveData.achieveRecord.aboutCompleteTime = new Date(saveData.achieveRecord.aboutCompleteTime).getTime();
+    saveData.achieveRecord.publicityStartDate = new Date(saveData.achieveRecord.publicityStartDate).getTime();
     saveData.achieveRecord.achieveRewards = [];
 
     httpModule({

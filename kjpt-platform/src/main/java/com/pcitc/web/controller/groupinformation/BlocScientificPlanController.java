@@ -146,7 +146,7 @@ public class BlocScientificPlanController extends RestBaseController {
 
         this.setBaseParam(condition);
         SysUser sysUserInfo = this.getUserProfile();
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

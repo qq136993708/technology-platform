@@ -345,7 +345,7 @@ public class AchieveRecordController extends RestBaseController {
             this.setParam(condition,"customQueryConditionStr",customQueryConditionStr);
         }
         //默认查询当前人所在机构下所有的科研平台领军人物
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.setBaseParam(condition);
@@ -420,7 +420,7 @@ public class AchieveRecordController extends RestBaseController {
        this.setBaseParam(condition);
 
         //默认查询当前人所在机构下所有的成果备案
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         String[] headers = { "备案状态",  "成果名称",    "成果基本情况"  , "成果持有单位"  , "拟受让单位"  , "是否核心技术成果"  , "拟转让方式"  , "完成情况"  , "未完成项目预计完成时间" };
@@ -644,7 +644,7 @@ public class AchieveRecordController extends RestBaseController {
         this.setParam(condition,"userSecretLevel",sysUserInfo.getSecretLevel());
 
         //默认查询当前人所在机构下所有的成果备案
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
 
 

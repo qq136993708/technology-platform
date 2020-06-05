@@ -1,6 +1,5 @@
 package com.pcitc.web.controller.system;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,7 +11,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -28,19 +26,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
-import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.system.SysRole;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
-import com.pcitc.web.utils.PoiExcelExportUitl;
 import com.pcitc.web.utils.TokenInterUtils;
 
 import io.swagger.annotations.Api;
@@ -260,6 +256,8 @@ public class SysUserApiController extends BaseController{
     @ApiImplicitParam(name = "unifyIdentityId", value = "统一身份ID", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userUnit",        value = "用户所属机构ID", dataType = "string", paramType = "form",required=true),
     @ApiImplicitParam(name = "userUnitName",    value = "用户所属机构名称", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "dataScopeUnitId",    value = "数据范围机构ID", dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "dataScopeUnitName",    value = "数据范围机构名称", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userComment",     value = "描述", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMail",        value = "用户邮箱", dataType = "string", paramType = "form"),
     @ApiImplicitParam(name = "userMobile",      value = "用户手机号", dataType = "string", paramType = "form"),
@@ -281,12 +279,28 @@ public class SysUserApiController extends BaseController{
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserDisp(sysUser.getUserDisp());
 			oldSysUser.setUserUnit(sysUser.getUserUnit());
-			oldSysUser.setUserUnitName(sysUser.getUserUnitName());;
+			oldSysUser.setUserUnitName(sysUser.getUserUnitName());
+			oldSysUser.setUnitName(sysUser.getUserUnitName());
+			oldSysUser.setUnitId(sysUser.getUserUnit());
+			oldSysUser.setDataScopeUnitName(sysUser.getDataScopeUnitName());
+			oldSysUser.setDataScopeUnitId(sysUser.getDataScopeUnitId());
 			oldSysUser.setUserPhone(sysUser.getUserPhone());
 			oldSysUser.setUserMobile(sysUser.getUserMobile());
 			oldSysUser.setUserMail(sysUser.getUserMail());
 			oldSysUser.setUserName(sysUser.getUserName());
 			oldSysUser.setUserHeadPic(sysUser.getUserHeadPic());
+			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getUserUnit(), restTemplate, httpHeaders);
+			if(sysUnit!=null)
+			{
+				oldSysUser.setUserUnitPath(sysUnit.getUnitPath());
+			}
+			SysUnit datesysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getDataScopeUnitId(), restTemplate, httpHeaders);
+			if(datesysUnit!=null)
+			{
+				oldSysUser.setDataScopeUnitPath(datesysUnit.getUnitPath());
+			}
+			
+			
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(oldSysUser, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
@@ -320,6 +334,27 @@ public class SysUserApiController extends BaseController{
 				sysUser.setUserLevel(2);
 				sysUser.setUserPassword(MD5Util.MD5Encode(sysUser.getUserPassword()));
 				sysUser.setSecretLevel(Constant.USER_SECRET_LEVEL_NOT);
+			
+				
+				
+				sysUser.setUnitName(sysUser.getUserUnitName());
+				sysUser.setUnitId(sysUser.getUserUnit());
+				
+				
+				
+				
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getUserUnit(), restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					sysUser.setUserUnitPath(sysUnit.getUnitPath());
+				}
+				SysUnit datesysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getDataScopeUnitId(), restTemplate, httpHeaders);
+				if(datesysUnit!=null)
+				{
+					
+					sysUser.setDataScopeUnitPath(datesysUnit.getUnitPath());
+				}
+				
 				ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, this.httpHeaders), String.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				String dataId = responseEntity.getBody();
