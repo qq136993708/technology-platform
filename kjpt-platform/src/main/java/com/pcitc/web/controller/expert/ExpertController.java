@@ -118,6 +118,10 @@ public class ExpertController extends BaseController {
      */
     private static final Integer IMPORT_HEAD = 3;
 
+    private static final String  YES =  "1";
+
+    private static final String  NO =  "0";
+
 	
 	/**
 	  * 获取专家（分页）
@@ -763,13 +767,14 @@ public class ExpertController extends BaseController {
                         obj.setWorkExperience(String.valueOf(lo.get(8)));
                         obj.setTitle(getValueFromDictMap(String.valueOf(lo.get(9)),ROOT_KJPT_JSZC));
                         //TODO:是否在专家页面展示
-                        //obj.setXXX(String.valueOf(lo.get(10)));
+                        String state = String.valueOf(lo.get(10));
+                        obj.setUseStatus("是".equals(state)?YES:NO);
                         obj.setEducation(getValueFromDictMap(String.valueOf(lo.get(11)),ROOT_KJPT_XL));
                         obj.setBrief(String.valueOf(lo.get(12)));
                         obj.setEmail(String.valueOf(lo.get(13)));
                         obj.setContactWay(String.valueOf(lo.get(14)));
                         obj.setAchievement(String.valueOf(lo.get(15)));
-                        obj.setExpertType(String.valueOf(lo.get(16)));
+                        obj.setExpertType(getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_GCCRCLB));
 						obj.setSecretLevel("0");
 		  	  			obj.setBelongUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
 		  	  			list.add(obj);
@@ -825,17 +830,17 @@ public class ExpertController extends BaseController {
 
 
             // 必填项和字典值校验
-	            if(col_1==null)
+	            if(checkIfBlank(col_1))
 	            {
 	            	sb.append("第"+(i+1)+"行专家姓名为空,");
 	            	break;
 	            }
-	            if(col_4==null)
+	            if(checkIfBlank(col_4))
 	            {
 	            	sb.append("第"+(i+1)+"行所在单位为空,");
                     break;
 	            }
-	            if(col_5==null)
+	            if(checkIfBlank(col_5))
 	            {
 	            	sb.append("第"+(i+1)+"行性别为空,");
                     break;
@@ -843,7 +848,7 @@ public class ExpertController extends BaseController {
                     sb.append("第"+(i+1)+"行性别取值非法,请参考对应sheet页取值!");
                     break;
                 }
-	            if(col_6==null)
+	            if(checkIfBlank(col_6))
 	            {
 	  				sb.append("第"+(i+1)+"行技术领域为空,");
                     break;
@@ -852,12 +857,12 @@ public class ExpertController extends BaseController {
                     break;
                 }
 
-	            if(col_7==null)
+	            if(checkIfBlank(col_7))
 	            {
 	  				sb.append("第"+(i+1)+"行出生日期为空,");
                     break;
 	            }
-	            if(col_9==null)
+	            if(checkIfBlank(col_9))
 	            {
 	            	sb.append("第"+(i+1)+"行职称为空,");
                     break;
@@ -866,25 +871,25 @@ public class ExpertController extends BaseController {
                     break;
                 }
 
-	            if(col_10==null)
+	            if(checkIfBlank(col_10))
 	            {
 	            	sb.append("第"+(i+1)+"行是否在专家风采页面展示为空,");
                     break;
 	            }
-	            if(col_14==null)
+	            if(checkIfBlank(col_14))
 	            {
 	            	sb.append("第"+(i+1)+"行联系电话为空,");
                     break;
 	            }
 
-	            if(col_11 != null){
+	            if(!checkIfBlank(col_11)){
                     if(!checkIfReasonable(String.valueOf(col_11),ROOT_KJPT_XL)){
                         sb.append("第"+(i+1)+"行学历取值非法,请参考对应sheet页取值!");
                         break;
                     }
                 }
 
-            if(col_16 != null){
+            if(!checkIfBlank(col_16)){
                 if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_GCCRCLB)){
                     sb.append("第"+(i+1)+"行高层次人才类别取值非法,请参考对应sheet页取值!");
                     break;
@@ -937,7 +942,7 @@ public class ExpertController extends BaseController {
         List<SysDictionary> sysDictionaryList=    EquipmentUtils.getSysDictionaryListByParentCode(dictCode, restTemplate, httpHeaders);
         for(SysDictionary dictionary:sysDictionaryList){
             if(content.equals(dictionary.getName())) {
-                Map<String,String> temp = new HashMap<>();
+                Map<String,String> temp = dictMap.get(dictCode);
                 temp.put(content,dictionary.getNumValue());
                 dictMap.put(dictCode,temp);
                 return true;
@@ -951,8 +956,7 @@ public class ExpertController extends BaseController {
             Map<String,String> detail = dictMap.get(dictCode);
             return detail.get(name);
         }
-        return null;
-
+        return "null";
     }
 
   	 @ApiOperation(value = "获得查询条件接口", notes = "获得查询条件接口")

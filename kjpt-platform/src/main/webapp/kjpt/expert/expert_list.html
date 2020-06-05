@@ -242,7 +242,7 @@
             callback: function (result) {
                 if(result.code=="0") {
                     layer.msg('数据导入成功!', {icon: 1});
-                    $('[lay-filter="formDemo"]').click();
+                    $('[lay-filter="newSubmit"]').click();
                 }else{
                     layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
                 }
