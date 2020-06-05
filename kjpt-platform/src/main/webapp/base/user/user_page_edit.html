@@ -114,12 +114,16 @@
 					</div>
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label for="" class="layui-form-label"><span class="must-fill">*</span>邮箱</label>
-							<div class="layui-input-block">
-								<input type="text" class="layui-input" lay-verify="email|required" id="userMail" name="userMail" placeholder="请输入邮箱">
-							</div>
+							 <label class="layui-form-label"><span class="must-fill">*</span>数据范围单位</label>
+							 <div class="layui-input-block">
+								 <div class="selectTreeBox">
+								 <!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
+								 <input type="text" class="layui-input" lay-verify="required" id="dataScopeUnitId"  readonly name="dataScopeUnitId" placeholder="请点击选择所属机构">
+									 <input type="text" class="layui-input layui-hide" lay-verify="required" id="dataScopeUnitName" name="dataScopeUnitName">
+								 </div>
+							 </div>
 						</div>
-					</div>
+				 </div>
 				</div>
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -135,6 +139,16 @@
 							<label for="" class="layui-form-label">手机号<span class="must-fill"></span></label>
 							<div class="layui-input-block">
 								<input type="text" class="layui-input" lay-verify="userMobile" id="userMobile" name="userMobile" placeholder="请输入手机号">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label"><span class="must-fill">*</span>邮箱</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" lay-verify="email|required" id="userMail" name="userMail" placeholder="请输入邮箱">
 							</div>
 						</div>
 					</div>
