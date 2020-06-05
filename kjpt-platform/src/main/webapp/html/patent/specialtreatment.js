@@ -85,6 +85,18 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               align: 'center',
               sort: true,
             },
+              {
+                  field: 'projectBackgroundText',
+                  title: '项目背景',
+                  align: 'center',
+                  sort: true,
+              },
+              {
+                  field: 'legalStatusText',
+                  title: '法律状态',
+                  align: 'center',
+                  sort: true,
+              },
             {
               field: 'secretLevelText',
               title: '密级',
