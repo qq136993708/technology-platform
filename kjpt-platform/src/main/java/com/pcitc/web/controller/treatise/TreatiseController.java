@@ -127,7 +127,7 @@ public class TreatiseController extends RestBaseController {
             this.setParam(condition, "publishDate", DateUtil.format(publishDate,DateUtil.FMT_SS));
         }
 
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.setBaseParam(condition);
 

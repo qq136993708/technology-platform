@@ -120,7 +120,7 @@ public class AchieveMaintainController extends RestBaseController {
 
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();
