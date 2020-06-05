@@ -59,6 +59,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var curCol = null;
   
   variable.type == '1'?curCol=publishedCol:curCol=researchCol;
+  variable.type == '1'?$('.internalSearch').hide():$('.internalLink').hide();
 
   function queryTable(searchData) {
     if (!tableRender) {
