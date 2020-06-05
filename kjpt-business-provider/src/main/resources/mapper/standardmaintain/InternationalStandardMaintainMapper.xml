@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.standardmaintain.InternationalStandardMaintainMapper">
+  <resultMap id="InternationalStandardMaintainMap" type="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="international_standard_org" jdbcType="VARCHAR" property="internationalStandardOrg" />
+    <result column="international_standard_work_group" jdbcType="VARCHAR" property="internationalStandardWorkGroup" />
+    <result column="standard_num" jdbcType="VARCHAR" property="standardNum" />
+    <result column="standard_chinese_name" jdbcType="VARCHAR" property="standardChineseName" />
+    <result column="standard_english_name" jdbcType="VARCHAR" property="standardEnglishName" />
+    <result column="domestic_proposal_unit" jdbcType="VARCHAR" property="domesticProposalUnit" />
+    <result column="partake_country" jdbcType="VARCHAR" property="partakeCountry" />
+    <result column="partake_country_text" jdbcType="VARCHAR" property="partakeCountryText" />
+    <result column="standard_status" jdbcType="VARCHAR" property="standardStatus" />
+    <result column="standard_status_text" jdbcType="VARCHAR" property="standardStatusText" />
+    <result column="manage_status" jdbcType="VARCHAR" property="manageStatus" />
+    <result column="project_approval_date" jdbcType="DATE" property="projectApprovalDate" />
+    <result column="publish_date" jdbcType="DATE" property="publishDate" />
+
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+    <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+    <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+    <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+    <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+    <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+    <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+    <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+  </resultMap>
+
+
+  <select id="load" parameterType="java.lang.String" resultMap="InternationalStandardMaintainMap">
+        select  * from view_international_standard_maintain where id = #{id} and deleted != '1'
+    </select>
+
+  <select id="query" parameterType="java.util.Map" resultMap="InternationalStandardMaintainMap">
+    select  * from view_international_standard_maintain where 1=1
+    and deleted != '1'
+    <include refid="selectByParam" />
+    order by publish_date desc
+  </select>
+
+
+  <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+    select  count(*) from international_standard_maintain where 1=1
+    and deleted != '1'
+    <include refid="selectByParam" />
+  </select>
+
+
+  <sql id="selectByParam">
+    <if test="planNum != null and planNum != '' " >
+      and plan_num like CONCAT('%',#{planNum},'%')
+    </if>
+    <if test="planChineseName != null and planChineseName != '' " >
+      and plan_chinese_name like CONCAT('%',#{planChineseName},'%')
+    </if>
+    <if test="standardNum != null and standardNum != ''" >
+      and standard_num like CONCAT('%',#{standardNum},'%')
+    </if>
+    <if test="standardName != null and standardName != '' ">
+      and standard_name like CONCAT('%',#{standardName},'%')
+    </if>
+    and (secret_level = '0' or (
+    secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test='skipKnowledgeScope=="0"'>
+      and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+    </if>
+    ))
+
+    <if test="childUnitIds != null  and childUnitIds !=''  ">
+      AND create_unit_id in
+      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+
+
+  <insert id="add" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
+        	insert into international_standard_maintain(
+        id,
+        international_standard_org,
+        international_standard_work_group,
+        standard_num,
+        standard_chinese_name,
+        standard_english_name,
+        domestic_proposal_unit,
+        partake_country,
+        partake_country_text,
+        standard_status,
+        manage_status,
+        publish_date,
+        project_approval_date,
+        create_date,
+        create_user,
+        update_date,
+        deleted,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person
+        ) values(#{id},#{internationalStandardOrg},#{internationalStandardWorkGroup},#{standardNum},#{standardChineseName},#{standardEnglishName},#{standardEnglishName},#{domesticProposalUnit},
+        #{partakeCountry},#{partakeCountryText},#{standardStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{createUser},#{updateDate},#{deleted},
+        #{updateUser},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+    </insert>
+
+  <update id="update" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
+    update international_standard_maintain
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="planNum != null and planNum != '' " >
+        plan_num = #{planNum},
+      </if>
+      <if test="planChineseName != null and planChineseName != '' " >
+        plan_chinese_name = #{planChineseName},
+      </if>
+      <if test="planEnglishName != null and planEnglishName != ''" >
+        plan_english_name = #{planEnglishName},
+      </if>
+      <if test="releaseYear != null and releaseYear != ''" >
+        release_year = #{releaseYear},
+      </if>
+      <if test="standardType != null and standardType != '' " >
+        standard_type = #{standardType},
+      </if>
+      <if test="chiefEditorUnit != null and chiefEditorUnit != ''" >
+        chief_editor_unit = #{chiefEditorUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="partakeEditorUnit != null and partakeEditorUnit != ''" >
+        partake_editor_unit = #{partakeEditorUnit},
+      </if>
+      <if test="level != null and level != ''" >
+        level = #{level},
+      </if>
+      <if test="updateStatus != null and updateStatus != ''" >
+        update_status = #{updateStatus},
+      </if>
+      <if test="fileStatus != null and fileStatus != ''" >
+        file_status = #{fileStatus},
+      </if>
+      <if test="isPublish != null and isPublish != ''" >
+        is_publish = #{isPublish},
+      </if>
+      <if test="manageOrg != null and manageOrg != ''" >
+        manage_org = #{manageOrg},
+      </if>
+      <if test="technicalCommittee != null and technicalCommittee != ''" >
+        technical_committee = #{technicalCommittee},
+      </if>
+      <if test="putUnderUnit != null and putUnderUnit != ''" >
+        put_under_unit = #{putUnderUnit},
+      </if>
+      <if test="consultStandard != null and consultStandard != ''" >
+        consult_standard = #{consultStandard},
+      </if>
+      <if test="uniformityDegree != null and uniformityDegree != ''" >
+        uniformity_degree = #{uniformityDegree},
+      </if>
+      <if test="toReplacedStandard != null and toReplacedStandard != ''" >
+        to_replaced_standard = #{toReplacedStandard},
+      </if>
+      <if test="standardNum != null and standardNum != ''" >
+        standard_num = #{standardNum},
+      </if>
+      <if test="standardName != null and standardName != ''" >
+        standard_name = #{standardName},
+      </if>
+      <if test="englishName != null and englishName != ''" >
+        english_name = #{englishName},
+      </if>
+      <if test="publishDate != null" >
+        publish_date = #{publishDate},
+      </if>
+      <if test="effectiveDate != null " >
+        effective_date = #{effectiveDate},
+      </if>
+      <if test="isPublishEnglishEdition != null and isPublishEnglishEdition != ''" >
+        is_publish_english_edition = #{isPublishEnglishEdition},
+      </if>
+      <if test="updateDate != null " >
+        update_date = #{updateDate},
+      </if>
+      <if test="deleted != null and deleted != ''" >
+        deleted = #{deleted},
+      </if>
+      <if test="updator != null and updator != ''" >
+        update_user = #{updator},
+      </if>
+      <if test="createUnitId != null and createUnitId != ''" >
+        create_unit_id = #{createUnitId},
+      </if>
+      <if test="createUnitName != null and createUnitName != ''" >
+        create_unit_name = #{createUnitName},
+      </if>
+    </trim>
+    where id = #{id}
+  </update>
+
+  <update id="delete" parameterType="java.lang.String">
+    update international_standard_maintain set deleted = '1' where id in
+    <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+</mapper>
