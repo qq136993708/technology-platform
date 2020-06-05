@@ -448,6 +448,7 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBase.setName(outPerson.getName());
 				zjkBase.setEmail(outPerson.getEmail());
 				zjkBase.setTitle(outPerson.getTitle());
+				zjkBase.setHeadPic(outPerson.getHeadPic());
 				zjkBase.setPost(outPerson.getPost());
 				zjkBase.setCreateTime(new Date());
 				zjkBase.setSex(outPerson.getSex());

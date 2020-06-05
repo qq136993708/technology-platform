@@ -44,6 +44,10 @@
     <result column="post_str"  jdbcType="VARCHAR" property="postStr" />
     <result column="title_str"  jdbcType="VARCHAR" property="titleStr" />
     <result column="education_str"  jdbcType="VARCHAR" property="educationStr" />
+    <result column="head_pic"  jdbcType="VARCHAR" property="headPic" />
+    
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List">
@@ -71,7 +75,7 @@
       id_card_type, award_info, patent_info, 
       achievement_info, project_info, 
       rewards_punish,major,birth_date,belong_unit_code
-      ,sex_str,post_str,title_str,education_str
+      ,sex_str,post_str,title_str,education_str,head_pic
       )
     values 
     (
@@ -91,6 +95,7 @@
       , #{postStr,jdbcType=VARCHAR}
       , #{titleStr,jdbcType=VARCHAR}
       , #{educationStr,jdbcType=VARCHAR}
+      , #{headPic,jdbcType=VARCHAR}
       )
       
     
@@ -195,6 +200,10 @@
       <if test="educationStr != null">
         education_str,
       </if> 
+      <if test="headPic != null">
+        head_pic,
+      </if> 
+      
       
       
     </trim>
@@ -283,9 +292,6 @@
       <if test="belongUnitCode != null">
         #{belongUnitCode,jdbcType=VARCHAR},
       </if>
-      
-      
-      
       <if test="sexStr != null">
         #{sexStr,jdbcType=VARCHAR},
       </if>
@@ -298,27 +304,10 @@
       <if test="educationStr != null">
         #{educationStr,jdbcType=VARCHAR},
       </if>
+      <if test="headPic != null">
+        #{headPic,jdbcType=VARCHAR},
+      </if>
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-        
-    
     
      
     
@@ -411,10 +400,6 @@
       <if test="belongUnitCode != null">
         belong_unit_code = #{belongUnitCode,jdbcType=VARCHAR},
       </if>
-      
-      
-      
-      
       <if test="sexStr != null">
         sex_str = #{sexStr,jdbcType=VARCHAR},
       </if>
@@ -427,13 +412,10 @@
       <if test="educationStr != null">
         education_str = #{educationStr,jdbcType=VARCHAR},
       </if>
+      <if test="headPic != null">
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
       
-      
-      
-     
-    
-    
-    
     
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -457,6 +439,7 @@
       work_experience = #{workExperience,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       is_expert = #{isExpert,jdbcType=VARCHAR},
       birth_date = #{birthDate,jdbcType=TIMESTAMP},
@@ -482,24 +465,6 @@
    
     
   
-  <sql id="view_out_person">
-	   SELECT t1.*,
-      ( 
-         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XL'
-          AND t2.`num_value`=t1.`education`
-      ) education_str
-      ,
-      ( 
-         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XB'
-          AND t2.num_value =t1.`sex`
-      ) sex_str
-      ,
-      ( 
-         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
-          AND t2.num_value =t1.`title`
-      )  title_str
-      FROM out_person t1
-	</sql>
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
@@ -561,7 +526,7 @@
       post, title, age, is_expert, 
       id_card_type, award_info, patent_info, 
       achievement_info, project_info, rewards_punish,major,birth_date,belong_unit_code
-      ,sex_str,post_str,title_str,education_str
+      ,sex_str,post_str,title_str,education_str,head_pic
       )
     values 
      <foreach collection="list" item="item" index="index" separator=",">
@@ -600,13 +565,11 @@
        , #{item.postStr,jdbcType=VARCHAR}
        , #{item.titleStr,jdbcType=VARCHAR}
        , #{item.educationStr,jdbcType=VARCHAR}
+       , #{item.headPic,jdbcType=VARCHAR}
       )
       </foreach> 
 	</insert>
 	
-	
-	
-    
     
 	
 	 <delete id="deleteAll" >
