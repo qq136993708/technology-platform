@@ -38,6 +38,7 @@
 		margin-bottom: 10px;
 	}
 	#userUnit::placeholder{color: #1890FF}
+	#dataScopeUnitId::placeholder{color: #1890FF}
 </style>
 </head>
 <body>
@@ -117,7 +118,6 @@
 							 <label class="layui-form-label"><span class="must-fill">*</span>数据范围单位</label>
 							 <div class="layui-input-block">
 								 <div class="selectTreeBox">
-								 <!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
 								 <input type="text" class="layui-input" lay-verify="required" id="dataScopeUnitId"  readonly name="dataScopeUnitId" placeholder="请点击选择所属机构">
 									 <input type="text" class="layui-input layui-hide" lay-verify="required" id="dataScopeUnitName" name="dataScopeUnitName">
 								 </div>
@@ -466,7 +466,8 @@
 					unitText += ","+unitList[index];
 				});
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
-				console.log(data.field)
+				data.field.dataScopeUnitId = unitText.length>0?unitText.substring(1):"";
+				//console.log(data.field)
                 httpModule({
                     url: '/user-api/save',
                     data: data.field,
@@ -517,7 +518,7 @@
 		return unitList;
 	}
 	//机构页面选择后回调函数
-	window.callbackUnitTreeChoose = function(unitIds, unitNames){
+	window.callbackUnitTreeChoose = function(unitIds, unitNames,type){
 		unitList = unitIds;
 		var unitText = "";
 		var unitListNodes = [];
@@ -527,9 +528,17 @@
 				unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
 			}
 		});
-		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
-        $("#userUnitName").val(unitNames.join());
-		inintPostSelectTree(unitListNodes);
+		if(type == '1'){
+			$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
+	        $("#userUnitName").val(unitNames.join());
+	        inintPostSelectTree(unitListNodes);
+		}else if(type == '2'){
+			$("#dataScopeUnitId").val(unitText.length>0?unitText.substring(1):"");
+	        $("#dataScopeUnitName").val(unitNames.join());
+	        inintPostSelectTree(unitListNodes);
+		}
+		
+		
 	}
 	$("#userUnit").on("click", function() {
 		layer.open({
@@ -541,7 +550,20 @@
 			maxmin : false,
 			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 			area : [ '80%', '90%' ],
-			content : "/unit/chooseUnitMultiV2"
+			content : "/unit/chooseUnitMultiV2?type=1"
+		});
+	});
+	$("#dataScopeUnitId").on("click", function() {
+		layer.open({
+			title : "机构选择",
+			shadeClose : true,
+			type : 2,
+			fixed : false,
+			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+			maxmin : false,
+			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+			area : [ '80%', '90%' ],
+			content : "/unit/chooseUnitMultiV2?type=2"
 		});
 	});
 	
