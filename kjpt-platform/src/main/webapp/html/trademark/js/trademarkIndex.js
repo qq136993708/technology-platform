@@ -62,7 +62,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'extensionPeriod',
-                            title: '延展有效期',
+                            title: '延期至',
                             templet:'#extensionPeriod'
                         },
                         {

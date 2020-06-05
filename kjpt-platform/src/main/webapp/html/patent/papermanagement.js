@@ -37,7 +37,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {
               field: 'keyWord',
-              title: '关键字',
+              title: '关键词',
               align: 'center'
             }, {
               field: 'title',
