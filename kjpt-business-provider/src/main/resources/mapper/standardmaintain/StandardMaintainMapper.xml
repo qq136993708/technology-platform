@@ -85,6 +85,9 @@
     <if test="standardName != null and standardName != '' ">
       and standard_name like CONCAT('%',#{standardName},'%')
     </if>
+    <if test="isPublish != null and isPublish != '' ">
+      and is_publish = #{isPublish}
+    </if>
     and (secret_level = '0' or (
     secret_level <![CDATA[<=]]> #{userSecretLevel}
     <if test='skipKnowledgeScope=="0"'>

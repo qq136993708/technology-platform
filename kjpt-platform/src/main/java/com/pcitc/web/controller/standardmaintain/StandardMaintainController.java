@@ -75,7 +75,8 @@ public class StandardMaintainController extends RestBaseController {
             @ApiImplicitParam(name = "planNum", value = "计划号", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "planChineseName", value = "计划名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "standardNum", value = "标准号", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "standardName", value = "标准名称", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "standardName", value = "标准名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "isPublish", value = "是否已发布", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/standardMaintain-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -85,7 +86,8 @@ public class StandardMaintainController extends RestBaseController {
             @RequestParam(required = false,value = "planNum") String planNum,
             @RequestParam(required = false,value = "planChineseName") String planChineseName,
             @RequestParam(required = false,value = "standardNum") String standardNum,
-            @RequestParam(required = false,value = "standardName")  String standardName
+            @RequestParam(required = false,value = "standardName")  String standardName,
+            @RequestParam(required = false,value = "isPublish")  String isPublish
     ){
 
         Map<String, Object> condition = new HashMap<>(6);
@@ -111,6 +113,9 @@ public class StandardMaintainController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(standardName)) {
             this.setParam(condition, "standardName", standardName);
+        }
+        if (!StringUtils.isEmpty(isPublish)) {
+            this.setParam(condition, "isPublish", isPublish);
         }
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
