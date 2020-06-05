@@ -38,6 +38,7 @@
     <result column="is_publish_english_edition_text" jdbcType="VARCHAR" property="isPublishEnglishEditionText" />
     <result column="put_under_unit" jdbcType="VARCHAR" property="putUnderUnit" />
     <result column="put_under_unit_text" jdbcType="VARCHAR" property="putUnderUnitText" />
+    <result column="replace_standard" jdbcType="VARCHAR" property="replaceStandard" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
     <result column="update_user" jdbcType="VARCHAR" property="updator"/>
@@ -135,11 +136,12 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        replace_standard
         ) values(#{id},#{planNum},#{planChineseName},#{planEnglishName},#{releaseYear},#{standardType},#{chiefEditorUnit},#{partakeEditorUnit},
         #{level},#{updateStatus},#{fileStatus},#{isPublish},#{manageOrg},#{technicalCommittee},#{putUnderUnit},#{consultStandard},#{uniformityDegree},
         #{toReplacedStandard},#{standardNum},#{standardName},#{englishName},#{publishDate},#{effectiveDate},#{isPublishEnglishEdition},
-        #{creator}, #{createDate},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        #{creator}, #{createDate},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson},#{replaceStandard})
     </insert>
 
   <update id="update" parameterType="com.pcitc.base.standardmaintain.StandardMaintain">
@@ -228,6 +230,9 @@
       </if>
       <if test="createUnitName != null and createUnitName != ''" >
         create_unit_name = #{createUnitName},
+      </if>
+      <if test="replaceStandard != null and replaceStandard != ''" >
+        replace_standard = #{replaceStandard},
       </if>
     </trim>
     where id = #{id}

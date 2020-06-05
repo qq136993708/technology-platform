@@ -142,6 +142,10 @@ public class StandardMaintain extends RecordModel {
      */
     private String isPublishEnglishEditionText;
     /**
+     * 被代替标准
+     */
+    private String replaceStandard;
+    /**
      * 附件
      */
     private String files;
@@ -416,5 +420,13 @@ public class StandardMaintain extends RecordModel {
 
     public void setIsPublishEnglishEditionText(String isPublishEnglishEditionText) {
         this.isPublishEnglishEditionText = isPublishEnglishEditionText;
+    }
+
+    public String getReplaceStandard() {
+        return replaceStandard;
+    }
+
+    public void setReplaceStandard(String replaceStandard) {
+        this.replaceStandard = replaceStandard;
     }
 }

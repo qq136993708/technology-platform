@@ -51,17 +51,17 @@
 
 
   <sql id="selectByParam">
-    <if test="planNum != null and planNum != '' " >
-      and plan_num like CONCAT('%',#{planNum},'%')
-    </if>
-    <if test="planChineseName != null and planChineseName != '' " >
-      and plan_chinese_name like CONCAT('%',#{planChineseName},'%')
-    </if>
-    <if test="standardNum != null and standardNum != ''" >
+    <if test="standardNum != null and standardNum != '' " >
       and standard_num like CONCAT('%',#{standardNum},'%')
     </if>
-    <if test="standardName != null and standardName != '' ">
-      and standard_name like CONCAT('%',#{standardName},'%')
+    <if test="standardChineseName != null and standardChineseName != '' " >
+      and standard_chinese_name like CONCAT('%',#{standardChineseName},'%')
+    </if>
+    <if test="domesticProposalUnit != null and domesticProposalUnit != ''" >
+      and domestic_proposal_unit = #{domesticProposalUnit}
+    </if>
+    <if test="standardStatus != null and standardStatus != '' ">
+      and standard_status = #{standardStatus}
     </if>
     and (secret_level = '0' or (
     secret_level <![CDATA[<=]]> #{userSecretLevel}
@@ -104,82 +104,49 @@
         secret_level,
         knowledge_scope,
         knowledge_person
-        ) values(#{id},#{internationalStandardOrg},#{internationalStandardWorkGroup},#{standardNum},#{standardChineseName},#{standardEnglishName},#{standardEnglishName},#{domesticProposalUnit},
-        #{partakeCountry},#{partakeCountryText},#{standardStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{createUser},#{updateDate},#{deleted},
+        ) values(#{id},#{internationalStandardOrg},#{internationalStandardWorkGroup},#{standardNum},#{standardChineseName},#{standardEnglishName},#{domesticProposalUnit},
+        #{partakeCountry},#{partakeCountryText},#{standardStatus},#{manageStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{createUser},#{updateDate},#{deleted},
         #{updateUser},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
   <update id="update" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
     update international_standard_maintain
     <trim prefix="SET" suffixOverrides=",">
-      <if test="planNum != null and planNum != '' " >
-        plan_num = #{planNum},
+      <if test="internationalStandardOrg != null and internationalStandardOrg != '' " >
+        international_standard_org = #{internationalStandardOrg},
       </if>
-      <if test="planChineseName != null and planChineseName != '' " >
-        plan_chinese_name = #{planChineseName},
-      </if>
-      <if test="planEnglishName != null and planEnglishName != ''" >
-        plan_english_name = #{planEnglishName},
-      </if>
-      <if test="releaseYear != null and releaseYear != ''" >
-        release_year = #{releaseYear},
-      </if>
-      <if test="standardType != null and standardType != '' " >
-        standard_type = #{standardType},
-      </if>
-      <if test="chiefEditorUnit != null and chiefEditorUnit != ''" >
-        chief_editor_unit = #{chiefEditorUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="partakeEditorUnit != null and partakeEditorUnit != ''" >
-        partake_editor_unit = #{partakeEditorUnit},
-      </if>
-      <if test="level != null and level != ''" >
-        level = #{level},
-      </if>
-      <if test="updateStatus != null and updateStatus != ''" >
-        update_status = #{updateStatus},
-      </if>
-      <if test="fileStatus != null and fileStatus != ''" >
-        file_status = #{fileStatus},
-      </if>
-      <if test="isPublish != null and isPublish != ''" >
-        is_publish = #{isPublish},
-      </if>
-      <if test="manageOrg != null and manageOrg != ''" >
-        manage_org = #{manageOrg},
-      </if>
-      <if test="technicalCommittee != null and technicalCommittee != ''" >
-        technical_committee = #{technicalCommittee},
-      </if>
-      <if test="putUnderUnit != null and putUnderUnit != ''" >
-        put_under_unit = #{putUnderUnit},
-      </if>
-      <if test="consultStandard != null and consultStandard != ''" >
-        consult_standard = #{consultStandard},
-      </if>
-      <if test="uniformityDegree != null and uniformityDegree != ''" >
-        uniformity_degree = #{uniformityDegree},
-      </if>
-      <if test="toReplacedStandard != null and toReplacedStandard != ''" >
-        to_replaced_standard = #{toReplacedStandard},
+      <if test="internationalStandardWorkGroup != null and internationalStandardWorkGroup != '' " >
+        international_standard_work_group = #{internationalStandardWorkGroup},
       </if>
       <if test="standardNum != null and standardNum != ''" >
         standard_num = #{standardNum},
       </if>
-      <if test="standardName != null and standardName != ''" >
-        standard_name = #{standardName},
+      <if test="standardChineseName != null and standardChineseName != ''" >
+        standard_chinese_name = #{standardChineseName},
       </if>
-      <if test="englishName != null and englishName != ''" >
-        english_name = #{englishName},
+      <if test="standardEnglishName != null and standardEnglishName != '' " >
+        standard_english_name = #{standardEnglishName},
       </if>
-      <if test="publishDate != null" >
+      <if test="domesticProposalUnit != null and domesticProposalUnit != ''" >
+        domestic_proposal_unit = #{domesticProposalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="partakeCountry != null and partakeCountry != ''" >
+        partake_country = #{partakeCountry},
+      </if>
+      <if test="partakeCountryText != null and partakeCountryText != ''" >
+        partake_country_text = #{partakeCountryText},
+      </if>
+      <if test="standardStatus != null and standardStatus != ''" >
+        standard_status = #{standardStatus},
+      </if>
+      <if test="manageStatus != null and manageStatus != ''" >
+        manage_status = #{manageStatus},
+      </if>
+      <if test="publishDate != null " >
         publish_date = #{publishDate},
       </if>
-      <if test="effectiveDate != null " >
-        effective_date = #{effectiveDate},
-      </if>
-      <if test="isPublishEnglishEdition != null and isPublishEnglishEdition != ''" >
-        is_publish_english_edition = #{isPublishEnglishEdition},
+      <if test="projectApprovalDate != null" >
+        project_approval_date = #{projectApprovalDate},
       </if>
       <if test="updateDate != null " >
         update_date = #{updateDate},
@@ -190,11 +157,8 @@
       <if test="updator != null and updator != ''" >
         update_user = #{updator},
       </if>
-      <if test="createUnitId != null and createUnitId != ''" >
-        create_unit_id = #{createUnitId},
-      </if>
-      <if test="createUnitName != null and createUnitName != ''" >
-        create_unit_name = #{createUnitName},
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
       </if>
     </trim>
     where id = #{id}
