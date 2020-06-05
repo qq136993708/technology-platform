@@ -157,9 +157,20 @@ public class OutPerson  {
     
     private String postStr;
     
+    private String headPic;
+    
+    
     
 
-    public String getPostStr() {
+    public String getHeadPic() {
+		return headPic;
+	}
+
+	public void setHeadPic(String headPic) {
+		this.headPic = headPic;
+	}
+
+	public String getPostStr() {
 		return postStr;
 	}
 

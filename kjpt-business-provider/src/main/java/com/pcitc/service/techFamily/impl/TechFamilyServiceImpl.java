@@ -64,7 +64,7 @@ public class TechFamilyServiceImpl implements TechFamilyService {
     /**
      * 根据层级显示树
      *
-     * @param dictionary
+     * @param
      * @return
      * @throws Exception
      */
@@ -78,7 +78,7 @@ public class TechFamilyServiceImpl implements TechFamilyService {
     /**
      * 根据层级显示树
      *
-     * @param dictionary
+     * @param
      * @return
      * @throws Exception
      */
@@ -304,10 +304,14 @@ public class TechFamilyServiceImpl implements TechFamilyService {
 	{
 		return techFamilyMapper.getTreeNodeApiList(map);
 	}
-    
-	
-	
-	public String getMaxTechTypeCodeByParentId(String parentId)
+
+    @Override
+    public List<TechFamily> getTechFalmilyByAccurateInfo(TechFamily techType) {
+        return techFamilyMapper.getTechFalmilyByAccurateInfo(techType);
+    }
+
+
+    public String getMaxTechTypeCodeByParentId(String parentId)
 	{
 		return techFamilyMapper.getMaxTechTypeCodeByParentId(parentId);
 	}

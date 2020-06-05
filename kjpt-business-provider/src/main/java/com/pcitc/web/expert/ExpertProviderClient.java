@@ -51,12 +51,8 @@ public class ExpertProviderClient {
 	public Integer outPersonToZjkBase(@RequestBody  Map map)throws Exception
 	{
 
-		
-		
-	
 		JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(map));
 		System.out.println(">>>>>>>>>>人才转为专家 参数: "+parma.toJSONString());
-		
 		Integer count=expertService.outPersonToZjkBase(map);
 		return count;
 	}

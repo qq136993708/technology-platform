@@ -61,4 +61,6 @@ public interface TrademarkInfoService {
      * @return
      */
     List countByLawType(Map param);
+
+    public void insertBatch(List<TrademarkInfo> list)throws Exception;
 }

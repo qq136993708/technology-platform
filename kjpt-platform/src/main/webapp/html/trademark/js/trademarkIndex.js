@@ -204,9 +204,15 @@ layui.use(['form', 'laydate', 'table'], function () {
      //导入
 importFiles({
     id:'#importData',
-    url:'//excelImport/kgjimp',
-    callback: function (data, type) {
-      queryTable('');
+    url:'/trademarkController/input_excel',
+    callback: function (result) {
+        if(result.code=="0") {
+            debugger;
+            layer.msg('数据导入成功!', {icon: 1});
+            $('[lay-filter="formDemo"]').click();
+        }else{
+            layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+        }
     }
   })
   // 导出

@@ -74,4 +74,16 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
     public List countByLawType(Map param) {
         return trademarkInfoMapper.countByLawType(param);
     }
+
+    @Override
+    public void insertBatch(List<TrademarkInfo> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                TrademarkInfo trademarkInfo=list.get(i);
+                trademarkInfoMapper.insertSelective(trademarkInfo);
+            }
+        }
+    }
 }

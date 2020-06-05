@@ -3,6 +3,7 @@ package com.pcitc.web.trademark;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.service.trademark.TrademarkInfoService;
 import io.swagger.annotations.Api;
@@ -89,6 +90,22 @@ public class TrademarkInfoClient {
     @RequestMapping(value = "/trademark-provider/trademarkInfo/countByLawType", method = RequestMethod.POST)
     public List<Map> countByPatentType(@RequestBody(required = false)Map param) {
         return trademarkInfoService.countByLawType(param);
+    }
+
+    @ApiOperation(value = "导入商标信息", notes = "导入商标信息")
+    @RequestMapping(value = "/trademark-provider/trademarkInfo/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<TrademarkInfo> list) throws Exception
+    {
+        Result result=new Result();
+        try {
+            trademarkInfoService.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("导入商标信息失败");
+            logger.error("导入商标信息失败", e);
+        }
+        return result;
     }
 
 }
