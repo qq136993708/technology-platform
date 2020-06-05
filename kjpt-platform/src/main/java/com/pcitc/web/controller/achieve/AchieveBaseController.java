@@ -159,7 +159,7 @@ public class AchieveBaseController extends RestBaseController {
 
         this.setBaseParam(condition);
 
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -206,7 +206,7 @@ public class AchieveBaseController extends RestBaseController {
             if(isPublic != null){
                 this.setParam(condition,"isPublic",isPublic);
             }
-            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
             this.setParam(condition,"childUnitIds",childUnitIds);
 //            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 //        String[] headers = { "科技成果名称",  "所属《核心成果目录》技术方向","成果持有单位", "成果所属单位（专业化公司/直属单位)", "项目来源及经费渠道", "成果完成时间", "拟转化方式",

@@ -150,7 +150,7 @@ function layuiParseData(RelData, callback, number) {
 function setDialogData(data, key) {
 	// data 为一个JSON 或者 Array 对象时 设置sessionStorage的值；不能传递 HTML元素
 	// key 则为存储的key, 可以为空值， 空值时 使用默认的key 'dialog-data';
-	if (typeof(data) === 'object') {
+	if (typeof(data) === 'object' || typeof(data) == 'number') {
 		if (key && typeof(key) === 'string') {
 			sessionStorage.setItem(key, JSON.stringify(data))
 		} else {

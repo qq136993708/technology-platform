@@ -121,7 +121,7 @@ public class ManageMethodController extends RestBaseController {
             this.setParam(condition, "edition", edition);
         }
 
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.setBaseParam(condition);
 
