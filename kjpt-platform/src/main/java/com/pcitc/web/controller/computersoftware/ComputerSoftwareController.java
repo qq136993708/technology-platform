@@ -136,7 +136,8 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false, value = "copyrightGetway") String copyrightGetway,
             @RequestParam(required = false, value = "projectName") String projectName,
             @RequestParam(required = false, value = "projectCode") String projectCode,
-            @RequestParam(required = false, value = "topicDepartment") String topicDepartment
+            @RequestParam(required = false, value = "topicDepartment") String topicDepartment,
+            @RequestParam(required = false) String projectBackground
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -219,6 +220,10 @@ public class ComputerSoftwareController extends RestBaseController {
 
         if (topicDepartment != null) {
             this.setParam(condition, "topicDepartment", topicDepartment);
+        }
+
+        if (projectBackground != null) {
+            this.setParam(condition, "projectBackground", projectBackground);
         }
 
         this.setBaseParam(condition);

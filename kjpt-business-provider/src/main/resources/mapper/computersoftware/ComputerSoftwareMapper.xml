@@ -334,6 +334,9 @@
                 <if test="files != null and files != ''">
                     and file = #{files}
                 </if>
+                <if test="projectBackground != null and projectBackground != ''" >
+                   and  project_background = #{projectBackground}
+                </if>
 
                 <!-- <if test="technicalField != null and technicalField != ''">
                    and  technical_field = #{technicalField}
