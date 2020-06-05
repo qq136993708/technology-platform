@@ -52,7 +52,11 @@ layui.config({
                         if (element == "option") {
                             $("#" + id).append("<option value='" + item.numValue + "' name='" + item.numValue + "'>" + item.name + "</option>")
                         } else if (element == "radio") {
-                            $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue + '" title="' + item.name + '">')
+                            var _name = item.name;
+                            if (name == 'useStatus') {
+                                _name = item.numValue==1?'是':'否';
+                            }
+                            $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue + '" title="' + _name + '">')
                         }
                     });
                     form.render()
