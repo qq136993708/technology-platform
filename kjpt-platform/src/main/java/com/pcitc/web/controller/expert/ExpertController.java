@@ -832,66 +832,66 @@ public class ExpertController extends BaseController {
             // 必填项和字典值校验
 	            if(checkIfBlank(col_1))
 	            {
-	            	sb.append("第"+(i+1)+"行专家姓名为空,");
+	            	sb.append("第"+(i+2)+"行专家姓名为空,");
 	            	break;
 	            }
 	            if(checkIfBlank(col_4))
 	            {
-	            	sb.append("第"+(i+1)+"行所在单位为空,");
+	            	sb.append("第"+(i+2)+"行所在单位为空,");
                     break;
 	            }
 	            if(checkIfBlank(col_5))
 	            {
-	            	sb.append("第"+(i+1)+"行性别为空,");
+	            	sb.append("第"+(i+2)+"行性别为空,");
                     break;
 	            }else if(!checkIfReasonable(String.valueOf(col_5),ROOT_KJPT_XB)){
-                    sb.append("第"+(i+1)+"行性别取值非法,请参考对应sheet页取值!");
+                    sb.append("第"+(i+2)+"行性别取值非法,请参考对应sheet页取值!");
                     break;
                 }
 	            if(checkIfBlank(col_6))
 	            {
-	  				sb.append("第"+(i+1)+"行技术领域为空,");
+	  				sb.append("第"+(i+2)+"行技术领域为空,");
                     break;
 	            }else if(!checkTechIfExists(String.valueOf(col_6))){
-                    sb.append("第"+(i+1)+"行技术领域取值非法,请参考对应sheet页取值!");
+                    sb.append("第"+(i+2)+"行技术领域取值非法,请参考对应sheet页取值!");
                     break;
                 }
 
 	            if(checkIfBlank(col_7))
 	            {
-	  				sb.append("第"+(i+1)+"行出生日期为空,");
+	  				sb.append("第"+(i+2)+"行出生日期为空,");
                     break;
 	            }
 	            if(checkIfBlank(col_9))
 	            {
-	            	sb.append("第"+(i+1)+"行职称为空,");
+	            	sb.append("第"+(i+2)+"行职称为空,");
                     break;
 	            }else if(!checkIfReasonable(String.valueOf(col_9),ROOT_KJPT_JSZC)){
-                    sb.append("第"+(i+1)+"行职称取值非法,请参考对应sheet页取值!");
+                    sb.append("第"+(i+2)+"行职称取值非法,请参考对应sheet页取值!");
                     break;
                 }
 
 	            if(checkIfBlank(col_10))
 	            {
-	            	sb.append("第"+(i+1)+"行是否在专家风采页面展示为空,");
+	            	sb.append("第"+(i+2)+"行是否在专家风采页面展示为空,");
                     break;
 	            }
 	            if(checkIfBlank(col_14))
 	            {
-	            	sb.append("第"+(i+1)+"行联系电话为空,");
+	            	sb.append("第"+(i+2)+"行联系电话为空,");
                     break;
 	            }
 
 	            if(!checkIfBlank(col_11)){
                     if(!checkIfReasonable(String.valueOf(col_11),ROOT_KJPT_XL)){
-                        sb.append("第"+(i+1)+"行学历取值非法,请参考对应sheet页取值!");
+                        sb.append("第"+(i+2)+"行学历取值非法,请参考对应sheet页取值!");
                         break;
                     }
                 }
 
             if(!checkIfBlank(col_16)){
                 if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_GCCRCLB)){
-                    sb.append("第"+(i+1)+"行高层次人才类别取值非法,请参考对应sheet页取值!");
+                    sb.append("第"+(i+2)+"行高层次人才类别取值非法,请参考对应sheet页取值!");
                     break;
                 }
             }
