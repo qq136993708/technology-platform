@@ -89,7 +89,7 @@ public class PlatformMemberController extends RestBaseController {
         String[] cols =    {"name","birth","educationText","technicalTitle","graduateSchool","majorStudied","postName","assumeOffice","workUnitText"};
         this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
