@@ -351,9 +351,9 @@ public class SysUserApiController extends BaseController{
 				SysUnit datesysUnit=EquipmentUtils.getUnitByUnitId(sysUser.getDataScopeUnitId(), restTemplate, httpHeaders);
 				if(datesysUnit!=null)
 				{
+					
 					sysUser.setDataScopeUnitPath(datesysUnit.getUnitPath());
 				}
-				
 				
 				ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_USER_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, this.httpHeaders), String.class);
 				int statusCode = responseEntity.getStatusCodeValue();

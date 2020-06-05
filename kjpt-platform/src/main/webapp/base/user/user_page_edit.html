@@ -466,7 +466,8 @@
 					unitText += ","+unitList[index];
 				});
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
-				console.log(data.field)
+				data.field.dataScopeUnitId = unitText.length>0?unitText.substring(1):"";
+				//console.log(data.field)
                 httpModule({
                     url: '/user-api/save',
                     data: data.field,
