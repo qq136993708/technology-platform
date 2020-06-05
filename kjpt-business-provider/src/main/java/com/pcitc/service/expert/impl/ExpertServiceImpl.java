@@ -19,6 +19,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.expert.ZjkPatentSync;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
 import com.pcitc.base.expert.ZjkRewardPunish;
@@ -28,9 +29,11 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
+import com.pcitc.mapper.expert.ZjkPatentSyncMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
 import com.pcitc.mapper.expert.ZjkRewardPunishMapper;
+import com.pcitc.mapper.expert.ZjkRewardPunishSyncMapper;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
@@ -52,12 +55,18 @@ public class ExpertServiceImpl implements IExpertService {
 	private ZjkRewardMapper zjkRewardMapper;
 	@Autowired
     private TechFamilyMapper techFamilyMapper;
-	
 	@Autowired
     private OutPersonMapper outPersonMapper;
-	
 	@Autowired
     private ZjkRewardPunishMapper zjkRewardPunishMapper;
+	
+	@Autowired
+    private ZjkPatentSyncMapper zjkPatentSyncMapper;
+	@Autowired
+    private ZjkRewardPunishSyncMapper zjkRewardPunishSyncMapper;
+	
+	
+	
 	
 	
 
@@ -458,6 +467,35 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBaseMapper.insert(zjkBase);
 				outPerson.setIsExpert("1");
 				outPersonMapper.updateByPrimaryKey(outPerson);
+				
+				Map mapv=new HashMap();
+				mapv.put("expertNum", outPerson.getUserNo());
+				List<ZjkPatentSync> list=zjkPatentSyncMapper.getList(mapv);
+				if(list!=null)
+				{
+					for(int j=0;j<list.size();j++)
+					{
+						ZjkPatentSync sync=list.get(j);
+						ZjkPatent zjkPatent=new ZjkPatent();
+						zjkPatent.setExpertId(dateid);
+						zjkPatent.setExpertNum(outPerson.getUserNo());
+						zjkPatent.setCreateTime(new Date());
+						zjkPatent.setDescribe(sync.getNotes());
+						zjkPatent.setGetPatentTime(sync.getPatentTime());
+						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
+						zjkPatent.setId(dateidv);
+						zjkPatent.setPatentName(sync.getPatentName());
+						zjkPatent.setPatentNo(sync.getPatentNum());
+						zjkPatent.setPatentType(sync.getPatentType());
+						zjkPatentMapper.insert(zjkPatent);
+					}
+				}
+				
+				
+				
+			
+				
+				
 				count=1;
 			}
 		}
