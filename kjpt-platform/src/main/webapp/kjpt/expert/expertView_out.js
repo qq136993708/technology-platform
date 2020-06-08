@@ -64,13 +64,13 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'awardingTimeStr', title: '获奖日期'},
         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
-    tableRender('reward',rewardArr,'/equeryPunishSSync/page',variable.id)
+    tableRender('reward',rewardArr,'/queryPunishSSync/page',variable.id)
     function tableRender(id,cols,url,where) {
         table.render({
             elem: '#'+id // 表格元素ID
             ,url:url //数据接口
             ,cols: [cols],
-            method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+            method: 'GET', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
             where: {
                 useID: 'admin' // 表格请求时传递的参数
                 ,expertId:where

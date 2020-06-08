@@ -134,7 +134,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "useStatus",                 value = "是否显示",     dataType = "string", paramType = "query")
         
          
     })
@@ -146,6 +147,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String expertTypes,
             @RequestParam(required = false) String customQueryConditionStr,
+            @RequestParam(required = false) String useStatus,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
      	SysUser sysUserInfo = this.getUserProfile();
@@ -153,7 +155,8 @@ public class ExpertController extends BaseController {
     	param.getParam().put("name", name);
     	param.getParam().put("customQueryConditionStr", customQueryConditionStr);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
-    	param.getParam().put("order", ",create_time ASC ");
+    	param.getParam().put("order", ",orders asc,create_time ASC ");
+    	param.getParam().put("useStatus", useStatus);
     	param.setLimit(limit);
     	param.setPage(page);
     	param.getParam().put("expertTypes", expertTypes);
