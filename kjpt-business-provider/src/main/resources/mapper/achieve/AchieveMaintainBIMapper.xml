@@ -13,7 +13,7 @@
         <result column="awards_child_type" jdbcType="VARCHAR" property="awardsChildType"/>
         <result column="awards_child_type_text" jdbcType="VARCHAR" property="awardsChildTypeText"/>
         <result column="awards_number" jdbcType="VARCHAR" property="awardsNumber"/>
-        <result column="awardsNumber_sum" jdbcType="INTEGER" property="awardsNumber_sum"/>
+        <result column="awardsNumber_sum" jdbcType="INTEGER" property="awardsNumberSum"/>
         <result column="award_level" jdbcType="VARCHAR" property="awardLevel"/>
         <result column="award_level_text" jdbcType="VARCHAR" property="awardLevelText"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
@@ -28,14 +28,6 @@
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
     </resultMap>
-
-
-    <select id="getAwardSumByQuery" parameterType="java.util.Map" resultMap="AchieveMaintainMap">
-        select  * from view_bi_achieveaward
-        where 1=1
-        <include refid="selectByParam" />
-        order by year desc
-    </select>
 
     <sql id="selectByParam">
         <if test="awardsType != null and awardsType != '' " >
@@ -67,5 +59,133 @@
         </if>
     </sql>
 
+    <select id="getAwardSumByQuery" parameterType="java.util.Map" resultMap="AchieveMaintainMap">
+        select sum(temp.awards_number) as awardsNumber_sum
+                ,year
+                <if test="awardsType != null and awardsType != '' " >
+                    , a.name as awards_type_text, temp.award_type
+                </if>
+                <if test="awardsChildType != null and awardsChildType != '' " >
+                    , b.name as awards_child_type_text,temp.awards_child_type
+                </if>
+                <if test="type != null and type != '' " >
+                    , c.name as type_text ,temp.type
+                </if>
+        from (
+                select *
+                from achieve_maintain
+                where 1=1 and `deleted` <![CDATA[<>]]> '1'
+                    <include refid="selectByParam" />
+                order by year desc
+             ) temp
+        <if test="awardsType != null and awardsType != '' " >
+            left join sys_dictionary a on a.code = temp.awards_type and a.parent_code = #{awardsType}
+        </if>
+        <if test="awardsChildType != null and awardsChildType != '' " >
+            left join sys_dictionary b on b.code = temp.awards_child_type and b.parent_code = #{awardsChildType}
+        </if>
+        <if test="type != null and type != '' " >
+            left join sys_dictionary c on c.code = temp.type and c.parent_code = #{type}
+        </if>
+        group by
+                year
+                <if test="awardsType != null and awardsType != '' " >
+                    , a.name, temp.awards_type
+                </if>
+                <if test="awardsChildType != null and awardsChildType != '' " >
+                    , b.name, temp.awards_child_type
+                </if>
+                <if test="type != null and type != '' " >
+                    , c.name ,temp.type
+                </if>
+    </select>
+
+    <resultMap id="AchieveRecordMap" type="com.pcitc.base.achieve.AchieveRecordBI">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="achieve_id" jdbcType="VARCHAR" property="achieveId"/>
+        <result column="achieve_name" jdbcType="VARCHAR" property="achieveName"/>
+        <result column="achieve_type" jdbcType="VARCHAR" property="achieveType"/>
+        <result column="achieve_trans_type" jdbcType="VARCHAR" property="achieveTransType"/>
+        <result column="achieve_trans_status" jdbcType="VARCHAR" property="achieveTransStatus"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="del_status" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="achieve_info" jdbcType="VARCHAR" property="achieveInfo"/>
+        <result column="finish_unit_name" jdbcType="VARCHAR" property="finishUnitName"/>
+        <result column="finish_unit_name_text" jdbcType="VARCHAR" property="finishUnitNameText"/>
+        <result column="income_money" jdbcType="FLOAT" property="incomeMoney"/>
+        <result column="trans_money" jdbcType="FLOAT" property="transMoney"/>
+        <result column="reward_money" jdbcType="FLOAT" property="rewardMoney"/>
+        <result column="current_reward_money" jdbcType="FLOAT" property="currentRewardMoney"/>
+        <result column="about_complete_time" jdbcType="TIMESTAMP" property="aboutCompleteTime"/>
+        <result column="about_complete_info" jdbcType="VARCHAR" property="aboutCompleteInfo"/>
+        <result column="about_complete_info_text" jdbcType="VARCHAR" property="aboutCompleteInfoText"/>
+        <result column="achieve_tech_type" jdbcType="VARCHAR" property="achieveTechType"/>
+        <result column="project_channel" jdbcType="VARCHAR" property="projectChannel"/>
+        <result column="project_source" jdbcType="VARCHAR" property="projectSource"/>
+        <result column="project_source" jdbcType="VARCHAR" property="projectSource"/>
+        <result column="team_info" jdbcType="VARCHAR" property="teamInfo"/>
+        <result column="appraisal_doc" jdbcType="VARCHAR" property="appraisalDoc"/>
+        <result column="grant_unit_name" jdbcType="VARCHAR" property="grantUnitName"/>
+        <result column="grant_reason" jdbcType="VARCHAR" property="grantReason"/>
+        <result column="grant_choose_way" jdbcType="VARCHAR" property="grantChooseWay"/>
+        <result column="grant_doc" jdbcType="VARCHAR" property="grantDoc"/>
+        <result column="trans_price_basis" jdbcType="VARCHAR" property="transPriceBasis"/>
+        <result column="trans_price_way" jdbcType="VARCHAR" property="transPriceWay"/>
+        <result column="trans_public_doc" jdbcType="VARCHAR" property="transPublicDoc"/>
+        <result column="trans_contract_doc" jdbcType="VARCHAR" property="transContractDoc"/>
+        <result column="trans_assess_doc" jdbcType="VARCHAR" property="transAssessDoc"/>
+        <result column="decision_flow" jdbcType="VARCHAR" property="decisionFlow"/>
+        <result column="decision_result" jdbcType="VARCHAR" property="decisionResult"/>
+        <result column="decision_meeting_doc" jdbcType="VARCHAR" property="decisionMeetingDoc"/>
+        <result column="decision_rule_doc" jdbcType="VARCHAR" property="decisionRuleDoc"/>
+        <result column="team_person" jdbcType="VARCHAR" property="teamPerson"/>
+        <result column="intellectual_info" jdbcType="VARCHAR" property="intellectualInfo"/>
+        <result column="grant_invest" jdbcType="VARCHAR" property="grantInvest"/>
+        <result column="achieve_type_text" jdbcType="VARCHAR" property="achieveTypeText"/>
+        <result column="achieve_trans_type_text" jdbcType="VARCHAR" property="achieveTransTypeText"/>
+        <result column="achieve_trans_status_text" jdbcType="VARCHAR" property="achieveTransStatusText"/>
+        <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
+        <result column="achieve_tech_type_text" jdbcType="VARCHAR" property="achieveTechTypeText"/>
+        <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
+        <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
+        <result column="publicity_status" jdbcType="VARCHAR" property="publicityStatus"/>
+        <result column="publicity_status_text" jdbcType="VARCHAR" property="publicityStatusText"/>
+        <result column="publicity_start_date" jdbcType="TIMESTAMP" property="publicityStartDate"/>
+        <result column="publicity_end_date" jdbcType="TIMESTAMP" property="publicityEndDate"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="level_text" jdbcType="VARCHAR" property="levelText"/>
+        <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+        <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+        <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+        <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+        <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+        <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+
+        <result column="transMoney_sum" jdbcType="VARCHAR" property="transMoneySum"/>
+        <result column="trans_amount" jdbcType="VARCHAR" property="transAmount"/>
+        <result column="year" jdbcType="VARCHAR" property="year"/>
+    </resultMap>
+
+    <select id="getAchieveTransferByYear" parameterType="java.util.Map" resultMap="AchieveRecordMap">
+        select count(1) as trans_amount,
+               sum(trans_money) as transMoney_sum,
+               year
+        from view_achieve_record
+        where 1=1
+            and del_status != '1'
+            and audit_status = '01'
+            <if test="childUnitIds != null and childUnitIds !=''  ">
+                AND createUnitId in
+                <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+         group by year
+
+          <include refid="selectByParam" />
+        order by create_time desc
+    </select>
 
 </mapper>

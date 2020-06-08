@@ -39,6 +39,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               field: 'publishDate',
               title: '发布时间',
               align: 'center',
+              sort:true,
               templet:function (d) {
                return  new Date(d.publishDate).format('yyyy-MM-dd')
                 }
