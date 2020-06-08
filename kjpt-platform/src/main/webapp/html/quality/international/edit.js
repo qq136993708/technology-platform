@@ -66,31 +66,17 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           });
 
           // 添加知悉范围
-          setJurisdictionScope({
-            elem: 'scope_list_layout',
-            knowledgeScope: data.knowledgeScope,
-            knowledgePerson: data.knowledgePerson,
-            secretLevel: data.secretLevel,
-            disabled: patent_view_page
-          });
+          // setJurisdictionScope({
+          //   elem: 'scope_list_layout',
+          //   knowledgeScope: data.knowledgeScope,
+          //   knowledgePerson: data.knowledgePerson,
+          //   secretLevel: data.secretLevel,
+          //   disabled: patent_view_page
+          // });
         }
       }
     });
   }
-  //lay-filter="test2"
-  form.on('select(test2)', function(data) {
-    $('.lay-requier-box').each(function(index,item){
-      if(data.value == '0'){
-        $(this).find('label').addClass('label-required');
-        $(this).find('.layui-input-block *').attr('lay-verify','required');
-      }else{
-        $(this).find('label').removeClass('label-required');
-        $(this).find('.layui-input-block *').attr('lay-verify','');
-      }
-      // console.log($(this))
-      // console.log(index,item)
-    })
-  })
 
   // 获取地址栏传递过来的参数
   setRadioShow();
@@ -98,6 +84,8 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
 	form.on('submit(newSubmit)', function(data) {
     params = data.field
+    console.log(params)
+    // return 
     delete(params.file)
 		httpModule({
 			url: '/internationalStandardMaintain-api/save',

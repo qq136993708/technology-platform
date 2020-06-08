@@ -68,7 +68,12 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var curCol = null;
   
   variable.type == '1'?curCol=publishedCol:curCol=researchCol;
-  variable.type == '1'?curisPublish='1':curisPublish='2';
+  
+  if(variable.type == '1'){
+    $('input[name="isPublish"]').val('1');
+  }else{
+    $('input[name="isPublish"]').val('2');
+  }
 
   function queryTable(searchData) {
     if (!tableRender) {
@@ -87,7 +92,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         },
         page: true, //开启分页
         limit: 10, // 每页数据条数,
-        isPublish:curisPublish,
         limits: [5, 10, 15, 20], // 配置分页数据条数
         done: function (res) {
           itemRowData = null;
