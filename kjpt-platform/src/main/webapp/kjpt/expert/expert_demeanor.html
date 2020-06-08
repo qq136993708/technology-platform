@@ -45,7 +45,8 @@
                     $.parseJSON(relData).data.map(function (item, index) {
                         var url='/layuiadmin/layui/images/expert-img.png'
                         if(item.headPic!=''){
-                            url='/file/imgFile/'+item.headPic
+                            // url='/file/imgFile/'+item.headPic
+                            url=item.headPic
                         }
                         var html='<div class="list">' +
                             '            <div class="list-item">' +
@@ -55,7 +56,7 @@
                             '                <p class="item-name">'+item.name+'</p>' +
                             '                <p class="item-jx">' +item.brief+'</p>' +
                             '                <p class="item-view">' +
-                            '                    <a href="./expert_view.html?type=view&id='+item.id+'" >查看详情</a>' +
+                            '                    <a href="./expert_view.html?type=view&id='+item.id+'&page=demeanor" >查看详情</a>' +
                             '                </p>' +
                             '            </div>' +
                             '        </div>';

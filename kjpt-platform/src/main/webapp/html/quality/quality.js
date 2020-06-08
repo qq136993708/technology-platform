@@ -41,16 +41,32 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               align: 'center',
               sort:true,
               templet:function (d) {
-               return  new Date(d.publishDate).format('yyyy-MM-dd')
+                if(d.publishDate !=null){
+                  return  new Date(d.publishDate).format('yyyy-MM-dd')
+                }else{
+                  return '-'
+                }
                 }
             },
             {
               field: 'planNum',
               title: '计划号',
               align: 'center'
+            },{
+              field: 'planChineseName',
+              title: '计划中文名称',
+              align: 'center'//standardName
+            },{
+              field: 'planEnglishName',
+              title: '计划英文名称',
+              align: 'center'//standardName
             }, {
               field: 'standardNum',
               title: '标准号'
+            },
+            {
+              field: 'standardName',
+              title: '标准名称'
             },
             {
               field: 'standardTypeText',
@@ -263,6 +279,8 @@ $('#exportData').click(function() {
     standardNum: formValue.standardNum || '', // 标准号：
     planChineseName: formValue.planChineseName || '', // 计划名称：
     standardName: formValue.standardName || '', // 标准名称：
+    standardType: formValue.standardType || '', // 标准类型：
+    chiefEditorUnit: formValue.chiefEditorUnit || '', // 主编单位：
   },
   exportUrl = '';
 
