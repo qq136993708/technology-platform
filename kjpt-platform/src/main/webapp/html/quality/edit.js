@@ -94,16 +94,25 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
         $('.overPublic').show(); //已发布
         $('#dateHide').show();
         $(this).find('label').addClass('label-required');
-        $(this).find('.layui-input-block *').attr('lay-verify','required');
+        $(this).find('.layui-input-block input').attr('lay-verify','required');
+        $(this).find('.layui-input-block select').attr('lay-verify','required');
 
       }else{
         $('.publicNot').show(); //未发布
         $('.overPublic').hide();//已发布
         $('#dateHide').hide();
         $(this).find('label').removeClass('label-required');
-        $(this).find('.layui-input-block *').attr('lay-verify','');
+        $(this).find('.layui-input-block input').attr('lay-verify','');
+        $(this).find('.layui-input-block select').attr('lay-verify','')
       }
     })
+    if(data.value == '1'){
+      $('select[name="updateStatus"]').attr('lay-verify','required');
+      $('select[name="updateStatus"]').parents('.layui-form-item').find('.layui-form-label').addClass('label-required')
+    }else{
+      $('select[name="updateStatus"]').attr('lay-verify','');
+      $('select[name="updateStatus"]').parents('.layui-form-item').find('.layui-form-label').removeClass('label-required')
+    }
   })
 
   // 获取地址栏传递过来的参数

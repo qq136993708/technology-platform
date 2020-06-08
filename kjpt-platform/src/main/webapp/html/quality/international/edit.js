@@ -30,9 +30,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             // 发布时间
             data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
-          if(data.terminationDate){
+          if(data.projectApprovalDate){
             // 立项时间
-            data.terminationDate = new Date(data.terminationDate).format('yyyy-MM-dd');
+            data.projectApprovalDate = new Date(data.projectApprovalDate).format('yyyy-MM-dd');
           }
           
           if (variable.type === 'view') {
@@ -82,9 +82,20 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
   setRadioShow();
   getItemInitData(variable);
 
-	form.on('submit(newSubmit)', function(data) {
+	form.on('submit(newSubmit)', function(data) { 
+    var partakeCountryVal = formSelects.value('partakeCountry');
+    var partakeCountryStr = '';
+    if(partakeCountryVal.length != 0){  
+        var resultArr = partakeCountryVal.map(function(item,index){
+            return item.name
+        })
+        partakeCountryStr = resultArr.join(',');
+        data.field.partakeCountryText = partakeCountryStr
+    }
     params = data.field
     delete(params.file)
+    // console.log(params)
+    // return ;
 		httpModule({
 			url: '/internationalStandardMaintain-api/save',
 			data: params,

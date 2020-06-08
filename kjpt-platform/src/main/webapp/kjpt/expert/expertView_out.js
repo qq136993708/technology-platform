@@ -9,7 +9,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             success: function(relData) {
                 if (relData.success === true) {
                     if(relData.data.headPic!=''){
-                        $("#img img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        $("#img img").attr("src",relData.data.headPic)
                     }
                     setTargetNameValue(relData.data)
                 }
