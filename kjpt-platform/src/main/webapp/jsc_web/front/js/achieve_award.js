@@ -1,234 +1,188 @@
 layui.use(['laydate'], function() {
-  var laydate = layui.laydate,
-  chartInit = {
-    appraisalOne: function(date) {
-      // 成果报奖数量趋势分析
-      var time = date || '2019',
-      chartData = [];
+  var laydate = layui.laydate;
+  var achieveTypes = [];
+  var achieveTypesSeries = [];
+  var awardsYearChart;
 
-      for (var i = 2017; i < 2020; i++) {
-        chartData.push({
-          name: i+'年',
-          value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value2: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value3: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
+  //奖励类型
+  var colors = [
+    {type: '集团奖', color: '#306BF0'},
+    {type: '社会奖项', color: '#0DA8D4'},
+    {type: '省部级奖', color: '#EBDD51'},
+    {type: '国家级奖', color: '#D86436'},
+    {type: 'default', color: '#DF5DFF'},
+  ];
 
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_one',
-          type: 'line',
-          itemName: 'name',
-          legend: { left: 'center' },
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '科技进步奖', valueKey: 'value1'},
-            { name: '技术发明奖', valueKey: 'value2'},
-            { name: '前瞻研究奖', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#FFF04E', '#81FF5B', '#42FDFF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_one', {data: chartData});
-      }
-    },
-    appraisalTwo: function (date) {
-      // 成果报奖数量按获奖等级分析
-      var chartData = [], itemName = ['科技进步奖', '技术发明奖', '前瞻研究奖'];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value1: (parseInt(Math.random() * 400) + 100), // 特等奖
-          value2: (parseInt(Math.random() * 400) + 100), // 一等奖
-          value3: (parseInt(Math.random() * 400) + 100), // 二等奖
-          value4: (parseInt(Math.random() * 400) + 100) // 三等奖
+  //奖项名称
+  var awardNameColor = [
+    {type: '国家科学技术奖', color: '#3461D3'},
+    {type: '国防科学技术奖', color: '#D86436'},
+    {type: '军队科技进步奖', color: '#DC8D3E'},
+    {type: '其他省部级科技奖', color: '#EBDD51'},
+    {type: '中核集团科技奖', color: '#D1F166'},
+    {type: '社会奖项', color: '#65C8E0'}
+  ];
+
+  var dictcode = 'ROOT_KJPT_CGWH_HJLX';
+  httpModule
+  ({
+    url: "/sysDictionary-api/getChildsListByCode/" + dictcode,
+    type: 'GET',
+    async: false,
+    success: function(res) {
+      if (res.success) {
+        var data = res.data;
+        achieveTypes = data;
+        var html = '';
+        $.each(data, function(i, item){
+          var color = colors.find(function (currValue, i) { return currValue.type == item.name});
+          color = color ? color.color : '#DF5DFF';
+          var achieveTypesSeriesObj  = {name: item.name, valueKey: item.code, itemStyle: {normal: {color: color}}};
+          achieveTypesSeries.push(achieveTypesSeriesObj);
+          html += '<li data-type="' + item.code + '"><span class="award-rectangle" style="background: ' + color + ';"></span>' + item.name + '</li>';
         });
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_two',
-          type: 'bar',
-          itemName: 'name',
-          grid: { top: 70 },
-          legend: { left: 150, top: 14 },
-          label: false,
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          valueIndex: 'x',
-          barWidth: 10,
-          data: chartData,
-          series: [
-            { name: '特等奖', valueKey: 'value1'},
-            { name: '一等奖', valueKey: 'value2'},
-            { name: '二等奖', valueKey: 'value3'},
-            { name: '三等奖', valueKey: 'value4'}
-          ],
-          color: ['#FFF04E', '#C85DFF', '#2687FF', '#FF7F5D']
-        });
-      } else {
-        kyptCharts.reload('appraisal_two', {series: chartData});
-      }
-    },
-    appraisalThree: function(date) {
-      // 成果报奖数量按技术领域分析
-      var chartData = [], itemName = [ '技术领域', '技术领域', '技术领域', '技术领域', '技术领域', '技术领域', '技术领域' ];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i],
-          value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_three',
-          type: 'bar',
-          itemName: 'name',
-          grid: { top: 70 },
-          legend: { show: false },
-          label: false,
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          data: chartData,
-          series: [
-            { name: '技术领域分析', valueKey: 'value'},
-          ],
-          color: ['#2BF3FF', '#C85DFF', '#2687FF', '#FF7F5D']
-        });
-      } else {
-        kyptCharts.reload('appraisal_three', {series: chartData});
-      }
-    },
-    appraisalFour: function(date) {
-      // 成果报奖数量按研究院分布情况
-      var time = date || '2019',
-      chartData = [];
-
-      for (var i = 1; i < 13; i++) {
-        chartData.push({
-          name: i+'研究院',
-          value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value2: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value3: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_four',
-          type: 'bar',
-          itemName: 'name',
-          legend: { show: true, left: 'right', top: 40},
-          grid: { top: 70 },
-          lineColor: '#1E5389',
-          valueColor: '#fff',
-          labelColor: '#fff',
-          label: false,
-          series: [
-            { name: '科技进步奖', valueKey: 'value1'},
-            { name: '技术发明奖', valueKey: 'value2'},
-            { name: '前瞻研究奖', valueKey: 'value3'}
-          ],
-          data: chartData,
-          color: ['#4526FF', '#00AEFF', '#93E9FF']
-        })
-      } else {
-        kyptCharts.reload('appraisal_four', {data: chartData});
-      }
-    },
-    appraisalFive: function(date) {
-      // 成果报奖数量按研究院占比
-      var chartData = [], itemName = [ '石勘院', '物探院', '工程院', '石科院', '上海院', '北化院', '其他' ];
-      for (var i = 0; i < itemName.length; i++) {
-        chartData.push({
-          name: itemName[i], value: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        });
-      }
-
-      if (!date) {
-        kyptCharts.render({
-          id: 'appraisal_five',
-          type: 'pie',
-          legendPosition: 'left',
-          legend: { top: 'center', formatter: 'name|value'},
-          label: false,
-          labelColor: '#fff',
-          radius: ['44%', '66%'],
-          borderColor: '#001e38',
-          title: ' 研究院占比',
-          totalTitle: true,
-          title: {
-            textStyle: {
-              color: '#fff',
-              fontSize: 30,
-              width: '100%'
-            }
-          },
-          series: chartData,
-          color: ['#81FF5B', '#FFF04E', '#DF5DFF', '#3A26FF', '#FF7F5D', '#42FDFF', '#2687FF']
-        });
-      } else {
-        kyptCharts.reload('appraisal_five', {series: chartData});
+        $('#achievt-types').html(html);
       }
     }
+  });
+
+  var chartInit = {
+    awardsYear: function (param) {
+      $('#awards-year').empty();
+      kyptCharts.render({
+        id: 'awards-year',
+        type: 'bar',
+        itemName: 'year',
+        legend: { show: false},
+        grid: { top: 20 },
+        lineColor: '#1E5389',
+        valueColor: '#fff',
+        labelColor: '#2BB7FF',
+        barMaxWidth: '25px',
+        label: {
+          color: '#fff',
+          position: 'top'
+        },
+        color: [],
+        series: achieveTypesSeries,
+        data: [],
+        callback: function (chartObj) {   //柱子点击事件
+          awardsYearChart = chartObj;
+        }
+      });
+
+      httpModule({
+        url: '/achieveMaintainBI-api/getAwardSumByQuery',
+        data: param,
+        type: 'GET',
+        async: false,
+        success: function(res) {
+          var result = [];
+          if (res.code == 0) {
+            var data = res.data;
+            $.each(data, function (i, item) {
+              var obj = {};
+              var _hasitem = result.find(function (v, index) { return v.year == item.year});
+              var _hasitemIndex = result.findIndex(function (v, index) { return v.year == item.year});
+              if (_hasitem) {
+                result.splice(_hasitemIndex, 1);
+                obj = _hasitem;
+              }
+              obj.year = item.year;
+              var typeItem = achieveTypes.find(function(v, index) { return v.name == item.typeText});
+              var key = typeItem ? typeItem.code:'key';
+              obj[key] = item.awardsNumberSum;
+              result.push(obj);
+            });
+            kyptCharts.reload('awards-year', {data: result});
+          }
+        }
+      });
+    },
+    awardsYearPie: function (params) {
+      $('#awards-year-pie').empty();
+      //获取数据
+      var series = [];
+      var colors = [];
+      httpModule({
+        url: '/achieveMaintainBI-api/getAwardSumByTypePie',
+        data: params,
+        type: 'GET',
+        async: false,
+        success: function (res) {
+          if (res.code == 0) {
+            var data = res.data;
+            $.each(data, function(i, item) {
+              var colorObj = awardNameColor.find(function (currValue, i) {
+                return currValue.type == item.awardsChildTypeText;
+              });
+              var color = colorObj ? colorObj.color : '#DF5DFF';
+              var obj = {name: item.awardsChildTypeText, value: Number(item.awardsNumberSum)};
+              colors.push(color)
+              series.push(obj);
+            });
+          }
+        }
+      });
+      kyptCharts.render({
+        id: 'awards-year-pie',
+        type: 'pie',
+        legendPosition: 'right',
+        legend: { top: 'center', formatter: 'name|value', right: 40},
+        label: false,
+        labelColor: '#fff',
+        radius: '65%',
+        center: ['50%', '50%'],
+        left: '20',
+        borderColor: '#001e38',
+        totalTitle: false,
+        series: series,
+        title: {
+          textStyle: { fontSize: 48, color: '#fff' }
+        },
+        color: colors
+      });
+    },
+    getAchieveTableData: function (params) {
+      httpModule({
+        url: '/achieveMaintainBI-api/getDetailList',
+        type: 'GET',
+        data: params,
+        success: function (res) {
+          if (res.code == 0) {
+            var data = res.data;
+            let html = '';
+            $.each(data, function (i, item) {
+              html += '<tr><td>' + item.year + '</td><td>' + item.typeText +'</td><td>' + item.awardsTypeText + '</td><td>' + item.awardsChildTypeText + '</td><td>' + item.awardLevel + '</td><td>' + item.awardsNumber+ '</td></tr>'
+            })
+            $('.achieve-detail-table table tbody').html(html);
+          }
+        }
+      });
+    }
+  };
+
+  $('.count-year-title ul li').on('click', function () {
+    var type = $(this).attr('data-type');
+    chartInit.awardsYear({type: type});
+    chartInit.getAchieveTableData({type: type});
+  });
+
+  $('#all').on('click', function () {
+    chartInit.awardsYear();
+    chartInit.getAchieveTableData();
+  });
+
+  chartInit.awardsYear();
+  chartInit.awardsYearPie();
+  chartInit.getAchieveTableData();
+
+  //柱子点击事件
+  if (awardsYearChart) {
+    awardsYearChart.on('click', function(params) {
+      var typeName = params.seriesName;
+      var year = params.name;
+      chartInit.getAchieveTableData({type: typeName, year: year})
+    });
   }
-
-
-  // 成果报奖数量趋势分析
-  chartInit.appraisalOne();
-
-  // 成果报奖数量按获奖等级分析
-  chartInit.appraisalTwo();
-  laydate.render({
-    elem: '#twoDate',
-    type: 'year',
-    value: '2019',
-    done: function(value, date, endDate) {
-      chartInit.appraisalTwo(value);
-    }
-  });
-
-  // 成果报奖数量按技术领域分析
-  chartInit.appraisalThree();
-  laydate.render({
-    elem: '#threeDate',
-    type: 'year',
-    value: '2019',
-    done: function(value, date, endDate) {
-      chartInit.appraisalThree(value);
-    }
-  });
-
-  // 成果报奖数量按研究院分布情况
-  chartInit.appraisalFour();
-  laydate.render({
-    elem: '#fourDate',
-    type: 'year',
-    value: '2019',
-    done: function(value, date, endDate) {
-      chartInit.appraisalFour(value);
-    }
-  });
-
-  // 成果报奖数量按研究院占比
-  chartInit.appraisalFive();
-  laydate.render({
-    elem: '#fiveDate',
-    type: 'year',
-    value: '2019',
-    done: function(value, date, endDate) {
-      chartInit.appraisalFive(value);
-    }
-  });
-  
-
 });

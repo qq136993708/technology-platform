@@ -5,96 +5,80 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>中核科技管理平台</title>
+  <title>中核科技管理平台-成果获奖</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
+  <link rel="stylesheet" href="/jsc/common/css/achieveInfo.css">
+  <link rel="stylesheet" href="/jsc/common/css/jsc/achieveAward.css">
 </head>
-<body class="achieve_award">
-<div class="layout-view-content">
+<body class="achieve_transform">
+<div id="achieve-award" class="layout-view-content">
   <div class="top-chart-layout">
-    <div class="chart-item-layout appraisal_one">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果报奖数量趋势分析</div>
+    <div class="chart-item-layout top-left-content">
+      <div class="chart-layout jscWeb count-year">
+        <div class="count-year-title">
+          <div class="chart-title-layout content-title">
+            <div class="rectangle"></div>
+            <div class="text" id="all">获奖按年份统计</div>
+          </div>
+          <ul id="achievt-types">
+            <!--<li data-type="gjj"><span class="award-rectangle color-gj"></span>国家级奖</li>
+            <li data-type="sbj"><span class="award-rectangle color-sb"></span>省部级奖</li>
+            <li data-type="jt"><span class="award-rectangle color-jt"></span>集团奖</li>
+            <li data-type="sh"><span class="award-rectangle color-sh"></span>社会奖项</li>-->
+          </ul>
         </div>
-        <div class="chart-block" id="appraisal_one"></div>
+        <div class="chart-layout count-year-chart">
+          <div class="chart-block" id="awards-year"></div>
+        </div>
       </div>
     </div>
-    <div class="chart-item-layout appraisal_two">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果报奖数量按获奖等级分析</div>
-          <div class="left-date-block">
-            <div class="layui-form-item">
-              <!-- <label class="layui-form-label auto"><span class="text">年度：</span></label> -->
-              <div class="layui-input-inline">
-                <input type="text" autocomplete="off" class="laydate-input" id="twoDate">
-              </div>
-            </div>
+    <div class="chart-item-layout top-right-content">
+      <div class="chart-layout jscWeb count-year">
+        <div class="count-year-title">
+          <div class="chart-title-layout content-title">
+            <div class="rectangle"></div>
+            <div class="text">奖项名称(累计)</div>
           </div>
         </div>
-        <div class="chart-block" id="appraisal_two"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout appraisal_three">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果报奖数量按技术领域分析</div>
-          <div class="left-date-block">
-            <div class="layui-form-item">
-              <!-- <label class="layui-form-label auto"><span class="text">年度：</span></label> -->
-              <div class="layui-input-inline">
-                <input type="text" autocomplete="off" class="laydate-input" id="threeDate">
-              </div>
-            </div>
-          </div>
+        <div class="chart-layout count-year-chart">
+          <div class="chart-block" id="awards-year-pie"></div>
         </div>
-        <div class="chart-block" id="appraisal_three"></div>
       </div>
     </div>
   </div>
-
   <div class="bottom-chart-layout">
-    <div class="chart-item-layout appraisal_four">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果报奖数量按研究院分布情况</div>
-          <div class="left-date-block">
-            <div class="layui-form-item">
-              <!-- <label class="layui-form-label auto"><span class="text">年度：</span></label> -->
-              <div class="layui-input-inline">
-                <input type="text" autocomplete="off" class="laydate-input" id="fourDate">
-              </div>
-            </div>
-          </div>
+    <div class="achieve-detail">
+      <div class="count-year-title">
+        <div class="chart-title-layout content-title">
+          <div class="rectangle"></div>
+          <div class="text">获奖明细</div>
         </div>
-        <div class="chart-block" id="appraisal_four"></div>
       </div>
-    </div>
-    <div class="chart-item-layout appraisal_five">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果报奖数量按研究院占比</div>
-          <div class="left-date-block">
-            <div class="layui-form-item">
-              <!-- <label class="layui-form-label auto"><span class="text">年度：</span></label> -->
-              <div class="layui-input-inline">
-                <input type="text" autocomplete="off" class="laydate-input" id="fiveDate">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="chart-block" id="appraisal_five"></div>
+      <div class="achieve-detail-table">
+        <table class="line_table">
+          <thead>
+          <tr>
+            <th>获奖年份</th>
+            <th>奖项级别</th>
+            <th>奖项名称</th>
+            <th>奖项子名称</th>
+            <th>授奖级别</th>
+            <th>奖项数量</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 <script src="/plugins/echarts/echarts.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/chartOption.js"></script>
 <script src="./js/achieve_award.js"></script>
 </body>

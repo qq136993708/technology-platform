@@ -10,47 +10,52 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
+  <link rel="stylesheet" href="/jsc/common/css/jsc/achieveAward.css">
 </head>
-<body class="achieve_transform">
-<div class="layout-view-content">
+<body>
+<div id="achieve-award" class="layout-view-content">
   <div class="top-chart-layout">
-    <div class="chart-item-layout appraisal_one">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果转化数量趋势分析</div>
+    <div class="chart-item-layout top-left-content">
+      <div class="chart-layout jscWeb count-year">
+        <div class="count-year-title">
+          <div class="chart-title-layout content-title">
+            <div class="rectangle"></div>
+            <div class="text" id="all">历年成果转化完成情况</div>
+          </div>
+          <ul id="achievt-types">
+            <li data-type="gjj"><span class="award-rectangle" style="background: #0CB92D;"></span>成果完成数量</li>
+            <li data-type="sbj"><span class="award-rectangle" style="background: #D89936;"></span>成果完成金额</li>
+          </ul>
         </div>
-        <div class="chart-block" id="appraisal_one"></div>
+        <div class="chart-layout count-year-chart">
+          <div class="chart-block" id="awardTramsformInfoHistory"></div>
+        </div>
       </div>
     </div>
-    <div class="chart-item-layout appraisal_two">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">各单位成果转化激励人数</div>
+    <div class="chart-item-layout top-right-content">
+      <div class="chart-layout jscWeb count-year">
+        <div class="count-year-title">
+          <div class="chart-title-layout content-title">
+            <div class="rectangle"></div>
+            <div class="text">成果转化方式</div>
+          </div>
         </div>
-        <div class="chart-block" id="appraisal_two"></div>
+        <div class="chart-layout count-year-chart">
+          <div class="chart-block" id="awards-year-pie"></div>
+        </div>
       </div>
     </div>
   </div>
-
   <div class="bottom-chart-layout">
-    <div class="chart-item-layout appraisal_three">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">成果转化数量按成果类型分析</div>
+    <div class="achieve-detail">
+      <div class="count-year-title">
+        <div class="chart-title-layout content-title">
+          <div class="rectangle"></div>
+          <div class="text">二级单位成果转化情况</div>
         </div>
-        <div class="chart-block" id="appraisal_three"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout appraisal_four">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">各单位成果转化金额/激励金额</div>
-        </div>
-        <div class="chart-block" id="appraisal_four"></div>
       </div>
     </div>
   </div>
-  
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 <script src="/plugins/echarts/echarts.min.js"></script>

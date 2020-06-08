@@ -1,179 +1,117 @@
 layui.use(['laydate'], function() {
-  var laydate = layui.laydate,
-  chartInit = {
-    appraisalOne: function(date) {
-      // 成果转化数量趋势分析
-      var time = date || '2019',
-      chartData = [],
-      initYear = 2016;
+  var laydate = layui.laydate;
+  var achieveTypes = [];
+  var achieveTypesSeries = [];
+  var awardsYearChart;
 
-      for (var i = 1; i < 4; i++) {
-        chartData.push({
-          name: (initYear + i)+'年',
-          value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value2: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value3: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
-
+  var chartInit = {
+    transformInfo: function (param) {
+      $('#awardTramsformInfoHistory').empty();
       kyptCharts.render({
-        id: 'appraisal_one',
-        type: 'line',
-        itemName: 'name',
-        legend: { show: false },
-        grid: { top: 70 },
-        legend: { show: true, left: 'right', top: 40},
-        lineColor: '#1E5389',
-        valueColor: '#fff',
-        labelColor: '#fff',
-        label: false,
-        series: [
-          { name: '待转化', valueKey: 'value1'},
-          { name: '拟转化', valueKey: 'value2'},
-          { name: '已转化', valueKey: 'value3'},
-        ],
-        data: chartData,
-        color: ['#FFF04E', '#81FF5B', '#2BF3FF']
-      })
-      
-      httpModule({
-        url: '/cockpit/results/conversion/numberIncentive',
-        type: 'POST',
-        success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            // kyptCharts.reload('appraisal_one', {data: res.data});
-          }
-        }
-      });
-    },
-    appraisalTwo: function () {
-      // 各单位成果转化激励人数
-      // var chartData = [], itemName = ['研究院1', '研究院2', '研究院3', '研究院4', '研究院5', '研究院6', '研究院7', '研究院8', '研究院9'];
-      // for (var i = 0; i < itemName.length; i++) {
-      //   chartData.push({
-      //     name: itemName[i], value1: (parseInt(Math.random() * 100) + 100) // 100 ~ 200
-      //   });
-      // }
-
-      kyptCharts.render({
-        id: 'appraisal_two',
+        id: 'awardTramsformInfoHistory',
         type: 'bar',
-        itemName: 'name',
-        legend: { show: false },
-        grid: { top: 70 },
+        itemName: 'year',
+        legend: { show: false},
+        grid: { top: 20 },
         lineColor: '#1E5389',
         valueColor: '#fff',
-        labelColor: '#fff',
-        label: false,
+        labelColor: '#2BB7FF',
+        barMaxWidth: '25px',
+        label: {
+          color: '#fff',
+          position: 'top'
+        },
+        color: [],
         series: [
-          { name: '激励人数', valueKey: 'value1'},
+          { name: '成果完成数量', valueKey: 'value1', itemStyle: {normal: {color: '#0CB92D'}}},
+          { name: '成果完成金额', valueKey: 'value2', itemStyle: {normal: {color: '#D89936'}}}
         ],
-        data: [],
-        color: ['#2BF3FF']
+        data: [
+          {value1: 12, value2: 56, year: 2016},
+          {value1: 14, value2: 46, year: 2017},
+          {value1: 22, value2: 96, year: 2018},
+          {value1: 32, value2: 6, year: 2019},
+          {value1: 42, value2: 16, year: 2020},
+        ],
+        callback: function (chartObj) {   //柱子点击事件
+
+        }
       });
 
       httpModule({
-        url: '/cockpit/results/queryBIData/resultsConversionNumberincentive',
+        url: '/achieveMaintainBI-api/getAwardSumByQuery',
+        data: param,
+        type: 'GET',
+        async: false,
         success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            kyptCharts.reload('appraisal_two', {data: res.data});
+          var result = [];
+          if (res.code == 0) {
+            var data = res.data;
+            $.each(data, function (i, item) {
+              var obj = {};
+              var _hasitem = result.find(function (v, index) { return v.year == item.year});
+              var _hasitemIndex = result.findIndex(function (v, index) { return v.year == item.year});
+              if (_hasitem) {
+                result.splice(_hasitemIndex, 1);
+                obj = _hasitem;
+              }
+              obj.year = item.year;
+              var typeItem = achieveTypes.find(function(v, index) { return v.name == item.typeText});
+              var key = typeItem ? typeItem.code:'key';
+              obj[key] = item.awardsNumberSum;
+              result.push(obj);
+            });
+            kyptCharts.reload('awards-year', {data: result});
           }
         }
       });
     },
-    appraisalThree: function(date) {
-      // 成果转化数量按成果类型分析
+    awardsYearPie: function (params) {
+      $('#awards-year-pie').empty();
+      //获取数据
+      var series = [];
+      var colors = [];
+      httpModule({
+        url: '/achieveMaintainBI-api/getAwardSumByTypePie',
+        data: params,
+        type: 'GET',
+        async: false,
+        success: function (res) {
+          if (res.code == 0) {
+            var data = res.data;
+            $.each(data, function(i, item) {
+              var colorObj = awardNameColor.find(function (currValue, i) {
+                return currValue.type == item.awardsChildTypeText;
+              });
+              var color = colorObj ? colorObj.color : '#DF5DFF';
+              var obj = {name: item.awardsChildTypeText, value: Number(item.awardsNumberSum)};
+              colors.push(color)
+              series.push(obj);
+            });
+          }
+        }
+      });
       kyptCharts.render({
-        id: 'appraisal_three',
+        id: 'awards-year-pie',
         type: 'pie',
         legendPosition: 'right',
-        legend: { top: 'center', right: 18, formatter: 'name|value'},
+        legend: { top: 'center', formatter: 'name|value', right: 40},
         label: false,
         labelColor: '#fff',
-        radius: ['44%', '66%'],
-        // center: ['32%', '50%'],
+        radius: '65%',
+        center: ['50%', '50%'],
+        left: '20',
         borderColor: '#001e38',
-        title: '成果类型分析',
-        totalTitle: true,
+        totalTitle: false,
+        series: series,
         title: {
-          textStyle: {
-            color: '#fff',
-            fontSize: 30,
-            width: '100%'
-          }
+          textStyle: { fontSize: 48, color: '#fff' }
         },
-        series: [],
-        color: ['#45F0FF', '#2687FF']
-      });
-
-      httpModule({
-        url: '/cockpit/results/queryBIData/resultsConversionNumbyresultstype',
-        success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            var chartData = [];
-            for (var i = 0; i < res.data.length; i++) {
-              chartData.push({
-                name: res.data[i].name,
-                value: res.data[i].num
-              });
-            }
-            kyptCharts.reload('appraisal_three', {series: chartData});
-          }
-        }
+        color: colors
       });
     },
-    appraisalFour: function(date) {
-      // 各单位成果转化金额/激励金额
-      // var time = date || '2019',
-      // chartData = [];
+  };
 
-      // for (var i = 1; i < 13; i++) {
-      //   chartData.push({
-      //     name: i+'月',
-      //     value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-      //     value2: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-      //   })
-      // }
-
-      kyptCharts.render({
-        id: 'appraisal_four',
-        type: 'bar',
-        itemName: 'name',
-        legend: { show: true, left: 'right', top: 40},
-        grid: { top: 70 },
-        lineColor: '#1E5389',
-        valueColor: '#fff',
-        labelColor: '#fff',
-        label: false,
-        series: [
-          { name: '转化金额', valueKey: 'value1'},
-          { name: '激励金额', valueKey: 'value2'}
-        ],
-        data: [],
-        color: ['#FF7F5D', '#FCFF00']
-      })
-
-      httpModule({
-        url: '/cockpit/results/queryBIData/resultsOnversionNumbyincentiveamount',
-        success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            kyptCharts.reload('appraisal_four', {data: res.data});
-          }
-        }
-      });
-    }
-  }
-
-
-  // 成果转化数量趋势分析
-  chartInit.appraisalOne();
-
-  // 各单位成果转化激励人数
-  chartInit.appraisalTwo();
-
-  // 成果转化数量按成果类型分析
-  chartInit.appraisalThree();
-
-  // 各单位成果转化金额/激励金额
-  chartInit.appraisalFour();
+  chartInit.transformInfo();
+  chartInit.awardsYearPie();
 });
