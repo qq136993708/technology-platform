@@ -832,9 +832,6 @@ public class ExpertController extends BaseController {
                 Object col_15 = lo.get(15);
                 Object col_16 = lo.get(16);
 
-
-
-
             // 必填项和字典值校验
 	            if(checkIfBlank(col_1))
 	            {
