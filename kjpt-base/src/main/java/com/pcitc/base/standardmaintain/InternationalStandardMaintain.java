@@ -67,7 +67,7 @@ public class InternationalStandardMaintain extends RecordModel {
     /**
      * 主管部门
      */
-    private Date manageOrg;
+    private String manageOrg;
     /**
      * 附件
      */
@@ -193,11 +193,11 @@ public class InternationalStandardMaintain extends RecordModel {
         this.partakeCountryText = partakeCountryText;
     }
 
-    public Date getManageOrg() {
+    public String getManageOrg() {
         return manageOrg;
     }
 
-    public void setManageOrg(Date manageOrg) {
+    public void setManageOrg(String manageOrg) {
         this.manageOrg = manageOrg;
     }
 }
