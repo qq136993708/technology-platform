@@ -227,6 +227,7 @@ var kyptCharts = {
         seriesItem.label.show = config.label;
       }
 
+      seriesItem.itemStyle = item.itemStyle?item.itemStyle:{};
       if (itemStyle) {
         seriesItem.itemStyle = itemStyle;
       }
