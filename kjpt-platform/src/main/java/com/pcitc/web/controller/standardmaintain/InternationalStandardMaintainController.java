@@ -124,10 +124,10 @@ public class InternationalStandardMaintainController extends RestBaseController 
     @ApiOperation(value="保存")
     @RequestMapping(value = "/internationalStandardMaintain-api/save", method = RequestMethod.POST)
     @ResponseBody
-    public void save(@RequestBody StandardMaintain am){
+    public void save(@RequestBody InternationalStandardMaintain am){
         this.setBaseData(am);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<StandardMaintain>(am, this.httpHeaders), StandardMaintain.class);
+        this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<InternationalStandardMaintain>(am, this.httpHeaders), InternationalStandardMaintain.class);
     }
 
 

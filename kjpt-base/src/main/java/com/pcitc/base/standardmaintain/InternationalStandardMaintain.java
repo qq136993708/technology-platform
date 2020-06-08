@@ -65,6 +65,10 @@ public class InternationalStandardMaintain extends RecordModel {
      */
     private Date publishDate;
     /**
+     * 主管部门
+     */
+    private Date manageOrg;
+    /**
      * 附件
      */
     private String files;
@@ -187,5 +191,13 @@ public class InternationalStandardMaintain extends RecordModel {
 
     public void setPartakeCountryText(String partakeCountryText) {
         this.partakeCountryText = partakeCountryText;
+    }
+
+    public Date getManageOrg() {
+        return manageOrg;
+    }
+
+    public void setManageOrg(Date manageOrg) {
+        this.manageOrg = manageOrg;
     }
 }

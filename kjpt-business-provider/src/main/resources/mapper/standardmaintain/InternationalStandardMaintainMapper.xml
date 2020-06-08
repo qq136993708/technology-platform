@@ -14,6 +14,7 @@
     <result column="standard_status" jdbcType="VARCHAR" property="standardStatus" />
     <result column="standard_status_text" jdbcType="VARCHAR" property="standardStatusText" />
     <result column="manage_status" jdbcType="VARCHAR" property="manageStatus" />
+    <result column="manage_org" jdbcType="VARCHAR" property="manageOrg" />
     <result column="project_approval_date" jdbcType="DATE" property="projectApprovalDate" />
     <result column="publish_date" jdbcType="DATE" property="publishDate" />
 
@@ -103,10 +104,11 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        manage_org
         ) values(#{id},#{internationalStandardOrg},#{internationalStandardWorkGroup},#{standardNum},#{standardChineseName},#{standardEnglishName},#{domesticProposalUnit},
         #{partakeCountry},#{partakeCountryText},#{standardStatus},#{manageStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{creator},#{updateDate},#{deleted},
-        #{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        #{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson},#{manageOrg})
     </insert>
 
   <update id="update" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
@@ -141,6 +143,9 @@
       </if>
       <if test="manageStatus != null and manageStatus != ''" >
         manage_status = #{manageStatus},
+      </if>
+      <if test="manageOrg != null and manageOrg != ''" >
+        manage_org = #{manageOrg},
       </if>
       <if test="publishDate != null " >
         publish_date = #{publishDate},
