@@ -142,8 +142,8 @@ public class InternationalStandardMaintainController extends RestBaseController 
     @ApiOperation(value="初始化")
     @RequestMapping(value = "/internationalStandardMaintain-api/newInit", method = RequestMethod.GET)
     @ResponseBody
-    public StandardMaintain newInit() {
-        StandardMaintain a = new StandardMaintain();
+    public InternationalStandardMaintain newInit() {
+        InternationalStandardMaintain a = new InternationalStandardMaintain();
         a.setId(UUID.randomUUID().toString().replace("-",""));
         return a;
     }
