@@ -13,46 +13,46 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var researchCol=[  //标准维护
     { type: 'checkbox',align: 'center'},
     {title: '序号',templet: '#xuhao', align: 'center'},
-    {field: 'planNum',title: '对应的国际标准化组织',align: 'center'},
-    {field: 'planChineseName',title: '对应的国际标准工作组',align: 'center'},
-    {field: 'planEnglishName',title: '标准编号',align: 'center'},
-    {field: 'standardTypeText',title: '标准中文名称'},
-    {field: 'standardTypeText',title: '标准英文名称'},
-    {field: 'chiefEditorUnit',title: '国内提案单位',},
-    {field: 'partakeEditorUnit',title: '参与国家',},
-    {field: 'partakeEditorUnit',title: '标准状态',},
-    {field: 'partakeEditorUnit',title: '管理状态',},
-    {field: 'applicationDate',title: '立项时间',align: 'center',
+    {field: 'internationalStandardOrg',title: '对应的国际标准化组织',align: 'center'},
+    {field: 'internationalStandardWorkGroup',title: '对应的国际标准工作组',align: 'center'},
+    {field: 'standardNum',title: '标准编号',align: 'center'},
+    {field: 'standardChineseName',title: '标准中文名称'},
+    {field: 'standardEnglishName',title: '标准英文名称'},
+    {field: 'domesticProposalUnit',title: '国内提案单位',},
+    {field: 'partakeCountryText',title: '参与国家',},
+    {field: 'standardStatusText',title: '标准状态',},
+    {field: 'manageStatus',title: '管理状态',},
+    {field: 'projectApprovalDate',title: '立项时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.applicationDate).format('yyyy-MM-dd')
+       return  new Date(d.projectApprovalDate).format('yyyy-MM-dd')
         }
     },
-    {field: 'applicationDate',title: '发布时间',align: 'center',
+    {field: 'publishDate',title: '发布时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.applicationDate).format('yyyy-MM-dd')
+       return  new Date(d.publishDate).format('yyyy-MM-dd')
         }
     },
   ]
   var publishedCol =[  //查询
     { type: 'checkbox',align: 'center'},
     {title: '序号',templet: '#xuhao', align: 'center'},
-    {field: 'planNum',title: '对应的国际标准化组织',align: 'center'},
-    {field: 'planChineseName',title: '对应的国际标准工作组',align: 'center'},
-    {field: 'planEnglishName',title: '标准编号',align: 'center'},
-    {field: 'standardTypeText',title: '标准中文名称'},
-    {field: 'standardTypeText',title: '标准英文名称'},
-    {field: 'chiefEditorUnit',title: '国内提案单位',},
-    {field: 'partakeEditorUnit',title: '参与国家',},
-    {field: 'partakeEditorUnit',title: '标准状态',},
-    {field: 'partakeEditorUnit',title: '管理状态',},
-    {field: 'applicationDate',title: '立项时间',align: 'center',
+    {field: 'internationalStandardOrg',title: '对应的国际标准化组织',align: 'center'},
+    {field: 'internationalStandardWorkGroup',title: '对应的国际标准工作组',align: 'center'},
+    {field: 'standardNum',title: '标准编号',align: 'center'},
+    {field: 'standardChineseName',title: '标准中文名称'},
+    {field: 'standardEnglishName',title: '标准英文名称'},
+    {field: 'domesticProposalUnit',title: '国内提案单位',},
+    {field: 'partakeCountryText',title: '参与国家',},
+    {field: 'standardStatusText',title: '标准状态',},
+    {field: 'manageStatus',title: '管理状态',},
+    {field: 'projectApprovalDate',title: '立项时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.applicationDate).format('yyyy-MM-dd')
+       return  new Date(d.projectApprovalDate).format('yyyy-MM-dd')
         }
     },
-    {field: 'applicationDate',title: '发布时间',align: 'center',
+    {field: 'publishDate',title: '发布时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.applicationDate).format('yyyy-MM-dd')
+       return  new Date(d.publishDate).format('yyyy-MM-dd')
         }
     },
   ]
@@ -151,7 +151,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     if (itemRowData.length == 1) {
       openDataDilog('edit', itemRowData[0].id);
     } else {
-      layer.msg('请选择需要编辑的专利项目！');
+      layer.msg('请选择需要编辑的数据！');
     }
   });
   // 查看
@@ -160,7 +160,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     if (itemRowData.length == 1) {
       openDataDilog('view', itemRowData[0].id);
     } else {
-      layer.msg('请选择需要查看的专利项目！');
+      layer.msg('请选择需要查看的数据！');
     }
   });
 
@@ -168,11 +168,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#delItem').on('click', function (e) {
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData.length == 1) {
-      layer.confirm('您确定要删除吗？', {
+      top.layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
-        layer.close(index);
+        top.layer.close(index);
         // 确认删除
         httpModule({
           url: '/internationalStandardMaintain-api/delete/' + itemRowData[0].id,
@@ -192,7 +192,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         });
       });
     } else {
-      layer.msg('请选择需要删除的专利项目！');
+      layer.msg('请选择需要删除的数据！');
     }
   });
 
@@ -222,7 +222,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         });
       });
     } else {
-      layer.msg('请选择需要移除的专利项目！');
+      layer.msg('请选择需要移除的数据！');
     }
   });
 
@@ -244,13 +244,13 @@ importFiles({
 })
 // 导出
 $('#exportData').click(function() {
-//  debugger
   var formValue = form.val('patentFormDemo'),
   searchData = {
-    planNum: formValue.planNum || '', // 计划号：
-    standardNum: formValue.standardNum || '', // 标准号：
-    planChineseName: formValue.planChineseName || '', // 计划名称：
-    standardName: formValue.standardName || '', // 标准名称：
+    planNum: formValue.planNum || '', // 标准编号：
+    standardChineseName: formValue.standardChineseName || '', // 标准号：
+    standardEnglishName: formValue.standardEnglishName || '', // 计划名称：
+    domesticProposalUnit: formValue.domesticProposalUnit || '', // 标准名称：
+    standardStatus: formValue.standardStatus || '', // 标准名称：
   },
   exportUrl = '';
 
