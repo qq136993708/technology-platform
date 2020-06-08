@@ -44,12 +44,20 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'planEnglishName',title: '英文名称',align: 'center'},
     {field: 'publishDate',title: '发布时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.publishDate).format('yyyy-MM-dd')
+        if(d.publishDate !=null){
+          return  new Date(d.publishDate).format('yyyy-MM-dd')
+        }else{
+          return '-';
+        }
         }
     },
     {field: 'terminationDate',title: '实施时间',align: 'center',
       templet:function (d) {
-       return  new Date(d.terminationDate).format('yyyy-MM-dd')
+        if(d.terminationDate != null){
+          return  new Date(d.terminationDate).format('yyyy-MM-dd')
+        }else{
+          return '-';
+        }
         }
     },
    
@@ -66,13 +74,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'toReplacedStandard',title: '拟代替标准',align: 'center',},
   ]
   var curCol = null;
-  
+  //1 :否 0 是
   variable.type == '1'?curCol=publishedCol:curCol=researchCol;
   
   if(variable.type == '1'){
-    $('input[name="isPublish"]').val('1');
+    $('input[name="isPublish"]').val('0');
   }else{
-    $('input[name="isPublish"]').val('2');
+    $('input[name="isPublish"]').val('1');
   }
 
   function queryTable(searchData) {

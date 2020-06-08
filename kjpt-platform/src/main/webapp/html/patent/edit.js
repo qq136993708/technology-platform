@@ -45,6 +45,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           if(data.applicationTechnologyProducts){
             formSelects.value('applicationTechnologyProducts',[data.applicationTechnologyProducts])
           }
+          if(data.projectBackground){
+            formSelects.value('projectBackground',[data.projectBackground])
+          }
           if (data.expirationDate) {
             // 失效日期
             data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
