@@ -1,10 +1,10 @@
 package com.pcitc.service.achieve.impl;
 
 import com.pcitc.base.achieve.AchieveMaintainBI;
-import com.pcitc.config.NoMockCondition;
+import com.pcitc.config.MockCondition;
 import com.pcitc.service.achieve.AchieveMaintainBIService;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Conditional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +12,15 @@ import java.util.Map;
 
 /***
  * @Author xiaoh
- * @Description 成果管理驾驶舱
+ * @Description 成果管理驾驶舱模拟数据
  * @Date 2020/6/4 14:39
  * @param
  * @return
  **/
-@Service
-@Conditional(NoMockCondition.class)
-public class AchieveMaintainBIServiceImpl implements AchieveMaintainBIService {
+
+@Conditional(MockCondition.class)
+@Service("AchieveMaintainBIServiceImpl")
+public class AchieveMaintainBIMockServiceImpl extends AchieveMaintainBIServiceImpl {
    /* @Autowired
     private AchieveMaintainBIMapper xmapper;*/
 
@@ -27,12 +28,14 @@ public class AchieveMaintainBIServiceImpl implements AchieveMaintainBIService {
     public List<AchieveMaintainBI> getAwardSumByQuery(Map paramMap) {
         List<AchieveMaintainBI> awardList = new ArrayList<AchieveMaintainBI>();
         String[] years = {"2016","2017","2018","2019","2020"};
-        String[] types = {"国家级奖","省部级奖","集团奖","社会奖项"};
+        String[] types = {"模拟国家级奖","省部级奖","集团奖","社会奖项"};
+
         int[][] sums = {{4,24,30,16},{16,40,56,22},{4,24,30,18},{4,24,30,16},{16,40,56,22}};
         for(int i=0;i<years.length;i++){
             for(int j=0;j<types.length;j++){
                 AchieveMaintainBI temp = new AchieveMaintainBI();
                 temp.setYear(years[i]);
+                temp.setType(""+i);
                 temp.setTypeText(types[j]);
                 temp.setAwardsNumberSum(sums[i][j]);
                 awardList.add(temp);
