@@ -143,7 +143,9 @@
                         ,cols: [[ //表头
                             {type: 'checkbox' },
                             {title: '序号',type:'numbers',width:55 },
-                            {field: 'name', title: '姓名' },
+                            {field: 'name', title: '姓名' ,templet: function(d){
+                                return ('<a href="./expert_view_out.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>')
+                            } },
                             {field: 'isExpert', title: '是否专家',templet: function(d){
                                     if(d.isExpert==0){return "否"}else {return "是"}
                                 }},

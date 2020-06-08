@@ -105,8 +105,8 @@
         knowledge_scope,
         knowledge_person
         ) values(#{id},#{internationalStandardOrg},#{internationalStandardWorkGroup},#{standardNum},#{standardChineseName},#{standardEnglishName},#{domesticProposalUnit},
-        #{partakeCountry},#{partakeCountryText},#{standardStatus},#{manageStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{createUser},#{updateDate},#{deleted},
-        #{updateUser},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        #{partakeCountry},#{partakeCountryText},#{standardStatus},#{manageStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{creator},#{updateDate},#{deleted},
+        #{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
     </insert>
 
   <update id="update" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
