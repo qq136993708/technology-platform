@@ -16,72 +16,7 @@
   <div class="layout-view-content min-label">
     
     <form class="layui-form layui-form-screen" action="" lay-filter="patentFormDemo">
-      <div class="layui-row layui-col-space20 internalLink">
-        <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">计划号：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="planNum" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">计划名称：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="planChineseName" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">标准号：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="standardNum" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">标准名称：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="standardName" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">标准类型：</span></label>
-            <div class="layui-input-block">
-              <select name="standardType" dic-base-data="ROOT_KJPT_BZWH_BZLX" placeholder="请选择...">
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">主编单位：</span></label>
-            <div class="layui-input-block">
-              <input type="text" name="chiefEditorUnit" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
-          <div class="layui-form-item text-right">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <span class="layui-fold-btn"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="layui-row layui-col-space20 internalSearch">
+      <div class="layui-row layui-col-space20">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
@@ -96,24 +31,23 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">标准中文名称：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="planNum" autocomplete="off" class="layui-input">
+              <input type="text" name="standardChineseName" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
-
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">标准英文名称：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="planNum" autocomplete="off" class="layui-input">
+              <input type="text" name="standardEnglishName" autocomplete="off" class="layui-input">
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">国内提案单位：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="planNum" autocomplete="off" class="layui-input">
+              <input type="text" name="domesticProposalUnit" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -121,12 +55,12 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">标准状态：</span></label>
             <div class="layui-input-block">
-              <select name="standardType" dic-base-data="ROOT_KJPT_BZWH_BZLX" placeholder="请选择...">
+              <select name="standardStatus" dic-base-data="ROOT_KJPT_BZWH_BZLX" placeholder="请选择...">
               </select>
             </div>
           </div>
         </div>
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 layui-col-btn">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
           <div class="layui-form-item text-right">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>

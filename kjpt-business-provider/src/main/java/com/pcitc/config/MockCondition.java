@@ -1,14 +1,10 @@
 package com.pcitc.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.stereotype.Component;
-import org.springframework.core.env.Environment;
-
-import javax.annotation.PostConstruct;
 
 /**
  * @author zhuyl

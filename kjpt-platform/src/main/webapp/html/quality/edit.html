@@ -108,16 +108,6 @@
 
          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
              <div class="layui-form-item">
-                 <label class="layui-form-label label-required"><span class="text">修改状态：</span></label>
-                 <div class="layui-input-block">
-                    <select name="updateStatus" dic-base-data="ROOT_KJPT_BZWH_XGZT" lay-verify="required"  placeholder="请选择...">
-                    </select>
-                 </div>
-             </div>
-         </div>
-
-         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-             <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">文件状态：</span></label>
                  <div class="layui-input-block">
                     <select name="fileStatus" dic-base-data="ROOT_KJPT_BZWH_WJZT" lay-verify="required"  placeholder="请选择...">
@@ -135,6 +125,26 @@
                  </div>
              </div>
          </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 publicNot">
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required"><span class="text">修改状态：</span></label>
+                <div class="layui-input-block">
+                   <select name="updateStatus" dic-base-data="ROOT_KJPT_BZWH_XGZT" lay-verify="required"  placeholder="请选择...">
+                   </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 overPublic" style="display: none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required"><span class="text">修改状态：</span></label>
+                <div class="layui-input-block">
+                   <select name="inResearchStatus" dic-base-data="ROOT_KJPT_BZWH_YFBXGZT" lay-verify="required"  placeholder="请选择...">
+                   </select>
+                </div>
+            </div>
+        </div>
 
          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
              <div class="layui-form-item lay-requier-box">

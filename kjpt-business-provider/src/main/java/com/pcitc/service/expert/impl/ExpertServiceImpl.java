@@ -367,8 +367,8 @@ public class ExpertServiceImpl implements IExpertService {
 			String expertTypes=getTableParam(param,"expertTypes","");
 			String knowledgeScope=getTableParam(param,"knowledgeScope","");
 			String customQueryConditionStr=getTableParam(param,"customQueryConditionStr","");
-			String order=getTableParam(param,"order","");
-
+			String orderBySql=getTableParam(param,"orderBySql","");
+			
 			Map map=new HashMap();
 			map.put("name", name);
 			map.put("sourceType", sourceType);
@@ -392,7 +392,7 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("expertType", expertType);
 			map.put("expertTypes", expertTypes);
 			map.put("knowledgeScope", knowledgeScope);
-			map.put("order", order);
+			map.put("orderBySql", orderBySql);
 
 			String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
 			map.put("condition", condition);

@@ -89,12 +89,16 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
   //lay-filter="test2"
   form.on('select(test2)', function(data) {
     $('.lay-requier-box').each(function(index,item){
-
       if(data.value == '0'){
+        $('.publicNot').hide(); //未发布
+        $('.overPublic').show(); //已发布
         $('#dateHide').show();
         $(this).find('label').addClass('label-required');
         $(this).find('.layui-input-block *').attr('lay-verify','required');
+
       }else{
+        $('.publicNot').show(); //未发布
+        $('.overPublic').hide();//已发布
         $('#dateHide').hide();
         $(this).find('label').removeClass('label-required');
         $(this).find('.layui-input-block *').attr('lay-verify','');
