@@ -157,23 +157,27 @@ public class StandardMaintainController extends RestBaseController {
     @RequestMapping(value = "/standardMaintain-api/export", method = RequestMethod.GET)
     @ResponseBody
     public void export(
-            @RequestParam(required = false,value = "type") String type,
-            @RequestParam(required = false,value = "startYear") @DateTimeFormat(pattern="yyyy") Date startYear,
-            @RequestParam(required = false,value = "endYear")  @DateTimeFormat(pattern="yyyy") Date endYear,
-            @RequestParam(required = false,value = "awardsType") String awardsType
+            @RequestParam(required = false,value = "planNum") String planNum,
+            @RequestParam(required = false,value = "planChineseName") String planChineseName,
+            @RequestParam(required = false,value = "standardNum") String standardNum,
+            @RequestParam(required = false,value = "standardName")  String standardName,
+            @RequestParam(required = false,value = "isPublish")  String isPublish
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
-        if (!StringUtils.isEmpty(DateUtil.format(startYear,DateUtil.FMT_YYYY))) {
-            this.setParam(condition, "startYear", DateUtil.format(startYear,DateUtil.FMT_YYYY));
+        if (!StringUtils.isEmpty(planNum)) {
+            this.setParam(condition, "planNum", planNum);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(endYear,DateUtil.FMT_YYYY))) {
-            this.setParam(condition, "endYear", DateUtil.format(endYear,DateUtil.FMT_YYYY));
+        if (!StringUtils.isEmpty(planChineseName)) {
+            this.setParam(condition, "planChineseName", planChineseName);
         }
-        if (!StringUtils.isEmpty(type)) {
-            this.setParam(condition, "type", type);
+        if (!StringUtils.isEmpty(standardNum)) {
+            this.setParam(condition, "standardNum", standardNum);
         }
-        if (!StringUtils.isEmpty(awardsType)) {
-            this.setParam(condition, "awardsType", awardsType);
+        if (!StringUtils.isEmpty(standardName)) {
+            this.setParam(condition, "standardName", standardName);
+        }
+        if (!StringUtils.isEmpty(isPublish)) {
+            this.setParam(condition, "isPublish", isPublish);
         }
         String[] headers = { "计划号",  "计划中文名称","计划英文名称", "下达年度", "标准类型",
                 "主编单位", "参编单位", "密级", "修改状态", "文件状态", "是否已发布", "主管部门", "技术委员会", "归口单位", "参照标准", "一致性程度","拟替代标准",
