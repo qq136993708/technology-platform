@@ -36,6 +36,8 @@
     <result column="effective_date" jdbcType="TIMESTAMP" property="effectiveDate" />
     <result column="is_publish_english_edition" jdbcType="VARCHAR" property="isPublishEnglishEdition" />
     <result column="is_publish_english_edition_text" jdbcType="VARCHAR" property="isPublishEnglishEditionText" />
+    <result column="in_research_status" jdbcType="VARCHAR" property="inResearchStatus" />
+    <result column="in_research_status_text" jdbcType="VARCHAR" property="inResearchStatusText" />
     <result column="put_under_unit" jdbcType="VARCHAR" property="putUnderUnit" />
     <result column="put_under_unit_text" jdbcType="VARCHAR" property="putUnderUnitText" />
     <result column="replace_standard" jdbcType="VARCHAR" property="replaceStandard" />
@@ -130,6 +132,7 @@
         publish_date,
         effective_date,
         is_publish_english_edition,
+        in_research_status,
         create_user,
         create_date,
         update_date,
@@ -143,7 +146,7 @@
         replace_standard
         ) values(#{id},#{planNum},#{planChineseName},#{planEnglishName},#{releaseYear},#{standardType},#{chiefEditorUnit},#{partakeEditorUnit},
         #{level},#{updateStatus},#{fileStatus},#{isPublish},#{manageOrg},#{technicalCommittee},#{putUnderUnit},#{consultStandard},#{uniformityDegree},
-        #{toReplacedStandard},#{standardNum},#{standardName},#{englishName},#{publishDate},#{effectiveDate},#{isPublishEnglishEdition},
+        #{toReplacedStandard},#{standardNum},#{standardName},#{englishName},#{publishDate},#{effectiveDate},#{isPublishEnglishEdition},#{inResearchStatus},
         #{creator}, #{createDate},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson},#{replaceStandard})
     </insert>
 
@@ -164,6 +167,9 @@
       </if>
       <if test="standardType != null and standardType != '' " >
         standard_type = #{standardType},
+      </if>
+      <if test="inResearchStatus != null and inResearchStatus != '' " >
+        in_research_status = #{inResearchStatus},
       </if>
       <if test="chiefEditorUnit != null and chiefEditorUnit != ''" >
         chief_editor_unit = #{chiefEditorUnit,jdbcType=VARCHAR},
