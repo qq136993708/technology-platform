@@ -535,10 +535,12 @@
 			   </foreach>
 	     </if>
 	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     
 	     <if test="condition != null and condition !=''  ">        
 	        ${condition}
 	     </if>
+	     
+	     
+	     
 	     
 	 </trim>
 	</sql>
@@ -581,16 +583,12 @@
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
    select * from  view_zjk_base  t <include refid="selectCondition" />
-     <!--<choose>
+     <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        //ORDER BY  create_time desc
+        ORDER BY  create_time desc
       </otherwise>
-     </choose>-->
-     ORDER BY  orders
-       <if test="order != null and order !=''  ">
-           ${order}
-       </if>
+     </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
    </select>
    

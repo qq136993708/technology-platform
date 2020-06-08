@@ -3,6 +3,7 @@ package com.pcitc.web.achieve;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.achieve.AchieveMaintainBI;
+import com.pcitc.base.achieve.AchieveRecordBI;
 import com.pcitc.service.achieve.AchieveMaintainBIService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,4 +57,29 @@ public class AchieveMaintainBIClient {
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(biList));
         return json;
     }
+
+    @ApiOperation(value = "历年成果转化完成情况", notes = "历年成果转化完成情况")
+    @RequestMapping(value = "/getAchieveTransferByYear", method = RequestMethod.POST)
+    public JSONArray getAchieveTransferByYear(@RequestBody(required = false) Map param){
+        List<AchieveRecordBI> biList= ams.getAchieveTransferByYear(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(biList));
+        return json;
+    }
+
+    @ApiOperation(value = "成果转化方式", notes = "成果转化方式")
+    @RequestMapping(value = "/getAchieveTransferByType", method = RequestMethod.POST)
+    public JSONArray getAchieveTransferByType(@RequestBody(required = false) Map param){
+        List<AchieveRecordBI> biList= ams.getAchieveTransferByType(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(biList));
+        return json;
+    }
+
+    @ApiOperation(value = "二级单位成果转化情况", notes = "二级单位成果转化情况")
+    @RequestMapping(value = "/getAchieveTransferByOffice", method = RequestMethod.POST)
+    public JSONArray getAchieveTransferByOffice(@RequestBody(required = false) Map param){
+        List<AchieveRecordBI> biList= ams.getAchieveTransferByOffice(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(biList));
+        return json;
+    }
+
 }

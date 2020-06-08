@@ -164,7 +164,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     if (itemRowData.length == 1) {
       openDataDilog('edit', itemRowData[0].id);
     } else {
-      layer.msg('请选择需要编辑的专利项目！');
+      layer.msg('请选择需要编辑的数据！');
     }
   });
   // 查看
@@ -173,7 +173,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     if (itemRowData.length == 1) {
       openDataDilog('view', itemRowData[0].id);
     } else {
-      layer.msg('请选择需要查看的专利项目！');
+      layer.msg('请选择需要查看的数据！');
     }
   });
 
@@ -181,11 +181,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#delItem').on('click', function (e) {
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData.length == 1) {
-      layer.confirm('您确定要删除吗？', {
+      top.layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
-        layer.close(index);
+        top.layer.close(index);
         // 确认删除
         httpModule({
           url: '/standardMaintain-api/delete/' + itemRowData[0].id,
@@ -205,7 +205,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         });
       });
     } else {
-      layer.msg('请选择需要删除的专利项目！');
+      layer.msg('请选择需要删除的数据！');
     }
   });
 
@@ -235,7 +235,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         });
       });
     } else {
-      layer.msg('请选择需要移除的专利项目！');
+      layer.msg('请选择需要移除的数据！');
     }
   });
 
