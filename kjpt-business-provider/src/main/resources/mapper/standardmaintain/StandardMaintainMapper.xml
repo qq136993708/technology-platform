@@ -90,6 +90,9 @@
     <if test="isPublish != null and isPublish != '' ">
       and is_publish = #{isPublish}
     </if>
+    <if test="chiefEditorUnit != null and chiefEditorUnit != '' ">
+      and chief_editor_unit like CONCAT('%',#{chiefEditorUnit},'%')
+    </if>
     and (secret_level = '0' or (
     secret_level <![CDATA[<=]]> #{userSecretLevel}
     <if test='skipKnowledgeScope=="0"'>
