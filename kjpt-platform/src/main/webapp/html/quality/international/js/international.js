@@ -248,7 +248,7 @@ $('#exportData').click(function() {
   searchData = {
     planNum: formValue.planNum || '', // 标准编号：
     standardChineseName: formValue.standardChineseName || '', // 标准号：
-    standardEnglishName: formValue.standardEnglishName || '', // 计划名称：
+    // standardEnglishName: formValue.standardEnglishName || '', // 计划名称：
     domesticProposalUnit: formValue.domesticProposalUnit || '', // 标准名称：
     standardStatus: formValue.standardStatus || '', // 标准名称：
   },
