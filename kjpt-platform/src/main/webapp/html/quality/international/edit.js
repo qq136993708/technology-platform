@@ -34,15 +34,18 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             // 立项时间
             data.projectApprovalDate = new Date(data.projectApprovalDate).format('yyyy-MM-dd');
           }
-          
+          // if (data.partakeCountry) {
+          //   formSelects.value('partakeCountry', data.partakeCountry.split(','));
+          // }
           if (variable.type === 'view') {
-        	  setFomeDisabled('formMain', '.disabled');
+            setFomeDisabled('formMain', '.disabled');
+            formSelects.disabled();
           }
           
           form.val('formMain', data);
           form.render();
  
-          // formSelects.value('partakeCountry', data.partakeCountry);
+          formSelects.value('partakeCountry', data.partakeCountry);
           // formSelects.value('unitName', [data.unitName]);
           // 更新表单数据
           

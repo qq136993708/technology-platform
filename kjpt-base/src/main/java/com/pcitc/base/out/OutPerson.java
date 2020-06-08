@@ -85,9 +85,9 @@ public class OutPerson  {
     private String post="";
     private String title="";
     
-    private String titleStr;
-    private String educationStr;
-    private String sexStr;
+    private String titleStr="";
+    private String educationStr="";
+    private String sexStr="";
     
     
     private Integer beginAage=0;
@@ -157,7 +157,7 @@ public class OutPerson  {
     
     private String postStr;
     
-    private String headPic;
+    private String headPic="";
     
     
     

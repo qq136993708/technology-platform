@@ -80,10 +80,18 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
                  return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
               }},
             {
-              field: 'authorizationDateStr',
+              field: 'authorizationDate',
               title: '授权日期',
               align: 'center',
               sort: true,
+              templet: function(d){
+                if(d.authorizationDate != null){
+                  var times = new Date(d.authorizationDate);
+                   return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
+                }else{
+                  return '-';
+                }
+              }
             },
               {
                   field: 'projectBackgroundText',

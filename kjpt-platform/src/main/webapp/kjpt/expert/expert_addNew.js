@@ -192,8 +192,18 @@ layui.config({
             elem: 'scope_list_layout',
             disabled: false
         });
-
     }
+    form.on('select(expertType)',function(data){ 
+        if(data.value == '02' || data.value == '03'){
+            $('#expertTypeBox').show(); 
+            $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
+            $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
+        }else{
+            $('#expertTypeBox').hide();
+            $('#expertTypeBox').find('.layui-form-label').removeClass('label-required')
+            $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','')
+        }
+    })
 
     var $ = layui.$,
         active = {

@@ -2,6 +2,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     var form = layui.form,$ = layui.$,table = layui.table, element = layui.element;
     // 获取页面参数ID
     var variable = getQueryVariable();
+    if(variable.page == 'demeanor'){
+        $('#gobackClick').attr('href','./expert_demeanor.html')
+    }else if(variable.page == 'list'){
+        $('#gobackClick').attr('href','./expert_list.html')
+    }
     if(variable!=null){
         httpModule({
             url: '/expert-api/get/'+variable.id,
@@ -9,7 +14,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             success: function(relData) {
                 if (relData.success === true) {
                     if(relData.data.headPic!=''){
-                        $("#img img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        $("#img img").attr("src",relData.data.headPic)
                     }
                     setTargetNameValue(relData.data)
                 }

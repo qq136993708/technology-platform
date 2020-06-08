@@ -236,8 +236,8 @@
           </div>
         </div>
 
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        </div>
+        <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        </div> -->
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
@@ -547,6 +547,9 @@
     });
     form.on('select(isWellKnown)', function(data){
         data.value == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
+        // if(data.value == '0'){
+          
+        // }
       });
     form.on('select(isRegistered)', function(data){
         data.value == '0'? $('#isRegisteredBox').attr("class",'')  : $('#isRegisteredBox').attr('class','layui-hide');
