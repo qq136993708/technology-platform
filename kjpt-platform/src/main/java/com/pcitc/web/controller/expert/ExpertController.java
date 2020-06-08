@@ -366,7 +366,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "groupType",            value = "分组", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "secretLevel",          value = "信息密级", dataType = "string", paramType = "form"),
     	@ApiImplicitParam(name = "birthDateStr",         value = "出生日期", dataType = "string", paramType = "form"),
-    	@ApiImplicitParam(name = "orders",               value = "排序号",    dataType = "string", paramType = "form")
+    	@ApiImplicitParam(name = "orders",               value = "排序号",    dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "expertType",               value = "专家类型",    dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -388,6 +389,7 @@ public class ExpertController extends BaseController {
 			Date date=DateUtil.strToDate(zjkBase.getBirthDateStr(), DateUtil.FMT_DD);
 			
 			oldZjkBase.setAge(zjkBase.getAge());
+			oldZjkBase.setExpertType(zjkBase.getExpertType());
 			oldZjkBase.setAchievement(zjkBase.getAchievement());
 			oldZjkBase.setBelongUnit(zjkBase.getBelongUnit());
 			oldZjkBase.setBrief(zjkBase.getBrief());
