@@ -10,9 +10,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
 
   function getItemInitData(item) {
-    var httpUrl = '/standardMaintain-api/newInit';
+    var httpUrl = '/internationalStandardMaintain-api/newInit';
     if (item && item.id) {
-      httpUrl = '/standardMaintain-api/load/' + item.id;
+      httpUrl = '/internationalStandardMaintain-api/load/' + item.id;
     }
     httpModule({
       url: httpUrl,
@@ -21,27 +21,18 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
         if (relData.code === '0') {
           // 给form表单赋初始值
           var data = relData.data;
-          if(data.technicalField) {
-            data.technicalField = data.technicalField.split(',');
+          if(data.partakeCountry) {
+            data.partakeCountry = data.partakeCountry.split(',');
           } else {
-            data.technicalField = [];
-          }
-          if(data.chiefEditorUnit){
-            formSelects.value('chiefEditorUnit',[data.chiefEditorUnit])
-          }
-          if(data.partakeEditorUnit){
-            formSelects.value('partakeEditorUnit',[data.partakeEditorUnit])
-          }
-          if(data.putUnderUnit){
-            formSelects.value('putUnderUnit',[data.putUnderUnit])
+            data.partakeCountry = [];
           }
           if(data.publishDate){
             // 发布时间
             data.publishDate = new Date(data.publishDate).format('yyyy-MM-dd');
           }
-          if(data.effectiveDate){
-            // 实施时间
-            data.effectiveDate = new Date(data.effectiveDate).format('yyyy-MM-dd');
+          if(data.terminationDate){
+            // 立项时间
+            data.terminationDate = new Date(data.terminationDate).format('yyyy-MM-dd');
           }
           
           if (variable.type === 'view') {
@@ -51,8 +42,8 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           form.val('formMain', data);
           form.render();
  
-          formSelects.value('technicalField', data.technicalField);
-          formSelects.value('unitName', [data.unitName]);
+          // formSelects.value('partakeCountry', data.partakeCountry);
+          // formSelects.value('unitName', [data.unitName]);
           // 更新表单数据
           
           setRadioShow();
@@ -109,7 +100,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
     params = data.field
     delete(params.file)
 		httpModule({
-			url: '/standardMaintain-api/save',
+			url: '/internationalStandardMaintain-api/save',
 			data: params,
 			type: "POST",
 			success: function(e) { 

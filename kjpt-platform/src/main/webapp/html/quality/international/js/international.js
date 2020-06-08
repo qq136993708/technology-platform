@@ -66,7 +66,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       tableRender = true;
       table.render({
         elem: '#tableDemo',
-        url: '/standardMaintain-api/query' //数据接口
+        url: '/internationalStandardMaintain-api/query' //数据接口
           ,
         cols: [curCol],
         parseData: function (res) {
@@ -100,15 +100,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('[lay-filter="formDemo"]').click();
 
   function openDataDilog(type, id) {
+    //src/main/webapp/html/quality/international/edit.html
     var pageName = 'edit', pageTitle = '质量标准';
-    var url = '/html/quality/'+ pageName +'.html?type=' + type;
+    var url = '/html/quality/international/'+ pageName +'.html?type=' + type;
     var dialogTitle = '新增'+pageTitle;
     if (type === 'edit') {
       dialogTitle = '编辑'+ pageTitle;
       url += '&id=' + id;
     } else if (type === 'view') {
       dialogTitle = pageTitle + '信息查看';
-      url = '/html/quality/view.html?id=' + id + '&type=' + type;
+      url = '/html/quality/international/'+ pageName +'.html?id=' + id + '&type=' + type;
     }
     // 打开弹窗
     top.layer.open({
@@ -174,7 +175,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         layer.close(index);
         // 确认删除
         httpModule({
-          url: '/standardMaintain-api/delete/' + itemRowData[0].id,
+          url: '/internationalStandardMaintain-api/delete/' + itemRowData[0].id,
           type: 'DELETE',
           success: function (relData) {
             if (relData.code === '0') {
