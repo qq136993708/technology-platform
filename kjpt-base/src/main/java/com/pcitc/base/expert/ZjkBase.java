@@ -170,7 +170,7 @@ public class ZjkBase  {
     
     private String  expertTypeStr;
     
-    private Integer orders;
+    private Integer orders=0;
     private String customQueryConditionStr;//前台转过来的
     
     private String condition;//mybatis拼装sql

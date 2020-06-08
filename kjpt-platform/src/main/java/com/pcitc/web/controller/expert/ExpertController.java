@@ -155,7 +155,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("name", name);
     	param.getParam().put("customQueryConditionStr", customQueryConditionStr);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
-    	param.getParam().put("order", ",orders asc,create_time ASC ");
+    	param.getParam().put("orderBySql", " ORDER BY orders asc ");
     	param.getParam().put("useStatus", useStatus);
     	param.setLimit(limit);
     	param.setPage(page);
@@ -349,7 +349,7 @@ public class ExpertController extends BaseController {
     	@ApiImplicitParam(name = "id", value = "主键", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "sex", value = "性别", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "name", value = "姓名", dataType = "string", paramType = "form",required=true),
-        @ApiImplicitParam(name = "useStatus", value = "启用状态（1启用，0未启用）", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "useStatus", value = "是否显示专家（1显示，0未显示）", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "age", value = "年龄", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "idCardNo", value = "身份证号码", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "education", value = "学历", dataType = "string", paramType = "form"),
@@ -363,9 +363,10 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "headPic", value = "头像", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form"),
-    	@ApiImplicitParam(name = "birthDateStr",         value = "出生日期", dataType = "string", paramType = "form")
+        @ApiImplicitParam(name = "groupType",            value = "分组", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "secretLevel",          value = "信息密级", dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "birthDateStr",         value = "出生日期", dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "orders",               value = "排序号",    dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -393,6 +394,8 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setContactWay(zjkBase.getContactWay());
 			oldZjkBase.setEducation(zjkBase.getEducation());
 			oldZjkBase.setEmail(zjkBase.getEmail());
+			Integer orders=zjkBase.getOrders();
+			oldZjkBase.setOrders(orders);
 			oldZjkBase.setHeadPic(zjkBase.getHeadPic());
 			oldZjkBase.setNum(zjkBase.getNum());
 			oldZjkBase.setWorkExperience(zjkBase.getWorkExperience());
