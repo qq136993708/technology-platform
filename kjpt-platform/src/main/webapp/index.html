@@ -348,7 +348,6 @@ var __base_dic_store = {
                 url: '/sysNotice/getSysNoticeList?page=1&limit=1',
                 type: 'post',
                 success: function(res) {
-                    debugger;
                     if(res.code == 0 && res.count > 0){
                         $("#numberChat").text(res.count).removeClass("layui-hide");
 					} else {
