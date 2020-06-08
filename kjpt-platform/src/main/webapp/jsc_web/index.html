@@ -10,13 +10,12 @@
     <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico?aa=a" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" />
     <link rel="stylesheet" href="/css/common.css" />
-    <link rel="stylesheet" href="/jsc/common/css/base.css">
-    <link rel="stylesheet" href="/jsc/common/css/common.css">
-    <link rel="stylesheet" href="/jsc/common/css/jsc/index.css">
-    <!-- <link rel="stylesheet" href="/jsc/control/animate/animate.css"> -->
+    <link rel="stylesheet" href="/jsc_web/common/css/base.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/common.css">
+    <!-- <link rel="stylesheet" href="/jsc_web/control/animate/animate.css"> -->
     <!-- 首页样式 -->
-    <!-- <link rel="stylesheet" href="/jsc/common/css/main.css">
-    <link rel="stylesheet" href="/jsc/common/css/table.css"> -->
+    <!-- <link rel="stylesheet" href="/jsc_web/common/css/main.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/table.css"> -->
 
 </head>
 <body class="animated  fadeIn">
@@ -43,14 +42,14 @@
             </div>
 
             <div class="header_date middle-block">
-                <img src="/jsc/img/time.png" style="width: 14px;height: 14px;" alt="">
+                <img src="/jsc_web/img/time.png" style="width: 14px;height: 14px;" alt="">
                 <span>截止到：</span>
                 <span id="formatDate">2019年5月23日  10:20:36 </span>
             </div>
             <div class="header_user">
                 <div class="ib-block">
                     <span class="use-text">中核集团用户</span>
-                    <!-- <img src="/jsc/img/exit.png" style="width: 14px; height: 14px;" alt=""> -->
+                    <!-- <img src="/jsc_web/img/exit.png" style="width: 14px; height: 14px;" alt=""> -->
                 </div>
                 <div class="ib-block link">进入管理平台>></div>
             </div>
@@ -81,10 +80,10 @@
         <iframe class="main-frame-layout" id="mainframe" data-id="" name="iframe0" width="100%" scrolling="no" frameborder="0" seamless=""></iframe>
     </div>
 </div>
-<script src="/jsc/common/js/jquery-1.10.1.min.js"></script>
+<script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
-<script src="/jsc/common/js/autofont.js"></script>
-<!-- <script src="/jsc/common/js/echarts.min.js"></script>
+<script src="/jsc_web/common/js/autofont.js"></script>
+<!-- <script src="/jsc_web/common/js/echarts.min.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/chartOption.js"></script> -->
 <script >
@@ -99,8 +98,8 @@
             $(".loading-container").addClass("loading-inactive");
         }, 0);
 
-        $('#mainframe').attr('src', '/jsc/front/main.html');
-        // $('#mainframe').load('/jsc/front/main.html');
+        $('#mainframe').attr('src', '/jsc_web/front/main.html');
+        // $('#mainframe').load('/jsc_web/front/main.html');
 
 
         var $twoNavItem = $('#twoNavItem'),
@@ -144,7 +143,7 @@
             }
 
             // 添加链接显示页面
-            pageHref = '/jsc/front/'+ pageName +'.html';
+            pageHref = '/jsc_web/front/'+ pageName +'.html';
             setTimeout(function() {
                 // $('#mainframe').load(pageHref);
                 $('#mainframe').attr('src', pageHref);
@@ -163,7 +162,7 @@
                 $(this).addClass("projectActive");
 
                 // 添加链接显示页面
-                pageHref = '/jsc/front/'+ pageName +'.html';
+                pageHref = '/jsc_web/front/'+ pageName +'.html';
                 // $('#mainframe').load(pageHref);
                 $('#mainframe').attr('src', pageHref);
             }
