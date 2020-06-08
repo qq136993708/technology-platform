@@ -2,6 +2,7 @@ package com.pcitc.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.CustomQueryConditionVo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -22,23 +23,25 @@ public class BusinessUtil {
 					CustomQueryConditionVo vo=voList.get(i);
 					String conditionSymbol=vo.getCondition();
 					String columnType=vo.getColumnType();
-					if(conditionSymbol.contains("=") || conditionSymbol.contains(">") || conditionSymbol.contains("<"))
-					{
-						if(columnType.equals("string"))
+					if(StringUtils.isNotBlank(columnType)){
+						if(conditionSymbol.contains("=") || conditionSymbol.contains(">") || conditionSymbol.contains("<"))
 						{
-							sb.append(" AND "+vo.getColumnName()+conditionSymbol+" '"+vo.getValue()+"'");
-						}else if(columnType.equals("date"))
+							if(columnType.equals("string"))
+							{
+								sb.append(" AND "+vo.getColumnName()+conditionSymbol+" '"+vo.getValue()+"'");
+							}else if(columnType.equals("date"))
+							{
+								sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') "+conditionSymbol+" '"+vo.getValue()+"'");
+							}else if(columnType.equals("int"))
+							{
+								sb.append(" AND "+vo.getColumnName()+" "+conditionSymbol+" "+vo.getValue()+"");
+							}
+						}else if(conditionSymbol.contains("like"))
 						{
-							sb.append(" AND DATE_FORMAT("+vo.getColumnName()+",'%Y-%m-%d') "+conditionSymbol+" '"+vo.getValue()+"'");
-						}else if(columnType.equals("int"))
-						{
-							sb.append(" AND "+vo.getColumnName()+" "+conditionSymbol+" "+vo.getValue()+"");
-						}
-					}else if(conditionSymbol.contains("like"))
-					{
-						if(columnType.equals("string"))
-						{
-							sb.append(" AND "+vo.getColumnName()+" "+conditionSymbol+" '%"+vo.getValue()+"%'");
+							if(columnType.equals("string"))
+							{
+								sb.append(" AND "+vo.getColumnName()+" "+conditionSymbol+" '%"+vo.getValue()+"%'");
+							}
 						}
 					}
 					
