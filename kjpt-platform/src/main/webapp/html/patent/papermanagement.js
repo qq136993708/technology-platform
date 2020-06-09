@@ -6,11 +6,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   var layer = layui.layer;
   var laydate = layui.laydate;
   var variable = getQueryVariable();
-  var queryType = (function() {
-    if (variable && typeof(variable) === 'object' && variable.type) {
-      return variable.type; } else { return '1'; }
+  var queryType = (function () {
+    if (variable && typeof (variable) === 'object' && variable.type) {
+      return variable.type;
+    } else {
+      return '1';
+    }
   })();
-  
+
   //表格渲染
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
@@ -71,10 +74,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               title: '发表日期',
               align: 'center',
               sort: true,
-              templet: function(d){
+              templet: function (d) {
                 var times = new Date(d.publishDate);
-                 return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
-              }},
+                return times.getFullYear() + '-' + (times.getMonth() + 1) + '-' + times.getDate();
+              }
+            },
             {
               field: 'influencingFactors',
               title: '影响因子',
@@ -111,18 +115,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     queryTable(query);
     return false;
   });
-  
+
   $('[lay-filter="formDemo"]').click();
 
   function openDataDilog(type, id) {
-   
-     var pageName = 'addpaper';
-     var pageTitle = '论文';
-
-    var url = '/html/patent/'+ pageName +'.html?type=' + type;
-    var dialogTitle = '新增'+pageTitle;
+    var pageName = 'addpaper';
+    var pageTitle = '论文';
+    var url = '/html/patent/' + pageName + '.html?type=' + type;
+    var dialogTitle = '新增' + pageTitle;
     if (type === 'edit') {
-      dialogTitle = '编辑'+ pageTitle;
+      dialogTitle = '编辑' + pageTitle;
       url += '&id=' + id;
     } else if (type === 'view') {
       dialogTitle = pageTitle + '信息查看';
@@ -216,50 +218,50 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     elem: '#estimate' //指定元素
   });
   // 导出
-$('#exportData').click(function() {
-  var formValue = form.val('patentFormDemo'),
-  searchData = {
-    theme: formValue.theme || '', // 论文主题：
-    title: formValue.title || '', // 篇名：
-    journalName: formValue.journalName || '', // 期刊名：
-    journalLevel: formValue.journalLevel || '', // 期刊等级
-    publishDate: formValue.publishDate || '', // 发表日期：
-  },
-  exportUrl = '';
+  $('#exportData').click(function () {
+    var formValue = form.val('patentFormDemo'),
+      searchData = {
+        theme: formValue.theme || '', // 论文主题：
+        title: formValue.title || '', // 篇名：
+        journalName: formValue.journalName || '', // 期刊名：
+        journalLevel: formValue.journalLevel || '', // 期刊等级
+        publishDate: formValue.publishDate || '', // 发表日期：
+      },
+      exportUrl = '';
 
-  for (var key in searchData) {
-    exportUrl += '&' + key + '=' + searchData[key];
-  }
-  exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
-  window.open(exportUrl, '_blank');
-})
-//导入
-importFiles({
-  id:'#importData',
-  url:'/excelImport/treatiseImp',
-  //treatiseImp
-  callback: function (data,type) {
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
+  })
+  //导入
+  importFiles({
+    id: '#importData',
+    url: '/excelImport/treatiseImp',
+    //treatiseImp
+    callback: function (data, type) {
       queryTable('');
-  }
-});
-// 导出
-$('#exportData').click(function() {
-  var formValue = form.val('patentFormDemo'),
-  searchData = {
-    unitName: formValue.unitName || '', // 单位名称：
-    patentName: formValue.patentName || '', // 项目背景：
-    patentType: formValue.patentType || '', // 专利类型：
-    lawStatus: formValue.lawStatus || '', // 法律状态
-    applicationNumber: formValue.applicationNumber || '', // 专利号：
-  },
-  exportUrl = '';
+    }
+  });
+  // 导出
+  $('#exportData').click(function () {
+    var formValue = form.val('patentFormDemo'),
+      searchData = {
+        unitName: formValue.unitName || '', // 单位名称：
+        patentName: formValue.patentName || '', // 项目背景：
+        patentType: formValue.patentType || '', // 专利类型：
+        lawStatus: formValue.lawStatus || '', // 法律状态
+        applicationNumber: formValue.applicationNumber || '', // 专利号：
+      },
+      exportUrl = '';
 
-  for (var key in searchData) {
-    exportUrl += '&' + key + '=' + searchData[key];
-  }
-  exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
-  window.open(exportUrl, '_blank');
-})
+    for (var key in searchData) {
+      exportUrl += '&' + key + '=' + searchData[key];
+    }
+    exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+    window.open(exportUrl, '_blank');
+  })
 
 });
 

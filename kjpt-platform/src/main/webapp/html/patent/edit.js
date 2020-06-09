@@ -95,7 +95,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
-              $('.file-options-delete').hide();
+              if(variable.type == 'view'){
+                $('.file-options-delete').hide();
+              }
             }
           });
 

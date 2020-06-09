@@ -31,7 +31,7 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
               $('#file-filter-options label[filter="addFile"]').attr('disabled', true);
               // formSelects.disabled('unit');
               form.render('select');
-              // $('.box-hide').hide();
+             
              formSelects.disabled();
           }
           
@@ -63,6 +63,7 @@ layui.use(['form', 'table', 'layer', 'upload', 'formSelects','laydate'], functio
                 $('#input-box').removeClass('hide-box');
                 $('#select-box').addClass('hide-box');
                 $('.box-hide').addClass('hide-box')
+                $('.file-options-delete').hide();
               }else{
                 $('#input-box').addClass('hide-box');
                 $('#select-box').removeClass('hide-box');
