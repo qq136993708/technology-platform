@@ -680,6 +680,9 @@
     <if test="legalStatus != null and legalStatus != '' " >
         and legal_status = #{legalStatus}
     </if>
+    <if test="projectBackground != null and projectBackground != '' " >
+        and project_background = #{projectBackground}
+    </if>
     <if test="applicationDateStart != null and applicationDateStart != '' " >
       and application_date &gt;= #{applicationDateStart}
     </if>

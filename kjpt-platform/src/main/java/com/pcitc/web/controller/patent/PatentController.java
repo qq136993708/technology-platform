@@ -84,6 +84,7 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "type", value = "后专项处理", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "projectBackground", value = "项目背景", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "legalStatus", value = "法律状态", dataType = "string", paramType = "query")
 
@@ -103,6 +104,7 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor,
             @RequestParam(required = false) String technicalFieldIndex,
+            @RequestParam(required = false) String projectBackground,
             @RequestParam(required = false) String secretLevel,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String legalStatus
@@ -150,6 +152,9 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(technicalFieldIndex)) {
             this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
+        }
+        if (!StringUtils.isEmpty(projectBackground)) {
+            this.setParam(condition, "projectBackground", projectBackground);
         }
 
         if(secretLevel != null){
