@@ -22,8 +22,8 @@
             <div class="text" id="all">历年成果转化完成情况</div>
           </div>
           <ul id="achievt-types">
-            <li data-type="gjj"><span class="award-rectangle" style="background: #0CB92D;"></span>成果完成数量</li>
-            <li data-type="sbj"><span class="award-rectangle" style="background: #D89936;"></span>成果完成金额</li>
+            <li data-type="gjj"><span class="award-rectangle" style="background: #0CB92D;"></span>转换完成数量</li>
+            <li data-type="sbj"><span class="award-rectangle" style="background: #D89936;"></span>转换完成金额</li>
           </ul>
         </div>
         <div class="chart-layout count-year-chart">
@@ -39,19 +39,36 @@
             <div class="text">成果转化方式</div>
           </div>
         </div>
-        <div class="chart-layout count-year-chart">
-          <div class="chart-block" id="awards-year-pie"></div>
+        <div class="chart-layout count-year-chart chart-content">
+            <div class="chart-chart">
+                <div class="chart-block" id="awardTramsformType"></div>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span>&nbsp;</span>
+                    <span>数量</span>
+                    <span>金额：万元</span>
+                </div>
+            </div>
+
         </div>
       </div>
     </div>
   </div>
-  <div class="bottom-chart-layout">
+  <div class="bottom-chart-layout" style="padding-top: 20px">
     <div class="achieve-detail">
-      <div class="count-year-title">
+      <div class="count-year-title office-title">
         <div class="chart-title-layout content-title">
           <div class="rectangle"></div>
           <div class="text">二级单位成果转化情况</div>
         </div>
+        <ul>
+            <li data-type="gjj"><span class="award-rectangle" style="background: #138FF7;"></span>转换完成数量</li>
+            <li data-type="sbj"><span class="award-rectangle" style="background: #0000FF;"></span>转换完成金额</li>
+        </ul>
+      </div>
+      <div class="chart-layout count-year-chart" style="height: 100%;padding-bottom: 2rem;padding-top: 15px;">
+          <div class="chart-block" id="achieveTransferOffice"></div>
       </div>
     </div>
   </div>
