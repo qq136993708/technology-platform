@@ -125,9 +125,18 @@ layui.config({
                     var formData = relData.data;
                     form.val('formPlatform', relData.data);
                     if (relData.data.headPic != '') {
-                        $("#imgFileUpload img").attr("src", '/file/imgFile/' + relData.data.headPic)
+                        $("#imgFileUpload img").attr("src", relData.data.headPic)
                         $("#imgFileUpload").addClass("success")
                         headPic = relData.data.headPic
+                    }
+                    if(formData.expertType == '02' || formData.expertType == '03'){
+                        $('#expertTypeBox').show(); 
+                        $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
+                        $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
+                    }else{
+                        $('#expertTypeBox').hide();
+                        $('#expertTypeBox').find('.layui-form-label').removeClass('label-required')
+                        $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','')
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
