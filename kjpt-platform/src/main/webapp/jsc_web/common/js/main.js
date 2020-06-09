@@ -1,6 +1,6 @@
-// 成果信息
+// 科研平台
 kyptCharts.render({
-    id: 'cgxx_charts1',
+    id: 'kypt_charts',
     type: 'pie',
     legendPosition: 'right',
     legend: {
@@ -20,20 +20,14 @@ kyptCharts.render({
             width: '100%'
         }
     },
-    series: [{
-            name: '未鉴定',
-            value: '25'
-        },
-        {
-            name: '鉴定中   ',
-            value: '12'
-        },
-        {
-            name: '鉴定完成',
-            value: '18'
-        }
+    series: [
+        { name: '国家级', value: '9' },
+        { name: '国家部委级', value: '12' },
+        { name: '地方省级', value: '10' },
+        { name: '集团级', value: '8' },
+        { name: '板块级', value: '11' }
     ],
-    color: ['#f9dd56', '#ff9156', '#1bc85e'],
+    color: ['#2687FF', '#6BD04A', '#EFEC56', '#D89339', '#D66635'],
     callback:function(param){
         param.on('click',function(){
             var openUrl={
@@ -46,9 +40,9 @@ kyptCharts.render({
     },
 });
 
-// 专利数量类型占比
+// 成果获奖
 kyptCharts.render({
-    id: 'cgxx_charts2',
+    id: 'achieve_charts',
     type: 'pie',
     legendPosition: 'right',
     legend: {
@@ -68,20 +62,13 @@ kyptCharts.render({
             width: '100%'
         }
     },
-    series: [{
-            name: '发明专利',
-            value: '10'
-        },
-        {
-            name: '实用型专利',
-            value: '60'
-        },
-        {
-            name: '外观设计专利',
-            value: '30'
-        }
+    series: [
+        { name: '国家级奖', value: '143' },
+        { name: '省部级奖', value: '120' },
+        { name: '集团奖', value: '325' },
+        { name: '社会奖项', value: '184' }
     ],
-    color: ['#f9dd56', '#ff9156', '#1bc85e'],
+    color: ['#4526D4', '#3461D3', '#5ABEE7', '#74E8D0'],
     callback:function(param){
         param.on('click',function(){
             var openUrl={
@@ -94,31 +81,67 @@ kyptCharts.render({
     },
 });
 
+// 专利数量
+kyptCharts.render({
+    id: 'patent_charts',
+    type: 'pie',
+    legend: { show: false },
+    label: {
+        show: true,
+        color: '#fff',
+        formatter: [ '{a|{b}：{c}}' ].join('\n'),
+        rich: {
+            a: {
+                height: 20,
+                borderWidth: 1,
+                lineHeight: 18,
+                fontSize: 14,
+                align: 'center',
+                padding: [3, 6, 3, 6],
+                borderRadius: 3
+            }
+        }
+    },
+    labelColor: '#fff',
+    radius: ['0%', '70%'],
+    borderColor: '#001e38',
+    title: '成果报奖',
+    totalTitle: false,
+    series: [
+        { name: '外观设计', value: '120' },
+        { name: '发明', value: '90' },
+        { name: '实用新型', value: '131' }
+    ],
+    color: ['#45F0FF', '#2687FF', '#1bc85e']
+});
+
+
 // 软件著作权数量
 kyptCharts.render({
-    id: 'cgxx_charts3',
+    id: 'kyxm_charts',
     type: 'bar',
+    grid: { top: 40 },
+    legend: { show: true, left: 'right', top: 5},
     labelColor: '#fff',
     borderColor: '#001e38',
     data: [
-        { name: '动力院', value: 21 },
-        { name: '原子能院', value: 46 },
-        { name: '核能院', value: 18 },
-        { name: '核化工', value: 50 },
-        { name: '地研院', value: 6 }
+        { name: '核能开发', value1: 21, value2: 76 },
+        { name: '集中研发', value1: 46, value2: 18 },
+        { name: '国防基础', value1: 18, value2: 55 },
+        { name: '国防技术基础', value1: 50, value2: 43 }
     ],
     itemName: 'name',
     series: [
-        { name: '著作权', valueKey: 'value' }
+        { name: '在研', valueKey: 'value1', stack: 'kyxm_charts'},
+        { name: '已完成', valueKey: 'value2', stack: 'kyxm_charts'}
     ],
-    color: [['#25B9FE', '#25B9FE']],
+    color: ['rgba(107, 100, 96, .3)', ['#25B9FE', '#25B9FE']],
     lineColor: 'rgba(4, 30, 54, 1)',
     valueColor: '#fff',
     labelColor: '#fff',
-    yAxis: [{splitNumber: 3}],
+    yAxis: [{splitNumber: 3, name: '单位：个', nameGap: 20, nameTextStyle: {color: '#fff'}}],
     barWidth: 20,
-    axisLineColor: 'rgba(255, 255, 255, .2)',
-    legend: {show: false },
+    axisLineColor: 'rgba(255, 255, 255, .2)'
 });
 
 // 专利数量按单位统计
@@ -150,26 +173,6 @@ kyptCharts.render({
     axisLineColor: 'rgba(255, 255, 255, .2)',
     legendPosition: 'top'
     // legend: {show: false }
-});
-
-// 成果转化
-kyptCharts.render({
-    id: 'cgzh_chart1',
-    type: 'pie',
-    legendPosition: 'right',
-    legend: { top: 'center', formatter: 'name|value' },
-    label: false,
-    labelColor: '#fff',
-    radius: ['56%', '78%'],
-    borderColor: '#001e38',
-    title: '成果报奖',
-    totalTitle: true,
-    title: { textStyle: { color: '#fff', fontSize: 24, width: '100%' } },
-    series: [
-        { name: '核心成果', value: '10' },
-        { name: '非核心成果', value: '60' }
-    ],
-    color: ['#45F0FF', '#2687FF', '#1bc85e']
 });
 
 // 成果转换趋势
