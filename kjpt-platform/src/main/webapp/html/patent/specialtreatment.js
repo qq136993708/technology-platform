@@ -30,7 +30,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {title: '序号',templet: '#xuhao', align: 'center'},
             {
-              field: 'unitNameText',
+              field: 'unitName',
               title: '单位名称',
               align: 'center',
               sort: true,
@@ -313,6 +313,7 @@ $('#exportData').click(function() {
     patentType: formValue.patentType || '', // 专利类型：
     lawStatus: formValue.lawStatus || '', // 法律状态
     applicationNumber: formValue.applicationNumber || '', // 专利号：
+    type:'2'
   },
   exportUrl = '';
 
