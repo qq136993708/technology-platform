@@ -494,3 +494,69 @@
   font-weight:400;
 }
 
+/*成果转换方式*/
+.chart-content {
+  display: flex;
+  padding-right: 4rem;
+  box-sizing: border-box;
+}
+
+.chart-content .chart-chart{
+  width: 50%;
+  height: 100%;
+}
+
+.chart-content .chart-legend{
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-top: 30px;
+}
+
+.chart-legend .legend-item {
+  height: 20px;
+  width: 100%;
+}
+.chart-legend .legend-item {
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  line-height: 35px;
+}
+.chart-legend .legend-item span {
+  color: #fff;
+  width: 30%;
+  text-align: center;
+  font-size:14px;
+  font-family:PingFang SC;
+  font-weight:400;
+  position: relative;
+}
+
+.chart-legend .legend-item:not(:first-child) span:not(:first-child) {
+  font-size:20px;
+  font-family:Impact;
+  font-weight:400;
+}
+
+.chart-legend .legend-item i {
+  width: 16px;
+  height: 16px;
+  background: blue;
+  display: inline-block;
+  position: absolute;
+  top: 29%;
+  left: 0;
+}
+
+.office-title {
+  display: flex;
+  justify-content: end;
+}
+
+.office-title ul {
+  width: 67%;
+  text-align: right;
+}
+
