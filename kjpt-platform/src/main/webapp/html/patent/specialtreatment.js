@@ -303,34 +303,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       }
     });
   };
-  $('#leftItem').on('click',function(){
-    if (itemRowData) {
-      httpModule({
-        //GET /patentController/load/{id}
-        url: '/patentController/load/'+itemRowData.id,
-        type: 'GET',
-        success: function (relData) {
-          if (relData.success) {
-            var params = relData.data;
-            params['type']=2;
-            httpModule({
-              url: '/patentController/save',
-              type: 'POST',
-              data: params,
-              success: function (relData) {
-                if (relData.success) {
-//                  debugger
-                  // var data = relData.data;
-                }
-              }
-            });
-          }
-        }
-      });
-    } else {
-      layer.msg('请选择需要查看的专利项目！');
-    }
-  })
 
 });
 

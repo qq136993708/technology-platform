@@ -66,7 +66,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             templet:'#extensionPeriod'
                         },
                         {
-                            field: 'tradeMarkType',
+                            field: 'tradeMarkTypeText',
                             title: '商标类型'
                         },
                         {field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 

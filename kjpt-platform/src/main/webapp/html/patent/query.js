@@ -237,10 +237,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#delItem').on('click', function (e) {
     var itemRowData = table.checkStatus('tableDemo').data;
     var ids = itemRowData.map(function(item){
-      return item.id+','
+      return item.id
     })
-    console.log(ids);
-    return
     if (itemRowData) {
       layer.confirm('您确定要删除吗？', {
         icon: 3,
@@ -271,24 +269,25 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   });
 
   $('#removeItem').on('click', function (e) {
+    var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData) {
-      layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
+      top.layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
-        layer.close(index);
+        top.layer.close(index);
         // 确认删除
         httpModule({
           url: '/patentController/batchRemove/' + itemRowData.id,
           type: 'GET',
           success: function (relData) {
             if (relData.code === '0') {
-              layer.msg('移除成功!', {
+              top.layer.msg('移除成功!', {
                 icon: 1
               });
               $('[lay-filter="formDemo"]').click();
             } else {
-              layer.msg('移除失败', {
+              top.layer.msg('移除失败', {
                 icon: 2
               });
             }
@@ -354,31 +353,61 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     });
   };
   $('#leftItem').on('click',function(){
+    var itemRowData = table.checkStatus('tableDemo').data;
+    var ids = itemRowData.map(function (item) {
+      return item.id;
+      })
     if (itemRowData) {
-      httpModule({
-        url: '/patentController/load/'+itemRowData.id,
-        type: 'GET',
-        success: function (relData) {
-          if (relData.success) {
-            var params = relData.data;
-            params['type']=2;
-            httpModule({
-              url: '/patentController/save',
-              type: 'POST',
-              data: params,
-              success: function (relData) {
-                if (relData.success) {
-//                  debugger
-                  // var data = relData.data;
-                }
-              }
-            });
+      top.layer.confirm('您确定要后处理吗？', {
+        icon: 3,
+        title: '删除提示'
+      }, function (index) {
+        top.layer.close(index);
+        httpModule({
+          url: '/patentController/postTreatment/' +ids,
+          type: 'GET',
+          success: function (relData) {
+            if (relData.code === '0') {
+              top.layer.msg('后处理成功!', {
+                icon: 1
+              });
+              $('[lay-filter="formDemo"]').click();
+            } else {
+              top.layer.msg('后处理失败', {
+                icon: 2
+              });
+            }
           }
-        }
+        });
       });
     } else {
-      layer.msg('请选择需要查看的专利项目！');
+      layer.msg('请选择需要后处理的数据！');
     }
+//     if (itemRowData) {
+//       httpModule({
+//         url: '/patentController/load/'+itemRowData.id,
+//         type: 'GET',
+//         success: function (relData) {
+//           if (relData.success) {
+//             var params = relData.data;
+//             params['type']=2;
+//             httpModule({
+//               url: '/patentController/save',
+//               type: 'POST',
+//               data: params,
+//               success: function (relData) {
+//                 if (relData.success) {
+// //                  debugger
+//                   // var data = relData.data;
+//                 }
+//               }
+//             });
+//           }
+//         }
+//       });
+//     } else {
+//       layer.msg('请选择需要查看的专利项目！');
+//     }
   })
   //导入
 importFiles({
