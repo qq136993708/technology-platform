@@ -44,6 +44,7 @@ public class PatentController extends RestBaseController {
     private static final String DELETE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_delete/";
 
     private static final String batchRemove = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/batchRemove/";
+    private static final String postTreatment = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/postTreatment/";
 
     private static final String countByLegalStatus = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByLegalStatus";
     private static final String countByPatentType = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByPatentType";
@@ -356,6 +357,21 @@ public class PatentController extends RestBaseController {
     public void batchRemove(@PathVariable String ids) {
         Map<String, Object> condition = new HashMap<>(6);
         this.restTemplate.exchange(batchRemove+ids, HttpMethod.POST, new HttpEntity(this.httpHeaders),Integer.class);
+//        return responseEntity.getBody();
+
+    }
+
+    /**
+     * 批量后处理
+     *
+     * @return PatentInfo
+     */
+    @ApiOperation(value="批量后处理")
+    @RequestMapping(value = "/postTreatment/{ids}", method = RequestMethod.GET)
+    @ResponseBody
+    public void postTreatment(@PathVariable String ids) {
+        Map<String, Object> condition = new HashMap<>(6);
+        this.restTemplate.exchange(postTreatment+ids, HttpMethod.POST, new HttpEntity(this.httpHeaders),Integer.class);
 //        return responseEntity.getBody();
 
     }

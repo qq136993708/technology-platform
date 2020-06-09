@@ -715,6 +715,13 @@
 
   </sql>
 
+  <update id="postTreatment" parameterType="java.lang.String">
+    update patent_info set type = '2' where id in
+    <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
   <select id="countByLegalStatus" parameterType="java.util.Map" resultType="java.util.Map">
     select '全部' as 'name',count(1) num from patent_info where deleted != '1'
     <include refid="selectByParam" />
