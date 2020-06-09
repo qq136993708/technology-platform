@@ -191,7 +191,7 @@ public class StandardMaintainController extends RestBaseController {
                 "chiefEditorUnit","partakeEditorUnit","levelText","updateStatusText","fileStatusText","isPublishText","manageOrg"
                 ,"technicalCommittee","putUnderUnitText","consultStandard","uniformityDegree"
                 ,"toReplacedStandard","standardNum","standardName","englishName","publishDate","effectiveDate","isPublishEnglishEditionText"};
-        export(headers,cols,"国际标准表_",condition);
+        export(headers,cols,"国内标准表_",condition);
     }
 
 
