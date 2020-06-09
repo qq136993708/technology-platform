@@ -127,8 +127,9 @@
 		<if test="distinct">
 			distinct
 		</if>
-		'true' as QUERYID,
+
 		<include refid="Base_Column_List" />
+		,'true' as QUERYID
 		from sys_user
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
