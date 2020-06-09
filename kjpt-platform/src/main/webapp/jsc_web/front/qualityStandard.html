@@ -34,7 +34,9 @@
 <script src="/layuiadmin/js/chartOption.js"></script>
 <script>
     layui.use(['laydate'], function() {
-
+        var researchData = null;  //在研数
+        var releaseData = null;   //发布数
+        var researchrelData = null; //在研发布数
         function getEchartsData(){
             //GET /standardMaintainBI-api/getInternalPublishList
             var year = 2020;
@@ -44,171 +46,196 @@
                 type: 'GET',
                 success: function (result) {
                     if (result.success == true) {
-
+                        releaseData = result.data;
                     } else {
-
+                        releaseData = [];
                     }
+                },
+            });
+            //国内标准在研数
+            httpModule({
+                url: '/standardMaintainBI-api/getInternalResearchList?year='+year,
+                type: 'GET',
+                success: function (result) {
+                    if (result.success == true) {
+                        researchData = result.data;
+                    } else {
+                        researchData = [];
+                    }
+                },
+            });
+            //国内标准在研，累计发布数
+            httpModule({
+                url: '/standardMaintainBI-api/getInternationalAllList?year='+year,
+                type: 'GET',
+                success: function (result) {
+                    if (result.success == true) {
+                        researchrelData = result.data;
+                    } else {
+                        researchrelData = [];
+                    }
+                },
+            });
+
+            // 国内标准在研数
+            kyptCharts.render({
+                id: 'gnbzN_charts1',
+                type: 'pie',
+                legendPosition: 'right',
+                legend: {
+                    top: 'center',
+                    formatter: 'name|value'
+                },
+                label: false,
+                labelColor: '#fff',
+                radius: ['70%', '90%'],
+                borderColor: '#001e38',
+                title: '国内标准在研数',
+                totalTitle: true,
+                title: {
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 22,
+                        width: '100%'
+                    }
+                },
+                series: [{
+                    name: releaseData[0].standardTypeText,
+                    value: releaseData[0].standardType
+                },
+                    {
+                        name: releaseData[1].standardTypeText,
+                        value: releaseData[1].standardType
+                    },
+                    {
+                        name: releaseData[2].standardTypeText,
+                        value: releaseData[2].standardType
+                    },
+                    {
+                        name: releaseData[3].standardTypeText,
+                        value: releaseData[3].standardType
+                    },
+                    {
+                        name: releaseData[4].standardTypeText,
+                        value: releaseData[4].standardType
+                    }
+                ],
+                color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
+                callback:function(param){
+                    param.on('click',function(){
+                        var openUrl={
+                            url:'/kjpt/achieve/identify/achieve_identify_plan_list.html',
+                            name:'成果鉴定'
+                        }
+                        window.open('/index', 'kjpt_webapp');
+                        localStorage.setItem("url", JSON.stringify(openUrl));
+                    })
+                },
+            });
+
+            //国内累计发布数
+            kyptCharts.render({
+                id: 'gnbzN_charts2',
+                type: 'pie',
+                legendPosition: 'right',
+                legend: {
+                    top: 'center',
+                    formatter: 'name|value'
+                },
+                label: false,
+                labelColor: '#fff',
+                radius: ['70%', '90%'],
+                borderColor: '#001e38',
+                title: '国内累计发布数',
+                totalTitle: true,
+                title: {
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 24,
+                        width: '100%'
+                    }
+                },
+                series: [{
+                    name: releaseData[0].standardTypeText,
+                    value: releaseData[0].standardType
+                },
+                    {
+                        name: releaseData[1].standardTypeText,
+                        value: releaseData[1].standardType
+                    },
+                    {
+                        name: releaseData[2].standardTypeText,
+                        value: releaseData[2].standardType
+                    },
+                    {
+                        name: releaseData[3].standardTypeText,
+                        value: releaseData[3].standardType
+                    },
+                    {
+                        name: releaseData[4].standardTypeText,
+                        value: releaseData[4].standardType
+                    }
+                ],
+                color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
+                callback:function(param){
+                    param.on('click',function(){
+                        var openUrl={
+                            url:'/html/patent/query.html',
+                            name:'专利管理'
+                        }
+                        window.open('/index', 'kjpt_webapp');
+                        localStorage.setItem("url", JSON.stringify(openUrl));
+                    })
+                },
+            });
+
+            //国内标准在研数/国内累计发布数
+            kyptCharts.render({
+                id: 'gnbzN_charts3',
+                type: 'pie',
+                legendPosition: 'right',
+                legend: {
+                    top: 'center',
+                    formatter: 'name|value'
+                },
+                label: false,
+                labelColor: '#fff',
+                radius: ['70%', '90%'],
+                borderColor: '#001e38',
+                title: '国内标准在研数/国内累计发布数',
+                totalTitle: true,
+                title: {
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 24,
+                        width: '100%'
+                    }
+                },
+                series: [{
+                    name: researchrelData[0].standardTypeText,
+                    value: researchrelData[0].standardType
+                },
+                    {
+                        name: researchrelData[0].standardTypeText,
+                        value: researchrelData[0].standardType
+                    }
+                ],
+                color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
+                callback:function(param){
+                    param.on('click',function(){
+                        var openUrl={
+                            url:'/html/patent/query.html',
+                            name:'专利管理'
+                        }
+                        window.open('/index', 'kjpt_webapp');
+                        localStorage.setItem("url", JSON.stringify(openUrl));
+                    })
                 },
             });
         }
 
 
-
-        // 国内标准在研数
-        kyptCharts.render({
-            id: 'gnbzN_charts1',
-            type: 'pie',
-            legendPosition: 'right',
-            legend: {
-                top: 'center',
-                formatter: 'name|value'
-            },
-            label: false,
-            labelColor: '#fff',
-            radius: ['70%', '90%'],
-            borderColor: '#001e38',
-            title: '国内标准在研数',
-            totalTitle: true,
-            title: {
-                textStyle: {
-                    color: '#fff',
-                    fontSize: 22,
-                    width: '100%'
-                }
-            },
-            series: [{
-                name: '国家标准GB',
-                value: '12'
-                 },
-                {
-                    name: '国家军用标准GJB   ',
-                    value: '20'
-                },
-                {
-                    name: '核行业标准EJ',
-                    value: '20'
-                },
-                {
-                    name: '核电标准NB',
-                    value: '20'
-                },
-                {
-                    name: '企业标准QB',
-                    value: '20'
-                }
-            ],
-            color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
-            callback:function(param){
-                param.on('click',function(){
-                    var openUrl={
-                        url:'/kjpt/achieve/identify/achieve_identify_plan_list.html',
-                        name:'成果鉴定'
-                    }
-                    window.open('/index', 'kjpt_webapp');
-                    localStorage.setItem("url", JSON.stringify(openUrl));
-                })
-            },
-        });
-
-        //国内累计发布数
-        kyptCharts.render({
-            id: 'gnbzN_charts2',
-            type: 'pie',
-            legendPosition: 'right',
-            legend: {
-                top: 'center',
-                formatter: 'name|value'
-            },
-            label: false,
-            labelColor: '#fff',
-            radius: ['70%', '90%'],
-            borderColor: '#001e38',
-            title: '国内累计发布数',
-            totalTitle: true,
-            title: {
-                textStyle: {
-                    color: '#fff',
-                    fontSize: 24,
-                    width: '100%'
-                }
-            },
-            series: [{
-                name: '国家标准GB',
-                value: '12'
-            },
-                {
-                    name: '国家军用标准GJB   ',
-                    value: '20'
-                },
-                {
-                    name: '核行业标准EJ',
-                    value: '20'
-                },
-                {
-                    name: '核电标准NB',
-                    value: '20'
-                },
-                {
-                    name: '企业标准QB',
-                    value: '20'
-                }
-            ],
-            color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
-            callback:function(param){
-                param.on('click',function(){
-                    var openUrl={
-                        url:'/html/patent/query.html',
-                        name:'专利管理'
-                    }
-                    window.open('/index', 'kjpt_webapp');
-                    localStorage.setItem("url", JSON.stringify(openUrl));
-                })
-            },
-        });
-
-        //国内标准在研数/国内累计发布数
-        kyptCharts.render({
-            id: 'gnbzN_charts3',
-            type: 'pie',
-            legendPosition: 'right',
-            legend: {
-                top: 'center',
-                formatter: 'name|value'
-            },
-            label: false,
-            labelColor: '#fff',
-            radius: ['70%', '90%'],
-            borderColor: '#001e38',
-            title: '国内标准在研数/国内累计发布数',
-            totalTitle: true,
-            title: {
-                textStyle: {
-                    color: '#fff',
-                    fontSize: 24,
-                    width: '100%'
-                }
-            },
-            series: [{
-                name: '国内标准在研数',
-                value: '10'
-            },
-                {
-                    name: '国内累计发布数',
-                    value: '60'
-                }
-            ],
-            color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
-            callback:function(param){
-                param.on('click',function(){
-                    var openUrl={
-                        url:'/html/patent/query.html',
-                        name:'专利管理'
-                    }
-                    window.open('/index', 'kjpt_webapp');
-                    localStorage.setItem("url", JSON.stringify(openUrl));
-                })
-            },
-        });
+        getEchartsData();
     });
 </script>
 </body>
