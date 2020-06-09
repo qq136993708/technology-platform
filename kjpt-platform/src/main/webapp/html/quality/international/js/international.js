@@ -246,7 +246,7 @@ importFiles({
 $('#exportData').click(function() {
   var formValue = form.val('patentFormDemo'),
   searchData = {
-    planNum: formValue.planNum || '', // 标准编号：
+    standardNum: formValue.standardNum || '', // 标准编号：
     standardChineseName: formValue.standardChineseName || '', // 标准号：
     // standardEnglishName: formValue.standardEnglishName || '', // 计划名称：
     domesticProposalUnit: formValue.domesticProposalUnit || '', // 标准名称：
@@ -257,7 +257,7 @@ $('#exportData').click(function() {
   for (var key in searchData) {
     exportUrl += '&' + key + '=' + searchData[key];
   }
-  exportUrl = '/standardMaintain-api/export?' + exportUrl.substring(1);
+  exportUrl = '/internationalStandardMaintain--api/export?' + exportUrl.substring(1);
   window.open(exportUrl, '_blank');
 })
 

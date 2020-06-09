@@ -33,7 +33,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'setupYeat', title: '立项年度'},
         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
-    tableRender('project',projectArr,'/expert-project-api/page',variable.id)
+    // tableRender('project',projectArr,'/expert-project-api/page',variable.id)
     var achievementsArr=[
         {type: 'radio' },
         {title: '序号',type:'numbers',width:55 },
@@ -43,7 +43,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'applyYear', title: '申请年度'},
         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
-    tableRender('achievements',achievementsArr,'/expert-achievement-api/page',variable.id)
+    // tableRender('achievements',achievementsArr,'/expert-achievement-api/page',variable.id)
 
     var patentArr=[
         {type: 'radio' },
@@ -54,17 +54,19 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'describe', title: '专利描述'},
         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
-    tableRender('patent',patentArr,'/queryPatent/page',variable.id)
+    tableRender('patent',patentArr,'/queryPatent/page',variable.no)
     var rewardArr=[
         {type: 'radio' },
         {title: '序号',type:'numbers',width:55 },
-        {field: 'rewarkLevelStr', title: '奖励级别'},
+        {field: 'rewardPunishLevel', title: '奖励级别'},
         {field: 'notes', title: '奖励描述'},
-        {field: 'awardingUnit', title: '授奖单位' },
-        {field: 'awardingTimeStr', title: '获奖日期'},
+        {field: 'approveUnit', title: '授奖单位' },
+        {field: 'approveDate', title: '获奖日期',templet:function (d) {
+            return  new Date(d.approveDate).format('yyyy-MM-dd')
+             }},
         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
-    tableRender('reward',rewardArr,'/queryPunishSSync/page',variable.id)
+    tableRender('reward',rewardArr,'/queryPunishSSync/page',variable.no)
     function tableRender(id,cols,url,where) {
         table.render({
             elem: '#'+id // 表格元素ID
@@ -73,7 +75,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             method: 'GET', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
             where: {
                 useID: 'admin' // 表格请求时传递的参数
-                ,expertId:where
+                ,expertNum:where
                 //  默认请求参数 页码 => page, 每页条数 => limit
             }
             ,request: {

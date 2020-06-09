@@ -196,13 +196,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   })
 
   // 表格行被选中
-  table.on('radio(tableDemo)', function (obj) {
-    itemRowData = obj.data;
-  });
+  // table.on('checkbox(tableDemo)', function (obj) {
+  //   itemRowData = obj.data;
+  //   console.log(itemRowData)
+  //   console.log(table.checkStatus('tableDemo'));
+  // });
+  
   // 编辑
   $('#editItem').on('click', function (e) {
     if (itemRowData) {
-      openDataDilog('edit', itemRowData.id);
+      openDataDilog('edit', itemRowData[0].id);
     } else {
       layer.msg('请选择需要编辑的专利项目！');
     }
