@@ -9,6 +9,8 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.scientificplan.SciencePlan;
+import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
@@ -22,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -71,6 +74,18 @@ public class SciencePlanApiController extends RestBaseController {
     private static final Integer IMPORT_HEAD = 3;
 
     private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
+
+    //用于缓存导入时的字典数据
+    private Map<String,Map<String,String>> dictMap = new HashMap<>();
+
+    private static final String ROOT_KJPT_JSLY = "ROOT_KJPT_JSLY";
+
+    /**
+     * 根据技术领域名称获取技术领域详情
+     */
+    private static final String getTechFamilyByName   ="http://kjpt-zuul/stp-proxy/tech-family-provider/selectTechFamilyTypeListByName";
+    //用于缓存导入时的技术领域id
+    private Map<String,TechFamily> techMap = new HashMap<>();
 
 
 
@@ -329,10 +344,20 @@ public class SciencePlanApiController extends RestBaseController {
 
                     obj.setReportType(type);
                     obj.setCreateUnitId(sysUserInfo.getUnitId());
-                    obj.setAuthenticateUtil(getAuthenticateUtilByName(String.valueOf(col_2)));
+                   // obj.setAuthenticateUtil(getAuthenticateUtilByName(String.valueOf(col_2)));
+
+                    obj.setAuthenticateUtil(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(2),this.httpHeaders), String.class).getBody());
                     obj.setAuthenticateUitlText(String.valueOf(col_2));
                     obj.setName(String.valueOf(col_1));
-                    obj.setTechnicalFieldName(String.valueOf(col_3));
+
+                    String techName = String.valueOf(col_3);
+                    TechFamily techFamily = techMap.get(techName);
+                    if(techFamily != null){
+                        obj.setResearchField(techFamily.getTypeCode());
+                        obj.setTechnicalFieldIndex(techFamily.getTypeIndex());
+                        obj.setTechnicalFieldName(techFamily.getTypeName());
+                    }
+
                     Date annual = DateUtil.strToDate(String.valueOf(col_4),DateUtil.FMT_DD);
                     Date releaseTime = DateUtil.strToDate(String.valueOf(col_5),DateUtil.FMT_DD);
                     obj.setAnnual(annual);
@@ -390,18 +415,31 @@ public class SciencePlanApiController extends RestBaseController {
             if(col_1==null)
             {
                 sb.append("第"+(i+1)+"行名称为空,");
-            }else if(col_2==null)
+                break;
+            }
+            if(col_2==null)
             {
                 sb.append("第"+(i+1)+"行申报单位为空,");
-            }else if(col_3==null)
+                break;
+            }
+            if(col_3==null)
             {
                 sb.append("第"+(i+1)+"行技术领域为空,");
-            }else if(col_4==null)
+                break;
+            }else  if(!checkTechIfExists(String.valueOf(col_3))){
+               sb.append("第"+(i+2)+"行技术领域取值非法,请参考对应sheet页取值!");
+               break;
+            }
+
+            if(col_4==null)
             {
                 sb.append("第"+(i+1)+"行年度/月度为空,");
-            }else if(col_5==null)
+                break;
+            }
+            if(col_5==null)
             {
                 sb.append("第"+(i+1)+"行发布日期为空,");
+                break;
             }
         }
         resultsDate.setMessage(sb.toString());
@@ -426,6 +464,56 @@ public class SciencePlanApiController extends RestBaseController {
         return querys[1];
     }
 
+    private Boolean checkIfReasonable(String content,String dictCode){
+        //导入的数据确认用户只输入一个字典值20200605
+        //针对模板中使用到的字典数据进行缓存
+        Map<String,String> detailDicMap;
+        if(dictMap.containsKey(dictCode)){
+            detailDicMap = dictMap.get(dictCode);
+            if(detailDicMap.containsKey(content)) return  true;
+        }else{
+            detailDicMap = new HashMap<>();
+            dictMap.put(dictCode,detailDicMap);
+        }
+
+        List<SysDictionary> sysDictionaryList=    EquipmentUtils.getSysDictionaryListByParentCode(dictCode, restTemplate, httpHeaders);
+        for(SysDictionary dictionary:sysDictionaryList){
+            if(content.equals(dictionary.getName())) {
+                Map<String,String> temp = dictMap.get(dictCode);
+                temp.put(content,dictionary.getNumValue());
+                dictMap.put(dictCode,temp);
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    private String getValueFromDictMap(String name,String dictCode){
+        if(StringUtils.isNotBlank(name)&&StringUtils.isNotBlank(dictCode)){
+            Map<String,String> detail = dictMap.get(dictCode);
+            return detail.get(name);
+        }
+        return "null";
+    }
+
+    //查看技术领域是否存在
+    private Boolean checkTechIfExists(String name){
+
+        // List<TechFamily> techFamily =  restTemplate.exchange(getTechFamilyByName, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), List.class).getBody();
+        ParameterizedTypeReference<List<TechFamily>> typeRef = new ParameterizedTypeReference<List<TechFamily>>() {
+
+        };
+
+        ResponseEntity<List<TechFamily>> responseEntity =  restTemplate.exchange(getTechFamilyByName, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), typeRef);
+
+        List<TechFamily> techFamily = responseEntity.getBody();
+
+        if(techFamily.size()==1){
+            techMap.put(name,techFamily.get(0));
+            return true;
+        }
+        return false;
+    }
 
 
 }
