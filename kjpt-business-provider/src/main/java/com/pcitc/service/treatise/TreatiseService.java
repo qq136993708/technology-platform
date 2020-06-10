@@ -18,4 +18,5 @@ public interface TreatiseService {
      * 查询
      */
     List<TreatiseInfo> queryNoPage(Map paramMap);
+    public void insertBatch(List<TreatiseInfo> list)throws Exception;
 }

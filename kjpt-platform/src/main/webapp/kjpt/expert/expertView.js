@@ -147,7 +147,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     ];
     // 导入
-    $('.ib-button').each(function(e) {
+   /* $('.ib-button').each(function(e) {
 
         var buttonId = $(this).attr('id'),
             exportType = $(this).attr('export-type');
@@ -162,7 +162,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
                 }
             }
         });
-    })
+    })*/
     var $ = layui.$, active = {
         projectAdd:function () {
             var obj={
@@ -341,4 +341,46 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         }
         window.open(importUrl, '_blank');
     })
+
+    importFiles({
+        id:'#export_cg',
+        url:'/expertAchievement-api/input_excel?expertId='+ variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+    importFiles({
+        id:'#export_zl',
+        url:'/expertPatent-api/input_excel?expertId='+ variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+    importFiles({
+        id:'#export_jl',
+        url:'/expertReward-api/export?expertId='+ variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+
+
 });

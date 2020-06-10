@@ -358,6 +358,7 @@ public class TrademarkController extends RestBaseController {
                 for (int i = IMPORT_HEAD; i < listob.size(); i++)
                 {
                     List<Object> lo = listob.get(i);
+                    if(lo.size()<18) break;
 
                     Object col_1 = lo.get(1);   //单位名称
                     Object col_2 = lo.get(2);   // 商标名称
@@ -459,6 +460,7 @@ public class TrademarkController extends RestBaseController {
         for (int i = IMPORT_HEAD; i < listob.size(); i++)
         {
             List<Object> lo = listob.get(i);
+            if(lo.size()<18) break;
             Object col_1 = lo.get(1);   //单位名称
             Object col_2 = lo.get(2);   // 商标名称
             Object col_3 = lo.get(3);   // 注册号

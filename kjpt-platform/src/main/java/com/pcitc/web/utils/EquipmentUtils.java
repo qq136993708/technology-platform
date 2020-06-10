@@ -246,6 +246,16 @@ public class EquipmentUtils {
 
 	}
 
+	public static List<SysDictionary>  getSysDictionaryListLikeParentCode(String parentCode ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+
+		String DICTIONARY_CODE = "http://kjpt-zuul/system-proxy/dictionary-provider/dicjsonLikeParentCode/";
+		JSONArray array =restTemplate.exchange(DICTIONARY_CODE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), JSONArray.class).getBody();
+		List<SysDictionary> returnlist = JSONObject.parseArray(array.toJSONString(), SysDictionary.class);
+		return returnlist;
+
+	}
+
 
 
 	public static String  getDicNameByParentCodeAndValue(String parentCode ,String value,RestTemplate restTemplate,HttpHeaders httpHeaders)

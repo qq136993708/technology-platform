@@ -17,4 +17,6 @@ public interface ExpertPatentService {
      */
     List<ZjkPatent> queryNoPage(Map paramMap);
 
+    public void insertBatch(List<ZjkPatent> list)throws Exception;
+
 }

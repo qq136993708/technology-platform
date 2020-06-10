@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveMaintain;
+import com.pcitc.base.common.Result;
 import com.pcitc.service.achieve.AchieveMaintainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -62,6 +63,22 @@ public class AchieveMaintainClient {
         List list=ams.queryNoPage(param);
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
         return json;
+    }
+
+    @ApiOperation(value = "导入成果维护信息", notes = "导入成果维护信息")
+    @RequestMapping(value = "/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<AchieveMaintain> list) throws Exception
+    {
+        Result result=new Result();
+        try {
+            ams.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("导入成果维护失败");
+
+        }
+        return result;
     }
 
 

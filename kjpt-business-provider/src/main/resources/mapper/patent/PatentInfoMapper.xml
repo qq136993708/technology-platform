@@ -341,13 +341,13 @@
         legal_person_code,
       </if>
       <if test="customClassification != null">
-        custom_classification
+        custom_classification,
       </if>
       <if test="type != null">
-        type
+        type,
       </if>
       <if test="assignorAndAssignProfit != null and assignorAndAssignProfit != ''">
-        assignor_and_assignProfit
+        assignor_and_assignProfit,
       </if>
       <if test="level != null and level != ''">
         level
