@@ -38,16 +38,16 @@ layui.use(['element'], function () {
                     url:'/jsc_web/front/kynl_page.html',
                     name:'科研能力'
                 }
-                
-                $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
-                $('#top-header-nav .transR' , parent.document).each(function(item){
-                    console.log($(this).attr('href'))
-                    var itemHref = $(this).attr('href');
-                    if(itemHref == 'kynl_page'){
-                        $(this).addClass('btnactive');
-                    }
-                })
-                window.location.href='/jsc_web/front/kynl_page.html';
+                jscPup('kynl_page');
+                // $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
+                // $('#top-header-nav .transR' , parent.document).each(function(item){
+                //     console.log($(this).attr('href'))
+                //     var itemHref = $(this).attr('href');
+                //     if(itemHref == 'kynl_page'){
+                //         $(this).addClass('btnactive');
+                //     }
+                // })
+                // window.location.href='/jsc_web/front/kynl_page.html';
                 // window.open('/index', 'kjpt_webapp');
                 // localStorage.setItem("url", JSON.stringify(openUrl));
             })
@@ -85,12 +85,13 @@ layui.use(['element'], function () {
         color: ['#4526D4', '#3461D3', '#5ABEE7', '#74E8D0'],
         callback:function(param){
             param.on('click',function(){
-                var openUrl={
-                    url:'/html/patent/query.html',
-                    name:'专利管理'
-                }
-                window.open('/index', 'kjpt_webapp');
-                localStorage.setItem("url", JSON.stringify(openUrl));
+            //     var openUrl={
+            //         url:'/html/patent/query.html',
+            //         name:'专利管理'
+            //     }
+            //     window.open('/index', 'kjpt_webapp');
+            //     localStorage.setItem("url", JSON.stringify(openUrl));
+            jscPup('achieve_award');
             })
         },
     });
@@ -126,7 +127,12 @@ layui.use(['element'], function () {
             { name: '发明', value: '90' },
             { name: '实用新型', value: '131' }
         ],
-        color: ['#45F0FF', '#2687FF', '#1bc85e']
+        color: ['#45F0FF', '#2687FF', '#1bc85e'],
+        callback:function(param){
+            param.on('click',function(){
+                jscPup('kypt');
+            })
+        },
     });
 
 
@@ -155,9 +161,19 @@ layui.use(['element'], function () {
         labelColor: '#fff',
         yAxis: [{splitNumber: 3, name: '单位：个', nameGap: 20, nameTextStyle: {color: '#fff'}}],
         barWidth: 20,
-        axisLineColor: 'rgba(255, 255, 255, .2)'
+        axisLineColor: 'rgba(255, 255, 255, .2)',
+        // callback:function(param){
+        //     param.on('click',function(){
+        //         jscPup('achieve_award');
+        //     })
+        // },
     });
-
+    $('.card-item').on('click',function(){
+        jscPup('kypt');
+    })
+    $('.item_number').on('click',function(){
+        jscPup('achieve_award');
+    })
     // HTTP请求公式
     function loadData() {
         httpModule({
