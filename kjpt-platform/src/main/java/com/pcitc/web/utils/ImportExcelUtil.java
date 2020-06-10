@@ -81,7 +81,7 @@ public class ImportExcelUtil {
 				if(row==null||row.getFirstCellNum()==j){continue;}
 				//遍历所有的列
 				List<Object> li = new ArrayList<Object>();
-				for (int y = row.getFirstCellNum()+1; y < row.getLastCellNum(); y++) {
+				for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {
 					Cell cell = row.getCell(y);
 					li.add(this.getCellValue(cell));
 					int beg = row.getFirstCellNum();
