@@ -278,4 +278,17 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
     var type = $(this).data('type');
     active[type] ? active[type].call(this) : '';
   });
+
+    importFiles({
+        id:'#importData',
+        url:'/achieveMaintain-api/input_excel',
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
 });

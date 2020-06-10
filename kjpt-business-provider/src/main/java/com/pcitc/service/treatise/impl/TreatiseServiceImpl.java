@@ -65,4 +65,16 @@ public class TreatiseServiceImpl implements TreatiseService {
     public List<TreatiseInfo> queryNoPage(Map paramMap) {
         return tm.query(paramMap);
     }
+
+    @Override
+    public void insertBatch(List<TreatiseInfo> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                TreatiseInfo treatiseInfo=list.get(i);
+                tm.add(treatiseInfo);
+            }
+        }
+    }
 }

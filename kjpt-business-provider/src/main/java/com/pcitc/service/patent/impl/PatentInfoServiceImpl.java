@@ -100,6 +100,18 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         return patentInfoMapper.countByPatentType(param);
     }
 
+    @Override
+    public void insertBatch(List<PatentInfo> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                PatentInfo patentInfo=list.get(i);
+                patentInfoMapper.insertSelective(patentInfo);
+            }
+        }
+    }
+
     public PatentInfo getPatentInfo(String id){
         return patentInfoMapper.selectByPrimaryKey(id);
     }

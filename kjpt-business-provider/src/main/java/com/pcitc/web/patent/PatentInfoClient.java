@@ -3,6 +3,7 @@ package com.pcitc.web.patent;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.patent.PatentInfoService;
@@ -131,6 +132,22 @@ public class PatentInfoClient {
 	@RequestMapping(value = "/patent-provider/patentInfo/countByPatentType", method = RequestMethod.POST)
 	public List<Map> countByPatentType(@RequestBody(required = false)Map param) {
 		return patentInfoService.countByPatentType(param);
+	}
+
+	@ApiOperation(value = "导入专利管理信息", notes = "导入专利管理信息")
+	@RequestMapping(value = "/patent-provider/patentInfo/excel_input", method = RequestMethod.POST)
+	public Result excel_input(@RequestBody List<PatentInfo> list) throws Exception
+	{
+		Result result=new Result();
+		try {
+			patentInfoService.insertBatch(list);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("导入专利管理信息失败");
+			logger.error("导入专利管理信息失败", e);
+		}
+		return result;
 	}
 
 }

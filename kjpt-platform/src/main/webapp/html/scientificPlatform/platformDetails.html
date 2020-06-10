@@ -110,9 +110,13 @@
               <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="领军人物模板" button-role="import">模版下载</button>
+              <!--<button class="layui-btn border-blue exportDown" download-templet="领军人物模板" button-role="import">模版下载</button>
               <div class="ib-button" id="export_ljrw" export-type="kyptLeaderImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
+              </div>-->
+              <a id="leaderTemplate" class="layui-btn border-blue" href="/data/科研平台-领军人物导入模板.xls" button-role="import" data-type="downloadData">模板下载</a>
+              <div id="importLeader" class="ib-block" style="margin: 0 12px; overflow: hidden;" button-role="import">
+                <a class="layui-btn border-blue "  data-type="importData" filter="addFile" >导入</a>
               </div>
               <button class="layui-btn border-blue importData" data-item="2" button-role="export">导出</button>
             </div>
@@ -126,9 +130,13 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="论文模板" button-role="import">模版下载</button>
+              <!--<button class="layui-btn border-blue exportDown" download-templet="论文模板" button-role="import">模版下载</button>
               <div class="ib-button" id="export_lw" export-type="kyptTreatiseImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
+              </div>-->
+              <a id="treasisTemplate" class="layui-btn border-blue" href="/data/科研平台-论文导入模板.xls" button-role="import" data-type="downloadData">模板下载</a>
+              <div id="importTreasis" class="ib-block" style="margin: 0 12px; overflow: hidden;" button-role="import">
+                <a class="layui-btn border-blue"  data-type="importData" filter="addFile" >导入</a>
               </div>
               <button class="layui-btn border-blue importData" data-item="3" button-role="export">导出</button>
             </div>

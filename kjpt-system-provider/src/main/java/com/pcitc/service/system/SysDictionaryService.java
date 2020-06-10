@@ -83,6 +83,13 @@ public interface SysDictionaryService {
 	 * @return
 	 */
 	public List<SysDictionary> getDictionaryListByParentCode(String parentCode);
+
+	/**
+	 * 根据字典编码查询字典
+	 * @param parentCode
+	 * @return
+	 */
+	public List<SysDictionary> getDictionaryListLikeParentCode(String parentCode);
 	
 	
 	String createCode(SysDictionary dictionary) throws Exception;

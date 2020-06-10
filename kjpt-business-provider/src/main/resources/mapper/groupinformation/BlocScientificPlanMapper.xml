@@ -20,6 +20,7 @@
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
         <result column="read_range" jdbcType="VARCHAR" property="readRange"/>
+        <result column="read_range_text" jdbcType="VARCHAR" property="readRangeText"/>
         <result column="publish_user" jdbcType="VARCHAR" property="publishUser"/>
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
@@ -48,7 +49,8 @@
         secret_level,
         knowledge_scope,
         knowledge_person,
-        read_range
+        read_range,
+        readRangeText
 
   </sql>
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -76,6 +78,7 @@
        update_user,
        report_type,
        read_range,
+       read_range_text,
        publish_user,
        create_unit_id,
        create_unit_name,
@@ -97,6 +100,7 @@
       #{updator},
       #{reportType},
       #{readRange},
+      #{readRangeText},
       #{publishUser},
       #{createUnitId},
       #{createUnitName},
@@ -209,15 +213,15 @@
               <if test="readRange != null and readRange != ''">
                   read_range = #{readRange},
             </if>
+              <if test="readRangeText != null and readRangeText != ''">
+                  read_range_text = #{readRangeText},
+            </if>
 
               <if test="publishUser != null and publishUser != ''">
                   publish_user = #{publishUser},
             </if>
 
 
-
-	    
-	    
 	    
             <if test="annual != null">
                 annual = #{annual},

@@ -169,6 +169,13 @@ public class SysDictionaryServiceImpl implements SysDictionaryService{
 	}
 
 	@Override
+	public List<SysDictionary> getDictionaryListLikeParentCode(String parentCode) {
+		SysDictionary parent = new SysDictionary();
+		parent.setParentCode(parentCode);
+		return dictionaryDao.selectDictionaryListLikeParentCode(parentCode);
+	}
+
+	@Override
 	public String createCode(SysDictionary dictionary) throws Exception {
 		String code = HanyuPinyinHelper.toPinyin(dictionary.getParentCode())+"_"+HanyuPinyinHelper.toPinyin(dictionary.getName());
 		return code;
