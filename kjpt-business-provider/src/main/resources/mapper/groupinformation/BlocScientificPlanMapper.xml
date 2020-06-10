@@ -19,6 +19,8 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+        <result column="read_range" jdbcType="VARCHAR" property="readRange"/>
+        <result column="publish_user" jdbcType="VARCHAR" property="publishUser"/>
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
@@ -45,7 +47,8 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        read_range
 
   </sql>
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -72,6 +75,8 @@
        update_date,
        update_user,
        report_type,
+       read_range,
+       publish_user,
        create_unit_id,
        create_unit_name,
        secret_level,
@@ -91,6 +96,8 @@
       #{updateDate},
       #{updator},
       #{reportType},
+      #{readRange},
+      #{publishUser},
       #{createUnitId},
       #{createUnitName},
       #{secretLevel},
@@ -136,8 +143,6 @@
 <if test="publication != null  ">
             and `publication` like CONCAT('%',#{publication},'%')
         </if>
-        
-        
 
         <if test="annual != null  ">
             and substring(annual,1,7) = #{annual}
@@ -161,6 +166,10 @@
 
         <if test="createUnitName != null  and createUnitName != ''  ">
             and create_unit_name like CONCAT('%',#{createUnitName},'%')
+        </if>
+
+        <if test="userUnitId != null  and userUnitId != ''  ">
+            FIND_IN_SET(#{createUnitName},read_range)
         </if>
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
@@ -197,7 +206,15 @@
                 publication = #{publication},
             </if>
             
-            
+              <if test="readRange != null and readRange != ''">
+                  read_range = #{readRange},
+            </if>
+
+              <if test="publishUser != null and publishUser != ''">
+                  publish_user = #{publishUser},
+            </if>
+
+
 
 	    
 	    

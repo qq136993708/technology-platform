@@ -146,8 +146,11 @@ public class BlocScientificPlanController extends RestBaseController {
 
         this.setBaseParam(condition);
         SysUser sysUserInfo = this.getUserProfile();
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
-        this.setParam(condition,"childUnitIds",childUnitIds);
+//        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"userUnitId",sysUserInfo.getUnitId());
+
+        //userUnitId
+
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -178,10 +181,12 @@ public class BlocScientificPlanController extends RestBaseController {
     @ResponseBody
     public BlocScientificPlan newInit() {
         BlocScientificPlan p = new BlocScientificPlan();
+        SysUser user = this.getUserProfile();
         p.setId(UUID.randomUUID().toString().replace("_", ""));
         p.setDeleted("0");  //删除标识
         p.setCreateDate(new Date());  // 创建时间
-        p.setCreator(this.getUserProfile().getUserName());
+        p.setCreator(user.getUserName());
+        p.setPublishUser(user.getUserName());
         return p;
     }
 
