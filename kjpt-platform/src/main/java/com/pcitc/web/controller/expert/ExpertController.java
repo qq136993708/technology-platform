@@ -2,17 +2,16 @@ package com.pcitc.web.controller.expert;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.web.controller.system.UnitController;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.ParameterizedTypeReference;
@@ -37,8 +36,10 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.system.SysPost;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysUnit;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -416,6 +417,15 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
 			oldZjkBase.setName(zjkBase.getName());
 			oldZjkBase.setUpdateTime(new Date());
+			
+			SysUnit sysUnit=	EquipmentUtils.getUnitByUnitId(zjkBase.getBelongUnit(), restTemplate, httpHeaders);
+			if(sysUnit!=null)
+			{
+				String belongUnitName=sysUnit.getUnitName();
+				oldZjkBase.setBelongUnitName(belongUnitName);
+			}
+			
+				
 			
 			//处理知悉范围
 			String userName=sysUserInfo.getUserName();

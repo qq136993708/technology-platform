@@ -50,8 +50,9 @@
     <result column="orders" jdbcType="INTEGER" property="orders" />
       
     <result column="birth_date"   jdbcType="TIMESTAMP" property="birthDate" />
-      
+      <result column="belong_unit_name"              jdbcType="VARCHAR" property="belongUnitName" />
     
+     <result column="post_str"              jdbcType="VARCHAR" property="postStr" />
   </resultMap>
   
  
@@ -69,7 +70,7 @@
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
       audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
-     ,knowledge_scope,knowledge_person,orders,birth_date
+     ,knowledge_scope,knowledge_person,orders,birth_date,belong_unit_name
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -88,7 +89,7 @@
       , #{knowledgeScope,jdbcType=VARCHAR}
       , #{knowledgePerson,jdbcType=VARCHAR} ,
        #{orders,jdbcType=INTEGER} , 
-       #{birthDate,jdbcType=TIMESTAMP}
+       #{birthDate,jdbcType=TIMESTAMP},#{belongUnitName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
@@ -209,9 +210,13 @@
       <if test="birthDate != null">
         birth_date,
       </if>
+      <if test="belongUnitName != null">
+        belong_unit_name,
+      </if>
       
       
-    
+      
+       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -331,7 +336,10 @@
         #{birthDate,jdbcType=TIMESTAMP},
       </if>
       
-      
+      <if test="belongUnitName != null">
+        #{belongUnitName,jdbcType=VARCHAR},
+      </if>
+    
     
     </trim>
   </insert>
@@ -449,6 +457,12 @@
       <if test="birthDate != null">
         birth_date = #{birthDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="belongUnitName != null">
+        belong_unit_name = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -463,6 +477,7 @@
       sex = #{sex,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       technical_field = #{technicalField,jdbcType=VARCHAR},
       belong_unit = #{belongUnit,jdbcType=VARCHAR},
@@ -499,6 +514,7 @@
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="name != null and name  !='' ">                             AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="belongUnitName != null and belongUnitName  !='' ">                             AND t.belong_unit_name like CONCAT('%',#{belongUnitName},'%')</if>
 	     <if test="sourceType != null            and sourceType !=''  ">      AND t.source_type = #{sourceType}</if>
 	     <if test="delStatus != null             and delStatus !=''  ">       AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null           and outSystemId !=''  ">     AND t.out_system_id = #{outSystemId}</if>

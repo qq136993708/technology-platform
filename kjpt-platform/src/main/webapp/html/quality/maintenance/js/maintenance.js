@@ -72,7 +72,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'putUnderUnitText',title: '归口单位',align: 'center',},
     {field: 'consultStandard',title: '参照标准',align: 'center',},
     {field: 'uniformityDegree',title: '一致性程度',align: 'center',},
-    {field: 'toReplacedStandard',title: '被代替标准',align: 'center',},
+    {field: 'replaceStandard',title: '被代替标准',align: 'center',},
   ]
   var curCol = null;
   //1 :否 0 是
