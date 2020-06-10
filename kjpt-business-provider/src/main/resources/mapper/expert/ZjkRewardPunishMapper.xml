@@ -34,12 +34,12 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkRewardPunish" useGeneratedKeys="true">
-    insert into zjk_reward_punish (expert_num, expert_id, out_sys_id, 
+    insert into zjk_reward_punish (id,expert_num, expert_id, out_sys_id, 
       create_time, title, reward_type, 
       notes, reward_punish_type, reward_punish_level, 
       approve_date, approve_unit, reward_punish_level_code, 
       reward_punish_type_code, reward_type_code)
-    values (#{expertNum,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{outSysId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR},#{expertNum,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{outSysId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, #{rewardType,jdbcType=VARCHAR}, 
       #{notes,jdbcType=VARCHAR}, #{rewardPunishType,jdbcType=VARCHAR}, #{rewardPunishLevel,jdbcType=VARCHAR}, 
       #{approveDate,jdbcType=TIMESTAMP}, #{approveUnit,jdbcType=VARCHAR}, #{rewardPunishLevelCode,jdbcType=VARCHAR}, 
@@ -48,6 +48,10 @@
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkRewardPunish" useGeneratedKeys="true">
     insert into zjk_reward_punish
     <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
       <if test="expertNum != null">
         expert_num,
       </if>
@@ -92,6 +96,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="expertNum != null">
         #{expertNum,jdbcType=VARCHAR},
       </if>
