@@ -23,9 +23,9 @@ layui.config({
     /*学历*/
     createElement("ROOT_KJPT_XL", "education", "option", "education")
     /*职称*/
-    createElement("ROOT_KJPT_ZYJSZWJB", "title", "option", "title")
-    // /*职务*/
-    // createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
+    createElement("ROOT_KJPT_ZJZC", "title", "option", "title")
+    /*职务*/
+    createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
     /*分组*/
     createElement("ROOT_KJPT_ZJFZ", "groupType", "option", "groupType")
     /*专家分类*/

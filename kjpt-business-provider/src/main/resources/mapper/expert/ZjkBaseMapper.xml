@@ -42,19 +42,17 @@
     <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-   
     <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
     <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
     <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
     <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     <result column="orders" jdbcType="INTEGER" property="orders" />
-      
     <result column="birth_date"   jdbcType="TIMESTAMP" property="birthDate" />
-      <result column="belong_unit_name"              jdbcType="VARCHAR" property="belongUnitName" />
-    
-     <result column="post_str"              jdbcType="VARCHAR" property="postStr" />
+    <result column="belong_unit_name"              jdbcType="VARCHAR" property="belongUnitName" />
+    <result column="post_str"              jdbcType="VARCHAR" property="postStr" />
+    <result column="research_way"             jdbcType="VARCHAR" property="researchWay" />
+    <result column="research_person_type"     jdbcType="VARCHAR" property="researchPersonType" />
   </resultMap>
-  
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_base
@@ -70,7 +68,7 @@
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
       audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
-     ,knowledge_scope,knowledge_person,orders,birth_date,belong_unit_name
+     ,knowledge_scope,knowledge_person,orders,birth_date,belong_unit_name,research_way,research_person_type
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -89,8 +87,14 @@
       , #{knowledgeScope,jdbcType=VARCHAR}
       , #{knowledgePerson,jdbcType=VARCHAR} ,
        #{orders,jdbcType=INTEGER} , 
-       #{birthDate,jdbcType=TIMESTAMP},#{belongUnitName,jdbcType=VARCHAR}
+       #{birthDate,jdbcType=TIMESTAMP}
+       ,#{belongUnitName,jdbcType=VARCHAR}
+       ,#{researchWay,jdbcType=VARCHAR}
+       ,#{researchPersonType,jdbcType=VARCHAR}
       )
+      
+    
+    
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
     insert into zjk_base
@@ -215,7 +219,15 @@
       </if>
       
       
+      <if test="researchWay != null">
+        research_way,
+      </if>
+      <if test="researchPersonType != null">
+        research_person_type,
+      </if>
       
+    
+    
        
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -335,12 +347,16 @@
       <if test="birthDate != null">
         #{birthDate,jdbcType=TIMESTAMP},
       </if>
-      
       <if test="belongUnitName != null">
         #{belongUnitName,jdbcType=VARCHAR},
       </if>
-    
-    
+      <if test="researchWay != null">
+        #{researchWay,jdbcType=VARCHAR},
+      </if>
+      <if test="researchPersonType != null">
+        #{researchPersonType,jdbcType=VARCHAR},
+      </if>
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBase">
@@ -460,7 +476,12 @@
       <if test="belongUnitName != null">
         belong_unit_name = #{birthDate,jdbcType=VARCHAR},
       </if>
-      
+      <if test="researchWay != null">
+        research_way = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      <if test="researchPersonType != null">
+        research_person_type = #{birthDate,jdbcType=VARCHAR},
+      </if>
       
       
     </set>
@@ -503,6 +524,8 @@
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       expert_type = #{expertType,jdbcType=VARCHAR},
       knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      research_way = #{researchWay,jdbcType=VARCHAR},
+      research_person_type = #{researchPersonType,jdbcType=VARCHAR},
       orders = #{orders,jdbcType=INTEGER},
       knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
@@ -554,9 +577,8 @@
 	     <if test="condition != null and condition !=''  ">        
 	        ${condition}
 	     </if>
-	     
-	     
-	     
+	     <if test="researchWay != null        and researchWay !=''  ">          AND t.research_way = #{researchWay}</if>
+	     <if test="researchPersonType != null  and researchPersonType !=''  ">   AND t.research_person_type = #{researchPersonType}</if>
 	     
 	 </trim>
 	</sql>

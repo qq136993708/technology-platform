@@ -41,7 +41,7 @@ layui.use(['table', 'form', 'laydate'], function () {
               sort: true
             }, {
               field: 'brief',
-              title: '科技成果介绍'
+              title: '科技成果简介'
             }, {
               field: 'finishDate',
               title: '成果完成时间',
