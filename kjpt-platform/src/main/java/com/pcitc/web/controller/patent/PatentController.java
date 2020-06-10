@@ -33,7 +33,7 @@ import java.io.InputStream;
 import java.util.*;
 
 @Api(value = "patent-api", description = "专利接口")
-@Controller
+@RestController
 @RequestMapping("/patentController")
 public class PatentController extends RestBaseController {
 
@@ -83,6 +83,10 @@ public class PatentController extends RestBaseController {
     private static final String ROOT_KJPT_YYJSLYJSLJSL = "ROOT_KJPT_YYJSLYJSLJSL";
 
     private static final String ROOT_KJPT_YYJSLYCPL = "ROOT_KJPT_YYJSLYCPL";
+
+    private static final String ROOT_KJPT_YYJSLYJSL_HKXJS = "ROOT_KJPT_YYJSLYJSL_HKXJS";
+
+    private static final String ROOT_KJPT_YYJSLYCPL_HNYHJSYY = "ROOT_KJPT_YYJSLYCPL_HNYHJSYY";
     /**
      * 保存-专利信息
      *
@@ -567,15 +571,30 @@ public class PatentController extends RestBaseController {
                     obj.setProjectNumber(String.valueOf(lo.get(14)));
                     obj.setProjectName(String.valueOf(lo.get(15)));
                     //todo:领用领域技术
-                    obj.setApplicationTechnologyTechnology(getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_YYJSLYJSLJSL));
-                    obj.setApplicationTechnologyProducts(getValueFromDictMap(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL));
+                    //先从领域技术里获取，如果没有，再从核科学技术中获取
+                    String tech = getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_YYJSLYJSLJSL);
+                    if(!StringUtils.isNotBlank(tech)){
+                        tech = getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_YYJSLYJSL_HKXJS);
+                    }
+                    obj.setApplicationTechnologyTechnology(tech);
+                    obj.setTechnicalFieldText(String.valueOf(lo.get(16)));
+
+                    if(!checkIfBlank(lo.get(17))){
+                        String techProduct = getValueFromDictMap(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL);
+                        if(!StringUtils.isNotBlank(techProduct)){
+                            techProduct = getValueFromDictMap(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL_HNYHJSYY);
+
+                        }
+                        obj.setApplicationTechnologyProducts(techProduct);
+                    }
                     obj.setApplicationModelProductName(String.valueOf(lo.get(18)));
                     obj.setApplicationSubsystemName(String.valueOf(lo.get(19)));
                     obj.setNameOfComponentsAndSupportingMaterials(String.valueOf(lo.get(20)));
                     obj.setCustomClassification(String.valueOf(lo.get(21)));
                     obj.setLegalStatus(getValueFromDictMap(String.valueOf(lo.get(22)),ROOT_KJPT_FLZT));
-                    Date updateDate = DateUtil.strToDate(String.valueOf(lo.get(23)),DateUtil.FMT_DD);
-                    obj.setUpdateDate(updateDate);
+                    obj.setLegalStatusText(String.valueOf(lo.get(22)));
+                    Date legalStatusUpdateTime = DateUtil.strToDate(String.valueOf(lo.get(23)),DateUtil.FMT_DD);
+                    obj.setLegalStatusUpdateTime(legalStatusUpdateTime);
                     obj.setMainClassificationNumber(String.valueOf(lo.get(24)));
                     obj.setSubCategoryNumber(String.valueOf(lo.get(25)));
                     obj.setJointApplicant(String.valueOf(lo.get(26)));
@@ -591,15 +610,16 @@ public class PatentController extends RestBaseController {
                     obj.setApplicationOfPatentTransformationText(String.valueOf(lo.get(33)));
                     obj.setUnenforcedReason(String.valueOf(lo.get(34)));
                     obj.setLicensee(String.valueOf(lo.get(35)));
-                    if(!checkIfBlank(lo.get(36))){
+                    //todo:需要修改字段类型为Double
+                   /* if(!checkIfBlank(lo.get(36))){
                         String profit  = String.valueOf(lo.get(36));
                         obj.setLicenseeProfit(Long.parseLong(profit));
-                    }
+                    }*/
                     obj.setAssignor(String.valueOf(lo.get(37)));
-                    if(!checkIfBlank(lo.get(38))){
+                    /*if(!checkIfBlank(lo.get(38))){
                         String profit  = String.valueOf(lo.get(38));
                         obj.setAssignProfit(Long.parseLong(profit));
-                    }
+                    }*/
 
                     obj.setCreateUnitId(sysUserInfo.getUnitId());
                     obj.setDeleted("0");
@@ -613,18 +633,20 @@ public class PatentController extends RestBaseController {
                 // 返回结果代码
                 if (statusCode == 200) {
                     resultsDate.setSuccess(true);
+
                     resultsDate.setCode("0");
                 } else {
                     Result back = responseEntity.getBody();
                     resultsDate.setSuccess(false);
                     resultsDate.setMessage(back.getMessage());
                 }
-            }/*else{
+            }else{
                 resultsDate.setSuccess(false);
                 resultsDate.setCode("1");
-            }*/
+            }
 
         }
+
         return resultsDate;
     }
 
@@ -682,7 +704,7 @@ public class PatentController extends RestBaseController {
             {
                 sb.append("第"+(i+2)+"行专利类别为空,");
                 break;
-                //todo:专利类型可能有问题
+
             }else if(!checkIfReasonable(String.valueOf(col_5),ROOT_KJPT_ZLZL)){
                 sb.append("第"+(i+2)+"行专利类别取值非法,请参考对应sheet页取值!");
                 break;
@@ -719,9 +741,11 @@ public class PatentController extends RestBaseController {
             {
                 sb.append("第"+(i+2)+"行应用技术领域为空,");
                 break;
-            }else if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_YYJSLYJSLJSL)){
-                sb.append("第"+(i+2)+"行应用技术领域取值非法,请参考对应sheet页取值!");
-                break;
+            } else if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_YYJSLYJSLJSL)){
+                if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_YYJSLYJSL_HKXJS)){
+                    sb.append("第"+(i+2)+"行应用技术领域取值非法,请参考对应sheet页取值!");
+                    break;
+                }
             }
 
             if(checkIfBlank(col_22))
@@ -754,8 +778,11 @@ public class PatentController extends RestBaseController {
 
             if(!checkIfBlank(lo.get(17))){
                 if(!checkIfReasonable(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL)){
-                    sb.append("第"+(i+2)+"行应用技术领域（产品类）取值非法,请参考对应sheet页取值!");
-                    break;
+                    if(!checkIfReasonable(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL_HNYHJSYY)){
+                        sb.append("第"+(i+2)+"行应用技术领域（产品类）取值非法,请参考对应sheet页取值!");
+                        break;
+                    }
+
                 }
             }
 
@@ -806,6 +833,16 @@ public class PatentController extends RestBaseController {
             }
         }
         return  false;
+    }
+
+    public String getDictNumValueByDictCodeAndName(String dictCode,String name){
+        List<SysDictionary> sysDictionaryList = EquipmentUtils.getSysDictionaryListByParentCode(dictCode, restTemplate, httpHeaders);
+        for(SysDictionary dictionary:sysDictionaryList){
+            if(name.equals(dictionary.getName())) {
+                return dictionary.getNumValue();
+            }
+        }
+        return "";
     }
 
     private String getValueFromDictMap(String name,String dictCode){
