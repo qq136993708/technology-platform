@@ -40,4 +40,6 @@ public interface ComputerSoftwareService {
 
     List countByCopyrightGetway(Map paramMap);
 
+    public void insertBatch(List<ComputerSoftware> list)throws Exception;
+
 }

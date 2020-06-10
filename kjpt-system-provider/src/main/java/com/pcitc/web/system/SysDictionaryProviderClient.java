@@ -206,6 +206,22 @@ public class SysDictionaryProviderClient {
 		}
 		return json;
 	}
+
+	@RequestMapping(value = "/dictionary-provider/dicjsonLikeParentCode/{parentCode}", method = RequestMethod.POST)
+	public JSONArray getDictionaryJsonLikeParentCode(@PathVariable(value="parentCode", required=false) String parentCode){
+		List<SysDictionary> dictionary = null;
+		JSONArray json =new JSONArray();
+		try {
+			dictionary = dictionaryService.getDictionaryListLikeParentCode(parentCode);
+
+			json = JSONArray.parseArray(JSON.toJSONString(dictionary));
+
+			logger.info("=============数据字典-根据父编码获取子集"+dictionary.size());
+		} catch (Exception e) {
+			logger.error("[数据字典-根据父编码获取子集失败：]", e);
+		}
+		return json;
+	}
 	
 	
 	

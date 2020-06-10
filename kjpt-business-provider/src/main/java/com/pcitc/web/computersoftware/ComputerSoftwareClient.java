@@ -4,6 +4,7 @@ package com.pcitc.web.computersoftware;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.service.computersoftware.ComputerSoftwareService;
 import io.swagger.annotations.Api;
@@ -65,4 +66,22 @@ public class ComputerSoftwareClient {
     public List<Map> countByCopyrightGetway(@RequestBody(required = false)Map param) {
         return computerSoftwareService.countByCopyrightGetway(param);
     }
+
+    @ApiOperation(value = "导入软件著作管理信息", notes = "导入软件著作管理信息")
+    @RequestMapping(value = "/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<ComputerSoftware> list) throws Exception
+    {
+        Result result=new Result();
+        try {
+            computerSoftwareService.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("导入软件著作管理信息失败");
+
+        }
+        return result;
+    }
+
+
 }

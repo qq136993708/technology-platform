@@ -89,4 +89,6 @@ public interface PatentInfoService {
      * @return
      */
     List<Map> countByPatentType(Map param);
+
+    public void insertBatch(List<PatentInfo> list)throws Exception;
 }

@@ -4,11 +4,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveMaintain;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.ImportExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,7 +24,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -55,6 +62,14 @@ public class AchieveMaintainController extends RestBaseController {
      */
     private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/queryNoPage";
 
+    private static final Integer IMPORT_HEAD = 3;
+
+    private static final String ACHIEVE_MAINTAIN_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/excel_input";
+
+    //用于缓存导入时的字典数据
+    private Map<String,Map<String,String>> dictMap = new HashMap<>();
+
+    private static final String ROOT_KJPT_CGWH_HJLX = "ROOT_KJPT_CGWH_HJLX";
 
 
     @ApiOperation(value="读取")
@@ -189,6 +204,207 @@ public class AchieveMaintainController extends RestBaseController {
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), AchieveMaintain.class);
         fileName = fileName+ DateFormatUtils.format(new Date(), "ddhhmmss");
         this.exportExcel(headers,cols,fileName,list);
+    }
+
+    @ApiOperation(value = "根据模板导入成果维护信息（EXCEL）", notes = "根据模板导入成果维护信息（EXCEL）")
+    @RequestMapping(value = "/achieveMaintain-api/input_excel", method = RequestMethod.POST)
+    public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
+    {
+        Result resultsDate = new Result();
+        SysUser sysUserInfo = this.getUserProfile();
+
+        if (file.isEmpty())
+        {
+            resultsDate.setSuccess(false);
+            resultsDate.setMessage("上传异常，请重试");
+        }else
+        {
+            InputStream in = file.getInputStream();
+            List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+            System.out.println(">>>>>>行数:"+listob.size());
+            List<AchieveMaintain> list = new ArrayList<AchieveMaintain>();
+            resultsDate= getResult( listob );
+            if(resultsDate.isSuccess()==true)
+            {
+                for (int i = IMPORT_HEAD; i < listob.size(); i++)
+                {
+                    List<Object> lo = listob.get(i);
+                    Object col_1 = lo.get(1);   //获奖年份
+                    Object col_2 = lo.get(2);   //奖项级别
+                    Object col_3 = lo.get(3);   //奖项名称
+                    Object col_4 = lo.get(4);   //奖项子名称
+                    if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
+                    Object col_5 = lo.get(5);   //授权等级
+                    Object col_6 = lo.get(6);   //奖项数量
+
+
+                    //将excel导入数据转换为SciencePlan对象
+                    AchieveMaintain obj = new AchieveMaintain();
+
+                    obj.setYear(String.valueOf(col_1));
+                    String type = getValueFromDictMap(String.valueOf(col_2),ROOT_KJPT_CGWH_HJLX);
+                    obj.setType(type);
+                    obj.setTypeText(String.valueOf(col_2));
+
+                    String awardsType = getValueFromDictMap(String.valueOf(col_3),type);
+                    obj.setAwardsType(awardsType);
+                    obj.setAwardsTypeText(String.valueOf(col_3));
+
+                    String awardsChildType = getValueFromDictMap(String.valueOf(col_4),awardsType);
+                    obj.setAwardsChildType(awardsChildType);
+                    obj.setAwardsChildTypeText(String.valueOf(col_4));
+
+                    String awardLevel = getValueFromDictMap(String.valueOf(col_5),awardsChildType);
+                    obj.setAwardLevel(awardLevel);
+                    obj.setAwardLevelText(String.valueOf(col_5));
+
+                    obj.setAwardsNumber(String.valueOf(col_6));
+                    obj.setCreateUnitId(sysUserInfo.getUnitId());
+                    String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+                    obj.setId(dateid);
+                    obj.setSecretLevel("0");
+                    list.add(obj);
+                }
+                ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(ACHIEVE_MAINTAIN_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
+                int statusCode = responseEntity.getStatusCodeValue();
+                // 返回结果代码
+                if (statusCode == 200) {
+                    resultsDate.setSuccess(true);
+                    resultsDate.setCode("0");
+                } else {
+                    Result back = responseEntity.getBody();
+                    resultsDate.setSuccess(false);
+                    resultsDate.setMessage(back.getMessage());
+                }
+            }
+
+        }
+        return resultsDate;
+    }
+
+    private Result getResult(List<List<Object>> listob )
+    {
+        Result resultsDate = new Result();
+        resultsDate.setSuccess(true);
+        StringBuffer sb=new StringBuffer();
+        for (int i = IMPORT_HEAD; i < listob.size(); i++)
+        {
+            List<Object> lo = listob.get(i);
+            Object col_1 = lo.get(1);   //获奖年份
+            Object col_2 = lo.get(2);   //奖项级别
+            Object col_3 = lo.get(3);   //奖项名称
+            Object col_4 = lo.get(4);   //奖项子名称
+            if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
+            Object col_5 = lo.get(5);   //授权等级
+            Object col_6 = lo.get(6);   //奖项数量
+
+
+            // 必填项和字典值校验
+            if(checkIfBlank(col_1))
+
+            {
+                sb.append("第"+(i+2)+"行获奖年份为空,");
+                break;
+            }
+            if(checkIfBlank(col_2))
+            {
+                sb.append("第"+(i+2)+"行奖项级别为空,");
+                break;
+            }else if(!checkIfReasonable(String.valueOf(col_2),ROOT_KJPT_CGWH_HJLX)){
+                sb.append("第"+(i+2)+"行奖项级别取值非法,请参考对应sheet页取值!");
+                break;
+            }
+            String reward_level_code = "";
+            if(checkIfBlank(col_3))
+            {
+                sb.append("第"+(i+2)+"行奖项名称为空,");
+                break;
+            }else {
+                reward_level_code = getValueFromDictMap(String.valueOf(col_2),ROOT_KJPT_CGWH_HJLX);
+                if(!checkIfReasonable(String.valueOf(col_3),reward_level_code)){
+                    sb.append("第"+(i+2)+"行奖项名称取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+            }
+            String reward_name_code = "";
+            if(checkIfBlank(col_4))
+            {
+                sb.append("第"+(i+2)+"行奖项子名称为空,");
+                break;
+            }else{
+                 reward_name_code = getValueFromDictMap(String.valueOf(col_4),reward_level_code);
+                if(!checkIfReasonable(String.valueOf(col_4),reward_name_code)){
+                    sb.append("第"+(i+2)+"行奖项子名称取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+            }
+
+            if(checkIfBlank(col_5))
+            {
+                sb.append("第"+(i+2)+"行授权等级为空,");
+                break;
+            }else{
+                String auth_level = getValueFromDictMap(String.valueOf(col_4),reward_name_code);
+                if(!checkIfReasonable(String.valueOf(col_5),auth_level)){
+                    sb.append("第"+(i+2)+"行授权等级取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+            }
+
+            if(checkIfBlank(col_6))
+            {
+                sb.append("第"+(i+2)+"行奖项数量为空,");
+                break;
+            }
+
+        }
+        resultsDate.setMessage(sb.toString());
+        if((sb.toString()).equals(""))
+        {
+            resultsDate.setSuccess(true);
+        }else
+        {
+            resultsDate.setSuccess(false);
+        }
+        return resultsDate;
+    }
+
+    private Boolean checkIfBlank(Object o){
+        if(o==null) return true;
+        if(String.valueOf(o)=="") return true;
+        return false;
+    }
+
+    private Boolean checkIfReasonable(String content,String dictCode){
+        //导入的数据确认用户只输入一个字典值20200605
+        //针对模板中使用到的字典数据进行缓存
+        Map<String,String> detailDicMap;
+        if(dictMap.containsKey(dictCode)){
+            detailDicMap = dictMap.get(dictCode);
+            if(detailDicMap.containsKey(content)) return  true;
+        }else{
+            detailDicMap = new HashMap<>();
+            dictMap.put(dictCode,detailDicMap);
+        }
+
+        List<SysDictionary> sysDictionaryList=    EquipmentUtils.getSysDictionaryListByParentCode(dictCode, restTemplate, httpHeaders);
+        for(SysDictionary dictionary:sysDictionaryList){
+            if(content.equals(dictionary.getName())) {
+                Map<String,String> temp = dictMap.get(dictCode);
+                temp.put(content,dictionary.getNumValue());
+                dictMap.put(dictCode,temp);
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    private String getValueFromDictMap(String name,String dictCode){
+        if(StringUtils.isNotBlank(name)&&StringUtils.isNotBlank(dictCode)){
+            Map<String,String> detail = dictMap.get(dictCode);
+            return detail.get(name);
+        }
+        return "null";
     }
 
 

@@ -18,4 +18,6 @@ public interface ExpertAchievementService {
      */
     List<ZjkAchievement> queryNoPage(Map paramMap);
 
+    public void insertBatch(List<ZjkAchievement> list)throws Exception;
+
 }

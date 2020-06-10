@@ -246,6 +246,14 @@
       </if>
 	  order by isdelete
   </select>
+
+
+    <!-- 根据parentId查询子节点列表 -->
+    <select id="selectDictionaryListLikeParentCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id,parent_id as parentId ,name,level_code,code,create_time, update_time,is_leaf,remark,num_value,isdelete
+        from sys_dictionary where  parent_code like '%${parentCode}%'
+        order by isdelete
+    </select>
   
   <!-- 根据id初始化详情 -->
   <select id="getDictionaryById" resultType="com.pcitc.base.system.SysDictionary">

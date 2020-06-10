@@ -229,19 +229,24 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       },
       exportUrl = '';
 
-    for (var key in searchData) {
-      exportUrl += '&' + key + '=' + searchData[key];
-    }
-    exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
-    window.open(exportUrl, '_blank');
-  })
-  //导入
-  importFiles({
-    id: '#importData',
-    url: '/excelImport/treatiseImp',
-    //treatiseImp
-    callback: function (data, type) {
-      queryTable('');
+  for (var key in searchData) {
+    exportUrl += '&' + key + '=' + searchData[key];
+  }
+  exportUrl = '/treatise-api/export?' + exportUrl.substring(1);
+  window.open(exportUrl, '_blank');
+})
+//导入
+importFiles({
+  id:'#importData',
+  url:'/treatise-api/input_excel',
+  //treatiseImp
+  callback: function (result) {
+      if(result.data.code=="0") {
+          layer.msg('数据导入成功!', {icon: 1});
+          $('[lay-filter="formDemo"]').click();
+      }else{
+          layer.msg('数据导入失败!失败信息：'+result.data.message, {icon: 1});
+      }
     }
   });
   // 导出

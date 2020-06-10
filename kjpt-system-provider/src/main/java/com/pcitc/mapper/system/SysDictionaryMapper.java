@@ -82,6 +82,13 @@ public interface SysDictionaryMapper {
      * @return
      */
     List<SysDictionary> selectDictionaryListByParentCode(SysDictionary record);
+
+	/**
+	 * 根据父级编码查询子集
+	 * @param record
+	 * @return
+	 */
+	List<SysDictionary> selectDictionaryListLikeParentCode(@Param(value="parentCode")String parentCode);
     
 	/**
 	 * 查询子节点数量
