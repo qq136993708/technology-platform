@@ -68,6 +68,10 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
      * 阅读范围
      */
     private String readRange = "";
+    /**
+     * 阅读范围
+     */
+    private String readRangeText = "";
 
 
     /**
@@ -201,5 +205,13 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
 
     public void setPublishUser(String publishUser) {
         this.publishUser = publishUser;
+    }
+
+    public String getReadRangeText() {
+        return readRangeText;
+    }
+
+    public void setReadRangeText(String readRangeText) {
+        this.readRangeText = readRangeText;
     }
 }
