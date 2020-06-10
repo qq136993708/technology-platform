@@ -30,7 +30,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {title: '序号',templet: '#xuhao', align: 'center'},
             {
-              field: 'unitNameText',
+              field: 'unitName',
               title: '单位名称',
               align: 'center',
               sort: true,
@@ -196,13 +196,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   })
 
   // 表格行被选中
-  table.on('radio(tableDemo)', function (obj) {
-    itemRowData = obj.data;
-  });
+  // table.on('checkbox(tableDemo)', function (obj) {
+  //   itemRowData = obj.data;
+  //   console.log(itemRowData)
+  //   console.log(table.checkStatus('tableDemo'));
+  // });
+  
   // 编辑
   $('#editItem').on('click', function (e) {
     if (itemRowData) {
-      openDataDilog('edit', itemRowData.id);
+      openDataDilog('edit', itemRowData[0].id);
     } else {
       layer.msg('请选择需要编辑的专利项目！');
     }
@@ -300,34 +303,26 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       }
     });
   };
-  $('#leftItem').on('click',function(){
-    if (itemRowData) {
-      httpModule({
-        //GET /patentController/load/{id}
-        url: '/patentController/load/'+itemRowData.id,
-        type: 'GET',
-        success: function (relData) {
-          if (relData.success) {
-            var params = relData.data;
-            params['type']=2;
-            httpModule({
-              url: '/patentController/save',
-              type: 'POST',
-              data: params,
-              success: function (relData) {
-                if (relData.success) {
-//                  debugger
-                  // var data = relData.data;
-                }
-              }
-            });
-          }
-        }
-      });
-    } else {
-      layer.msg('请选择需要查看的专利项目！');
-    }
-  })
+
+  // 导出
+$('#exportData').click(function() {
+  var formValue = form.val('patentFormDemo'),
+  searchData = {
+    unitName: formValue.unitName || '', // 单位名称：
+    projectBackground: formValue.projectBackground || '', // 项目背景：
+    patentType: formValue.patentType || '', // 专利类型：
+    lawStatus: formValue.lawStatus || '', // 法律状态
+    applicationNumber: formValue.applicationNumber || '', // 专利号：
+    type:'2'
+  },
+  exportUrl = '';
+
+  for (var key in searchData) {
+    exportUrl += '&' + key + '=' + searchData[key];
+  }
+  exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
+  window.open(exportUrl, '_blank');
+})
 
 });
 

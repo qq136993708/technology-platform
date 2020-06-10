@@ -111,9 +111,13 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "tradeMarkType", value = "商标类型", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "wellKnownDate", value = "驰名商标认定日期", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "famousDate", value = "著名商标认定日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "registerDate", value = "注册日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "effectiveDate", value = "有效期", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "famousOrg", value = "著名商标认定机构", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "wellKnownOrg", value = "驰名商标认定机构", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "registerOrg", value = "注册机构", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "commodityCategory", value = "商标类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationNumber", value = "注册号", dataType = "String", paramType = "query")
     })
 
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -131,6 +135,8 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String isWellKnown,
                         @RequestParam(required = false) String isRegistered,
                         @RequestParam(required = false) String countryType,
+                        @RequestParam(required = false)  @DateTimeFormat(pattern="yyyy-MM-dd") Date  registerDate,
+                        @RequestParam(required = false)  @DateTimeFormat(pattern="yyyy-MM-dd") Date  effectiveDate,
 
                         @RequestParam(required = false) String tradeMarkType,
                         @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date wellKnownDate,
@@ -138,7 +144,8 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String wellKnownOrg,
                         @RequestParam(required = false) String famousOrg,
                         @RequestParam(required = false) String registerOrg,
-
+                        @RequestParam(required = false) String commodityCategory,
+                        @RequestParam(required = false) String applicationNumber,
                         @RequestParam(required = false,value = "secretLevel") String secretLevel
     ){
         Map<String, Object> condition = new HashMap<>(6);
@@ -155,11 +162,11 @@ public class TrademarkController extends RestBaseController {
             if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(registerDateStart,DateUtil.FMT_SS))) {
-            this.setParam(condition, "registerDateStart", DateUtil.format(registerDateStart,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(registerDateStart,DateUtil.FMT_DD))) {
+            this.setParam(condition, "registerDateStart", DateUtil.format(registerDateStart,DateUtil.FMT_DD));
         }
-        if (!StringUtils.isEmpty(DateUtil.format(registerDateEnd,DateUtil.FMT_SS))) {
-            this.setParam(condition, "registerDateEnd", DateUtil.format(registerDateEnd,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(registerDateEnd,DateUtil.FMT_DD))) {
+            this.setParam(condition, "registerDateEnd", DateUtil.format(registerDateEnd,DateUtil.FMT_DD));
         }
         if (!StringUtils.isEmpty(trademarkName)) {
         this.setParam(condition, "trademarkName", trademarkName);
@@ -170,7 +177,13 @@ public class TrademarkController extends RestBaseController {
         if (!StringUtils.isEmpty(applicant)) {
         this.setParam(condition, "applicant", applicant);
         }
-        
+        if (!StringUtils.isEmpty(commodityCategory)) {
+        this.setParam(condition, "commodityCategory", commodityCategory);
+        }
+        if (!StringUtils.isEmpty(applicationNumber)) {
+        this.setParam(condition, "applicationNumber", applicationNumber);
+        }
+
         
         if (!StringUtils.isEmpty(isWellKnown)) {
             this.setParam(condition, "isWellKnown", isWellKnown);
@@ -181,18 +194,24 @@ public class TrademarkController extends RestBaseController {
         if (!StringUtils.isEmpty(countryType)) {
             this.setParam(condition, "countryType", countryType);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(extensionPeriod,DateUtil.FMT_SS))) {
-            this.setParam(condition, "extensionPeriod", DateUtil.format(extensionPeriod,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(extensionPeriod,DateUtil.FMT_DD))) {
+            this.setParam(condition, "extensionPeriod", DateUtil.format(extensionPeriod,DateUtil.FMT_DD));
         }
 
         if (!StringUtils.isEmpty(tradeMarkType)) {
             this.setParam(condition, "tradeMarkType", tradeMarkType);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(wellKnownDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "wellKnownDate", DateUtil.format(wellKnownDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(wellKnownDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "wellKnownDate", DateUtil.format(wellKnownDate,DateUtil.FMT_DD));
         }
-        if (!StringUtils.isEmpty(DateUtil.format(famousDate,DateUtil.FMT_SS))) {
-            this.setParam(condition, "famousDate", DateUtil.format(famousDate,DateUtil.FMT_SS));
+        if (!StringUtils.isEmpty(DateUtil.format(registerDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "registerDate", DateUtil.format(registerDate,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(effectiveDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "effectiveDate", DateUtil.format(effectiveDate,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(famousDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "famousDate", DateUtil.format(famousDate,DateUtil.FMT_DD));
         }
         if (!StringUtils.isEmpty(wellKnownOrg)) {
             this.setParam(condition, "wellKnownOrg", wellKnownOrg);

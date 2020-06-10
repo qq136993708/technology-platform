@@ -179,6 +179,8 @@
                     }
 
                     if (variable.type == 'view') {
+                        setFomeDisabled('formPlatform', '.disabled');
+                        formSelects.disabled();
                         setFileUpload({
                             id: 'file-filter-options1', // 附件上传作用域ID值 必传
                             dataID: relDataForm.data

@@ -17,10 +17,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'planNum',title: '计划号',align: 'center'},
     {field: 'planChineseName',title: '计划中文名称',align: 'center'},
     {field: 'planEnglishName',title: '计划英文名称',align: 'center'},
-    {field: 'applicationDate',title: '下达年度',align: 'center',
-      templet:function (d) {
-       return  new Date(d.applicationDate).format('yyyy-MM-dd')
-        }
+    {field: 'releaseYear',title: '下达年度',align: 'center',
+      // templet:function (d) {
+      //  return  new Date(d.releaseYear).format('yyyy-MM-dd')
+      //   }
     },
    
     {field: 'standardTypeText',title: '标准类型'},
@@ -42,6 +42,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {title: '序号',templet: '#xuhao', align: 'center'},
     {field: 'standardNum',title: '标准号',align: 'center'},
     {field: 'planEnglishName',title: '英文名称',align: 'center'},
+    {field: 'standardTypeText',title: '标准类型',align: 'center'},
     {field: 'publishDate',title: '发布时间',align: 'center',
       templet:function (d) {
         if(d.publishDate !=null){
@@ -51,10 +52,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         }
         }
     },
-    {field: 'terminationDate',title: '实施时间',align: 'center',
+    {field: 'effectiveDate',title: '实施时间',align: 'center',
       templet:function (d) {
-        if(d.terminationDate != null){
-          return  new Date(d.terminationDate).format('yyyy-MM-dd')
+        if(d.effectiveDate != null){
+          return  new Date(d.effectiveDate).format('yyyy-MM-dd')
         }else{
           return '-';
         }
@@ -64,19 +65,25 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'chiefEditorUnit',title: '主编单位',},
     {field: 'partakeEditorUnit',title: '参编单位',},
     {field: 'updateStatusText',title: '修改状态',align: 'center',},
-    {field: 'fileStatusText',title: '文件状态',align: 'center',},
+    // {field: 'fileStatusText',title: '文件状态',align: 'center',},
     {field: 'isPublishText',title: '是否已发布英文版',align: 'center',},
     {field: 'manageOrg',title: '主管部门',align: 'center',},
     {field: 'technicalCommittee',title: '技术委员会',align: 'center',},
     {field: 'putUnderUnitText',title: '归口单位',align: 'center',},
     {field: 'consultStandard',title: '参照标准',align: 'center',},
     {field: 'uniformityDegree',title: '一致性程度',align: 'center',},
-    {field: 'toReplacedStandard',title: '拟代替标准',align: 'center',},
+    {field: 'replaceStandard',title: '被代替标准',align: 'center',},
   ]
   var curCol = null;
   //1 :否 0 是
   variable.type == '1'?curCol=publishedCol:curCol=researchCol;
-  
+  if(variable.type == '1'){
+    $('.planNumOne').hide();
+    $('.planNumTwo').attr('style','display:inline-block');
+  }else if(variable.type == '2'){
+    $('.planNumOne').attr('style','display:inline-block');
+    $('.planNumTwo').hide();
+  }
   if(variable.type == '1'){
     $('input[name="isPublish"]').val('0');
   }else{

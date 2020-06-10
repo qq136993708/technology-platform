@@ -6,12 +6,12 @@
     <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
     <result column="commodity_category" jdbcType="VARCHAR" property="commodityCategory" />
     <result column="application_number" jdbcType="VARCHAR" property="applicationNumber" />
-    <result column="effective_date" jdbcType="TIMESTAMP" property="effectiveDate" />
+    <result column="effective_date" jdbcType="DATE" property="effectiveDate" />
     <result column="register_notice_date" jdbcType="TIMESTAMP" property="registerNoticeDate" />
     <result column="entry_person" jdbcType="VARCHAR" property="entryPerson" />
     <result column="trademark_name" jdbcType="VARCHAR" property="trademarkName" />
     <result column="applicant" jdbcType="VARCHAR" property="applicant" />
-    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="register_date" jdbcType="DATE" property="registerDate" />
     <result column="law_status" jdbcType="VARCHAR" property="lawStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate" />
@@ -337,6 +337,9 @@
     <if test="lawStatus != null and lawStatus != '' " >
       and law_status = #{lawStatus}
     </if>
+    <if test="applicationNumber != null and applicationNumber != '' " >
+      and application_number like CONCAT('%',#{applicationNumber},'%')
+    </if>
     <if test="applicant != null and applicant != '' " >
       and applicant like CONCAT('%',#{applicant},'%')
     </if>
@@ -370,10 +373,16 @@
     <if test="tradeMarkType != null and tradeMarkType != '' " >
       and trademark_type = #{tradeMarkType}
     </if>
-    <if test="wellKnownDate != null and wellKnownDate != '' " >
+    <if test="wellKnownDate != null " >
       and well_known_date = #{wellKnownDate}
     </if>
-    <if test="famousDate != null and famousDate != '' " >
+    <if test="registerDate != null" >
+      and register_date = #{registerDate}
+    </if>
+    <if test="effectiveDate != null " >
+      and effective_date = #{effectiveDate}
+    </if>
+    <if test="famousDate != null " >
       and famous_date = #{famousDate}
     </if>
     <if test="wellKnownOrg != null and wellKnownOrg != '' " >
@@ -384,6 +393,9 @@
     </if>
     <if test="registerOrg != null and registerOrg != '' " >
       and register_org = #{registerOrg}
+    </if>
+    <if test="commodityCategory != null and commodityCategory != '' " >
+      and commodity_category = #{commodityCategory}
     </if>
 
   </sql>

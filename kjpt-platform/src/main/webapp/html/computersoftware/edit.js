@@ -48,6 +48,9 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
+              if(variable.type == 'view'){
+                $('.file-options-delete').hide();
+              }
             }
           });
           formSelects.value('supportingInstitutions', [data.unitName]);

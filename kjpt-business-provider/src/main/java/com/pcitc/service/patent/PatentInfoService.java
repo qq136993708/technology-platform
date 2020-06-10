@@ -66,6 +66,13 @@ public interface PatentInfoService {
      * @return
      */
     Integer batchRemove(String ids);
+    /**
+     * 批量后处理
+     *
+     * @param ids
+     * @return
+     */
+    Integer postTreatment(String ids);
 
     /**
      * 根据法律状态查询专利数量

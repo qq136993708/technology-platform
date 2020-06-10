@@ -100,6 +100,17 @@ public class PatentInfoClient {
 	public Integer batchRemove(@PathVariable String ids) {
 		return patentInfoService.batchRemove(ids);
 	}
+	/**
+	 * 批量后处理
+	 *
+	 * @param ids
+	 * @return
+	 */
+	@ApiOperation(value = "批量后处理", notes = "批量后处理")
+	@RequestMapping(value = "/patent-provider/patentInfo/postTreatment/{ids}", method = RequestMethod.POST)
+	public Integer postTreatment(@PathVariable String ids) {
+		return patentInfoService.postTreatment(ids);
+	}
 
 	@ApiOperation(value = "查询专利列表", notes = "查询专利列表")
 	@RequestMapping(value = "/patent-provider/patentInfo/queryNoPage", method = RequestMethod.POST)

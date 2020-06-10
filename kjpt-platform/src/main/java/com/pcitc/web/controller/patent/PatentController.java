@@ -44,6 +44,7 @@ public class PatentController extends RestBaseController {
     private static final String DELETE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_delete/";
 
     private static final String batchRemove = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/batchRemove/";
+    private static final String postTreatment = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/postTreatment/";
 
     private static final String countByLegalStatus = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByLegalStatus";
     private static final String countByPatentType = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByPatentType";
@@ -84,6 +85,7 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "type", value = "后专项处理", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "projectBackground", value = "项目背景", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "legalStatus", value = "法律状态", dataType = "string", paramType = "query")
 
@@ -103,6 +105,7 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor,
             @RequestParam(required = false) String technicalFieldIndex,
+            @RequestParam(required = false) String projectBackground,
             @RequestParam(required = false) String secretLevel,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String legalStatus
@@ -150,6 +153,9 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(technicalFieldIndex)) {
             this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
+        }
+        if (!StringUtils.isEmpty(projectBackground)) {
+            this.setParam(condition, "projectBackground", projectBackground);
         }
 
         if(secretLevel != null){
@@ -351,6 +357,21 @@ public class PatentController extends RestBaseController {
     public void batchRemove(@PathVariable String ids) {
         Map<String, Object> condition = new HashMap<>(6);
         this.restTemplate.exchange(batchRemove+ids, HttpMethod.POST, new HttpEntity(this.httpHeaders),Integer.class);
+//        return responseEntity.getBody();
+
+    }
+
+    /**
+     * 批量后处理
+     *
+     * @return PatentInfo
+     */
+    @ApiOperation(value="批量后处理")
+    @RequestMapping(value = "/postTreatment/{ids}", method = RequestMethod.GET)
+    @ResponseBody
+    public void postTreatment(@PathVariable String ids) {
+        Map<String, Object> condition = new HashMap<>(6);
+        this.restTemplate.exchange(postTreatment+ids, HttpMethod.POST, new HttpEntity(this.httpHeaders),Integer.class);
 //        return responseEntity.getBody();
 
     }

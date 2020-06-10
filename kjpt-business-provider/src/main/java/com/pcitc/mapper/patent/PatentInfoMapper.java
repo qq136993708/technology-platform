@@ -33,6 +33,7 @@ public interface PatentInfoMapper {
     List<PatentInfo> queryPatentList(Map param);
 
     int batchRemove(@Param("ids") String ids);
+    int postTreatment(@Param("ids") String ids);
 
     List<Map> countByLegalStatus(Map param);
 

@@ -680,6 +680,9 @@
     <if test="legalStatus != null and legalStatus != '' " >
         and legal_status = #{legalStatus}
     </if>
+    <if test="projectBackground != null and projectBackground != '' " >
+        and project_background = #{projectBackground}
+    </if>
     <if test="applicationDateStart != null and applicationDateStart != '' " >
       and application_date &gt;= #{applicationDateStart}
     </if>
@@ -711,6 +714,13 @@
 
 
   </sql>
+
+  <update id="postTreatment" parameterType="java.lang.String">
+    update patent_info set type = '2' where id in
+    <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
 
   <select id="countByLegalStatus" parameterType="java.util.Map" resultType="java.util.Map">
     select '全部' as 'name',count(1) num from patent_info where deleted != '1'

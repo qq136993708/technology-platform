@@ -86,6 +86,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     }
 
     @Override
+    public Integer postTreatment(String ids) {
+        return patentInfoMapper.postTreatment(ids);
+    }
+
+    @Override
     public List<Map> countByLegalStatus(Map param) {
         return patentInfoMapper.countByLegalStatus(param);
     }

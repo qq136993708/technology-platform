@@ -25,8 +25,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         cols: [
           [ //表头
             {
-              type: 'radio',
-              field: 'id',
+              type: 'checkbox',
               align: 'center'
             },
             {title: '序号', templet: '#xuhao', align: 'center', width: 60 },
@@ -170,12 +169,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   function openDataDilog(type, id) {
     var pageName = 'edit', pageTitle = '专利';
-    if (queryType == '2') {
-      // 后专项处理
-      pageName = 'handle';
-      pageTitle = '后专项处理';
-    }
-
     var url = '/html/patent/'+ pageName +'.html?type=' + type;
     var dialogTitle = '新增'+pageTitle;
     if (type === 'edit') {
@@ -217,13 +210,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   })
 
   // 表格行被选中
-  table.on('radio(tableDemo)', function (obj) {
-    itemRowData = obj.data;
-  });
+  // table.on('radio(tableDemo)', function (obj) {
+  //   itemRowData = obj.data;
+  // });
   // 编辑
   $('#editItem').on('click', function (e) {
-    if (itemRowData) {
-      openDataDilog('edit', itemRowData.id);
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData && itemRowData.length == 1) {
+      openDataDilog('edit', itemRowData[0].id);
     } else {
       layer.msg('请选择需要编辑的专利项目！');
     }
@@ -231,8 +225,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   // 查看
   $('#viewItem').on('click', function (e) {
-    if (itemRowData) {
-      openDataDilog('view', itemRowData.id);
+    var itemRowData = table.checkStatus('tableDemo').data;
+    if (itemRowData && itemRowData.length == 1) {
+      openDataDilog('view', itemRowData[0].id);
     } else {
       layer.msg('请选择需要查看的专利项目！');
     }
@@ -240,15 +235,19 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   // 删除
   $('#delItem').on('click', function (e) {
+    var itemRowData = table.checkStatus('tableDemo').data;
+    var ids = itemRowData.map(function(item){
+      return item.id
+    })
     if (itemRowData) {
-      layer.confirm('您确定要删除”' + itemRowData.patentName + '“吗？', {
+      layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
         layer.close(index);
         // 确认删除
         httpModule({
-          url: '/patentController/delete/' + itemRowData.id,
+          url: '/patentController/delete/' + ids,
           type: 'DELETE',
           success: function (relData) {
             if (relData.code === '0') {
@@ -270,24 +269,25 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   });
 
   $('#removeItem').on('click', function (e) {
+    var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData) {
-      layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
+      top.layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
-        layer.close(index);
+        top.layer.close(index);
         // 确认删除
         httpModule({
           url: '/patentController/batchRemove/' + itemRowData.id,
           type: 'GET',
           success: function (relData) {
             if (relData.code === '0') {
-              layer.msg('移除成功!', {
+              top.layer.msg('移除成功!', {
                 icon: 1
               });
               $('[lay-filter="formDemo"]').click();
             } else {
-              layer.msg('移除失败', {
+              top.layer.msg('移除失败', {
                 icon: 2
               });
             }
@@ -353,31 +353,61 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     });
   };
   $('#leftItem').on('click',function(){
+    var itemRowData = table.checkStatus('tableDemo').data;
+    var ids = itemRowData.map(function (item) {
+      return item.id;
+      })
     if (itemRowData) {
-      httpModule({
-        url: '/patentController/load/'+itemRowData.id,
-        type: 'GET',
-        success: function (relData) {
-          if (relData.success) {
-            var params = relData.data;
-            params['type']=2;
-            httpModule({
-              url: '/patentController/save',
-              type: 'POST',
-              data: params,
-              success: function (relData) {
-                if (relData.success) {
-//                  debugger
-                  // var data = relData.data;
-                }
-              }
-            });
+      top.layer.confirm('您确定要后处理吗？', {
+        icon: 3,
+        title: '删除提示'
+      }, function (index) {
+        top.layer.close(index);
+        httpModule({
+          url: '/patentController/postTreatment/' +ids,
+          type: 'GET',
+          success: function (relData) {
+            if (relData.code === '0') {
+              top.layer.msg('后处理成功!', {
+                icon: 1
+              });
+              $('[lay-filter="formDemo"]').click();
+            } else {
+              top.layer.msg('后处理失败', {
+                icon: 2
+              });
+            }
           }
-        }
+        });
       });
     } else {
-      layer.msg('请选择需要查看的专利项目！');
+      layer.msg('请选择需要后处理的数据！');
     }
+//     if (itemRowData) {
+//       httpModule({
+//         url: '/patentController/load/'+itemRowData.id,
+//         type: 'GET',
+//         success: function (relData) {
+//           if (relData.success) {
+//             var params = relData.data;
+//             params['type']=2;
+//             httpModule({
+//               url: '/patentController/save',
+//               type: 'POST',
+//               data: params,
+//               success: function (relData) {
+//                 if (relData.success) {
+// //                  debugger
+//                   // var data = relData.data;
+//                 }
+//               }
+//             });
+//           }
+//         }
+//       });
+//     } else {
+//       layer.msg('请选择需要查看的专利项目！');
+//     }
   })
   //导入
 importFiles({
@@ -392,7 +422,7 @@ $('#exportData').click(function() {
   var formValue = form.val('patentFormDemo'),
   searchData = {
     unitName: formValue.unitName || '', // 单位名称：
-    patentName: formValue.patentName || '', // 项目背景：
+    projectBackground: formValue.projectBackground || '', // 项目背景：
     patentType: formValue.patentType || '', // 专利类型：
     lawStatus: formValue.lawStatus || '', // 法律状态
     applicationNumber: formValue.applicationNumber || '', // 专利号：
