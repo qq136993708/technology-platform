@@ -339,66 +339,106 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   })
 
     //导入领军人物
-    importFiles({
-        id:'#importLeader',
-        url:'/researchPlatformLeader-api/input_excel?pid=' + variable.id,
-        callback: function (result) {
-            if(result.code=="0") {
-                layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="leadingFigure"]').click();
-            }else{
-                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
-            }
-        }
-    })
+    // importFiles({
+    //     id:'#importLeader',
+    //     url:'/excelImport/kyptLeaderImp?pid=' + variable.id,
+    //     callback: function (result) {
+    //         if(result.code=="0") {
+    //             layer.msg('数据导入成功!', {icon: 1});
+    //             $('[lay-filter="leadingFigure"]').click();
+    //         }else{
+    //             layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+    //         }
+    //     }
+    // })
 
     //导入论文
-    importFiles({
-        id:'#importTreasis',
-        url:'/platformTreatise-api/input_excel?pid=' + variable.id,
-        callback: function (result) {
-            if(result.code=="0") {
-                layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="tablePaper"]').click();
-            }else{
-                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
-            }
-        }
-    })
+    // importFiles({
+    //     id:'#importTreasis',
+    //     url:'/excelImport/kyptTreatiseImp?pid=' + variable.id,
+    //     callback: function (result) {
+    //         if(result.code=="0") {
+    //             layer.msg('数据导入成功!', {icon: 1});
+    //             $('[lay-filter="tablePaper"]').click();
+    //         }else{
+    //             layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+    //         }
+    //     }
+    // })
+    //团队成员 
+  //   importFiles({
+  //     id:'#export_tdcy',
+  //     url:'/excelImport/kyptMemberImp?pid=' + variable.id,
+  //     callback: function (result) {
+  //         if(result.code=="0") {
+  //             layer.msg('数据导入成功!', {icon: 1});
+  //             $('[lay-filter="teamMembers"]').click();
+  //         }else{
+  //             layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+  //         }
+  //     }
+  // })
+  //主要成果
+//   importFiles({
+//     id:'#export_tdcy',
+//     url:'/excelImport/kyptAchievementImp?pid=' + variable.id,
+//     callback: function (result) {
+//         if(result.code=="0") {
+//             layer.msg('数据导入成功!', {icon: 1});
+//             $('[lay-filter="mainAchievements"]').click();
+//         }else{
+//             layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+//         }
+//     }
+// })
+//主要专利 
+// importFiles({
+//   id:'#export_zl',
+//   url:'/excelImport/kyptPatentImp?pid=' + variable.id,
+//   callback: function (result) {
+//       if(result.code=="0") {
+//           layer.msg('数据导入成功!', {icon: 1});
+//           $('[lay-filter="mainPatent"]').click();
+//       }else{
+//           layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+//       }
+//   }
+// })
 
   // 导出
   $('.importData').click(function() {
+    debugger
     var importUrl = '';
     switch ($(this).data('item')+'') {
       case '1':
         // 项目
-        // importUrl =  '/platformProject-api/export?platformId='+ variable.id;
-        importUrl =  '/excelImport/kyptImp?pid=' + variable.id;
+        importUrl =  '/platformProject-api/export?platformId='+ variable.id;
+        // importUrl =  '/excelImport/kyptImp?pid=' + variable.id;
         break;
       case '2':
         // 领军人物
-        // importUrl =  '/researchPlatformLeader-api/export?platformId='+ variable.id;
-        importUrl =  '/excelImport/kyptLeaderImp?pid=' + variable.id;
+        importUrl =  '/researchPlatformLeader-api/export?platformId='+ variable.id;
+        // importUrl =  '/excelImport/kyptLeaderImp?pid=' + variable.id;
         break;
       case '3':
         // 论文
-        // importUrl =  '/platformTreatise-api/export?platformId='+ variable.id;
-        importUrl =  '/excelImport/kyptTreatiseImp?pid=' + variable.id;
+        importUrl =  '/platformTreatise-api/export?platformId='+ variable.id;
+        // importUrl =  '/excelImport/kyptTreatiseImp?pid=' + variable.id;
         break;
       case '4':
         // 成员
-        // importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id;
-        importUrl =  '/excelImport/kyptMemberImp?pid=' + variable.id;
+        importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id;
+        // importUrl =  '/excelImport/kyptMemberImp?pid=' + variable.id;
         break;
       case '5':
         // 成果
-        // importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
-        importUrl =  '/excelImport/kyptAchievementImp?pid=' + variable.id;
+        importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
+        // importUrl =  '/excelImport/kyptAchievementImp?pid=' + variable.id;
         break;
       case '6':
         // 专利
-        // importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
-        importUrl =  '/excelImport/kyptPatentImp?pid=' + variable.id;
+        importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
+        // importUrl =  '/excelImport/kyptPatentImp?pid=' + variable.id;
         break;
     }
     window.open(importUrl, '_blank');
