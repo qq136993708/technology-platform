@@ -335,6 +335,7 @@
 					var roleText=unitText=postText= "";
 					var roleArray = data.userRole==null?[]:data.userRole.split(",");
 					var unitArray = data.userUnit==null?[]:data.userUnit.split(",");
+					var unitArray = data.dataScopeUnitId==null?[]:data.dataScopeUnitId.split(",");
 					var postArray = data.userPost==null?[]:data.userPost.split(",");
 					$.each(roleArray,function(i,dt){
 						if(roleMap[roleArray[i]]){

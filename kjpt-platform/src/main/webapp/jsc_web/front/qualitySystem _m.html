@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
 </head>
 <body>
-<div style="position: relative;overflow: hidden;width: 100%;
-  height: 600px;">
+<div id="outBox" style="position: relative;overflow: hidden;width: 100%;">
     <div  class="scroll-layout" style="
     padding: 5px;
     position: absolute;
@@ -20,7 +19,7 @@
     bottom: 0;
     overflow-x: hidden;
     overflow-y: scroll;">
-        <div>
+        <div style="padding: 40px;">
             <img style="width: 100%; height: 100%" src="../img/zlgl.png">
         </div>
     </div>
@@ -34,7 +33,7 @@
 <script>
     layui.use(['laydate'], function() {
         var laydate = layui.laydate
-        // $('#box').css("background-image","url(../img/qu.png)");
+        $('#outBox').css("height",window.screen.height-250)
     });
 </script>
 </body>

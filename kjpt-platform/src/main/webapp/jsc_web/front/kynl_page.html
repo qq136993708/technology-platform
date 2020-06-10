@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>中核集团科技管理平台-首页</title>
+    <link rel="stylesheet" href="/jsc_web/common/css/base.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/common.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/home.css">
+
+</head>
+
+<body>
+<div class="main_layout_block kynl_layout">
+    <div class="kynl_row top">
+        <div class="item-layout">
+            <div class="page-layout-title"><span class="text">科技人才</span></div>
+            <div class="kynl_kjrc_charts" id="kynl_kjrc_charts"></div>
+        </div>
+        <div class="item-layout">
+            <div class="page-layout-title" id="tabHeader">
+                <span class="text">科研平台</span>
+                <span class="tab-btn selected" type="gjj">国家级</span>
+                <span class="tab-btn" type="gjbwj">国家部委级</span>
+                <span class="tab-btn" type="dfsj">地方省级</span>
+                <span class="tab-btn" type="jtj">集团级</span>
+                <span class="tab-btn" type="bkj">板块级</span>
+            </div>
+            <div class="kynl_kypt_table" id="kynl_kypt_table">
+                <div class="table-header">
+                    <table class="fixed-layout">
+                        <thead><tr>
+                            <th class="kyptName">科研平台</th>
+                            <th class="subName">平台名称</th>
+                            <th class="nuitName">依托单位</th>
+                        </tr></thead>
+                    </table>
+                </div>
+                <div class="table-scroll-layout">
+                    <table class="fixed-layout"><tbody id="tbodyContent"></tbody></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kynl_row bottom">
+        <div class="item-layout">
+            <div class="page-layout-title"><span class="text">二级单位科研平台分布情况</span></div>
+            <div class="kynl_dwfb_charts" id="kynl_dwfb_charts"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/jsc_web/common/js/echarts.min.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/chartOption.js"></script>
+<script src="./js/kynl_page.js"></script>
+</body>
+</html>

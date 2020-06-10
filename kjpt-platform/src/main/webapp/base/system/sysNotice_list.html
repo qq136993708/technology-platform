@@ -81,9 +81,9 @@
                 {field:'noticeCreater', title:'创建者', event: 'setActive',style:'cursor: pointer;'},
                 {field:'noticeCreatetime', title:'创建时间', event: 'setActive',style:'cursor: pointer;'},
                 {field:'noticePublishtime', title:'发布时间' ,event: 'setActive',style:'cursor: pointer;'},
-                {field:'isPublished', title:'是否发布' ,event: 'setActive',style:'cursor: pointer;'
+                {field:'isVariable', title:'是否发布' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
-	                	if(d.isPublished == 1){
+	                	if(d.isVariable == 1){
 	                		return "是";
 	                	} else {
 	                		return "否";
@@ -174,7 +174,7 @@
 						var getData = getDialogData('dialog-data');
 						/*判断成功刷新table*/
 						if(getData){
-							table.reload('noticeTable',null)
+							table.reload('noticeTable')
 						}
 
 					}
@@ -215,7 +215,7 @@
 							var getData = getDialogData('dialog-data');
 							/*判断成功刷新table*/
 							if(getData){
-								table.reload('noticeTable',null)
+								table.reload('noticeTable')
 							}
 
 						}

@@ -163,59 +163,62 @@
 
     <div class="main_cols right">
         <div class="item-layout top">
-            <div class="page-layout-title"><span class="text">科研项目</div>
+            <div class="page-layout-title"><span class="text">科研项目（<span class="year">2020</span>）</div>
             <div class="kyxm_charts" id="kyxm_charts"></div>
         </div>
         <div class="item-layout middle">
-            <div class="page-layout-title"><span class="text">项目投资（<span class="year">2020</span>）</span></div>
+            <div class="page-layout-title">
+                <span class="text">项目投资（<span class="year">2020</span>）</span>
+                span
+            </div>
             <div class="progress-layout">
                 <table>
                     <tbody>
                         <tr>
                             <td class="item-name"></td>
                             <td class="progress-bar"></td>
-                            <td class="number-text">总投资金额</td>
-                            <td class="number-text">累计完成投资</td>
+                            <td class="number-text title">总投资金额</td>
+                            <td class="number-text title">累计完成投资</td>
                         </tr>
                         <tr>
                             <td class="item-name">核能开发</td>
                             <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="progress_hnkf">
-                                    <div class="layui-progress-bar layui-bg-orange" lay-percent="10037/20098"></div>
+                                <div class="layui-progress layui-progress-big layui-bg-one" lay-filter="progress_hnkf">
+                                    <div class="layui-progress-bar" lay-percent="10037/20098"></div>
                                 </div>
                             </td>
-                            <td class="number-text">10037</td>
-                            <td class="number-text">20098</td>
+                            <td class="number-text value">10037</td>
+                            <td class="number-text totale">20098</td>
                         </tr>
                         <tr>
                             <td class="item-name">集中研发</td>
                             <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="progress_jzyf">
-                                    <div class="layui-progress-bar layui-bg-blue" lay-percent="5000/7080"></div>
+                                <div class="layui-progress layui-progress-big layui-bg-two" lay-filter="progress_jzyf">
+                                    <div class="layui-progress-bar" lay-percent="5000/7080"></div>
                                 </div>
                             </td>
-                            <td class="number-text">5000</td>
-                            <td class="number-text">7080</td>
+                            <td class="number-text value">5000</td>
+                            <td class="number-text totale">7080</td>
                         </tr>
                         <tr>
                             <td class="item-name">国防基础</td>
                             <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="progress_gfjc">
-                                    <div class="layui-progress-bar layui-bg-red" lay-percent="1007/3980"></div>
+                                <div class="layui-progress layui-progress-big layui-bg-three" lay-filter="progress_gfjc">
+                                    <div class="layui-progress-bar" lay-percent="1007/3980"></div>
                                 </div>
                             </td>
-                            <td class="number-text">1007</td>
-                            <td class="number-text">3980</td>
+                            <td class="number-text value">1007</td>
+                            <td class="number-text totale">3980</td>
                         </tr>
                         <tr>
                             <td class="item-name">国防技术基础</td>
                             <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="progress_gfjsjc">
+                                <div class="layui-progress layui-progress-big layui-bg-four" lay-filter="progress_gfjsjc">
                                     <div class="layui-progress-bar" lay-percent="1007/9980"></div>
                                 </div>
                             </td>
-                            <td class="number-text">907</td>
-                            <td class="number-text">2980</td>
+                            <td class="number-text value">907</td>
+                            <td class="number-text totale">2980</td>
                         </tr>
                     </tbody>
                 </table>
@@ -250,13 +253,6 @@
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/chartOption.js"></script>
 <script src="/jsc_web/common/js/main.js"></script>
-<script>
-    // loadSeconSelect();
-    layui.use(['form', 'element'], function () {
-        var element = layui.element;
-        // element.progress('progressDemo', '50%');
-    })
-</script>
 </body>
 
 </html>
