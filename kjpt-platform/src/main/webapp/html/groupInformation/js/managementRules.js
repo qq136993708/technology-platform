@@ -35,7 +35,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     {field: 'methodName', title: tipTitle+'名称', templet: function(d) {
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.methodName+'</a>';
     }},
-    {field: 'publication', title:'发布处室'},
+    // {field: 'publication', title:'发布处室'},
+    {field: 'publishUser', title:'发布人'},
+    {field: 'readRangeText', title:'阅读范围'},
     {field: 'edition', title:'版次'},
     {field: 'publishDate', title: '发布日期',sort:true,templet: function(d){
       var times = new Date(d.publishDate);
