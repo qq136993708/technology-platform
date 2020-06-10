@@ -121,7 +121,7 @@
                 <a class="layui-btn border-blue"  data-type="importData" filter="addFile" button-role="import">导入</a>
             </div>
 
-            <a href="" class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
+            <a href="/expert-api/exput_excel" class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
         </div>
     </div>
     <table id="expertTable" lay-filter="expertTable"></table>
@@ -238,7 +238,7 @@
         });
         importFiles({
             id:'#importData',
-            url:'/expert-api/input_excel',
+            url:'/excelImport/zjk_base_impl',
             callback: function (result) {
                 if(result.code=="0") {
                     layer.msg('数据导入成功!', {icon: 1});
@@ -262,7 +262,7 @@
             queryData:function () {
                 /*查询*/
                 obj.tableList($("#name").val());
-                $("#exportData").attr("href","/excelImport/zjk_base_impl?name="+$("#name").val())
+                $("#exportData").attr("href","/expert-api/exput_excel?name="+$("#name").val())
             },
             reset:function () {
                 /*重置*/

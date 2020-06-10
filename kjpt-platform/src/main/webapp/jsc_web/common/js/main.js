@@ -35,8 +35,8 @@ layui.use(['element'], function () {
         callback:function(param){
             param.on('click',function(){
                 var openUrl={
-                    url:'/kjpt/achieve/identify/achieve_identify_plan_list.html',
-                    name:'成果鉴定'
+                    url:'/jsc_web/front/kynl_page.html',
+                    name:'科研能力'
                 }
                 window.open('/index', 'kjpt_webapp');
                 localStorage.setItem("url", JSON.stringify(openUrl));

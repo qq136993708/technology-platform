@@ -363,6 +363,8 @@
 							unitSelectTree.refresh();	
 						} */
 					});
+					//根据机构从新初始化岗位
+					initPostData(unitTreeData);
 					var dataScopeUnitIdTreeData=[];
 					$.each(dataScopeUnitArray,function(i,dt){
 						if(disUnit[dataScopeUnitArray[i]]){
@@ -379,7 +381,6 @@
 
 					//根据机构从新初始化岗位
 					initPostData(dataScopeUnitIdTreeData);
-					
 					$.each(postArray,function(i,dt){
 						if(postMap[postArray[i]]){
 							postText += ","+postMap[postArray[i]].postName;
