@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">发布处室：</span></label>
           <div class="layui-input-block">
@@ -63,9 +63,18 @@
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
+      </div> -->
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">发布人：</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="publishUser" lay-verify="required"
+              placeholder="请填写..." autocomplete="off" class="layui-input" disabled>
+          </div>
+        </div>
       </div>
 
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+      <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">年度/月度：</span></label>
           <div class="layui-input-block">
@@ -73,15 +82,23 @@
               placeholder="请填写..." autocomplete="off" class="laydate-input">
           </div>
         </div>
-      </div>
+      </div> -->
       
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">发布日期：</span></label>
           <div class="layui-input-block">
-            <div class="layui-input-inline">
+            <!-- <div class="layui-input-inline"> -->
               <input type="text" name="pubdate" id="releaseTimes" autocomplete="off" class="laydate-input">
-            </div>
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">阅读范围:</span></label>
+          <div class="layui-input-block">
+               <select name="readRange"  xm-select-search="" dic-base-data="ROOT_KJPT_YTDW" xm-select="readRange" lay-verify="required" xm-select-skin="normal"></select>
           </div>
         </div>
       </div>

@@ -197,7 +197,7 @@
 </form>
 </div>
 <script type="text/javascript">
-	var zNodes,form,roleMap={},unitMap={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
+	var zNodes,form,roleMap={},unitMap={},disUnit={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
 	var unitList = [],postList = [];
 	var userId = "${userId?default(0)}";
 
@@ -332,11 +332,12 @@
 				//加载用户信息
 				publicMethods.ajaxPost('/user/get-user', {"userId":userId}, function (data, status) {
 					//回显角色、机构、岗位
-					var roleText=unitText=postText= "";
+					var roleText=unitText=postText=dataScopeUnitIdText= "";
 					var roleArray = data.userRole==null?[]:data.userRole.split(",");
 					var unitArray = data.userUnit==null?[]:data.userUnit.split(",");
-					var unitArray = data.dataScopeUnitId==null?[]:data.dataScopeUnitId.split(",");
+					var dataScopeUnitArray = data.dataScopeUnitId==null?[]:data.dataScopeUnitId.split(",");
 					var postArray = data.userPost==null?[]:data.userPost.split(",");
+
 					$.each(roleArray,function(i,dt){
 						if(roleMap[roleArray[i]]){
 							roleText += ","+roleMap[roleArray[i]].roleName;
@@ -347,6 +348,7 @@
 							roleSelectTree.refresh();	
 						}
 					});
+
 					//机构树
 					var unitTreeData=[];
 					$.each(unitArray,function(i,dt){
@@ -361,8 +363,22 @@
 							unitSelectTree.refresh();	
 						} */
 					});
+					var dataScopeUnitIdTreeData=[];
+					$.each(dataScopeUnitArray,function(i,dt){
+						if(disUnit[dataScopeUnitArray[i]]){
+							dataScopeUnitIdText += ","+disUnit[dataScopeUnitArray[i]].unitName;
+							unitList.push(dataScopeUnitArray[i]);
+							dataScopeUnitIdTreeData.push(new zTreeNode(disUnit[dataScopeUnitArray[i]].unitId,0,disUnit[dataScopeUnitArray[i]].unitName));
+						}
+						/* var node = unitSelectTree.getNodeByParam("id",unitArray[i]);
+						if(node){
+							unitSelectTree.checkNode(node,true,false);
+							unitSelectTree.refresh();	
+						} */
+					});
+
 					//根据机构从新初始化岗位
-					initPostData(unitTreeData);
+					initPostData(dataScopeUnitIdTreeData);
 					
 					$.each(postArray,function(i,dt){
 						if(postMap[postArray[i]]){
@@ -383,7 +399,8 @@
 	        		$("#userPostShow").attr("title",postText.length>0?postText.substring(1):"");
 	        		$("#userPostShow").attr("value",postText.length>0?postText.substring(1):"");
 	        		form.val("user-form",data);
-	        		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
+							$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
+							$("#dataScopeUnitId").val(dataScopeUnitIdText.length>0?dataScopeUnitIdText.substring(1):"");
 	        		
 	        		//头像
 	        		if($("#userHeadPic").val() != null && $("#userHeadPic").val() != ""){
