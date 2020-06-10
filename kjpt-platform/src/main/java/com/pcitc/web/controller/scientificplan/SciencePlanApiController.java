@@ -346,7 +346,8 @@ public class SciencePlanApiController extends RestBaseController {
                     obj.setCreateUnitId(sysUserInfo.getUnitId());
                    // obj.setAuthenticateUtil(getAuthenticateUtilByName(String.valueOf(col_2)));
 
-                    obj.setAuthenticateUtil(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(2),this.httpHeaders), String.class).getBody());
+                   // obj.setAuthenticateUtil(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(2),this.httpHeaders), String.class).getBody());
+                    obj.setAuthenticateUtil(String.valueOf(col_2));
                     obj.setAuthenticateUitlText(String.valueOf(col_2));
                     obj.setName(String.valueOf(col_1));
 
