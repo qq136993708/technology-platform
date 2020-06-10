@@ -327,8 +327,8 @@ public class ExpertPatentController extends BaseController {
 		this.exportExcel(headers,cols,fileName,list);
 	}
 
-	/*@ApiOperation(value = "根据模板导入专家专利信息（EXCEL）", notes = "根据模板导入专家专利信息（EXCEL）")
-	@RequestMapping(value = "/input_excel", method = RequestMethod.POST)
+	@ApiOperation(value = "根据模板导入专家专利信息（EXCEL）", notes = "根据模板导入专家专利信息（EXCEL）")
+	@RequestMapping(value = "/expertPatent-api/input_excel", method = RequestMethod.POST)
 	public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
 	{
 		Result resultsDate = new Result();
@@ -357,7 +357,7 @@ public class ExpertPatentController extends BaseController {
 				for (int i = IMPORT_HEAD; i < listob.size(); i++)
 				{
 					List<Object> lo = listob.get(i);
-
+					if(lo.size()<4) break;
 					Object col_1 = lo.get(1);   //专利名称
 					Object col_2 = lo.get(2);   //专利类型
 					Object col_3 = lo.get(3);   //申请日期
@@ -377,6 +377,8 @@ public class ExpertPatentController extends BaseController {
 					String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 					obj.setId(dateid);
 					obj.setSecretLevel("0");
+					obj.setDelStatus("0");
+					obj.setCreateTime(new Date());
 					list.add(obj);
 				}
 				ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_PATENT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
@@ -407,6 +409,7 @@ public class ExpertPatentController extends BaseController {
 		for (int i = IMPORT_HEAD; i < listob.size(); i++)
 		{
 			List<Object> lo = listob.get(i);
+			if(lo.size()<4) break;
 			Object col_1 = lo.get(1);   //专利名称
 			Object col_2 = lo.get(2);   //专利类型
 			Object col_3 = lo.get(3);   //申请日期
@@ -494,7 +497,6 @@ public class ExpertPatentController extends BaseController {
 		}
 		return "null";
 	}
-*/
 
 
 }

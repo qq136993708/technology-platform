@@ -62,11 +62,11 @@
 	    #{createTime,jdbcType=TIMESTAMP}, 
 	    #{outSystemId,jdbcType=VARCHAR},
 	    #{flag,jdbcType=VARCHAR}, 
-	    #{secretLevel,jdbcType=VARCHAR}
-       ,#{knowledgeScope,jdbcType=VARCHAR}
-       ,#{knowledgePerson,jdbcType=VARCHAR}
-       ,#{createUser,jdbcType=VARCHAR}
-       ,#{expertNum,jdbcType=VARCHAR}
+	    #{secretLevel,jdbcType=VARCHAR},
+       #{knowledgeScope,jdbcType=VARCHAR},
+       #{knowledgePerson,jdbcType=VARCHAR},
+       #{createUser,jdbcType=VARCHAR},
+       #{expertNum,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">

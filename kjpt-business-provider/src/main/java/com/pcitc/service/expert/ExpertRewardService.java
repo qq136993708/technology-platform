@@ -17,4 +17,6 @@ public interface ExpertRewardService {
      */
     List<ZjkReward> queryNoPage(Map paramMap);
 
+    public void insertBatch(List<ZjkReward> list)throws Exception;
+
 }

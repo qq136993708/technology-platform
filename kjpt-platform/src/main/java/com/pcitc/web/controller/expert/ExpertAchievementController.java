@@ -319,8 +319,8 @@ public class ExpertAchievementController extends BaseController {
 		this.exportExcel(headers,cols,fileName,list);
 	}
 
-	/*@ApiOperation(value = "根据模板导入专家成果信息（EXCEL）", notes = "根据模板导入专家成果信息（EXCEL）")
-	@RequestMapping(value = "/input_excel", method = RequestMethod.POST)
+	@ApiOperation(value = "根据模板导入专家成果信息（EXCEL）", notes = "根据模板导入专家成果信息（EXCEL）")
+	@RequestMapping(value = "/expertAchievement-api/input_excel_achieve", method = RequestMethod.POST)
 	public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
 	{
 		Result resultsDate = new Result();
@@ -349,7 +349,7 @@ public class ExpertAchievementController extends BaseController {
 				for (int i = IMPORT_HEAD; i < listob.size(); i++)
 				{
 					List<Object> lo = listob.get(i);
-
+					if(lo.size()<4) break;
 					Object col_1 = lo.get(1);   //成果信息
 					Object col_2 = lo.get(2);   //申请单位
 					Object col_3 = lo.get(3);   //成果类别
@@ -362,12 +362,14 @@ public class ExpertAchievementController extends BaseController {
 					obj.setExpertId(expertId);
 					obj.setAchieveName(String.valueOf(col_1));
 					obj.setApplyUnitStr(String.valueOf(col_2));
-					obj.setApplyUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
+					obj.setApplyUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(2),this.httpHeaders), String.class).getBody());
                     obj.setAchieveType(getValueFromDictMap(String.valueOf(col_3),ROOT_KJPT_CGLB));
                     obj.setApplyYear(String.valueOf(col_4));
 					String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 					obj.setId(dateid);
 					obj.setSecretLevel("0");
+					obj.setDelStatus("0");
+					obj.setCreateTime(new Date());
 					list.add(obj);
 				}
 				ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_ACHIEVEMENT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
@@ -398,6 +400,7 @@ public class ExpertAchievementController extends BaseController {
 		for (int i = IMPORT_HEAD; i < listob.size(); i++)
 		{
 			List<Object> lo = listob.get(i);
+			if(lo.size()<4) break;
 			Object col_1 = lo.get(1);   //成果信息
 			Object col_2 = lo.get(2);   //申请单位
 			Object col_3 = lo.get(3);   //成果类别
@@ -481,5 +484,4 @@ public class ExpertAchievementController extends BaseController {
 	}
 
 
-*/
 }

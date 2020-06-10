@@ -344,11 +344,19 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     importFiles({
         id:'#export_cg',
-        url:'/expertAchievement-api/input_excel?expertId='+ variable.id,
+        url:'/expertAchievement-api/input_excel_achieve?expertId='+ variable.id,
+        //url:'/expertAchievement-api/input_excel_achieve',
         callback: function (result) {
+
             if(result.code=="0") {
                 layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="formDemo"]').click();
+                var obj={
+                    id:'achievements',
+                    tableName:'achievements',
+                    arr:achievementsArr,
+                    tableUrl:'/expert-achievement-api/page'
+                }
+                tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id);
             }else{
                 layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
             }
@@ -361,7 +369,13 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         callback: function (result) {
             if(result.code=="0") {
                 layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="formDemo"]').click();
+                var obj={
+                    id:'patent',
+                    tableName:'patent',
+                    arr:patentArr,
+                    tableUrl:'/expert-patent-api/page'
+                }
+                tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id);
             }else{
                 layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
             }
@@ -370,11 +384,17 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     importFiles({
         id:'#export_jl',
-        url:'/expertReward-api/export?expertId='+ variable.id,
+        url:'/expertReward-api/input_excel?expertId='+ variable.id,
         callback: function (result) {
             if(result.code=="0") {
                 layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="formDemo"]').click();
+                var obj={
+                    id:'reward',
+                    tableName:'reward',
+                    arr:rewardArr,
+                    tableUrl:'/expert-reward-api/page'
+                }
+                tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id);
             }else{
                 layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
             }

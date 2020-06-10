@@ -96,6 +96,8 @@ public class ExpertRewardController extends BaseController{
 
 	private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
 
+	private static final String ROOT_KJPT_JLJB = "ROOT_KJPT_JLJB";
+
 
 
 
@@ -329,7 +331,7 @@ public class ExpertRewardController extends BaseController{
 	}
 
 	@ApiOperation(value = "根据模板导入专家奖励信息（EXCEL）", notes = "根据模板导入专家奖励信息（EXCEL）")
-	@RequestMapping(value = "/input_excel", method = RequestMethod.POST)
+	@RequestMapping(value = "/expertReward-api/input_excel", method = RequestMethod.POST)
 	public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
 	{
 		Result resultsDate = new Result();
@@ -359,25 +361,32 @@ public class ExpertRewardController extends BaseController{
 				{
 					List<Object> lo = listob.get(i);
 
-					Object col_1 = lo.get(1);   //专利名称
-					Object col_2 = lo.get(2);   //专利类型
-					Object col_3 = lo.get(3);   //申请日期
-					Object col_4 = lo.get(4);   //专利描述
+					if(lo.size()<4) break;
+					Object col_1 = lo.get(1);   //奖励级别
+					Object col_2 = lo.get(2);   //奖励描述
+					Object col_3 = lo.get(3);   //获奖日期
+					Object col_4 = lo.get(4);   //授奖单位
 
 					if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
 
 					//将excel导入数据转换为SciencePlan对象
 					ZjkReward obj = new ZjkReward();
-					/*obj.setExpertId(expertId);
-					obj.setPatentName(String.valueOf(col_1));
-					obj.setPatentType(getValueFromDictMap(String.valueOf(col_2),ROOT_KJPT_ZLZL));
-					//todo:不确认getPatentTime是否是申请日期
-					Date getPatentTime = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
-					obj.setGetPatentTime(getPatentTime);
-					obj.setDescribe(String.valueOf(col_4));*/
+					obj.setExpertId(expertId);
+					obj.setRewarkLevel(getValueFromDictMap(String.valueOf(lo.get(1)),ROOT_KJPT_JLJB));
+					obj.setRewarkLevelStr(String.valueOf(lo.get(1)));
+					obj.setNotes(String.valueOf(lo.get(2)));
+					Date awardTime = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
+					obj.setAwardingTime(awardTime);
+					obj.setAwardingTimeStr(String.valueOf(col_3));
+					//obj.setAwardingUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
+                    obj.setAwardingUnit(String.valueOf(col_4));
+					obj.setAwardingUnitStr(String.valueOf(col_4));
+
 					String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 					obj.setId(dateid);
 					obj.setSecretLevel("0");
+					obj.setDelStatus("0");
+					obj.setCreateTime(new Date());
 					list.add(obj);
 				}
 				ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_REWARD_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
@@ -408,29 +417,30 @@ public class ExpertRewardController extends BaseController{
 		for (int i = IMPORT_HEAD; i < listob.size(); i++)
 		{
 			List<Object> lo = listob.get(i);
-			Object col_1 = lo.get(1);   //专利名称
-			Object col_2 = lo.get(2);   //专利类型
-			Object col_3 = lo.get(3);   //申请日期
-			Object col_4 = lo.get(4);   //专利描述
+			if(lo.size()<4) break;
+			Object col_1 = lo.get(1);   //奖励级别
+			Object col_2 = lo.get(2);   //奖励描述
+			Object col_3 = lo.get(3);   //获奖日期
+			Object col_4 = lo.get(4);   //授奖单位
 			if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
 
 			// 必填项和字典值校验
 			if(checkIfBlank(col_1))
 			{
-				sb.append("第"+(i+2)+"行专利名称为空,");
+				sb.append("第"+(i+2)+"行奖励级别为空,");
+				break;
+			}else if(!checkIfReasonable(String.valueOf(col_1),ROOT_KJPT_JLJB)){
+				sb.append("第"+(i+2)+"行奖励级别取值非法,请参考对应sheet页取值!");
 				break;
 			}
 			if(checkIfBlank(col_2))
 			{
-				sb.append("第"+(i+2)+"行专利类型为空,");
-				break;
-			}else if(!checkIfReasonable(String.valueOf(col_2),ROOT_KJPT_ZLZL)){
-				sb.append("第"+(i+2)+"行专利类型取值非法,请参考对应sheet页取值!");
+				sb.append("第"+(i+2)+"行奖励描述为空,");
 				break;
 			}
 			if(checkIfBlank(col_3))
 			{
-				sb.append("第"+(i+2)+"行申请日期为空,");
+				sb.append("第"+(i+2)+"行授奖单位为空,");
 				break;
 			}
 
