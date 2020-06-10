@@ -3,20 +3,20 @@
     margin: 0;
     box-sizing: border-box;
 }
-html {
-    font-size: 20px;
-}
 html, body {
     height: 100%;
-    width: auto;
+    width: 100%;
     overflow: hidden;
 }
+body { overflow: auto; }
 .main_layout_block {
-    display: block;
     height: 100%;
+    font-size: 0;
+    display: block;
     overflow: hidden;
     white-space: nowrap;
-    font-size: 0;
+    background: url('../../img/header_bottom_bg.png') center top no-repeat;
+    background-size: 110% auto;
 }
 .main_layout_block > .main_cols {
     display: inline-block;
@@ -93,13 +93,19 @@ html, body {
     padding-top: 1rem;
 }
 .progress-layout > table {
-    table-layout: fixed;
     color: #fff;
     font-size: .7rem;
-    height: 100%;
+    max-width: 100%;
+}
+.progress-layout > table > tbody tr td {
+    height: 2rem;
 }
 .progress-layout > table > tbody > tr:first-child td {
-    height: .8rem;
+    height: 1rem;
+}
+.progress-layout td.item-name {
+    white-space: nowrap;
+    text-align: right;
 }
 .progress-layout .progress-bar {
     width: 50%;
@@ -110,10 +116,55 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-weight: bold;
     padding-left: .5rem;
 }
-
+.progress-layout .number-text.title{
+    font-size: 12px;
+}
+.progress-layout .number-text.value {
+    font-family: Impact;
+}
+.progress-layout .number-text.totale {
+    color: rgba(51, 85, 117, 1);
+    font-family: Impact;
+}
+.layui-progress-big,
+.layui-progress-big .layui-progress-bar {
+    border-radius: 9px;
+}
+.layui-progress-big.layui-progress {
+    height: .9rem;
+    border-radius: .45rem;
+}
+.layui-progress-big.layui-progress .layui-progress-bar{
+    height: 100%;
+    border-radius: .45rem;
+    top: 0;
+}
+.layui-progress.layui-bg-one {
+    background: rgba(212, 101, 53, .3);
+}
+.layui-progress.layui-bg-one .layui-progress-bar {
+    background: rgba(212, 101, 53, 1);
+}
+.layui-progress.layui-bg-two {
+    background: rgba(88, 150, 252, .3);
+}
+.layui-progress.layui-bg-two .layui-progress-bar {
+    background: rgba(88, 150, 252, 1);
+}
+.layui-progress.layui-bg-three {
+    background: rgba(158, 222, 211, .3);
+}
+.layui-progress.layui-bg-three .layui-progress-bar {
+    background: rgba(158, 222, 211, 1);
+}
+.layui-progress.layui-bg-four {
+    background: rgba(239, 236, 86, .3);
+}
+.layui-progress.layui-bg-four .layui-progress-bar {
+    background: rgba(239, 236, 86, 1);
+}
 
 .page-layout-title {
     display: block;
@@ -231,3 +282,107 @@ html, body {
 .card_item_list .lightBlue .card-content {
     border-color: #25A9CA;
 }
+
+/* 科研能力页面 start */
+
+.main_layout_block.kynl_layout {
+    background: none;
+}
+.kynl_layout .kynl_row.top {
+    height: 48%;
+}
+.kynl_layout .kynl_row.bottom {
+    height: 52%;
+}
+.kynl_row.top .item-layout {
+    width: 34%;
+    height: 100%;
+    padding-left: 2rem;
+    vertical-align: top;
+    display: inline-block;
+}
+.kynl_row.top .item-layout:last-child {
+    width: 66%;
+    padding-left: 4rem;
+    padding-right: 2rem;
+}
+.kynl_row.bottom .item-layout {
+    padding-left: 2rem;
+    height: 100%;
+    padding-right: 2rem;
+}
+.kynl_kjrc_charts, .kynl_kypt_table, .kynl_dwfb_charts {
+    height: calc(100% - 3rem);
+    margin-top: .5rem;
+}
+.kynl_layout .tab-btn {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    background-color: #4597E1;
+    opacity: .3;
+    color: #fff;
+    text-align: center;
+    min-width: 6rem;
+    cursor: pointer;
+    margin-left: .5rem;
+    transition: opacity .24s ease-out;
+    font-size: .7rem;
+}
+.kynl_layout .tab-btn:hover {
+    opacity: .5;
+}
+.kynl_layout .tab-btn.selected,
+.kynl_layout .tab-btn.selected:hover {
+    opacity: 1;
+}
+.page-layout-title > .tab-btn:first-child {
+    margin-left: 2rem;
+}
+.kynl_layout table.fixed-layout {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid rgba(0, 159, 226, .2);
+    border-width: 1px 1px 0 0;
+}
+.kynl_layout table.fixed-layout th,
+.kynl_layout table.fixed-layout td {
+    border: 1px solid rgba(0, 159, 226, .2);
+    border-width: 0 0 1px 1px;
+    height: 2rem;
+    font-size: .8rem;
+    font-weight: normal;
+    color: #fff;
+    background: none;
+    padding-left: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+.kynl_layout table.fixed-layout th {
+    background: rgba(28, 115, 176, 0.2);
+}
+.kynl_row.top .item-layout:last-child .page-layout-title {
+    margin-left: -0.5rem;
+}
+.kynl_row .kynl_kypt_table {
+    padding-top: 1rem;
+}
+.kynl_kypt_table table.fixed-layout th.kyptName,
+.kynl_kypt_table table.fixed-layout td.kyptName {
+    width: 25%;
+}
+.kynl_kypt_table table.fixed-layout th.nuitName,
+.kynl_kypt_table table.fixed-layout td.nuitName {
+    width: 32%;
+}
+.kynl_kypt_table .table-scroll-layout {
+    height: calc(100% - 3rem);
+    overflow: auto;
+}
+
+/* 科研能力页面 end */
