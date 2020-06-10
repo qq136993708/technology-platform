@@ -392,6 +392,8 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setAge(zjkBase.getAge());
 			oldZjkBase.setExpertType(zjkBase.getExpertType());
 			oldZjkBase.setAchievement(zjkBase.getAchievement());
+			oldZjkBase.setResearchPersonType(zjkBase.getResearchPersonType());
+			oldZjkBase.setResearchWay(zjkBase.getResearchWay());
 			oldZjkBase.setBelongUnit(zjkBase.getBelongUnit());
 			oldZjkBase.setBrief(zjkBase.getBrief());
 			oldZjkBase.setContactWay(zjkBase.getContactWay());

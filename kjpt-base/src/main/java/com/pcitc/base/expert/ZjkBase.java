@@ -181,9 +181,30 @@ public class ZjkBase  {
     private String belongUnitName;
     private String postStr;
     
+    private String researchWay;
+    private String researchPersonType;
     
     
     
+    
+    
+    
+	public String getResearchWay() {
+		return researchWay;
+	}
+
+	public void setResearchWay(String researchWay) {
+		this.researchWay = researchWay;
+	}
+
+	public String getResearchPersonType() {
+		return researchPersonType;
+	}
+
+	public void setResearchPersonType(String researchPersonType) {
+		this.researchPersonType = researchPersonType;
+	}
+
 	public String getPostStr() {
 		return postStr;
 	}
