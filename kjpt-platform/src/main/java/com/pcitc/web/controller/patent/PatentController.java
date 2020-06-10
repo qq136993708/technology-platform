@@ -33,7 +33,7 @@ import java.io.InputStream;
 import java.util.*;
 
 @Api(value = "patent-api", description = "专利接口")
-@Controller
+@RestController
 @RequestMapping("/patentController")
 public class PatentController extends RestBaseController {
 
@@ -591,15 +591,16 @@ public class PatentController extends RestBaseController {
                     obj.setApplicationOfPatentTransformationText(String.valueOf(lo.get(33)));
                     obj.setUnenforcedReason(String.valueOf(lo.get(34)));
                     obj.setLicensee(String.valueOf(lo.get(35)));
-                    if(!checkIfBlank(lo.get(36))){
+                    //todo:需要修改字段类型为Double
+                   /* if(!checkIfBlank(lo.get(36))){
                         String profit  = String.valueOf(lo.get(36));
                         obj.setLicenseeProfit(Long.parseLong(profit));
-                    }
+                    }*/
                     obj.setAssignor(String.valueOf(lo.get(37)));
-                    if(!checkIfBlank(lo.get(38))){
+                    /*if(!checkIfBlank(lo.get(38))){
                         String profit  = String.valueOf(lo.get(38));
                         obj.setAssignProfit(Long.parseLong(profit));
-                    }
+                    }*/
 
                     obj.setCreateUnitId(sysUserInfo.getUnitId());
                     obj.setDeleted("0");
@@ -619,12 +620,13 @@ public class PatentController extends RestBaseController {
                     resultsDate.setSuccess(false);
                     resultsDate.setMessage(back.getMessage());
                 }
-            }/*else{
+            }else{
                 resultsDate.setSuccess(false);
                 resultsDate.setCode("1");
-            }*/
+            }
 
         }
+
         return resultsDate;
     }
 

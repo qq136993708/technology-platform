@@ -173,7 +173,7 @@
         </if>
 
         <if test="userUnitId != null  and userUnitId != ''  ">
-            and FIND_IN_SET(#{createUnitName},read_range)
+            and FIND_IN_SET(#{userUnitId},read_range)
         </if>
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
