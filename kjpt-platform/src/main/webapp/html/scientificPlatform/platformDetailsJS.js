@@ -338,6 +338,34 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     });
   })
 
+    //导入领军人物
+    importFiles({
+        id:'#importLeader',
+        url:'/researchPlatformLeader-api/input_excel?pid=' + variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="leadingFigure"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+    //导入论文
+    importFiles({
+        id:'#importTreasis',
+        url:'/platformTreatise-api/input_excel?pid=' + variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="tablePaper"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
   // 导出
   $('.importData').click(function() {
     var importUrl = '';
