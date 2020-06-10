@@ -162,8 +162,11 @@ public class BlocScientificPlanController extends RestBaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public BlocScientificPlan save(@RequestBody BlocScientificPlan bsp) {
+        SysUser sysUserInfo = this.getUserProfile();
         this.setBaseData(bsp);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        bsp.setReadRange(bsp.getReadRange()+","+sysUserInfo.getUnitId());
+        bsp.setReadRangeText(bsp.getReadRangeText()+","+sysUserInfo.getUnitName());
         ResponseEntity<BlocScientificPlan> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<BlocScientificPlan>(bsp, this.httpHeaders), BlocScientificPlan.class);
         return responseEntity.getBody();
     }
