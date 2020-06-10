@@ -1,0 +1,233 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html {
+    font-size: 20px;
+}
+html, body {
+    height: 100%;
+    width: auto;
+    overflow: hidden;
+}
+.main_layout_block {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
+}
+.main_layout_block > .main_cols {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    white-space: normal;
+    padding-top: 2rem;
+}
+.main_layout_block > .main_cols.left {
+    width: 31%;
+    padding-left: 2rem;
+}
+.main_layout_block > .main_cols.center {
+    width: 32%;
+    padding-left: .5rem;
+}
+.main_layout_block > .main_cols.right {
+    width: 37%;
+    padding-left: 4rem;
+    padding-right: 2rem;
+}
+.main_cols.left .item-layout{
+   height: 32%; 
+}
+.main_cols.left .item-layout:first-child {
+    height: 34%;
+}
+.main_cols .page-layout-title{
+    margin-left: -1rem;
+}
+.kypt_charts, .achieve_charts{
+    height: calc(100% - 3rem);
+    margin-right: 1rem;
+    max-width: 22rem;
+}
+.patent_charts, .progress-layout{
+    height: calc(100% - 3rem);
+}
+.kyxm_charts{
+    margin-top: .4rem;
+    height: calc(100% - 3rem);
+}
+
+.kypt_charts .pie-legend-list .legend-item > .lenend-item-name,
+.achieve_charts .pie-legend-list .legend-item > .lenend-item-name {
+    min-width: 100px;
+}
+.pie-legend-list > .ib-block {
+    padding-top: .6rem;
+}
+
+.main_cols.center .item-layout.top{
+    height: 34%;
+    padding-left: 1rem;
+}
+.main_cols.right .item-layout.top {
+    height: 40%;
+    padding-left: 1rem;
+}
+.main_cols.center .item-layout.middle{
+    height: 40%;
+    padding-left: 1rem;
+}
+.main_cols.right .item-layout.middle {
+    height: 34%;
+    padding-left: 1rem;
+}
+.main_cols.center .item-layout.bottom,
+.main_cols.right .item-layout.bottom {
+    height: 26%;
+    padding-left: 1rem;
+}
+.main_cols.center .card_item_list {
+    padding-top: 1rem;
+}
+.progress-layout > table {
+    table-layout: fixed;
+    color: #fff;
+    font-size: .7rem;
+    height: 100%;
+}
+.progress-layout > table > tbody > tr:first-child td {
+    height: .8rem;
+}
+.progress-layout .progress-bar {
+    width: 50%;
+    padding: 0 .6rem;
+}
+.progress-layout .number-text{
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+    padding-left: .5rem;
+}
+
+
+.page-layout-title {
+    display: block;
+}
+.page-layout-title > .text {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: .8rem;
+    font-weight: bold;
+    color: #3db3f9;
+    min-width: 120px;
+    height: 2.2rem;
+    line-height: 1.8rem;
+    padding: .2rem 0 .2rem 1.2rem;
+    background: url(../img/title_bg.png) no-repeat left center;
+    background-size: auto 112%;
+}
+.number_item_list {
+    font-size: 0;
+    padding-top: .8rem;
+}
+
+.number_item_list .item_number {
+    display: inline-block;
+    vertical-align: top;
+    width: 33.33%;
+    color: #fff;
+    padding-top: .5rem;
+    padding-bottom: .8rem;
+}
+.number_item_list .item_number .number {
+    font-size: 2rem;
+    line-height: 1.8rem;
+    height: 1.8rem;
+    display: inline-block;
+    vertical-align: bottom;
+    font-family: Impact;
+}
+.number_item_list .item_number .unit{
+    font-size: .7rem;
+    line-height: .7rem;
+    height: .7rem;
+    display: inline-block;
+    vertical-align: bottom;
+    padding-left: 4px;
+}
+.number_item_list .item_name_text{
+    padding-top: .5rem;
+    font-size: .7rem;
+    line-height: .8rem;
+    height: 1.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card_item_list {
+    overflow: hidden;
+}
+.card_item_list .card-row {
+    margin: 0  -0.4rem;
+    white-space: nowrap;
+}
+.card_item_list .card-item {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 .4rem;
+    width: 25%;
+    height: 8.4rem;
+}
+.card_item_list .card-item .card-title {
+    background-color: #0084ff;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: bold;
+    text-align: center;
+    height: 1.8rem;
+    line-height: 1.8rem;
+}
+.card_item_list .card-item .card-content {
+    text-align: center;
+    border: 1px #0084ff solid;
+    border-top-width: 0;
+    height: calc(100% - 1.8rem);
+}
+.card_item_list .card-item .card-number-text {
+    font-size: 2rem;
+    line-height: 1.8rem;
+    height: 1.8rem;
+    font-family: Impact;
+}
+.card_item_list .card-item .cart-number-unit{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: .5rem;
+    padding: .3rem .5rem 0;
+    border-top: 1px #fff solid;
+    font-size: .7rem;
+}
+.card_item_list .orange .card-title {
+    background-color: #D89339;
+}
+.card_item_list .orange .card-content {
+    border-color: #D89339;
+}
+.card_item_list .green .card-title {
+    background-color: #31AB09;
+}
+.card_item_list .green .card-content {
+    border-color: #31AB09;
+}
+.card_item_list .lightBlue .card-title {
+    background-color: #25A9CA;
+}
+.card_item_list .lightBlue .card-content {
+    border-color: #25A9CA;
+}

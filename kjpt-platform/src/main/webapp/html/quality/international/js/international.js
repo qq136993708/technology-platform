@@ -257,7 +257,7 @@ $('#exportData').click(function() {
   for (var key in searchData) {
     exportUrl += '&' + key + '=' + searchData[key];
   }
-  exportUrl = '/internationalStandardMaintain--api/export?' + exportUrl.substring(1);
+  exportUrl = '/internationalStandardMaintain-api/export?' + exportUrl.substring(1);
   window.open(exportUrl, '_blank');
 })
 

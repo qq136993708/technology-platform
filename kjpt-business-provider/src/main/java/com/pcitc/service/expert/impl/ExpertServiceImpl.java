@@ -23,6 +23,7 @@ import com.pcitc.base.expert.ZjkPatentSync;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
 import com.pcitc.base.expert.ZjkRewardPunish;
+import com.pcitc.base.expert.ZjkRewardPunishSync;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.util.DateUtil;
@@ -455,6 +456,7 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBase.setBrief(outPerson.getBirthYear());
 				zjkBase.setEducation(outPerson.getEducation());
 				zjkBase.setBelongUnit(outPerson.getBelongUnitId());
+				zjkBase.setBelongUnitName(outPerson.getBelongUnitName());
 				zjkBase.setTechnicalField(outPerson.getTechType());
 				zjkBase.setTechnicalFieldName(outPerson.getTechTypeName());
 				zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
@@ -469,6 +471,7 @@ public class ExpertServiceImpl implements IExpertService {
 				outPerson.setIsExpert("1");
 				outPersonMapper.updateByPrimaryKey(outPerson);
 				
+				//同步相关专利
 				Map mapv=new HashMap();
 				mapv.put("expertNum", outPerson.getUserNo());
 				List<ZjkPatentSync> list=zjkPatentSyncMapper.getList(mapv);
@@ -494,8 +497,62 @@ public class ExpertServiceImpl implements IExpertService {
 				
 				
 				
-			
+				//同步相关奖惩
+				Map mapt=new HashMap();
+				mapt.put("expertNum", outPerson.getUserNo());
+				List<ZjkRewardPunishSync> list2=zjkRewardPunishSyncMapper.getList(mapt);
+				if(list2!=null)
+				{
+					for(int j=0;j<list2.size();j++)
+					{
+						ZjkRewardPunishSync sync=list2.get(j);
+						ZjkRewardPunish punish=new ZjkRewardPunish();
+						punish.setExpertId(dateid);
+						punish.setExpertNum(outPerson.getUserNo());
+						punish.setCreateTime(new Date());
+						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
+						punish.setId(dateidv);
+						punish.setNotes(sync.getNotes());
+						punish.setApproveDate(sync.getApproveDate());
+						punish.setTitle(sync.getTitle());
+						punish.setRewardType(sync.getRewardType());
+						punish.setRewardPunishType(sync.getRewardPunishType());
+						punish.setRewardPunishLevel(sync.getRewardPunishLevel());
+						punish.setApproveUnit(sync.getApproveUnit());
+						punish.setRewardPunishLevelCode(sync.getRewardPunishLevelCode());
+						punish.setRewardPunishTypeCode(sync.getRewardPunishTypeCode());
+						punish.setRewardTypeCode(sync.getRewardTypeCode());
+						zjkRewardPunishMapper.insert(punish);
+					}
+				}
 				
+				
+				
+				
+				//同步相关奖惩
+				Map maptt=new HashMap();
+				maptt.put("expertNum", outPerson.getUserNo());
+				List<ZjkRewardPunishSync> list3=zjkRewardPunishSyncMapper.getList(maptt);
+				if(list3!=null)
+				{
+					for(int j=0;j<list3.size();j++)
+					{
+						ZjkRewardPunishSync sync=list3.get(j);
+						ZjkReward reward=new ZjkReward();
+						reward.setExpertId(dateid);
+						reward.setCreateTime(new Date());
+						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
+						reward.setId(dateidv);
+						String notes=sync.getTitle()+" ,"+sync.getRewardType()+","+sync.getRewardPunishLevel()+" "+sync.getNotes();
+						reward.setNotes(notes);
+						reward.setAwardingTime(sync.getApproveDate());
+						reward.setAwardingUnit(sync.getApproveUnit());
+						String rewarkLevelName=sync.getRewardPunishLevel();
+						reward.setRewarkLevel(getRewarkLevelByName(rewarkLevelName));
+						reward.setRewarkLevelStr(rewarkLevelName);
+						zjkRewardMapper.insert(reward);
+					}
+				}
 				
 				count=1;
 			}
@@ -503,7 +560,40 @@ public class ExpertServiceImpl implements IExpertService {
 	    return count;
 	}
 	
-	
+	public static String getRewarkLevelByName(String name)throws Exception
+	{
+		String resault="";
+		if(name!=null)
+		{
+			if(name.contains("集团级"))
+			{
+				resault="01";
+			}
+			if(name.contains("板块级"))
+			{
+				resault="02";
+			}
+			if(name.contains("区县级"))
+			{
+				resault="03";
+			}
+			if(name.contains("国际级"))
+			{
+				resault="04";
+			}
+			if(name.contains("其他"))
+			{
+				resault="05";
+			}
+			if(name.contains("省部级"))
+			{
+				resault="06";
+			}
+			
+			
+		}
+		return resault;
+	}
 	
 	
 	/**

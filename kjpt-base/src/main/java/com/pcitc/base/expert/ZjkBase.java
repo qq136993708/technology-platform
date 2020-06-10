@@ -178,10 +178,28 @@ public class ZjkBase  {
     private Date birthDate;
     
     private String birthDateStr;
+    private String belongUnitName;
+    private String postStr;
     
     
     
     
+	public String getPostStr() {
+		return postStr;
+	}
+
+	public void setPostStr(String postStr) {
+		this.postStr = postStr;
+	}
+
+	public String getBelongUnitName() {
+		return belongUnitName;
+	}
+
+	public void setBelongUnitName(String belongUnitName) {
+		this.belongUnitName = belongUnitName;
+	}
+
 	public String getBirthDateStr() {
 		return birthDateStr;
 	}
