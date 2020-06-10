@@ -243,7 +243,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">驰名商标：</span></label>
             <div class="layui-input-block">
-              <select name="isWellKnown" lay-filter="isWellKnown" select="isWellKnown"  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
+              <select name="isWellKnown" lay-verify="required" lay-filter="isWellKnown" select="isWellKnown"  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -273,7 +273,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">著名商标：</span></label>
             <div class="layui-input-block">
-              <select name="isRegistered" select="isRegistered" lay-filter="isRegistered"  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
+              <select name="isRegistered" lay-verify="required" select="isRegistered" lay-filter="isRegistered"  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -432,6 +432,7 @@
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
               data.isRegistered == '0'? $('#isRegisteredBox').attr("class",'') : $('#isRegisteredBox').attr('class','layui-hide');
+              
             }
             if(data.tradeMarkType){
               formSelects.value('tradeMarkType', data.tradeMarkType.split(','));
@@ -547,12 +548,23 @@
     });
     form.on('select(isWellKnown)', function(data){
         data.value == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
-        // if(data.value == '0'){
-          
-        // }
+        if(data.value == '0'){
+        $('#wellKnownDateBox').find('label').addClass('label-required') 
+        $('#wellKnownDateBox').find('input').attr('ay-verify','required')
+      }else{
+        $('#wellKnownDateBox').find('label').removeClass('label-required')
+        $('#wellKnownDateBox').find('input').attr('ay-verify','')
+      }
       });
     form.on('select(isRegistered)', function(data){
-        data.value == '0'? $('#isRegisteredBox').attr("class",'')  : $('#isRegisteredBox').attr('class','layui-hide');
+      data.value == '0'? $('#isRegisteredBox').attr("class",'')  : $('#isRegisteredBox').attr('class','layui-hide');
+      if(data.value == '0'){
+        $('#isRegisteredBox').find('label').addClass('label-required') 
+        $('#isRegisteredBox').find('input').attr('ay-verify','required')
+      }else{
+        $('#isRegisteredBox').find('label').removeClass('label-required')
+        $('#isRegisteredBox').find('input').attr('ay-verify','')
+      }
       });
     //新增多个申请人
     $("body").on("click",".add-more-item-btn", addItem);

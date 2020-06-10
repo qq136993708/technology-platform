@@ -313,6 +313,7 @@ $('#exportData').click(function() {
     patentType: formValue.patentType || '', // 专利类型：
     lawStatus: formValue.lawStatus || '', // 法律状态
     applicationNumber: formValue.applicationNumber || '', // 专利号：
+    type:'2'
   },
   exportUrl = '';
 

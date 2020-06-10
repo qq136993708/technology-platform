@@ -42,6 +42,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {title: '序号',templet: '#xuhao', align: 'center'},
     {field: 'standardNum',title: '标准号',align: 'center'},
     {field: 'planEnglishName',title: '英文名称',align: 'center'},
+    {field: 'standardTypeText',title: '标准类型',align: 'center'},
     {field: 'publishDate',title: '发布时间',align: 'center',
       templet:function (d) {
         if(d.publishDate !=null){
@@ -51,10 +52,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         }
         }
     },
-    {field: 'terminationDate',title: '实施时间',align: 'center',
+    {field: 'effectiveDate',title: '实施时间',align: 'center',
       templet:function (d) {
-        if(d.terminationDate != null){
-          return  new Date(d.terminationDate).format('yyyy-MM-dd')
+        if(d.effectiveDate != null){
+          return  new Date(d.effectiveDate).format('yyyy-MM-dd')
         }else{
           return '-';
         }
@@ -71,7 +72,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'putUnderUnitText',title: '归口单位',align: 'center',},
     {field: 'consultStandard',title: '参照标准',align: 'center',},
     {field: 'uniformityDegree',title: '一致性程度',align: 'center',},
-    {field: 'toReplacedStandard',title: '被代替标准',align: 'center',},
+    {field: 'replaceStandard',title: '被代替标准',align: 'center',},
   ]
   var curCol = null;
   //1 :否 0 是

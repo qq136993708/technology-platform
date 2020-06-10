@@ -227,7 +227,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#viewItem').on('click', function (e) {
     var itemRowData = table.checkStatus('tableDemo').data;
     if (itemRowData && itemRowData.length == 1) {
-      openDataDilog('view', itemRowData.id);
+      openDataDilog('view', itemRowData[0].id);
     } else {
       layer.msg('请选择需要查看的专利项目！');
     }

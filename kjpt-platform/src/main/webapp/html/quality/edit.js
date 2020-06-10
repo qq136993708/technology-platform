@@ -121,6 +121,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
 	form.on('submit(newSubmit)', function(data) {
     params = data.field
+    debugger
     delete(params.file)
 		httpModule({
 			url: '/standardMaintain-api/save',
