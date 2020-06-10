@@ -146,15 +146,21 @@
                             {field: 'name', title: '姓名' ,templet: function(d){
                                 return ('<a href="./expert_view_out.html?id='+d.id+'&no='+d.userNo+'" class="layui-table-link">'+d.name+'</a>')
                             } },
-                            {field: 'isExpert', title: '是否专家',templet: function(d){
-                                    if(d.isExpert==0){return "否"}else {return "是"}
-                                }},
-                            {field: 'sexStr', title: '性别'},
-                            {field: 'age', title: '年龄'},
-                            {field: 'educationStr', title: '学历' },
-                            {field: 'titleStr', title: '职务'},
                             {field: 'belongUnitName', title: '所在单位'},
-                            {field: 'techTypeName', title: '技术领域'},
+                            {field: '', title: '出生日期'},
+                            {field: '', title: '职称'},
+                            {field: 'titleStr', title: '职务'},
+                            {field: '', title: '研究方向'},
+                            {field: '', title: '手机号'},
+                            // {field: 'isExpert', title: '是否专家',templet: function(d){
+                            //         if(d.isExpert==0){return "否"}else {return "是"}
+                            //     }},
+                            // {field: 'sexStr', title: '性别'},
+                            // {field: 'age', title: '年龄'},
+                            // {field: 'educationStr', title: '学历' },
+                            
+                           
+                            // {field: 'techTypeName', title: '技术领域'},
                         ]],
                         method: 'get', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
                         where: where
