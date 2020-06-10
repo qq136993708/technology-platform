@@ -234,13 +234,14 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	
 	// 提交项目
 	$('#projectSubmit').on('click', function(e) {
-		var $submitBtn = $(this),
-		submitIndex = layer.load(2);
-		$submitBtn.prop('disabled', true);
+		var $submitBtn = $(this);
+		// submitIndex = layer.load(2);
+		// $submitBtn.prop('disabled', true);
 
 		if (submitType === 'input') {
 			$('#InputSubmit').trigger('click');
 		} else if (submitType === 'unInput') {
+			
 			var tableCheckedData = table.checkStatus('unInputTable').data,
 			saveData = false;
 			if (!tableCheckedData.length) {

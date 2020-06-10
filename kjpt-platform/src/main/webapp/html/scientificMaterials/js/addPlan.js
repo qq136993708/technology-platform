@@ -73,9 +73,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         if (formData.researchField) {
           formSelects.value('researchField', formData.researchField.split(','));
         }
-        if (formData.readRange) {
-          formSelects.value('readRange', formData.readRange.split(','));
-        }
+        
 
         var scopeDisabled = false;
         if (variable.type === 'see') {
@@ -125,8 +123,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
   form.on('submit(formAddPlanBtn)', function(data) {
     var technicalVal = formSelects.value('researchField');
     var technicalStr = '';
-    var readRangeVal = formSelects.value('researchField');//阅读范围
-    var readRangeStr = '';
+    
     if(technicalVal.length != 0){
         var resultArr = technicalVal.map(function(item,index){
             return item.name
@@ -134,13 +131,6 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         technicalStr = resultArr.join(',');
         data.field.technicalFieldName = technicalStr
     }
-    if(readRangeVal.length != 0){
-      var resultArr = readRangeVal.map(function(item,index){
-          return item.name
-      })
-      readRangeStr = resultArr.join(',');
-      data.field.readRangeText = readRangeStr
-  }
 
     var saveData = data.field;
     console.log('saveData',saveData);

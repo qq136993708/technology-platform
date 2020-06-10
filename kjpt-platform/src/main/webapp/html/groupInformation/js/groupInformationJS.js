@@ -59,15 +59,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       // return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>';
     }}, // authenticateUitlText
-    {field: 'publication', title:'发布处室'},
+    {field: 'publishUser', title:'发布人'},
+    {field: 'readRangeText', title:'阅读范围'},
     {field: 'pubdate', title: '发布日期', sort: true, templet: function(d){
       var times = new Date(d.pubdate);
        return times.getFullYear() + '-' + (times.getMonth()+1) + '-' +times.getDate();
     }},
-    {field: 'annual', title: '年度/月度', sort: true, templet: function(d){
-       var times = new Date(d.annual);
-       return times.getFullYear() + '-' + (times.getMonth()+1);
-    }}
+    // {field: 'annual', title: '年度/月度', sort: true, templet: function(d){
+    //    var times = new Date(d.annual);
+    //    return times.getFullYear() + '-' + (times.getMonth()+1);
+    // }}
     ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
     
   ]
