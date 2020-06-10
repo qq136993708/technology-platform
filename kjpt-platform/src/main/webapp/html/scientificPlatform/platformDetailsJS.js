@@ -372,27 +372,33 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     switch ($(this).data('item')+'') {
       case '1':
         // 项目
-        importUrl =  '/platformProject-api/export?platformId='+ variable.id;
+        // importUrl =  '/platformProject-api/export?platformId='+ variable.id;
+        importUrl =  '/excelImport/kyptImp?pid=' + variable.id;
         break;
       case '2':
         // 领军人物
-        importUrl =  '/researchPlatformLeader-api/export?platformId='+ variable.id;
+        // importUrl =  '/researchPlatformLeader-api/export?platformId='+ variable.id;
+        importUrl =  '/excelImport/kyptLeaderImp?pid=' + variable.id;
         break;
       case '3':
         // 论文
-        importUrl =  '/platformTreatise-api/export?platformId='+ variable.id;
+        // importUrl =  '/platformTreatise-api/export?platformId='+ variable.id;
+        importUrl =  '/excelImport/kyptTreatiseImp?pid=' + variable.id;
         break;
       case '4':
         // 成员
-        importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id;
+        // importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id;
+        importUrl =  '/excelImport/kyptMemberImp?pid=' + variable.id;
         break;
       case '5':
         // 成果
-        importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
+        // importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
+        importUrl =  '/excelImport/kyptAchievementImp?pid=' + variable.id;
         break;
       case '6':
         // 专利
-        importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
+        // importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
+        importUrl =  '/excelImport/kyptPatentImp?pid=' + variable.id;
         break;
     }
     window.open(importUrl, '_blank');
