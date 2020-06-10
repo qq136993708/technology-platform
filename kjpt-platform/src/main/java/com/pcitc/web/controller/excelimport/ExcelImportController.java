@@ -42,7 +42,7 @@ public class ExcelImportController extends BaseController {
            if(fileName.contains("xml")){
                dataList = new ImportExcelUtil().generateData(in);
            }else{
-               dataList = new ImportExcelUtil().getBankListByExcel(in, impExcel.getOriginalFilename());
+               dataList = new ImportExcelUtil().getListByExcel(in, impExcel.getOriginalFilename());
            }
            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
            ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
