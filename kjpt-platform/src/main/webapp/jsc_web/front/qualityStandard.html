@@ -37,45 +37,9 @@
         var researchData = null;  //在研数
         var releaseData = null;   //发布数
         var researchrelData = null; //在研发布数
-        function getEchartsData(){
-            //GET /standardMaintainBI-api/getInternalPublishList
-            var year = 2020;
-            //国内累计发布数
-            httpModule({
-                url: '/standardMaintainBI-api/getInternalPublishList?year='+year,
-                type: 'GET',
-                success: function (result) {
-                    if (result.success == true) {
-                        releaseData = result.data;
-                    } else {
-                        releaseData = [];
-                    }
-                },
-            });
-            //国内标准在研数
-            httpModule({
-                url: '/standardMaintainBI-api/getInternalResearchList?year='+year,
-                type: 'GET',
-                success: function (result) {
-                    if (result.success == true) {
-                        researchData = result.data;
-                    } else {
-                        researchData = [];
-                    }
-                },
-            });
-            //国内标准在研，累计发布数
-            httpModule({
-                url: '/standardMaintainBI-api/getInternationalAllList?year='+year,
-                type: 'GET',
-                success: function (result) {
-                    if (result.success == true) {
-                        researchrelData = result.data;
-                    } else {
-                        researchrelData = [];
-                    }
-                },
-            });
+
+
+        function echartsFn1(releaseData){
 
             // 国内标准在研数
             kyptCharts.render({
@@ -133,6 +97,8 @@
                 },
             });
 
+        }
+        function echartsFn2(){
             //国内累计发布数
             kyptCharts.render({
                 id: 'gnbzN_charts2',
@@ -189,6 +155,8 @@
                 },
             });
 
+        }
+        function echartsFn3(){
             //国内标准在研数/国内累计发布数
             kyptCharts.render({
                 id: 'gnbzN_charts3',
@@ -233,7 +201,50 @@
                 },
             });
         }
-
+        function getEchartsData(){
+            //GET /standardMaintainBI-api/getInternalPublishList
+            var year = 2020;
+            //国内累计发布数
+            httpModule({
+                url: '/standardMaintainBI-api/getInternalPublishList?year='+year,
+                type: 'GET',
+                success: function (result) {
+                    debugger
+                    if (result.success == true) {
+                        releaseData = result.data;
+                        echartsFn2(releaseData)
+                    } else {
+                        releaseData = [];
+                    }
+                },
+            });
+            //国内标准在研数
+            httpModule({
+                url: '/standardMaintainBI-api/getInternalResearchList?year='+year,
+                type: 'GET',
+                success: function (result) {
+                    if (result.success == true) {
+                        researchData = result.data;
+                        echartsFn1(releaseData)
+                    } else {
+                        researchData = [];
+                    }
+                },
+            });
+            //国内标准在研，累计发布数
+            httpModule({
+                url: '/standardMaintainBI-api/getInternationalAllList?year='+year,
+                type: 'GET',
+                success: function (result) {
+                    if (result.success == true) {
+                        researchrelData = result.data;
+                        echartsFn3(releaseData)
+                    } else {
+                        researchrelData = [];
+                    }
+                },
+            });
+        }
 
         getEchartsData();
     });
