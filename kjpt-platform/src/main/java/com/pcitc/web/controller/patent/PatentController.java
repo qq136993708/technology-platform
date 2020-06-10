@@ -633,6 +633,7 @@ public class PatentController extends RestBaseController {
                 // 返回结果代码
                 if (statusCode == 200) {
                     resultsDate.setSuccess(true);
+
                     resultsDate.setCode("0");
                 } else {
                     Result back = responseEntity.getBody();
