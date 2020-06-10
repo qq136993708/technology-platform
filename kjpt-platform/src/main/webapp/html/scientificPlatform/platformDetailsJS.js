@@ -381,7 +381,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   })
   //主要成果
   importFiles({
-    id:'#export_tdcy',
+    id:'#export_zycg',
     url:'/excelImport/kyptAchievementImp?pid=' + variable.id,
     callback: function (result) {
         if(result.code=="0") {

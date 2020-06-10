@@ -38,8 +38,18 @@ layui.use(['element'], function () {
                     url:'/jsc_web/front/kynl_page.html',
                     name:'科研能力'
                 }
-                window.open('/index', 'kjpt_webapp');
-                localStorage.setItem("url", JSON.stringify(openUrl));
+                
+                $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
+                $('#top-header-nav .transR' , parent.document).each(function(item){
+                    console.log($(this).attr('href'))
+                    var itemHref = $(this).attr('href');
+                    if(itemHref == 'kynl_page'){
+                        $(this).addClass('btnactive');
+                    }
+                })
+                window.location.href='/jsc_web/front/kynl_page.html';
+                // window.open('/index', 'kjpt_webapp');
+                // localStorage.setItem("url", JSON.stringify(openUrl));
             })
         },
     });
