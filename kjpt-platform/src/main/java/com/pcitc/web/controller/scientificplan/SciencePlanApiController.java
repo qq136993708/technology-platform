@@ -255,8 +255,30 @@ public class SciencePlanApiController extends RestBaseController {
         }
         this.setBaseParam(condition);
 
-        String[] headers = { "创建单位", "技术领域", "专业领域", "专业类别","年度/月度"};
-        String[] cols =    {"createUnitName","researchField","professionalField","specialtyCategory","annual"};
+        String[] headers = null;
+        String[] cols = null;
+        switch (reportType){
+            case "1":
+                  headers = new String[]{"科技规划名称", "申报单位", "技术领域", "年度/月度","发布日期"};
+                  cols = new String[]{"name", "authenticateUtil", "researchFieldText", "annual", "releaseTime"};
+                break;
+            case "2":
+                headers = new String[]{"工作要点名称", "申报单位", "技术领域","发布日期", "年度/月度"};
+                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+                break;
+            case "3":
+                headers = new String[]{"科技进展名称", "申报单位", "技术领域","发布日期", "年度/月度"};
+                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+            case "4":
+                headers = new String[]{"年度总结名称", "申报单位", "技术领域","发布日期", "年度/月度"};
+                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+            case "5":
+                headers = new String[]{"研究报告名称", "申报单位", "技术领域","发布日期", "年度/月度"};
+                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+        }
+
+
+
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), SciencePlan.class);
         String fileName = "科技材料_"+reportType+"明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
