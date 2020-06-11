@@ -34,10 +34,10 @@ layui.use(['element'], function () {
         color: ['#2687FF', '#6BD04A', '#EFEC56', '#D89339', '#D66635'],
         callback:function(param){
             param.on('click',function(){
-                var openUrl={
-                    url:'/jsc_web/front/kynl_page.html',
-                    name:'科研能力'
-                }
+                // var openUrl={
+                //     url:'/jsc_web/front/kynl_page.html',
+                //     name:'科研能力'
+                // }
                 jscPup('kynl_page');
                 // $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
                 // $('#top-header-nav .transR' , parent.document).each(function(item){
