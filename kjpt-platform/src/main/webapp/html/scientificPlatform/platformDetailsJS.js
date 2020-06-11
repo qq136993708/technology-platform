@@ -298,20 +298,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
         top.layer.close(index);
         // 科研项目
-        var deleteUrl = '/platformProject-api/delete/' + delItem[0].id, httpType = 'DELETE';
-        if (activeTab == 2) {
+        var deleteUrl = '/platformProject-api/delete/' + delItem[0].id;
+        var  httpType = 'DELETE';
+        if (activeTab == 1) {
           // 领军人物
           deleteUrl = '/researchPlatformLeader-api/delete/' + delItem[0].id;
-        } else if (activeTab == 3) {
+        } else if (activeTab == 2) {
           // 论文
           deleteUrl = '/platformTreatise-api/delete/' + delItem[0].id;
-        } else if (activeTab == 4) {
+        } else if (activeTab == 3) {
           // 团队成员
           deleteUrl = '/researchPlatformMember-api/delete/' + delItem[0].id;
-        } else if (activeTab == 5) {
+        } else if (activeTab == 4) {
           // 成果
           deleteUrl = '/researchPlatformAchievement-api/delete/' + delItem[0].id;
-        } else if (activeTab == 6) {
+        } else if (activeTab == 5) {
           // 专利
           deleteUrl = '/researchPlatformPatent-api/delete/' + delItem[0].id;
         }
@@ -408,38 +409,31 @@ importFiles({
 
   // 导出
   $('.importData').click(function() {
-    debugger
     var importUrl = '';
     switch ($(this).data('item')+'') {
       case '1':
         // 项目
         importUrl =  '/platformProject-api/export?platformId='+ variable.id;
-        // importUrl =  '/excelImport/kyptImp?pid=' + variable.id;
         break;
       case '2':
         // 领军人物
         importUrl =  '/researchPlatformLeader-api/export?platformId='+ variable.id;
-        // importUrl =  '/excelImport/kyptLeaderImp?pid=' + variable.id;
         break;
       case '3':
         // 论文
         importUrl =  '/platformTreatise-api/export?platformId='+ variable.id;
-        // importUrl =  '/excelImport/kyptTreatiseImp?pid=' + variable.id;
         break;
       case '4':
         // 成员
         importUrl =  '/researchPlatformMember-api/export?platformId='+ variable.id;
-        // importUrl =  '/excelImport/kyptMemberImp?pid=' + variable.id;
         break;
       case '5':
         // 成果
         importUrl =  '/researchPlatformAchievement-api/export?platformId='+ variable.id;
-        // importUrl =  '/excelImport/kyptAchievementImp?pid=' + variable.id;
         break;
       case '6':
         // 专利
         importUrl =  '/researchPlatformPatent-api/export?platformId='+ variable.id;
-        // importUrl =  '/excelImport/kyptPatentImp?pid=' + variable.id;
         break;
     }
     window.open(importUrl, '_blank');

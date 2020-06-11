@@ -344,8 +344,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     importFiles({
         id:'#export_cg',
-        url:'/expertAchievement-api/input_excel_achieve?expertId='+ variable.id,
-        //url:'/expertAchievement-api/input_excel_achieve',
+        // url:'/expertAchievement-api/input_excel_achieve?expertId='+ variable.id,
+        url:'/excelImport/zjxxglAchievementImp?pid=' + variable.id,
         callback: function (result) {
 
             if(result.code=="0") {
@@ -365,7 +365,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     importFiles({
         id:'#export_zl',
-        url:'/expertPatent-api/input_excel?expertId='+ variable.id,
+        // url:'/expertPatent-api/input_excel?expertId='+ variable.id,
+        url:'/excelImport/zjxxglPatentImp?pid=' + variable.id,
         callback: function (result) {
             if(result.code=="0") {
                 layer.msg('数据导入成功!', {icon: 1});
@@ -384,7 +385,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     importFiles({
         id:'#export_jl',
-        url:'/expertReward-api/input_excel?expertId='+ variable.id,
+        url:'/excelImport/zjxxglRewardImp?pid=' + variable.id,
         callback: function (result) {
             if(result.code=="0") {
                 layer.msg('数据导入成功!', {icon: 1});
