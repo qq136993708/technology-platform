@@ -316,7 +316,8 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "类型", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/exportExcel",  method = RequestMethod.GET)
     @ResponseBody
@@ -327,7 +328,8 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) String applicationNumber,
             @RequestParam(required = false) String patentName,
             @RequestParam(required = false) String applicant,
-            @RequestParam(required = false) String inventor
+            @RequestParam(required = false) String inventor,
+            @RequestParam(required = false) String type
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
@@ -348,6 +350,9 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
+        }
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
         }
         if (!StringUtils.isEmpty(applicationNumber)) {
             this.setParam(condition, "applicationNumber", applicationNumber);
