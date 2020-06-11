@@ -427,7 +427,7 @@
               });
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
-            data['unitName']=userInfo.unitName
+            data['unitNameText']=userInfo.unitName
             form.val('formPlatform', data);
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');

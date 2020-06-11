@@ -69,7 +69,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             $('.hide-box').hide();
              
           }
-          data['unitName']=userInfo.unitName;
+          data['unitNameText']=userInfo.unitName;
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
 
