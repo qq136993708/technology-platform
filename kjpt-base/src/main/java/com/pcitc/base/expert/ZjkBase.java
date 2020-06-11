@@ -183,12 +183,21 @@ public class ZjkBase  {
     
     private String researchWay;
     private String researchPersonType;
+    private String researchPersonTypeStr;
     
     
     
     
     
     
+	public String getResearchPersonTypeStr() {
+		return researchPersonTypeStr;
+	}
+
+	public void setResearchPersonTypeStr(String researchPersonTypeStr) {
+		this.researchPersonTypeStr = researchPersonTypeStr;
+	}
+
 	public String getResearchWay() {
 		return researchWay;
 	}

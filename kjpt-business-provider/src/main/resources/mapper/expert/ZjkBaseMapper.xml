@@ -52,6 +52,8 @@
     <result column="post_str"              jdbcType="VARCHAR" property="postStr" />
     <result column="research_way"             jdbcType="VARCHAR" property="researchWay" />
     <result column="research_person_type"     jdbcType="VARCHAR" property="researchPersonType" />
+    <result column="research_person_type_str"     jdbcType="VARCHAR" property="researchPersonTypeStr" />
+    
   </resultMap>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
