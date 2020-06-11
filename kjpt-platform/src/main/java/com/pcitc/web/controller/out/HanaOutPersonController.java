@@ -99,7 +99,7 @@ public class HanaOutPersonController extends BaseController {
 	public static final String getZjkRewardPunishSyncList =  "http://kjpt-zuul/stp-proxy/sync-expert-api/getPunishSSyncList";
 		
   	
-	    @ApiOperation(value = "获取所有专家的基本信息", notes = "获取所有专家的基本信息")
+	    @ApiOperation(value = "获取所有专家的基本信息，相关专利，相关奖惩", notes = "获取所有专家的基本信息，相关专利，相关奖惩")
 		@RequestMapping(value = "/getHanaOutPersonBaseInfoList", method = RequestMethod.GET)
 	    @ResponseBody
 	   	public String getHanaOutPersonBaseInfoList( HttpServletRequest request, HttpServletResponse response) throws Exception

@@ -372,7 +372,7 @@ layui.config({
             });
             return false
         }
-        console.log(formSelects.value('technicalField'))
+        // console.log(formSelects.value('technicalField'))
         if (formSelects.value('technicalField')) {
             var technicalFieldName = '',
                 technicalFieldIndex = '';

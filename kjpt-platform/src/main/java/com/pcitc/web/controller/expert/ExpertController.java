@@ -583,12 +583,6 @@ public class ExpertController extends BaseController {
   	   		
   	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
   	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
-//  	   		paramMap.put("name", name);
-//  	   	    paramMap.put("belongUnit", belongUnit);
-//  	        paramMap.put("useStatus", useStatus);
-//  	        paramMap.put("post", post);
-//  	        paramMap.put("title", title);
-//  	        paramMap.put("technicalField", technicalField);
 
 			paramMap.put("name", name);
 			paramMap.put("delStatus", Constant.DEL_STATUS_NOT);
@@ -626,15 +620,21 @@ public class ExpertController extends BaseController {
   	   				for(int i=0;i<list.size();i++)
   	   				{
   	   				   ZjkBase zjkBase= list.get(i);
-  	   				   Integer age=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY))-zjkBase.getAge();
-  	   				   zjkBase.setAge(age);
+  	   				   Date date=zjkBase.getBirthDate();
+  	   				   if(date!=null)
+  	   				   {
+  	   					 zjkBase.setBirthDateStr(DateUtil.dateToStr(date, DateUtil.FMT_DD));
+  	   				   }else
+  	   				   {
+  	   					zjkBase.setBirthDateStr("");
+  	   				   }
   	   				   zjkBase.setIdCardNo(zjkBase.getIdCardNo()+" ");
   	   				}
   	   			}
   	   		}
   	   		
-  	   		    String[] headers = { "专家姓名",  "身份证号码",    "性别"  ,   "出生日期"  ,  "职称"  ,  "职务", "所在单位", "联系电话" };
-  	   		    String[] cols =    {"name",    "idCardNo",    "sexStr",  "age",      "titleStr",   "post", "belongUnitStr" ,"contactWay"};
+  	   		    String[] headers = { "专家姓名",  "身份证号码",    "性别"  ,   "出生日期"  ,  "职称"  ,  "职务", "所在单位", "联系电话" , "专家编号" , "专家分类", "科技活动人员类别" , "研究方向" };
+  	   		    String[] cols =    {"name",    "idCardNo",    "sexStr",  "birthDateStr",      "titleStr",   "postStr", "belongUnitStr" ,"contactWay" ,"num" ,"expertTypeStr","researchPersonTypeStr","researchWay"};
   	   		   
   	   	        // 文件名默认设置为当前时间：年月日时分秒
   	   	        String fileName = "专家表__"+DateFormatUtils.format(new Date(), "ddhhmmss");

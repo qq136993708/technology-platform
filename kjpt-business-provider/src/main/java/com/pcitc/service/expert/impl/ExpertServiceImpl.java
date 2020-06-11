@@ -424,7 +424,6 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("condition", condition);
 		}
 		
-		
 		List<ZjkBase> list = zjkBaseMapper.getList(map);
 		System.out.println(">>>>>>>>>专家查询结果 "+list.size());
 	    return list;
