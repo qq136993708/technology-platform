@@ -198,7 +198,7 @@
 </div>
 <script type="text/javascript">
 	var zNodes,form,roleMap={},unitMap={},disUnit={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
-	var unitList = [],postList = [];
+	var unitList = [],postList = [],disUnitList=[];
 	var userId = "${userId?default(0)}";
 
 	setImagesUpload({
@@ -365,12 +365,13 @@
 					});
 					//根据机构从新初始化岗位
 					initPostData(unitTreeData);
+					//disUnitList
 					var dataScopeUnitIdTreeData=[];
 					$.each(dataScopeUnitArray,function(i,dt){
-						if(disUnit[dataScopeUnitArray[i]]){
-							dataScopeUnitIdText += ","+disUnit[dataScopeUnitArray[i]].unitName;
-							unitList.push(dataScopeUnitArray[i]);
-							dataScopeUnitIdTreeData.push(new zTreeNode(disUnit[dataScopeUnitArray[i]].unitId,0,disUnit[dataScopeUnitArray[i]].unitName));
+						if(unitMap[dataScopeUnitArray[i]]){
+							dataScopeUnitIdText += ","+unitMap[dataScopeUnitArray[i]].unitName;
+							disUnitList.push(dataScopeUnitArray[i]);
+							dataScopeUnitIdTreeData.push(new zTreeNode(unitMap[dataScopeUnitArray[i]].unitId,0,unitMap[dataScopeUnitArray[i]].unitName));
 						}
 						/* var node = unitSelectTree.getNodeByParam("id",unitArray[i]);
 						if(node){
@@ -484,8 +485,12 @@
 				$.each(unitList,function(index,dt){
 					unitText += ","+unitList[index];
 				});
+				var disText = "";
+				$.each(disUnitList,function(index,dt){
+					disText += ","+disUnitList[index];
+				});
 				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
-				data.field.dataScopeUnitId = unitText.length>0?unitText.substring(1):"";
+				data.field.dataScopeUnitId = disText.length>0?disText.substring(1):"";
 				//console.log(data.field)
                 httpModule({
                     url: '/user-api/save',
@@ -538,20 +543,29 @@
 	}
 	//机构页面选择后回调函数
 	window.callbackUnitTreeChoose = function(unitIds, unitNames,type){
-		unitList = unitIds;
-		var unitText = "";
-		var unitListNodes = [];
-		$.each(unitIds,function(i,dt){
-			if(unitMap[unitIds[i]]){
-				unitText += ","+unitMap[unitIds[i]].unitName;
-				unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
-			}
-		});
 		if(type == '1'){
+			unitList = unitIds;
+			var unitText = "";
+			var unitListNodes = [];
+			$.each(unitIds,function(i,dt){
+				if(unitMap[unitIds[i]]){
+					unitText += ","+unitMap[unitIds[i]].unitName;
+					unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
+				}
+			});
 			$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
 	        $("#userUnitName").val(unitNames.join());
 	        inintPostSelectTree(unitListNodes);
 		}else if(type == '2'){
+			disUnitList = unitIds;
+			var unitText = "";
+			var unitListNodes = [];
+			$.each(unitIds,function(i,dt){
+				if(unitMap[unitIds[i]]){
+					unitText += ","+unitMap[unitIds[i]].unitName;
+					unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
+				}
+			});
 			$("#dataScopeUnitId").val(unitText.length>0?unitText.substring(1):"");
 	        $("#dataScopeUnitName").val(unitNames.join());
 	        inintPostSelectTree(unitListNodes);
