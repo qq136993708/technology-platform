@@ -143,8 +143,14 @@ public class ZjkReward implements Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
+	
+	
 
-    public String getId() {
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getId() {
         return id;
     }
 

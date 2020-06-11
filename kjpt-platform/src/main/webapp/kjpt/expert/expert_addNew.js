@@ -19,7 +19,7 @@ layui.config({
     /*性别*/
     createElement("ROOT_KJPT_XB", "sex", "radio", "sex")
     /*科技活动人员类别*/
-    createElement("ROOT_KJPT_KJHDRYLB", "researchPersonType", "radio", "researchPersonType")
+    // createElement("ROOT_KJPT_KJHDRYLB", "researchPersonType", "option", "researchPersonType")
     /*状态*/
     createElement("ROOT_UNIVERSAL_QYZT", "useStatus", "radio", "useStatus")
     /*学历*/
