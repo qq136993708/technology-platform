@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pcitc.base.common.RecordModel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>平台基本信息</p>
@@ -33,7 +34,7 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     /**
      * 科研经费
      */
-    private String researchFunds="";
+    private BigDecimal researchFunds;
     /**
      * 平台介绍
      */
@@ -126,11 +127,11 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
         this.supportingInstitutions = supportingInstitutions;
     }
 
-    public String getResearchFunds() {
+    public BigDecimal getResearchFunds() {
         return researchFunds;
     }
 
-    public void setResearchFunds(String researchFunds) {
+    public void setResearchFunds(BigDecimal researchFunds) {
         this.researchFunds = researchFunds;
     }
 
