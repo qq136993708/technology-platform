@@ -85,8 +85,8 @@ public class PlatformController extends RestBaseController {
         if (level != null) {
             this.setParam(condition, "level", level);
         }
-        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "技术领域"  ,"科研整体情况","科研经费","平台评分" };
-        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring"};
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "技术领域","平台介绍" ,"科研团队介绍" ,"科研整体情况","科研经费","平台评分" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","platformIntroduction","teamIntroduction","overallSituation","researchFunds","platformScoring"};
         export(headers,cols,"科研平台表_",condition);
     }
 
