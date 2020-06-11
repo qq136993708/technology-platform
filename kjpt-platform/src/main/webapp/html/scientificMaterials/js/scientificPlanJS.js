@@ -13,7 +13,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var tipTitle = '';
   var params = getQueryVariable();
   var reportType = +params.reportType;
-
   function setSelectInput(){ //js动态设置条件过滤布局
     var len;
     if(reportType == 1){
@@ -219,6 +218,7 @@ setSelectInput();
                 professionalField: formValue.professionalField || '', // 专业领域：
                 specialtyCategory: formValue.specialtyCategory || '', // 专业类别
                 annual: formValue.annual || '', // 年度/月度：
+                reportType:reportType
             },
             exportUrl = '';
 

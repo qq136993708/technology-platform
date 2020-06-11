@@ -28,7 +28,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
               type: 'checkbox',
               align: 'center'
             },
-            {title: '序号', templet: '#xuhao', align: 'center', width: 60 },
+            // {title: '序号', templet: '#xuhao', align: 'center', width: 60 },
+            {title: '序号',type:'numbers', width: 60 },
             {
               field: 'unitNameText',
               title: '单位名称',
