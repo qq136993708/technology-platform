@@ -173,23 +173,23 @@ layui.use(['form', 'laydate', 'table'], function () {
 
     $('#delItem').on('click', function (e) {
         if (itemRowData) {
-            layer.confirm('您确定要删除”' + itemRowData.trademarkName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
-                layer.close(index);
+            top.layer.confirm('您确定要删除”' + itemRowData.trademarkName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
+                top.layer.close(index);
                 httpModule({
                     url: '/trademarkController/delete/' + itemRowData.id,
                     type: 'DELETE',
                     success: function (relData) {
                         if (relData.code === '0') {
-                            layer.msg('删除成功!', { icon: 1 });
+                            ltop.ayer.msg('删除成功!', { icon: 1 });
                             $('[lay-filter="formDemo"]').click();
                         } else {
-                            layer.msg('删除失败', { icon: 2 });
+                            top.layer.msg('删除失败', { icon: 2 });
                         }
                     }
                 });
             });
         } else {
-            layer.msg('请选择需要删除的商标！');
+            top.layer.msg('请选择需要删除的商标！');
         }
     })
 
