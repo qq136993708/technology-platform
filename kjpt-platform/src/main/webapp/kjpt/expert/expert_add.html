@@ -196,6 +196,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required"><span class="text">科技活动人员类别:</span></label>
                     <div class="layui-input-block" id="researchPersonType">
+                        <!-- <select name="researchPersonType" xm-select="researchPersonType" xm-select-search=""  xm-select-skin="normal" lay-verify="required"></select> -->
+                        <select name="researchPersonType"
+                select="researchPersonType"
+                select-skin="normal"
+                xm-select-radio=""
+                dic-base-data="ROOT_KJPT_KJHDRYLB"
+                lay-verify="required"
+                placeholder="请选择"></select>
                     </div>
                 </div>
                 <!--研究方向-->

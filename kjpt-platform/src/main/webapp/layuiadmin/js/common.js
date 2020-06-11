@@ -1491,6 +1491,12 @@ layui.use(['form', 'formSelects','laydate'], function() {
 			if ((''+value).length > lengthNumber) {
 				return '字符长度不能超过 '+ lengthNumber + '个';
 			}
+		},
+		doubleFore:function(value,item){
+			var regNum=/^\d+(\.\d{1,4})?$/;
+			if(!regNum.test(value)){
+				return '小数点后只能输入四位'
+			}
 		}
 	})
 
