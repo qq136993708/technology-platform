@@ -30,7 +30,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {title: '序号', templet: '#xuhao', align: 'center', width: 60 },
             {
-              field: 'unitName',
+              field: 'unitNameText',
               title: '单位名称',
               align: 'center',
               sort: true,
@@ -240,11 +240,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
       return item.id
     })
     if (itemRowData) {
-      layer.confirm('您确定要删除吗？', {
+      top.layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
       }, function (index) {
-        layer.close(index);
+        top.layer.close(index);
         // 确认删除
         httpModule({
           url: '/patentController/delete/' + ids,

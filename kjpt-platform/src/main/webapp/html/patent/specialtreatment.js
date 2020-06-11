@@ -30,7 +30,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
             },
             {title: '序号',templet: '#xuhao', align: 'center'},
             {
-              field: 'unitName',
+              field: 'unitNameText',
               title: '单位名称',
               align: 'center',
               sort: true,
