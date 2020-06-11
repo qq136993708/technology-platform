@@ -12,7 +12,7 @@ public interface PatentInfoMapper {
 
     int deleteByExample(PatentInfoExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(@Param("id") String id);
 
     int insert(PatentInfo record);
 

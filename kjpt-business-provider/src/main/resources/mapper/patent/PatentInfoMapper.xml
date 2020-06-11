@@ -139,7 +139,10 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     update patent_info set deleted = '1'
-    where id = #{id,jdbcType=VARCHAR}
+    where id in
+    <foreach item="item"  collection="id.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
   </delete>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.patent.PatentInfo">
     insert into patent_info
