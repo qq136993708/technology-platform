@@ -11,7 +11,6 @@ import java.util.Date;
  */
 public class SciencePlan extends RecordModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
     private String id;                    //id
     private String name = "";             //名称
