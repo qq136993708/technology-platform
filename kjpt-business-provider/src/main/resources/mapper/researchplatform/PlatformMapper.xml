@@ -87,7 +87,7 @@
         from view_kypt_info t1 where 1=1
         and deleted != '1'
         <include refid="selectByParam" />
-        order by create_date
+        order by create_date desc
 
     </select>
 
