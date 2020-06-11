@@ -218,7 +218,6 @@ setSelectInput();
                 professionalField: formValue.professionalField || '', // 专业领域：
                 specialtyCategory: formValue.specialtyCategory || '', // 专业类别
                 annual: formValue.annual || '', // 年度/月度：
-                reportType:reportType
             },
             exportUrl = '';
 
