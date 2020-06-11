@@ -327,7 +327,6 @@ public class PlatformController extends RestBaseController {
         p.setCreator(this.getUserProfile().getUserName());
         p.setLevel(level);
         p.setPlatformScoring("0");
-        p.setResearchFunds("0");
         p.setDeleted("0");
         return p;
     }
