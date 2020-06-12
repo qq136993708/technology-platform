@@ -446,6 +446,7 @@ li.item-details .date-text{
   float: right;
   width: 140px;
   line-height: 30px;
+  color: #6B6C6E;
 }
 li.item-details .details-text {
   display: block;
@@ -454,6 +455,7 @@ li.item-details .details-text {
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 30px;
+  color: #6B6C6E;
 }
 .home-footer-layout li.item-details:hover{
   background-color: rgba(227, 244, 255, .3);

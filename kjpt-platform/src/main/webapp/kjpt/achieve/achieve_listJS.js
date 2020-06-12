@@ -29,6 +29,9 @@ layui.use(['table', 'form', 'laydate'], function () {
                 }
               }
             }, {
+              field: '',
+              title: '是否补录',
+            },{
               field: 'achieveName',
               title: '成果名称',
             }, {
