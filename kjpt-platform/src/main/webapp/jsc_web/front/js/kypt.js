@@ -1,300 +1,255 @@
-var kypt_charts1 = echarts.init(document.getElementById('kypt_charts1'));
-var kypt_charts2 = echarts.init(document.getElementById('kypt_charts2'));
-var kypt_charts3 = echarts.init(document.getElementById('kypt_charts3'));
-var kypt_charts4 = echarts.init(document.getElementById('kypt_charts4'));
-// var kypt_charts5= echarts.init(document.getElementById('kypt_charts5'));
 
-var option1 = {
-    tooltip: {
-        trigger: 'axis',
-        formatter: "{b}： {c}",
-        axisPointer: {
-            type: 'shadow'
-        }
-    },
-    legend: {
-        show: false,
-        data: ['2019年'],
-        x: 'left',
-        textStyle: {
-            color: '#fff'
-        },
-        // formatter:  function(name){
-        //     console.log(name);
-        //     var total = 0;
-        //     var target;
-        //     for (var i = 0, l = data.length; i < l; i++) {
-        //     total += data[i].value;
-        //     if (data[i].name == name) {
-        //         target = data[i].value;
-        //         }
-        //     }
-        //     return name + ' ' + ((target/total)*100).toFixed(2) + '%';
-        // }
-    },
-    grid: {
-        top: '5%',
-        left: '10',
-        right: '4%',
-        bottom: '1%',
-        containLabel: true
-    },
-    xAxis: {
-        type: 'value',
-        boundaryGap: [0, 0.01],
-        axisLabel: {
-            show: false
-        },
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            show: false,
-        },
-        axisLine: {
-            show: false
-        }
-    },
-    yAxis: {
-        type: 'category',
-        axisLabel: {
-            textStyle: {
-                color: '#fff',
-                fontSize: '16'
-            }
-        },
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            show: false,
-        },
-        axisLine: {
-            show: false
-        }
-    },
-    series: [{
-        name: '2019年',
-        type: 'bar',
-        barWidth: '15',
-        inverse: true,
-        label: {
-            normal: {
-                show: false
-            }
-        },
-        itemStyle: {
-            normal: {
-                color: function (params) {
-                    // 01 国家  02部位 03//省 04 集团 05板块
-                    if (params.name == '板块级') { //板块
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#0AFF16'
-                        }, {
-                            offset: 1,
-                            color: '#A1FF01'
-                        }]);
+layui.use(['laydate'], function() {
+    var laydate = layui.laydate;
+    var achieveTypes = [];
+    var achieveTypesSeries = [];
+    var awardsYearChart;
+     var kypt_charts1 = echarts.init(document.getElementById('awardTramsformInfoHistory'));
+    var awardTramsformInfoHistoryColor = [
+        {type: 'transMoney', cololr: '#D89936'},
+        {type: 'transMoneySum', cololr: '#0CB92D'}
+    ];
+    var pieColor = ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'];
+
+    var chartInit = {
+        transformInfo: function (param) {
+            var y1 = [];
+            var y2 = [];
+            httpModule({
+                url: '/patentBI/getPatentCountByYear',
+                data: '2020',
+                type: 'GET',
+                async: false,
+                success: function(res) {
+                    var result = [];
+                    if (res.code == 0) {
+                        var data = res.data;
+                        var option1 = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                },
+                                formatter: function (serves) {
+                                    var showHtms = '<div style="font-size:16px; margin:5px;">'+'申请专利'+'</div>'+
+                                     '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
+                                        '<div style="font-size:16px; margin:5px;">'+'授权专利'+'</div>'+
+                                        '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+   serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
+
+                                    return showHtms;
+                                }
+                            },
+                            color: ['#D89936', '#5AB3F8', '#2D66D7', '#EDDE21','#28A1EA'],
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    data: [data[0].textTitle, data[6].textTitle, data[12].textTitle, data[18].textTitle, data[24].textTitle],
+                                    axisLabel:{
+                                        color:"white"
+                                    }
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    name: '单位：个',
+                                    nameTextStyle: {color: '#fff'},
+                                    yAxis: [{splitNumber: 3, name: '单位：个', nameGap: 20, nameTextStyle: {color: '#fff'}}],
+                                    type: 'value',
+                                    splitLine:{
+                                        lineStyle:{
+                                            color:"#1E5389",
+                                            opacity:"0.6"
+                                        }
+                                    },
+                                    axisLabel:{
+                                        color:"white"
+                                    },
+                                },
+                            ],
+                            series: [
+                                {
+                                    name:data[0].text,
+                                    type: 'bar',
+                                    barWidth:"20",
+                                    stack: data[0].textSub,
+                                    opcity: '0.3',
+                                    data: [data[0].calValue, data[6].calValue, data[12].calValue,data[18].calValue,data[24].calValue],
+                                },
+                                {
+                                    name:data[1].text,
+                                    type: 'bar',
+                                    stack: data[1].textSub,
+                                    data: [data[1].calValue, data[7].calValue,data[13].calValue, data[19].calValue, data[25].calValue]
+                                },
+                                {
+                                    name: data[2].text,
+                                    type: 'bar',
+                                    stack:data[2].textSub,
+                                    data: [data[2].calValue,data[8].calValue, data[14].calValue, data[20].calValue, data[26].calValue]
+                                },
+                                {
+                                    name: data[3].text,
+                                    barWidth:"20",
+                                    type: 'bar',
+                                    stack:data[3].textSub,
+                                    data: [data[3].calValue, data[9].calValue, data[15].calValue, data[21].calValue, data[27].calValue],
+                                },
+                                {
+                                    name: data[4].text,
+                                    type: 'bar',
+                                    stack:data[4].textSub,
+                                    data: [data[4].calValue, data[10].calValue, data[16].calValue, data[22].calValue, data[28].calValue]
+                                },
+                                {
+                                    name: data[5].text,
+                                    type: 'bar',
+                                    stack:data[5].textSub,
+                                    data: [data[5].calValue, data[11].calValue, data[17].calValue, data[23].calValue, data[29].calValue]
+                                },
+                            ]
+                        };
+                        kypt_charts1.setOption(option1)
                     }
-                    if (params.name == '国家级') { // 国家
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#6E03E5'
-                        }, {
-                            offset: 1,
-                            color: '#AE3AFF'
-                        }]);
-                    }
-                    if (params.name == '省部级') { //省
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#00C8DD'
-                        }, {
-                            offset: 1,
-                            color: '#07EDE2'
-                        }]);
-                    }
-                    if (params.name == '部委级') { //部
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#FFC600'
-                        }, {
-                            offset: 1,
-                            color: '#FFEA00'
-                        }]);
-                    }
-                    if (params.name == '集团级') { //集团
-                        return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#FE486D'
-                        }, {
-                            offset: 1,
-                            color: '#FFA164'
-                        }]);
-                    }
-                    // if (params.dataIndex == 0) {
-                    //     return new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
-                    //  //     offset: 0,
-                    //     color: '#FE486D'
-                    // }, {
-                    //     offset: 1,
-                    //     color: '#FFA164'
-                    //     }]);
-                    // }
                 }
-            }
+            });
         },
-    }]
-};
+        awardsYearPie: function (params) {
+            $('#awardTramsformType').empty();
+            httpModule({
+                url: '/patentBI/getPatentCountByLegelStatus',
+                data: '2020',
+                type: 'GET',
+                async: false,
+                success: function(res) {
+                    var awardTramsformType = echarts.init(document.getElementById('awardTramsformType'));
+                    var option2 = {
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: '80%',
+                            top:'30%',
+                            data: [
+                                {value: res.data[0].calValue, name: res.data[0].text},
+                                {value: res.data[1].calValue, name: res.data[1].text},
+                                {value: res.data[2].calValue, name: res.data[2].text},
+                            ],
+                            color:['#59B2F6','#D66134','#535584'],
+                            textStyle:{
+                                color:"white"
+                            }
+                        },
+                        series: [
+                            {
+                                name: '访问来源',
+                                type: 'pie',
+                                radius: '80%',
+                                center: ['40%', '50%'],
+                                label: {
+                                    show: false
+                                },
+                                data: [
+                                    {value: res.data[0].calValue, name: res.data[0].text},
+                                    {value: res.data[1].calValue, name: res.data[1].text},
+                                    {value: res.data[2].calValue, name: res.data[2].text},
+                                ],
+                                color:['#59B2F6','#D66134','#535584'],
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    awardTramsformType.setOption(option2)
+                }
+            });
+        },
+        achieveTransferOfficeChart: function (params) {
+            $('#achieveTransferOffice').empty();
+            kyptCharts.render({
+                id: 'achieveTransferOffice',
+                type: 'bar',
+                grid: { top: 40 },
+                label: false,
+                legend: { show: false, left: 'right', top: 5},
+                labelColor: '#fff',
+                borderColor: '#001e38',
+                data: [],
+                itemName: 'name',
+                series: [
+                    { name: '授权', valueKey: 'value1', stack: 'charts'},
+                    { name: '申请', valueKey: 'value2', stack: 'charts'},
+                    { name: '无效', valueKey: 'value3', stack: 'charts'}
+                ],
+                color: ['#59B2F6', '#D66134', '#535584'],
+                lineColor: 'rgba(4, 30, 54, 1)',
+                valueColor: '#fff',
+                labelColor: '#fff',
+                labelRotate: 40,
+                yAxis: [{splitNumber: 3, name: '单位：个', nameGap: 20, nameTextStyle: {color: '#fff'}}],
+                barWidth: 20,
+                axisLineColor: 'rgba(255, 255, 255, .2)'
+            });
+            var y1 = [];
+            var y2 = [];
+            httpModule({
+                url: '/patentBI/getPatentCountByOffice',
+                data: '2020',
+                type: 'GET',
+                async: false,
+                success: function(res) {
+                    var result = [];
+                    if (res.code == 0) {
+                        var data = res.data;
+                        var dataArr = [];
+                        for(var i=0; i<data.length;i++){
+                            var obj = {};
+                            if(i%3 === 0){
+                                obj.name = data[i].text;
+                                obj.value1 = data[i].calValue;
+                                obj.value2 = data[i+1].calValue;
+                                obj.value3 = data[i+2].calValue;
+                                dataArr.push(obj)
+                            }
+                        }
+                        kyptCharts.reload('achieveTransferOffice',
+                            {
+                                data: dataArr,
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                                        name: '单位：个',
+                                        nameTextStyle: {
+                                            color: '#ffffff',
+                                            lineHeight: 40,
+                                            height: 40
+                                        },
+                                        min: 0,
+                                        max: Math.ceil(Math.max.apply(null,y1)/6)*6,
+                                        interval: Math.ceil(Math.max.apply(null,y1)/6),
+                                    },
+                                ]
 
-function loadHtml() {
-    var htmlStr = '';
-    htmlStr = '<p class="chart-mask-item">' +
-        '<span class="chart-mask-item-left"></span>' +
-        '<span class="chart-mask-item-right">集团级</span>' +
-        '</p>' +
-        '<p class="chart-mask-item">' +
-        '<span class="chart-mask-item-left"></span>' +
-        '<span class="chart-mask-item-right">国家级</span>' +
-        '</p>' +
-        '<p class="chart-mask-item">' +
-        '<span class="chart-mask-item-left"></span>' +
-        '<span class="chart-mask-item-right">省部级</span>' +
-        '</p>' +
-        '<p class="chart-mask-item">' +
-        '<span class="chart-mask-item-left"></span>' +
-        '<span class="chart-mask-item-right">部委级</span>' +
-        '</p>' +
-        '<p class="chart-mask-item">' +
-        '<span class="chart-mask-item-left"></span>' +
-        '<span class="chart-mask-item-right">板块级</span>' +
-        '</p>'
-    $('.chart-mask').append(htmlStr);
-};
-loadHtml();
-kypt_charts1.setOption(option1);
-kypt_charts2.setOption(option1);
-kypt_charts3.setOption(option1);
-kypt_charts4.setOption(option1);
-
-// 01 国家  02部位 03//省 04 集团 05板块
-// 获取远端数据源
-httpModule({
-    url: '/cockpit/results/queryBIData/scientificResearchNumscientifictype',
-    success: function (res) {
-        if (res.code === '0' || res.success === true) {
-            setInterval(res.data);
-        }
-    }
-});
-
-var chartTime = null;
-$(window).resize(function () {
-    if (chartTime || chartTime === 0) {
-        clearTimeout(chartTime);
-    };
-
-    chartTime = setTimeout(function () {
-        kypt_charts1.resize();
-        kypt_charts2.resize();
-        kypt_charts3.resize();
-        kypt_charts4.resize();
-    }, 120);
-})
-
-// 科研平台数量按技术领域
-kyptCharts.render({
-    id: 'kypt_charts5',
-    type: 'bar',
-    legend: {
-        show: false
-    },
-    lineColor: '#1E5389',
-    valueColor: '#fff',
-    labelColor: '#fff',
-    label: false,
-    itemName: 'typeName',
-    borderColor: '#001e38',
-    title: '科研平台数量',
-    barMinHeight: 2,
-    // labelRotate: 30,
-    labelLenth: 9,
-    labelMaxNumber: 10,
-    dataZoom: {
-        fillerColor: '#5074ca', // 滚动条颜色
-        backgroundColor: '#0d2b4f', // 滚动条背景色
-    },
-    data: [],
-    series: [{
-        name: '数量',
-        valueKey: 'num'
-    }],
-    color: [
-        ['#4E00FF', '#43F0FF']
-    ]
-});
-
-// 获取远端数据源
-httpModule({
-    url: '/cockpit/results/queryBIData/scientificResearchNumscientifictechnology',
-    success: function (res) {
-        if (res.code === '0' || res.success === true) {
-            kyptCharts.reload('kypt_charts5', {
-                data: res.data
+                            });
+                    }
+                }
             });
         }
-    }
+    };
+
+    chartInit.transformInfo();
+    chartInit.awardsYearPie();
+    chartInit.achieveTransferOfficeChart();
 });
-/* res 接口数据 */
-function setInterval(res) { // 处理数据
-    var achievementList = [],
-        achievementListY = [],
-        projectList = [],
-        projectListY = [], //项目Y
-        patentList = [],
-        patentListY = [], //专利Y
-        treatiseList = [],
-        treatiseListY = []; //论文Y
-    $.each(res, function (item, val) {
-        if (val.countType == "achievement") { //成果
-            nextsetVal(val, achievementList, achievementListY, kypt_charts1);
-        } else if (val.countType == "project") { //项目
-            nextsetVal(val, projectList, projectListY, kypt_charts2);
-        } else if (val.countType == "patent") { //专利
-            nextsetVal(val, patentList, patentListY, kypt_charts3);
-        } else if (val.countType == "treatise") { //论文
-            nextsetVal(val, treatiseList, treatiseListY, kypt_charts4);
-        }
-    })
-}
-//*val：接口返回的数据 list：chart series.data listY:chart yAxis.data  chart:chart对象 */
-function nextsetVal(val, list, listY, chart) {
-    if (val.level == '05' && typeof (val.secretLevel) !== 'undefined') {
-        list.push(val.secretLevel)
-        listY.push('板块级')
-    }
-    if (val.level == '04' && typeof (val.secretLevel) !== 'undefined') {
-        list.push(val.secretLevel)
-        listY.push('集团级')
-    }
-    if (val.level == '03' && typeof (val.secretLevel) !== 'undefined') {
-        list.push(val.secretLevel)
-        listY.push('省部级')    
-    }
-    if (val.level == '02' && typeof (val.secretLevel) !== 'undefined') {
-        list.push(val.secretLevel)
-        listY.push('部委级')
-    }
-    if (val.level == '01' && typeof (val.secretLevel) !== 'undefined') {
-        list.push(val.secretLevel)
-        listY.push('国家级')
-    }
-    chart.setOption({
-        yAxis: [{
-            data: listY
-        }],
-        series: [{
-            data: list,
-        }]
-    });
-};
