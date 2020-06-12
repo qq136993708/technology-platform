@@ -560,7 +560,7 @@ public class ExpertController extends BaseController {
           @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
           
       })
-  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.GET)
+  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.POST)
   	   	public String jsgztj_data_exput_excel(
 				@RequestParam(required = false) String name,
 				@RequestParam(required = false) String belongUnit,
