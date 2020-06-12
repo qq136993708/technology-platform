@@ -4,6 +4,7 @@ import com.pcitc.base.common.RecordModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -97,11 +98,31 @@ public class AchieveBase extends RecordModel implements Serializable {
      */
     private String fileDoc="";
 
-    /***
+    /**
      * 外部转化审批表
      * @return
      */
     private String approvalDoc;
+    /**
+     * 申请状态  01 未提交、02 已提交、03 审批中、04 已通过、05 已完成、06驳回
+     * @return
+     */
+    private String applyStatus;
+    /**
+     * 申请状态字典翻译
+     * @return
+     */
+    private String applyStatusText;
+    /**
+     * 是否核心成果  成果类型：1核心，0非核心
+     * @return
+     */
+    private String achieveType;
+    private String achieveTypeText;
+
+    private BigDecimal conversionAmount;
+
+
 
     /**
      * 公示附件
@@ -291,5 +312,51 @@ public class AchieveBase extends RecordModel implements Serializable {
 
     public void setFinishUnitNameText(String finishUnitNameText) {
         this.finishUnitNameText = finishUnitNameText;
+    }
+
+
+    public String getapplyStatus() {
+        return applyStatus;
+    }
+
+
+    public String getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(String applyStatus) {
+        this.applyStatus = applyStatus;
+    }
+
+    public String getApplyStatusText() {
+        return applyStatusText;
+    }
+
+    public void setApplyStatusText(String applyStatusText) {
+        this.applyStatusText = applyStatusText;
+    }
+
+    public String getAchieveType() {
+        return achieveType;
+    }
+
+    public void setAchieveType(String achieveType) {
+        this.achieveType = achieveType;
+    }
+
+    public String getAchieveTypeText() {
+        return achieveTypeText;
+    }
+
+    public void setAchieveTypeText(String achieveTypeText) {
+        this.achieveTypeText = achieveTypeText;
+    }
+
+    public BigDecimal getConversionAmount() {
+        return conversionAmount;
+    }
+
+    public void setConversionAmount(BigDecimal conversionAmount) {
+        this.conversionAmount = conversionAmount;
     }
 }
