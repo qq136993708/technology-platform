@@ -315,27 +315,6 @@ public class AchieveBase extends RecordModel implements Serializable {
     }
 
 
-    public String getapplyStatus() {
-        return applyStatus;
-    }
-
-
-    public String getApplyStatus() {
-        return applyStatus;
-    }
-
-    public void setApplyStatus(String applyStatus) {
-        this.applyStatus = applyStatus;
-    }
-
-    public String getApplyStatusText() {
-        return applyStatusText;
-    }
-
-    public void setApplyStatusText(String applyStatusText) {
-        this.applyStatusText = applyStatusText;
-    }
-
     public String getAchieveType() {
         return achieveType;
     }
@@ -358,5 +337,21 @@ public class AchieveBase extends RecordModel implements Serializable {
 
     public void setConversionAmount(BigDecimal conversionAmount) {
         this.conversionAmount = conversionAmount;
+    }
+
+    public String getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(String applyStatus) {
+        this.applyStatus = applyStatus;
+    }
+
+    public String getApplyStatusText() {
+        return applyStatusText;
+    }
+
+    public void setApplyStatusText(String applyStatusText) {
+        this.applyStatusText = applyStatusText;
     }
 }
