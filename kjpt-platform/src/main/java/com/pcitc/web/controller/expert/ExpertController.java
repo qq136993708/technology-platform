@@ -576,6 +576,7 @@ public class ExpertController extends BaseController {
 				@RequestParam(required = false) String groupType,
 				@RequestParam(required = false) String expertType,
 				@RequestParam(required = false) String expertTypes,
+				@RequestParam(required = false) String customQueryConditionStr,
 				HttpServletRequest request, HttpServletResponse response
 		) throws Exception
   	   	{
@@ -597,6 +598,7 @@ public class ExpertController extends BaseController {
 			paramMap.put("secretLevel", secretLevel);
 			paramMap.put("expertType", expertType);
 			paramMap.put("expertTypes", expertTypes);
+			paramMap.put("customQueryConditionStr", customQueryConditionStr);
 			paramMap.put("groupType", groupType);
   	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
 
