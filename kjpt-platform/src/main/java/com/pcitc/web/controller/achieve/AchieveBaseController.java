@@ -234,69 +234,12 @@ public class AchieveBaseController extends RestBaseController {
     @ResponseBody
     public AchieveBase save(@RequestBody AchieveBase ab){
         this.setBaseData(ab);
-        //ab.setAuditStatus("0");
-        this.handlerAchieveApplyStatus(ab);
+        ab.setAuditStatus("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
         return responseEntity.getBody();
     }
-
-    private void handlerAchieveApplyStatus(AchieveBase ab){
-        /**
-         * 核心的保存就是未提交
-         */
-        if("1".equals(ab.getAchieveType())){
-            ab.setAuditStatus("01");
-        }
-        /**
-         * 非核心的保存就是已提交
-         */
-        if("0".equals(ab.getAchieveType())){
-            ab.setAuditStatus("02");
-        }
-        /**
-         * 输入转化金额的就是已完成
-         */
-        if(ab.getConversionAmount() != null){
-            ab.setAuditStatus("05");
-        }
-    }
-
-    @ApiOperation(value="上报")
-    @RequestMapping(value = "/achieve-api/report", method = RequestMethod.POST)
-    @ResponseBody
-    public AchieveBase report(@RequestBody AchieveBase ab){
-        this.setBaseData(ab);
-        this.handlerAchieveApplyStatus(ab);
-        ab.setAuditStatus("03");
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
-        return responseEntity.getBody();
-    }
-
-    @ApiOperation(value="通过")
-    @RequestMapping(value = "/achieve-api/adopt", method = RequestMethod.POST)
-    @ResponseBody
-    public AchieveBase adopt(@RequestBody AchieveBase ab){
-        this.setBaseData(ab);
-        this.handlerAchieveApplyStatus(ab);
-        ab.setAuditStatus("04");
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
-        return responseEntity.getBody();
-    }
-
-    @ApiOperation(value="驳回")
-    @RequestMapping(value = "/achieve-api/reject", method = RequestMethod.POST)
-    @ResponseBody
-    public AchieveBase reject(@RequestBody AchieveBase ab){
-        this.setBaseData(ab);
-        this.handlerAchieveApplyStatus(ab);
-        ab.setAuditStatus("06");
-        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
-        return responseEntity.getBody();
-    }
+    
 
     @ApiOperation(value="提交")
     @RequestMapping(value = "/achieve-api/submit", method = RequestMethod.POST)

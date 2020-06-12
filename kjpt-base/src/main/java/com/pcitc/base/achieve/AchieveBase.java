@@ -72,7 +72,7 @@ public class AchieveBase extends RecordModel implements Serializable {
      */
     private String unitAdvice="";
     /**
-     * 审核状态：0草稿（或驳回），1审批中，2审核通过
+     * 审核状态：0草稿（或驳回），1审批中，2审核通过，3已提交，4已完成
      */
     private String auditStatus="";
     /**
