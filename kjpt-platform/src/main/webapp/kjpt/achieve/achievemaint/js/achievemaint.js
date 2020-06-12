@@ -283,12 +283,14 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
         id:'#importData',
         url:'/achieveMaintain-api/input_excel',
         callback: function (result) {
-            if(result.code=="0") {
-                layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="formDemo"]').click();
-            }else{
-                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
-            }
+
+          if(result.data != null && result.data.code=="1"){
+              layer.msg('数据导入失败!失败信息：'+result.data.message, {icon: 1});
+          }else{
+              layer.msg('数据导入成功!', {icon: 1});
+              $('[lay-filter="formDemo"]').click();
+          }
+
         }
     })
 });

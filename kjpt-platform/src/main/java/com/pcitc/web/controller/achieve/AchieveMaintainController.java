@@ -229,6 +229,7 @@ public class AchieveMaintainController extends RestBaseController {
                 for (int i = IMPORT_HEAD; i < listob.size(); i++)
                 {
                     List<Object> lo = listob.get(i);
+                    if(lo.size()<7) break;
                     Object col_1 = lo.get(1);   //获奖年份
                     Object col_2 = lo.get(2);   //奖项级别
                     Object col_3 = lo.get(3);   //奖项名称
@@ -241,7 +242,9 @@ public class AchieveMaintainController extends RestBaseController {
                     //将excel导入数据转换为SciencePlan对象
                     AchieveMaintain obj = new AchieveMaintain();
 
-                    obj.setYear(String.valueOf(col_1));
+                    //通过模板导入的年度为2020.0000
+                   Double year =  Double.valueOf(String.valueOf(col_1));
+                    obj.setYear(String.valueOf(year.intValue()));
                     String type = getValueFromDictMap(String.valueOf(col_2),ROOT_KJPT_CGWH_HJLX);
                     obj.setType(type);
                     obj.setTypeText(String.valueOf(col_2));
@@ -258,7 +261,8 @@ public class AchieveMaintainController extends RestBaseController {
                     obj.setAwardLevel(awardLevel);
                     obj.setAwardLevelText(String.valueOf(col_5));
 
-                    obj.setAwardsNumber(String.valueOf(col_6));
+                    Double num = Double.valueOf(String.valueOf(col_6));
+                    obj.setAwardsNumber(String.valueOf(num.intValue()));
                     obj.setCreateUnitId(sysUserInfo.getUnitId());
                     String dateid = UUID.randomUUID().toString().replaceAll("-", "");
                     obj.setId(dateid);
@@ -276,6 +280,9 @@ public class AchieveMaintainController extends RestBaseController {
                     resultsDate.setSuccess(false);
                     resultsDate.setMessage(back.getMessage());
                 }
+            }else{
+                resultsDate.setSuccess(false);
+                resultsDate.setCode("1");
             }
 
         }
@@ -290,6 +297,7 @@ public class AchieveMaintainController extends RestBaseController {
         for (int i = IMPORT_HEAD; i < listob.size(); i++)
         {
             List<Object> lo = listob.get(i);
+            if(lo.size()<7) break;
             Object col_1 = lo.get(1);   //获奖年份
             Object col_2 = lo.get(2);   //奖项级别
             Object col_3 = lo.get(3);   //奖项名称
@@ -314,37 +322,36 @@ public class AchieveMaintainController extends RestBaseController {
                 sb.append("第"+(i+2)+"行奖项级别取值非法,请参考对应sheet页取值!");
                 break;
             }
-            String reward_level_code = "";
+            String reward_level_code = getValueFromDictMap(String.valueOf(col_2),ROOT_KJPT_CGWH_HJLX);
             if(checkIfBlank(col_3))
             {
                 sb.append("第"+(i+2)+"行奖项名称为空,");
                 break;
             }else {
-                reward_level_code = getValueFromDictMap(String.valueOf(col_2),ROOT_KJPT_CGWH_HJLX);
                 if(!checkIfReasonable(String.valueOf(col_3),reward_level_code)){
                     sb.append("第"+(i+2)+"行奖项名称取值非法,请参考对应sheet页取值!");
                     break;
                 }
             }
-            String reward_name_code = "";
+            String  reward_name_code = getValueFromDictMap(String.valueOf(col_3),reward_level_code);
             if(checkIfBlank(col_4))
             {
                 sb.append("第"+(i+2)+"行奖项子名称为空,");
                 break;
             }else{
-                 reward_name_code = getValueFromDictMap(String.valueOf(col_4),reward_level_code);
+
                 if(!checkIfReasonable(String.valueOf(col_4),reward_name_code)){
                     sb.append("第"+(i+2)+"行奖项子名称取值非法,请参考对应sheet页取值!");
                     break;
                 }
             }
-
+            String auth_level = getValueFromDictMap(String.valueOf(col_4),reward_name_code);
             if(checkIfBlank(col_5))
             {
                 sb.append("第"+(i+2)+"行授权等级为空,");
                 break;
             }else{
-                String auth_level = getValueFromDictMap(String.valueOf(col_4),reward_name_code);
+
                 if(!checkIfReasonable(String.valueOf(col_5),auth_level)){
                     sb.append("第"+(i+2)+"行授权等级取值非法,请参考对应sheet页取值!");
                     break;
