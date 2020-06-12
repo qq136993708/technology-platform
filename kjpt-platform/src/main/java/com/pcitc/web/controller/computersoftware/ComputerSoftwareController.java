@@ -289,8 +289,10 @@ public class ComputerSoftwareController extends RestBaseController {
         }
         this.setBaseParam(condition);
 
-        String[] headers = { "单位名称",  "登记号",    "软件名称"  , "著作权人","版本号","登记日期","软件简介"};
-        String[] cols =    {"unitNameText","registerNumber","softwareName","copyrightOwner","versionNumber","recordDate","softwareIntro"};
+//        String[] headers = { "单位名称",  "登记号",    "软件名称"  , "著作权人","版本号","登记日期","软件简介"};
+//        String[] cols =    {"unitNameText","registerNumber","softwareName","copyrightOwner","versionNumber","recordDate","softwareIntro"};
+        String[] headers = { "单位名称",  "软件名称",    "登记号"  , "登记日期","著作权人","权利取得方式","登记部门","项目背景","立项部门","项目名称","项目编号"};
+        String[] cols =    {"unitNameText","softwareName","registerNumber","recordDate","copyrightOwner","copyrightGetwayText","registerDepartment","projectBackgroundText","topicDepartment","projectName","projectCode"};
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ComputerSoftware.class);
         String fileName = "软件著作权明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
