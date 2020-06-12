@@ -13,6 +13,29 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
     $('#opations-btn, [form-label-item="unlevel"]').remove();
   }
 
+  function tabTamplateUrl(){
+    var loadUrl = ''; //领军人物
+    ///data/科研能力-国家级科研平台模板.xls
+    switch(variable.level){
+      case '01':
+        loadUrl = '/data/科研能力-国家级科研平台模板.xls'; //领军人物
+      break ;
+      case '02':
+        loadUrl = '/data/科研能力-国家部委级科研平台模板.xls'; //领军人物
+      break;
+      case '03':
+        loadUrl = '/data/科研能力-地方省部级科研平台模板.xls'; //领军人物
+      break;
+      case '04':
+        loadUrl = '/data/科研能力-集团级科研平台模板.xls'; //领军人物
+      break;
+      case '05':
+        loadUrl = '/data/科研能力-板块级科研平台模板.xls'; //领军人物
+      break;
+  }
+    $('#treasisTemplate').attr('href',loadUrl); 
+  }
+  tabTamplateUrl();
   layui.formSelects.filter('supportingInstitutions', function(id, inputVal, val, isDisabled){
     if(val.name.indexOf(inputVal) != -1){
       return false;

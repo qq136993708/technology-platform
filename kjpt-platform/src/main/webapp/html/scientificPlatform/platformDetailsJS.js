@@ -14,6 +14,57 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   if (variable && variable.type == 'view' && !variable.level) {
     $('.layui-tab-item .view-title-layout .right').css('display', 'none');
   }
+  function tabTamplateUrl(){
+    var leaderUrl = ''; //领军人物
+    var treasisUrl =''; //论文
+    var groupUrl = '';  // 团队成员
+    var achiveUrl = ''; //主要成果
+    var zlUrl =''; // 主要专利
+    switch(variable.level){
+      case '01':
+        leaderUrl = '/data/科研能力-国家级科研平台-领军人物.xls'; //领军人物
+        treasisUrl ='/data/科研能力-国家级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-国家级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-集团级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-国家级科研平台-专利模板.xls'; // 主要专利
+      break ;
+      case '02':
+        leaderUrl = '/data/科研能力-国家部委级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-国家部委级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-国家部委级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-国家部委级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-国家部委级科研平台-专利模板.xls'; // 主要专利
+      break;
+      case '03':
+        leaderUrl = '/data/科研能力-地方省部级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-地方省部级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-地方省部级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-地方省部级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-地方省部级科研平台-专利模板.xls'; // 主要专利
+      break;
+      case '04':
+        leaderUrl = '/data/科研能力-集团级科研平台-领军人物.xls'; //领军人物
+        treasisUrl ='/data/科研能力-集团级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-集团级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-集团级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-集团级科研平台-专利模板.xls'; // 主要专利
+      break;
+      case '05':
+        leaderUrl = '/data/科研能力-板块级科研平台-领军人物.xls'; //领军人物
+        treasisUrl ='/data/科研能力-板块级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-板块级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-板块级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-板块级科研平台-专利模板.xls'; // 主要专利
+      break;
+  }
+    $('#leaderTemplate').attr('href',leaderUrl); //领军人物
+    $('#treasisTemplate').attr('href',treasisUrl); //论文
+    $('#groupTemplate').attr('href',groupUrl); // 团队成员
+    $('#achiveTemplate').attr('href',achiveUrl); //主要成果
+    $('#zlTemplate').attr('href',zlUrl); // 主要专利
+  }
+  
+  tabTamplateUrl();
 
   function addTableData(config) {
     if (!config.update) {
