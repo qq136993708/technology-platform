@@ -314,8 +314,8 @@ public class ExpertPatentController extends BaseController {
 	public void export(@RequestParam String expertId) throws Exception {
 		Map<String, Object> condition = new HashMap<>(2);
 		this.setParam(condition, "expertId", expertId);
-		String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "描述"};
-		String[] cols =    {"patentName","patentTypeStr","getPatentTimeStr","describer"};
+		String[] headers = { "专利名称",  "专利类型",    "申请日期"  , "专利描述"};
+		String[] cols =    {"patentName","patentTypeStr","getPatentTimeStr","describe"};
 		this.setBaseParam(condition);
 		//默认查询当前人所在机构下所有的科研平台
 		//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
