@@ -49,7 +49,8 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">是否核心成果：</span></label>
             <div class="layui-input-block">
-              <select name="achieveType" lay-verify="required" lay-filter="achieveType">
+              <!-- lay-filter="achieveType" -->
+              <select name="achieveType" lay-verify="required" >
                 <option value="1">是</option>
                 <option value="0" selected>否</option>
               </select>
@@ -58,11 +59,11 @@
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">成果名称：</span></label>
-            <div class="layui-input-block" id="selectAchieve">
+            <div class="layui-input-block let-input-search" id="selectAchieve">
               <input type="text" name="achieveName" lay-filter="achieveName" lay-verify="required" placeholder="请填写..."
                 autocomplete="off" class="layui-input">
               <input type="hidden" name="achieveId" lay-filter="achieveId">
-              <span class="search-icon selectIcon" style="display: none;">
+              <span class="search-icon selectIcon" style="display: inline;">
                 <i class="layui-icon layui-icon-search"></i>
               </span>
             </div>
