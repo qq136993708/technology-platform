@@ -251,6 +251,10 @@
         form.on('submit(newSubmit)', function(data) {
             var json=setVal(data);
             obj.tableList(json)
+            // delete json.page;
+            // delete json.limit;
+            // var jsonObj=SON.stringify(json)
+            // $("#exportData").attr("href","/expert-api/exput_excel?"+jsonObj)
             return false
         })
 
@@ -261,8 +265,8 @@
         var $ = layui.$, active = {
             queryData:function () {
                 /*查询*/
-                obj.tableList($("#name").val());
-                $("#exportData").attr("href","/expert-api/exput_excel?name="+$("#name").val())
+                obj.tableList();
+               
             },
             reset:function () {
                 /*重置*/

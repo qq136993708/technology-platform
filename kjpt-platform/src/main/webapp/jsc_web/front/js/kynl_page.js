@@ -14,11 +14,18 @@ kyptCharts.render({
     borderColor: '#001e38',
     title: '成果鉴定',
     totalTitle: true,
+    company:'人',
     title: {
         textStyle: {
             color: '#fff',
             fontSize: 24,
             width: '100%'
+        },
+        subtextStyle:{
+            color: '#fff',
+            fontSize: 12,
+            width: '100%',
+            verticalAlign:'bottom',
         }
     },
     series: [

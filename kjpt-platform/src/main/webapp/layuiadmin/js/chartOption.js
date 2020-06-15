@@ -216,7 +216,8 @@ var kyptCharts = {
           show: true,
           position: 'top',
           color: labelColor || '#46484B',
-          fontSize: 12
+          fontSize: 12,
+          fontFamily:'Impact'
         }
       };
 
@@ -655,7 +656,10 @@ var kyptCharts = {
       if (config.center) {
         option.title.left = config.center[0];
       } else {
-        option.title.left = '50%';
+        option.title.left = '50%';  
+      } 
+      if(config.company){
+        option.title.subtext =  config.company;
       }
     }
 

@@ -239,8 +239,11 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       form.on('radio(applicationOfPatentTransformation)', function(data){
         if(data.value == '03'){
           $('input[name="licensee"]').attr('lay-verify','required')
+          $('input[name="licenseeProfit"]').attr('lay-verify','number|doubleFore')
+
         }else if(data.value == '04'){
           $('input[name="assignor"]').attr('lay-verify','required')
+          $('input[name="assignProfit"]').attr('lay-verify','number|doubleFore')
         }
       });
 

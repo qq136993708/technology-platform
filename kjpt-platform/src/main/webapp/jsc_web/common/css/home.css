@@ -64,6 +64,15 @@ body { overflow: auto; }
 .achieve_charts .pie-legend-list .legend-item > .lenend-item-name {
     min-width: 100px;
 }
+.kypt_charts .pie-legend-list .legend-item > .lenend-item-name::after,
+.achieve_charts .pie-legend-list .legend-item > .lenend-item-name::after{
+    display: block;
+    position: absolute;
+    content: '';    
+    width: 4rem;
+    height: 1px;
+    background-color: #fff;
+}
 .pie-legend-list > .ib-block {
     padding-top: .6rem;
 }
@@ -117,6 +126,7 @@ body { overflow: auto; }
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-left: .5rem;
+    font-size: 1.2rem !important;
 }
 .progress-layout .number-text.title{
     font-size: 12px;
@@ -234,6 +244,7 @@ body { overflow: auto; }
     padding: 0 .4rem;
     width: 25%;
     height: 8.4rem;
+    cursor: pointer;
 }
 .card_item_list .card-item .card-title {
     background-color: #0084ff;
