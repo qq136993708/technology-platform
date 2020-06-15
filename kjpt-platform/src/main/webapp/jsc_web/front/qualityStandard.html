@@ -41,9 +41,11 @@
 
 
         function echartsFn1(releaseData){
-                if(!releaseData){
-                    return
-                }
+            var series = [];
+            $.each(releaseData, function(i, item) {
+                var obj = {name: item.standardTypeText, value: Number(item.researchCount)};
+                series.push(obj);
+            });
             // 国内标准在研数
             kyptCharts.render({
                 id: 'gnbzN_charts1',
@@ -61,38 +63,24 @@
                 totalTitle: true,
                 title: {
                     textStyle: {
+                        fontFamily: 'Impact',
                         color: '#fff',
                         fontSize: 40,
                         width: '100%'
                     }
                 },
-                series: [{
-                    name: releaseData[0].standardTypeText,
-                    value: releaseData[0].researchCount
-                },
-                    {
-                        name: releaseData[1].standardTypeText,
-                        value: releaseData[1].researchCount
-                    },
-                    {
-                        name: releaseData[2].standardTypeText,
-                        value: releaseData[2].researchCount
-                    },
-                    {
-                        name: releaseData[3].standardTypeText,
-                        value: releaseData[3].researchCount
-                    },
-                    {
-                        name: releaseData[4].standardTypeText,
-                        value: releaseData[4].researchCount
-                    }
-                ],
+                series: series,
                 color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
             });
 
         }
         function echartsFn2(releaseData){
             //国内累计发布数
+            var series = [];
+            $.each(releaseData, function(i, item) {
+                var obj = {name: item.standardTypeText, value: Number(item.publishCount)};
+                series.push(obj);
+            });
             kyptCharts.render({
                 id: 'gnbzN_charts2',
                 type: 'pie',
@@ -109,32 +97,13 @@
                 totalTitle: true,
                 title: {
                     textStyle: {
+                        fontFamily: 'Impact',
                         color: '#fff',
                         fontSize:40,
                         width: '100%'
                     }
                 },
-                series: [{
-                    name: releaseData[0].standardTypeText,
-                    value: releaseData[0].publishCount
-                },
-                    {
-                        name: releaseData[1].standardTypeText,
-                        value: releaseData[1].publishCount
-                    },
-                    {
-                        name: releaseData[2].standardTypeText,
-                        value: releaseData[2].publishCount
-                    },
-                    {
-                        name: releaseData[3].standardTypeText,
-                        value: releaseData[3].publishCount
-                    },
-                    {
-                        name: releaseData[4].standardTypeText,
-                        value: releaseData[4].publishCount
-                    }
-                ],
+                series: series,
                 color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
                 callback:function(param){
                     param.on('click',function(){
@@ -150,6 +119,11 @@
 
         }
         function echartsFn3(researchrelData){
+            var series = [];
+            $.each(researchrelData, function(i, item) {
+                var obj = {name: item.standardName, value: Number(item.allCount)};
+                series.push(obj);
+            });
             //国内标准在研数/国内累计发布数
             kyptCharts.render({
                 id: 'gnbzN_charts3',
@@ -167,20 +141,13 @@
                 totalTitle: true,
                 title: {
                     textStyle: {
+                        fontFamily: 'Impact',
                         color: '#fff',
                         fontSize:40,
                         width: '100%'
                     }
                 },
-                series: [{
-                    name: researchrelData[0].standardName,
-                    value: researchrelData[0].allCount
-                },
-                    {
-                        name: researchrelData[0].standardName,
-                        value: researchrelData[0].allCount
-                    }
-                ],
+                series: series,
                 color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
                 callback:function(param){
                     param.on('click',function(){
