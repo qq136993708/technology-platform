@@ -117,7 +117,8 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "wellKnownOrg", value = "驰名商标认定机构", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "registerOrg", value = "注册机构", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "commodityCategory", value = "商标类型", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "applicationNumber", value = "注册号", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "applicationNumber", value = "注册号", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位ID", dataType = "String", paramType = "query")
     })
 
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
@@ -146,7 +147,9 @@ public class TrademarkController extends RestBaseController {
                         @RequestParam(required = false) String registerOrg,
                         @RequestParam(required = false) String commodityCategory,
                         @RequestParam(required = false) String applicationNumber,
-                        @RequestParam(required = false,value = "secretLevel") String secretLevel
+                        @RequestParam(required = false,value = "secretLevel") String secretLevel,
+                        @RequestParam(required = false,value = "createUnitId") String createUnitId
+
     ){
         Map<String, Object> condition = new HashMap<>(6);
             if (pageNum == null) {
@@ -170,6 +173,9 @@ public class TrademarkController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(trademarkName)) {
         this.setParam(condition, "trademarkName", trademarkName);
+        }
+        if (!StringUtils.isEmpty(createUnitId)) {
+        this.setParam(condition, "createUnitId", createUnitId);
         }
         if (!StringUtils.isEmpty(lawStatus) && !"undefined".equals(lawStatus)) {
         this.setParam(condition, "lawStatus", lawStatus);

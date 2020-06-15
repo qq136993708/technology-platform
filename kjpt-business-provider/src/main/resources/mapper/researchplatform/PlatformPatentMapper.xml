@@ -129,6 +129,9 @@
             <if test="patentName != null and patentName != '' " >
                 patent_name = #{patentName},
             </if>
+            <if test="remark != null and remark != '' " >
+                remark = #{remark},
+            </if>
             <if test="patentType != null and patentType != '' " >
                 patent_type = #{patentType},
             </if>

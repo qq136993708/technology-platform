@@ -33,8 +33,10 @@ public class PatentInfoBIMockServiceImpl extends PatentInfoBIServiceImpl {
                 for(int k=0;k<texts.length;k++){
                     calResult temp = new calResult();
                     temp.setTextTitle(years[i]);
-                    temp.setTextSub(textsSub[j]);
-                    temp.setText(texts[k]);
+                    temp.setText(textsSub[j]);
+                    temp.setTextSub(texts[k]);
+                    temp.setDicValue("0"+i);
+                    temp.setDicValueSub("0"+i);
                     temp.setCalValue(BigDecimal.valueOf(nums[i][j][k]));
                     cList.add(temp);
                 }
