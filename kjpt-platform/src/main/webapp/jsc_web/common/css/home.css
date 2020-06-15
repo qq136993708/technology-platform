@@ -129,7 +129,7 @@ body { overflow: auto; }
     font-size: 1.2rem !important;
 }
 .progress-layout .number-text.title{
-    font-size: 12px;
+    font-size: 12px !important;
 }
 .progress-layout .number-text.value {
     font-family: Impact;

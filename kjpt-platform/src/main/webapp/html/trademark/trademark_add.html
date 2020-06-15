@@ -107,7 +107,7 @@
                         xm-select-radio=""
                         dic-base-data="ROOT_KJPT_YTDW" 
                         placeholder="请选择"></select> -->
-                        <input type="text" name="unitNameText" lay-verify="required" placeholder="" autocomplete="off"
+                        <input type="text" name="createUnitName" lay-verify="required" placeholder="" autocomplete="off"
                      class="layui-input" disabled>
                 </div>
             </div>
@@ -427,7 +427,7 @@
               });
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
-            data['unitNameText']=userInfo.unitName
+            data['createUnitId']=userInfo.unitId
             form.val('formPlatform', data);
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
