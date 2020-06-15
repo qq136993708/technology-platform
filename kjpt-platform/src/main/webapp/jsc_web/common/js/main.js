@@ -17,11 +17,18 @@ layui.use(['element'], function () {
         borderColor: '#001e38',
         title: '成果鉴定',
         totalTitle: true,
+        company:'个',
         title: {
             textStyle: {
                 color: '#fff',
                 fontSize: 24,
                 width: '100%'
+            },
+            subtextStyle:{
+                color: '#fff',
+                fontSize: 12,
+                width: '100%',
+                verticalAlign:'bottom',
             }
         },
         series: [
@@ -69,11 +76,18 @@ layui.use(['element'], function () {
         borderColor: '#001e38',
         title: '成果报奖',
         totalTitle: true,
+        company:'项',   
         title: {
             textStyle: {
                 color: '#fff',
                 fontSize: 24,
                 width: '100%'
+            },
+            subtextStyle:{
+                color: '#fff',
+                fontSize: 12,
+                width: '100%',
+                verticalAlign:'bottom',
             }
         },
         series: [
@@ -113,7 +127,7 @@ layui.use(['element'], function () {
                     fontSize: 14,
                     align: 'center',
                     padding: [3, 6, 3, 6],
-                    borderRadius: 3
+                    borderRadius: 3,
                 }
             }
         },
@@ -127,7 +141,7 @@ layui.use(['element'], function () {
             { name: '发明', value: '90' },
             { name: '实用新型', value: '131' }
         ],
-        color: ['#45F0FF', '#2687FF', '#1bc85e'],
+        color: ['#297cce', '#efb614', '#18cdea'],
         callback:function(param){
             param.on('click',function(){
                 jscPup('kypt');
@@ -146,7 +160,7 @@ layui.use(['element'], function () {
         borderColor: '#001e38',
         data: [
             { name: '核能开发', value1: 21, value2: 76 },
-            { name: '集中研发', value1: 46, value2: 18 },
+            { name: '集中研发', value1: 10, value2: 38 },   
             { name: '国防基础', value1: 18, value2: 55 },
             { name: '国防技术基础', value1: 50, value2: 43 }
         ],
@@ -155,7 +169,7 @@ layui.use(['element'], function () {
             { name: '在研', valueKey: 'value1', stack: 'kyxm_charts'},
             { name: '已完成', valueKey: 'value2', stack: 'kyxm_charts'}
         ],
-        color: ['rgba(107, 100, 96, .3)', ['#25B9FE', '#25B9FE']],
+        color: ['rgba(107, 100, 96, .3)', ['#31E1F6','#386BEE']],
         lineColor: 'rgba(4, 30, 54, 1)',
         valueColor: '#fff',
         labelColor: '#fff',

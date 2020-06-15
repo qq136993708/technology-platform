@@ -656,6 +656,9 @@ var kyptCharts = {
         option.title.left = config.center[0];
       } else {
         option.title.left = '50%';
+      } 
+      if(config.company){
+        option.title.subtext =  config.company;
       }
     }
 

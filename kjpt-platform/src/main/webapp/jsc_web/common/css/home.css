@@ -234,6 +234,7 @@ body { overflow: auto; }
     padding: 0 .4rem;
     width: 25%;
     height: 8.4rem;
+    cursor: pointer;
 }
 .card_item_list .card-item .card-title {
     background-color: #0084ff;
