@@ -466,7 +466,7 @@ var kyptCharts = {
           itemColor = '#0AA1FF';
         }
         itemHtml = '<span class="lenend-item-icon '+ (item.type || config.type) +'" style="background-color:'+itemColor+'"></span>';
-        itemHtml += '<span class="lenend-item-name">'+ item.name +'</span>';
+        itemHtml += '<span class="lenend-item-name" data-page='+item.page+' >'+ item.name +'</span>';
         if (formatter.indexOf('value') >= 0) {
           itemHtml += '<span class="lenend-item-value">'+ item.value +'</span>';
         }
@@ -480,16 +480,22 @@ var kyptCharts = {
         // 添加图例事件
         $item.off('click').on({
           'click': function(e) {
-            var optionChart = _this.chart[config.id].chart.getOption(),
-            legendSelected = optionChart.legend.selected || {};
-            if ($(this).hasClass('selected')) {
-              $(this).removeClass('selected');
-              legendSelected[item.name] = true;
-            } else {
-              $(this).addClass('selected');
-              legendSelected[item.name] = false;
+            var elentText = e.toElement.innerText;
+            var page = e.toElement.dataset.page
+            if(page){
+              jscPup(page);
             }
-            _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+
+            // var optionChart = _this.chart[config.id].chart.getOption(),
+            // legendSelected = optionChart.legend.selected || {};
+            // if ($(this).hasClass('selected')) {
+            //   $(this).removeClass('selected');
+            //   legendSelected[item.name] = true;
+            // } else {
+            //   $(this).addClass('selected');
+            //   legendSelected[item.name] = false;
+            // }
+            // _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
           }
         })
       });
@@ -634,10 +640,10 @@ var kyptCharts = {
             color: '#313232',
             formatter: '{c}\n{d}%'
           },
-          itemStyle: {
-            borderWidth: (borderColor ? 2 : 0),
-            borderColor: borderColor || '#fff'
-          }
+          // itemStyle: {
+            // borderWidth: (borderColor ? 2 : 0),
+            // borderColor: borderColor || '#fff'  去掉饼图空隙
+          // } 
           
         }
       ],
