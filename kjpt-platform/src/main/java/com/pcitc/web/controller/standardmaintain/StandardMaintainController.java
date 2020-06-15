@@ -77,7 +77,8 @@ public class StandardMaintainController extends RestBaseController {
             @ApiImplicitParam(name = "standardNum", value = "标准号", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "standardName", value = "标准名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "isPublish", value = "是否已发布", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "chiefEditorUnit", value = "主编单位", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "chiefEditorUnit", value = "主编单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "standardType", value = "标准类型", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/standardMaintain-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -89,7 +90,8 @@ public class StandardMaintainController extends RestBaseController {
             @RequestParam(required = false,value = "standardNum") String standardNum,
             @RequestParam(required = false,value = "standardName")  String standardName,
             @RequestParam(required = false,value = "isPublish")  String isPublish,
-            @RequestParam(required = false,value = "chiefEditorUnit")  String chiefEditorUnit
+            @RequestParam(required = false,value = "chiefEditorUnit")  String chiefEditorUnit,
+            @RequestParam(required = false,value = "standardType")  String standardType
     ){
 
         Map<String, Object> condition = new HashMap<>(6);
@@ -109,6 +111,9 @@ public class StandardMaintainController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(planChineseName)) {
             this.setParam(condition, "planChineseName", planChineseName);
+        }
+        if (!StringUtils.isEmpty(standardType)) {
+            this.setParam(condition, "standardType", standardType);
         }
         if (!StringUtils.isEmpty(standardNum)) {
             this.setParam(condition, "standardNum", standardNum);
