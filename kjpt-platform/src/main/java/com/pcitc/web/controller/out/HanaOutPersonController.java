@@ -162,8 +162,10 @@ public class HanaOutPersonController extends BaseController {
 	   				   String expertNum=zjkBase.getPernr();
 	   				   String postCode=zjkBase.getZzwjbbm();//职务级别编码
 	   				   String post=zjkBase.getZzwjbmc();//职务级别名称
-	   				   String title=zjkBase.getZprzyjszwjbmc();//职称名称
-	   				   String titleCode= zjkBase.getZprzyjszwjbbm();//职称编码
+	   				   //String title=zjkBase.getZprzyjszwjbmc();//职称名称
+	   				   // String titleCode= zjkBase.getZprzyjszwjbbm();//职称编码
+	   				    String titleCode=  zjkBase.getZzyjszgmcbm();
+	   				    String title=   zjkBase.getZzyjszgmcmc();
 	   				   
 	   				   String education=zjkBase.getZjyzx();
 	   				   String unitName=zjkBase.getZdwmc();

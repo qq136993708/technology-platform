@@ -140,8 +140,6 @@ public class OutPerson  {
 
     
     private String major;
-
-    
     
     
     private Date birthDate;
@@ -159,10 +157,18 @@ public class OutPerson  {
     
     private String headPic="";
     
-    
+    private String birthDateStr;
     
 
-    public String getHeadPic() {
+    public String getBirthDateStr() {
+		return birthDateStr;
+	}
+
+	public void setBirthDateStr(String birthDateStr) {
+		this.birthDateStr = birthDateStr;
+	}
+
+	public String getHeadPic() {
 		return headPic;
 	}
 

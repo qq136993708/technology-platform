@@ -33,6 +33,10 @@
     <result column="ZPRZYJSZWJBMC" jdbcType="VARCHAR" property="zprzyjszwjbmc" />
     
     
+     <!--专业技术资格名称  -->
+    <result column="ZZYJSZGMCMC" jdbcType="VARCHAR" property="zzyjszgmcmc" />
+     <!--专业技术资格编码  -->
+    <result column="ZZYJSZGMCBM" jdbcType="VARCHAR" property="zzyjszgmcbm" />
     
     
     
@@ -131,7 +135,7 @@
          ZJYZX,
          ZJYXLBM_N,
          ZPRZYJSZWJBBM,
-         ZPRZYJSZWJBMC
+         ZPRZYJSZWJBMC,ZZYJSZGMCMC,ZZYJSZGMCBM
          from "_SYS_BIC"."ZHJT.HR/CAL_HR_KJRC"
   </select>
   <!-- 获取所有专家相关专利 -->
