@@ -333,6 +333,9 @@
     <if test="unitName != null and unitName != '' " >
       and unit_name like CONCAT('%',#{unitName},'%')
     </if>
+    <if test="createUnitId != null and createUnitId != '' " >
+      and create_unit_id = #{createUnitId}
+    </if>
     <if test="trademarkName != null and trademarkName != '' " >
       and trademark_name like CONCAT('%',#{trademarkName},'%')
     </if>
