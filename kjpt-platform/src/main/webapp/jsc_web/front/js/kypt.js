@@ -5,6 +5,11 @@ layui.use(['laydate'], function() {
     var achieveTypesSeries = [];
     var awardsYearChart;
      var kypt_charts1 = echarts.init(document.getElementById('awardTramsformInfoHistory'));
+    var awardNameColor = [
+        {type: '授权', color: '#5AB2F6'},
+        {type: '申请', color: '#D66234'},
+        {type: '无效', color: '#545684'}
+    ];
     var awardTramsformInfoHistoryColor = [
         {type: 'transMoney', cololr: '#D89936'},
         {type: 'transMoneySum', cololr: '#0CB92D'}
@@ -77,8 +82,8 @@ layui.use(['laydate'], function() {
                                     name:data[0].text,
                                     type: 'bar',
                                     barWidth:"20",
+                                    barGap:'0',
                                     stack: data[0].textSub,
-                                    opcity: '0.3',
                                     data: [data[0].calValue, data[6].calValue, data[12].calValue,data[18].calValue,data[24].calValue],
                                 },
                                 {
@@ -93,11 +98,15 @@ layui.use(['laydate'], function() {
                                     stack:data[2].textSub,
                                     data: [data[2].calValue,data[8].calValue, data[14].calValue, data[20].calValue, data[26].calValue],
                                     label: {
+                                      // normal:{
+                                        fontFamily: 'Impact',
+                                        color: 'white',
+                                        fontSize: 20,
                                         show: true,
                                         position: 'top',
-                                        color: 'white',
-                                        formatter: function (params){
-                                            return params.value
+                                        formatter: function (params) {
+                                            var nums = "{a|" + params.value + "}";
+                                            return nums
                                         }
                                     }
 
@@ -121,9 +130,11 @@ layui.use(['laydate'], function() {
                                     stack:data[5].textSub,
                                     data: [data[5].calValue, data[11].calValue, data[17].calValue, data[23].calValue, data[29].calValue],
                                     label: {
+                                        fontFamily: 'Impact',
+                                        color: 'white',
+                                        fontSize: 20,
                                         show: true,
                                         position: 'top',
-                                        color: 'white',
                                         formatter: function (params){
                                             return params.value
                                         }
@@ -160,7 +171,8 @@ layui.use(['laydate'], function() {
             });
         },
         awardsYearPie: function (params) {
-            $('#awardTramsformType').empty();
+            var series = [];
+            var colors = [];
             httpModule({
                 url: '/patentBI/getPatentCountByLegelStatus',
                 data: '2020',
@@ -168,6 +180,34 @@ layui.use(['laydate'], function() {
                 async: false,
                 success: function(res) {
                     var awardTramsformType = echarts.init(document.getElementById('awardTramsformType'));
+                    var data = res.data;
+                    $.each(res.data, function(i, item) {
+                        var colorObj = awardNameColor.find(function (currValue, i) {
+                            return currValue.type == item.text;
+                        });
+                        var color = colorObj ? colorObj.color : '#DF5DFF';
+                        var obj = {name: item.text, value: Number(item.calValue)};
+                        colors.push(color)
+                        series.push(obj);
+                    });
+                    // kyptCharts.render({
+                    //     id: 'awardTramsformType',
+                    //     type: 'pie',
+                    //     legendPosition: 'right',
+                    //     legend: { top: 'center', formatter: 'name|value', right: 40},
+                    //     label: false,
+                    //     labelColor: '#fff',
+                    //     radius: '65%',
+                    //     center: ['50%', '50%'],
+                    //     left: '20',
+                    //     borderColor: '#001e38',
+                    //     totalTitle: false,
+                    //     series: series,
+                    //     title: {
+                    //         textStyle: { fontSize: 48, color: '#fff' }
+                    //     },
+                    //     color: colors,
+                    // });
                     var option2 = {
                         tooltip: {
                             trigger: 'item',
@@ -175,16 +215,38 @@ layui.use(['laydate'], function() {
                         },
                         legend: {
                             orient: 'vertical',
-                            left: '80%',
-                            top:'30%',
+                            left: '70%',
+                            top:'20%',
                             data: [
                                 {value: res.data[0].calValue, name: res.data[0].text},
                                 {value: res.data[1].calValue, name: res.data[1].text},
                                 {value: res.data[2].calValue, name: res.data[2].text},
                             ],
+                            formatter:function(name){
+                                var target;
+                                for(var i=0;i<data.length;i++){
+                                    if(data[i].text===name){
+                                        target=data[i].calValue
+                                    }
+                                }
+                                var arr= arr=["{a|"+name+"}","{b|"+target+"}"]
+                                return arr
+                            },
                             color:['#59B2F6','#D66134','#535584'],
                             textStyle:{
-                                color:"white"
+                                rich:{
+                                    a:{
+                                        fontFamily:'PingFang SC',
+                                        fontSize:18,
+                                        color:"white",
+                                        padding: 15
+                                    },
+                                    b:{
+                                        fontFamily:'Impact',
+                                        fontSize:26,
+                                        color:"white"
+                                    }
+                                }
                             }
                         },
                         series: [
@@ -192,15 +254,11 @@ layui.use(['laydate'], function() {
                                 name: '访问来源',
                                 type: 'pie',
                                 radius: '80%',
-                                center: ['40%', '50%'],
+                                center: ['30%', '50%'],
                                 label: {
                                     show: false
                                 },
-                                data: [
-                                    {value: res.data[0].calValue, name: res.data[0].text},
-                                    {value: res.data[1].calValue, name: res.data[1].text},
-                                    {value: res.data[2].calValue, name: res.data[2].text},
-                                ],
+                                data: series,
                                 color:['#59B2F6','#D66134','#535584'],
                                 emphasis: {
                                     itemStyle: {
@@ -276,9 +334,7 @@ layui.use(['laydate'], function() {
                                             lineHeight: 40,
                                             height: 40
                                         },
-                                        min: 0,
-                                        max: Math.ceil(Math.max.apply(null,y1)/6)*6,
-                                        interval: Math.ceil(Math.max.apply(null,y1)/6),
+                                        min: 0
                                     },
                                 ]
 
