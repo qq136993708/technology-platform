@@ -89,8 +89,8 @@ public class AchieveClient {
 	public Integer taskRejectSreProjectTaskInner(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		AchieveBase achieveBase=abs.load(id);
-		achieveBase.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
-		achieveBase.setIsPublic(Constant.IS_PUBLIC_END);
+		achieveBase.setAuditStatus(Constants.NO_SUBMIT);
+		//achieveBase.setIsPublic(Constant.IS_PUBLIC_END);
 		int count=abs.save(achieveBase) ;
 		return count;
 	}
@@ -102,7 +102,7 @@ public class AchieveClient {
 		AchieveBase achieveBase=abs.load(id);
 		System.out.println(achieveBase.getAchieveName()+"-------taskAgreeSreProjectTaskInner----"+achieveBase.getDeleted());
 		
-		achieveBase.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
+		achieveBase.setAuditStatus(Constants.ADOPT);
 		int count=abs.save(achieveBase) ;
 		
 		return count;

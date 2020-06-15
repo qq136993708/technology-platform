@@ -66,6 +66,15 @@ public class Constant {
     
     public static String ROLE_WHITE_USER = "LDJSC";//知悉范围白名单
 
+
+    //业务流程状态
+    public static final String NO_SUBMIT="0"; //未提交
+    public static final String SUBMIT="1"; //已提交
+    public static final String UNDER_APPROVAL="2"; //审批中
+    public static final String ADOPT="3"; //已通过
+    public static final String COMPLETED="4"; //已完成
+    public static final String REJECT="5"; //驳回
+
  
 
     /**
