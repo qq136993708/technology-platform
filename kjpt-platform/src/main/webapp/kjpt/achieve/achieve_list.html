@@ -110,10 +110,12 @@
   <div class="view-title-layout" id="opations-btn">
     <div class="right">
       <button class="layui-btn border-blue openLayerPage" data-type="add" button-role="add">新增</button>
+      <button class="layui-btn border-blue" id="collection" button-role="collection">补录</button>
       <button class="layui-btn border-blue openLayerPage" data-type="edit" button-role="edit">编辑</button>
       <button class="layui-btn border-blue openLayerPage" data-type="view">查看</button>
       <button class="layui-btn border-red" id="delItem" button-role="delete">删除</button>
-      <button class="layui-btn layui-btn-normal"  id="flow" button-role="flow">上报</button>
+      <button class="layui-btn layui-btn-normal" id="flow" button-role="flow">上报</button>
+      <button class="layui-btn border-red" id="reject" button-role="reject">驳回</button>
       <button class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</button>
     </div>
   </div>
@@ -135,7 +137,7 @@ var postCodes = "";
 function dealFlow(id) 
 {
 	 $('#id').val(id);
-	console.log("functionId="+parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code")+" id="+id);
+	// console.log("functionId="+parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code")+" id="+id);
 	var nunits="";
 	 var json = {functionId:parent.$("#LAY_app_body>div.layui-show iframe").attr("data-code"),branchFlag: "0"};
 	 $.ajax({
@@ -152,7 +154,7 @@ function dealFlow(id)
           		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
           		// roleCodes，参数名必须一致，方便公共弹出页面调用
           		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-          		 console.log("roleCodes:\n"+roleCodes); 
+          		//  console.log("roleCodes:\n"+roleCodes); 
           		  var temUrl="/task/deal/users/ini";
                   layer.open({
                       title:'选择审批人',
@@ -177,7 +179,7 @@ function dealFlow(id)
 	          		{
 	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
 	          		}
-          		  console.log("隐藏的查询条件\n"+data.data);
+          		  // console.log("隐藏的查询条件\n"+data.data);
           		   var temUrl="/task/deal/user/unit/ini";
                    layer.open({
                       title:'选择审批人',

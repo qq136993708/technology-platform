@@ -26,6 +26,12 @@
         <result column="work_info" jdbcType="VARCHAR" property="workInfo"/>
         <result column="affiliated_unit" jdbcType="VARCHAR" property="affiliatedUnit"/>
         <result column="affiliated_unit_text" jdbcType="VARCHAR" property="affiliatedUnitText"/>
+        <result column="apply_status" jdbcType="VARCHAR" property="applyStatus"/>
+        <result column="apply_status_text" jdbcType="VARCHAR" property="applyStatusText"/>
+        <result column="achieve_type" jdbcType="VARCHAR" property="achieveType"/>
+        <result column="achieve_type_text" jdbcType="VARCHAR" property="achieveTypeText"/>
+        <result column="conversion_amount" jdbcType="DECIMAL" property="conversionAmount"/>
+
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
 
@@ -34,7 +40,6 @@
         <result column="audit_status_text" jdbcType="VARCHAR" property="auditStatusText"/>
         <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
-
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
 
@@ -67,7 +72,12 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        apply_status,
+        apply_status_text,
+        achieve_type,
+        achieve_type_text,
+        conversionAmount
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
@@ -107,6 +117,9 @@
         </if>
         <if test="affiliatedUnit != null and affiliatedUnit != '' " >
             and affiliated_unit = #{affiliatedUnit}
+        </if>
+        <if test="achieveType != null and achieveType != '' " >
+            and achieve_type = #{achieveType}
         </if>
         <if test="startDate != null and startDate != '' " >
             and finish_date <![CDATA[>=]]> #{startDate}
@@ -159,9 +172,13 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        apply_status,
+        achieve_type,
+        conversion_amount
         ) values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
-         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{affiliatedUnit},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+         #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{affiliatedUnit},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson}
+         ,#{applyStatus},#{achieveType}.#{conversionAmount})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -197,6 +214,9 @@
             <if test="auditStatus != null and auditStatus != ''" >
                 audit_status = #{auditStatus},
             </if>
+            <if test="applyStatus != null and applyStatus != ''" >
+                apply_status = #{applyStatus},
+            </if>
             <if test="deleted != null and deleted != ''" >
                 del_status = #{deleted},
             </if>
@@ -215,11 +235,17 @@
             <if test="createUnitId != null and createUnitId != ''" >
                 create_unit_id = #{createUnitId,jdbcType=VARCHAR},
             </if>
+            <if test="achieveType != null and achieveType != ''" >
+                achieve_type = #{achieveType,jdbcType=VARCHAR},
+            </if>
             <if test="createUnitName != null and createUnitName != ''" >
                 create_unit_name = #{createUnitName,jdbcType=VARCHAR},
             </if>
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="conversionAmount != null" >
+                conversion_amount = #{conversionAmount}
             </if>
         </trim>
         where id = #{id}

@@ -21,7 +21,8 @@ layui.use(['form', 'formSelects', 'laydate'], function() {
             achieveName: value.achieveName,
             achieveId: value.id,
             achieveTransType: value.achieveTransType,
-            finishUnitName: value.finishUnitName
+            finishUnitName: value.finishUnitName,
+            affiliatedUnit:value.affiliatedUnit
           })
         }
       }

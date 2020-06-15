@@ -1,68 +1,162 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+  <!--<meta charset="utf-8">-->
+  <!--<meta name="renderer" content="webkit">-->
+  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">-->
+  <!--<title>中核科技管理平台</title>-->
+  <!--<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">-->
+  <!--<link rel="stylesheet" href="/css/layui-common.css">-->
+  <!--<link rel="stylesheet" href="/css/common.css">-->
+  <!--<link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">-->
+<!--</head>-->
+<!--<body class="kypt_content">-->
+<!--<div class="layout-view-content" id="kypt_style">-->
+  <!--<div class="top-chart-layout">-->
+    <!--<div class="chart-item-layout kyptCharts1">-->
+      <!--<div class="chart-layout jscWeb">-->
+          <!--<div class="count-year-title">-->
+              <!--<div class="chart-title-layout content-title">-->
+                  <!--<div class="rectangle"></div>-->
+                  <!--<div class="text">历年申请/授权专利数量统计</div>-->
+              <!--</div>-->
+              <!--<ul id="achievt-types">-->
+                  <!--&lt;!&ndash;<li data-type="gjj"><span class="award-rectangle color-gj"></span>国家级奖</li>-->
+                  <!--<li data-type="sbj"><span class="award-rectangle color-sb"></span>省部级奖</li>-->
+                  <!--<li data-type="jt"><span class="award-rectangle color-jt"></span>集团奖</li>-->
+                  <!--<li data-type="sh"><span class="award-rectangle color-sh"></span>社会奖项</li>&ndash;&gt;-->
+              <!--</ul>-->
+          <!--</div>-->
+        <!--&lt;!&ndash;<div class="chart-title-layout">&ndash;&gt;-->
+            <!--&lt;!&ndash;<ul id="achievt-types">&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<li data-type="gjj"><span class="award-rectangle color-gj"></span>国家级奖</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li data-type="sbj"><span class="award-rectangle color-sb"></span>省部级奖</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li data-type="jt"><span class="award-rectangle color-jt"></span>集团奖</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li data-type="sh"><span class="award-rectangle color-sh"></span>社会奖项</li>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="rectangle"></div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="text" id="all">历年申请/授权专利数量统计</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--<div class="chart-mask"></div>-->
+        <!--<div class="chart-block" id="kypt_charts1"></div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="chart-item-layout kyptCharts2">-->
+      <!--<div class="chart-layout jscWeb">-->
+        <!--<div class="chart-title-layout">-->
+            <!--<div class="rectangle"></div>-->
+            <!--<div class="text">法律状态</div>-->
+        <!--</div>-->
+        <!--<div class="chart-mask"></div>-->
+        <!--<div class="chart-block" id="kypt_charts2"></div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="bottom-chart-layout">-->
+    <!--<div class="chart-item-layout kyptCharts5">-->
+      <!--<div class="chart-layout jscWeb">-->
+        <!--<div class="chart-title-layout">-->
+            <!--<div class="rectangle"></div>-->
+            <!--<div class="text" >二级单位专利数量统计</div>-->
+
+        <!--</div>-->
+        <!--<div class="chart-block" id="kypt_charts5"></div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!---->
+<!--</div>-->
+<!--<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>-->
+<!--<script src="/plugins/echarts/echarts.min.js"></script>-->
+<!--<script src="/layuiadmin/layui/layui.js"></script>-->
+<!--<script src="/layuiadmin/js/common.js"></script>-->
+<!--<script src="/layuiadmin/js/chartOption.js"></script>-->
+<!--<script src="./js/kypt.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>中核科技管理平台</title>
-  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
-  <link rel="stylesheet" href="/css/layui-common.css">
-  <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
 </head>
-<body class="kypt_content">
-<div class="layout-view-content">
-  <div class="top-chart-layout">
-    <div class="chart-item-layout kyptCharts1">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">科研平台项目数量<span class="sub_title_text">2019年度</span></div>
+<body>
+<div id="achieve-award" class="layout-view-content">
+    <div class="top-chart-layout">
+        <div class="chart-item-layout top-left-content">
+            <div class="chart-layout jscWeb count-year">
+                <div class="count-year-title">
+                    <div class="chart-title-layout content-title">
+                        <div class="rectangle"></div>
+                        <div class="text" id="all">历年申请/授权专利数量统计</div>
+                    </div>
+                    <ul>
+                        <li data-type="gjj"><span class="award-rectangle" style="background: #D89936;"></span>发明</li>
+                        <li data-type="sbj"><span class="award-rectangle" style="background: #5AB3F8;"></span>实用新例</li>
+                        <li data-type="sbj"><span class="award-rectangle" style="background: #2D66D7;"></span>外观设计</li>
+                    </ul>
+                </div>
+                <div class="chart-layout count-year-chart">
+                    <div class="chart-block" id="awardTramsformInfoHistory"></div>
+                </div>
+            </div>
         </div>
-        <div class="chart-mask"></div>
-        <div class="chart-block" id="kypt_charts1"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout kyptCharts2">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-            <div class="text">科研平台成果数量<span class="sub_title_text">2019年度</span></div>
-        </div>
-        <div class="chart-mask"></div>
-        <div class="chart-block" id="kypt_charts2"></div>
-      </div>
-    </div>
-    <div class="chart-item-layout kyptCharts3">
-    <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-            <div class="text">科研平台专利数量<span class="sub_title_text">2019年度</span></div>
-        </div>
-        <div class="chart-mask"></div>
-        <div class="chart-block" id="kypt_charts3"></div>
-    </div>
-    </div>
-    <div class="chart-item-layout kyptCharts4">
-    <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-            <div class="text">科研平台论文数量<span class="sub_title_text">2019年度</span></div>
-        </div>
-        <div class="chart-mask"></div>
-        <div class="chart-block" id="kypt_charts4"></div>
-    </div>
-    </div>
-  </div>
+        <div class="chart-item-layout top-right-content">
+            <div class="chart-layout jscWeb count-year">
+                <div class="count-year-title">
+                    <div class="chart-title-layout content-title">
+                        <div class="rectangle"></div>
+                        <div class="text">法律状态</div>
+                    </div>
+                </div>
+                <div class="chart-layout count-year-chart chart-content">
+                    <div class="chart-chart" style="width: 100%;">
+                        <div class="chart-block" id="awardTramsformType"></div>
+                    </div>
+                    <!--<div class="chart-legend">-->
+                        <!--<div class="legend-item">-->
+                            <!--<span>&nbsp;</span>-->
+                            <!--<span>数量</span>-->
+                            <!--<span>金额：万元</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
-  <div class="bottom-chart-layout">
-    <div class="chart-item-layout kyptCharts5">
-      <div class="chart-layout jscWeb">
-        <div class="chart-title-layout">
-          <div class="text">科研平台数量按技术领域</div>
+                </div>
+            </div>
         </div>
-        <div class="chart-block" id="kypt_charts5"></div>
-      </div>
     </div>
-  </div>
-  
+    <div class="bottom-chart-layout" style="padding-top: 20px">
+        <div class="achieve-detail">
+                <div class="count-year-title">
+                    <div class="chart-title-layout content-title">
+                        <div class="rectangle"></div>
+                        <div class="text">二级单位专利数量统计</div>
+                    </div>
+                    <ul>
+                        <li data-type="gjj"><span class="award-rectangle" style="background: #59B2F6;"></span>授权</li>
+                        <li data-type="gjj"><span class="award-rectangle" style="background: #D66134;"></span>申请</li>
+                        <li data-type="sbj"><span class="award-rectangle" style="background: #535584;"></span>无效</li>
+                    </ul>
+                </div>
+            <div class="chart-layout count-year-chart" style="height: 100%;padding-bottom: 2rem;">
+                <div class="chart-block" id="achieveTransferOffice" style="margin-top: 30px;height: 180px;" ></div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 <script src="/plugins/echarts/echarts.min.js"></script>
@@ -71,4 +165,4 @@
 <script src="/layuiadmin/js/chartOption.js"></script>
 <script src="./js/kypt.js"></script>
 </body>
-</html>
+</html>>

@@ -20,7 +20,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             type: 'radio',
                         },
                         {
-                            field: 'unitNameText',
+                            field: 'createUnitName',
                             title: '单位名称',
 
                         },

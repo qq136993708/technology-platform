@@ -75,13 +75,19 @@ public class ImportExcelUtil {
 		//遍历Excel中所有的sheet
 			Sheet sheet = work.getSheetAt(0);
 			if(sheet==null){return null;}
+			int lastCellNum = 0;
+			if(sheet.getRow(0) == null){
+				return null;
+			}else{
+				lastCellNum = sheet.getRow(0).getLastCellNum();
+			}
 			//遍历当前sheet中的所有行
 			for (int j = sheet.getFirstRowNum()+4; j <=sheet.getLastRowNum(); j++) {
 				Row row = sheet.getRow(j);
 				if(row==null||row.getFirstCellNum()==j){continue;}
 				//遍历所有的列
 				List<Object> li = new ArrayList<Object>();
-				for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {
+				for (int y = row.getFirstCellNum(); y < lastCellNum; y++) {
 					Cell cell = row.getCell(y);
 					li.add(this.getCellValue(cell));
 					int beg = row.getFirstCellNum();
@@ -126,7 +132,7 @@ public class ImportExcelUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");  //日期格式化
 		DecimalFormat df2 = new DecimalFormat("0.0000");  //格式化数字
 		if(cell == null) {
-			return null;
+			return "";
 		}
 		switch (cell.getCellTypeEnum()) {
 		case STRING:

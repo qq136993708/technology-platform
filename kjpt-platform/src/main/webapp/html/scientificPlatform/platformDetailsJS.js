@@ -22,10 +22,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     var zlUrl =''; // 主要专利
     switch(variable.level){
       case '01':
-        leaderUrl = '/data/科研能力-国家级科研平台-领军人物.xls'; //领军人物
+        leaderUrl = '/data/科研能力-国家级科研平台-领军人物模板.xls'; //领军人物
         treasisUrl ='/data/科研能力-国家级科研平台-论文模板.xls'; //论文
         groupUrl = '/data/科研能力-国家级科研平台-团队成员模板.xls';  // 团队成员
-        achiveUrl = '/data/科研能力-集团级科研平台-主要成果模板.xls'; //主要成果
+        achiveUrl = '/data/科研能力-国家级科研平台-主要成果模板.xls'; //主要成果
         zlUrl ='/data/科研能力-国家级科研平台-专利模板.xls'; // 主要专利
       break ;
       case '02':
@@ -43,14 +43,14 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         zlUrl ='/data/科研能力-地方省部级科研平台-专利模板.xls'; // 主要专利
       break;
       case '04':
-        leaderUrl = '/data/科研能力-集团级科研平台-领军人物.xls'; //领军人物
+        leaderUrl = '/data/科研能力-集团级科研平台-领军人物模板.xls'; //领军人物
         treasisUrl ='/data/科研能力-集团级科研平台-论文模板.xls'; //论文
         groupUrl = '/data/科研能力-集团级科研平台-团队成员模板.xls';  // 团队成员
         achiveUrl = '/data/科研能力-集团级科研平台-主要成果模板.xls'; //主要成果
         zlUrl ='/data/科研能力-集团级科研平台-专利模板.xls'; // 主要专利
       break;
       case '05':
-        leaderUrl = '/data/科研能力-板块级科研平台-领军人物.xls'; //领军人物
+        leaderUrl = '/data/科研能力-板块级科研平台-领军人物模板.xls'; //领军人物
         treasisUrl ='/data/科研能力-板块级科研平台-论文模板.xls'; //论文
         groupUrl = '/data/科研能力-板块级科研平台-团队成员模板.xls';  // 团队成员
         achiveUrl = '/data/科研能力-板块级科研平台-主要成果模板.xls'; //主要成果
