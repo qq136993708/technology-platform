@@ -121,7 +121,7 @@
                 <a class="layui-btn border-blue"  data-type="importData" filter="addFile" button-role="import">导入</a>
             </div>
 
-            <a href="/expert-api/exput_excel" class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
+            <a class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
         </div>
     </div>
     <table id="expertTable" lay-filter="expertTable"></table>
@@ -251,10 +251,6 @@
         form.on('submit(newSubmit)', function(data) {
             var json=setVal(data);
             obj.tableList(json)
-            // delete json.page;
-            // delete json.limit;
-            // var jsonObj=SON.stringify(json)
-            // $("#exportData").attr("href","/expert-api/exput_excel?"+jsonObj)
             return false
         })
 
@@ -310,6 +306,38 @@
                 }
             }
         }
+        // 导出
+        $('#exportData').click(function() {
+        var formValue = form.val('formPlatform');
+        var json=setVal(formValue);
+        httpModule({
+            url: "/expert-api/exput_excel",
+            type: 'POST',
+            data:json,
+            success: function(relData) {
+                console.log(relData) 
+                window.open(relData, '_blank');
+               
+            }
+        });
+        // debugger
+        // var json=setVal(formValue);
+        // // obj.tableList(json)
+        // searchData = {
+        //     name: formValue.name || '', // 单位名称：
+        //     belongUnit: formValue.belongUnit || '', // 项目背景：
+        // },
+        // exportUrl = '';
+
+        // for (var key in searchData) {
+        //     exportUrl += '&' + key + '=' + searchData[key];
+        // }
+        // //expert-api/exput_excel
+        // exportUrl = '/expert-api/exput_excel?' + exportUrl.substring(1) + json;
+        // debugger
+        // console.log(exportUrl)
+        // window.open(exportUrl, '_blank');
+        })
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
