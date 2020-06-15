@@ -32,11 +32,11 @@ layui.use(['element'], function () {
             }
         },
         series: [
-            { name: '国家级', value: '9' },
-            { name: '国家部委级', value: '12' },
-            { name: '地方省级', value: '10' },
-            { name: '集团级', value: '8' },
-            { name: '板块级', value: '11' }
+            { name: '国家级', value: '9' ,page:'kynl_page'},
+            { name: '国家部委级', value: '12' ,page:'kynl_page'},
+            { name: '地方省级', value: '10' ,page:'kynl_page'},
+            { name: '集团级', value: '8' ,page:'kynl_page'},
+            { name: '板块级', value: '11',page:'kynl_page' }
         ],
         color: ['#2687FF', '#6BD04A', '#EFEC56', '#D89339', '#D66635'],
         callback:function(param){
@@ -91,10 +91,10 @@ layui.use(['element'], function () {
             }
         },
         series: [
-            { name: '国家级奖', value: '143' },
-            { name: '省部级奖', value: '120' },
-            { name: '集团奖', value: '325' },
-            { name: '社会奖项', value: '184' }
+            { name: '国家级奖', value: '143',page:'achieve_award' },
+            { name: '省部级奖', value: '120' ,page:'achieve_award'},
+            { name: '集团奖', value: '325' ,page:'achieve_award'},
+            { name: '社会奖项', value: '184' ,page:'achieve_award'}
         ],
         color: ['#4526D4', '#3461D3', '#5ABEE7', '#74E8D0'],
         callback:function(param){
@@ -185,9 +185,9 @@ layui.use(['element'], function () {
     $('.card-item').on('click',function(){
         jscPup('kypt');
     })
-    $('.item_number').on('click',function(){
-        jscPup('achieve_award');
-    })
+    // $('.item_number').on('click',function(){
+    //     jscPup('achieve_award'); 
+    // })
     // HTTP请求公式
     function loadData() {
         httpModule({

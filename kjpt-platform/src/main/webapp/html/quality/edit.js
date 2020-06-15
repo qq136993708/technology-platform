@@ -45,7 +45,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           }
           
           if (variable.type === 'view') {
-        	  setFomeDisabled('formMain', '.disabled');
+            setFomeDisabled('formMain', '.disabled');
           }
           
           form.val('formMain', data);
@@ -71,6 +71,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
+              if (variable.type === 'view') {
+                $('.file-options-delete').hide();
+              }
             }
           });
 
