@@ -216,7 +216,7 @@ var kyptCharts = {
           show: true,
           position: 'top',
           color: labelColor || '#46484B',
-          fontSize: 12,
+          fontSize: 16,
           fontFamily:'Impact'
         }
       };
