@@ -121,7 +121,7 @@ layui.use(['element'], function () {
             formatter: [ '{a|{b}：{c}}' ].join('\n'),
             rich: {
                 a: {
-                    height: 20,
+                    height: 20, 
                     borderWidth: 1,
                     lineHeight: 18,
                     fontSize: 14,
