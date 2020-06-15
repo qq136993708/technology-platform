@@ -209,7 +209,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         }}
         ,{field: 'birth', title: '出生日期', sort: true,templet:function(d){return  new Date(d.birth).format('yyyy-MM-dd')} }
         ,{field: 'educationText', title: '学历', sort: true}
-        ,{field: 'technicalTitle', title: '担任职务'}
+        ,{field: 'assumeOffice', title: '担任职务'}
         ,{field: 'graduateSchool', title: '学校名称'}
         ,{field: 'majorStudied', title: '所学专业'}
         // ,{field: 'postName', title: '岗位名称'} 
