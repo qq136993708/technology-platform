@@ -388,8 +388,8 @@ public class TrademarkController extends RestBaseController {
                     //将excel导入数据转换为SciencePlan对象
                     TrademarkInfo obj = new TrademarkInfo();
                     //TODO:后台存储的是单位名称，不是单位id
-                   obj.setUnitName(String.valueOf(col_1));
-                   // obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
+                  // obj.setUnitName(String.valueOf(col_1));
+                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
                     obj.setTrademarkName(String.valueOf(col_2));
                     obj.setApplicationNumber(String.valueOf(col_3));
                     obj.setCountryType(String.valueOf(col_4));
@@ -409,11 +409,11 @@ public class TrademarkController extends RestBaseController {
 
                     obj.setLawStatus(getValueFromDictMap(String.valueOf(lo.get(11)),ROOT_KJPT_FLZT));
                     String isWellKonwn = String.valueOf(col_12);
-                   /* if(StringUtils.isNotBlank(isWellKonwn)){
+                    if(StringUtils.isNotBlank(isWellKonwn)){
                         obj.setIsWellKnown("是".equals(isWellKonwn)?YES:NO);
-                    }*/
+                    }
                     //TODO:存入字典值前台无法显示,先直接存入
-                    obj.setIsWellKnown(isWellKonwn);
+                    //obj.setIsWellKnown(isWellKonwn);
 
                     if(col_13 != null){
                         Date wellKnownDate = DateUtil.strToDate(String.valueOf(col_13),DateUtil.FMT_DD);
@@ -421,11 +421,11 @@ public class TrademarkController extends RestBaseController {
                     }
                     obj.setWellKnownOrg(String.valueOf(col_14));
                     String isRegistered = String.valueOf(col_15);
-                   /* if(StringUtils.isNotBlank(isRegistered)){
+                   if(StringUtils.isNotBlank(isRegistered)){
                         obj.setIsRegistered("是".equals(isRegistered)?YES:NO);
-                    }*/
+                    }
                     //TODO:存入字典值前台无法显示,先直接存入
-                    obj.setIsRegistered(isRegistered);
+                   // obj.setIsRegistered(isRegistered);
 
                     if(col_16 != null){
                         Date famousDate = DateUtil.strToDate(String.valueOf(col_16),DateUtil.FMT_DD);

@@ -1,5 +1,8 @@
 package com.pcitc.base.standardmaintain;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 /***
  * @Author xiaoh
  * @Description 质量标准-领导驾驶舱
@@ -7,6 +10,8 @@ package com.pcitc.base.standardmaintain;
  * @param
  * @return
  **/
+@NoArgsConstructor
+@AllArgsConstructor
 public class StandardMaintainBI extends StandardMaintain {
 
     /**
