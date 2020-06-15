@@ -87,6 +87,9 @@
     <if test="standardName != null and standardName != '' ">
       and standard_name like CONCAT('%',#{standardName},'%')
     </if>
+    <if test="standardType != null and standardType != '' ">
+      and standard_type = #{standardType}
+    </if>
     <if test="isPublish != null and isPublish != '' ">
       and is_publish = #{isPublish}
     </if>
