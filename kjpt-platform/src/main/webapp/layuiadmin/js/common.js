@@ -651,14 +651,14 @@ function setVal(data){
 	var custromLength = $('#custromFrom').find('.custrom-box').length;
 	customQueryConditionStr=[];
 	if(custromLength >= 1){
-			json=data.field;
+			json=data.field || data;
 			delete(json['columnName']);
 			delete(json['condition']);
 			delete(json['value']);
 			customQueryConditionStr=setCustromFrom();
 			json['customQueryConditionStr']=customQueryConditionStr;
 	}else{
-			json=data.field;
+			json=data.field || data;
 	}
 	return json;
 }
