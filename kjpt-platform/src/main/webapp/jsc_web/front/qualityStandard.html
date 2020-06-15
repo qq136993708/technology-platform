@@ -11,20 +11,21 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/jsc_web/common/css/main.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/home.css">
 </head>
 <body>
 <div style="padding: 20px 0px 0px 50px;">
     <div class="project_main_left" style="width:30%;">
         <div class="title" style="margin:30px 0px 20px 65px;"><span>国内标准在研数</span></div>
-        <div class="gnbzN_charts" style="height: 200px;width: 400px;" id="gnbzN_charts1"></div>
+        <div class="kypt_charts" style="height: 200px;width: 400px;" id="gnbzN_charts1"></div>
     </div>
     <div class="project_main_middle" style="width:30%;margin-left:3%; ">
-        <div class="title" class="title" style="margin:30px 0px 20px 65px;"><span>国内累计发布数</span></div>
-        <div class="gnbzN_charts" style="height: 200px;width: 400px;" id="gnbzN_charts2"></div>
+        <div class="title" class="title" style="margin:30px 0px 20px 65px;"><span>国内标准累计发布数</span></div>
+        <div class="kypt_charts" style="height: 200px;width: 400px;" id="gnbzN_charts2"></div>
     </div>
     <div class="project_main_right" style="width: 30%;margin-left:3%;">
         <div class="title" class="title" style="margin:30px 0px 20px 65px;"><span>国际标准在研/累计发布数</span></div>
-        <div class="gnbzN_charts" style="height: 200px;width: 400px;" id="gnbzN_charts3"></div>
+        <div class="kypt_charts" style="height: 200px;width: 400px;" id="gnbzN_charts3"></div>
     </div>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
@@ -61,7 +62,7 @@
                 title: {
                     textStyle: {
                         color: '#fff',
-                        fontSize: 22,
+                        fontSize: 40,
                         width: '100%'
                     }
                 },
@@ -87,16 +88,6 @@
                     }
                 ],
                 color: ['#2C5EDB', '#EA5C24', '#13CE43', '#EDDE21','#28A1EA'],
-                callback:function(param){
-                    param.on('click',function(){
-                        var openUrl={
-                            url:'/kjpt/achieve/identify/achieve_identify_plan_list.html',
-                            name:'成果鉴定'
-                        }
-                        window.open('/index', 'kjpt_webapp');
-                        localStorage.setItem("url", JSON.stringify(openUrl));
-                    })
-                },
             });
 
         }
@@ -114,12 +105,12 @@
                 labelColor: '#fff',
                 radius: ['62%', '84%'],
                 borderColor: '#001e38',
-                title: '国内累计发布数',
+                title: '国内标准累计发布数',
                 totalTitle: true,
                 title: {
                     textStyle: {
                         color: '#fff',
-                        fontSize: 24,
+                        fontSize:40,
                         width: '100%'
                     }
                 },
@@ -177,7 +168,7 @@
                 title: {
                     textStyle: {
                         color: '#fff',
-                        fontSize: 24,
+                        fontSize:40,
                         width: '100%'
                     }
                 },

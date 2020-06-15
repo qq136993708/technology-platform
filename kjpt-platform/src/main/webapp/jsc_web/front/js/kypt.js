@@ -34,7 +34,7 @@ layui.use(['laydate'], function() {
                                     var showHtms = '<div style="font-size:16px; margin:5px;">'+'申请专利'+'</div>'+
                                      '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
                                         '<div style="font-size:16px; margin:5px;">'+'授权专利'+'</div>'+
-                                        '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+   serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
+                                     '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+ serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
 
                                     return showHtms;
                                 }
@@ -91,7 +91,16 @@ layui.use(['laydate'], function() {
                                     name: data[2].text,
                                     type: 'bar',
                                     stack:data[2].textSub,
-                                    data: [data[2].calValue,data[8].calValue, data[14].calValue, data[20].calValue, data[26].calValue]
+                                    data: [data[2].calValue,data[8].calValue, data[14].calValue, data[20].calValue, data[26].calValue],
+                                    label: {
+                                        show: true,
+                                        position: 'top',
+                                        color: 'white',
+                                        formatter: function (params){
+                                            return params.value
+                                        }
+                                    }
+
                                 },
                                 {
                                     name: data[3].text,
@@ -110,10 +119,41 @@ layui.use(['laydate'], function() {
                                     name: data[5].text,
                                     type: 'bar',
                                     stack:data[5].textSub,
-                                    data: [data[5].calValue, data[11].calValue, data[17].calValue, data[23].calValue, data[29].calValue]
+                                    data: [data[5].calValue, data[11].calValue, data[17].calValue, data[23].calValue, data[29].calValue],
+                                    label: {
+                                        show: true,
+                                        position: 'top',
+                                        color: 'white',
+                                        formatter: function (params){
+                                            return params.value
+                                        }
+                                    }
+
                                 },
                             ]
                         };
+                        var series = option1["series"];
+
+                        var fun = function (params) {
+                            var datavalue = 0;
+                            for (var i = 0; i < series.length; i++) {
+                                if(series[i].stack === '申请专利'){
+                                    datavalue += series[i].data[params.dataIndex]
+                                }
+                            }
+                            return datavalue;
+                        }
+                        var fun2 = function (params) {
+                            var datavalue2 = 0;
+                            for (var i = 0; i < series.length; i++) {
+                                if(series[i].stack === '授权专利'){
+                                    datavalue2 += series[i].data[params.dataIndex]
+                                }
+                            }
+                            return datavalue2;
+                        }
+                        series[2]["label"]["formatter"] = fun;
+                        series[series.length - 1]["label"]["formatter"] = fun2;
                         kypt_charts1.setOption(option1)
                     }
                 }
