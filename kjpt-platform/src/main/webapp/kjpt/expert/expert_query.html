@@ -147,11 +147,11 @@
                                 return ('<a href="./expert_view_out.html?id='+d.id+'&no='+d.userNo+'" class="layui-table-link">'+d.name+'</a>')
                             } },
                             {field: 'belongUnitName', title: '所在单位'},
-                            {field: '', title: '出生日期'},
-                            {field: '', title: '职称'},
+                            {field: 'birthDateStr', title: '出生日期'},
+                            {field: 'postStr', title: '职称'},
                             {field: 'titleStr', title: '职务'},
                             {field: '', title: '研究方向'},
-                            {field: '', title: '手机号'},
+                            {field: 'contactWay', title: '手机号'},
                             // {field: 'isExpert', title: '是否专家',templet: function(d){
                             //         if(d.isExpert==0){return "否"}else {return "是"}
                             //     }},

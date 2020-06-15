@@ -46,7 +46,7 @@
     <result column="education_str"  jdbcType="VARCHAR" property="educationStr" />
     <result column="head_pic"  jdbcType="VARCHAR" property="headPic" />
     
-    
+    <result column="birthDateStr"  jdbcType="VARCHAR" property="birthDateStr" />
     
     
   </resultMap>
@@ -498,7 +498,7 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from  out_person  t <include refid="selectCondition" />
+     select *,DATE_FORMAT(t.`birth_date`,'%Y-%m-%d') birthDateStr from  out_person  t <include refid="selectCondition" />
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
    </select>
    

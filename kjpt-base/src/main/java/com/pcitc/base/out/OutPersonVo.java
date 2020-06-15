@@ -27,8 +27,13 @@ public class OutPersonVo implements Serializable{
 	 private String zprzyjszwjbbm;//聘任专业技术职务级别 编码
 	 private String zprzyjszwjbmc;//聘任专业技术职务级别 名称
 	 
+	 private String zzyjszgmcmc;//专业技术资格名称
+	 private String zzyjszgmcbm;//专业技术资格编码
 	    
-	    
+	 
+    
+    
+    
 	 
 	 
 	 private String zhdzlsj;//获得专利时间
@@ -92,6 +97,18 @@ public class OutPersonVo implements Serializable{
 	 
 	 
 	 
+	public String getZzyjszgmcmc() {
+		return zzyjszgmcmc;
+	}
+	public void setZzyjszgmcmc(String zzyjszgmcmc) {
+		this.zzyjszgmcmc = zzyjszgmcmc;
+	}
+	public String getZzyjszgmcbm() {
+		return zzyjszgmcbm;
+	}
+	public void setZzyjszgmcbm(String zzyjszgmcbm) {
+		this.zzyjszgmcbm = zzyjszgmcbm;
+	}
 	public String getZjyxlbmn() {
 		return zjyxlbmn;
 	}
