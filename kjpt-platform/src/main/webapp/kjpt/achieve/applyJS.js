@@ -178,13 +178,20 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
             layer.msg('科技成果完成团队情况（按贡献度排序）为必填项不能为空！');
             return false
         }
+        //POST /achieve-api/supplementaryRecord 补录
+        var curUrl = '/achieve-api/save';
+        var curTitle = '保存成功!'
+        if(variable.type='collection'){
+            curTitle = '补录成功!'
+            curUrl ='achieve-api/supplementaryRecord';
+        }
         httpModule({
-            url: '/achieve-api/save',
+            url: curUrl,
             data: data.field,
             type: "POST",
             success: function (e) {
                 if (e.code == 0) {
-                    layer.msg('保存成功!', {
+                    layer.msg(curTitle, {
                         icon: 1
                     });
                     closeTabsPage(variable.index);
