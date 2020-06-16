@@ -187,22 +187,6 @@ body { overflow: auto; }
     background: rgba(239, 236, 86, 1);
 }
 
-.page-layout-title {
-    display: block;
-}
-.page-layout-title > .text {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: .8rem;
-    font-weight: bold;
-    color: #3db3f9;
-    min-width: 120px;
-    height: 2.2rem;
-    line-height: 1.8rem;
-    padding: .2rem 0 .2rem 1.2rem;
-    background: url(../img/title_bg.png) no-repeat left center;
-    background-size: auto 112%;
-}
 .number_item_list {
     font-size: 0;
     padding-top: .8rem;

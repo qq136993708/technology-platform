@@ -290,10 +290,6 @@
 
 
 /* 饼图图例最小宽度 */
-.pie-legend-list .legend-item>.lenend-item-name {
-  min-width: 64px;
-}
-
 .quality_experience .pie-legend-list {
   white-space: normal;
   height: 44%;
@@ -385,20 +381,28 @@
 .color-sh {
   background: #0DA8D4;
 }
-
-.chart-item-layout {
+.achieve_transform .layout-view-content {
   padding-left: 2rem;
+  padding-right: 2rem;
 }
-
 .top-left-content {
   width: 60%;
+  padding-right: 2rem;
 }
-
 .top-right-content {
   width: 40%;
 }
+.achieve_transform .chart-layout {
+  height: calc(100% - 2.2rem);
+}
+.achieve_transform .page-layout-title {
+  margin-left: -1rem;
+}
+.achieve_transform .top-right-content .page-layout-title {
+  margin-left: 0;
+}
 
-#achieve-award .content-title{
+#achieve-award .content-title {
   position: relative;
   width: 30%;
 }
@@ -416,25 +420,6 @@
   background: url(../img/title_bg.png) no-repeat left center;
   background-size: auto 112%;
 }
-
-#achieve-award .rectangle {
-  /* border: 1px solid;
-  height: 2rem;
-  transform: skewX(-15deg);
-  width: 4rem;
-  border-image: -webkit-linear-gradient(to right, #4BB5FF , #327CAD, rgba(75, 181, 255, 0.4), rgb(0, 30, 56)) 1;
-  border-image: -moz-linear-gradient(to right, #4BB5FF , #327CAD, rgba(75, 181, 255, 0.4), rgb(0, 30, 56)) 1;
-  border-image: linear-gradient(to right, #4BB5FF , #327CAD, rgba(75, 181, 255, 0.4), rgb(0, 30, 56)) 1;
-  border-right: none;
-  position: absolute;
-  top: 0;
-  left: 0; */
-}
-
-.count-year-title {
-  display: flex;
-}
-
 .count-year-title ul li{
   height: 2rem;
   line-height: 2rem;
@@ -445,7 +430,6 @@
   position: relative;
   cursor: pointer;
 }
-
 .count-year-title ul li .award-rectangle {
   width: 16px;
   height: 16px;
@@ -453,47 +437,43 @@
   left: 0;
   top: 29%;
 }
-
 .achieve-detail {
-  padding: 0 2rem;
   width: 100%;
   height: 100%;
   padding-bottom: 0.6rem;
 }
-
 .achieve-detail-table {
-  height: calc(100% - 60px);
-  width: 100%;
-  margin-top: 60px;
+  height: calc(100% - 2.2rem);
+  padding-top: 1.6rem;
   overflow: auto;
   box-sizing: border-box;
 }
-
-.achieve-detail-table table {
-  width: 100%;
-}
-
-.achieve-detail-table table tr{
-  border:1px solid rgba(30,83,137,0.4);
-  height: 46px;
-  line-height: 46px;
-}
-
-.achieve-detail-table table tr th, .achieve-detail-table table tr td {
+.achieve-detail-table table tr th,
+.achieve-detail-table table tr td {
   border: none;
   font-family:PingFang SC;
   font-size:14px;
   color:rgba(255,255,255,1);
   text-align: center;
 }
-
 .achieve-detail-table table tr th{
   font-weight:600;
 }
-
 .achieve-detail-table table tr td{
   font-weight:400;
 }
+.achieve_transform table.line_table thead tr th,
+.achieve_transform table.line_table tbody tr td {
+  height: 2rem;
+  padding: 0 .4rem;
+  line-height: 2rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
+
 
 /*成果转换方式*/
 .chart-content {

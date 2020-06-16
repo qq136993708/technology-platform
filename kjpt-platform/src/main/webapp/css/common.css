@@ -619,8 +619,7 @@ table tr td a {
 
 /* 鍥惧舰鍥捐〃鏍峰紡甯冨眬 */
 .chart-layout {
-  height: 300px;
-  padding-top: 30px;
+  min-height: 240px;
   position: relative;
 }
 .chart-layout .chart-title-layout {
