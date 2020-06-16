@@ -66,7 +66,6 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                         formSelects.disabled(); // 禁用所有多选下拉框
                         scope_disabled = true;
                     }
-                    debugger
                     if(variable.type == 'collection'){
                         $('#conversionAmount').removeClass('layui-hide');
                         $('#conversionAmount label').addClass('label-required')
