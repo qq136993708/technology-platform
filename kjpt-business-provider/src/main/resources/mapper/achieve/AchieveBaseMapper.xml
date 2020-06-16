@@ -183,7 +183,7 @@
         is_supplementary_record
         ) values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
          #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{affiliatedUnit},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson}
-         ,#{applyStatus},#{achieveType}.#{conversionAmount}.#{isSupplementaryRecord})
+         ,#{applyStatus},#{achieveType},#{conversionAmount},#{isSupplementaryRecord})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
