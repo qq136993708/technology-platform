@@ -355,7 +355,7 @@ layui.config({
     name: 'name',
     url: '/SciencePlan/query',
     data: { page: 1, limit: 10, reportType: 1},
-    href: '/html/scientificMaterials/addPlan.html',
+    href: '/html/groupInformation/addPlan.html',
     hrefData: ['id', {name: 'type', value: 'see'}, {name: 'reportType', value: '1'}],
     title: '科技规划',
     openType: 'layer',

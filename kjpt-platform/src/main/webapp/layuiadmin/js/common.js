@@ -372,7 +372,7 @@ function closeTabsPage(index){
 }
 
 //驾驶舱页面跳转
-function jscPup(page) { 
+function jscPup(page,name) { 
 	$('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
 	$('#top-header-nav .transR' , parent.document).each(function(item){
 		var itemHref = $(this).attr('href');
@@ -380,7 +380,7 @@ function jscPup(page) {
 				$(this).addClass('btnactive');
 		}
 	})
-	window.location.href='/jsc_web/front/'+page+'.html';
+	window.location.href='/jsc_web/front/'+page+'.html?name='+ name;
  }
 
 // 获取字典总数据

@@ -40,12 +40,13 @@ layui.use(['element'], function () {
         ],
         color: ['#2687FF', '#6BD04A', '#EFEC56', '#D89339', '#D66635'],
         callback:function(param){
-            param.on('click',function(){
+            param.on('click',function(data){
                 // var openUrl={
                 //     url:'/jsc_web/front/kynl_page.html',
                 //     name:'科研能力'
                 // }
-                jscPup('kynl_page');
+                // debugger
+                jscPup('kynl_page',encodeURI(data.name));
                 // $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
                 // $('#top-header-nav .transR' , parent.document).each(function(item){
                 //     console.log($(this).attr('href'))
