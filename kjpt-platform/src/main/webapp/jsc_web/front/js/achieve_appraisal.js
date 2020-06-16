@@ -52,7 +52,7 @@ layui.use(['laydate'], function() {
           label: false,
           labelColor: '#fff',
           radius: ['44%', '65%'],
-          borderColor: '#001e38',
+          // borderColor: '#001e38',
           title: ' 成果种类占比',
           totalTitle: true,
           title: {
@@ -87,7 +87,7 @@ layui.use(['laydate'], function() {
           label: false,
           labelColor: '#fff',
           radius: ['44%', '65%'],
-          borderColor: '#001e38',
+          // borderColor: '#001e38',
           title: ' 研究院占比',
           totalTitle: true,
           title: {

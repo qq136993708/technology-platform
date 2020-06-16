@@ -1,3 +1,28 @@
+function addTableData(data) {
+  if (typeof(data) === 'object' && data.length) {
+      var $tbodyContent = $('#tbodyContent').empty(), tbodyHtml = '';
+
+      $.each(data, function(index, item) {
+          tbodyHtml += '<tr>';
+          tbodyHtml += '<td class="year">'+ item.year +'</td>';
+          tbodyHtml += '<td class="level">'+ item.typeText +'</td>';
+          tbodyHtml += '<td class="name">'+ item.awardsTypeText +'</td>';
+          tbodyHtml += '<td class="subName">'+ item.awardsChildTypeText +'</td>';
+          tbodyHtml += '<td class="award">'+ item.awardLevel +'</td>';
+          tbodyHtml += '<td class="number">'+ item.awardsNumber +'</td>';
+          tbodyHtml += '</tr>';
+      });
+      $tbodyContent.html(tbodyHtml);
+
+      setTimeout(function() {
+          var $table = $('#kynl_kypt_table .table-scroll-layout:eq(0)')
+          $('#kynl_kypt_table > .table-header').css({
+              'padding-right': $table.outerWidth() - $table.children('table').outerWidth()
+          });
+      }, 120);
+  }
+}
+
 $(function() {
   var achieveTypes = [];
   var achieveTypesSeries = [];
@@ -116,7 +141,7 @@ $(function() {
         radius: '65%',
         center: ['50%', '50%'],
         left: '20',
-        borderColor: '#001e38',
+        // borderColor: '#001e38',
         totalTitle: false,
         series: series,
         title: {
@@ -132,12 +157,12 @@ $(function() {
         data: params,
         success: function (res) {
           if (res.code == 0) {
-            var data = res.data;
-            let html = '';
-            $.each(data, function (i, item) {
-              html += '<tr><td>' + item.year + '</td><td>' + item.typeText +'</td><td>' + item.awardsTypeText + '</td><td>' + item.awardsChildTypeText + '</td><td>' + item.awardLevel + '</td><td>' + item.awardsNumber+ '</td></tr>'
-            })
-            $('.achieve-detail-table table tbody').html(html);
+            addTableData(res.data)
+            // let html = '';
+            // $.each(data, function (i, item) {
+            //   html += '<tr><td>' + item.year + '</td><td>' + item.typeText +'</td><td>' + item.awardsTypeText + '</td><td>' + item.awardsChildTypeText + '</td><td>' + item.awardLevel + '</td><td>' + item.awardsNumber+ '</td></tr>'
+            // })
+            // $('.achieve-detail-table table tbody').html(html);
           }
         }
       });
@@ -154,7 +179,6 @@ $(function() {
         var data = res.data;
         achieveTypes = data;
         $.each(data, function(i, item){
-          console.log('name =>', item.name);
           var achieveTypesSeriesObj = { name: item.name, valueKey: item.code };
           achieveTypesSeries.push(achieveTypesSeriesObj);
         });

@@ -568,7 +568,7 @@ html {
   }
 
 .pie-legend-list.right.vertical .legend-item > .lenend-item-name {
-    width: 5.5rem;
+    width: 5.2rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -645,8 +645,39 @@ table.line_table tbody tr td:first-child {
     background: url(../img/title_bg.png) no-repeat left center;
     background-size: auto 112%;
 }
-
-
+.achieve-detail-table .kynl_kypt_table {
+    height: 100%;
+}
+.kynl_layout table.fixed-layout {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid rgba(0, 159, 226, .2);
+    border-width: 1px 1px 0 0;
+}
+.kynl_layout table.fixed-layout th,
+.kynl_layout table.fixed-layout td {
+    border: 1px solid rgba(0, 159, 226, .2);
+    border-width: 0 0 1px 1px;
+    height: 2rem;
+    font-size: .8rem;
+    font-weight: normal;
+    color: #fff;
+    background: none;
+    padding-left: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+.kynl_layout table.fixed-layout th {
+    background: rgba(28, 115, 176, 0.2);
+}
+.kynl_kypt_table .table-scroll-layout {
+    height: calc(100% - 3rem);
+    overflow: auto;
+}
 
 
 

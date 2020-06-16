@@ -450,7 +450,7 @@ layui.use(['laydate'], function() {
         label: false,
         labelColor: '#fff',
         radius: ['44%', '66%'],
-        borderColor: '#001e38',
+        // borderColor: '#001e38',
         title: '损失占比',
         series: [],
         color: ['#45F0FF', '#2687FF', '#2687FF']

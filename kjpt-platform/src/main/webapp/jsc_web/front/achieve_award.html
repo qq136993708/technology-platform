@@ -38,21 +38,24 @@
       <div class="page-layout-title">
         <span class="text">获奖明细</span>
       </div>
-      <div class="achieve-detail-table">
-        <table class="line_table">
-          <thead>
-          <tr>
-            <th>获奖年份</th>
-            <th>奖项级别</th>
-            <th>奖项名称</th>
-            <th>奖项子名称</th>
-            <th>授奖级别</th>
-            <th>奖项数量</th>
-          </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+      <div class="achieve-detail-table kynl_layout">
+        <div class="kynl_kypt_table" id="kynl_kypt_table">
+          <div class="table-header" style="padding-right: 0px;">
+              <table class="fixed-layout">
+                <thead><tr>
+                  <th class="year">获奖年份</th>
+                  <th class="level">奖项级别</th>
+                  <th class="name">奖项名称</th>
+                  <th class="subName">奖项子名称</th>
+                  <th class="award">授奖级别</th>
+                  <th class="number">奖项数量</th>
+                </tr></thead>
+              </table>
+          </div>
+          <div class="table-scroll-layout">
+              <table class="fixed-layout"><tbody id="tbodyContent"></tbody></table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
