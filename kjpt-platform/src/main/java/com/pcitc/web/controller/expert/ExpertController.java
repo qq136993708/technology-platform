@@ -616,6 +616,8 @@ public class ExpertController extends BaseController {
   	   		if (statusCode == 200)
   	   		{
   	   			jSONArray = responseEntity.getBody();
+  			 
+  			
   	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ZjkBase.class);
   	   			if(list!=null &&  list.size()>0)
   	   			{

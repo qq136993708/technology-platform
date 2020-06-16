@@ -18,11 +18,30 @@ layui.use(['laydate'], function() {
 
     var chartInit = {
         transformInfo: function (param) {
+            debugger
+            var params = {};
+            if(param){
+                switch(param.type){
+                    case  'fm':
+                       params.patentType = '01';
+                        break;
+                    case 'syxl':
+                        params.patentType = '02';
+                        break;
+                    case 'wgsj':
+                        params.patentType = '03';
+                        break;
+
+                }
+            } else {
+                params = '2020'
+            }
+
             var y1 = [];
             var y2 = [];
             httpModule({
                 url: '/patentBI/getPatentCountByYear',
-                data: '2020',
+                data: params,
                 type: 'GET',
                 async: false,
                 success: function(res) {
@@ -44,7 +63,11 @@ layui.use(['laydate'], function() {
                                     return showHtms;
                                 }
                             },
-                            color: ['#D89936', '#5AB3F8', '#2D66D7', '#EDDE21','#28A1EA'],
+                            legend: {
+                                show: false,
+                                data: ['发明','实用新型', '外观设计', '发明','实用新型', '外观设计']
+                            },
+                            color: ['#D89936', '#5AB3F8', '#2D66D7', 'red','#28A1EA'],
                             grid: {
                                 left: '3%',
                                 right: '4%',
@@ -85,18 +108,33 @@ layui.use(['laydate'], function() {
                                     barGap:'0',
                                     stack: data[0].textSub,
                                     data: [data[0].calValue, data[6].calValue, data[12].calValue,data[18].calValue,data[24].calValue],
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(216,153,54,.4)',
+                                        }
+                                    }
                                 },
                                 {
                                     name:data[1].text,
                                     type: 'bar',
                                     stack: data[1].textSub,
-                                    data: [data[1].calValue, data[7].calValue,data[13].calValue, data[19].calValue, data[25].calValue]
+                                    data: [data[1].calValue, data[7].calValue,data[13].calValue, data[19].calValue, data[25].calValue],
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(90,179,248,.4)',
+                                        }
+                                    }
                                 },
                                 {
                                     name: data[2].text,
                                     type: 'bar',
                                     stack:data[2].textSub,
                                     data: [data[2].calValue,data[8].calValue, data[14].calValue, data[20].calValue, data[26].calValue],
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgba(45,102,215,.4)',
+                                        }
+                                    },
                                     label: {
                                       // normal:{
                                         fontFamily: 'Impact',
@@ -344,6 +382,10 @@ layui.use(['laydate'], function() {
             });
         }
     };
+    $('.count-year-title ul li').on('click', function () {
+        var type = $(this).attr('data-type');
+        chartInit.transformInfo({type: type});
+    });
 
     chartInit.transformInfo();
     chartInit.awardsYearPie();

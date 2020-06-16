@@ -78,7 +78,7 @@ layui.use(['element'], function () {
         totalTitle: true,
         company:'项',   
         title: {
-            textStyle: {
+            textStyle: {    
                 color: '#fff',
                 fontSize: 24,
                 width: '100%'
@@ -182,7 +182,7 @@ layui.use(['element'], function () {
         //     })
         // },
     });
-    $('.card-item').on('click',function(){
+    $('.orange').on('click',function(){
         jscPup('kypt');
     })
     // $('.item_number').on('click',function(){

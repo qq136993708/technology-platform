@@ -482,20 +482,20 @@ var kyptCharts = {
           'click': function(e) {
             var elentText = e.toElement.innerText;
             var page = e.toElement.dataset.page
-            if(page){
+            if(page !== 'undefined'){
               jscPup(page);
+            }else{
+            var optionChart = _this.chart[config.id].chart.getOption(),
+            legendSelected = optionChart.legend.selected || {};
+            if ($(this).hasClass('selected')) {
+              $(this).removeClass('selected');
+              legendSelected[item.name] = true;
+            } else {
+              $(this).addClass('selected');
+              legendSelected[item.name] = false;
             }
-
-            // var optionChart = _this.chart[config.id].chart.getOption(),
-            // legendSelected = optionChart.legend.selected || {};
-            // if ($(this).hasClass('selected')) {
-            //   $(this).removeClass('selected');
-            //   legendSelected[item.name] = true;
-            // } else {
-            //   $(this).addClass('selected');
-            //   legendSelected[item.name] = false;
-            // }
-            // _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+            _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+            }
           }
         })
       });

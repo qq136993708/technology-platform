@@ -544,6 +544,8 @@ public class PatentController extends RestBaseController {
 
                     obj.setType(type);
                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
+                   obj.setCreateUnitName(String.valueOf(col_1));
+                   obj.setCreateUnitId(obj.getUnitName());
                    // obj.setUnitName(String.valueOf(col_1));
                     obj.setUnitNameText(String.valueOf(col_1));
                     obj.setPatentName(String.valueOf(col_2));
