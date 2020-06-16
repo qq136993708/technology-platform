@@ -348,24 +348,47 @@ var kyptCharts = {
         }
         return lenendItem;
       })(),
-      tooltip: {
-        show: true,
-        trigger: 'axis',
-        axisPointer: {
-          type: (function(){
-            if (config.type === 'line') {
-              return 'line';
-            } else {
-              return 'shadow';
-            }
-          })()
+      tooltip: (function(){
+        var tooltipItem = {
+            show: true,
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            },
         }
-      },
+          if (config.tooltip) {
+              for (var key in config.tooltip) {
+                  tooltipItem[key] = config.tooltip[key];
+              }
+          }
+          return tooltipItem;
+      }) (),
+      // tooltip: {
+      //   show: true,
+      //   trigger: 'axis',
+      //   axisPointer: {
+      //     type: (function(){
+      //       if (config.type === 'line') {
+      //         return 'line';
+      //       } else {
+      //         return 'shadow';
+      //       }
+      //     })()
+      //   }
+      // },
       xAxis: null,
       yAxis: null,
       series: seriesData,
       color: config.color || '#0AA1FF'
     };
+
+    if (typeof(config.tooltip) === 'object') {
+      for(var key in config.tooltip) {
+        option.tooltip[key] = config.tooltip[key];
+      } 
+    } else if (typeof(config.tooltip) === 'boolean') {
+      option.tooltip.show = config.tooltip;
+    }
 
     if (option.legend && option.legend.show && !option.legend.top) {
       option.grid.top = 72;
@@ -466,24 +489,26 @@ var kyptCharts = {
           itemColor = '#0AA1FF';
         }
         itemHtml = '<span class="lenend-item-icon '+ (item.type || config.type) +'" style="background-color:'+itemColor+'"></span>';
-        itemHtml += '<span class="lenend-item-name" data-page='+item.page+' >'+ item.name +'</span>';
+        itemHtml += '<span class="lenend-item-name" >'+ item.name +'</span>';
         if (formatter.indexOf('value') >= 0) {
           itemHtml += '<span class="lenend-item-value">'+ item.value +'</span>';
         }
+        if (item.page) {
+          $item.attr('data-page', item.page)
+        }
+      
         $item.append(itemHtml);
         if ($center) {
           $center.append($item);
         } else {
           $legend.append($item);
         }
-  
+        
         // 添加图例事件
         $item.off('click').on({
           'click': function(e) {
-            var elentText = e.toElement.innerText;
-            var page = e.toElement.dataset.page
-            if(page !== 'undefined'){
-              jscPup(page);
+            if($(this).attr('data-page')){
+              jscPup($(this).attr('data-page'),encodeURI($(this).attr('title')));
             }else{
             var optionChart = _this.chart[config.id].chart.getOption(),
             legendSelected = optionChart.legend.selected || {};
@@ -640,15 +665,23 @@ var kyptCharts = {
             color: '#313232',
             formatter: '{c}\n{d}%'
           },
-          // itemStyle: {
-            // borderWidth: (borderColor ? 2 : 0),
-            // borderColor: borderColor || '#fff'  去掉饼图空隙
-          // } 
+          itemStyle: {
+            borderWidth: (borderColor ? 2 : 0),
+            borderColor: borderColor || '#fff'  // 饼图空隙
+          } 
           
         }
       ],
       color: config.color || '#0AA1FF'
     };
+
+    if (typeof(config.tooltip) === 'object') {
+      for(var key in config.tooltip) {
+        option.tooltip[key] = config.tooltip[key];
+      } 
+    } else if (typeof(config.tooltip) === 'boolean') {
+      option.tooltip.show = config.tooltip;
+    }
 
     if (config.totalTitle && config.series.length) {
       var totalTitle = 0;

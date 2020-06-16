@@ -29,8 +29,11 @@ layui.use(['table', 'form', 'laydate'], function () {
                 }
               }
             }, {
-              field: '',
+              field: 'isSupplementaryRecordText',
               title: '是否补录',
+            }, {
+              field: 'achieveTypeText',
+              title: '是否核心',
             },{
               field: 'achieveName',
               title: '成果名称',
@@ -153,35 +156,36 @@ layui.use(['table', 'form', 'laydate'], function () {
     })
   })
   // // 驳回
-  // $('#reject').on('click', function () {
-  //   top.layer.confirm('您确定要驳回选中的信息吗？', {
-  //     icon: 3,
-  //     title: '提示'
-  //   }, function (index) {
-  //     // 获取被选中的行数据
-  //     var activeData = table.checkStatus('tableDemo').data;
-  //     if (activeData.length) {
-  //       if (activeData[0].auditStatus == 0 || activeData[0].auditStatus == 3) {
-  //         httpModule({
-  //           url: "/achieve-api/reject" + activeData[0].id,
-  //           type: 'POST',
-  //           success: function (relData) {
-  //             if (relData.code == 0) {
-  //               layer.msg('驳回成功!', {
-  //                 icon: 1
-  //               });
-  //               top.layer.closeAll(); // 关闭弹窗
-  //               queryTable('')
-  //             }
-  //           }
-  //         });
-  //       } else {
-  //         layer.closeAll(); // 关闭弹窗
-  //         top.layer.msg('当前申请状态不能删除！');
-  //       }
-  //     }
-  //   })
-  // })
+  $('#reject').on('click', function () {
+    top.layer.confirm('您确定要驳回选中的信息吗？', {
+      icon: 3,
+      title: '提示'
+    }, function (index) {
+      // 获取被选中的行数据
+      var activeData = table.checkStatus('tableDemo').data;
+      if (activeData.length) {
+        //已完成 驳回
+        if (activeData[0].auditStatus == 4 ) {
+          httpModule({
+            url: "/achieve-api/reject" + activeData[0],
+            type: 'POST',
+            success: function (relData) {
+              if (relData.code == 0) {
+                layer.msg('驳回成功!', {
+                  icon: 1
+                });
+                top.layer.closeAll(); // 关闭弹窗
+                queryTable('')
+              }
+            }
+          });
+        } else {
+          layer.closeAll(); // 关闭弹窗
+          top.layer.msg('当前申请状态不能删除！');
+        }
+      }
+    })
+  })
   //流程
   $('#flow').on('click', function () {
     var activeData = table.checkStatus('tableDemo').data;
@@ -205,6 +209,9 @@ layui.use(['table', 'form', 'laydate'], function () {
     } else if (optionType === 'view') {
       dialogTitle = '查看';
       url = '/kjpt/achieve/apply_view.html?type=' + optionType + "&index=" + index;
+    }else if(optionType == 'collection'){
+      dialogTitle = '补录',
+      url = '/kjpt/achieve/apply_view.html?type=' + optionType + "&index=" + index;
     }
 
     if (optionType == 'edit') {
@@ -218,7 +225,6 @@ layui.use(['table', 'form', 'laydate'], function () {
             top.layer.msg('当前申请状态不能编辑！');
             return false;
           }
-
         } else {
           top.layer.msg('要' + dialogTitle + '的数据只能是单条！');
           return false;
@@ -237,6 +243,12 @@ layui.use(['table', 'form', 'laydate'], function () {
         top.layer.msg('请选择要' + dialogTitle + '的数据！');
         return false;
       }
+    }else if(optionType == 'collection'){ // 补录
+      var listData = table.checkStatus('tableDemo').data;
+      if (listData.length === 1) {
+          url += '&id=' + listData[0].id + "&index=" + index;
+          parent.layui.index.openTabsPage(url, dialogTitle + '申请');
+        }
     } else {
       parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }

@@ -10,72 +10,51 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/common.css">
     <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
 </head>
-<body>
+<body class="achieve_transform">
 <div id="achieve-award" class="layout-view-content">
-    <div class="top-chart-layout" style="height: 58%">
+    <div class="top-chart-layout" style="height: 50%">
         <div class="chart-item-layout top-left-content">
-            <div class="chart-layout jscWeb count-year">
+            <div class="page-layout-title">
+                <span class="text">历年申请/授权专利数量统计</span>
+            </div>
+            <div class="chart-layout count-year-chart" style="padding-top: .5rem;">
+                <div class="chart-block" id="awardTramsformInfoHistory"></div>
+            </div>
+            <!-- <div class="chart-layout jscWeb count-year">
                 <div class="count-year-title">
                     <div class="chart-title-layout content-title">
                         <div class="rectangle" style="position: absolute"></div>
                         <div class="text" id="all">历年申请/授权专利数量统计</div>
                     </div>
                     <ul>
-                        <li data-type="gjj"><span class="award-rectangle" style="background: #D89936;"></span>发明</li>
-                        <li data-type="sbj"><span class="award-rectangle" style="background: #5AB3F8;"></span>实用新例</li>
-                        <li data-type="sbj"><span class="award-rectangle" style="background: #2D66D7;"></span>外观设计</li>
+                        <li data-type="fm"><span class="award-rectangle" style="background: #D89936;"></span>发明</li>
+                        <li data-type="syxl"><span class="award-rectangle" style="background: #5AB3F8;"></span>实用新例</li>
+                        <li data-type="wgsj"><span class="award-rectangle" style="background: #2D66D7;"></span>外观设计</li>
                     </ul>
                 </div>
                 <div class="chart-layout count-year-chart" style="padding-top: 10px;">
                     <div class="chart-block" id="awardTramsformInfoHistory"></div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="chart-item-layout top-right-content">
-            <div class="chart-layout jscWeb count-year">
-                <div class="count-year-title">
-                    <div class="chart-title-layout content-title">
-                        <div class="rectangle" style="position: absolute"></div>
-                        <div class="text">法律状态</div>
-                    </div>
-                </div>
-                <div class="chart-layout count-year-chart">
-                    <div class="chart-block" id="awardTramsformType"></div>
-                </div>
+            <div class="page-layout-title">
+                <span class="text">法律状态</span>
+            </div>
+            <div class="chart-layout count-year-chart">
+                <div class="chart-block" id="awardTramsformType"></div>
             </div>
         </div>
-        <!--<div class="chart-item-layout top-right-content">-->
-            <!--<div class="chart-layout jscWeb count-year">-->
-                <!--<div class="count-year-title">-->
-                    <!--<div class="chart-title-layout content-title">-->
-                        <!--<div class="rectangle"></div>-->
-                        <!--<div class="text">法律状态</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="chart-layout count-year-chart chart-content"  style="padding-top: 10px;">-->
-                    <!--<div class="chart-chart" style="width: 100%;height:300px;">-->
-                        <!--<div class="chart-block" id="awardTramsformType"></div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
     </div>
-    <div class="bottom-chart-layout" style="padding-top: 20px;height: 40%;">
+    <div class="bottom-chart-layout" style="padding-top: 1rem;height: 50%;">
         <div class="achieve-detail">
-                <div class="count-year-title">
-                    <div class="chart-title-layout content-title">
-                        <div class="rectangle"></div>
-                        <div class="text">二级单位专利数量统计</div>
-                    </div>
-                    <ul>
-                        <li data-type="gjj"><span class="award-rectangle" style="background: #59B2F6;"></span>授权</li>
-                        <li data-type="gjj"><span class="award-rectangle" style="background: #D66134;"></span>申请</li>
-                        <li data-type="sbj"><span class="award-rectangle" style="background: #535584;"></span>无效</li>
-                    </ul>
-                </div>
-            <div class="chart-layout count-year-chart" style="height: 100%;padding-top: 10px;padding-bottom: 5px;">
+            <div class="page-layout-title">
+                <span class="text">二级单位专利数量统计</span>
+            </div>
+            <div class="chart-layout count-year-chart" >
                 <div class="chart-block" id="achieveTransferOffice" style="height: 100%;" ></div>
             </div>
         </div>

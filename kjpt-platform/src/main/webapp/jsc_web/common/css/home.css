@@ -187,22 +187,6 @@ body { overflow: auto; }
     background: rgba(239, 236, 86, 1);
 }
 
-.page-layout-title {
-    display: block;
-}
-.page-layout-title > .text {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: .8rem;
-    font-weight: bold;
-    color: #3db3f9;
-    min-width: 120px;
-    height: 2.2rem;
-    line-height: 1.8rem;
-    padding: .2rem 0 .2rem 1.2rem;
-    background: url(../img/title_bg.png) no-repeat left center;
-    background-size: auto 112%;
-}
 .number_item_list {
     font-size: 0;
     padding-top: .8rem;
@@ -362,32 +346,6 @@ body { overflow: auto; }
 .page-layout-title > .tab-btn:first-child {
     margin-left: 2rem;
 }
-.kynl_layout table.fixed-layout {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 1px solid rgba(0, 159, 226, .2);
-    border-width: 1px 1px 0 0;
-}
-.kynl_layout table.fixed-layout th,
-.kynl_layout table.fixed-layout td {
-    border: 1px solid rgba(0, 159, 226, .2);
-    border-width: 0 0 1px 1px;
-    height: 2rem;
-    font-size: .8rem;
-    font-weight: normal;
-    color: #fff;
-    background: none;
-    padding-left: 2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-}
-.kynl_layout table.fixed-layout th {
-    background: rgba(28, 115, 176, 0.2);
-}
 .kynl_row.top .item-layout:last-child .page-layout-title {
     margin-left: -0.5rem;
 }
@@ -402,9 +360,4 @@ body { overflow: auto; }
 .kynl_kypt_table table.fixed-layout td.nuitName {
     width: 32%;
 }
-.kynl_kypt_table .table-scroll-layout {
-    height: calc(100% - 3rem);
-    overflow: auto;
-}
-
 /* 科研能力页面 end */

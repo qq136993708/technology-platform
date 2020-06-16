@@ -533,11 +533,12 @@ html {
       height: 4px;
       line-height: 0;
   }
-  .pie-legend-list .legend-item > span:last-child{
+  .pie-legend-list .legend-item > span.lenend-item-value {
     margin-right: 0;
     font-size: 1.2rem;
     font-family: Impact;
   }
+
   .pie-legend-list.vertical{
     height: 100%;
   }
@@ -565,12 +566,22 @@ html {
   .pie-legend-list .legend-item.selected > span{
     color: #ccc !important;
   }
-  .pie-legend-list .legend-item > .lenend-item-name{
-    min-width: 120px;
+
+.pie-legend-list.right.vertical .legend-item > .lenend-item-name {
+    width: 5.2rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+}
+.pie-legend-list.right.vertical .legend-item > .lenend-item-value {
+    min-width: 36px;
+    text-align: right;
+}
+
+.pie-legend-list.top.horizontal {
+text-align: right;
+}
+
 .jsc_wrapper .header_user .link{
     cursor: pointer;
     font-size: .7rem;
@@ -618,12 +629,55 @@ table.line_table thead tr th:first-child,
 table.line_table tbody tr td:first-child {
     padding-left: 1.5rem;
 }
-
-
-
-
-
-
+.page-layout-title {
+    display: block;
+}
+.page-layout-title > .text {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: .8rem;
+    font-weight: bold;
+    color: #3db3f9;
+    min-width: 120px;
+    height: 2.2rem;
+    line-height: 1.8rem;
+    padding: .2rem 0 .2rem 1.2rem;
+    background: url(../img/title_bg.png) no-repeat left center;
+    background-size: auto 112%;
+}
+.achieve-detail-table .kynl_kypt_table {
+    height: 100%;
+}
+.kynl_layout table.fixed-layout {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid rgba(0, 159, 226, .2);
+    border-width: 1px 1px 0 0;
+}
+.kynl_layout table.fixed-layout th,
+.kynl_layout table.fixed-layout td {
+    border: 1px solid rgba(0, 159, 226, .2);
+    border-width: 0 0 1px 1px;
+    height: 2rem;
+    font-size: .8rem;
+    font-weight: normal;
+    color: #fff;
+    background: none;
+    padding-left: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+.kynl_layout table.fixed-layout th {
+    background: rgba(28, 115, 176, 0.2);
+}
+.kynl_kypt_table .table-scroll-layout {
+    height: calc(100% - 3rem);
+    overflow: auto;
+}
 
 
 

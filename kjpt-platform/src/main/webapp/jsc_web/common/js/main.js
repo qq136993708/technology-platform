@@ -14,7 +14,7 @@ layui.use(['element'], function () {
         label: false,
         labelColor: '#fff',
         radius: ['62%', '84%'],
-        borderColor: '#001e38',
+        // borderColor: '#001e38',
         title: '成果鉴定',
         totalTitle: true,
         company:'个',
@@ -40,12 +40,13 @@ layui.use(['element'], function () {
         ],
         color: ['#2687FF', '#6BD04A', '#EFEC56', '#D89339', '#D66635'],
         callback:function(param){
-            param.on('click',function(){
+            param.on('click',function(data){
                 // var openUrl={
                 //     url:'/jsc_web/front/kynl_page.html',
                 //     name:'科研能力'
                 // }
-                jscPup('kynl_page');
+                // debugger
+                jscPup('kynl_page',encodeURI(data.name));
                 // $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
                 // $('#top-header-nav .transR' , parent.document).each(function(item){
                 //     console.log($(this).attr('href'))
@@ -73,7 +74,7 @@ layui.use(['element'], function () {
         label: false,
         labelColor: '#fff',
         radius: ['62%', '84%'],
-        borderColor: '#001e38',
+        // borderColor: '#001e38',
         title: '成果报奖',
         totalTitle: true,
         company:'项',   
@@ -133,7 +134,7 @@ layui.use(['element'], function () {
         },
         labelColor: '#fff',
         radius: ['0%', '70%'],
-        borderColor: '#001e38',
+        // borderColor: '#001e38',
         title: '成果报奖',
         totalTitle: false,
         series: [
@@ -157,7 +158,7 @@ layui.use(['element'], function () {
         grid: { top: 40 },
         legend: { show: true, left: 'right', top: 5},
         labelColor: '#fff',
-        borderColor: '#001e38',
+        // borderColor: '#001e38',
         data: [
             { name: '核能开发', value1: 21, value2: 76 },
             { name: '集中研发', value1: 10, value2: 38 },   

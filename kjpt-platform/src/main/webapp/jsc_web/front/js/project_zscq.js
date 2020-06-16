@@ -7,7 +7,7 @@ kyptCharts.render({
     label: false,
     labelColor: '#fff',
     radius: ['50%', '72%'],
-    borderColor: '#001e38',
+    // borderColor: '#001e38',
     totalTitle: true,
     title: {
       textStyle: {

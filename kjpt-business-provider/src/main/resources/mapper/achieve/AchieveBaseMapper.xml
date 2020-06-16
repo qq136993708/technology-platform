@@ -31,6 +31,8 @@
         <result column="achieve_type" jdbcType="VARCHAR" property="achieveType"/>
         <result column="achieve_type_text" jdbcType="VARCHAR" property="achieveTypeText"/>
         <result column="conversion_amount" jdbcType="DECIMAL" property="conversionAmount"/>
+        <result column="is_supplementary_record" jdbcType="DECIMAL" property="isSupplementaryRecord"/>
+        <result column="is_supplementary_record_text" jdbcType="DECIMAL" property="isSupplementaryRecordText"/>
 
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
@@ -77,7 +79,9 @@
         apply_status_text,
         achieve_type,
         achieve_type_text,
-        conversionAmount
+        conversionAmount,
+        is_supplementary_record,
+        is_supplementary_record_text
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="AchieveBaseMap">
@@ -175,10 +179,11 @@
         knowledge_person,
         apply_status,
         achieve_type,
-        conversion_amount
+        conversion_amount,
+        is_supplementary_record
         ) values(#{id},#{achieveName},#{techType},#{finishUnitName},#{finishDate},#{projectChannel},#{brief},#{achieveTransType},#{createDate},#{contactInfo},#{unitAdvice},
          #{auditStatus},#{deleted},#{approvalDoc},#{publicDoc},#{creator},#{teamPerson},#{isPublic},#{workInfo},#{affiliatedUnit},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson}
-         ,#{applyStatus},#{achieveType}.#{conversionAmount})
+         ,#{applyStatus},#{achieveType},#{conversionAmount},#{isSupplementaryRecord})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.achieve.AchieveBase">
@@ -228,6 +233,9 @@
             </if>
             <if test="workInfo != null and workInfo != ''" >
                 work_info = #{workInfo},
+            </if>
+            <if test="isSupplementaryRecord != null and isSupplementaryRecord != ''" >
+                is_supplementary_record = #{isSupplementaryRecord},
             </if>
             <if test="affiliatedUnit != null and affiliatedUnit != ''" >
                 affiliated_unit = #{affiliatedUnit},

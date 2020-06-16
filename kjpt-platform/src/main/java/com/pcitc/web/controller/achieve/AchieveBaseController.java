@@ -266,6 +266,18 @@ public class AchieveBaseController extends RestBaseController {
         return responseEntity.getBody();
     }
 
+    @ApiOperation(value="补录")
+    @RequestMapping(value = "/achieve-api/supplementaryRecord", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveBase supplementaryRecord(@RequestBody AchieveBase ab){
+        this.setBaseData(ab);
+        ab.setIsSupplementaryRecord("01");
+        ab.setAuditStatus(Constant.COMPLETED);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
+        return responseEntity.getBody();
+    }
+
     @ApiOperation(value="提交")
     @RequestMapping(value = "/achieve-api/submit", method = RequestMethod.POST)
     @ResponseBody

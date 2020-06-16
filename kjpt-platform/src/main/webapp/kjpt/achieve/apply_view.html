@@ -24,7 +24,7 @@
                 <label class="layui-form-label "><span class="text">密级：</span></label>
                 <div class="layui-input-block">
                   <input type="hidden" id="secretLevel" >
-                  <input type="text" name="secretLevelText" placeholder="" autocomplete="off" disabled="disabled" class="layui-input">
+                  <input type="text" name="secretLevelText" placeholder="" autocomplete="off"  class="layui-input">
                 </div>
               </div>
           </div>  
@@ -46,8 +46,29 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">科技成果名称：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="achieveName" disabled="disabled"
+            <input type="text" name="achieveName" 
               placeholder="请填写..." autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label label-required"><span class="text">是否核心成果：</span></label>
+          <div class="layui-input-block">
+            <select name="achieveType" lay-verify="required" lay-filter="achieveType">
+              <option value="">请选择</option>
+              <option value="1">是</option>
+              <option value="0">否</option>
+            </select>
+            <input type="hidden" name="achieveTypeText">
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 layui-hide" id="conversionAmount">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">转化金额(万元)：</span></label>
+          <div class="layui-input-block">
+            <input type="text"  name="conversionAmount" placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -55,10 +76,10 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">所属《核心成果目录》技术方向：</span></label>
           <div class="layui-input-block">
-            <!-- <select name="techType" xm-select="techType"  xm-select-skin="normal" disabled="disabled"></select> -->
+            <!-- <select name="techType" xm-select="techType"  xm-select-skin="normal" ></select> -->
             <!--<input type="text" name="companyName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">-->
-              <input type="text" name="techTypeText" disabled="disabled" placeholder="请填写..." autocomplete="off" class="layui-input">
+              <input type="text" name="techTypeText"  placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -67,7 +88,7 @@
           <label class="layui-form-label"><span class="text">成果持有单位：</span></label>
           <div class="layui-input-block">
             <!-- <select name="finishUnitName" xm-select="finishUnitName"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_YTDW"></select> -->
-            <input type="text" name="finishUnitNameText" disabled="disabled" placeholder="请填写..." autocomplete="off" class="layui-input">
+            <input type="text" name="finishUnitNameText"  placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -76,7 +97,7 @@
           <label class="layui-form-label label-required"><span class="text">成果所属单位（专业化公司/直属单位)：</span></label>
           <div class="layui-input-block">
             <!-- <select name="affiliatedUnit" xm-select="affiliatedUnit"  xm-select-skin="normal"  dic-base-data="ROOT_KJPT_CGSSDW_ZYHGSZSDW"></select> -->
-            <input type="text" name="affiliatedUnitText" disabled="disabled" placeholder="请填写..." autocomplete="off" class="layui-input">
+            <input type="text" name="affiliatedUnitText"  placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
       </div>
@@ -84,7 +105,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">项目来源及经费渠道：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="projectChannel" disabled="disabled"
+            <input type="text" name="projectChannel" 
               placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -93,7 +114,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">成果完成时间：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="finishDate" disabled="disabled"
+            <input type="text" name="finishDate" 
                    autocomplete="off" placeholder="请选择成果完成时间!" class="layui-input" >
             <!--<input type="text" name="companyName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">-->
@@ -104,7 +125,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">拟转化方式：</span></label>
           <div class="layui-input-block">
-            <input class="layui-input" name="achieveTransTypeText"  disabled="disabled">
+            <input class="layui-input" name="achieveTransTypeText"  >
             <!--<input type="text" name="companyName" lay-verify="required"
               placeholder="请填写..." autocomplete="off" class="layui-input">-->
           </div>
@@ -114,7 +135,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">集团内部已开展的科技成果转化工作情况：</span></label>
           <div class="layui-input-block">
-            <textarea name="workInfo" placeholder="请输入内容" class="layui-textarea" disabled="disabled"  style="min-height: 72px;"></textarea>
+            <textarea name="workInfo" placeholder="请输入内容" class="layui-textarea"   style="min-height: 72px;"></textarea>
           </div>
         </div>
       </div>
@@ -122,7 +143,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">科技成果简介：</span></label>
           <div class="layui-input-block">
-            <textarea name="brief" placeholder="请输入内容" class="layui-textarea" disabled="disabled" style="min-height: 72px;"></textarea>
+            <textarea name="brief" placeholder="请输入内容" class="layui-textarea"  style="min-height: 72px;"></textarea>
             <p class="not-text">注：重点描述成果创新点、技术成熟度、应用前景、知识产权情况等</p>
           </div>
         </div>
@@ -159,7 +180,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label "><span class="text">科技成果完成单位意见：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="unitAdvice" disabled="disabled"
+            <input type="text" name="unitAdvice" 
                    placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>
@@ -168,7 +189,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">单位联系人和联系方式：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="contactInfo" disabled="disabled"
+            <input type="text" name="contactInfo" 
                    placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
         </div>

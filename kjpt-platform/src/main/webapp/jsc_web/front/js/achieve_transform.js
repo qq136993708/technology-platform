@@ -1,118 +1,94 @@
-layui.use(['laydate'], function() {
-  var laydate = layui.laydate;
-  var achieveTypes = [];
-  var achieveTypesSeries = [];
-  var awardsYearChart;
+$(function() {
 
-  var awardTramsformInfoHistoryColor = [
-    {type: 'transMoney', cololr: '#D89936'},
-    {type: 'transMoneySum', cololr: '#0CB92D'}
-  ];
+  // 历年成果转化完成情况
+  kyptCharts.render({
+    id: 'awardTramsformInfoHistory',
+    type: 'bar',
+    itemName: 'year',
+    legend: { show: true },
+    legendPosition: 'top',
+    grid: { top: 30, right: 60 },
+    lineColor: 'rgba(30, 83, 137, .6)',
+    axisLineColor: 'rgba(30, 83, 137, .6)',
+    valueColor: '#fff',
+    labelColor: '#2BB7FF',
+    label: { color: '#fff', position: 'top' },
+    yAxis: [
+      {
+        type: 'value',
+        name: '单位：个',
+        nameTextStyle: {
+          color: '#ffffff',
+          fontSize: 14
+        }
+      },
+      {
+        type: 'value',
+        name: '金额：万元',
+        nameTextStyle: {
+          color: '#ffffff',
+          fontSize: 14
+        }
+      }
+    ],
+    color: ['#D89936', '#0CB92D'],
+    series: [
+      { name: '成果完成数量', valueKey: 'transAmount', yIndex: 0 },
+      { name: '成果完成金额', valueKey: 'transMoneySum', yIndex: 1 }
+    ],
+    data: []
+  });
+
+  // 二级单位成果转化情况
+  kyptCharts.render({
+    id: 'achieveTransferOffice',
+    type: 'bar',
+    itemName: 'affiliatedUnitText',
+    legend: { show: true },
+    legendPosition: 'top',
+    grid: { top: 30, right: 30, bottom: 12 },
+    lineColor: 'rgba(30, 83, 137, .6)',
+    axisLineColor: 'rgba(30, 83, 137, .6)',
+    valueColor: '#fff',
+    labelColor: '#2BB7FF',
+    barMaxWidth: '25px',
+    label: {
+      color: '#fff',
+      position: 'top'
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: '单位：个',
+        nameTextStyle: { color: '#ffffff' }
+      },
+      {
+        type: 'value',
+        name: '金额：万元',
+        nameTextStyle: { color: '#ffffff' }
+      }
+    ],
+    color: ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'],
+    series: [
+      {
+        name: '转化完成数量',
+        valueKey: 'transAmount',
+        yIndex: 0
+      },
+      {
+        name: '转化完成金额',
+        valueKey: 'transMoneySum',
+        yIndex: 1
+      }
+    ],
+    data: [],
+    labelRotate: 40
+  });
+  
+
   var pieColor = ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'];
   var chartInit = {
     transformInfo: function (param) {
-      $('#awardTramsformInfoHistory').empty();
-      kyptCharts.render({
-        id: 'awardTramsformInfoHistory',
-        type: 'bar',
-        itemName: 'year',
-        legend: { show: false},
-        grid: { top: 60, right: 60 },
-        lineColor: '#1E5389',
-        valueColor: '#fff',
-        labelColor: '#2BB7FF',
-        barWidth: '30px',
-        label: {
-          color: '#fff',
-          position: 'top'
-        },
-        yAxis: [
-          {
-            type: 'value',
-            name: '单位：个',
-            nameTextStyle: {
-              color: '#ffffff',
-              lineHeight: 40,
-              height: 40
-            }
-          },
-          {
-            type: 'value',
-            name: '金额：万元',
-            nameTextStyle: {
-              color: '#ffffff',
-              lineHeight: 40,
-              height: 40
-            }
-          }
-        ],
-        color: [],
-        series: [
-          {
-            name: '成果完成数量',
-            valueKey: 'transAmount',
-            yIndex: 0,
-            itemStyle:
-            {
-              normal:
-                  {
-                    color: '#0CB92D'
-                  }
-            },
-            label: {
-              show: false,
-              position: 'top',
-              formatter: '{c|{c}}{unit|个}',
-              rich: {
-                c: {
-                  color: '#ffffff',
-                  fontSize: 12,
-                  fontFamily: 'Impact',
-                  fontWeight: 400
-                },
-                unit: {
-                  color: '#ffffff',
-                  fontSize: 12
-                }
-              }
-            }
-          },
-          {
-            name: '成果完成金额',
-            valueKey: 'transMoneySum',
-            yIndex: 1,
-            itemStyle:
-            {
-                  normal:
-                      {
-                        color: '#D89936'
-                      }
-            },
-            label: {
-              show: false,
-              position: 'top',
-              formatter: '{c|{c}}{unit|万元}',
-              rich: {
-                c: {
-                  color: '#ffffff',
-                  fontSize: 12,
-                  fontFamily: 'Impact',
-                  fontWeight: 400
-                },
-                unit: {
-                  color: '#ffffff',
-                  fontSize: 12
-                }
-              }
-            }
-          }
-        ],
-        data: [],
-        callback: function (chartObj) {   //柱子点击事件
-
-        }
-      });
-
       var y1 = [];
       var y2 = [];
       httpModule({
@@ -133,21 +109,20 @@ layui.use(['laydate'], function() {
               obj.transMoneySum = item.transMoneySum;
               result.push(obj);
             });
-            kyptCharts.reload('awardTramsformInfoHistory',
-                {
+            kyptCharts.reload('awardTramsformInfoHistory', {
                   data: result,
                   yAxis: [
                     {
                       type: 'value',
                       min: 0,
-                      max: Math.ceil(Math.max.apply(null,y1)/6)*6,
-                      interval: Math.ceil(Math.max.apply(null,y1)/6),
+                      max: Math.ceil(Math.max.apply(null,y1)/4)*4,
+                      interval: Math.ceil(Math.max.apply(null,y1)/4),
                     },
                     {
                       type: 'value',
                       min: 0,
-                      max: Math.ceil(Math.max.apply(null,y2)/6)*6,
-                      interval: Math.ceil(Math.max.apply(null,y2)/6),
+                      max: Math.ceil(Math.max.apply(null,y2)/4)*4,
+                      interval: Math.ceil(Math.max.apply(null,y2)/4),
                     }
                   ]
                 });
@@ -258,77 +233,6 @@ layui.use(['laydate'], function() {
       chartDemo.setOption(option);
     },
     achieveTransferOfficeChart: function (params) {
-      $('#achieveTransferOffice').empty();
-      kyptCharts.render({
-        id: 'achieveTransferOffice',
-        type: 'bar',
-        itemName: 'affiliatedUnitText',
-        legend: { show: false},
-        grid: { top: 60, right: 60 },
-        lineColor: '#1E5389',
-        valueColor: '#fff',
-        labelColor: '#2BB7FF',
-        barMaxWidth: '25px',
-        label: {
-          color: '#fff',
-          position: 'top'
-        },
-        yAxis: [
-          {
-            type: 'value',
-            name: '单位：个',
-            nameTextStyle: {
-              color: '#ffffff',
-              lineHeight: 40,
-              height: 40
-            }
-          },
-          {
-            type: 'value',
-            name: '金额：万元',
-            nameTextStyle: {
-              color: '#ffffff',
-              lineHeight: 40,
-              height: 40
-            }
-          }
-        ],
-        color: [],
-        series: [
-          {
-            name: '转化完成数量',
-            valueKey: 'transAmount',
-            yIndex: 0,
-            itemStyle:
-                {
-                  normal:
-                      {
-                        color: '#138FF7'
-                      }
-                },
-            label: {
-              show: false
-            }
-          },
-          {
-            name: '转化完成金额',
-            valueKey: 'transMoneySum',
-            yIndex: 1,
-            itemStyle:
-                {
-                  normal:
-                      {
-                        color: '#0000FF'
-                      }
-                },
-            label: {
-              show: false
-            }
-          }
-        ],
-        data: []
-      });
-
       var y1 = [];
       var y2 = [];
       httpModule({
@@ -356,26 +260,18 @@ layui.use(['laydate'], function() {
                     {
                       type: 'value',
                       name: '单位：个',
-                      nameTextStyle: {
-                        color: '#ffffff',
-                        lineHeight: 40,
-                        height: 40
-                      },
+                      nameTextStyle: { color: '#ffffff' },
                       min: 0,
-                      max: Math.ceil(Math.max.apply(null,y1)/6)*6,
-                      interval: Math.ceil(Math.max.apply(null,y1)/6),
+                      max: Math.ceil(Math.max.apply(null,y1)/4)*4,
+                      interval: Math.ceil(Math.max.apply(null,y1)/4),
                     },
                     {
                       type: 'value',
                       name: '金额：万元',
-                      nameTextStyle: {
-                        color: '#ffffff',
-                        lineHeight: 40,
-                        height: 40
-                      },
+                      nameTextStyle: { color: '#ffffff' },
                       min: 0,
-                      max: Math.ceil(Math.max.apply(null,y2)/6)*6,
-                      interval: Math.ceil(Math.max.apply(null,y2)/6),
+                      max: Math.ceil(Math.max.apply(null,y2)/4)*4,
+                      interval: Math.ceil(Math.max.apply(null,y2)/4),
                     }
                     ]
 

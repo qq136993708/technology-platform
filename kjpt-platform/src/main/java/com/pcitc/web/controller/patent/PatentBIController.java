@@ -35,13 +35,15 @@ public class PatentBIController extends RestBaseController {
 
     @ApiOperation(value="历年申请/授权专利数量统计")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "year", value = "年份", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "year", value = "年份", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "patentType", value = "专利类别", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/patentBI/getPatentCountByYear", method = RequestMethod.GET)
     public List<calResult> getPatentCountByYear(
-            @RequestParam(required = false,value = "year") String year
+            @RequestParam(required = false) String year,
+            @RequestParam(required = false) String patentType
     ) {
-        return getCalResults(year, getPatentCountByYear);
+        return getCalResults(year,patentType,"", getPatentCountByYear);
     }
 
     @ApiOperation(value="法律状态")
@@ -52,24 +54,35 @@ public class PatentBIController extends RestBaseController {
     public List<calResult> getPatentCountByLegelStatus(
             @RequestParam(required = false,value = "year") String year
     ) {
-        return getCalResults(year, getPatentCountByLegelStatus);
+        return getCalResults(year,"", "",getPatentCountByLegelStatus);
     }
 
     @ApiOperation(value="二级单位专利数量统计")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "year", value = "年份", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "year", value = "年份", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "legalStatus", value = "法律状态", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/patentBI/getPatentCountByOffice", method = RequestMethod.GET)
     public List<calResult> getPatentCountByOffice(
-            @RequestParam(required = false,value = "year") String year
+            @RequestParam(required = false,value = "year") String year,
+            @RequestParam(required = false,value = "legalStatus") String legalStatus
     ) {
-        return getCalResults(year, getPatentCountByOffice);
+        return getCalResults(year, "",legalStatus,getPatentCountByOffice);
     }
 
-    private List<calResult> getCalResults(@RequestParam(required = false, value = "year") String year, String remoteURL) {
+    private List<calResult> getCalResults(@RequestParam(required = false, value = "year") String year,
+                                          @RequestParam(required = false, value = "patentType") String patentType,
+                                          @RequestParam(required = false, value = "legalStatus") String legalStatus,
+                                          String remoteURL) {
         Map<String, Object> condition = new HashMap<>(2);
         if (!StringUtils.isEmpty(year)) {
             this.setParam(condition, "year", year);
+        }
+        if (!StringUtils.isEmpty(patentType)) {
+            this.setParam(condition, "patentType", patentType);
+        }
+        if (!StringUtils.isEmpty(legalStatus)) {
+            this.setParam(condition, "legalStatus", legalStatus);
         }
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

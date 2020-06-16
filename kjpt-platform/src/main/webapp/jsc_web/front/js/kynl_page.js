@@ -1,3 +1,17 @@
+var variable = getQueryVariable()
+if(variable){
+    var curName = decodeURI(variable.name);
+    if(curName){
+        $('.page-layout-title .tab-btn').removeClass('selected');
+        $('.page-layout-title .tab-btn').each(function(item){
+            var itemText = $(this).context.innerText;
+            if(itemText == curName){
+                $(this).addClass('selected');
+        }
+        })
+    }
+}
+
 
 // 科技人才
 kyptCharts.render({
@@ -11,7 +25,7 @@ kyptCharts.render({
     label: false,
     labelColor: '#fff',
     radius: ['52%', '72%'],
-    borderColor: '#001e38',
+    // borderColor: '#001e38',
     title: '成果鉴定',
     totalTitle: true,
     company:'人',
@@ -53,9 +67,9 @@ kyptCharts.render({
     type: 'bar',
     grid: { top: 40 },
     label: false,
-    legend: { show: true, left: 'right', top: 5},
+    legend: { show: true },
+    legendPosition: 'top',
     labelColor: '#fff',
-    borderColor: '#001e38',
     data: [],
     itemName: 'name',
     series: [
@@ -66,13 +80,13 @@ kyptCharts.render({
         { name: '板块级', valueKey: 'value5', stack: 'charts'}
     ],
     color: ['#D86436', '#DEAA49', '#A2CF99', '#3461D3', '#72D8F0'],
-    lineColor: 'rgba(4, 30, 54, 1)',
+    lineColor: 'rgba(30, 83, 137, .6)',
+    axisLineColor: 'rgba(30, 83, 137, .6)',
     valueColor: '#fff',
     labelColor: '#fff',
     labelRotate: 40,
     yAxis: [{splitNumber: 3, name: '单位：个', nameGap: 20, nameTextStyle: {color: '#fff'}}],
-    barWidth: 20,
-    axisLineColor: 'rgba(255, 255, 255, .2)'
+    barWidth: 20
 });
 
 function addTableData(data) {
@@ -102,7 +116,6 @@ $('#tabHeader').on('click', '.tab-btn', function(e) {
     if (!$(this).hasClass('selected')) {
         $(this).addClass('selected').siblings('.tab-btn').removeClass('selected');
         var tabType = $(this).attr('type');
-        console.log('type => ', tabType);
         // HTTP请求
     }
 })

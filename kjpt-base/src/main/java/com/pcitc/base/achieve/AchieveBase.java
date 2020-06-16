@@ -127,6 +127,17 @@ public class AchieveBase extends RecordModel implements Serializable {
      */
     private BigDecimal conversionAmount;
 
+    /**
+     * 是否补录
+     * @return
+     */
+    private String isSupplementaryRecord;
+    /**
+     * 是否补录字典翻译
+     * @return
+     */
+    private String isSupplementaryRecordText;
+
 
 
     /**
@@ -358,5 +369,21 @@ public class AchieveBase extends RecordModel implements Serializable {
 
     public void setApplyStatusText(String applyStatusText) {
         this.applyStatusText = applyStatusText;
+    }
+
+    public String getIsSupplementaryRecord() {
+        return isSupplementaryRecord;
+    }
+
+    public void setIsSupplementaryRecord(String isSupplementaryRecord) {
+        this.isSupplementaryRecord = isSupplementaryRecord;
+    }
+
+    public String getIsSupplementaryRecordText() {
+        return isSupplementaryRecordText;
+    }
+
+    public void setIsSupplementaryRecordText(String isSupplementaryRecordText) {
+        this.isSupplementaryRecordText = isSupplementaryRecordText;
     }
 }
