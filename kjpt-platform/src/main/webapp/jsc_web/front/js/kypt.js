@@ -28,9 +28,9 @@ $(function() {
             },
             formatter: function (serves) {
                 var showHtms = '<div style="font-size:16px; margin:5px;">'+'申请专利'+'</div>'+
-                '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
+                    '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
                     '<div style="font-size:16px; margin:5px;">'+'授权专利'+'</div>'+
-                '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+ serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
+                    '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+ serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
 
                 return showHtms;
             }
@@ -82,10 +82,10 @@ $(function() {
     var chartInit = {
         transformInfo: function (param) {
             var params = {};
-            if (param) {
-                switch(param.type) {
-                    case 'fm':
-                       params.patentType = '01';
+            if(param){
+                switch(param.type){
+                    case  'fm':
+                        params.patentType = '01';
                         break;
                     case 'syxl':
                         params.patentType = '02';
@@ -105,7 +105,8 @@ $(function() {
                 async: false,
                 success: function(res) {
                     if (res.code == 0) {
-                        var data = res.data, yearIndex = [], _totalArr = [], HJdata = [], sData = [];
+                        var data = res.data,
+                            yearIndex = [], _totalArr = [], HJdata = [], sData = [];
                         $.each(data, function(i, item) {
                             var index = yearIndex.indexOf(item.textTitle);
                             if (index === -1) {
@@ -173,7 +174,7 @@ $(function() {
                             }
                         }
                         kyptCharts.reload('achieveTransferOffice', { data: dataArr, yAxis: [ {
-                            type: 'value', name: '单位：个', nameTextStyle: { color: '#ffffff', lineHeight: 40, height: 40 }, min: 0 }]
+                                type: 'value', name: '单位：个', nameTextStyle: { color: '#ffffff', lineHeight: 40, height: 40 }, min: 0 }]
                         });
                     }
                 }
