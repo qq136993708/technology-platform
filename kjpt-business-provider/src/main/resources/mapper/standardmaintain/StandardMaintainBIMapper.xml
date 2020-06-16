@@ -109,19 +109,17 @@
     (
     SELECT
     standard_type,
-    standard_type_text,
     COUNT( * ) AS research_count
     FROM
-    view_standard_maintain a
+    standard_maintain a
     WHERE
     1 = 1
     AND deleted != '1'
     AND is_publish = '1'
-
+    AND create_date <![CDATA[ < ]]> DATE_ADD(curdate(),interval -day(curdate())+1 day)
     <include refid="selectByParam" />
     GROUP BY
-    standard_type,
-    standard_type_text
+    standard_type
     ) x on a.num_value = x.standard_type
     ORDER BY standard_type asc
   </select>
@@ -142,10 +140,9 @@
     (
     SELECT
     standard_type,
-    standard_type_text,
     COUNT( * ) AS publish_count
     FROM
-    view_standard_maintain a
+    standard_maintain a
     WHERE
     1 = 1
     AND deleted != '1'
@@ -153,8 +150,7 @@
     AND publish_date <![CDATA[ < ]]> DATE_ADD(curdate(),interval -day(curdate())+1 day)
     <include refid="selectByParam" />
     GROUP BY
-    standard_type,
-    standard_type_text
+    standard_type
     ) x on a.num_value = x.standard_type
     ORDER BY standard_type asc
   </select>
@@ -177,7 +173,7 @@
     standard_status,
     count( * ) as all_count
     FROM
-    view_international_standard_maintain v
+    international_standard_maintain v
     WHERE
     1 = 1
     AND deleted != '1'

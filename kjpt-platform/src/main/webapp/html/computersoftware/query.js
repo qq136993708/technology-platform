@@ -19,7 +19,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,url: '/ComputerSoftware/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'unitNameText', title: '单位名称', sort: true }
+          ,{field: 'createUnitName', title: '单位名称', sort: true }
           ,{field: 'softwareName', title: '软件名称', sort: true }
           ,{field: 'registerNumber', title: '登记号', sort: true}
           ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {
