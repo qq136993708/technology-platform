@@ -186,37 +186,6 @@ layui.use(['table', 'form', 'laydate'], function () {
       }
     })
   })
-  // // // 补录
-  // $('#collection').on('click', function () {
-  //   top.layer.confirm('您确定要补录选中的信息吗？', {
-  //     icon: 3,
-  //     title: '提示'
-  //   }, function (index) {
-  //     // 获取被选中的行数据
-  //     var activeData = table.checkStatus('tableDemo').data;
-  //     if (activeData.length) {
-  //       //已完成 驳回
-  //       if (activeData[0].auditStatus == 4 ) {
-  //         httpModule({
-  //           url: "/achieve-api/reject" + activeData[0],
-  //           type: 'POST',
-  //           success: function (relData) {
-  //             if (relData.code == 0) {
-  //               layer.msg('补录成功!', {
-  //                 icon: 1
-  //               });
-  //               top.layer.closeAll(); // 关闭弹窗
-  //               queryTable('')
-  //             }
-  //           }
-  //         });
-  //       } else {
-  //         layer.closeAll(); // 关闭弹窗
-  //         top.layer.msg('当前申请状态不能补录！');
-  //       }
-  //     }
-  //   })
-  // })
   //流程
   $('#flow').on('click', function () {
     var activeData = table.checkStatus('tableDemo').data;
@@ -277,14 +246,9 @@ layui.use(['table', 'form', 'laydate'], function () {
     }else if(optionType == 'collection'){ // 补录
       var listData = table.checkStatus('tableDemo').data;
       if (listData.length === 1) {
-        if (listData[0].auditStatus == 4) {
           url += '&id=' + listData[0].id + "&index=" + index;
           parent.layui.index.openTabsPage(url, dialogTitle + '申请');
         }
-      }else {
-        top.layer.msg('要' + dialogTitle + '的数据只能是单条！');
-        return false;
-      }
     } else {
       parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }

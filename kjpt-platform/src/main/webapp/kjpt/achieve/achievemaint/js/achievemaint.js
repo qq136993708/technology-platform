@@ -80,13 +80,13 @@ layui.use(['element', 'form', 'jquery', 'table', 'laydate'], function () {
         method: "GET", // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
         where: where,
         request: {
-          page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
-          limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
         page: true //开启分页
           ,
-        limit: 15,
-        limits: [15, 30, 45, 60], // 配置分页数据条数
+        limit: 10,
+        limits: [10, 15, 30, 60], // 配置分页数据条数
       });
     }
   }

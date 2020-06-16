@@ -1,8 +1,29 @@
-layui.use(['laydate'], function() {
-  var laydate = layui.laydate;
+$(function() {
   var achieveTypes = [];
   var achieveTypesSeries = [];
   var awardsYearChart;
+
+
+  kyptCharts.render({
+    id: 'awards-year',
+    type: 'bar',
+    itemName: 'year',
+    legend: { show: true },
+    legendPosition: 'top',
+    grid: { top: 30 },
+    lineColor: 'rgba(30, 83, 137, .6)',
+    axisLineColor: 'rgba(30, 83, 137, .6)',
+    valueColor: '#fff',
+    labelColor: '#2BB7FF',
+    barMaxWidth: '25px',
+    label: { color: '#fff', position: 'top' },
+    color: ['#306BF0', '#0DA8D4', '#EBDD51', '#D86436'],
+    series: [],
+    data: [],
+    callback: function (chartObj) {   //柱子点击事件
+      awardsYearChart = chartObj;
+    }
+  });
 
   //奖励类型
   var colors = [
@@ -23,54 +44,8 @@ layui.use(['laydate'], function() {
     {type: '社会奖项', color: '#65C8E0'}
   ];
 
-  var dictcode = 'ROOT_KJPT_CGWH_HJLX';
-  httpModule
-  ({
-    url: "/sysDictionary-api/getChildsListByCode/" + dictcode,
-    type: 'GET',
-    async: false,
-    success: function(res) {
-      if (res.success) {
-        var data = res.data;
-        achieveTypes = data;
-        var html = '';
-        $.each(data, function(i, item){
-          var color = colors.find(function (currValue, i) { return currValue.type == item.name});
-          color = color ? color.color : '#DF5DFF';
-          var achieveTypesSeriesObj  = {name: item.name, valueKey: item.code, itemStyle: {normal: {color: color}}};
-          achieveTypesSeries.push(achieveTypesSeriesObj);
-          html += '<li data-type="' + item.code + '"><span class="award-rectangle" style="background: ' + color + ';"></span>' + item.name + '</li>';
-        });
-        $('#achievt-types').html(html);
-      }
-    }
-  });
-
   var chartInit = {
     awardsYear: function (param) {
-      $('#awards-year').empty();
-      kyptCharts.render({
-        id: 'awards-year',
-        type: 'bar',
-        itemName: 'year',
-        legend: { show: false},
-        grid: { top: 20 },
-        lineColor: '#1E5389',
-        valueColor: '#fff',
-        labelColor: '#2BB7FF',
-        barMaxWidth: '25px',
-        label: {
-          color: '#fff',
-          position: 'top'
-        },
-        color: [],
-        series: achieveTypesSeries,
-        data: [],
-        callback: function (chartObj) {   //柱子点击事件
-          awardsYearChart = chartObj;
-        }
-      });
-
       httpModule({
         url: '/achieveMaintainBI-api/getAwardSumByQuery',
         data: param,
@@ -89,12 +64,19 @@ layui.use(['laydate'], function() {
                 obj = _hasitem;
               }
               obj.year = item.year;
-              var typeItem = achieveTypes.find(function(v, index) { return v.name == item.typeText});
+              var typeItem = achieveTypes.find(function(v, index) {
+                if (item.typeText.indexOf(v.name) !== -1) {
+                  return true;
+                } else {
+                  return;
+                }
+              });
               var key = typeItem ? typeItem.code:'key';
               obj[key] = item.awardsNumberSum;
               result.push(obj);
             });
-            kyptCharts.reload('awards-year', {data: result});
+
+            kyptCharts.reload('awards-year', {data: result, series: achieveTypesSeries});
           }
         }
       });
@@ -162,18 +144,25 @@ layui.use(['laydate'], function() {
     }
   };
 
-  $('.count-year-title ul li').on('click', function () {
-    var type = $(this).attr('data-type');
-    chartInit.awardsYear({type: type});
-    chartInit.getAchieveTableData({type: type});
+  var dictcode = 'ROOT_KJPT_CGWH_HJLX';
+  httpModule({
+    url: "/sysDictionary-api/getChildsListByCode/" + dictcode,
+    type: 'GET',
+    async: false,
+    success: function(res) {
+      if (res.success) {
+        var data = res.data;
+        achieveTypes = data;
+        $.each(data, function(i, item){
+          console.log('name =>', item.name);
+          var achieveTypesSeriesObj = { name: item.name, valueKey: item.code };
+          achieveTypesSeries.push(achieveTypesSeriesObj);
+        });
+        chartInit.awardsYear();
+      } 
+    }
   });
 
-  $('#all').on('click', function () {
-    chartInit.awardsYear();
-    chartInit.getAchieveTableData();
-  });
-
-  chartInit.awardsYear();
   chartInit.awardsYearPie();
   chartInit.getAchieveTableData();
 
@@ -182,7 +171,10 @@ layui.use(['laydate'], function() {
     awardsYearChart.on('click', function(params) {
       var typeName = params.seriesName;
       var year = params.name;
-      chartInit.getAchieveTableData({type: typeName, year: year})
+      chartInit.getAchieveTableData({type: typeName, year: year});
     });
   }
-});
+
+
+
+})

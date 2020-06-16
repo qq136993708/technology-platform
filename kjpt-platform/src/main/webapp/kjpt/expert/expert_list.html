@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
@@ -12,27 +13,30 @@
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
 </head>
+
 <body>
-<div class="layout-view-content dialog">
-    <form class="layui-form layui-form-screen" action="" id="formPlatform" lay-filter="formPlatform">
-        <div class="layui-row layui-col-space20">
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">姓名：</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off" class="layui-input">
+    <div class="layout-view-content dialog">
+        <form class="layui-form layui-form-screen" action="" id="formPlatform" lay-filter="formPlatform">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">姓名：</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" id="name" placeholder="请输入专家姓名" autocomplete="off"
+                                class="layui-input">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">所在单位：</span></label>
-                    <div class="layui-input-block">
-                        <select name="belongUnit" xm-select-search="" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">所在单位：</span></label>
+                        <div class="layui-input-block">
+                            <select name="belongUnit" xm-select-search="" xm-select="belongUnit" xm-select-skin="normal"
+                                xm-select-radio></select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">技术领域：</span></label>
                     <div class="layui-input-block">
@@ -40,7 +44,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">性别：</span></label>
                     <div class="layui-input-block">
@@ -50,7 +54,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">学历：</span></label>
                     <div class="layui-input-block">
@@ -60,7 +64,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职称:</span></label>
                     <div class="layui-input-block">
@@ -70,7 +74,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职务：</span></label>
                     <div class="layui-input-block">
@@ -80,7 +84,7 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">年龄：</span></label>
                     <div class="layui-input-block">
@@ -90,275 +94,359 @@
                     </div>
                 </div>
             </div> -->
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
-                    <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
-                    <span class="layui-btn layui-btn-normal layui-fold-btn-custom" id="custormAdd">自定义查询</span>
-                    <!-- <span class="layui-fold-btn"></span> -->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-btn">
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
+                        <button type="reset" id="reset" class="layui-btn layui-btn-primary"
+                            data-type="reset">重置</button>
+                        <span class="layui-btn layui-btn-normal layui-fold-btn-custom" id="custormAdd">自定义查询</span>
+                        <!-- <span class="layui-fold-btn"></span> -->
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="layui-colla-content layui-hide">
-            <div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
+            <div class="layui-colla-content layui-hide">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn"></div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">自定义条件查询设置</div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
+                </div>
+                <div id="custromFrom"></div>
             </div>
-            <div id="custromFrom"></div>
-        </div>
-    </form>
-    <div class="view-title-layout">
-        <div class="right">
-            <button class="layui-btn border-blue" id="addItem" data-type="addItem" button-role="add">新增</button>
-            <button class="layui-btn border-blue" id="editItem" data-type="editItem" button-role="edit">编辑</button>
-            <button class="layui-btn border-red" id="delItem" data-type="delItem" button-role="delete">删除</button>
-            <a class="layui-btn border-blue" href="/data/科研能力-专家信息管理 模板.xls" button-role="import"
+        </form>
+        <div class="view-title-layout">
+            <div class="right">
+                <button class="layui-btn border-blue" id="addItem" data-type="addItem" button-role="add">新增</button>
+                <button class="layui-btn border-blue" id="editItem" data-type="editItem" button-role="edit">编辑</button>
+                <button class="layui-btn border-red" id="delItem" data-type="delItem" button-role="delete">删除</button>
+                <a class="layui-btn border-blue" href="/data/科研能力-专家信息管理 模板.xls" button-role="import"
                     data-type="downloadData">模板下载</a>
-            <div id="importData" class="ib-block" style="margin: 0 12px; overflow: hidden;">
-                <a class="layui-btn border-blue"  data-type="importData" filter="addFile" button-role="import">导入</a>
+                <div id="importData" class="ib-block" style="margin: 0 12px; overflow: hidden;">
+                    <a class="layui-btn border-blue" data-type="importData" filter="addFile" button-role="import">导入</a>
+                </div>
+
+                <a class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
             </div>
-
-            <a class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
         </div>
+        <table id="expertTable" lay-filter="expertTable"></table>
     </div>
-    <table id="expertTable" lay-filter="expertTable"></table>
-</div>
 
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script src="/layuiadmin/js/fileUpload.js"></script>
-<script>
-    layui.use(['element', 'form', 'jquery','table','upload','formSelects'], function(){
-        var element = layui.element,$ = layui.jquery, form = layui.form, table = layui.table,upload=layui.upload,formSelects=layui.formSelects;
-        var itemRowData=''
-        /*公共方法*/
-        var obj={   
-            layerOpen:function (title,id) {
-                var index=parent.$("#LAY_app_body div.layui-show").index()-1;
-                if(id==undefined){
-                    var url="/kjpt/expert/expert_add.html?index="+index
-                    parent.layui.index.openTabsPage(url, title);
-                }else {
-                    var url="/kjpt/expert/expert_add.html?id="+id+"&index="+index
-                    parent.layui.index.openTabsPage(url, title);
-                }
-            },
-            tableList:function (where) {
-                /*列表展示*/
-                table.render({
-                    elem: '#expertTable' // 表格元素ID
-                    ,url: '/expert-api/query' //数据接口
-                    ,cols: [[ //表头
-                        {type: 'radio' },
-                        {title: '序号',type:'numbers',width:55 },
-                        {field: 'name', title: '姓名',templet: function(d){
-                                return ('<a href="./expert_view.html?id='+d.id+'&page=list" class="layui-table-link">'+d.name+'</a>')
-                            } },
-                        {field: 'sexStr', title: '性别'},
-                        {field: 'titleStr', title: '职称'},
-                        {field: 'educationStr', title: '学历' },
-                        {field: 'belongUnitName', title: '所在单位'},
-                        {field: 'technicalFieldName', title: '技术领域'},
-                        {field: 'contactWay', title: '联系电话'},
-                        {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()}
-                    ]],
-                    method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
-                    where: where
-                    ,request: {
-                        page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
-                        limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/fileUpload.js"></script>
+    <script>
+        layui.use(['element', 'form', 'jquery', 'table', 'upload', 'formSelects'], function () {
+            var element = layui.element,
+                $ = layui.jquery,
+                form = layui.form,
+                table = layui.table,
+                upload = layui.upload,
+                formSelects = layui.formSelects;
+            var itemRowData = ''
+            /*公共方法*/
+            var obj = {
+                layerOpen: function (title, id) {
+                    var index = parent.$("#LAY_app_body div.layui-show").index() - 1;
+                    if (id == undefined) {
+                        var url = "/kjpt/expert/expert_add.html?index=" + index
+                        parent.layui.index.openTabsPage(url, title);
+                    } else {
+                        var url = "/kjpt/expert/expert_add.html?id=" + id + "&index=" + index
+                        parent.layui.index.openTabsPage(url, title);
                     }
-                    , page: true //开启分页
-                    , limit: 15
-                    , limits: [15, 30, 45, 60], // 配置分页数据条数
+                },
+                tableList: function (where) {
+                    /*列表展示*/
+                    table.render({
+                        elem: '#expertTable' // 表格元素ID
+                            ,
+                        url: '/expert-api/query' //数据接口
+                            ,
+                        cols: [
+                            [ //表头
+                                {
+                                    type: 'radio'
+                                },
+                                {
+                                    title: '序号',
+                                    type: 'numbers',
+                                    width: 55
+                                },
+                                {
+                                    field: 'name',
+                                    title: '姓名',
+                                    templet: function (d) {
+                                        return ('<a href="./expert_view.html?id=' + d
+                                            .id +
+                                            '&page=list" class="layui-table-link">' +
+                                            d.name + '</a>')
+                                    }
+                                },
+                                {
+                                    field: 'sexStr',
+                                    title: '性别'
+                                },
+                                {
+                                    field: 'titleStr',
+                                    title: '职称'
+                                },
+                                {
+                                    field: 'educationStr',
+                                    title: '学历'
+                                },
+                                {
+                                    field: 'belongUnitName',
+                                    title: '所在单位'
+                                },
+                                {
+                                    field: 'technicalFieldName',
+                                    title: '技术领域'
+                                },
+                                {
+                                    field: 'contactWay',
+                                    title: '联系电话'
+                                },
+                                {
+                                    field: 'secretLevelStr',
+                                    title: '密级',
+                                    hide: _hideSecrecylevel()
+                                }
+                            ]
+                        ],
+                        method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                        where: where,
+                        request: {
+                            page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                            limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                        },
+                        page: true //开启分页
+                            ,
+                        limit: 15,
+                        limits: [15, 30, 45, 60], // 配置分页数据条数
+                    });
+                }
+            }
+            /*初始表格*/
+            obj.tableList("");
+            /*性别*/
+            createElement("ROOT_KJPT_XB", "sex", "option", "sex")
+            /*状态*/
+            createElement("ROOT_UNIVERSAL_QYZT", "useStatus", "option", "useStatus")
+            /*学历*/
+            createElement("ROOT_KJPT_XL", "education", "option", "education")
+            /*职务*/
+            createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
+            /*职称*/
+            createElement("ROOT_KJPT_ZYJSZWJB", "title", "option", "title")
+            /*动态生成元素*/
+            function createElement(code, id, element, name) {
+                httpModule({
+                    url: "/sysDictionary-api/getChildsListByCode/" + code,
+                    type: 'GET',
+                    success: function (relData) {
+                        if (relData.success === true) {
+                            relData.data.map(function (item) {
+                                if (element == "option") {
+                                    $("#" + id).append("<option value='" + item.numValue +
+                                        "' name='" + item.numValue + "'>" + item.name +
+                                        "</option>")
+                                } else if (element == "radio") {
+                                    $("#" + id).append('<input type="radio" name="' + name +
+                                        '" value="' + item.numValue + '" title="' + item
+                                        .name + '">')
+                                }
+                            });
+                            form.render()
+                        }
+                    }
                 });
             }
-        }
-        /*初始表格*/
-        obj.tableList("");
-        /*性别*/
-        createElement("ROOT_KJPT_XB","sex","option","sex")
-        /*状态*/
-        createElement("ROOT_UNIVERSAL_QYZT","useStatus","option","useStatus")
-        /*学历*/
-        createElement("ROOT_KJPT_XL","education","option","education")
-         /*职务*/
-         createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
-        /*职称*/
-         createElement("ROOT_KJPT_ZYJSZWJB","title","option","title")
-         /*动态生成元素*/
-         function createElement(code,id,element,name) {
+            /*领域*/
             httpModule({
-                url: "/sysDictionary-api/getChildsListByCode/"+code,
+                url: "/techFamily-api/getTreeList",
                 type: 'GET',
-                success: function(relData) {
-                    if (relData.success === true) {
-                        relData.data.map(function(item){
-                            if(element=="option"){
-                                $("#"+id).append("<option value='"+item.numValue+"' name='"+item.numValue+"'>"+item.name+"</option>")
-                            }else if(element=="radio"){
-                                $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
-                            }
-                        });
-                        form.render()
-                    }
+                success: function (relData) {
+                    relData.children.map(function (item, index) {
+                        item.children.map(function (items, i) {
+                            delete items.children
+                        })
+                    })
+                    formSelects.data('applaType3', 'local', {
+                        arr: relData.children
+                    });
+                    formSelects.btns('applaType3', ['remove']);
                 }
             });
-        }
-         /*领域*/
-         httpModule({
-            url: "/techFamily-api/getTreeList",
-            type: 'GET',
-            success: function(relData) {
-                relData.children.map(function (item,index) {
-                    item.children.map(function (items,i) {
-                        delete items.children
-                    })
-                })
-                formSelects.data('applaType3', 'local', { arr: relData.children });
-                formSelects.btns('applaType3', ['remove']);
-            }
-        });
-        /*所在单位*/
-        httpModule({
-            url: "/unit-api/getTreeList",
-            type: 'GET',
-            success: function(relData) {
-                formSelects.data('belongUnit', 'local', { arr: relData.children });
-                formSelects.btns('belongUnit', ['remove']);
-            }
-        });
-        /*表格行被选中*/
-        table.on('radio(expertTable)', function(obj){
-            itemRowData = obj.data;
-        });
-        importFiles({
-            id:'#importData',
-            url:'/excelImport/zjk_base_impl',
-            callback: function (result) {
-                if(result.code=="0") {
-                    layer.msg('数据导入成功!', {icon: 1});
-                    $('[lay-filter="newSubmit"]').click();
-                }
-
-            }
-        })
-       
-        form.on('submit(newSubmit)', function(data) {
-            var json=setVal(data);
-            obj.tableList(json)
-            return false
-        })
-
-        window.returnTableName = function(){ //返回自定义查询需要的表格字段
-            return 'zjk_base'
-        }
-
-        var $ = layui.$, active = {
-            queryData:function () {
-                /*查询*/
-                obj.tableList();
-               
-            },
-            reset:function () {
-                /*重置*/
-                $("#name").val("");
-                obj.tableList('');
-            },
-            addItem:function () {
-                /*新增*/
-                obj.layerOpen("新增专家");
-            },
-            editItem:function () {
-                /*编辑*/
-                if(itemRowData.id==undefined){
-                    layer.msg('请选择需要编辑的数据！');
-                    return
-                }
-                obj.layerOpen("编辑专家",itemRowData.id);
-            },
-            delItem:function () {
-                /*删除*/
-                if (itemRowData) {
-                    top.layer.confirm('您确定要删除吗？', {icon: 3, title:'删除提示'}, function(index){
-                        layer.close(index);
-                        // 确认删除
-                        httpModule({
-                            url: '/expert-api/delete/' + itemRowData.id,
-                            type: 'get',
-                            success: function(relData) {
-                                if (relData.success) {
-                                    layer.msg('删除成功!', {icon: 1});
-                                    top.layer.closeAll(); // 关闭弹窗
-                                    obj.tableList('');
-                                } else {
-                                    layer.msg('删除失败', {icon: 2});
-                                }
-                            }
-                        });
+            /*所在单位*/
+            httpModule({
+                url: "/unit-api/getTreeList",
+                type: 'GET',
+                success: function (relData) {
+                    formSelects.data('belongUnit', 'local', {
+                        arr: relData.children
                     });
-                } else {
-                    layer.msg('请选择需要删除的数据！');
+                    formSelects.btns('belongUnit', ['remove']);
                 }
-            }
-        }
-        // 导出
-        $('#exportData').click(function() {
-        var formValue = form.val('formPlatform');
-        var json=setVal(formValue);
-        debugger
-        httpModule({
-            url: "/expert-api/exput_excel",
-            type: 'POST',
-            scriptCharset: 'utf-8',
-            responseType = "arraybuffer",
-            contentType: "application/vnd.ms-excel", 
-            data:json,
-            success: function(relData) {
-            	debugger
-            	var reader = new FileReader()
-                reader.readAsArrayBuffer(relData)  // res为后端返回的文件流
-                reader.addEventListener("loadend", () => {
-                	var blob = new Blob([reader.result], {type: "application/vnd.ms-excel"})
-                	var url = URL.createObjectURL(blob)
-                    window.open(url)
-               })
-                /* console.log(relData) 
-                window.open(relData, '_blank'); */
-               
-            }
-        });
-        // debugger
-        // var json=setVal(formValue);
-        // // obj.tableList(json)
-        // searchData = {
-        //     name: formValue.name || '', // 单位名称：
-        //     belongUnit: formValue.belongUnit || '', // 项目背景：
-        // },
-        // exportUrl = '';
+            });
+            /*表格行被选中*/
+            table.on('radio(expertTable)', function (obj) {
+                itemRowData = obj.data;
+            });
+            importFiles({
+                id: '#importData',
+                url: '/excelImport/zjk_base_impl',
+                callback: function (result) {
+                    if (result.code == "0") {
+                        layer.msg('数据导入成功!', {
+                            icon: 1
+                        });
+                        $('[lay-filter="newSubmit"]').click();
+                    }
 
-        // for (var key in searchData) {
-        //     exportUrl += '&' + key + '=' + searchData[key];
-        // }
-        // //expert-api/exput_excel
-        // exportUrl = '/expert-api/exput_excel?' + exportUrl.substring(1) + json;
-        // debugger
-        // console.log(exportUrl)
-        // window.open(exportUrl, '_blank');
-        })
-        $('.layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
+                }
+            })
+
+            form.on('submit(newSubmit)', function (data) {
+                var json = setVal(data);
+                obj.tableList(json)
+                return false
+            })
+
+            window.returnTableName = function () { //返回自定义查询需要的表格字段
+                return 'zjk_base'
+            }
+
+            var $ = layui.$,
+                active = {
+                    queryData: function () {
+                        /*查询*/
+                        obj.tableList();
+
+                    },
+                    reset: function () {
+                        /*重置*/
+                        $("#name").val("");
+                        obj.tableList('');
+                    },
+                    addItem: function () {
+                        /*新增*/
+                        obj.layerOpen("新增专家");
+                    },
+                    editItem: function () {
+                        /*编辑*/
+                        if (itemRowData.id == undefined) {
+                            layer.msg('请选择需要编辑的数据！');
+                            return
+                        }
+                        obj.layerOpen("编辑专家", itemRowData.id);
+                    },
+                    delItem: function () {
+                        /*删除*/
+                        if (itemRowData) {
+                            top.layer.confirm('您确定要删除吗？', {
+                                icon: 3,
+                                title: '删除提示'
+                            }, function (index) {
+                                layer.close(index);
+                                // 确认删除
+                                httpModule({
+                                    url: '/expert-api/delete/' + itemRowData.id,
+                                    type: 'get',
+                                    success: function (relData) {
+                                        if (relData.success) {
+                                            layer.msg('删除成功!', {
+                                                icon: 1
+                                            });
+                                            top.layer.closeAll(); // 关闭弹窗
+                                            obj.tableList('');
+                                        } else {
+                                            layer.msg('删除失败', {
+                                                icon: 2
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            layer.msg('请选择需要删除的数据！');
+                        }
+                    }
+                }
+            // 导出
+            $('#exportData').click(function () {
+                var formValue = form.val('formPlatform');
+                var json = setVal(formValue);
+                // debugger
+                // var xhr = new XMLHttpRequest();
+                // xhr.open('POST', '/expert-api/exput_excel', true);
+                // xhr.responseType = 'arraybuffer';
+                // xhr.onload = function (e) {
+                //     if (this.status == 200) {
+                //         console.log(e.currentTarget.response)
+                //         var relData = e.currentTarget.response;
+                //         // debugger
+                //         var reader = new FileReader()
+                //         debugger
+                //         reader.readAsArrayBuffer(relData)  // res为后端返回的文件流
+                //         reader.addEventListener("loadend", () => {
+                //         	var blob = new Blob([reader.result], {type: "application/vnd.ms-excel"})
+                //             var url = URL.createObjectURL(blob)
+                //             console.log(url);
+                //             // window.open(url)
+                //        })
+                //     }
+                // };
+                // xhr.send();
+                httpModule({
+                    url: "/expert-api/exput_excel",
+                    type: 'POST',
+                    scriptCharset: 'utf-8',
+                    // responseType = "arraybuffer",
+                    // datatype = "text",
+                    contentType: "application/vnd.ms-excel", 
+                    data:json,
+                    success: function(relData) {
+                        debugger
+                        console.log(relData)
+                        return ;
+                    	var reader = new FileReader()
+                        reader.readAsArrayBuffer(relData)  // res为后端返回的文件流
+                        reader.addEventListener("loadend", () => {
+                        	var blob = new Blob([reader.result], {type: "application/vnd.ms-excel"})
+                        	var url = URL.createObjectURL(blob)
+                            window.open(url)
+                       })
+                        /* console.log(relData) 
+                        window.open(relData, '_blank'); */
+
+                    }
+                });
+                // debugger
+                // var json=setVal(formValue);
+                // // obj.tableList(json)
+                // searchData = {
+                //     name: formValue.name || '', // 单位名称：
+                //     belongUnit: formValue.belongUnit || '', // 项目背景：
+                // },
+                // exportUrl = '';
+
+                // for (var key in searchData) {
+                //     exportUrl += '&' + key + '=' + searchData[key];
+                // }
+                // //expert-api/exput_excel
+                // exportUrl = '/expert-api/exput_excel?' + exportUrl.substring(1) + json;
+                // debugger
+                // console.log(exportUrl)
+                // window.open(exportUrl, '_blank');
+            })
+            $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
         });
-    });
-    
-    
-    
-   
-</script>
+    </script>
 </body>
+
 </html>
