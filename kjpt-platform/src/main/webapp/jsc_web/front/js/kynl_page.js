@@ -1,5 +1,5 @@
 var variable = getQueryVariable()
-if(variable.name){
+if(variable){
     var curName = decodeURI(variable.name);
     if(curName){
         $('.page-layout-title .tab-btn').removeClass('selected');
