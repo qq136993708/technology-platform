@@ -1,14 +1,18 @@
 var variable = getQueryVariable()
-var curName = decodeURI(variable.name);
-if(curName){
-    $('.page-layout-title .tab-btn').removeClass('selected');
-    $('.page-layout-title .tab-btn').each(function(item){
-        var itemText = $(this).context.innerText;
-        if(itemText == curName){
-            $(this).addClass('selected');
+if(variable.name){
+    var curName = decodeURI(variable.name);
+    if(curName){
+        $('.page-layout-title .tab-btn').removeClass('selected');
+        $('.page-layout-title .tab-btn').each(function(item){
+            var itemText = $(this).context.innerText;
+            if(itemText == curName){
+                $(this).addClass('selected');
+        }
+        })
     }
-    })
 }
+
+
 // 科技人才
 kyptCharts.render({
     id: 'kynl_kjrc_charts',
