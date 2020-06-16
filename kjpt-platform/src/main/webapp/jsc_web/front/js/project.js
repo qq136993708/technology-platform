@@ -369,7 +369,7 @@ function appraisalXmfb () {
       label: false,
       labelColor: '#fff',
       radius: ['44%', '66%'],
-      borderColor: '#001e38',
+    //   borderColor: '#001e38',
       series: [],
       totalTitle: true,
       title: {

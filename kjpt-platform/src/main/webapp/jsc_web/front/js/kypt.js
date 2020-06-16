@@ -132,8 +132,6 @@ $(function() {
                         });
 
                         kyptCharts.reload('awardTramsformInfoHistory', {data: HJdata, series: sData});
-
-                        console.log('sData => ', sData);
                     }
                 }
             });
@@ -161,7 +159,6 @@ $(function() {
                 type: 'GET',
                 async: false,
                 success: function(res) {
-                    var result = [];
                     if (res.code == 0) {
                         var data = res.data;
                         var dataArr = [];
@@ -183,10 +180,10 @@ $(function() {
             });
         }
     };
-    $('.count-year-title ul li').on('click', function () {
-        var type = $(this).attr('data-type');
-        chartInit.transformInfo({type: type});
-    });
+    // $('.count-year-title ul li').on('click', function () {
+    //     var type = $(this).attr('data-type');
+    //     chartInit.transformInfo({type: type});
+    // });
 
     chartInit.transformInfo();
     chartInit.awardsYearPie();
