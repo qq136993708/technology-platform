@@ -31,8 +31,8 @@ $(function() {
                 '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
                     '<div style="font-size:16px; margin:5px;">'+'授权专利'+'</div>'+
                 '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+ serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
-    var flag1 = true;
-    var flag2 = true;
+                var flag1 = true;
+                var flag2 = true;
                 return showHtms;
             }
         }
@@ -84,40 +84,22 @@ $(function() {
         transformInfo: function (param) {
             var params = {};
             if(param){
-
-                if(flag1){
-                    switch(param.type){
-                        case  'fm':
-                            params.patentType = '01';
-                            flag1 = !flag1;
-                            break;
-                        case 'syxl':
-                            params.patentType = '02';
-                            flag1 = !flag1;
-                            break;
-                        case 'wgsj':
-                            params.patentType = '03';
-                            flag1 = !flag1;
-                            break;
-                    }
-                } else {
-                    params = '2020'
-                    flag1 = !flag1;
-
                 switch(param.type){
                     case  'fm':
-                       params.patentType = '01';
+                        params.patentType = '01';
+                        flag1 = !flag1;
                         break;
                     case 'syxl':
                         params.patentType = '02';
+                        flag1 = !flag1;
                         break;
                     case 'wgsj':
                         params.patentType = '03';
+                        flag1 = !flag1;
                         break;
-
                 }
-            } else {
-                params = '2020'
+            }else {
+                params = '2020';
             }
 
             httpModule({

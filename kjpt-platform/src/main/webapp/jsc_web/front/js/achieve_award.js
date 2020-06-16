@@ -113,7 +113,7 @@ $(function() {
       var colors = [];
       httpModule({
         url: '/achieveMaintainBI-api/getAwardSumByTypePie',
-        data: params,
+        data: params || '',
         type: 'GET',
         async: false,
         success: function (res) {
@@ -196,6 +196,7 @@ $(function() {
       var typeName = params.seriesName;
       var year = params.name;
       chartInit.getAchieveTableData({type: typeName, year: year});
+      chartInit.awardsYearPie({type: typeName, year: year});
     });
   }
 
