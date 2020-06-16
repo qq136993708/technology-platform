@@ -69,6 +69,7 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                     var scope_disabled = false;
                     if (variable.type == 'view') {
                         formSelects.disabled(); // 禁用所有多选下拉框
+                        setFomeDisabled('formPlatform', '.disabled');
                         scope_disabled = true;
                     }
                     
