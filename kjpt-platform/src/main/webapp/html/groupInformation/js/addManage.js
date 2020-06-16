@@ -64,6 +64,7 @@ layui.use(['form','laydate','formSelects'], function(){
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
+          formSelects.disabled(); // 禁用所有多选下拉框 
           layui.form.render('select');
           $('#reportType').val(reportTypeVal);
           scopeDisabled = true;

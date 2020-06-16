@@ -22,7 +22,8 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
           // 给form表单赋初始值
           var data = relData.data;
           transToData(data, ['recordDate','developFinishDate','entryTime']);
-          data['unitNameText']=userInfo.unitName
+          data['createUnitId']=userInfo.unitId;
+          data['createUnitName']=userInfo.unitName;
           form.val('formMain', data);
           if (variable.type === 'view') {
             setFomeDisabled('formMain', '.disabled');

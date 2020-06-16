@@ -120,6 +120,11 @@ public class AchieveBase extends RecordModel implements Serializable {
     private String achieveType;
     private String achieveTypeText;
 
+
+    /**
+     * 转化金额
+     * @return
+     */
     private BigDecimal conversionAmount;
 
 

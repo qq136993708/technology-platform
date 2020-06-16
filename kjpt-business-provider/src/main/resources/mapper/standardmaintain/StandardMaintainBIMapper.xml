@@ -93,22 +93,96 @@
   </sql>
 
 
+
   <select id="getInternalResearchList" parameterType="java.util.Map" resultMap="StandardMaintainBIMap">
-        select  * from view_standard_maintain where id = #{id} and deleted != '1'
-    </select>
+    SELECT
+    a.num_value as standard_type,
+    a.name as standard_type_text,
+    IFNULL(x.research_count,0) AS research_count
+    FROM
+    (
+    SELECT num_value,name
+    FROM sys_dictionary
+    WHERE parent_code = 'ROOT_KJPT_BZWH_BZLX'
+    ) a
+    LEFT JOIN
+    (
+    SELECT
+    standard_type,
+    COUNT( * ) AS research_count
+    FROM
+    standard_maintain a
+    WHERE
+    1 = 1
+    AND deleted != '1'
+    AND is_publish = '1'
+    AND create_date <![CDATA[ < ]]> DATE_ADD(curdate(),interval -day(curdate())+1 day)
+    <include refid="selectByParam" />
+    GROUP BY
+    standard_type
+    ) x on a.num_value = x.standard_type
+    ORDER BY standard_type asc
+  </select>
 
 
   <select id="getInternalPublishList" parameterType="java.util.Map" resultMap="StandardMaintainBIMap">
-    select  * from view_standard_maintain where 1=1
-    and deleted != '1'
+    SELECT
+    a.num_value as standard_type,
+    a.name as standard_type_text,
+    IFNULL(x.publish_count,0) AS publish_count
+    FROM
+    (
+    SELECT num_value,name
+    FROM sys_dictionary
+    WHERE parent_code = 'ROOT_KJPT_BZWH_BZLX'
+    ) a
+    LEFT JOIN
+    (
+    SELECT
+    standard_type,
+    COUNT( * ) AS publish_count
+    FROM
+    standard_maintain a
+    WHERE
+    1 = 1
+    AND deleted != '1'
+    AND is_publish = '0'
+    AND publish_date <![CDATA[ < ]]> DATE_ADD(curdate(),interval -day(curdate())+1 day)
     <include refid="selectByParam" />
-    order by publish_date desc
+    GROUP BY
+    standard_type
+    ) x on a.num_value = x.standard_type
+    ORDER BY standard_type asc
   </select>
 
-  <select id="getInternationalAllList" parameterType="java.util.Map" resultType="Long">
-    select  count(*) from standard_maintain where 1=1
-    and deleted != '1'
-    <include refid="selectByParam" />
+  <select id="getInternationalAllList" parameterType="java.util.Map" resultMap="StandardMaintainBIMap">
+    SELECT
+    a.num_value,
+    CASE
+    a.num_value
+    WHEN '01' THEN
+    '国际标准在研'
+    WHEN '04' THEN
+    '累计发布数'
+    END AS standard_name,
+    IFNULL(x.all_count,0) as all_count
+    FROM
+    ( SELECT num_value FROM sys_dictionary WHERE parent_code = 'ROOT_KJPT_BZWH_BZZT' AND num_value IN ( '01', '04' ) ) a
+    LEFT JOIN (
+    SELECT
+    standard_status,
+    count( * ) as all_count
+    FROM
+    international_standard_maintain v
+    WHERE
+    1 = 1
+    AND deleted != '1'
+      <include refid="selectByParam" />
+    AND standard_status IN ( '01', '04' )
+    GROUP BY
+    standard_status
+    ) x ON a.num_value = x.standard_status
+    ORDER BY a.num_value
   </select>
 
 

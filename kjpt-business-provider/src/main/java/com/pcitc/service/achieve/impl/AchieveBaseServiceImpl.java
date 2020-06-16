@@ -162,8 +162,8 @@ public class AchieveBaseServiceImpl implements AchieveBaseService {
   	    	System.out.println("=====远程调用结束");
   			if("true".equals(str)) 
   			{
-  				achieveBase.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
-  				achieveBase.setIsPublic(Constant.IS_PUBLIC_NOT);
+  				achieveBase.setAuditStatus(Constant.UNDER_APPROVAL);
+  				//achieveBase.setIsPublic(Constant.IS_PUBLIC_NOT);
   				abm.update(achieveBase);
   				return new Result(true,"操作成功!");
   			}else 

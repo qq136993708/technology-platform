@@ -4,6 +4,7 @@ import com.pcitc.base.standardmaintain.StandardMaintainBI;
 import com.pcitc.config.NoMockCondition;
 import com.pcitc.mapper.standardmaintain.StandardMaintainBIMapper;
 import com.pcitc.service.standardmaintain.StandardMaintainBIService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 @Service
 @Conditional(NoMockCondition.class)
 public class StandardMaintainBIServiceImpl implements StandardMaintainBIService {
+    @Autowired
     private StandardMaintainBIMapper mapper;
 
     @Override

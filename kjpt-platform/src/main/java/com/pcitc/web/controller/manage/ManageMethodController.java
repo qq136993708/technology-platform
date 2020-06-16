@@ -152,7 +152,9 @@ public class ManageMethodController extends RestBaseController {
     @RequestMapping(value = "/manageMethod-api/newInit", method = RequestMethod.GET)
     @ResponseBody
     public ManageMethod newInit() {
+        SysUser sysUserInfo = this.getUserProfile();
         ManageMethod a = new ManageMethod();
+        a.setCreator(sysUserInfo.getUserName());
         a.setId(UUID.randomUUID().toString().replace("-",""));
         return a;
     }

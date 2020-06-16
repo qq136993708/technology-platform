@@ -300,8 +300,6 @@
       remark = #{remark,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=TIMESTAMP},
       file = #{files,jdbcType=VARCHAR},
-      create_unit_id = #{createUnitId,jdbcType=VARCHAR},
-	  create_unit_name = #{createUnitName,jdbcType=VARCHAR},
 	  secret_level =  #{secretLevel,jdbcType=VARCHAR},
 	  knowledge_scope =  #{knowledgeScope,jdbcType=VARCHAR},
 	  extension_period =  #{extensionPeriod,jdbcType=TIMESTAMP},
@@ -332,6 +330,9 @@
   <sql id="selectByParam">
     <if test="unitName != null and unitName != '' " >
       and unit_name like CONCAT('%',#{unitName},'%')
+    </if>
+    <if test="createUnitId != null and createUnitId != '' " >
+      and create_unit_id = #{createUnitId}
     </if>
     <if test="trademarkName != null and trademarkName != '' " >
       and trademark_name like CONCAT('%',#{trademarkName},'%')

@@ -69,9 +69,20 @@ body { overflow: auto; }
     display: block;
     position: absolute;
     content: '';    
-    width: 4rem;
+    width: 2.4rem;
     height: 1px;
     background-color: #fff;
+}
+.kypt_charts .pie-legend-list .legend-item:nth-of-type(2) > .lenend-item-name:nth-of-type(2)::after{
+    width: 3.9rem;
+}
+.kypt_charts .pie-legend-list .legend-item:nth-of-type(3) > .lenend-item-name:nth-of-type(2)::after{
+    width: 3.2rem;
+}
+.achieve_charts .pie-legend-list .legend-item:nth-of-type(1) > .lenend-item-name:nth-of-type(2)::after,
+.achieve_charts .pie-legend-list .legend-item:nth-of-type(2) > .lenend-item-name:nth-of-type(2)::after,
+.achieve_charts .pie-legend-list .legend-item:nth-of-type(4) > .lenend-item-name:nth-of-type(2)::after{
+    width: 3.2rem;
 }
 .pie-legend-list > .ib-block {
     padding-top: .6rem;
@@ -129,7 +140,7 @@ body { overflow: auto; }
     font-size: 1.2rem !important;
 }
 .progress-layout .number-text.title{
-    font-size: 12px;
+    font-size: 12px !important;
 }
 .progress-layout .number-text.value {
     font-family: Impact;
