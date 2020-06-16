@@ -348,19 +348,34 @@ var kyptCharts = {
         }
         return lenendItem;
       })(),
-      tooltip: {
-        show: true,
-        trigger: 'axis',
-        axisPointer: {
-          type: (function(){
-            if (config.type === 'line') {
-              return 'line';
-            } else {
-              return 'shadow';
-            }
-          })()
+      tooltip: (function(){
+        var tooltipItem = {
+            show: true,
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            },
         }
-      },
+          if (config.tooltip) {
+              for (var key in config.tooltip) {
+                  tooltipItem[key] = config.tooltip[key];
+              }
+          }
+          return tooltipItem;
+      }) (),
+      // tooltip: {
+      //   show: true,
+      //   trigger: 'axis',
+      //   axisPointer: {
+      //     type: (function(){
+      //       if (config.type === 'line') {
+      //         return 'line';
+      //       } else {
+      //         return 'shadow';
+      //       }
+      //     })()
+      //   }
+      // },
       xAxis: null,
       yAxis: null,
       series: seriesData,
