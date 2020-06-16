@@ -38,10 +38,14 @@ public class PatentInfoBIMockServiceImpl extends PatentInfoBIServiceImpl {
                         calResult temp = new calResult();
                         temp.setTextTitle(years[i]);
                         temp.setText(textsSub[j]);
-                        temp.setTextSub(texts[0]);
+                        temp.setTextSub(texts[k]);
                         temp.setDicValue("0"+i);
                         temp.setDicValueSub("0"+i);
-                        temp.setCalValue(BigDecimal.valueOf(nums[i][j][0]));
+                        if(k==0){
+                            temp.setCalValue(BigDecimal.valueOf(nums[i][j][k]));
+                        }else{
+                            temp.setCalValue(BigDecimal.valueOf(0));
+                        }
                         cList.add(temp);
                     }
                 }
@@ -62,10 +66,6 @@ public class PatentInfoBIMockServiceImpl extends PatentInfoBIServiceImpl {
                 }
             }
         }
-
-
-
-
         return cList;
     }
 
@@ -92,11 +92,17 @@ public class PatentInfoBIMockServiceImpl extends PatentInfoBIServiceImpl {
         String legelStatus = (String) param.get("legalStatus");
         if(StringUtils.isNotBlank(legelStatus)){ //选中“授权”
             for(int i=0;i<affiliatedUnitText.length;i++){
-                calResult temp = new calResult();
-                temp.setText(affiliatedUnitText[i]);
-                temp.setTextSub(texts[0]);
-                temp.setCalValue(BigDecimal.valueOf(nums[i][0]));
-                cList.add(temp);
+                for(int j=0;j<texts.length;j++){
+                    calResult temp = new calResult();
+                    temp.setText(affiliatedUnitText[i]);
+                    temp.setTextSub(texts[j]);
+                    if(j==0){
+                        temp.setCalValue(BigDecimal.valueOf(nums[i][j]));
+                    }else{
+                        temp.setCalValue(BigDecimal.valueOf(0));
+                    }
+                    cList.add(temp);
+                }
             }
         }else{
             for(int i=0;i<affiliatedUnitText.length;i++){
