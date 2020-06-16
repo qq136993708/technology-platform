@@ -15,6 +15,11 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         trigger: 'click',
         type:'year'
     });
+    if(variable.type == 'collection'){
+        $('#conversionAmount').removeClass('layui-hide');
+        $('#conversionAmount label').addClass('label-required')
+        $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
+    }
     /*领域*/
     httpModule({
         url: "/techFamily-api/getTreeList",
@@ -66,11 +71,7 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                         formSelects.disabled(); // 禁用所有多选下拉框
                         scope_disabled = true;
                     }
-                    if(variable.type == 'collection'){
-                        $('#conversionAmount').removeClass('layui-hide');
-                        $('#conversionAmount label').addClass('label-required')
-                        $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
-                    }
+                    
                     // 添加知悉范围
                     setJurisdictionScope({
                         elem: 'scope_list_layout',

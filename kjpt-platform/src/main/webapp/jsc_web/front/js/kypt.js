@@ -93,9 +93,9 @@ $(function() {
                     case 'wgsj':
                         params.patentType = '03';
                         break;
-                }
+                };
             } else {
-                params = '2020'
+                params = '2020';
             }
 
             httpModule({
