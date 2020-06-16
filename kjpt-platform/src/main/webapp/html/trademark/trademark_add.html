@@ -109,6 +109,8 @@
                         placeholder="请选择"></select> -->
                         <input type="text" name="createUnitName" lay-verify="required" placeholder="" autocomplete="off"
                      class="layui-input" disabled>
+                     <input type="hidden" name="createUnitId" lay-verify="required" placeholder="" autocomplete="off"
+                     class="layui-input" >
                 </div>
             </div>
         </div>
@@ -427,7 +429,8 @@
               });
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
-            data['createUnitId']=userInfo.unitId
+            data['createUnitId']=userInfo.unitId;
+            data['createUnitName']=userInfo.unitName;
             form.val('formPlatform', data);
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
