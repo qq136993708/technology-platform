@@ -242,6 +242,7 @@ public class AchieveBaseController extends RestBaseController {
     }
 
     private void checkAuditStatus(AchieveBase ab){
+        ab.setIsSupplementaryRecord("02");
         if("1".equals(ab.getAchieveType())){
             ab.setAuditStatus(Constant.NO_SUBMIT);
         }else{
