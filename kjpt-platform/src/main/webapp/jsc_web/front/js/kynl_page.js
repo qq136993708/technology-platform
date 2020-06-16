@@ -1,4 +1,14 @@
-
+var variable = getQueryVariable()
+var curName = decodeURI(variable.name);
+if(curName){
+    $('.page-layout-title .tab-btn').removeClass('selected');
+    $('.page-layout-title .tab-btn').each(function(item){
+        var itemText = $(this).context.innerText;
+        if(itemText == curName){
+            $(this).addClass('selected');
+    }
+    })
+}
 // 科技人才
 kyptCharts.render({
     id: 'kynl_kjrc_charts',
@@ -11,7 +21,7 @@ kyptCharts.render({
     label: false,
     labelColor: '#fff',
     radius: ['52%', '72%'],
-    borderColor: '#001e38',
+    // borderColor: '#001e38',
     title: '成果鉴定',
     totalTitle: true,
     company:'人',
@@ -102,7 +112,6 @@ $('#tabHeader').on('click', '.tab-btn', function(e) {
     if (!$(this).hasClass('selected')) {
         $(this).addClass('selected').siblings('.tab-btn').removeClass('selected');
         var tabType = $(this).attr('type');
-        console.log('type => ', tabType);
         // HTTP请求
     }
 })

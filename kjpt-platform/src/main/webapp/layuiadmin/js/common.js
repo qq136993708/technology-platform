@@ -316,7 +316,6 @@ function httpModule(config) {
 					config.error(err);
 				}
 				dialogError(err);
-				console.log('空 error');
 			},
 			complete: function(XHR, TS) {
 				if (config.hasOwnProperty('complete')) {
@@ -373,16 +372,15 @@ function closeTabsPage(index){
 }
 
 //驾驶舱页面跳转
-function jscPup(page) { 
+function jscPup(page,name) { 
 	$('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
 	$('#top-header-nav .transR' , parent.document).each(function(item){
-		console.log($(this));
-			var itemHref = $(this).attr('href');
-			if(itemHref == page){
-					$(this).addClass('btnactive');
-			}
+		var itemHref = $(this).attr('href');
+		if(itemHref == page){
+				$(this).addClass('btnactive');
+		}
 	})
-	window.location.href='/jsc_web/front/'+page+'.html';
+	window.location.href='/jsc_web/front/'+page+'.html?name='+ name;
  }
 
 // 获取字典总数据
@@ -831,7 +829,6 @@ function commonItemInto(config) {
 	$itemBox = $itemScroll.find('.itemBlock:eq(0)');
 
 	$.each(config.cols, function(i, item) {
-		console.log(item.url)
 		if(item.url!='#'){
             itemList += ('<li class="top-item middle-block"><a lay-href="'+item.url+'" lay-text="'+item.title+'">'+
                 '<div class="item-cell">'+
