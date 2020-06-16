@@ -665,10 +665,10 @@ var kyptCharts = {
             color: '#313232',
             formatter: '{c}\n{d}%'
           },
-          // itemStyle: {
-            // borderWidth: (borderColor ? 2 : 0),
-            // borderColor: borderColor || '#fff'  去掉饼图空隙
-          // } 
+          itemStyle: {
+            borderWidth: (borderColor ? 2 : 0),
+            borderColor: borderColor || '#fff'  // 饼图空隙
+          } 
           
         }
       ],

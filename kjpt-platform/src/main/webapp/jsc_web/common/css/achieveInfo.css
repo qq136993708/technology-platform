@@ -399,7 +399,7 @@
   margin-left: -1rem;
 }
 .achieve_transform .top-right-content .page-layout-title {
-  margin-left: 0;
+  margin-left: 1rem;
 }
 
 #achieve-award .content-title {
@@ -472,8 +472,16 @@
   white-space: nowrap;
 }
 
-
-
+.kynl_kypt_table table.fixed-layout thead tr th.year,
+.kynl_kypt_table table.fixed-layout tbody tr td.year,
+.kynl_kypt_table table.fixed-layout tbody tr td.award,
+.kynl_kypt_table table.fixed-layout thead tr th.award,
+.kynl_kypt_table table.fixed-layout tbody tr td.level,
+.kynl_kypt_table table.fixed-layout thead tr th.level,
+.kynl_kypt_table table.fixed-layout thead tr th.number,
+.kynl_kypt_table table.fixed-layout tbody tr td.number {
+  width: 10%;
+}
 
 /*成果转换方式*/
 .chart-content {
