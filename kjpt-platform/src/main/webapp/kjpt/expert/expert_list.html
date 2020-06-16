@@ -378,7 +378,7 @@
             $('#exportData').click(function () {
                 var formValue = form.val('formPlatform');
                 var json = setVal(formValue);
-                // // debugger
+                // debugger
                 // var xhr = new XMLHttpRequest();
                 // xhr.open('POST', '/expert-api/exput_excel', true);
                 // xhr.responseType = 'arraybuffer';
@@ -399,30 +399,30 @@
                 //     }
                 // };
                 // xhr.send();
-                // httpModule({
-                //     url: "/expert-api/exput_excel",
-                //     type: 'POST',
-                //     scriptCharset: 'utf-8',
-                //     // responseType = "arraybuffer",
-                //     // datatype = "text",
-                //     contentType: "application/vnd.ms-excel", 
-                //     data:json,
-                //     success: function(relData) {
-                //         debugger
-                //         console.log(relData)
-                //         return ;
-                //     	var reader = new FileReader()
-                //         reader.readAsArrayBuffer(relData)  // res为后端返回的文件流
-                //         reader.addEventListener("loadend", () => {
-                //         	var blob = new Blob([reader.result], {type: "application/vnd.ms-excel"})
-                //         	var url = URL.createObjectURL(blob)
-                //             window.open(url)
-                //        })
-                //         /* console.log(relData) 
-                //         window.open(relData, '_blank'); */
+                httpModule({
+                    url: "/expert-api/exput_excel",
+                    type: 'POST',
+                    scriptCharset: 'utf-8',
+                    // responseType = "arraybuffer",
+                    // datatype = "text",
+                    contentType: "application/vnd.ms-excel", 
+                    data:json,
+                    success: function(relData) {
+                        debugger
+                        console.log(relData)
+                        return ;
+                    	var reader = new FileReader()
+                        reader.readAsArrayBuffer(relData)  // res为后端返回的文件流
+                        reader.addEventListener("loadend", () => {
+                        	var blob = new Blob([reader.result], {type: "application/vnd.ms-excel"})
+                        	var url = URL.createObjectURL(blob)
+                            window.open(url)
+                       })
+                        /* console.log(relData) 
+                        window.open(relData, '_blank'); */
 
-                //     }
-                // });
+                    }
+                });
                 // debugger
                 // var json=setVal(formValue);
                 // // obj.tableList(json)
