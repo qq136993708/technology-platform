@@ -43,10 +43,12 @@
 		<result column="unit_id"   property="unitId" jdbcType="VARCHAR" />
 		<result column="user_head_pic"   property="userHeadPic" jdbcType="VARCHAR" />
 		<result column="user_role_text"   property="userRoleText" jdbcType="VARCHAR" />
+		<result column="data_scope_unit_id"   property="dataScopeUnitId" jdbcType="VARCHAR" />
+		<result column="data_scope_unit_name"   property="dataScopeUnitName" jdbcType="VARCHAR" />
+        <result column="data_scope_unit_path"   property="dataScopeUnitPath" jdbcType="VARCHAR" />
 
 
-
-
+	
 
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -113,15 +115,7 @@
 		</where>
 	</sql>
 	<sql id="Base_Column_List">
-		user_id, user_name, user_password, user_disp, user_kind, user_flag, user_unit,
-		user_post,
-		user_role, user_order, user_mail, user_mobile, user_phone, user_sign,
-		user_create_time,
-		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
-		login_error_number,
-		login_check_code, 
-		user_login_ip,user_login_date,secret_level,unify_identity_id,post_name,
-		user_unit_name,user_unit_path,user_head_pic,user_role_text
+		*
 	</sql>
 
 
@@ -133,8 +127,9 @@
 		<if test="distinct">
 			distinct
 		</if>
-		'true' as QUERYID,
+
 		<include refid="Base_Column_List" />
+		,'true' as QUERYID
 		from sys_user
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
@@ -166,8 +161,12 @@
 	</select>
 
 
+
+
+
 	<insert id="insert" parameterType="com.pcitc.base.system.SysUser">
-		insert into sys_user (user_id, user_name, user_password,
+		insert into sys_user (
+		user_id, user_name, user_password,
 		user_disp, user_kind, user_flag,
 		user_unit, user_post, user_role,
 		user_order, user_mail, user_mobile,
@@ -175,24 +174,43 @@
 		user_level, user_delflag, user_relation,
 		user_extend, user_comment, is_domain,
 		login_error_number, login_check_code, secret_level,
-		unify_identity_id,post_name,user_unit_name,user_unit_path,user_head_pic,user_role_text
+		unify_identity_id,post_name,user_unit_name,user_unit_path,
+		user_head_pic,user_role_text,data_scope_unit_id,data_scope_unit_name,data_scope_unit_path
 		)
-		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		values (
+		#{userId,jdbcType=VARCHAR}, 
+		#{userName,jdbcType=VARCHAR},
 		#{userPassword,jdbcType=VARCHAR},
-		#{userDisp,jdbcType=VARCHAR}, #{userKind,jdbcType=VARCHAR}, #{userFlag,jdbcType=VARCHAR},
-		#{userUnit,jdbcType=VARCHAR}, #{userPost,jdbcType=VARCHAR},
+		#{userDisp,jdbcType=VARCHAR}, 
+		#{userKind,jdbcType=VARCHAR}, 
+		#{userFlag,jdbcType=VARCHAR},
+		#{userUnit,jdbcType=VARCHAR}, 
+		#{userPost,jdbcType=VARCHAR},
 		#{userRole,jdbcType=VARCHAR},
-		#{userOrder,jdbcType=INTEGER}, #{userMail,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR},
-		#{userPhone,jdbcType=VARCHAR}, #{userSign,jdbcType=VARCHAR},
+		#{userOrder,jdbcType=INTEGER}, 
+		#{userMail,jdbcType=VARCHAR}, 
+		#{userMobile,jdbcType=VARCHAR},
+		#{userPhone,jdbcType=VARCHAR}, 
+		#{userSign,jdbcType=VARCHAR},
 		#{userCreateTime,jdbcType=VARCHAR},
-		#{userLevel,jdbcType=INTEGER}, #{userDelflag,jdbcType=INTEGER}, #{userRelation,jdbcType=VARCHAR},
-		#{userExtend,jdbcType=VARCHAR}, #{userComment,jdbcType=VARCHAR},
+		#{userLevel,jdbcType=INTEGER}, 
+		#{userDelflag,jdbcType=INTEGER}, 
+		#{userRelation,jdbcType=VARCHAR},
+		#{userExtend,jdbcType=VARCHAR}, 
+		#{userComment,jdbcType=VARCHAR},
 		#{isDomain,jdbcType=INTEGER},
-		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}
-		,#{secretLevel,jdbcType=VARCHAR},#{unifyIdentityId,jdbcType=VARCHAR}
-		,#{postName,jdbcType=VARCHAR},#{userUnitName,jdbcType=VARCHAR},#{userUnitPath,jdbcType=VARCHAR}
+		#{loginErrorNumber,jdbcType=INTEGER}, 
+		#{loginCheckCode,jdbcType=VARCHAR}
+		,#{secretLevel,jdbcType=VARCHAR},
+		#{unifyIdentityId,jdbcType=VARCHAR}
+		,#{postName,jdbcType=VARCHAR},
+		#{userUnitName,jdbcType=VARCHAR},
+		#{userUnitPath,jdbcType=VARCHAR}
 		,#{userHeadPic,jdbcType=VARCHAR}
 		,#{userRoleText,jdbcType=VARCHAR}
+		,#{dataScopeUnitId,jdbcType=VARCHAR}
+		,#{dataScopeUnitName,jdbcType=VARCHAR}
+		,#{dataScopeUnitPath,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.pcitc.base.system.SysUser">
@@ -289,6 +307,16 @@
 			<if test="userRoleText != null">
 				user_role_text,
 			</if>
+			<if test="dataScopeUnitId != null">
+				data_scope_unit_id,
+			</if>
+			<if test="dataScopeUnitName != null">
+				data_scope_unit_name,
+			</if>
+			<if test="dataScopeUnitPath != null">
+				data_scope_unit_path,
+			</if>
+			
 
 
 		</trim>
@@ -362,7 +390,6 @@
 			<if test="loginCheckCode != null">
 				#{loginCheckCode,jdbcType=VARCHAR},
 			</if>
-
 			<if test="secretLevel != null">
 				#{secretLevel,jdbcType=VARCHAR},
 			</if>
@@ -384,7 +411,15 @@
 			<if test="userRoleText != null">
 				#{userRoleText,jdbcType=VARCHAR},
 			</if>
-
+			<if test="dataScopeUnitId != null">
+				#{dataScopeUnitId,jdbcType=VARCHAR},
+			</if>
+			<if test="dataScopeUnitName != null">
+				#{dataScopeUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="dataScopeUnitPath != null">
+				#{dataScopeUnitPath,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<select id="countByExample" parameterType="com.pcitc.base.system.SysUserExample"
@@ -423,11 +458,12 @@
 		is_domain = #{isDomain,jdbcType=INTEGER},
 		login_error_number = #{loginErrorNumber,jdbcType=INTEGER},
 		login_check_code = #{loginCheckCode,jdbcType=VARCHAR},
-		
+		data_scope_unit_id = #{dataScopeUnitId,jdbcType=VARCHAR},
+		data_scope_unit_name = #{dataScopeUnitName,jdbcType=VARCHAR},
 		user_unit_name = #{userUnitName,jdbcType=VARCHAR},
 		user_head_pic = #{userHeadPic,jdbcType=VARCHAR},
-		
 		secret_level = #{secretLevel,jdbcType=VARCHAR},
+		data_scope_unit_path = #{dataScopeUnitPath,jdbcType=VARCHAR},	
 		unify_identity_id = #{unifyIdentityId,jdbcType=VARCHAR},
 		user_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
 		user_login_date = #{lastLoginDate,jdbcType=VARCHAR}
@@ -567,15 +603,12 @@
 				and t.secret_level &gt;=  #{recodeLevel}
 			</if>
 
-
-
 			<if test="name != null   and name !=''  ">
 				and (t.user_disp like CONCAT('%',#{name},'%')  or   t.user_unit_name like CONCAT('%',#{name},'%') )
 			</if>
-
-
-
-
+			<if test="dataScopeUnitId != null      and dataScopeUnitId !=''  ">    AND t.data_scope_unit_id = #{dataScopeUnitId}</if>
+			<if test="dataScopeUnitName != null    and dataScopeUnitName !=''  ">  AND t.data_scope_unit_name = #{dataScopeUnitName}</if>
+            <if test="dataScopeUnitPath != null    and dataScopeUnitPath !=''  ">  AND t.data_scope_unit_path = #{dataScopeUnitPath}</if>
 
 		</trim>
 	</sql>

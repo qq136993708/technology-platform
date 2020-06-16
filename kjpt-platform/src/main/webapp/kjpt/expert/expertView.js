@@ -2,6 +2,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     var form = layui.form,$ = layui.$,table = layui.table, element = layui.element;
     // 获取页面参数ID
     var variable = getQueryVariable();
+    if(variable.page == 'demeanor'){
+        $('#gobackClick').attr('href','./expert_demeanor.html')
+    }else if(variable.page == 'list'){
+        $('#gobackClick').attr('href','./expert_list.html')
+    }
     if(variable!=null){
         httpModule({
             url: '/expert-api/get/'+variable.id,
@@ -9,12 +14,17 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             success: function(relData) {
                 if (relData.success === true) {
                     if(relData.data.headPic!=''){
-                        $("#img img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                        $("#img img").attr("src",relData.data.headPic)
                     }
                     setTargetNameValue(relData.data)
                 }
             }
         });
+
+        //隐藏操作按钮
+        if (variable.type == 'view') {
+            $('.layui-tab-item .view-title-layout .right').css('display', 'none');
+        }
     }
     $(".label-value").eq(2).hover(function () {
         $(this).attr("title",$(this).html())
@@ -137,7 +147,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
     ];
     // 导入
-    $('.ib-button').each(function(e) {
+   /* $('.ib-button').each(function(e) {
+
         var buttonId = $(this).attr('id'),
             exportType = $(this).attr('export-type');
         importFiles({
@@ -151,7 +162,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
                 }
             }
         });
-    })
+    })*/
     var $ = layui.$, active = {
         projectAdd:function () {
             var obj={
@@ -330,4 +341,67 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         }
         window.open(importUrl, '_blank');
     })
+
+    importFiles({
+        id:'#export_cg',
+        // url:'/expertAchievement-api/input_excel_achieve?expertId='+ variable.id,
+        url:'/excelImport/zjxxglAchievementImp?pid=' + variable.id,
+        callback: function (result) {
+
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                var obj={
+                    id:'achievements',
+                    tableName:'achievements',
+                    arr:achievementsArr,
+                    tableUrl:'/expert-achievement-api/page'
+                }
+                tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id);
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+    importFiles({
+        id:'#export_zl',
+        // url:'/expertPatent-api/input_excel?expertId='+ variable.id,
+        url:'/excelImport/zjxxglPatentImp?pid=' + variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                var obj={
+                    id:'patent',
+                    tableName:'patent',
+                    arr:patentArr,
+                    tableUrl:'/expert-patent-api/page'
+                }
+                tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id);
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+    importFiles({
+        id:'#export_jl',
+        url:'/excelImport/zjxxglRewardImp?pid=' + variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                var obj={
+                    id:'reward',
+                    tableName:'reward',
+                    arr:rewardArr,
+                    tableUrl:'/expert-reward-api/page'
+                }
+                tableRender(obj.tableName,obj.arr,obj.tableUrl,variable.id);
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+
+
+
 });

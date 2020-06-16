@@ -170,6 +170,19 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         window.open(exportUrl, '_blank');
     })
 
+    importFiles({
+        id:'#importData',
+        url:'/ComputerSoftware/input_excel',
+        callback: function (result) {
+            if(result.data.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.data.message, {icon: 1});
+            }
+        }
+    })
+
   loadPatent();
   function loadPatent(){
     httpModule({

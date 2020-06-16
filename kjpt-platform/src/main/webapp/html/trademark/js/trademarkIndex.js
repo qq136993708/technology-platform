@@ -20,7 +20,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             type: 'radio',
                         },
                         {
-                            field: 'unitNameText',
+                            field: 'createUnitName',
                             title: '单位名称',
 
                         },
@@ -56,17 +56,17 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'effectiveDate',
-                            title: '有效日期',
+                            title: '有效期',
                             templet:'#effectiveDate'
                             , sort: true
                         },
                         {
                             field: 'extensionPeriod',
-                            title: '延展有效期',
+                            title: '延期至',
                             templet:'#extensionPeriod'
                         },
                         {
-                            field: 'tradeMarkType',
+                            field: 'tradeMarkTypeText',
                             title: '商标类型'
                         },
                         {field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
@@ -173,23 +173,23 @@ layui.use(['form', 'laydate', 'table'], function () {
 
     $('#delItem').on('click', function (e) {
         if (itemRowData) {
-            layer.confirm('您确定要删除”' + itemRowData.trademarkName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
-                layer.close(index);
+            top.layer.confirm('您确定要删除”' + itemRowData.trademarkName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
+                top.layer.close(index);
                 httpModule({
                     url: '/trademarkController/delete/' + itemRowData.id,
                     type: 'DELETE',
                     success: function (relData) {
                         if (relData.code === '0') {
-                            layer.msg('删除成功!', { icon: 1 });
+                            ltop.ayer.msg('删除成功!', { icon: 1 });
                             $('[lay-filter="formDemo"]').click();
                         } else {
-                            layer.msg('删除失败', { icon: 2 });
+                            top.layer.msg('删除失败', { icon: 2 });
                         }
                     }
                 });
             });
         } else {
-            layer.msg('请选择需要删除的商标！');
+            top.layer.msg('请选择需要删除的商标！');
         }
     })
 
@@ -204,9 +204,15 @@ layui.use(['form', 'laydate', 'table'], function () {
      //导入
 importFiles({
     id:'#importData',
-    url:'//excelImport/kgjimp',
-    callback: function (data, type) {
-      queryTable('');
+    url:'/trademarkController/input_excel',
+    callback: function (result) {
+        if(result.data.code== "0") {
+            debugger;
+            layer.msg('数据导入成功!', {icon: 1});
+            $('[lay-filter="formDemo"]').click();
+        }else{
+            layer.msg('数据导入失败!失败信息：'+result.data.message, {icon: 1});
+        }
     }
   })
   // 导出

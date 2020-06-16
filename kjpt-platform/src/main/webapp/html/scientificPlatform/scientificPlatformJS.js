@@ -13,6 +13,29 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
     $('#opations-btn, [form-label-item="unlevel"]').remove();
   }
 
+  function tabTamplateUrl(){
+    var loadUrl = ''; //领军人物
+    ///data/科研能力-国家级科研平台模板.xls
+    switch(variable.level){
+      case '01':
+        loadUrl = '/data/科研能力-国家级科研平台模板.xls'; //领军人物
+      break ;
+      case '02':
+        loadUrl = '/data/科研能力-国家部委级科研平台模板.xls'; //领军人物
+      break;
+      case '03':
+        loadUrl = '/data/科研能力-地方省部级科研平台模板.xls'; //领军人物
+      break;
+      case '04':
+        loadUrl = '/data/科研能力-集团级科研平台模板.xls'; //领军人物
+      break;
+      case '05':
+        loadUrl = '/data/科研能力-板块级科研平台模板.xls'; //领军人物
+      break;
+  }
+    $('#treasisTemplate').attr('href',loadUrl); 
+  }
+  tabTamplateUrl();
   layui.formSelects.filter('supportingInstitutions', function(id, inputVal, val, isDisabled){
     if(val.name.indexOf(inputVal) != -1){
       return false;
@@ -28,6 +51,7 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
   });
 
   //表格渲染
+  var level = variable&&variable.level?variable.level:'';
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
   function queryTable(searchData) {
@@ -39,7 +63,9 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
         ,url: '/platform-api/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'platformName', title: '平台名称', templet: '#detailsTpl'}
+          ,{field: 'platformName', title: '平台名称', templet: function (d) {
+              return '<a href="./platformDetails.html?type=view&id=' + d.id + '&level=' + level + '" class="layui-table-link">' + d.platformName +'</a>';
+            }}
           ,{field: 'supportingInstitutionsText', title: '依托单位', sort: true }
           ,{field: 'personLiable', title: '主要负责人', sort: true}
           ,{field: 'levelText', title: '平台类型'} 

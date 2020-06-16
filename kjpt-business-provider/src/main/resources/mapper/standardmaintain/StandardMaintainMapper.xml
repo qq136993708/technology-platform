@@ -36,8 +36,11 @@
     <result column="effective_date" jdbcType="TIMESTAMP" property="effectiveDate" />
     <result column="is_publish_english_edition" jdbcType="VARCHAR" property="isPublishEnglishEdition" />
     <result column="is_publish_english_edition_text" jdbcType="VARCHAR" property="isPublishEnglishEditionText" />
+    <result column="in_research_status" jdbcType="VARCHAR" property="inResearchStatus" />
+    <result column="in_research_status_text" jdbcType="VARCHAR" property="inResearchStatusText" />
     <result column="put_under_unit" jdbcType="VARCHAR" property="putUnderUnit" />
     <result column="put_under_unit_text" jdbcType="VARCHAR" property="putUnderUnitText" />
+    <result column="replace_standard" jdbcType="VARCHAR" property="replaceStandard" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
     <result column="update_user" jdbcType="VARCHAR" property="updator"/>
@@ -84,6 +87,15 @@
     <if test="standardName != null and standardName != '' ">
       and standard_name like CONCAT('%',#{standardName},'%')
     </if>
+    <if test="standardType != null and standardType != '' ">
+      and standard_type = #{standardType}
+    </if>
+    <if test="isPublish != null and isPublish != '' ">
+      and is_publish = #{isPublish}
+    </if>
+    <if test="chiefEditorUnit != null and chiefEditorUnit != '' ">
+      and chief_editor_unit like CONCAT('%',#{chiefEditorUnit},'%')
+    </if>
     and (secret_level = '0' or (
     secret_level <![CDATA[<=]]> #{userSecretLevel}
     <if test='skipKnowledgeScope=="0"'>
@@ -126,6 +138,7 @@
         publish_date,
         effective_date,
         is_publish_english_edition,
+        in_research_status,
         create_user,
         create_date,
         update_date,
@@ -135,11 +148,12 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        replace_standard
         ) values(#{id},#{planNum},#{planChineseName},#{planEnglishName},#{releaseYear},#{standardType},#{chiefEditorUnit},#{partakeEditorUnit},
         #{level},#{updateStatus},#{fileStatus},#{isPublish},#{manageOrg},#{technicalCommittee},#{putUnderUnit},#{consultStandard},#{uniformityDegree},
-        #{toReplacedStandard},#{standardNum},#{standardName},#{englishName},#{publishDate},#{effectiveDate},#{isPublishEnglishEdition},
-        #{creator}, #{createDate},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson})
+        #{toReplacedStandard},#{standardNum},#{standardName},#{englishName},#{publishDate},#{effectiveDate},#{isPublishEnglishEdition},#{inResearchStatus},
+        #{creator}, #{createDate},#{updateDate},#{deleted},#{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson},#{replaceStandard})
     </insert>
 
   <update id="update" parameterType="com.pcitc.base.standardmaintain.StandardMaintain">
@@ -159,6 +173,9 @@
       </if>
       <if test="standardType != null and standardType != '' " >
         standard_type = #{standardType},
+      </if>
+      <if test="inResearchStatus != null and inResearchStatus != '' " >
+        in_research_status = #{inResearchStatus},
       </if>
       <if test="chiefEditorUnit != null and chiefEditorUnit != ''" >
         chief_editor_unit = #{chiefEditorUnit,jdbcType=VARCHAR},
@@ -229,14 +246,8 @@
       <if test="createUnitName != null and createUnitName != ''" >
         create_unit_name = #{createUnitName},
       </if>
-      <if test="secretLevel != null and secretLevel != ''" >
-        secret_level = #{secretLevel},
-      </if>
-      <if test="knowledgeScope != null and knowledgeScope != ''" >
-        knowledge_scope = #{knowledgeScope},
-      </if>
-      <if test="knowledgePerson != null and knowledgePerson != ''" >
-        knowledge_person = #{knowledgePerson},
+      <if test="replaceStandard != null and replaceStandard != ''" >
+        replace_standard = #{replaceStandard},
       </if>
     </trim>
     where id = #{id}

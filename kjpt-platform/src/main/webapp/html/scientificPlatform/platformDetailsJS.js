@@ -9,7 +9,62 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   form.render(); //更新全部
   // 获取页面参数ID
   var variable = getQueryVariable();
-  console.log(variable);
+
+  //隐藏操作按钮
+  if (variable && variable.type == 'view' && !variable.level) {
+    $('.layui-tab-item .view-title-layout .right').css('display', 'none');
+  }
+  function tabTamplateUrl(){
+    var leaderUrl = ''; //领军人物
+    var treasisUrl =''; //论文
+    var groupUrl = '';  // 团队成员
+    var achiveUrl = ''; //主要成果
+    var zlUrl =''; // 主要专利
+    switch(variable.level){
+      case '01':
+        leaderUrl = '/data/科研能力-国家级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-国家级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-国家级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-国家级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-国家级科研平台-专利模板.xls'; // 主要专利
+      break ;
+      case '02':
+        leaderUrl = '/data/科研能力-国家部委级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-国家部委级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-国家部委级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-国家部委级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-国家部委级科研平台-专利模板.xls'; // 主要专利
+      break;
+      case '03':
+        leaderUrl = '/data/科研能力-地方省部级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-地方省部级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-地方省部级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-地方省部级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-地方省部级科研平台-专利模板.xls'; // 主要专利
+      break;
+      case '04':
+        leaderUrl = '/data/科研能力-集团级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-集团级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-集团级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-集团级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-集团级科研平台-专利模板.xls'; // 主要专利
+      break;
+      case '05':
+        leaderUrl = '/data/科研能力-板块级科研平台-领军人物模板.xls'; //领军人物
+        treasisUrl ='/data/科研能力-板块级科研平台-论文模板.xls'; //论文
+        groupUrl = '/data/科研能力-板块级科研平台-团队成员模板.xls';  // 团队成员
+        achiveUrl = '/data/科研能力-板块级科研平台-主要成果模板.xls'; //主要成果
+        zlUrl ='/data/科研能力-板块级科研平台-专利模板.xls'; // 主要专利
+      break;
+  }
+    $('#leaderTemplate').attr('href',leaderUrl); //领军人物
+    $('#treasisTemplate').attr('href',treasisUrl); //论文
+    $('#groupTemplate').attr('href',groupUrl); // 团队成员
+    $('#achiveTemplate').attr('href',achiveUrl); //主要成果
+    $('#zlTemplate').attr('href',zlUrl); // 主要专利
+  }
+  
+  tabTamplateUrl();
 
   function addTableData(config) {
     if (!config.update) {
@@ -39,6 +94,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             return layuiParseData(res, null, 3);
           } else {
             return layuiParseData(res);
+          }
+        },
+        done: function(res, curr, count){
+          if (config.id == 'tablePaper') {
+            $('#tablePaperCount').text(res.count);
           }
         }
       });
@@ -105,7 +165,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/researchPlatformLeader-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'name', title: '姓名', templet: function(d) {
+        ,{field: 'name', title: '领军人物姓名', templet: function(d) {
           if (d.baseId && d.baseId != '-') {
             return '<a class="link-text expert_list_link" lay-text="'+d.name+'" lay-href="/kjpt/expert/expert_view.html?id='+ d.baseId +'">'+ d.name +'</a>';
           } else {
@@ -125,9 +185,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/platformTreatise-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'thesisTitle', title: '论文题目' }
+        ,{field: 'thesisTitle', title: '论文名称' }
         ,{field: 'thesisLevelText', title: '论文级别', sort: true }
-        ,{field: 'journalTitle', title: '期刊名称', sort: true}
+        ,{field: 'journalTitle', title: '刊物或出版社名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '发表时间', sort: true}
         ,{field: 'secretLevelText', title: '密级', sort: true, hide: _hideSecrecylevel()} 
@@ -147,10 +207,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             return d.name;
           }
         }}
-        ,{field: 'birth', title: '出生年月', sort: true }
+        ,{field: 'birth', title: '出生日期', sort: true,templet:function(d){return  new Date(d.birth).format('yyyy-MM-dd')} }
         ,{field: 'educationText', title: '学历', sort: true}
-        ,{field: 'technicalTitle', title: '技术职称'} 
-        ,{field: 'graduateSchool', title: '毕业学校'}
+        ,{field: 'assumeOffice', title: '担任职务'}
+        ,{field: 'graduateSchool', title: '学校名称'}
         ,{field: 'majorStudied', title: '所学专业'}
         // ,{field: 'postName', title: '岗位名称'} 
       ]]
@@ -234,7 +294,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     if ($(this).data('item')) {
       dialogPage += '&item=' + $(this).data('item'); // 成员 | 领军人物
     }
-
     // 打开弹窗
     top.layer.open({
       type: 2,
@@ -290,20 +349,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       top.layer.confirm('您确定要删除'+tableFilterArr[activeTab].title+'吗？', {icon: 3, title:'删除提示'}, function(index){
         top.layer.close(index);
         // 科研项目
-        var deleteUrl = '/platformProject-api/delete/' + delItem[0].id, httpType = 'DELETE';
-        if (activeTab == 2) {
+        var deleteUrl = '/platformProject-api/delete/' + delItem[0].id;
+        var  httpType = 'DELETE';
+        if (activeTab == 1) {
           // 领军人物
           deleteUrl = '/researchPlatformLeader-api/delete/' + delItem[0].id;
-        } else if (activeTab == 3) {
+        } else if (activeTab == 2) {
           // 论文
           deleteUrl = '/platformTreatise-api/delete/' + delItem[0].id;
-        } else if (activeTab == 4) {
+        } else if (activeTab == 3) {
           // 团队成员
           deleteUrl = '/researchPlatformMember-api/delete/' + delItem[0].id;
-        } else if (activeTab == 5) {
+        } else if (activeTab == 4) {
           // 成果
           deleteUrl = '/researchPlatformAchievement-api/delete/' + delItem[0].id;
-        } else if (activeTab == 6) {
+        } else if (activeTab == 5) {
           // 专利
           deleteUrl = '/researchPlatformPatent-api/delete/' + delItem[0].id;
         }
@@ -314,21 +374,89 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     }
   })
 
-  // 导入
-  $('.ib-button').each(function() {
-    var buttonId = $(this).attr('id'),
-    exportType = $(this).attr('export-type');
+  // // 导入
+  // debugger
+  // $(document).on('click','.ib-button',function() {
+  //   var buttonId = $(this).attr('id'),
+  //   exportType = $(this).attr('export-type');
+  //   importFiles({
+  //     id: buttonId,
+  //     url: '/excelImport/'+ exportType +'?pid=' + variable.id,
+  //     callback: function(res, type) {
+  //       if (res.code === '0') {
+  //         layer.msg('数据导入成功!', {icon: 1});
+  //         addTableData({update: true, id: tableFilterArr[activeTab].tableId})
+  //       }
+  //     }
+  //   });
+  // })
+
+    // 导入领军人物
     importFiles({
-      id: buttonId,
-      url: '/excelImport/'+ exportType +'?pid=' + variable.id,
-      callback: function(res, type) {
-        if (res.code === '0') {
-          layer.msg('数据导入成功!', {icon: 1});
-          addTableData({update: true, id: tableFilterArr[activeTab].tableId})
+        id:'#importLeader',
+        url:'/excelImport/kyptLeaderImp?pid=' + variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="leadingFigure"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
         }
+    })
+
+    //导入论文
+    importFiles({
+        id:'#importTreasis',
+        url:'/excelImport/kyptTreatiseImp?pid=' + variable.id,
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="tablePaper"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
+    //团队成员 
+    importFiles({
+      id:'#export_tdcy',
+      url:'/excelImport/kyptMemberImp?pid=' + variable.id,
+      callback: function (result) {
+          if(result.code=="0") {
+              layer.msg('数据导入成功!', {icon: 1});
+              $('[lay-filter="teamMembers"]').click();
+          }else{
+              layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+          }
       }
-    });
   })
+  //主要成果
+  importFiles({
+    id:'#export_zycg',
+    url:'/excelImport/kyptAchievementImp?pid=' + variable.id,
+    callback: function (result) {
+        if(result.code=="0") {
+            layer.msg('数据导入成功!', {icon: 1});
+            $('[lay-filter="mainAchievements"]').click();
+        }else{
+            layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+        }
+    }
+})
+//主要专利 
+importFiles({
+  id:'#export_zl',
+  url:'/excelImport/kyptPatentImp?pid=' + variable.id,
+  callback: function (result) {
+      if(result.code=="0") {
+          layer.msg('数据导入成功!', {icon: 1});
+          $('[lay-filter="mainPatent"]').click();
+      }else{
+          layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+      }
+  }
+})
 
   // 导出
   $('.importData').click(function() {

@@ -85,8 +85,8 @@ public class PlatformController extends RestBaseController {
         if (level != null) {
             this.setParam(condition, "level", level);
         }
-        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "技术领域"  ,"科研整体情况","科研经费","平台评分" };
-        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring"};
+        String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "技术领域","平台介绍" ,"科研团队介绍" ,"科研整体情况","科研经费","平台评分" };
+        String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","platformIntroduction","teamIntroduction","overallSituation","researchFunds","platformScoring"};
         export(headers,cols,"科研平台表_",condition);
     }
 
@@ -116,7 +116,7 @@ public class PlatformController extends RestBaseController {
             this.setParam(condition, "platformScorinLow", platformScorinLow);
         }
         SysUser sysUserInfo = this.getUserProfile();
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         String[] headers = { "平台名称",  "依托单位",    "主要负责人"  , "平台类型"  ,  "技术领域"  ,"科研整体情况","科研经费","平台评分","项目数量","成果数量"};
         String[] cols =    {"platformName","supportingInstitutionsText","personLiable","levelText","researchFieldText","overallSituation","researchFunds","platformScoring","projectCount","achievementCount"};
@@ -205,7 +205,7 @@ public class PlatformController extends RestBaseController {
             this.setParam(condition,"customQueryConditionStr",customQueryConditionStr);
         }
 
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -239,7 +239,7 @@ public class PlatformController extends RestBaseController {
         SysUser sysUserInfo = this.getUserProfile();
         this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.setParam(condition,"id",id);
         ResponseEntity<List> responseEntity = this.restTemplate.exchange(selectPaltinfoCount, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders), List.class);
@@ -327,7 +327,6 @@ public class PlatformController extends RestBaseController {
         p.setCreator(this.getUserProfile().getUserName());
         p.setLevel(level);
         p.setPlatformScoring("0");
-        p.setResearchFunds("0");
         p.setDeleted("0");
         return p;
     }

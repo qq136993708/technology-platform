@@ -4,11 +4,21 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.system.*;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
+
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
@@ -24,7 +34,7 @@ public class EquipmentUtils {
 
 
 
-
+	public static final String GET_EXPERT_ByNum_URL = "http://kjpt-zuul/stp-proxy/expert/getByNum/";
 	private static final String GET_USERPROPERTY = "http://kjpt-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
 	public static final String USER_GET_URL = "http://kjpt-zuul/system-proxy/user-provider/user/get-user/";
 	public static final String GET_USER_URL = "http://kjpt-zuul/system-proxy/user_provider/selectUserByIdentityId/";
@@ -62,7 +72,14 @@ public class EquipmentUtils {
 	}
 	
 	
-	
+	public static ZjkBase getZjkBaseByNum(String num, HttpServletRequest request, HttpServletResponse response,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception 
+	{
+    	ResponseEntity<ZjkBase> responseEntity = restTemplate.exchange(GET_EXPERT_ByNum_URL + num, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), ZjkBase.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		ZjkBase zjkBase = responseEntity.getBody();
+		return zjkBase;
+	}
+  
 	
 	
 	
@@ -229,6 +246,16 @@ public class EquipmentUtils {
 
 	}
 
+	public static List<SysDictionary>  getSysDictionaryListLikeParentCode(String parentCode ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+
+		String DICTIONARY_CODE = "http://kjpt-zuul/system-proxy/dictionary-provider/dicjsonLikeParentCode/";
+		JSONArray array =restTemplate.exchange(DICTIONARY_CODE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), JSONArray.class).getBody();
+		List<SysDictionary> returnlist = JSONObject.parseArray(array.toJSONString(), SysDictionary.class);
+		return returnlist;
+
+	}
+
 
 
 	public static String  getDicNameByParentCodeAndValue(String parentCode ,String value,RestTemplate restTemplate,HttpHeaders httpHeaders)
@@ -387,6 +414,15 @@ public class EquipmentUtils {
 	{
 		String UNIT_GET_UNIT = "http://kjpt-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
 		SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+		return unit;
+	}
+
+
+	//根据机构名称检索机构信息
+	public static String getUnitByUnitName(String unitName,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		String UNIT_GET_UNIT = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name/";
+		String unit = restTemplate.exchange(UNIT_GET_UNIT + unitName, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), String.class).getBody();
 		return unit;
 	}
 

@@ -367,3 +367,197 @@
   text-align: center;
   background-color: rgba(255, 255, 255, .03);
 }
+
+
+/*成果管理*/
+.color-gj {
+  background: #D86436;
+}
+
+.color-sb{
+  background: #EBDD51;
+}
+
+.color-jt {
+  background: #306BF0;
+}
+
+.color-sh {
+  background: #0DA8D4;
+}
+
+.chart-item-layout {
+  padding-left: 2rem;
+}
+
+.top-left-content {
+  width: 60%;
+}
+
+.top-right-content {
+  width: 40%;
+}
+
+#achieve-award .content-title{
+  position: relative;
+  width: 30%;
+}
+
+#achieve-award .text {
+  padding: .2rem 0 .2rem 1.2rem;
+  color: #44A5FF;
+  font-size: .8rem;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  height: 2.2rem;
+  line-height: 1.8rem;
+  background: url(../img/title_bg.png) no-repeat left center;
+  background-size: auto 112%;
+}
+
+#achieve-award .rectangle {
+  /* border: 1px solid;
+  height: 2rem;
+  transform: skewX(-15deg);
+  width: 4rem;
+  border-image: -webkit-linear-gradient(to right, #4BB5FF , #327CAD, rgba(75, 181, 255, 0.4), rgb(0, 30, 56)) 1;
+  border-image: -moz-linear-gradient(to right, #4BB5FF , #327CAD, rgba(75, 181, 255, 0.4), rgb(0, 30, 56)) 1;
+  border-image: linear-gradient(to right, #4BB5FF , #327CAD, rgba(75, 181, 255, 0.4), rgb(0, 30, 56)) 1;
+  border-right: none;
+  position: absolute;
+  top: 0;
+  left: 0; */
+}
+
+.count-year-title {
+  display: flex;
+}
+
+.count-year-title ul li{
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 14px;
+  color: #ffffff;
+  display: inline-block;
+  padding: 0 30px;
+  position: relative;
+  cursor: pointer;
+}
+
+.count-year-title ul li .award-rectangle {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 0;
+  top: 29%;
+}
+
+.achieve-detail {
+  padding: 0 2rem;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 0.6rem;
+}
+
+.achieve-detail-table {
+  height: calc(100% - 60px);
+  width: 100%;
+  margin-top: 60px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.achieve-detail-table table {
+  width: 100%;
+}
+
+.achieve-detail-table table tr{
+  border:1px solid rgba(30,83,137,0.4);
+  height: 46px;
+  line-height: 46px;
+}
+
+.achieve-detail-table table tr th, .achieve-detail-table table tr td {
+  border: none;
+  font-family:PingFang SC;
+  font-size:14px;
+  color:rgba(255,255,255,1);
+  text-align: center;
+}
+
+.achieve-detail-table table tr th{
+  font-weight:600;
+}
+
+.achieve-detail-table table tr td{
+  font-weight:400;
+}
+
+/*成果转换方式*/
+.chart-content {
+  display: flex;
+  padding-right: 4rem;
+  box-sizing: border-box;
+}
+
+.chart-content .chart-chart{
+  width: 50%;
+  height: 100%;
+}
+
+.chart-content .chart-legend{
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-top: 30px;
+}
+
+.chart-legend .legend-item {
+  height: 20px;
+  width: 100%;
+}
+.chart-legend .legend-item {
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  line-height: 35px;
+}
+.chart-legend .legend-item span {
+  color: #fff;
+  width: 30%;
+  text-align: center;
+  font-size:14px;
+  font-family:PingFang SC;
+  font-weight:400;
+  position: relative;
+}
+
+.chart-legend .legend-item:not(:first-child) span:not(:first-child) {
+  font-size:20px;
+  font-family:Impact;
+  font-weight:400;
+}
+
+.chart-legend .legend-item i {
+  width: 16px;
+  height: 16px;
+  background: blue;
+  display: inline-block;
+  position: absolute;
+  top: 29%;
+  left: 0;
+}
+
+.office-title {
+  display: flex;
+  justify-content: end;
+}
+
+.office-title ul {
+  width: 67%;
+  text-align: right;
+}
+

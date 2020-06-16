@@ -2,6 +2,7 @@ package com.pcitc.service.manage.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.manage.ManageMethod;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.manage.ManageMethodMapper;
@@ -59,5 +60,24 @@ public class ManageMethodServiceImpl implements ManageMethodService {
         List dataList = mapper.query(param);
         PageInfo pageInfo = new PageInfo(dataList);
         return pageInfo;
+    }
+
+    @Override
+    public List queryNoPage(Map paramMap) {
+        return mapper.query(paramMap);
+    }
+
+    @Override
+    public void insertBatch(List<ManageMethod> list) throws Exception {
+
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                ManageMethod manageMethod=list.get(i);
+                mapper.add(manageMethod);
+            }
+        }
+
     }
 }

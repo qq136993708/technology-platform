@@ -15,13 +15,13 @@ import com.pcitc.utils.QrtzUtils;
 import com.pcitc.utils.RestfulHttpClient;
 
 public class PersonToPersonJob implements Job, Serializable{
-	private static final long serialVersionUID = 1L;
-	private static final String Quality = "http://localhost/personToPersonSyn";
+	private static final long serialVersionUID = 2L;
+	private static final String Quality = "http://localhost/getPersonToPersonList";
 	public	SysJobService sysJobService = SpringContextUtil.getApplicationContext().getBean(SysJobService.class);
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("===PersonToPersonJob======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "-----");
+		System.out.println("===本地人才同步getPersonToPersonList======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "-----");
         RestfulHttpClient.HttpResponse response = null;        
 		
 		try {

@@ -19,17 +19,22 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.expert.ZjkPatentSync;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.expert.ZjkRewardPunish;
+import com.pcitc.base.expert.ZjkRewardPunishSync;
 import com.pcitc.base.out.OutPerson;
 import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.system.CustomQueryConditionVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
+import com.pcitc.mapper.expert.ZjkPatentSyncMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
+import com.pcitc.mapper.expert.ZjkRewardPunishMapper;
+import com.pcitc.mapper.expert.ZjkRewardPunishSyncMapper;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
@@ -51,11 +56,18 @@ public class ExpertServiceImpl implements IExpertService {
 	private ZjkRewardMapper zjkRewardMapper;
 	@Autowired
     private TechFamilyMapper techFamilyMapper;
-	
 	@Autowired
     private OutPersonMapper outPersonMapper;
+	@Autowired
+    private ZjkRewardPunishMapper zjkRewardPunishMapper;
 	
-	  
+	@Autowired
+    private ZjkPatentSyncMapper zjkPatentSyncMapper;
+	@Autowired
+    private ZjkRewardPunishSyncMapper zjkRewardPunishSyncMapper;
+	
+	
+	
 	
 	
 
@@ -68,6 +80,17 @@ public class ExpertServiceImpl implements IExpertService {
 		ZjkBase zjkBase= zjkBaseMapper.selectByPrimaryKey(id);
 		return zjkBase;
 	}
+	
+	
+	public ZjkBase getZjkBaseByNum(String num) throws Exception
+	{
+		
+		ZjkBase zjkBase= zjkBaseMapper.getZjkBaseByNum(num);
+		return zjkBase;
+	}
+	
+	
+	  
 
 	 /**
 	     *修改专家信息
@@ -345,6 +368,7 @@ public class ExpertServiceImpl implements IExpertService {
 			String expertTypes=getTableParam(param,"expertTypes","");
 			String knowledgeScope=getTableParam(param,"knowledgeScope","");
 			String customQueryConditionStr=getTableParam(param,"customQueryConditionStr","");
+			String orderBySql=getTableParam(param,"orderBySql","");
 			
 			Map map=new HashMap();
 			map.put("name", name);
@@ -369,7 +393,8 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("expertType", expertType);
 			map.put("expertTypes", expertTypes);
 			map.put("knowledgeScope", knowledgeScope);
-			
+			map.put("orderBySql", orderBySql);
+
 			String condition=BusinessUtil.getSqlQueryCondition(customQueryConditionStr);
 			map.put("condition", condition);
 			
@@ -399,7 +424,6 @@ public class ExpertServiceImpl implements IExpertService {
 			map.put("condition", condition);
 		}
 		
-		
 		List<ZjkBase> list = zjkBaseMapper.getList(map);
 		System.out.println(">>>>>>>>>专家查询结果 "+list.size());
 	    return list;
@@ -424,12 +448,14 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBase.setName(outPerson.getName());
 				zjkBase.setEmail(outPerson.getEmail());
 				zjkBase.setTitle(outPerson.getTitle());
+				zjkBase.setHeadPic(outPerson.getHeadPic());
 				zjkBase.setPost(outPerson.getPost());
 				zjkBase.setCreateTime(new Date());
 				zjkBase.setSex(outPerson.getSex());
 				zjkBase.setBrief(outPerson.getBirthYear());
 				zjkBase.setEducation(outPerson.getEducation());
 				zjkBase.setBelongUnit(outPerson.getBelongUnitId());
+				zjkBase.setBelongUnitName(outPerson.getBelongUnitName());
 				zjkBase.setTechnicalField(outPerson.getTechType());
 				zjkBase.setTechnicalFieldName(outPerson.getTechTypeName());
 				zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
@@ -443,13 +469,130 @@ public class ExpertServiceImpl implements IExpertService {
 				zjkBaseMapper.insert(zjkBase);
 				outPerson.setIsExpert("1");
 				outPersonMapper.updateByPrimaryKey(outPerson);
+				
+				//同步相关专利
+				Map mapv=new HashMap();
+				mapv.put("expertNum", outPerson.getUserNo());
+				List<ZjkPatentSync> list=zjkPatentSyncMapper.getList(mapv);
+				if(list!=null)
+				{
+					for(int j=0;j<list.size();j++)
+					{
+						ZjkPatentSync sync=list.get(j);
+						ZjkPatent zjkPatent=new ZjkPatent();
+						zjkPatent.setExpertId(dateid);
+						zjkPatent.setExpertNum(outPerson.getUserNo());
+						zjkPatent.setCreateTime(new Date());
+						zjkPatent.setDescribe(sync.getNotes());
+						zjkPatent.setGetPatentTime(sync.getPatentTime());
+						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
+						zjkPatent.setId(dateidv);
+						zjkPatent.setPatentName(sync.getPatentName());
+						zjkPatent.setPatentNo(sync.getPatentNum());
+						zjkPatent.setPatentType(sync.getPatentType());
+						zjkPatentMapper.insert(zjkPatent);
+					}
+				}
+				
+				
+				
+				//同步相关奖惩
+				Map mapt=new HashMap();
+				mapt.put("expertNum", outPerson.getUserNo());
+				List<ZjkRewardPunishSync> list2=zjkRewardPunishSyncMapper.getList(mapt);
+				if(list2!=null)
+				{
+					for(int j=0;j<list2.size();j++)
+					{
+						ZjkRewardPunishSync sync=list2.get(j);
+						ZjkRewardPunish punish=new ZjkRewardPunish();
+						punish.setExpertId(dateid);
+						punish.setExpertNum(outPerson.getUserNo());
+						punish.setCreateTime(new Date());
+						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
+						punish.setId(dateidv);
+						punish.setNotes(sync.getNotes());
+						punish.setApproveDate(sync.getApproveDate());
+						punish.setTitle(sync.getTitle());
+						punish.setRewardType(sync.getRewardType());
+						punish.setRewardPunishType(sync.getRewardPunishType());
+						punish.setRewardPunishLevel(sync.getRewardPunishLevel());
+						punish.setApproveUnit(sync.getApproveUnit());
+						punish.setRewardPunishLevelCode(sync.getRewardPunishLevelCode());
+						punish.setRewardPunishTypeCode(sync.getRewardPunishTypeCode());
+						punish.setRewardTypeCode(sync.getRewardTypeCode());
+						zjkRewardPunishMapper.insert(punish);
+					}
+				}
+				
+				
+				
+				
+				//同步相关奖惩
+				Map maptt=new HashMap();
+				maptt.put("expertNum", outPerson.getUserNo());
+				List<ZjkRewardPunishSync> list3=zjkRewardPunishSyncMapper.getList(maptt);
+				if(list3!=null)
+				{
+					for(int j=0;j<list3.size();j++)
+					{
+						ZjkRewardPunishSync sync=list3.get(j);
+						ZjkReward reward=new ZjkReward();
+						reward.setExpertId(dateid);
+						reward.setCreateTime(new Date());
+						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
+						reward.setId(dateidv);
+						String notes=sync.getTitle()+" ,"+sync.getRewardType()+","+sync.getRewardPunishLevel()+" "+sync.getNotes();
+						reward.setNotes(notes);
+						reward.setAwardingTime(sync.getApproveDate());
+						reward.setAwardingUnit(sync.getApproveUnit());
+						String rewarkLevelName=sync.getRewardPunishLevel();
+						reward.setRewarkLevel(getRewarkLevelByName(rewarkLevelName));
+						reward.setRewarkLevelStr(rewarkLevelName);
+						zjkRewardMapper.insert(reward);
+					}
+				}
+				
 				count=1;
 			}
 		}
 	    return count;
 	}
 	
-	
+	public static String getRewarkLevelByName(String name)throws Exception
+	{
+		String resault="";
+		if(name!=null)
+		{
+			if(name.contains("集团级"))
+			{
+				resault="01";
+			}
+			if(name.contains("板块级"))
+			{
+				resault="02";
+			}
+			if(name.contains("区县级"))
+			{
+				resault="03";
+			}
+			if(name.contains("国际级"))
+			{
+				resault="04";
+			}
+			if(name.contains("其他"))
+			{
+				resault="05";
+			}
+			if(name.contains("省部级"))
+			{
+				resault="06";
+			}
+			
+			
+		}
+		return resault;
+	}
 	
 	
 	/**
@@ -753,7 +896,18 @@ public class ExpertServiceImpl implements IExpertService {
 	}
 		
 		
-		
+	public Integer insertBatchZjkPatent(List<ZjkPatent> list)throws Exception
+	{
+		return zjkPatentMapper.insertBatch(list);
+	}
+    
+    
+    
+    
+	public int deleteAllZjkPatent()throws Exception
+	{
+		return zjkPatentMapper.deleteAll();
+	}
 	
 	
 	
@@ -835,7 +989,7 @@ public class ExpertServiceImpl implements IExpertService {
 			
 			List<ZjkReward> list = zjkRewardMapper.getList(map);
 			PageInfo<ZjkReward> pageInfo = new PageInfo<ZjkReward>(list);
-			System.out.println(">>>>>>>>>专家奖励查询分页结果 "+pageInfo.getList().size());
+			System.out.println(">>>>>>>>>getZjkRewardPage分页结果 "+pageInfo.getList().size());
 			
 			LayuiTableData data = new LayuiTableData();
 			data.setData(pageInfo.getList());
@@ -843,6 +997,100 @@ public class ExpertServiceImpl implements IExpertService {
 			data.setCount(total.intValue());
 		    return data;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public ZjkRewardPunish selectZjkRewardPunish(String id) throws Exception
+	{
+		return zjkRewardPunishMapper.selectByPrimaryKey(id);
+	}
+	
+	public Integer updateZjkRewardPunish(ZjkRewardPunish record)throws Exception
+	{
+		return zjkRewardPunishMapper.updateByPrimaryKey(record);
+	}
+	
+	
+	public int deleteZjkRewardPunish(String id)throws Exception
+	{
+		return zjkRewardPunishMapper.deleteByPrimaryKey(id);
+	}
+	
+	
+	public Integer insertZjkRewardPunish(ZjkRewardPunish record)throws Exception
+	{
+		return zjkRewardPunishMapper.insert(record);
+	}
+	
+	public Integer insertBatchZjkRewardPunish(List<ZjkRewardPunish> list)throws Exception
+	{
+		return zjkRewardPunishMapper.insertBatch(list);
+	}
+	
+	public LayuiTableData getZjkRewardPunishPage(LayuiTableParam param)throws Exception
+	{
+		
+			int pageSize = param.getLimit();
+			int pageStart = (param.getPage()-1)*pageSize;
+			int pageNum = pageStart/pageSize + 1;
+			PageHelper.startPage(pageNum, pageSize);
+			String delStatus=getTableParam(param,"delStatus","");
+			String expertNum=getTableParam(param,"expertNum","");
+			String expertId=getTableParam(param,"expertId","");
+			
+			Map map=new HashMap();
+			map.put("expertId", expertId);
+			map.put("expertNum", expertNum);
+			map.put("delStatus", delStatus);
+			
+			
+			List<ZjkRewardPunish> list = zjkRewardPunishMapper.getList(map);
+			PageInfo<ZjkRewardPunish> pageInfo = new PageInfo<ZjkRewardPunish>(list);
+			System.out.println(">>>>>>>>getZjkRewardPunishPage分页结果 "+pageInfo.getList().size());
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+	}
+	
+	public List getZjkRewardPunishList(Map map)throws Exception
+	{
+			List<ZjkRewardPunish> list = zjkRewardPunishMapper.getList(map);
+		    return list;
+	}
+	
+	public int deleteAllZjkRewardPunish()throws Exception
+	{
+		return zjkRewardPunishMapper.deleteAll();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

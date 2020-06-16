@@ -35,6 +35,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     {field: 'methodName', title: tipTitle+'名称', templet: function(d) {
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.methodName+'</a>';
     }},
+    // {field: 'publication', title:'发布处室'},
+    {field: 'publishUser', title:'发布人'},
+    {field: 'readRangeText', title:'阅读范围'},
     {field: 'edition', title:'版次'},
     {field: 'publishDate', title: '发布日期',sort:true,templet: function(d){
       var times = new Date(d.publishDate);
@@ -156,4 +159,33 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     	layer.msg('请选择需要删除的'+tipTitle+'！');
     }
   })
+
+    $('#exportData').click(function() {
+        var formValue = form.val('patentFormDemo'),
+            searchData = {
+                methodName: formValue.methodName || '', // 管理办法名称：
+                edition: formValue.edition || '', // 版次：
+                publishDate: formValue.publishDate || '' // 发布日期：
+            },
+            exportUrl = '';
+
+        for (var key in searchData) {
+            exportUrl += '&' + key + '=' + searchData[key];
+        }
+        exportUrl = '/manageMethod-api/exportExcel?' + exportUrl.substring(1);
+        window.open(exportUrl, '_blank');
+    })
+
+    importFiles({
+        id:'#importData',
+        url:'/manageMethod-api/input_excel',
+        callback: function (result) {
+            if(result.code=="0") {
+                layer.msg('数据导入成功!', {icon: 1});
+                $('[lay-filter="formDemo"]').click();
+            }else{
+                layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
+            }
+        }
+    })
 });

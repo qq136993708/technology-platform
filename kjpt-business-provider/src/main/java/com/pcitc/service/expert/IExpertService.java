@@ -5,12 +5,12 @@ import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.expert.ZjkRewardPunish;
 
 public interface IExpertService {
 	
@@ -60,7 +60,7 @@ public interface IExpertService {
 	public int insertBatch(List<ZjkBase> list)throws Exception;
 	
 	
-	
+	public ZjkBase getZjkBaseByNum(String num) throws Exception;
 	
 	/**
      * 根据ID获取专家相关项目信息详情
@@ -191,6 +191,32 @@ public interface IExpertService {
 	public LayuiTableData getZjkRewardPage(LayuiTableParam param)throws Exception;
 	
 	
+	
+	
+	public Integer insertBatchZjkPatent(List<ZjkPatent> list)throws Exception;
+	
+	public int deleteAllZjkPatent()throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public ZjkRewardPunish selectZjkRewardPunish(String id) throws Exception;
+	public Integer updateZjkRewardPunish(ZjkRewardPunish record)throws Exception;
+	public int deleteZjkRewardPunish(String id)throws Exception;
+	public Integer insertZjkRewardPunish(ZjkRewardPunish record)throws Exception;
+	public LayuiTableData getZjkRewardPunishPage(LayuiTableParam param)throws Exception;
+	public List getZjkRewardPunishList(Map map)throws Exception;
+	public int deleteAllZjkRewardPunish()throws Exception;
+	public Integer insertBatchZjkRewardPunish(List<ZjkRewardPunish> list)throws Exception;
 	
 	
 	

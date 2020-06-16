@@ -504,7 +504,7 @@ html {
   .pie-legend-list .legend-item {
     display: inline-block;
     vertical-align: top;
-    padding-bottom: .6rem;
+    padding-bottom: 1rem;
     position: relative;
     overflow: hidden;
     font-size: 0;
@@ -527,7 +527,7 @@ html {
     vertical-align: middle;
     margin-right: .4rem;
     font-size: .7rem;
-    line-height: .8rem;
+    line-height: 1.2rem;
   }
   .pie-legend-list .legend-item > span.line {
       height: 4px;
@@ -535,6 +535,8 @@ html {
   }
   .pie-legend-list .legend-item > span:last-child{
     margin-right: 0;
+    font-size: 1.2rem;
+    font-family: Impact;
   }
   .pie-legend-list.vertical{
     height: 100%;
@@ -564,7 +566,7 @@ html {
     color: #ccc !important;
   }
   .pie-legend-list .legend-item > .lenend-item-name{
-    max-width: 120px;
+    min-width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

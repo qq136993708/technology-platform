@@ -1,14 +1,16 @@
 package com.pcitc.web.controller.expert;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.InputStream;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.ImportExcelUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -39,6 +41,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Api(value = "ExpertReward-API",tags = {"专家库-奖励接口"})
@@ -78,6 +81,22 @@ public class ExpertRewardController extends BaseController{
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_reward/get/";
 
 	private static final String queryNopage = "http://kjpt-zuul/stp-proxy/expertReward-api/queryNoPage";
+
+	/**
+	 * 导入模板头部所占行数
+	 */
+	private static final Integer IMPORT_HEAD = 3;
+
+	private static final String EXPERT_REWARD_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/expertReward-api/excel_input";
+
+	//用于缓存导入时的字典数据
+	private Map<String,Map<String,String>> dictMap = new HashMap<>();
+
+	private static final String ROOT_KJPT_ZLZL = "ROOT_KJPT_ZLZL";
+
+	private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
+
+	private static final String ROOT_KJPT_JLJB = "ROOT_KJPT_JLJB";
 
 
 
@@ -310,5 +329,183 @@ public class ExpertRewardController extends BaseController{
 		String fileName = "专家信息管理奖励表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
 		this.exportExcel(headers,cols,fileName,list);
 	}
+
+	@ApiOperation(value = "根据模板导入专家奖励信息（EXCEL）", notes = "根据模板导入专家奖励信息（EXCEL）")
+	@RequestMapping(value = "/expertReward-api/input_excel", method = RequestMethod.POST)
+	public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
+	{
+		Result resultsDate = new Result();
+		String expertId = req.getQueryString();
+		if(StringUtils.isBlank(expertId)){
+			resultsDate.setSuccess(false);
+			resultsDate.setMessage("未能获取专家id，请重试");
+		}else{
+			expertId = getExpertIdFromQueryString(expertId);
+		}
+		SysUser sysUserInfo = this.getUserProfile();
+
+		if (file.isEmpty())
+		{
+			resultsDate.setSuccess(false);
+			resultsDate.setMessage("上传异常，请重试");
+		}else
+		{
+			InputStream in = file.getInputStream();
+			List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+			System.out.println(">>>>>>行数:"+listob.size());
+			List<ZjkReward> list = new ArrayList<ZjkReward>();
+			resultsDate= getResult( listob );
+			if(resultsDate.isSuccess()==true)
+			{
+				for (int i = IMPORT_HEAD; i < listob.size(); i++)
+				{
+					List<Object> lo = listob.get(i);
+
+					if(lo.size()<4) break;
+					Object col_1 = lo.get(1);   //奖励级别
+					Object col_2 = lo.get(2);   //奖励描述
+					Object col_3 = lo.get(3);   //获奖日期
+					Object col_4 = lo.get(4);   //授奖单位
+
+					if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
+
+					//将excel导入数据转换为SciencePlan对象
+					ZjkReward obj = new ZjkReward();
+					obj.setExpertId(expertId);
+					obj.setRewarkLevel(getValueFromDictMap(String.valueOf(lo.get(1)),ROOT_KJPT_JLJB));
+					obj.setRewarkLevelStr(String.valueOf(lo.get(1)));
+					obj.setNotes(String.valueOf(lo.get(2)));
+					Date awardTime = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
+					obj.setAwardingTime(awardTime);
+					obj.setAwardingTimeStr(String.valueOf(col_3));
+					//obj.setAwardingUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
+                    obj.setAwardingUnit(String.valueOf(col_4));
+					obj.setAwardingUnitStr(String.valueOf(col_4));
+
+					String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+					obj.setId(dateid);
+					obj.setSecretLevel("0");
+					obj.setDelStatus("0");
+					obj.setCreateTime(new Date());
+					list.add(obj);
+				}
+				ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_REWARD_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				// 返回结果代码
+				if (statusCode == 200) {
+					resultsDate.setSuccess(true);
+					resultsDate.setCode("0");
+				} else {
+					Result back = responseEntity.getBody();
+					resultsDate.setSuccess(false);
+					resultsDate.setMessage(back.getMessage());
+				}
+			}
+
+		}
+		return resultsDate;
+	}
+
+
+
+
+	private Result getResult(List<List<Object>> listob )
+	{
+		Result resultsDate = new Result();
+		resultsDate.setSuccess(true);
+		StringBuffer sb=new StringBuffer();
+		for (int i = IMPORT_HEAD; i < listob.size(); i++)
+		{
+			List<Object> lo = listob.get(i);
+			if(lo.size()<4) break;
+			Object col_1 = lo.get(1);   //奖励级别
+			Object col_2 = lo.get(2);   //奖励描述
+			Object col_3 = lo.get(3);   //获奖日期
+			Object col_4 = lo.get(4);   //授奖单位
+			if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
+
+			// 必填项和字典值校验
+			if(checkIfBlank(col_1))
+			{
+				sb.append("第"+(i+2)+"行奖励级别为空,");
+				break;
+			}else if(!checkIfReasonable(String.valueOf(col_1),ROOT_KJPT_JLJB)){
+				sb.append("第"+(i+2)+"行奖励级别取值非法,请参考对应sheet页取值!");
+				break;
+			}
+			if(checkIfBlank(col_2))
+			{
+				sb.append("第"+(i+2)+"行奖励描述为空,");
+				break;
+			}
+			if(checkIfBlank(col_3))
+			{
+				sb.append("第"+(i+2)+"行授奖单位为空,");
+				break;
+			}
+
+			if(checkIfBlank(col_4))
+			{
+				sb.append("第"+(i+2)+"行专利描述为空,");
+				break;
+			}
+
+		}
+		resultsDate.setMessage(sb.toString());
+		if((sb.toString()).equals(""))
+		{
+			resultsDate.setSuccess(true);
+		}else
+		{
+			resultsDate.setSuccess(false);
+		}
+		return resultsDate;
+	}
+
+	private Boolean checkIfBlank(Object o){
+		if(o==null) return true;
+		if(String.valueOf(o)=="") return true;
+		return false;
+	}
+
+	private String getExpertIdFromQueryString(String queryString){
+
+		String[] querys = queryString.split("=");
+		return querys[1];
+	}
+
+	private Boolean checkIfReasonable(String content,String dictCode){
+		//导入的数据确认用户只输入一个字典值20200605
+		//针对模板中使用到的字典数据进行缓存
+		Map<String,String> detailDicMap;
+		if(dictMap.containsKey(dictCode)){
+			detailDicMap = dictMap.get(dictCode);
+			if(detailDicMap.containsKey(content)) return  true;
+		}else{
+			detailDicMap = new HashMap<>();
+			dictMap.put(dictCode,detailDicMap);
+		}
+
+		List<SysDictionary> sysDictionaryList=    EquipmentUtils.getSysDictionaryListByParentCode(dictCode, restTemplate, httpHeaders);
+		for(SysDictionary dictionary:sysDictionaryList){
+			if(content.equals(dictionary.getName())) {
+				Map<String,String> temp = dictMap.get(dictCode);
+				temp.put(content,dictionary.getNumValue());
+				dictMap.put(dictCode,temp);
+				return true;
+			}
+		}
+		return  false;
+	}
+
+	private String getValueFromDictMap(String name,String dictCode){
+		if(StringUtils.isNotBlank(name)&&StringUtils.isNotBlank(dictCode)){
+			Map<String,String> detail = dictMap.get(dictCode);
+			return detail.get(name);
+		}
+		return "null";
+	}
+
+
 
 }

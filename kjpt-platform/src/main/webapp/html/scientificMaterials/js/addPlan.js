@@ -5,22 +5,22 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
   var variable = getQueryVariable();
   var reportTypeVal = variable.reportType;
   var userInfo = getUserInfo();
-  
-  switch(reportTypeVal){
+
+  switch(Number(reportTypeVal)){
     case 1:
-        $('#configName').html("科技规划名称:");
+        $('#configName').text("科技规划名称:");
     break;
     case 2:
-        $('#configName').html("工作要点名称:");
+        $('#configName').text("工作要点名称:");
     break;
     case 3:
-        $('#configName').html("科技进展名称:");
+        $('#configName').text("科技进展名称:");
     break;
     case 4:
-        $('#configName').html("年度总结名称:");
+        $('#configName').text("年度总结名称:");
     break;
     case 5:
-        $('#configName').html("研究报告名称:");
+        $('#configName').text("研究报告名称:");
     break;
   }
 
@@ -73,6 +73,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         if (formData.researchField) {
           formSelects.value('researchField', formData.researchField.split(','));
         }
+        
 
         var scopeDisabled = false;
         if (variable.type === 'see') {
@@ -122,6 +123,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
   form.on('submit(formAddPlanBtn)', function(data) {
     var technicalVal = formSelects.value('researchField');
     var technicalStr = '';
+    
     if(technicalVal.length != 0){
         var resultArr = technicalVal.map(function(item,index){
             return item.name
@@ -129,6 +131,7 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         technicalStr = resultArr.join(',');
         data.field.technicalFieldName = technicalStr
     }
+
     var saveData = data.field;
     console.log('saveData',saveData);
     if (saveData.annual) {

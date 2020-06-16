@@ -51,11 +51,11 @@ public class SysNewsServiceImpl implements SysNewsService {
     public int updateOrInsertSysNews(SysNews sysNews) throws Exception {
         int result = 500;
         if (sysNews.getDataId() != null && sysNews.getDataId() != null) {
-            fs.updateFileData(sysNews.getFileIds(),sysNews.getDataId());
+            fs.updateFileData(sysNews.getFiles(),sysNews.getId());
             sysNewsMapper.updateByPrimaryKeySelective(sysNews);
         } else {
             sysNews.setDataId(IdUtil.createIdByTime());
-            fs.updateFileData(sysNews.getFileIds(),sysNews.getDataId());
+            fs.updateFileData(sysNews.getFiles(),sysNews.getId());
             sysNewsMapper.insertSelective(sysNews);
         }
         result = 200;

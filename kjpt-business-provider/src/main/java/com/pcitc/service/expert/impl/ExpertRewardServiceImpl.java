@@ -27,4 +27,16 @@ public class ExpertRewardServiceImpl implements ExpertRewardService {
         return  zjkRewardList;
     }
 
+    @Override
+    public void insertBatch(List<ZjkReward> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                ZjkReward zjkReward=list.get(i);
+                zjkRewardMapper.insert(zjkReward);
+            }
+        }
+    }
+
 }

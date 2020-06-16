@@ -48,8 +48,8 @@
                     <p><span id="invention">0</span>个</p>
                   </div>
               </div>
-              <!-- <div class="header-block-item">
-                <div>
+              <div class="header-block-item">
+                <!-- <div>
                   <p>专利</p>
                   <p>类型</p>
                 </div>
@@ -64,27 +64,38 @@
                 <div>
                   <p>外观设计</p>
                   <p><span id="appearanceDesign">0</span>个</p>
-                </div>
-              </div> -->
-              <!-- <div class="header-block-item"></div> -->
+                </div> -->
+              </div>
+              <div class="header-block-item"></div>
             </div>
             <div class="header-block-line"></div>
         </div>
         <form class="layui-form layui-form-screen" action="" method="post" lay-filter="selectCondition">
             <div class="layui-row layui-col-space20">
-                <div class="layui-col-sm6 layui-col-md4">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="text">单位名称:</span></label>
+                        <label class="layui-form-label"><span class="text">单位名称：</span></label>
                         <div class="layui-input-block">
-                            <select name="unitName"
-                                    xm-select="supportingInstitutions"
-                                    xm-select-skin="normal"
-                                    xm-select-radio=""
-                                    dic-base-data="ROOT_KJPT_YTDW"
-                                    placeholder="请选择"></select>
+                            <select name="createUnitId" xm-select="createUnitName" xm-select-skin="normal" xm-select-radio=""
+                                    dic-base-data="ROOT_KJPT_YTDW" placeholder="请选择" xm-select-search=""></select>
+
                         </div>
                     </div>
                 </div>
+                <!--<div class="layui-col-sm6 layui-col-md4">-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label class="layui-form-label"><span class="text">qq单位名称:</span></label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<select name="unitName"-->
+                                    <!--xm-select="unitName"-->
+                                    <!--xm-select-skin="normal"-->
+                                    <!--xm-select-radio=""-->
+                                    <!--xm-select-search=""-->
+                                    <!--dic-base-data="ROOT_KJPT_YTDW"-->
+                                    <!--placeholder="请选择"></select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="layui-col-sm6 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">商标名称:</span></label>
@@ -143,7 +154,9 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">商标类型：</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input">
+                            <!-- <input type="text" name="tradeMarkType" placeholder="" autocomplete="off" class="layui-input"> -->
+                            <select name="tradeMarkType"  xm-select="tradeMarkType"  xm-select-skin="normal" dic-base-data="ROOT_KJPT_SBLX"  placeholder="请选择...">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -188,7 +201,7 @@
                 <button class="layui-btn border-blue" id="editItem" lay-event="edit" button-role="edit">编辑</button>
                 <button class="layui-btn border-blue" id="check" lay-event="detail">查看</button>
                 <button class="layui-btn border-red" id="delItem" lay-event="del" button-role="delete">删除</button>
-                <a class="layui-btn border-blue" href="/data/商标管理模板.xls" data-type="downloadData" button-role="import">模板下载</a>
+                <a class="layui-btn border-blue" href="/data/知识产权管理-商标管理模板.xls" data-type="downloadData" button-role="import">模板下载</a>
                 <div id="importData" class="ib-block" style="margin: 0 12px; overflow: hidden;" button-role="import">
                     <a class="layui-btn border-blue"  data-type="importData" filter="addFile">导入</a>
                 </div>
@@ -202,7 +215,6 @@
     <script src="/layuiadmin/js/common.js"></script>
     <script src="/layuiadmin/js/fileUpload.js"></script>
     <script src="./js/trademarkIndex.js"></script>
-
 
     <script type="text/html" id="registerDate">
         {{ dateFieldText(d.registerDate) }}

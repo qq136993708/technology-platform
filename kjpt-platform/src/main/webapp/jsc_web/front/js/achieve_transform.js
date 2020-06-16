@@ -1,179 +1,392 @@
 layui.use(['laydate'], function() {
-  var laydate = layui.laydate,
-  chartInit = {
-    appraisalOne: function(date) {
-      // 成果转化数量趋势分析
-      var time = date || '2019',
-      chartData = [],
-      initYear = 2016;
+  var laydate = layui.laydate;
+  var achieveTypes = [];
+  var achieveTypesSeries = [];
+  var awardsYearChart;
 
-      for (var i = 1; i < 4; i++) {
-        chartData.push({
-          name: (initYear + i)+'年',
-          value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value2: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-          value3: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-        })
-      }
-
+  var awardTramsformInfoHistoryColor = [
+    {type: 'transMoney', cololr: '#D89936'},
+    {type: 'transMoneySum', cololr: '#0CB92D'}
+  ];
+  var pieColor = ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'];
+  var chartInit = {
+    transformInfo: function (param) {
+      $('#awardTramsformInfoHistory').empty();
       kyptCharts.render({
-        id: 'appraisal_one',
-        type: 'line',
-        itemName: 'name',
-        legend: { show: false },
-        grid: { top: 70 },
-        legend: { show: true, left: 'right', top: 40},
-        lineColor: '#1E5389',
-        valueColor: '#fff',
-        labelColor: '#fff',
-        label: false,
-        series: [
-          { name: '待转化', valueKey: 'value1'},
-          { name: '拟转化', valueKey: 'value2'},
-          { name: '已转化', valueKey: 'value3'},
-        ],
-        data: chartData,
-        color: ['#FFF04E', '#81FF5B', '#2BF3FF']
-      })
-      
-      httpModule({
-        url: '/cockpit/results/conversion/numberIncentive',
-        type: 'POST',
-        success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            // kyptCharts.reload('appraisal_one', {data: res.data});
-          }
-        }
-      });
-    },
-    appraisalTwo: function () {
-      // 各单位成果转化激励人数
-      // var chartData = [], itemName = ['研究院1', '研究院2', '研究院3', '研究院4', '研究院5', '研究院6', '研究院7', '研究院8', '研究院9'];
-      // for (var i = 0; i < itemName.length; i++) {
-      //   chartData.push({
-      //     name: itemName[i], value1: (parseInt(Math.random() * 100) + 100) // 100 ~ 200
-      //   });
-      // }
-
-      kyptCharts.render({
-        id: 'appraisal_two',
+        id: 'awardTramsformInfoHistory',
         type: 'bar',
-        itemName: 'name',
-        legend: { show: false },
-        grid: { top: 70 },
+        itemName: 'year',
+        legend: { show: false},
+        grid: { top: 60, right: 60 },
         lineColor: '#1E5389',
         valueColor: '#fff',
-        labelColor: '#fff',
-        label: false,
+        labelColor: '#2BB7FF',
+        barWidth: '30px',
+        label: {
+          color: '#fff',
+          position: 'top'
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '单位：个',
+            nameTextStyle: {
+              color: '#ffffff',
+              lineHeight: 40,
+              height: 40
+            }
+          },
+          {
+            type: 'value',
+            name: '金额：万元',
+            nameTextStyle: {
+              color: '#ffffff',
+              lineHeight: 40,
+              height: 40
+            }
+          }
+        ],
+        color: [],
         series: [
-          { name: '激励人数', valueKey: 'value1'},
+          {
+            name: '成果完成数量',
+            valueKey: 'transAmount',
+            yIndex: 0,
+            itemStyle:
+            {
+              normal:
+                  {
+                    color: '#0CB92D'
+                  }
+            },
+            label: {
+              show: false,
+              position: 'top',
+              formatter: '{c|{c}}{unit|个}',
+              rich: {
+                c: {
+                  color: '#ffffff',
+                  fontSize: 12,
+                  fontFamily: 'Impact',
+                  fontWeight: 400
+                },
+                unit: {
+                  color: '#ffffff',
+                  fontSize: 12
+                }
+              }
+            }
+          },
+          {
+            name: '成果完成金额',
+            valueKey: 'transMoneySum',
+            yIndex: 1,
+            itemStyle:
+            {
+                  normal:
+                      {
+                        color: '#D89936'
+                      }
+            },
+            label: {
+              show: false,
+              position: 'top',
+              formatter: '{c|{c}}{unit|万元}',
+              rich: {
+                c: {
+                  color: '#ffffff',
+                  fontSize: 12,
+                  fontFamily: 'Impact',
+                  fontWeight: 400
+                },
+                unit: {
+                  color: '#ffffff',
+                  fontSize: 12
+                }
+              }
+            }
+          }
         ],
         data: [],
-        color: ['#2BF3FF']
+        callback: function (chartObj) {   //柱子点击事件
+
+        }
       });
 
+      var y1 = [];
+      var y2 = [];
       httpModule({
-        url: '/cockpit/results/queryBIData/resultsConversionNumberincentive',
+        url: '/achieveMaintainBI-api/getAchieveTransferByYear',
+        data: param,
+        type: 'GET',
+        async: false,
         success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            kyptCharts.reload('appraisal_two', {data: res.data});
+          var result = [];
+          if (res.code == 0) {
+            var data = res.data;
+            $.each(data, function (i, item) {
+              y1.push(item.transAmount);
+              y2.push(item.transMoneySum);
+              var obj = {};
+              obj.year = item.year;
+              obj.transAmount = item.transAmount;
+              obj.transMoneySum = item.transMoneySum;
+              result.push(obj);
+            });
+            kyptCharts.reload('awardTramsformInfoHistory',
+                {
+                  data: result,
+                  yAxis: [
+                    {
+                      type: 'value',
+                      min: 0,
+                      max: Math.ceil(Math.max.apply(null,y1)/6)*6,
+                      interval: Math.ceil(Math.max.apply(null,y1)/6),
+                    },
+                    {
+                      type: 'value',
+                      min: 0,
+                      max: Math.ceil(Math.max.apply(null,y2)/6)*6,
+                      interval: Math.ceil(Math.max.apply(null,y2)/6),
+                    }
+                  ]
+                });
           }
         }
       });
     },
-    appraisalThree: function(date) {
-      // 成果转化数量按成果类型分析
-      kyptCharts.render({
-        id: 'appraisal_three',
+    awardsYearPie: function (params) {
+      $('#awardTramsformType').empty();
+      var chartDemo = echarts.init(document.getElementById('awardTramsformType'));
+      //获取数据
+      var countSeries = {
+        name: '数量',
         type: 'pie',
-        legendPosition: 'right',
-        legend: { top: 'center', right: 18, formatter: 'name|value'},
-        label: false,
-        labelColor: '#fff',
-        radius: ['44%', '66%'],
-        // center: ['32%', '50%'],
-        borderColor: '#001e38',
-        title: '成果类型分析',
-        totalTitle: true,
+        selectedMode: 'single',
+        radius: [0, '30%'],
+        // center: ['30%', '50%'],
+        label: {
+          show: false
+        }
+      };
+      var moneySeries = {
+        name: '金额',
+        type: 'pie',
+        radius: ['40%', '60%'],
+        // center: ['30%', '50%'],
+        label: {
+          show: false
+        }
+      };
+      var series = [];
+      httpModule({
+        url: '/achieveMaintainBI-api/getAchieveTransferByType',
+        data: params,
+        type: 'GET',
+        async: false,
+        success: function (res) {
+         if (res.code == 0) {
+           var data = res.data;
+           var countArray = [];
+           var moneyArray = [];
+           var html = '';
+           $.each(data, function (i, item) {
+             html += '<div class="legend-item"><span><i style="background: ' + pieColor[i] + '"></i>' +item.achieveTransTypeText+ '</span><span>' +item.transAmount+ '</span><span>' +item.transMoneySum+ '</span></div>';
+             var objc = {};
+             objc.name = item.achieveTransTypeText;
+             objc.value = item.transAmount;
+             objc.itemStyle = {};
+             objc.itemStyle.color = pieColor[i];
+             countArray.push(objc);
+             var objm = {};
+             objm.name = item.achieveTransTypeText;
+             objm.value = item.transMoneySum;
+             objm.itemStyle = {};
+             objm.itemStyle.color = pieColor[i];
+             moneyArray.push(objm);
+           });
+           countSeries.data = countArray;
+           moneySeries.data = moneyArray;
+           series.push(countSeries);
+           series.push(moneySeries);
+           $('.chart-content .chart-legend').append(html);
+         }
+        }
+      });
+      var option = {
+        series: series,
         title: {
+          textStyle: { fontSize: 48, color: '#fff' }
+        },
+        legend: {
+          show: false,
+          right: 60,
+          top: 'center',
+          orient: 'vertical',
+          formatter: function (name) {
+              for(var j=0;j<countSeries.data.length;j++){
+                if (countSeries.data[j].name == name) {
+                  var result = countSeries.data[j].value;
+                  var result2 = moneySeries.data[j].value;
+                  var arr = ["{a|"+name+"}","{b|"+result+"个}", "{c|" + result2 + "万元}"];
+                  return arr.join(' ');
+                }
+            }
+          },
           textStyle: {
-            color: '#fff',
-            fontSize: 30,
-            width: '100%'
+            color: '#ffffff',
+            rich: {
+              a: {
+                width: 80
+              },
+              b: {
+                width: 60,
+                verticalAlign: 'middle'
+              }
+            }
           }
         },
-        series: [],
-        color: ['#45F0FF', '#2687FF']
-      });
-
-      httpModule({
-        url: '/cockpit/results/queryBIData/resultsConversionNumbyresultstype',
-        success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            var chartData = [];
-            for (var i = 0; i < res.data.length; i++) {
-              chartData.push({
-                name: res.data[i].name,
-                value: res.data[i].num
-              });
-            }
-            kyptCharts.reload('appraisal_three', {series: chartData});
+        tooltip:  {
+          show: true,
+          trigger: 'item',
+          axisPointer: {
+            type: 'shadow'
           }
-        }
-      });
+        },
+        // color: ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF']
+      };
+      chartDemo.setOption(option);
     },
-    appraisalFour: function(date) {
-      // 各单位成果转化金额/激励金额
-      // var time = date || '2019',
-      // chartData = [];
-
-      // for (var i = 1; i < 13; i++) {
-      //   chartData.push({
-      //     name: i+'月',
-      //     value1: (parseInt(Math.random() * 400) + 100), // 100 ~ 500
-      //     value2: (parseInt(Math.random() * 400) + 100) // 100 ~ 500
-      //   })
-      // }
-
+    achieveTransferOfficeChart: function (params) {
+      $('#achieveTransferOffice').empty();
       kyptCharts.render({
-        id: 'appraisal_four',
+        id: 'achieveTransferOffice',
         type: 'bar',
-        itemName: 'name',
-        legend: { show: true, left: 'right', top: 40},
-        grid: { top: 70 },
+        itemName: 'affiliatedUnitText',
+        legend: { show: false},
+        grid: { top: 60, right: 60 },
         lineColor: '#1E5389',
         valueColor: '#fff',
-        labelColor: '#fff',
-        label: false,
-        series: [
-          { name: '转化金额', valueKey: 'value1'},
-          { name: '激励金额', valueKey: 'value2'}
+        labelColor: '#2BB7FF',
+        barMaxWidth: '25px',
+        label: {
+          color: '#fff',
+          position: 'top'
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '单位：个',
+            nameTextStyle: {
+              color: '#ffffff',
+              lineHeight: 40,
+              height: 40
+            }
+          },
+          {
+            type: 'value',
+            name: '金额：万元',
+            nameTextStyle: {
+              color: '#ffffff',
+              lineHeight: 40,
+              height: 40
+            }
+          }
         ],
-        data: [],
-        color: ['#FF7F5D', '#FCFF00']
-      })
+        color: [],
+        series: [
+          {
+            name: '转化完成数量',
+            valueKey: 'transAmount',
+            yIndex: 0,
+            itemStyle:
+                {
+                  normal:
+                      {
+                        color: '#138FF7'
+                      }
+                },
+            label: {
+              show: false
+            }
+          },
+          {
+            name: '转化完成金额',
+            valueKey: 'transMoneySum',
+            yIndex: 1,
+            itemStyle:
+                {
+                  normal:
+                      {
+                        color: '#0000FF'
+                      }
+                },
+            label: {
+              show: false
+            }
+          }
+        ],
+        data: []
+      });
 
+      var y1 = [];
+      var y2 = [];
       httpModule({
-        url: '/cockpit/results/queryBIData/resultsOnversionNumbyincentiveamount',
+        url: '/achieveMaintainBI-api/getAchieveTransferByOffice',
+        data: params,
+        type: 'GET',
+        async: false,
         success: function(res) {
-          if (res.code === '0' || res.success === true) {
-            kyptCharts.reload('appraisal_four', {data: res.data});
+          var result = [];
+          if (res.code == 0) {
+            var data = res.data;
+            $.each(data, function (i, item) {
+              y1.push(item.transAmount);
+              y2.push(item.transMoneySum);
+              var obj = {};
+              obj.year = item.year;
+              obj.transAmount = item.transAmount;
+              obj.transMoneySum = item.transMoneySum;
+              result.push(obj);
+            });
+            kyptCharts.reload('achieveTransferOffice',
+                {
+                  data: data,
+                  yAxis: [
+                    {
+                      type: 'value',
+                      name: '单位：个',
+                      nameTextStyle: {
+                        color: '#ffffff',
+                        lineHeight: 40,
+                        height: 40
+                      },
+                      min: 0,
+                      max: Math.ceil(Math.max.apply(null,y1)/6)*6,
+                      interval: Math.ceil(Math.max.apply(null,y1)/6),
+                    },
+                    {
+                      type: 'value',
+                      name: '金额：万元',
+                      nameTextStyle: {
+                        color: '#ffffff',
+                        lineHeight: 40,
+                        height: 40
+                      },
+                      min: 0,
+                      max: Math.ceil(Math.max.apply(null,y2)/6)*6,
+                      interval: Math.ceil(Math.max.apply(null,y2)/6),
+                    }
+                    ]
+
+                });
           }
         }
       });
     }
-  }
+  };
 
-
-  // 成果转化数量趋势分析
-  chartInit.appraisalOne();
-
-  // 各单位成果转化激励人数
-  chartInit.appraisalTwo();
-
-  // 成果转化数量按成果类型分析
-  chartInit.appraisalThree();
-
-  // 各单位成果转化金额/激励金额
-  chartInit.appraisalFour();
+  chartInit.transformInfo();
+  chartInit.awardsYearPie();
+  chartInit.achieveTransferOfficeChart();
 });

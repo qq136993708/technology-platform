@@ -66,10 +66,10 @@
                         </div>
                     </div>
                     <div class="layui-form-item item">
-                        <label class="layui-form-label"><span class="text">申请年度:</span></label>
+                        <label class="layui-form-label label-required"><span class="text">成果类别:</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="applyYear"
-                                   autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input applyYear">
+                            <select id="achieveType" name="achieveType" dic-base-data="ROOT_KJPT_CGLB" lay-verify="required" placeholder="请选择...">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -77,16 +77,16 @@
                     <div class="layui-form-item item">
                         <label class="layui-form-label label-required"><span class="text">申请单位:</span></label>
                         <div class="layui-input-block">
-                            <select class="applyUnit" name="applyUnit" xm-select="applyUnit" xm-select-skin="normal" xm-select-radio></select>
+                            <select class="applyUnit" name="applyUnit" xm-select="applyUnit" lay-verify="required" xm-select-skin="normal" xm-select-radio></select>
                             <!--<input type="text" name="applyUnit"
                                    placeholder="" autocomplete="off" class="layui-input applyUnit">-->
                         </div>
                     </div>
                     <div class="layui-form-item item">
-                        <label class="layui-form-label label-required"><span class="text">成果类别:</span></label>
+                        <label class="layui-form-label"><span class="text">申请年度:</span></label>
                         <div class="layui-input-block">
-                            <select id="achieveType" name="achieveType" dic-base-data="ROOT_KJPT_CGLB" lay-verify="required" placeholder="请选择...">
-                            </select>
+                            <input type="text" name="applyYear"
+                                   autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input applyYear">
                         </div>
                     </div>
                 </div>

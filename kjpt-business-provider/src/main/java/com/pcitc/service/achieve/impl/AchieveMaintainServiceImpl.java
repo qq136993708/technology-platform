@@ -60,4 +60,16 @@ public class AchieveMaintainServiceImpl implements AchieveMaintainService {
     public List<AchieveMaintain> queryNoPage(Map paramMap) {
         return mapper.query(paramMap);
     }
+
+    @Override
+    public void insertBatch(List<AchieveMaintain> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                AchieveMaintain achieveMaintain=list.get(i);
+                mapper.add(achieveMaintain);
+            }
+        }
+    }
 }

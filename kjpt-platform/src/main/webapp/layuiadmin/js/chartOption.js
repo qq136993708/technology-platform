@@ -11,7 +11,7 @@ var kyptCharts = {
     axisLineColor: '', // X,Y 轴线颜色 axisLineColor
     valueColor: '#333', // X、Y轴axisLabel 文字颜色
     labelColor: '#46484B' // 图形上的文本标签（label） 的文字颜色
-    label: true, // 是否显示文本标签; 默认为 true
+    label: true | object, // 是否显示文本标签; 默认为 true; object与官网保持一致
     labelRotate: 0, // 类名轴显示文字旋转度数；默认为0
     labelLenth: number, // 类名轴显示文本超出多少长度时行显示
     labelMaxNumber: number, // 类名轴最多显示少个类名，超出滚动条
@@ -207,6 +207,7 @@ var kyptCharts = {
         data: itemData,
         type: item.type || config.type,
         // type: 'pictorialBar',
+        stack: (item.stack || ('stack' + index)),
         barMaxWidth: config.barWidth || barMaxWidth,
         barWidth: config.barWidth || barMaxWidth,
         barMinHeight: config.barMinHeight || 0,
@@ -215,7 +216,8 @@ var kyptCharts = {
           show: true,
           position: 'top',
           color: labelColor || '#46484B',
-          fontSize: 12
+          fontSize: 16,
+          fontFamily:'Impact'
         }
       };
 
@@ -226,7 +228,7 @@ var kyptCharts = {
       } else if (typeof(config.label) === 'boolean') {
         seriesItem.label.show = config.label;
       }
-
+      seriesItem.itemStyle = item.itemStyle?item.itemStyle:{};
       if (itemStyle) {
         seriesItem.itemStyle = itemStyle;
       }
@@ -464,7 +466,7 @@ var kyptCharts = {
           itemColor = '#0AA1FF';
         }
         itemHtml = '<span class="lenend-item-icon '+ (item.type || config.type) +'" style="background-color:'+itemColor+'"></span>';
-        itemHtml += '<span class="lenend-item-name">'+ item.name +'</span>';
+        itemHtml += '<span class="lenend-item-name" data-page='+item.page+' >'+ item.name +'</span>';
         if (formatter.indexOf('value') >= 0) {
           itemHtml += '<span class="lenend-item-value">'+ item.value +'</span>';
         }
@@ -478,6 +480,11 @@ var kyptCharts = {
         // 添加图例事件
         $item.off('click').on({
           'click': function(e) {
+            var elentText = e.toElement.innerText;
+            var page = e.toElement.dataset.page
+            if(page !== 'undefined'){
+              jscPup(page);
+            }else{
             var optionChart = _this.chart[config.id].chart.getOption(),
             legendSelected = optionChart.legend.selected || {};
             if ($(this).hasClass('selected')) {
@@ -488,6 +495,7 @@ var kyptCharts = {
               legendSelected[item.name] = false;
             }
             _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+            }
           }
         })
       });
@@ -522,11 +530,38 @@ var kyptCharts = {
       if (typeof(config.label) === 'boolean') {
         return config.label;
       } else {
-        return true;
+        return config.label || false;
       }
     })(),
     labelColor = config.labelColor || '#46484B',
-    borderColor = config.borderColor || '';
+    borderColor = config.borderColor || '',
+    dataSeries = config.series;
+
+    if (typeof(label) === 'object' && dataSeries.length) {
+      for (var i = 0 ; i < dataSeries.length; i++) {
+        var temp_color = (function() {
+          if (typeof(config.color[i]) === 'object') {
+            return config.color[i][1];
+          } else if (typeof(config.color[i]) === 'string') {
+            return config.color[i];
+          } else {
+            return '#979797';
+          }
+        })();
+
+        dataSeries[i].label = label;
+        dataSeries[i].emphasis = {labelLine: { show: true}};
+        dataSeries[i].labelLine = {
+          show: true, length: 10, length2: 20, lineStyle: { color: temp_color}
+        };
+        if (dataSeries[i].label.rich && dataSeries[i].label.rich.a) {
+          dataSeries[i].label.rich.a.borderColor = temp_color;
+          dataSeries[i].label.rich.a.color = '#fff';
+        }
+      }
+    }
+
+
 
     // 饼图环图配置
     var option = {
@@ -591,24 +626,24 @@ var kyptCharts = {
           center: config.center || ['50%', '50%'],
           avoidLabelOverlap: false,
           labelLine: {
-            show: label,
+            show: typeof(label) === 'boolean' ? label :  false,
             length: 10,
             length2: 20,
             lineStyle: {
               color: '#979797'
             }
           },
-          data: config.series,
+          data: dataSeries,
           label: {
-            show: label,
+            show: typeof(label) === 'boolean' ? label : false,
             // position: 'inside',
             color: '#313232',
             formatter: '{c}\n{d}%'
           },
-          itemStyle: {
-            borderWidth: (borderColor ? 2 : 0),
-            borderColor: borderColor || '#fff'
-          }
+          // itemStyle: {
+            // borderWidth: (borderColor ? 2 : 0),
+            // borderColor: borderColor || '#fff'  去掉饼图空隙
+          // } 
           
         }
       ],
@@ -627,9 +662,13 @@ var kyptCharts = {
       if (config.center) {
         option.title.left = config.center[0];
       } else {
-        option.title.left = '50%';
+        option.title.left = '50%';  
+      } 
+      if(config.company){
+        option.title.subtext =  config.company;
       }
     }
+
     return option;
   },
   getChartOption: function (config) {

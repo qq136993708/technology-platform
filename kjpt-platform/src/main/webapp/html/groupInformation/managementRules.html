@@ -41,7 +41,14 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4"></div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                  <label class="layui-form-label"><span class="text">阅读范围:</span></label>
+                  <div class="layui-input-block">
+                       <select name="readRange"  xm-select-search="" dic-base-data="ROOT_KJPT_YTDW" xm-select="readRange" xm-select-skin="normal"></select>
+                  </div>
+                </div>
+              </div>
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md8 layui-col-btn" id="btnGroup">
                 <div class="layui-form-item text-right">
                     <button class="layui-btn layui-btn-normal margin24" lay-submit lay-filter="formDemo">查询</button>
@@ -58,6 +65,11 @@
             <button class="layui-btn border-blue margin12" id="editItem" button-role="edit">编辑</button>
             <button class="layui-btn border-blue margin12" id="seeItem">查看</button>
             <button class="layui-btn border-red margin12" id="delItem" button-role="delete">删除</button>
+            <!-- <a id="moduleid" class="layui-btn border-blue" href="/data/集团公司发布-管理办法导入模板.xls" button-role="import" data-type="downloadData">模板下载</a> -->
+            <!-- <div id="importData" class="ib-block" style="margin: 0 12px; overflow: hidden;" button-role="import">
+                <a class="layui-btn border-blue"  data-type="importData" filter="addFile" >导入</a>
+            </div> -->
+            <!-- <a class="layui-btn border-blue" id="exportData" button-role="export">导出</a> -->
         </div>
     </div>
 
@@ -67,6 +79,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script src="./js/managementRules.js"></script>
 </body>
 </html>

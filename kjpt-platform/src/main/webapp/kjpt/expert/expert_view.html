@@ -33,10 +33,10 @@
                     <div class="title" diy-form-value="name"></div>
                     <ul class="text-list">
                         <li class="font16"><span class="label-text">职称：</span><span class="label-value" diy-form-value="titleStr"></span></li>
-                        <li class="font16"><span class="label-text">职务：</span><span class="label-value" diy-form-value="post"></span></li>
+                        <li class="font16"><span class="label-text">职务：</span><span class="label-value" diy-form-value="postStr"></span></li>
                         <li class="font16"><span class="label-text">技术领域：</span><span class="label-value" diy-form-value="technicalFieldName"></span></li>
                         <li class="font16"><span class="label-text">学历：</span><span class="label-value" diy-form-value="educationStr"></span></li>
-                        <li class="font16"><span class="label-text">所在单位：</span><span class="label-value" diy-form-value="belongUnitStr">中核科技有限公司</span></li>
+                        <li class="font16"><span class="label-text">所在单位：</span><span class="label-value" diy-form-value="belongUnitName">中核科技有限公司</span></li>
                     </ul>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <li>专利信息</li>
                 <li>奖励信息</li>
                 
-                <a class="layui-btn border-blue" id="gobackClick" href="./expert_demeanor.html">返回</a>
+                <a class="layui-btn border-blue" id="gobackClick">返回</a>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
@@ -112,11 +112,11 @@
                             <a class="layui-btn border-blue openDialog" data-type="achievementsEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="achievementsDelete" button-role="delete">删除</a>
                             <!-- <button class="layui-btn border-blue exportDown" download-templet="zjxxglcg_template" button-role="import">模版下载</button> -->
-                            <a class="layui-btn border-blue" href="/data/zjxxglcg_template.xlsx" button-role="import" data-type="downloadData">模板下载</a>
-                            <a class="layui-btn border-blue importData" data-item="2" button-role="export">导出</a>
+                            <a class="layui-btn border-blue" href="/data/科研能力-专家信息管理-专家-成果信息模板.xls" button-role="import" data-type="downloadData">模板下载</a>
                             <div class="ib-button" id="export_cg" export-type="zjxxglAchievementImp">
-                                <a class="layui-btn border-blue" filter="addFile" button-role="import">导入</a>
+                                <a class="layui-btn border-blue "  filter="addFile" button-role="import">导入</a>
                             </div>
+                            <a class="layui-btn border-blue importData" data-item="2" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="achievements" lay-filter="achievements"></table>
@@ -129,13 +129,11 @@
                             <a class="layui-btn border-blue openDialog" data-type="patentEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="patentDelete" button-role="delete">删除</a>
                             <!-- <button class="layui-btn border-blue exportDown" download-templet="zjxxglzl_template" button-role="import">模版下载</button> -->
-                            
-                            <a class="layui-btn border-blue" href="/data/zjxxglzl_template.xlsx" button-role="import" data-type="downloadData">模板下载</a>
-                            <a class="layui-btn border-blue importData" data-item="3" button-role="export">导出</a>
+                            <a class="layui-btn border-blue" href="/data/科研能力-专家信息管理-专家-专利信息模板.xls" button-role="import" data-type="downloadData">模板下载</a>
                             <div class="ib-button" id="export_zl" export-type="zjxxglPatentImp">
-                                <a class="layui-btn border-blue" filter="addFile" button-role="import">导入</a>
+                                <a class="layui-btn border-blue "  filter="addFile" button-role="import">导入</a>
                             </div>
-
+                            <a class="layui-btn border-blue importData" data-item="3" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="patent" lay-filter="patent"></table>
@@ -148,11 +146,11 @@
                             <a class="layui-btn border-blue openDialog" data-type="rewardEdit" button-role="edit">编辑</a>
                             <a class="layui-btn border-red deleteItem" data-type="rewardDelete" button-role="delete">删除</a>
                             <!-- <button class="layui-btn border-blue exportDown" download-templet="zjxxgljl_template" button-role="import">模版下载</button> -->
-                            <a class="layui-btn border-blue" href="/data/zjxxgljl_template.xlsx" button-role="import" data-type="downloadData">模板下载</a>
-                            <a class="layui-btn border-blue importData" data-item="4" button-role="export">导出</a>
+                            <a class="layui-btn border-blue" href="/data/科研能力-专家信息管理-专家-奖励信息模板.xls" button-role="import" data-type="downloadData">模板下载</a>
                             <div class="ib-button" id="export_jl" export-type="zjxxglRewardImp">
-                                <a class="layui-btn border-blue" filter="addFile" button-role="import">导入</a>
+                                <a class="layui-btn border-blue "  filter="addFile" button-role="import">导入</a>
                             </div>
+                            <a class="layui-btn border-blue importData" data-item="4" button-role="export">导出</a>
                         </div>
                     </div>
                     <table id="reward" lay-filter="reward"></table>

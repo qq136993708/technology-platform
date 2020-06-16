@@ -48,7 +48,15 @@ public class Constants {
     public static final int FLOW_STATE_DOING=1;//审批中
     public static final int FLOW_STATE_DONE=2;//审批通过
     public static final int FLOW_STATE_CLOSE=3;//强制结束
-    
+
+    //业务流程状态
+    public static final String NO_SUBMIT="0"; //为提交
+    public static final String SUBMIT="1"; //已提交
+    public static final String UNDER_APPROVAL="2"; //审批中
+    public static final String ADOPT="3"; //已通过
+    public static final String COMPLETED="4"; //已完成
+    public static final String REJECT="5"; //驳回
+
     //任务关闭变量
     public static final String TASK_CLOUSE="0"; //0关闭状态
     public static final String OK_CLOUSE="1"; //1已关闭状态

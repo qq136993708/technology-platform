@@ -86,6 +86,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     }
 
     @Override
+    public Integer postTreatment(String ids) {
+        return patentInfoMapper.postTreatment(ids);
+    }
+
+    @Override
     public List<Map> countByLegalStatus(Map param) {
         return patentInfoMapper.countByLegalStatus(param);
     }
@@ -93,6 +98,18 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     @Override
     public List<Map> countByPatentType(Map param) {
         return patentInfoMapper.countByPatentType(param);
+    }
+
+    @Override
+    public void insertBatch(List<PatentInfo> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                PatentInfo patentInfo=list.get(i);
+                patentInfoMapper.insertSelective(patentInfo);
+            }
+        }
     }
 
     public PatentInfo getPatentInfo(String id){

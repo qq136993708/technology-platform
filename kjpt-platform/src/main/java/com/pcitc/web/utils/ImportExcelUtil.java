@@ -64,6 +64,43 @@ public class ImportExcelUtil {
 		return list;
 	}
 
+	public  List<List<Object>> getListByExcel(InputStream in,String fileName) throws Exception{
+		List<List<Object>> list = null;
+		//创建Excel工作薄
+		Workbook work = this.getWorkbook(in,fileName);
+		if(null == work){
+			throw new Exception("创建Excel工作薄为空！");
+		}
+		list = new ArrayList<List<Object>>();
+		//遍历Excel中所有的sheet
+			Sheet sheet = work.getSheetAt(0);
+			if(sheet==null){return null;}
+			int lastCellNum = 0;
+			if(sheet.getRow(0) == null){
+				return null;
+			}else{
+				lastCellNum = sheet.getRow(0).getLastCellNum();
+			}
+			//遍历当前sheet中的所有行
+			for (int j = sheet.getFirstRowNum()+4; j <=sheet.getLastRowNum(); j++) {
+				Row row = sheet.getRow(j);
+				if(row==null||row.getFirstCellNum()==j){continue;}
+				//遍历所有的列
+				List<Object> li = new ArrayList<Object>();
+				for (int y = row.getFirstCellNum(); y < lastCellNum; y++) {
+					Cell cell = row.getCell(y);
+					li.add(this.getCellValue(cell));
+					int beg = row.getFirstCellNum();
+					int num = row.getLastCellNum();
+//					if(y==num-1){
+//						li.add("0")	;
+//						li.add("1");
+//					}
+				}
+				list.add(li);
+			}
+		return list;
+	}
 
 	/**
 	 * 描述：根据文件后缀，自适应上传文件的版本
@@ -91,11 +128,11 @@ public class ImportExcelUtil {
 	 */
 	public  Object getCellValue(Cell cell){
 		Object value = null;
-		DecimalFormat df = new DecimalFormat("0");  //格式化number String字符
+		DecimalFormat df = new DecimalFormat("0.0000");  //格式化number String字符
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");  //日期格式化
-		DecimalFormat df2 = new DecimalFormat("0.00");  //格式化数字
+		DecimalFormat df2 = new DecimalFormat("0.0000");  //格式化数字
 		if(cell == null) {
-			return null;
+			return "";
 		}
 		switch (cell.getCellTypeEnum()) {
 		case STRING:

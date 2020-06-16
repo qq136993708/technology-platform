@@ -110,6 +110,36 @@ public class SysUser {
 	private   List<SysRole> roleList=new ArrayList<SysRole>();;
 	
 
+	
+	private String  dataScopeUnitId;
+	
+	private String  dataScopeUnitName;
+	private String  dataScopeUnitPath;
+	
+
+	public String getDataScopeUnitPath() {
+		return dataScopeUnitPath;
+	}
+
+	public void setDataScopeUnitPath(String dataScopeUnitPath) {
+		this.dataScopeUnitPath = dataScopeUnitPath;
+	}
+
+	public String getDataScopeUnitName() {
+		return dataScopeUnitName;
+	}
+
+	public void setDataScopeUnitName(String dataScopeUnitName) {
+		this.dataScopeUnitName = dataScopeUnitName;
+	}
+
+	public String getDataScopeUnitId() {
+		return dataScopeUnitId;
+	}
+
+	public void setDataScopeUnitId(String dataScopeUnitId) {
+		this.dataScopeUnitId = dataScopeUnitId;
+	}
 
 	public List<SysRole> getRoleList() {
 		return roleList;

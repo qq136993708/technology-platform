@@ -19,6 +19,9 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="update_user" jdbcType="VARCHAR" property="updator"/>
         <result column="report_type" jdbcType="VARCHAR" property="reportType"/>
+        <result column="read_range" jdbcType="VARCHAR" property="readRange"/>
+        <result column="read_range_text" jdbcType="VARCHAR" property="readRangeText"/>
+        <result column="publish_user" jdbcType="VARCHAR" property="publishUser"/>
         <result column="name_text" jdbcType="VARCHAR" property="nameText"/>
         <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
         <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
@@ -45,7 +48,9 @@
         create_unit_name,
         secret_level,
         knowledge_scope,
-        knowledge_person
+        knowledge_person,
+        read_range,
+        readRangeText
 
   </sql>
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -72,6 +77,9 @@
        update_date,
        update_user,
        report_type,
+       read_range,
+       read_range_text,
+       publish_user,
        create_unit_id,
        create_unit_name,
        secret_level,
@@ -91,6 +99,9 @@
       #{updateDate},
       #{updator},
       #{reportType},
+      #{readRange},
+      #{readRangeText},
+      #{publishUser},
       #{createUnitId},
       #{createUnitName},
       #{secretLevel},
@@ -136,8 +147,6 @@
 <if test="publication != null  ">
             and `publication` like CONCAT('%',#{publication},'%')
         </if>
-        
-        
 
         <if test="annual != null  ">
             and substring(annual,1,7) = #{annual}
@@ -161,6 +170,10 @@
 
         <if test="createUnitName != null  and createUnitName != ''  ">
             and create_unit_name like CONCAT('%',#{createUnitName},'%')
+        </if>
+
+        <if test="userUnitId != null  and userUnitId != ''  ">
+            and FIND_IN_SET(#{userUnitId},read_range)
         </if>
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
@@ -197,10 +210,18 @@
                 publication = #{publication},
             </if>
             
-            
+              <if test="readRange != null and readRange != ''">
+                  read_range = #{readRange},
+            </if>
+              <if test="readRangeText != null and readRangeText != ''">
+                  read_range_text = #{readRangeText},
+            </if>
 
-	    
-	    
+              <if test="publishUser != null and publishUser != ''">
+                  publish_user = #{publishUser},
+            </if>
+
+
 	    
             <if test="annual != null">
                 annual = #{annual},
@@ -241,12 +262,6 @@
 
             <if test="secretLevel != null and secretLevel != ''">
                 secret_level = #{secretLevel},
-            </if>
-            <if test="knowledgeScope != null and knowledgeScope != ''" >
-                knowledge_scope = #{knowledgeScope},
-            </if>
-            <if test="knowledgePerson != null and knowledgePerson != ''" >
-                knowledge_person = #{knowledgePerson}
             </if>
 
         </trim>

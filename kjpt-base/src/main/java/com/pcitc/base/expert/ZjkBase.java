@@ -170,7 +170,7 @@ public class ZjkBase  {
     
     private String  expertTypeStr;
     
-    private Integer orders;
+    private Integer orders=0;
     private String customQueryConditionStr;//前台转过来的
     
     private String condition;//mybatis拼装sql
@@ -178,10 +178,58 @@ public class ZjkBase  {
     private Date birthDate;
     
     private String birthDateStr;
+    private String belongUnitName;
+    private String postStr;
+    
+    private String researchWay;
+    private String researchPersonType;
+    private String researchPersonTypeStr;
     
     
     
     
+    
+    
+	public String getResearchPersonTypeStr() {
+		return researchPersonTypeStr;
+	}
+
+	public void setResearchPersonTypeStr(String researchPersonTypeStr) {
+		this.researchPersonTypeStr = researchPersonTypeStr;
+	}
+
+	public String getResearchWay() {
+		return researchWay;
+	}
+
+	public void setResearchWay(String researchWay) {
+		this.researchWay = researchWay;
+	}
+
+	public String getResearchPersonType() {
+		return researchPersonType;
+	}
+
+	public void setResearchPersonType(String researchPersonType) {
+		this.researchPersonType = researchPersonType;
+	}
+
+	public String getPostStr() {
+		return postStr;
+	}
+
+	public void setPostStr(String postStr) {
+		this.postStr = postStr;
+	}
+
+	public String getBelongUnitName() {
+		return belongUnitName;
+	}
+
+	public void setBelongUnitName(String belongUnitName) {
+		this.belongUnitName = belongUnitName;
+	}
+
 	public String getBirthDateStr() {
 		return birthDateStr;
 	}

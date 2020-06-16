@@ -150,7 +150,7 @@ function layuiParseData(RelData, callback, number) {
 function setDialogData(data, key) {
 	// data 为一个JSON 或者 Array 对象时 设置sessionStorage的值；不能传递 HTML元素
 	// key 则为存储的key, 可以为空值， 空值时 使用默认的key 'dialog-data';
-	if (typeof(data) === 'object') {
+	if (typeof(data) === 'object' || typeof(data) == 'number') {
 		if (key && typeof(key) === 'string') {
 			sessionStorage.setItem(key, JSON.stringify(data))
 		} else {
@@ -372,6 +372,18 @@ function closeTabsPage(index){
     parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click');
 }
 
+//驾驶舱页面跳转
+function jscPup(page) { 
+	$('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
+	$('#top-header-nav .transR' , parent.document).each(function(item){
+		console.log($(this));
+			var itemHref = $(this).attr('href');
+			if(itemHref == page){
+					$(this).addClass('btnactive');
+			}
+	})
+	window.location.href='/jsc_web/front/'+page+'.html';
+ }
 
 // 获取字典总数据
 function _getDicStore(key, type, callback) {
@@ -639,14 +651,14 @@ function setVal(data){
 	var custromLength = $('#custromFrom').find('.custrom-box').length;
 	customQueryConditionStr=[];
 	if(custromLength >= 1){
-			json=data.field;
+			json=data.field || data;
 			delete(json['columnName']);
 			delete(json['condition']);
 			delete(json['value']);
 			customQueryConditionStr=setCustromFrom();
 			json['customQueryConditionStr']=customQueryConditionStr;
 	}else{
-			json=data.field;
+			json=data.field || data;
 	}
 	return json;
 }
@@ -1479,6 +1491,12 @@ layui.use(['form', 'formSelects','laydate'], function() {
 			if ((''+value).length > lengthNumber) {
 				return '字符长度不能超过 '+ lengthNumber + '个';
 			}
+		},
+		doubleFore:function(value,item){
+			var regNum=/^\d+(\.\d{1,4})?$/;
+			if(!regNum.test(value)){
+				return '小数点后只能输入四位'
+			}
 		}
 	})
 
@@ -1512,6 +1530,15 @@ layui.use(['form', 'formSelects','laydate'], function() {
 	});
 	var count = 0
 	$('#custormAdd').on('click',function(){
+			var custromLen = $('.custrom-box').length;
+			if(custromLen == '0'){
+				custromFrom();
+			}else{
+				$('.custrom-box').remove();
+			}
+	});
+
+	function custromFrom(){
 		var tableName = returnTableName();
 		count++;
 		httpModule({
@@ -1527,6 +1554,9 @@ layui.use(['form', 'formSelects','laydate'], function() {
 					var formid = 'form'+count;
 					var dataId = 'data'+count;
 					var optionCode = 'optionCode'+count;
+					var addStr = '<button class="add-more-item-btn" type="button">'+
+					'<i class="layui-icon">&#xe654;</i>'+
+					'</button>';
 					var str='<div class="custrom-box"><div class="layui-col-xs12 layui-col-sm6 layui-col-md3 layui-col-btn"></div>'+
 						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
 						'<div class="layui-form-item">'+
@@ -1562,24 +1592,41 @@ layui.use(['form', 'formSelects','laydate'], function() {
 						'</div>'+
 						'</div>'+
 						'</div>'+
-						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md2">'+
-						'<div class="layui-form-item">'+
-						'<span class="layui-btn layui-btn-normal custromDel">删除</span>'+
-						'</div></div>'+
+						'<div class="layui-col-xs12 layui-col-sm6 layui-col-md1 layui-col-btn more-item">'+
+						'<div class="layui-form-item" style="padding-left: 20px;">'+
+						'	<label class="layui-form-label custrom-label" style="text-align: left">'+
+							addStr +
+						'</label>'+
+						'</div>'+
 						'</div>'
+						'</div>'
+						
 						$('#custromFrom').append(str);
 				}
 				window.createElement({code:'ROOT_XTGL_ZDYCXTJ',id: id,className:'dt',element:'option',index:count,dt:'dt'})
 			}
 		});
-	})	
+	};
+	//自定义增加
+	$(document).on('click','.add-more-item-btn',function(){
+		custromFrom();
+		var delStr='<button class="more-item-del-btn custromDel" type="button">' +
+					  					'<i class="layui-icon">&#x1006;</i>' +
+											'</button>';
+			$(this).parents('.more-item').find('.custrom-label').append(delStr);
+			$(this).hide();
+	})
 	
 	//自定义删除
 	$(document).on('click','.custromDel',function(){
+		var addStr = '<button class="add-more-item-btn" type="button">'+
+											'<i class="layui-icon">&#xe654;</i>'+
+											'</button>';
+		$(this).parents('.custrom-label').append(addStr);
 		$(this).parents('.custrom-box').remove();
+
 	})
 
-	// commonLayuiForm
 	commonLayuiForm.on('select(columnName)', function(data) {
 		var optionType = $(data.elem).find("option:selected").attr("data-optionType");
 		var columnType = $(data.elem).find("option:selected").attr("data-columnType");   
@@ -1610,8 +1657,8 @@ layui.use(['form', 'formSelects','laydate'], function() {
 			$(this).parents('.custrom-box').find('.select-hide').removeClass('hide-selete');
 			window.createElement({code:optionCode,id:id,className:'dt',element:'option',index:count,dt:'dt'})
 		}
-		
 	})
+	
     /*动态生成元素*/
     window.createElement=function (param) {
         httpModule({

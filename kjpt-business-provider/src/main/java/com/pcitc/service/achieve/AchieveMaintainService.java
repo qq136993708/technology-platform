@@ -20,4 +20,5 @@ public interface AchieveMaintainService {
      * 查询成果维护列表
      */
     List<AchieveMaintain> queryNoPage(Map paramMap);
+    public void insertBatch(List<AchieveMaintain> list)throws Exception;
 }

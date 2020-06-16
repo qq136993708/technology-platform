@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.patent.PatentInfoBIMapper">
+
+    <resultMap id="calResultMap" type="com.pcitc.base.indexHome.calResult">
+        <result column="dicValue" jdbcType="VARCHAR" property="dicValue" />
+        <result column="dicValueSub" jdbcType="VARCHAR" property="dicValueSub" />
+        <result column="dicValueTitle" jdbcType="VARCHAR" property="dicValueTitle" />
+        <result column="text" jdbcType="VARCHAR" property="text" />
+        <result column="textSub" jdbcType="VARCHAR" property="textSub" />
+        <result column="textTitle" jdbcType="VARCHAR" property="textTitle" />
+        <result column="calValue" jdbcType="INTEGER" property="calValue" />
+        <result column="calValueSub" jdbcType="INTEGER" property="calValueSub" />
+   </resultMap>
+
+  <sql id="selectByParam">
+    <if test="unitName != null and unitName != '' " >
+      and unit_name like CONCAT('%',#{unitName},'%')
+    </if>
+    <if test="applicationType != null and applicationType != '' " >
+      and application_type = #{applicationType}
+    </if>
+    <if test="patentType != null and patentType != '' " >
+      and patent_type = #{patentType}
+    </if>
+    <if test="applicationNumber != null and applicationNumber != '' " >
+      and application_number like CONCAT('%',#{applicationNumber},'%')
+    </if>
+    <if test="patentName != null and patentName != '' " >
+      and patent_name like CONCAT('%',#{patentName},'%')
+    </if>
+    <if test="applicant != null and applicant != '' " >
+      and applicant = #{applicant}
+    </if>
+    <if test="inventor != null and inventor != '' " >
+      and inventor = #{inventor}
+    </if>
+    <if test="legalStatus != null and legalStatus != '' " >
+      and legal_status = #{legalStatus}
+    </if>
+    <if test="projectBackground != null and projectBackground != '' " >
+      and project_background = #{projectBackground}
+    </if>
+    <if test="applicationDateStart != null and applicationDateStart != '' " >
+      and application_date &gt;= #{applicationDateStart}
+    </if>
+    <if test="applicationDateEnd != null and applicationDateEnd != '' " >
+      and application_date &lt;= #{applicationDateEnd}
+    </if>
+    <if test="technicalFieldIndex != null and technicalFieldIndex != '' " >
+      AND technical_field_index like CONCAT(#{technicalFieldIndex},'%')
+    </if>
+    <if test="childUnitIds != null          and childUnitIds !=''  ">
+      AND create_unit_id in
+      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="secretLevel != null and secretLevel != ''" >
+      and secret_level = #{secretLevel}
+    </if>
+    <if test="userSecretLevel != null and userSecretLevel !=''  ">
+      AND secret_level &lt;= #{userSecretLevel}
+    </if>
+    <if test="type != null and type != ''" >
+      and type = #{type}
+    </if>
+
+  </sql>
+
+  <select id="getPatentCountByYear" parameterType="java.util.Map" resultMap="calResultMap">
+      select concat(b.name,'专利') as text,
+             b.num_value as dicValue,
+             c.name as textSub,
+             c.num_value as dicValueSub,
+             d.year as textTitle,
+             IFNULL(tmp.calValue, 0) as calValue
+      from (
+        select year(now())-4 as year
+        union
+        select year(now())-3 as year
+        union
+        select year(now())-2 as year
+        union
+        select year(now())-1 as year
+        union
+        select year(now()) as year
+      ) d
+      left join (
+        select name,num_value from sys_dictionary where parent_code = 'ROOT_KJPT_FLZT(ZL)' and num_value in ('04','03')
+      ) b on 1 = 1
+      left join (
+        select name,num_value from sys_dictionary where parent_code = 'ROOT_KJPT_ZLZL'
+      ) c on 1 = 1
+      left join (
+          select a.legal_status as dicValue, a.patent_type as dicValueSub,
+                 year(application_date) as year,
+                 count(1) as calValue
+          from patent_info a
+          where deleted != '1'
+              and a.legal_status in ('04','03')
+              <include refid="selectByParam" />
+              and year(application_date) >= year(now())-4
+              and DATE_FORMAT(application_date,'%Y-%m-01') <![CDATA[<]]> DATE_FORMAT(NOW(),'%Y-%m-01')
+          group by a.legal_status,a.patent_type,
+                   year(application_date)
+      ) tmp on tmp.year = d.year and tmp.dicValue = b.num_value	and tmp.dicValueSub = c.num_value
+
+  </select>
+
+
+  <select id="getPatentCountByLegelStatus" parameterType="java.util.Map" resultMap="calResultMap">
+      select
+          a.num_value as dicValue,
+          a.name as text,
+          IFNULL(tmp.calValue,0) as calValue
+      from (
+          select distinct
+            case when num_value in ('01','02') then '01' else num_value end as num_value,
+            case when num_value in ('01','02') then '失效' else name end as name
+          from sys_dictionary
+          where parent_code = 'ROOT_KJPT_FLZT(ZL)'
+      ) a left join (
+          select
+              case when a.legal_status in ('01','02') then '01' else a.legal_status end as dicValue,
+              count(1) as calValue
+          from patent_info a
+          where deleted != '1'
+              and DATE_FORMAT(application_date,'%Y-%m-01') <![CDATA[<]]> DATE_FORMAT(NOW(),'%Y-%m-01')
+              <include refid="selectByParam" />
+          group by
+              case when a.legal_status in ('01','02') then '01' else a.legal_status end
+      )tmp on a.num_value = tmp.dicValue
+  </select>
+
+
+  <select id="getPatentCountByOffice" parameterType="java.util.Map" resultMap="calResultMap">
+      select
+            office.unit_name, office.unit_id,
+            office.unit_abbr as text,
+            legal.num_value  as dicValue,
+            legal.name as textSub,
+            sum(IFNULL(tmp.calValue,0)) as calValue
+      from (
+            SELECT * FROM sys_unit t WHERE  t.`unit_path` LIKE  CONCAT('10010001','%')  AND t.unit_delflag ='0' and unit_level = '2' and t.unit_bi is not null
+            union
+            SELECT * FROM sys_unit t WHERE  t.`unit_path` LIKE  CONCAT('10010003','%')  AND t.unit_delflag ='0' and unit_level = '2' and t.unit_bi is not null
+            order by unit_bi
+      ) office left join (
+            select distinct
+                    case when num_value in ('01','02') then '01' else num_value end as num_value,
+                    case when num_value in ('01','02') then '失效' else name end as name
+            from sys_dictionary where parent_code = 'ROOT_KJPT_FLZT(ZL)'
+      )legal on 1=1 left join (
+            select case when a.legal_status in ('01','02') then '01' else a.legal_status end as dicValue,
+                   unit.unit_path,
+                   count(1) as calValue
+            from patent_info a
+                inner join sys_unit unit on a.create_unit_id = unit.unit_id
+            where deleted != '1'
+                  and DATE_FORMAT(application_date,'%Y-%m-01') <![CDATA[<]]> DATE_FORMAT(NOW(),'%Y-%m-01')
+                  <include refid="selectByParam" />
+            group by
+                  case when a.legal_status in ('01','02') then '01' else a.legal_status end,
+                  unit.unit_path
+      )tmp on tmp.unit_path like concat(office.unit_path,'%')
+          and tmp.dicValue = legal.num_value
+      group by
+            office.unit_name, office.unit_id,
+            office.unit_abbr,
+            legal.num_value ,
+            legal.name
+  </select>
+
+
+</mapper>

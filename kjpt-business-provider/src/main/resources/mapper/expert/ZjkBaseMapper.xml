@@ -42,18 +42,19 @@
     <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-   
     <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
     <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
     <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
     <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
     <result column="orders" jdbcType="INTEGER" property="orders" />
-      
     <result column="birth_date"   jdbcType="TIMESTAMP" property="birthDate" />
-      
+    <result column="belong_unit_name"              jdbcType="VARCHAR" property="belongUnitName" />
+    <result column="post_str"              jdbcType="VARCHAR" property="postStr" />
+    <result column="research_way"             jdbcType="VARCHAR" property="researchWay" />
+    <result column="research_person_type"     jdbcType="VARCHAR" property="researchPersonType" />
+    <result column="research_person_type_str"     jdbcType="VARCHAR" property="researchPersonTypeStr" />
     
   </resultMap>
-  
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_base
@@ -69,7 +70,7 @@
       head_pic, create_time, create_user, 
       update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
       audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
-     ,knowledge_scope,knowledge_person,orders,birth_date
+     ,knowledge_scope,knowledge_person,orders,birth_date,belong_unit_name,research_way,research_person_type
       )
     values (
       #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
@@ -89,7 +90,13 @@
       , #{knowledgePerson,jdbcType=VARCHAR} ,
        #{orders,jdbcType=INTEGER} , 
        #{birthDate,jdbcType=TIMESTAMP}
+       ,#{belongUnitName,jdbcType=VARCHAR}
+       ,#{researchWay,jdbcType=VARCHAR}
+       ,#{researchPersonType,jdbcType=VARCHAR}
       )
+      
+    
+    
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
     insert into zjk_base
@@ -209,9 +216,21 @@
       <if test="birthDate != null">
         birth_date,
       </if>
+      <if test="belongUnitName != null">
+        belong_unit_name,
+      </if>
       
+      
+      <if test="researchWay != null">
+        research_way,
+      </if>
+      <if test="researchPersonType != null">
+        research_person_type,
+      </if>
       
     
+    
+       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -330,9 +349,16 @@
       <if test="birthDate != null">
         #{birthDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="belongUnitName != null">
+        #{belongUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="researchWay != null">
+        #{researchWay,jdbcType=VARCHAR},
+      </if>
+      <if test="researchPersonType != null">
+        #{researchPersonType,jdbcType=VARCHAR},
+      </if>
       
-      
-    
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBase">
@@ -449,6 +475,17 @@
       <if test="birthDate != null">
         birth_date = #{birthDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="belongUnitName != null">
+        belong_unit_name = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      <if test="researchWay != null">
+        research_way = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      <if test="researchPersonType != null">
+        research_person_type = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -463,6 +500,7 @@
       sex = #{sex,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       technical_field = #{technicalField,jdbcType=VARCHAR},
       belong_unit = #{belongUnit,jdbcType=VARCHAR},
@@ -488,6 +526,8 @@
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       expert_type = #{expertType,jdbcType=VARCHAR},
       knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      research_way = #{researchWay,jdbcType=VARCHAR},
+      research_person_type = #{researchPersonType,jdbcType=VARCHAR},
       orders = #{orders,jdbcType=INTEGER},
       knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       out_system_id = #{outSystemId,jdbcType=VARCHAR}
@@ -499,6 +539,7 @@
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="name != null and name  !='' ">                             AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="belongUnitName != null and belongUnitName  !='' ">                             AND t.belong_unit_name like CONCAT('%',#{belongUnitName},'%')</if>
 	     <if test="sourceType != null            and sourceType !=''  ">      AND t.source_type = #{sourceType}</if>
 	     <if test="delStatus != null             and delStatus !=''  ">       AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null           and outSystemId !=''  ">     AND t.out_system_id = #{outSystemId}</if>
@@ -521,12 +562,6 @@
 			          #{item}
 			   </foreach>
 	     </if>
-	     <if test="secretLevel != null and secretLevel !=''  ">        
-	        AND t.secret_level = #{secretLevel}
-	     </if>
-	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND (t.secret_level &lt;= #{userSecretLevel} )
-	     </if>
 	     <if test="technicalField != null        and technicalField !=''  ">   
 	      AND
 	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
@@ -541,13 +576,11 @@
 			   </foreach>
 	     </if>
 	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <!-- <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
-	            AND (FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`)  OR  t.secret_level ='0')
-	     </if> -->
-	     
 	     <if test="condition != null and condition !=''  ">        
 	        ${condition}
 	     </if>
+	     <if test="researchWay != null        and researchWay !=''  ">          AND t.research_way = #{researchWay}</if>
+	     <if test="researchPersonType != null  and researchPersonType !=''  ">   AND t.research_person_type = #{researchPersonType}</if>
 	     
 	 </trim>
 	</sql>
@@ -590,14 +623,13 @@
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
    select * from  view_zjk_base  t <include refid="selectCondition" />
-     <!--<choose>
+     <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        //ORDER BY  create_time desc
+        ORDER BY  create_time desc
       </otherwise>
-     </choose>-->
-     ORDER BY  orders 
-     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
    </select>
    
    
@@ -619,6 +651,9 @@
   
   
   
+   <select id="getZjkBaseByNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from zjk_base where num = #{num,jdbcType=VARCHAR}
+   </select>
   
   
   

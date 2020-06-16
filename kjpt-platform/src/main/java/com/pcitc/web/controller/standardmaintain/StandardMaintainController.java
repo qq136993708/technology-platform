@@ -75,7 +75,10 @@ public class StandardMaintainController extends RestBaseController {
             @ApiImplicitParam(name = "planNum", value = "计划号", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "planChineseName", value = "计划名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "standardNum", value = "标准号", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "standardName", value = "标准名称", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "standardName", value = "标准名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "isPublish", value = "是否已发布", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "chiefEditorUnit", value = "主编单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "standardType", value = "标准类型", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/standardMaintain-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -85,7 +88,10 @@ public class StandardMaintainController extends RestBaseController {
             @RequestParam(required = false,value = "planNum") String planNum,
             @RequestParam(required = false,value = "planChineseName") String planChineseName,
             @RequestParam(required = false,value = "standardNum") String standardNum,
-            @RequestParam(required = false,value = "standardName")  String standardName
+            @RequestParam(required = false,value = "standardName")  String standardName,
+            @RequestParam(required = false,value = "isPublish")  String isPublish,
+            @RequestParam(required = false,value = "chiefEditorUnit")  String chiefEditorUnit,
+            @RequestParam(required = false,value = "standardType")  String standardType
     ){
 
         Map<String, Object> condition = new HashMap<>(6);
@@ -106,13 +112,22 @@ public class StandardMaintainController extends RestBaseController {
         if (!StringUtils.isEmpty(planChineseName)) {
             this.setParam(condition, "planChineseName", planChineseName);
         }
+        if (!StringUtils.isEmpty(standardType)) {
+            this.setParam(condition, "standardType", standardType);
+        }
         if (!StringUtils.isEmpty(standardNum)) {
             this.setParam(condition, "standardNum", standardNum);
         }
         if (!StringUtils.isEmpty(standardName)) {
             this.setParam(condition, "standardName", standardName);
         }
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        if (!StringUtils.isEmpty(isPublish)) {
+            this.setParam(condition, "isPublish", isPublish);
+        }
+        if (!StringUtils.isEmpty(chiefEditorUnit)) {
+            this.setParam(condition, "chiefEditorUnit", chiefEditorUnit);
+        }
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -152,32 +167,36 @@ public class StandardMaintainController extends RestBaseController {
     @RequestMapping(value = "/standardMaintain-api/export", method = RequestMethod.GET)
     @ResponseBody
     public void export(
-            @RequestParam(required = false,value = "type") String type,
-            @RequestParam(required = false,value = "startYear") @DateTimeFormat(pattern="yyyy") Date startYear,
-            @RequestParam(required = false,value = "endYear")  @DateTimeFormat(pattern="yyyy") Date endYear,
-            @RequestParam(required = false,value = "awardsType") String awardsType
+            @RequestParam(required = false,value = "planNum") String planNum,
+            @RequestParam(required = false,value = "planChineseName") String planChineseName,
+            @RequestParam(required = false,value = "standardNum") String standardNum,
+            @RequestParam(required = false,value = "standardName")  String standardName,
+            @RequestParam(required = false,value = "isPublish")  String isPublish
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
-        if (!StringUtils.isEmpty(DateUtil.format(startYear,DateUtil.FMT_YYYY))) {
-            this.setParam(condition, "startYear", DateUtil.format(startYear,DateUtil.FMT_YYYY));
+        if (!StringUtils.isEmpty(planNum)) {
+            this.setParam(condition, "planNum", planNum);
         }
-        if (!StringUtils.isEmpty(DateUtil.format(endYear,DateUtil.FMT_YYYY))) {
-            this.setParam(condition, "endYear", DateUtil.format(endYear,DateUtil.FMT_YYYY));
+        if (!StringUtils.isEmpty(planChineseName)) {
+            this.setParam(condition, "planChineseName", planChineseName);
         }
-        if (!StringUtils.isEmpty(type)) {
-            this.setParam(condition, "type", type);
+        if (!StringUtils.isEmpty(standardNum)) {
+            this.setParam(condition, "standardNum", standardNum);
         }
-        if (!StringUtils.isEmpty(awardsType)) {
-            this.setParam(condition, "awardsType", awardsType);
+        if (!StringUtils.isEmpty(standardName)) {
+            this.setParam(condition, "standardName", standardName);
+        }
+        if (!StringUtils.isEmpty(isPublish)) {
+            this.setParam(condition, "isPublish", isPublish);
         }
         String[] headers = { "计划号",  "计划中文名称","计划英文名称", "下达年度", "标准类型",
                 "主编单位", "参编单位", "密级", "修改状态", "文件状态", "是否已发布", "主管部门", "技术委员会", "归口单位", "参照标准", "一致性程度","拟替代标准",
                 "标准号", "标准名称", "英文名称", "发布时间", "实施时间","是否已发布英文版"};
         String[] cols =    {"planNum","planChineseName","planEnglishName","releaseYear","standardTypeText",
-                "chiefEditorUnitText","partakeEditorUnitText","levelText","updateStatusText","fileStatusText","isPublishText","manageOrg"
+                "chiefEditorUnit","partakeEditorUnit","levelText","updateStatusText","fileStatusText","isPublishText","manageOrg"
                 ,"technicalCommittee","putUnderUnitText","consultStandard","uniformityDegree"
                 ,"toReplacedStandard","standardNum","standardName","englishName","publishDate","effectiveDate","isPublishEnglishEditionText"};
-        export(headers,cols,"标准维护表_",condition);
+        export(headers,cols,"国内标准表_",condition);
     }
 
 
@@ -185,7 +204,7 @@ public class StandardMaintainController extends RestBaseController {
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         SysUser sysUserInfo = this.getUserProfile();
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), StandardMaintain.class);

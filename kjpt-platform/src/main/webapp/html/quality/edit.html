@@ -76,8 +76,6 @@
              <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">主编单位：</span></label>
                  <div class="layui-input-block">
-                     <!-- <select name="chiefEditorUnit" xm-select="chiefEditorUnit" xm-select-skin="normal" xm-select-radio=""
-                      dic-base-data="ROOT_KJPT_YTDW" placeholder="请选择" lay-verify="required"></select> -->
                       <input type="text" name="chiefEditorUnit" lay-verify="required"
                       placeholder="" autocomplete="off" class="layui-input">
                  </div>
@@ -88,8 +86,6 @@
              <div class="layui-form-item">
                  <label class="layui-form-label label-required"><span class="text">参编单位：</span></label>
                  <div class="layui-input-block">
-                     <!-- <select name="partakeEditorUnit" xm-select="partakeEditorUnit" xm-select-skin="normal" xm-select-radio=""
-                      dic-base-data="ROOT_KJPT_YTDW" placeholder="请选择" lay-verify="required"></select> -->
                       <input type="text" name="partakeEditorUnit" lay-verify="required"
                       placeholder="" autocomplete="off" class="layui-input">
                  </div>
@@ -101,16 +97,6 @@
                  <label class="layui-form-label label-required"><span class="text">密级：</span></label>
                  <div class="layui-input-block">
                     <select name="level" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required"  placeholder="请选择...">
-                    </select>
-                 </div>
-             </div>
-         </div>
-
-         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-             <div class="layui-form-item">
-                 <label class="layui-form-label label-required"><span class="text">修改状态：</span></label>
-                 <div class="layui-input-block">
-                    <select name="updateStatus" dic-base-data="ROOT_KJPT_BZWH_XGZT" lay-verify="required"  placeholder="请选择...">
                     </select>
                  </div>
              </div>
@@ -135,6 +121,26 @@
                  </div>
              </div>
          </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 publicNot">
+            <div class="layui-form-item">
+                <label class="layui-form-label "><span class="text">修改状态：</span></label>
+                <div class="layui-input-block">
+                   <select name="updateStatus" dic-base-data="ROOT_KJPT_BZWH_XGZT"  placeholder="请选择...">
+                   </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6 overPublic" style="display: none;">
+            <div class="layui-form-item lay-requier-box">
+                <label class="layui-form-label"><span class="text">修改状态：</span></label>
+                <div class="layui-input-block">
+                   <select name="inResearchStatus" dic-base-data="ROOT_KJPT_BZWH_YFBXGZT"  placeholder="请选择...">
+                   </select>
+                </div>
+            </div>
+        </div>
 
          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
              <div class="layui-form-item lay-requier-box">
@@ -178,9 +184,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
             <div class="layui-form-item lay-requier-box">
-                <label class="layui-form-label"><span class="text">一致性程度：</span></label>
+                <label class="layui-form-label label-required"><span class="text">一致性程度：</span></label>
                 <div class="layui-input-block">
-                   <input type="text" name="uniformityDegree" 
+                   <input type="text" name="uniformityDegree"  lay-verify="required"
                            placeholder="" autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -226,7 +232,7 @@
             </div>
         </div>
 
-         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" id="dateHide">
              <div class="layui-form-item lay-requier-box">
                  <label class="layui-form-label "><span class="text">发布时间：</span></label>
                  <div class="layui-input-block">
@@ -247,13 +253,23 @@
          </div>
 
          <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-             <div class="layui-form-item">
-                 <label class="layui-form-label label-required"><span class="text">是否已发布英文版：</span></label>
+             <div class="layui-form-item lay-requier-box">
+                 <label class="layui-form-label"><span class="text">是否已发布英文版：</span></label>
                  <div class="layui-input-block">
-                     <select name="isPublishEnglishEdition" lay-verify="required" select="isPublishEnglishEdition" dic-base-data="ROOT_UNIVERSAL_WEHTHER" select-skin="normal"></select>
+                     <select name="isPublishEnglishEdition"  select="isPublishEnglishEdition" dic-base-data="ROOT_UNIVERSAL_WEHTHER" select-skin="normal"></select>
                  </div>
              </div>
          </div>
+
+         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item lay-requier-box">
+                <label class="layui-form-label"><span class="text">被代替标准：</span></label>
+                <div class="layui-input-block">
+                   <input type="text" name="replaceStandard" 
+                           placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
      </div>
     <div id="file-filter-options">
         <div class="view-title-layout" style="margin-top:40px;">

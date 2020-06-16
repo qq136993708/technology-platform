@@ -37,20 +37,18 @@ public class TechFamilyProviderClient {
 
 	@Autowired
 	private TechFamilyService techFamilyService;
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
     @RequestMapping(value = "/tech-family-provider/selectTechFamilyTypeList",method = RequestMethod.POST)
     public List<TechFamily> selectTechFamilyTypeList(@RequestBody TechFamily techFamily){
         return techFamilyService.selectTechFamilyTypeList(techFamily);
     }
+
+	@RequestMapping(value = "/tech-family-provider/selectTechFamilyTypeListByName",method = RequestMethod.POST)
+	public List<TechFamily> selectTechFamilyTypeListByName(@RequestBody(required=true) String name){
+    	TechFamily techFamily = new TechFamily();
+    	techFamily.setTypeName(name);
+		return techFamilyService.getTechFalmilyByAccurateInfo(techFamily);
+	}
 
 	/**
 	 * @param techType

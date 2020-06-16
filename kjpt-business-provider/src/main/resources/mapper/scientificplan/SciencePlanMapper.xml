@@ -208,16 +208,6 @@
             and technical_field_index = #{technicalFieldIndex}
         </if>
 
-        <if test="secretLevel != null and secretLevel != ''" >
-           and secret_level = #{secretLevel}
-        </if>
-
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        <if test='skipKnowledgeScope=="0"'>
-            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-        </if>
-        ))
 
     </sql>
 
@@ -287,15 +277,6 @@
                 technical_field_index = #{technicalFieldIndex},
             </if>
 
-            <if test="secretLevel != null and secretLevel != ''" >
-                secret_level = #{secretLevel},
-            </if>
-            <if test="knowledgeScope != null and knowledgeScope != ''" >
-                knowledge_scope = #{knowledgeScope},
-            </if>
-            <if test="knowledgePerson != null and knowledgePerson != ''" >
-                knowledge_person = #{knowledgePerson}
-            </if>
         </trim>
         where id = #{id}
     </update>

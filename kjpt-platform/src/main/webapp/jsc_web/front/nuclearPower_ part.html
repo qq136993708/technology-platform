@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
+</head>
+<body class="quality">
+<div id="outBox" style="position: relative;overflow: hidden;width: 100%;">
+    <div class="scroll-layout" style="
+    position: absolute;
+    left: 10px;
+    right: -8px;
+    top: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;">
+        <div>
+            <img style="width: 100%;height: 100%;" src="../img/pu.png">
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
+<script src="/plugins/echarts/echarts.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/chartOption.js"></script>
+<script>
+    layui.use(['laydate'], function() {
+        var laydate = layui.laydate
+        $('#outBox').css("height",window.screen.height-250)
+    });
+</script>
+</body>
+</html>

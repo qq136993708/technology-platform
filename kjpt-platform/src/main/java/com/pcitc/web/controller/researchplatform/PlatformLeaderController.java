@@ -76,7 +76,7 @@ public class PlatformLeaderController extends RestBaseController {
         if (!StringUtils.isEmpty(platformId)) {
             this.setParam(condition, "platformId", platformId);
         }
-        String[] headers = { "姓名",  "担任职务",    "工作单位"  , "专业"};
+        String[] headers = { "领军人物姓名",  "担任职务",    "工作单位"  , "专业"};
         String[] cols =    {"name","post","workUnitText","major"};
         SysUser sysUserInfo = this.getUserProfile();
         this.setBaseParam(condition);
@@ -134,7 +134,7 @@ public class PlatformLeaderController extends RestBaseController {
 
 
         //默认查询当前人所在机构下所有的科研平台领军人物
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
 
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

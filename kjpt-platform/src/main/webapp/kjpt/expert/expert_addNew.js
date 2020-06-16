@@ -18,13 +18,15 @@ layui.config({
     });
     /*性别*/
     createElement("ROOT_KJPT_XB", "sex", "radio", "sex")
+    /*科技活动人员类别*/
+    // createElement("ROOT_KJPT_KJHDRYLB", "researchPersonType", "option", "researchPersonType")
     /*状态*/
     createElement("ROOT_UNIVERSAL_QYZT", "useStatus", "radio", "useStatus")
     /*学历*/
     createElement("ROOT_KJPT_XL", "education", "option", "education")
     /*职称*/
     createElement("ROOT_KJPT_JSZC", "title", "option", "title")
-    // /*职务*/
+    /*职务*/
     // createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
     /*分组*/
     createElement("ROOT_KJPT_ZJFZ", "groupType", "option", "groupType")
@@ -52,7 +54,11 @@ layui.config({
                         if (element == "option") {
                             $("#" + id).append("<option value='" + item.numValue + "' name='" + item.numValue + "'>" + item.name + "</option>")
                         } else if (element == "radio") {
-                            $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue + '" title="' + item.name + '">')
+                            var _name = item.name;
+                            if (name == 'useStatus') {
+                                _name = item.numValue==1?'是':'否';
+                            }
+                            $("#" + id).append('<input type="radio" name="' + name + '" value="' + item.numValue + '" title="' + _name + '">')
                         }
                     });
                     form.render()
@@ -121,9 +127,18 @@ layui.config({
                     var formData = relData.data;
                     form.val('formPlatform', relData.data);
                     if (relData.data.headPic != '') {
-                        $("#imgFileUpload img").attr("src", '/file/imgFile/' + relData.data.headPic)
+                        $("#imgFileUpload img").attr("src", relData.data.headPic)
                         $("#imgFileUpload").addClass("success")
                         headPic = relData.data.headPic
+                    }
+                    if(formData.expertType == '02' || formData.expertType == '03'){
+                        $('#expertTypeBox').show(); 
+                        $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
+                        $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
+                    }else{
+                        $('#expertTypeBox').hide();
+                        $('#expertTypeBox').find('.layui-form-label').removeClass('label-required')
+                        $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','')
                     }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
@@ -188,8 +203,18 @@ layui.config({
             elem: 'scope_list_layout',
             disabled: false
         });
-
     }
+    form.on('select(expertType)',function(data){ 
+        if(data.value == '02' || data.value == '03'){
+            $('#expertTypeBox').show(); 
+            $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
+            $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
+        }else{
+            $('#expertTypeBox').hide();
+            $('#expertTypeBox').find('.layui-form-label').removeClass('label-required')
+            $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','')
+        }
+    })
 
     var $ = layui.$,
         active = {
@@ -347,7 +372,7 @@ layui.config({
             });
             return false
         }
-        console.log(formSelects.value('technicalField'))
+        // console.log(formSelects.value('technicalField'))
         if (formSelects.value('technicalField')) {
             var technicalFieldName = '',
                 technicalFieldIndex = '';

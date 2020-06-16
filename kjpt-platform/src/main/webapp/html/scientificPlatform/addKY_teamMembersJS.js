@@ -42,6 +42,10 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 							layui.formSelects.value('workUnit', [formData.workUnit]);
 						}
 					}
+					if(formData.birth){
+            // 出生日期
+            formData.publishDate = new Date(formData.birth).format('yyyy-MM-dd');
+          }
 					form.val('formProject', formData);
 
 					// 添加知悉范围
@@ -85,7 +89,7 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	getItemData(variable);
 
 	if ($('#birth').length) {
-		laydate.render({ elem: '#birth', type: 'month', btns: ['clear', 'confirm']});
+		laydate.render({ elem: '#birth', btns: ['clear', 'confirm']});
 	}
 
 	// 监听录入方式变化
@@ -230,13 +234,14 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	
 	// 提交项目
 	$('#projectSubmit').on('click', function(e) {
-		var $submitBtn = $(this),
-		submitIndex = layer.load(2);
-		$submitBtn.prop('disabled', true);
+		var $submitBtn = $(this);
+		// submitIndex = layer.load(2);
+		// $submitBtn.prop('disabled', true);
 
 		if (submitType === 'input') {
 			$('#InputSubmit').trigger('click');
 		} else if (submitType === 'unInput') {
+			
 			var tableCheckedData = table.checkStatus('unInputTable').data,
 			saveData = false;
 			if (!tableCheckedData.length) {

@@ -200,12 +200,6 @@
             <if test="updateDate != null " >
                 update_date = #{updateDate},
             </if>
-            <if test="knowledgeScope != null and knowledgeScope != ''" >
-                knowledge_scope = #{knowledgeScope},
-            </if>
-            <if test="knowledgePerson != null and knowledgePerson != ''" >
-                knowledge_person = #{knowledgePerson}
-            </if>
         </trim>
         where id = #{id}
     </update>

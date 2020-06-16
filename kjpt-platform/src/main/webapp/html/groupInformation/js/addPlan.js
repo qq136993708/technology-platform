@@ -1,5 +1,6 @@
-layui.use(['form','laydate'], function(){
-	var form = layui.form;
+layui.use(['form','laydate','formSelects'], function(){
+  var form = layui.form;
+  var formSelects = layui.formSelects;
 	
   var variable = getQueryVariable();
   var reportTypeVal = variable.reportType;
@@ -54,6 +55,9 @@ layui.use(['form','laydate'], function(){
         if(formData.pubdate){
           formData.pubdate = new Date(formData.pubdate).format('yyyy-MM-dd');
         }
+        if (formData.readRange) {
+          formSelects.value('readRange', formData.readRange.split(','));
+        }
         form.val('formAddPlan', formData);
         form.render();
         $('#reportType').val(reportTypeVal);
@@ -62,6 +66,7 @@ layui.use(['form','laydate'], function(){
         if (variable.type === 'see') {
           setFomeDisabled('formAddPlan', '.disabled');
           $('.disabled-box').remove();
+          formSelects.disabled(); // 禁用所有多选下拉框
           layui.form.render('select');
           $('#reportType').val(reportTypeVal);
           scopeDisabled = true;
@@ -103,14 +108,23 @@ layui.use(['form','laydate'], function(){
 
 
   form.on('submit(formAddPlanBtn)', function(data) {
+    var readRangeVal = formSelects.value('readRange');//阅读范围
+    var readRangeStr = '';
+    if(readRangeVal.length != 0){
+      var resultArr = readRangeVal.map(function(item,index){
+          return item.name
+      })
+      readRangeStr = resultArr.join(',');
+      data.field.readRangeText = readRangeStr
+  }
     var saveData = data.field;
-
     if (saveData.annual) {
       saveData.annual = new Date(saveData.annual).getTime();
     }
     if(saveData.pubdate){
       saveData.pubdate = new Date(saveData.pubdate).getTime();
     }
+
     httpModule({
       url: '/blocScientificPlan/save',
       data: saveData,

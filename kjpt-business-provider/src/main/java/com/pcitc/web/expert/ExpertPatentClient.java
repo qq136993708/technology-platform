@@ -3,6 +3,8 @@ package com.pcitc.web.expert;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
 import com.pcitc.service.expert.ExpertPatentService;
 import com.pcitc.service.expert.ExpertProjectService;
@@ -70,5 +72,21 @@ public class ExpertPatentClient {
     public Integer delete(@PathVariable String id){
         //return pps.delete(id);
         return null;
+    }
+
+    @ApiOperation(value = "导入专家专利信息", notes = "导入专家专利信息")
+    @RequestMapping(value = "/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<ZjkPatent> list) throws Exception
+    {
+        Result result=new Result();
+        try {
+            eps.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("导入专家专利失败!");
+
+        }
+        return result;
     }
 }

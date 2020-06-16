@@ -45,7 +45,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           }
           
           if (variable.type === 'view') {
-        	  setFomeDisabled('formMain', '.disabled');
+            setFomeDisabled('formMain', '.disabled');
           }
           
           form.val('formMain', data);
@@ -71,6 +71,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
+              if (variable.type === 'view') {
+                $('.file-options-delete').hide();
+              }
             }
           });
 
@@ -90,15 +93,29 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
   form.on('select(test2)', function(data) {
     $('.lay-requier-box').each(function(index,item){
       if(data.value == '0'){
+        $('.publicNot').hide(); //未发布
+        $('.overPublic').show(); //已发布
+        $('#dateHide').show();
         $(this).find('label').addClass('label-required');
-        $(this).find('.layui-input-block *').attr('lay-verify','required');
+        $(this).find('.layui-input-block input').attr('lay-verify','required');
+        $(this).find('.layui-input-block select').attr('lay-verify','required');
+
       }else{
+        $('.publicNot').show(); //未发布
+        $('.overPublic').hide();//已发布
+        $('#dateHide').hide();
         $(this).find('label').removeClass('label-required');
-        $(this).find('.layui-input-block *').attr('lay-verify','');
+        $(this).find('.layui-input-block input').attr('lay-verify','');
+        $(this).find('.layui-input-block select').attr('lay-verify','')
       }
-      // console.log($(this))
-      // console.log(index,item)
     })
+    if(data.value == '1'){
+      $('select[name="updateStatus"]').attr('lay-verify','required');
+      $('select[name="updateStatus"]').parents('.layui-form-item').find('.layui-form-label').addClass('label-required')
+    }else{
+      $('select[name="updateStatus"]').attr('lay-verify','');
+      $('select[name="updateStatus"]').parents('.layui-form-item').find('.layui-form-label').removeClass('label-required')
+    }
   })
 
   // 获取地址栏传递过来的参数
@@ -107,6 +124,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
 	form.on('submit(newSubmit)', function(data) {
     params = data.field
+    debugger
     delete(params.file)
 		httpModule({
 			url: '/standardMaintain-api/save',

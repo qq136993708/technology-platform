@@ -1,15 +1,21 @@
 package com.pcitc.web.controller.manage;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.manage.ManageMethod;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.ImportExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -17,11 +23,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * <p>管理办法</p>
@@ -48,6 +55,17 @@ public class ManageMethodController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/manageMethod-api/delete/";
+    /**
+     * 导出
+     */
+    private static final String queryNoPage = "http://kjpt-zuul/stp-proxy/manageMethod-api/queryNoPage";
+
+    /**
+     * 导入模板头部所占行数
+     */
+    private static final Integer IMPORT_HEAD = 3;
+
+    private static final String MANAGE_METHOD_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/manageMethod-api/excel_input";
 
 
 
@@ -103,7 +121,7 @@ public class ManageMethodController extends RestBaseController {
             this.setParam(condition, "edition", edition);
         }
 
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.setBaseParam(condition);
 
@@ -134,10 +152,164 @@ public class ManageMethodController extends RestBaseController {
     @RequestMapping(value = "/manageMethod-api/newInit", method = RequestMethod.GET)
     @ResponseBody
     public ManageMethod newInit() {
+        SysUser sysUserInfo = this.getUserProfile();
         ManageMethod a = new ManageMethod();
+        a.setCreator(sysUserInfo.getUserName());
         a.setId(UUID.randomUUID().toString().replace("-",""));
         return a;
     }
+
+
+
+    @ApiOperation(value = "导出", notes = "导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "methodName", value = "管理办法名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "edition", value = "版次", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publishDate", value = "发布日期", dataType = "string", paramType = "query")
+    })
+
+    @GetMapping(value = "/manageMethod-api/exportExcel")
+    @ResponseBody
+    public void exportExcel(
+            @RequestParam(required = false) String methodName,
+            @RequestParam(required = false) String edition,
+            @RequestParam(required = false) String publishDate
+
+    ) throws Exception {
+        Map<String, Object> condition = new HashMap<>(6);
+        if (!StringUtils.isEmpty(methodName)) {
+            this.setParam(condition, "methodName", methodName);
+        }
+
+        if (!StringUtils.isEmpty(edition)) {
+            this.setParam(condition, "edition", edition);
+        }
+        if (!StringUtils.isEmpty(publishDate)) {
+            this.setParam(condition, "publishDate", publishDate);
+        }
+
+        this.setBaseParam(condition);
+        String[] headers = { "管理办法名称","版次","发布日期"};
+        String[] cols =    {"methodName","edition","publishDate","annual"};
+        ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+        List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ManageMethod.class);
+        String fileName = "管理办法明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
+        this.exportExcel(headers,cols,fileName,list);
+    }
+
+    @ApiOperation(value = "根据模板导入集团发布信息-管理辦法（EXCEL）", notes = "根据模板导入集团发布信息（EXCEL）")
+    @RequestMapping(value = "/manageMethod-api/input_excel", method = RequestMethod.POST)
+    public Object newImportData(HttpServletRequest req, HttpServletResponse resp, MultipartFile file) throws Exception
+    {
+        Result resultsDate = new Result();
+        SysUser sysUserInfo = this.getUserProfile();
+
+        if (file.isEmpty())
+        {
+            resultsDate.setSuccess(false);
+            resultsDate.setMessage("上传异常，请重试");
+        }else
+        {
+            InputStream in = file.getInputStream();
+            List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+            System.out.println(">>>>>>行数:"+listob.size());
+            List<ManageMethod> list = new ArrayList<ManageMethod>();
+            resultsDate= getResult( listob );
+            if(resultsDate.isSuccess()==true)
+            {
+                for (int i = IMPORT_HEAD; i < listob.size(); i++)
+                {
+                    List<Object> lo = listob.get(i);
+
+                    Object col_1 = lo.get(1);//名称
+                    Object col_2 = lo.get(2);//版次
+                    Object col_3 = lo.get(3);//发布日期
+
+
+                    if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)) break;
+
+                    //将excel导入数据转换为SciencePlan对象
+                    ManageMethod obj = new ManageMethod();
+
+                    obj.setMethodName(String.valueOf(col_1));
+                    obj.setEdition(String.valueOf(col_2));
+                    Date releaseTime = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
+                    obj.setPublishDate(releaseTime);
+                    obj.setCreateUnitId(sysUserInfo.getUnitId());
+                    String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+                    obj.setId(dateid);
+                    obj.setSecretLevel("0");
+                    list.add(obj);
+                }
+                ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(MANAGE_METHOD_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
+                int statusCode = responseEntity.getStatusCodeValue();
+                // 返回结果代码
+                if (statusCode == 200) {
+                    resultsDate.setSuccess(true);
+                    resultsDate.setCode("0");
+                } else {
+                    Result back = responseEntity.getBody();
+                    resultsDate.setSuccess(false);
+                    resultsDate.setMessage(back.getMessage());
+                }
+            }
+
+        }
+        return resultsDate;
+    }
+
+    private Result getResult(List<List<Object>> listob )
+    {
+        Result resultsDate = new Result();
+        resultsDate.setSuccess(true);
+        StringBuffer sb=new StringBuffer();
+        for (int i = IMPORT_HEAD; i < listob.size(); i++)
+        {
+            List<Object> lo = listob.get(i);
+            Object col_1 = lo.get(1);
+            Object col_2 = lo.get(2);
+            Object col_3 = lo.get(3);
+
+            if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)) break;
+
+            if(col_1==null)
+            {
+                sb.append("第"+(i+1)+"行名称为空,");
+            }else if(col_2==null)
+            {
+                sb.append("第"+(i+1)+"行发布处室为空,");
+            }else if(col_3==null)
+            {
+                sb.append("第"+(i+1)+"行年度/月度为空,");
+            }
+        }
+        resultsDate.setMessage(sb.toString());
+        if((sb.toString()).equals(""))
+        {
+            resultsDate.setSuccess(true);
+        }else
+        {
+            resultsDate.setSuccess(false);
+        }
+        return resultsDate;
+    }
+
+    private Boolean checkIfBlank(Object o){
+        if(o==null) return true;
+        if(String.valueOf(o)=="") return true;
+        return false;
+    }
+
+    private String getReportTypeFromQueryString(String queryString){
+        String[] querys = queryString.split("=");
+        return querys[1];
+    }
+
+
+
+
+
+
 
 
 

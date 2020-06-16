@@ -14,7 +14,6 @@
     <result column="reward_punish_level" jdbcType="VARCHAR" property="rewardPunishLevel" />
     <result column="approve_date" jdbcType="TIMESTAMP" property="approveDate" />
     <result column="approve_unit" jdbcType="VARCHAR" property="approveUnit" />
-    
     <result column="reward_punish_level_code" jdbcType="VARCHAR" property="rewardPunishLevelCode" />
     <result column="reward_punish_type_code" jdbcType="VARCHAR" property="rewardPunishTypeCode" />
     <result column="reward_type_code" jdbcType="VARCHAR" property="rewardTypeCode" />

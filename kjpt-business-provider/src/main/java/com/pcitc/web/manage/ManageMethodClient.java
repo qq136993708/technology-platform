@@ -1,18 +1,25 @@
 package com.pcitc.web.manage;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.manage.ManageMethod;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.service.achieve.AchieveBaseService;
 import com.pcitc.service.manage.ManageMethodService;
+import com.pcitc.web.groupinformation.BlocScientificPlanClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +31,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/manageMethod-api")
 public class ManageMethodClient {
+
+    private final static Logger logger = LoggerFactory.getLogger(ManageMethodClient.class);
     @Autowired
     private ManageMethodService mms;
     @ApiOperation(value = "load管理办法", notes = "load管理办法")
@@ -53,7 +62,30 @@ public class ManageMethodClient {
          return mms.delete(id);
     }
 
+    @ApiOperation(value = "查询管理办法列表", notes = "查询管理办法列表")
+    @RequestMapping(value = "/queryNoPage", method = RequestMethod.POST)
+    public JSONArray queryNoPage(@RequestBody(required = false) Map param) {
+        List list = mms.queryNoPage(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
 
+
+    @ApiOperation(value = "导入集团发布信息_管理办法", notes = "导入集团发布信息_管理办法")
+    @RequestMapping(value = "/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<ManageMethod> list) throws Exception
+    {
+        Result result=new Result();
+        try {
+            mms.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("导入科技规划失败");
+            logger.error("导入专家信息失败", e);
+        }
+        return result;
+    }
 
 
 }

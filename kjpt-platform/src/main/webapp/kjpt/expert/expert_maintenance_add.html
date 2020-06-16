@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <!-- 多选下拉框样式，根据需求添加 -->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+
+    <!-- 更多样式在此引入 -->
+</head>
+<body class="">
+<div class="layout-view-content dialog">
+    <form class="layui-form" action="" id="formMain" lay-filter="formMain">
+        <!-- 知悉范围 -->
+        <div id="scope_list_layout"></div>
+        <div class="secret-level-line"></div>
+        <div class="layui-row layui-col-space20">
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">年份：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" id="authorizationDate" name="yearStr" lay-verify="required"
+                               placeholder="请填写..." autocomplete="off" class="laydate-input">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">科研专家类型：</span></label>
+                    <div class="layui-input-block">
+                        <select name="expertType" lay-verify="required" dic-base-data="ROOT_XTCSPZ_KYZJLX"  placeholder="请选择...">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">数量：</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="num" lay-verify="required"
+                               placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-footer-btn">
+            <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
+            <button class="layui-btn layui-btn-primary close-all-dialog" type="button">取消</button>
+        </div>
+        <input type="hidden" name="id">
+        <input type="hidden" name="creator">
+        <input type="hidden" name="createDate">
+        <input type="hidden" name="updateDate">
+        <input type="hidden" name="updator">
+        <input type="hidden" name="deleted">
+        <input type="hidden" name="files" id="files">
+    </form>
+</div>
+
+
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
+<script>var patent_view_page = false; </script>
+<script>
+
+    layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], function(){
+        var file_readonly = false;
+        var form = layui.form;
+        var $ = layui.$;
+        var laydate = layui.laydate;
+        var formSelects = layui.formSelects;
+        var variable = getQueryVariable();
+
+
+        function getItemInitData(item) {
+            if(item.type === "add"){
+                return
+            }
+                var  httpUrl = '/KyzjExpert-api/get/' + item.id;
+            httpModule({
+                url: httpUrl,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success == true) {
+                        // 给form表单赋初始值
+                        var data = relData.data;
+                        if(data.expertType){
+                            //专家类型
+                            formSelects.value('expertType',[data.expertType])
+                        }
+                        if(data.num){
+                            formSelects.value('num',[data.num])
+                        }
+                        if(data.yearStr){
+                            // 年份
+                            data.yearStr = new Date(data.yearStr).format('yyyy');
+                        }
+
+                        if (variable.type === 'view') {
+                            setFomeDisabled('formMain', '.disabled');
+                        }
+
+                        form.val('formMain', data);
+                        form.render();
+
+                        formSelects.value('technicalField', data.technicalField);
+                        formSelects.value('unitName', [data.unitName]);
+                        // 更新表单数据
+
+                        setRadioShow();
+                        var billDataID = data.id;
+
+                        // 添加知悉范围
+                        setJurisdictionScope({
+                            elem: 'scope_list_layout',
+                            knowledgeScope: data.knowledgeScope,
+                            knowledgePerson: data.knowledgePerson,
+                            secretLevel: data.secretLevel,
+                            disabled: patent_view_page
+                        });
+                    }
+                }
+            });
+        }
+        //lay-filter="test2"
+        form.on('select(test2)', function(data) {
+            $('.lay-requier-box').each(function(index,item){
+                if(data.value == '0'){
+                    $(this).find('label').addClass('label-required');
+                    $(this).find('.layui-input-block *').attr('lay-verify','required');
+                }else{
+                    $(this).find('label').removeClass('label-required');
+                    $(this).find('.layui-input-block *').attr('lay-verify','');
+                }
+                // console.log($(this))
+                // console.log(index,item)
+            })
+        })
+
+        // 获取地址栏传递过来的参数
+        setRadioShow();
+        getItemInitData(variable);
+
+        form.on('submit(newSubmit)', function(data) {
+            params = data.field
+            delete(params.file)
+            httpModule({
+                url: '/KyzjExpert-api/save',
+                data: params,
+                type: "POST",
+                success: function(e) {
+                    setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+                    top.layer.closeAll(); // 关闭弹窗
+                }
+            });
+            return false;
+        });
+
+
+
+        $("#radio1").on("click", function(e) {
+            setRadioShow();
+        });
+
+        function setRadioShow() {
+            var val = '01';
+            $("div[showWhere]").css('display','none');
+            if(file_readonly) {
+                val = $("#applicationOfPatentTransformation").val();
+            }
+            else {
+                var rs = $("#radio1").find("input[type='radio']");
+                $.each(rs, function(i, item){
+                    var el = $(item);
+                    if (el.prop('checked')) {
+                        val = el.val();
+                    }
+                });
+            }
+
+            $("div[showWhere='" + val + "']").css('display','');
+
+        }
+
+        // 下达年份
+        laydate.render({
+            elem: '#authorizationDate' //指定元素
+            ,trigger: 'click',
+            type:'year'
+        });
+        //实施时间
+        laydate.render({
+            elem: '#terminationDate' //指定元素
+            ,trigger: 'click'
+        });
+
+
+        function transToData(data, fields) {
+            $.each(fields, function(index, f){
+
+                if(data[f]) {
+                    try {
+                        data[f] = (new Date(data[f])).format('yyyy-MM-dd');
+                    }
+                    catch (e) {
+
+                    }
+                }
+            });
+        }
+
+
+        //新增多个许可实施
+        $("body").on("click",".add-more-item-btn", addItem);
+        function addItem (value, type) {
+            var delHtml = '<button class="more-item-del-btn" type="button">\n' +
+                '                    <i class="layui-icon">&#x1006;</i>\n' +
+                '                  </button>';
+            var el = '';
+            if (type && type == 'edit') {
+                el = $('.more-item .add-more-item-btn');
+            } else {
+                el = $(this);
+            }
+            var parent = el.parent();
+            var htmlsel = parent.parent().parent().parent('.more-item');
+            var appendparent = htmlsel.parent();
+            var html = htmlsel.prop("outerHTML");
+            appendparent.append(html);
+            el.remove();
+            setTimeout(function () {
+                parent.append(delHtml);
+            }, 1);
+
+            //赋值
+            setTimeout(function () {
+                if (typeof value == 'string') {
+                    var nextMoreItem = htmlsel.next();
+                    nextMoreItem.find('.layui-input-block input').val(value);
+                    form.render();
+                }
+            }, 10);
+        }
+
+        $("body").on("click",".more-item-del-btn", delItem);
+        function delItem() {
+            var parent = $(this).parent().parent().parent().parent('.more-item');
+            parent.remove();
+        }
+
+        function moreItemSubmit(data, inputName, params) {
+            var els = $(data.form).find('input[name="' + inputName + '"]');
+            var value = '';
+            els.each(function () {
+                var _value = $(this).val();
+                value = _value ? value + _value + ',' : value;
+            });
+            value = value.endsWith(',')?value.substring(0, value.length-1):value;
+            params[inputName] = value;
+            return params;
+        }
+    });
+</script>
+
+</body>
+</html>

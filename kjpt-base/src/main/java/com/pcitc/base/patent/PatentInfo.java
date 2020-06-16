@@ -4,6 +4,7 @@ package com.pcitc.base.patent;
 import com.pcitc.base.common.RecordModel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -94,7 +95,7 @@ public class PatentInfo extends RecordModel implements Serializable {
     /**
      * 申请费用
      */
-    private Long applicationCost;
+    private BigDecimal applicationCost;
 
     /**
      * 备注
@@ -134,7 +135,7 @@ public class PatentInfo extends RecordModel implements Serializable {
     /**
      * 许可收益
      */
-    private Long licenseeProfit;
+    private BigDecimal licenseeProfit;
 
     /**
      * 被转让人
@@ -144,7 +145,7 @@ public class PatentInfo extends RecordModel implements Serializable {
     /**
      * 转让收益
      */
-    private Long assignProfit;
+    private BigDecimal assignProfit;
 
     /**
      * 被转让人及转让收益
@@ -210,18 +211,18 @@ public class PatentInfo extends RecordModel implements Serializable {
      * 法律状态翻译
      */
     private String legalStatusText;
-	
+
 	/**
      * 单位名称翻译
      */
 	private String unitNameText;
-	
+
 	/**
      * 技术领域
      */
 	private String technicalField;
-	
-	
+
+
 	/**
      * 技术领域名称翻译
      */
@@ -377,9 +378,9 @@ public class PatentInfo extends RecordModel implements Serializable {
      */
     private String customClassification;
     /**后期需求增加：新增字段 end*/
-    
-    
-    
+
+
+
     private String type;
 
     /**
@@ -529,11 +530,11 @@ public class PatentInfo extends RecordModel implements Serializable {
         this.entryDate = entryDate;
     }
 
-    public Long getApplicationCost() {
+    public BigDecimal getApplicationCost() {
         return applicationCost;
     }
 
-    public void setApplicationCost(Long applicationCost) {
+    public void setApplicationCost(BigDecimal applicationCost) {
         this.applicationCost = applicationCost;
     }
 
@@ -593,11 +594,11 @@ public class PatentInfo extends RecordModel implements Serializable {
         this.licenseeMode = licenseeMode;
     }
 
-    public Long getLicenseeProfit() {
+    public BigDecimal getLicenseeProfit() {
         return licenseeProfit;
     }
 
-    public void setLicenseeProfit(Long licenseeProfit) {
+    public void setLicenseeProfit(BigDecimal licenseeProfit) {
         this.licenseeProfit = licenseeProfit;
     }
 
@@ -609,11 +610,11 @@ public class PatentInfo extends RecordModel implements Serializable {
         this.assignor = assignor;
     }
 
-    public Long getAssignProfit() {
+    public BigDecimal getAssignProfit() {
         return assignProfit;
     }
 
-    public void setAssignProfit(Long assignProfit) {
+    public void setAssignProfit(BigDecimal assignProfit) {
         this.assignProfit = assignProfit;
     }
 

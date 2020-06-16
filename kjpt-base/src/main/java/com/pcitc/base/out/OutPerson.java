@@ -85,9 +85,9 @@ public class OutPerson  {
     private String post="";
     private String title="";
     
-    private String titleStr;
-    private String educationStr;
-    private String sexStr;
+    private String titleStr="";
+    private String educationStr="";
+    private String sexStr="";
     
     
     private Integer beginAage=0;
@@ -140,8 +140,6 @@ public class OutPerson  {
 
     
     private String major;
-
-    
     
     
     private Date birthDate;
@@ -149,12 +147,44 @@ public class OutPerson  {
     private String belongUnitCode;
 
     
-private String customQueryConditionStr;//前台转过来的
+    private String customQueryConditionStr;//前台转过来的
     
     private String condition;//mybatis拼装sql
     
+    
+    
+    private String postStr;
+    
+    private String headPic="";
+    
+    private String birthDateStr;
+    
 
-    public String getCustomQueryConditionStr() {
+    public String getBirthDateStr() {
+		return birthDateStr;
+	}
+
+	public void setBirthDateStr(String birthDateStr) {
+		this.birthDateStr = birthDateStr;
+	}
+
+	public String getHeadPic() {
+		return headPic;
+	}
+
+	public void setHeadPic(String headPic) {
+		this.headPic = headPic;
+	}
+
+	public String getPostStr() {
+		return postStr;
+	}
+
+	public void setPostStr(String postStr) {
+		this.postStr = postStr;
+	}
+
+	public String getCustomQueryConditionStr() {
 		return customQueryConditionStr;
 	}
 

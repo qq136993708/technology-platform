@@ -73,4 +73,16 @@ public class ComputerSoftwareServiceImpl implements ComputerSoftwareService {
     public List countByCopyrightGetway(Map paramMap) {
         return computerSoftwareMapper.countByCopyrightGetway(paramMap);
     }
+
+    @Override
+    public void insertBatch(List<ComputerSoftware> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                ComputerSoftware computerSoftware=list.get(i);
+                computerSoftwareMapper.add(computerSoftware);
+            }
+        }
+    }
 }

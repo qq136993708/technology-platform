@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveBase;
 import com.pcitc.base.achieve.AchieveMaintain;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
@@ -159,7 +160,7 @@ public class AchieveBaseController extends RestBaseController {
 
         this.setBaseParam(condition);
 
-        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
@@ -206,7 +207,7 @@ public class AchieveBaseController extends RestBaseController {
             if(isPublic != null){
                 this.setParam(condition,"isPublic",isPublic);
             }
-            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+            String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
             this.setParam(condition,"childUnitIds",childUnitIds);
 //            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 //        String[] headers = { "科技成果名称",  "所属《核心成果目录》技术方向","成果持有单位", "成果所属单位（专业化公司/直属单位)", "项目来源及经费渠道", "成果完成时间", "拟转化方式",
@@ -234,7 +235,32 @@ public class AchieveBaseController extends RestBaseController {
     @ResponseBody
     public AchieveBase save(@RequestBody AchieveBase ab){
         this.setBaseData(ab);
-        ab.setAuditStatus("0");
+        checkAuditStatus(ab);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
+        return responseEntity.getBody();
+    }
+
+    private void checkAuditStatus(AchieveBase ab){
+        if("1".equals(ab.getAchieveType())){
+            ab.setAuditStatus(Constant.NO_SUBMIT);
+        }else{
+            ab.setAuditStatus(Constant.SUBMIT);
+        }
+
+        if(ab.getConversionAmount() != null){
+           ab.setAuditStatus(Constant.COMPLETED);
+        }
+
+    }
+
+    @ApiOperation(value="驳回")
+    @RequestMapping(value = "/achieve-api/reject", method = RequestMethod.POST)
+    @ResponseBody
+    public AchieveBase reject(@RequestBody AchieveBase ab){
+        this.setBaseData(ab);
+        ab.setAuditStatus(Constant.NO_SUBMIT);
+        ab.setConversionAmount(null);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<AchieveBase>(ab, this.httpHeaders), AchieveBase.class);
         return responseEntity.getBody();

@@ -25,4 +25,16 @@ public class ExpertAchievementServiceImpl implements ExpertAchievementService {
         return  zjkAchievementMapper.query(paramMap);
     }
 
+    @Override
+    public void insertBatch(List<ZjkAchievement> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                ZjkAchievement zjkAchievement=list.get(i);
+                zjkAchievementMapper.insert(zjkAchievement);
+            }
+        }
+    }
+
 }

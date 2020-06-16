@@ -25,4 +25,9 @@ public interface ZjkBaseMapper  {
 	    List getList(Map map);
 	    
 	    int getCount(Map map);
+	    
+	    
+	    ZjkBase getZjkBaseByNum(String num);
+	    
+	    
 }

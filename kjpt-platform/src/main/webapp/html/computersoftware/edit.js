@@ -22,7 +22,7 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
           // 给form表单赋初始值
           var data = relData.data;
           transToData(data, ['recordDate','developFinishDate','entryTime']);
-          data['unitName']=userInfo.unitName
+          data['unitNameText']=userInfo.unitName
           form.val('formMain', data);
           if (variable.type === 'view') {
             setFomeDisabled('formMain', '.disabled');
@@ -48,6 +48,9 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
+              if(variable.type == 'view'){
+                $('.file-options-delete').hide();
+              }
             }
           });
           formSelects.value('supportingInstitutions', [data.unitName]);

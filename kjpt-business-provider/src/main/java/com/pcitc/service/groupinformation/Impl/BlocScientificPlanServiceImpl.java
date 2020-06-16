@@ -4,6 +4,7 @@ package com.pcitc.service.groupinformation.Impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.groupinformation.BlocScientificPlan;
+import com.pcitc.base.scientificplan.SciencePlan;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.groupinformation.BlocScientificPlanMapper;
 import com.pcitc.service.file.FileCommonService;
@@ -66,5 +67,19 @@ public class BlocScientificPlanServiceImpl implements BlocScientificPlanService 
     @Override
     public List queryNoPage(Map paramMap) {
         return blocScientificPlanMapper.query(paramMap);
+    }
+
+    @Override
+    public int insertBatch(List<BlocScientificPlan> list) throws Exception {
+        int count=0;
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                BlocScientificPlan blocScientificPlan=list.get(i);
+                count=blocScientificPlanMapper.add(blocScientificPlan);
+            }
+        }
+        return count;
     }
 }

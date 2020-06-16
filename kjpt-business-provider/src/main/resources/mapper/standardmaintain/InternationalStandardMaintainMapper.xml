@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.standardmaintain.InternationalStandardMaintainMapper">
+  <resultMap id="InternationalStandardMaintainMap" type="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="international_standard_org" jdbcType="VARCHAR" property="internationalStandardOrg" />
+    <result column="international_standard_work_group" jdbcType="VARCHAR" property="internationalStandardWorkGroup" />
+    <result column="standard_num" jdbcType="VARCHAR" property="standardNum" />
+    <result column="standard_chinese_name" jdbcType="VARCHAR" property="standardChineseName" />
+    <result column="standard_english_name" jdbcType="VARCHAR" property="standardEnglishName" />
+    <result column="domestic_proposal_unit" jdbcType="VARCHAR" property="domesticProposalUnit" />
+    <result column="partake_country" jdbcType="VARCHAR" property="partakeCountry" />
+    <result column="partake_country_text" jdbcType="VARCHAR" property="partakeCountryText" />
+    <result column="standard_status" jdbcType="VARCHAR" property="standardStatus" />
+    <result column="standard_status_text" jdbcType="VARCHAR" property="standardStatusText" />
+    <result column="manage_status" jdbcType="VARCHAR" property="manageStatus" />
+    <result column="manage_org" jdbcType="VARCHAR" property="manageOrg" />
+    <result column="project_approval_date" jdbcType="DATE" property="projectApprovalDate" />
+    <result column="publish_date" jdbcType="DATE" property="publishDate" />
+
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+    <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+    <result column="create_unit_id" jdbcType="VARCHAR" property="createUnitId"/>
+    <result column="create_unit_name" jdbcType="VARCHAR" property="createUnitName"/>
+    <result column="secret_level" jdbcType="VARCHAR" property="secretLevel"/>
+    <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
+    <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
+    <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+  </resultMap>
+
+
+  <select id="load" parameterType="java.lang.String" resultMap="InternationalStandardMaintainMap">
+        select  * from view_international_standard_maintain where id = #{id} and deleted != '1'
+    </select>
+
+  <select id="query" parameterType="java.util.Map" resultMap="InternationalStandardMaintainMap">
+    select  * from view_international_standard_maintain where 1=1
+    and deleted != '1'
+    <include refid="selectByParam" />
+    order by publish_date desc
+  </select>
+
+
+  <select id="query_COUNT" parameterType="java.util.Map" resultType="Long">
+    select  count(*) from international_standard_maintain where 1=1
+    and deleted != '1'
+    <include refid="selectByParam" />
+  </select>
+
+
+  <sql id="selectByParam">
+    <if test="standardNum != null and standardNum != '' " >
+      and standard_num like CONCAT('%',#{standardNum},'%')
+    </if>
+    <if test="standardChineseName != null and standardChineseName != '' " >
+      and standard_chinese_name like CONCAT('%',#{standardChineseName},'%')
+    </if>
+    <if test="domesticProposalUnit != null and domesticProposalUnit != ''" >
+      and domestic_proposal_unit = #{domesticProposalUnit}
+    </if>
+    <if test="standardStatus != null and standardStatus != '' ">
+      and standard_status = #{standardStatus}
+    </if>
+    and (secret_level = '0' or (
+    secret_level <![CDATA[<=]]> #{userSecretLevel}
+    <if test='skipKnowledgeScope=="0"'>
+      and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
+    </if>
+    ))
+
+    <if test="childUnitIds != null  and childUnitIds !=''  ">
+      AND create_unit_id in
+      <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+
+
+  <insert id="add" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
+        	insert into international_standard_maintain(
+        id,
+        international_standard_org,
+        international_standard_work_group,
+        standard_num,
+        standard_chinese_name,
+        standard_english_name,
+        domestic_proposal_unit,
+        partake_country,
+        partake_country_text,
+        standard_status,
+        manage_status,
+        publish_date,
+        project_approval_date,
+        create_date,
+        create_user,
+        update_date,
+        deleted,
+        update_user,
+        create_unit_id,
+        create_unit_name,
+        secret_level,
+        knowledge_scope,
+        knowledge_person,
+        manage_org
+        ) values(#{id},#{internationalStandardOrg},#{internationalStandardWorkGroup},#{standardNum},#{standardChineseName},#{standardEnglishName},#{domesticProposalUnit},
+        #{partakeCountry},#{partakeCountryText},#{standardStatus},#{manageStatus},#{publishDate},#{projectApprovalDate},#{createDate},#{creator},#{updateDate},#{deleted},
+        #{updator},#{createUnitId},#{createUnitName},#{secretLevel},#{knowledgeScope},#{knowledgePerson},#{manageOrg})
+    </insert>
+
+  <update id="update" parameterType="com.pcitc.base.standardmaintain.InternationalStandardMaintain">
+    update international_standard_maintain
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="internationalStandardOrg != null and internationalStandardOrg != '' " >
+        international_standard_org = #{internationalStandardOrg},
+      </if>
+      <if test="internationalStandardWorkGroup != null and internationalStandardWorkGroup != '' " >
+        international_standard_work_group = #{internationalStandardWorkGroup},
+      </if>
+      <if test="standardNum != null and standardNum != ''" >
+        standard_num = #{standardNum},
+      </if>
+      <if test="standardChineseName != null and standardChineseName != ''" >
+        standard_chinese_name = #{standardChineseName},
+      </if>
+      <if test="standardEnglishName != null and standardEnglishName != '' " >
+        standard_english_name = #{standardEnglishName},
+      </if>
+      <if test="domesticProposalUnit != null and domesticProposalUnit != ''" >
+        domestic_proposal_unit = #{domesticProposalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="partakeCountry != null and partakeCountry != ''" >
+        partake_country = #{partakeCountry},
+      </if>
+      <if test="partakeCountryText != null and partakeCountryText != ''" >
+        partake_country_text = #{partakeCountryText},
+      </if>
+      <if test="standardStatus != null and standardStatus != ''" >
+        standard_status = #{standardStatus},
+      </if>
+      <if test="manageStatus != null and manageStatus != ''" >
+        manage_status = #{manageStatus},
+      </if>
+      <if test="manageOrg != null and manageOrg != ''" >
+        manage_org = #{manageOrg},
+      </if>
+      <if test="publishDate != null " >
+        publish_date = #{publishDate},
+      </if>
+      <if test="projectApprovalDate != null" >
+        project_approval_date = #{projectApprovalDate},
+      </if>
+      <if test="updateDate != null " >
+        update_date = #{updateDate},
+      </if>
+      <if test="deleted != null and deleted != ''" >
+        deleted = #{deleted},
+      </if>
+      <if test="updator != null and updator != ''" >
+        update_user = #{updator},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+    </trim>
+    where id = #{id}
+  </update>
+
+  <update id="delete" parameterType="java.lang.String">
+    update international_standard_maintain set deleted = '1' where id in
+    <foreach item="item"  collection="ids.split(',')"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+</mapper>

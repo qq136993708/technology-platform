@@ -142,6 +142,18 @@ public class StandardMaintain extends RecordModel {
      */
     private String isPublishEnglishEditionText;
     /**
+     * 被代替标准
+     */
+    private String replaceStandard;
+    /**
+     * 已发布的修改状态
+     */
+    private String inResearchStatus;
+    /**
+     * 已发布的修改状态字典翻译
+     */
+    private String inResearchStatusText;
+    /**
      * 附件
      */
     private String files;
@@ -416,5 +428,29 @@ public class StandardMaintain extends RecordModel {
 
     public void setIsPublishEnglishEditionText(String isPublishEnglishEditionText) {
         this.isPublishEnglishEditionText = isPublishEnglishEditionText;
+    }
+
+    public String getReplaceStandard() {
+        return replaceStandard;
+    }
+
+    public void setReplaceStandard(String replaceStandard) {
+        this.replaceStandard = replaceStandard;
+    }
+
+    public String getInResearchStatus() {
+        return inResearchStatus;
+    }
+
+    public void setInResearchStatus(String inResearchStatus) {
+        this.inResearchStatus = inResearchStatus;
+    }
+
+    public String getInResearchStatusText() {
+        return inResearchStatusText;
+    }
+
+    public void setInResearchStatusText(String inResearchStatusText) {
+        this.inResearchStatusText = inResearchStatusText;
     }
 }

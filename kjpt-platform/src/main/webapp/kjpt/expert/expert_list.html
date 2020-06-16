@@ -94,7 +94,7 @@
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="newSubmit">查询</button>
                     <button type="reset" id="reset" class="layui-btn layui-btn-primary"  data-type="reset">重置</button>
-                    <span class="layui-btn layui-btn-normal layui-fold-btn-custom">自定义查询</span>
+                    <span class="layui-btn layui-btn-normal layui-fold-btn-custom" id="custormAdd">自定义查询</span>
                     <!-- <span class="layui-fold-btn"></span> -->
                 </div>
             </div>
@@ -106,9 +106,6 @@
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">数据项</div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">条件</div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">值</div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md2 layui-col-btn">
-                    <span class="layui-btn layui-btn-normal" id="custormAdd">增加</span>
-                </div>
             </div>
             <div id="custromFrom"></div>
         </div>
@@ -118,13 +115,13 @@
             <button class="layui-btn border-blue" id="addItem" data-type="addItem" button-role="add">新增</button>
             <button class="layui-btn border-blue" id="editItem" data-type="editItem" button-role="edit">编辑</button>
             <button class="layui-btn border-red" id="delItem" data-type="delItem" button-role="delete">删除</button>
-            <a class="layui-btn border-blue" href="/template/专家库模板.xlsx" button-role="import"
+            <a class="layui-btn border-blue" href="/data/科研能力-专家信息管理 模板.xls" button-role="import"
                     data-type="downloadData">模板下载</a>
             <div id="importData" class="ib-block" style="margin: 0 12px; overflow: hidden;">
                 <a class="layui-btn border-blue"  data-type="importData" filter="addFile" button-role="import">导入</a>
             </div>
 
-            <a href="/expert-api/exput_excel" class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
+            <a class="layui-btn border-blue" id="exportData" data-type="exportData" button-role="export">导出</a>
         </div>
     </div>
     <table id="expertTable" lay-filter="expertTable"></table>
@@ -159,14 +156,14 @@
                         {type: 'radio' },
                         {title: '序号',type:'numbers',width:55 },
                         {field: 'name', title: '姓名',templet: function(d){
-                                return ('<a href="./expert_view.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>')
+                                return ('<a href="./expert_view.html?id='+d.id+'&page=list" class="layui-table-link">'+d.name+'</a>')
                             } },
                         {field: 'sexStr', title: '性别'},
                         {field: 'titleStr', title: '职称'},
                         {field: 'educationStr', title: '学历' },
-                        {field: 'belongUnitStr', title: '所在单位'},
+                        {field: 'belongUnitName', title: '所在单位'},
                         {field: 'technicalFieldName', title: '技术领域'},
-                        {field: 'contactWay', title: '联系方式'},
+                        {field: 'contactWay', title: '联系电话'},
                         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()}
                     ]],
                     method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
@@ -192,7 +189,7 @@
          /*职务*/
          createElement("ROOT_KJPT_ZWJB", "post", "option", "post")
         /*职称*/
-         createElement("ROOT_KJPT_ZWJB","title","option","title")
+         createElement("ROOT_KJPT_ZYJSZWJB","title","option","title")
          /*动态生成元素*/
          function createElement(code,id,element,name) {
             httpModule({
@@ -241,9 +238,13 @@
         });
         importFiles({
             id:'#importData',
-            url:'/expert-api/input_excel',
-            callback: function (data, type) {
-                obj.tableList('');
+            url:'/excelImport/zjk_base_impl',
+            callback: function (result) {
+                if(result.code=="0") {
+                    layer.msg('数据导入成功!', {icon: 1});
+                    $('[lay-filter="newSubmit"]').click();
+                }
+
             }
         })
        
@@ -260,8 +261,8 @@
         var $ = layui.$, active = {
             queryData:function () {
                 /*查询*/
-                obj.tableList($("#name").val());
-                $("#exportData").attr("href","/expert-api/exput_excel?name="+$("#name").val())
+                obj.tableList();
+               
             },
             reset:function () {
                 /*重置*/
@@ -305,6 +306,38 @@
                 }
             }
         }
+        // 导出
+        $('#exportData').click(function() {
+        var formValue = form.val('formPlatform');
+        var json=setVal(formValue);
+        httpModule({
+            url: "/expert-api/exput_excel",
+            type: 'POST',
+            data:json,
+            success: function(relData) {
+                console.log(relData)    
+                window.open(relData, '_blank');
+               
+            }
+        });
+        // debugger
+        // var json=setVal(formValue);
+        // // obj.tableList(json)
+        // searchData = {
+        //     name: formValue.name || '', // 单位名称：
+        //     belongUnit: formValue.belongUnit || '', // 项目背景：
+        // },
+        // exportUrl = '';
+
+        // for (var key in searchData) {
+        //     exportUrl += '&' + key + '=' + searchData[key];
+        // }
+        // //expert-api/exput_excel
+        // exportUrl = '/expert-api/exput_excel?' + exportUrl.substring(1) + json;
+        // debugger
+        // console.log(exportUrl)
+        // window.open(exportUrl, '_blank');
+        })
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';

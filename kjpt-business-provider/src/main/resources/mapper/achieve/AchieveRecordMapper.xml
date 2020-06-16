@@ -226,12 +226,6 @@
         <if test="affiliatedUnit != null and affiliatedUnit != '' ">
             and affiliated_unit = #{affiliatedUnit}
         </if>
-        and (secret_level = '0' or (
-        secret_level <![CDATA[<=]]> #{userSecretLevel}
-        <if test='skipKnowledgeScope=="0"'>
-            and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-        </if>
-        ))
 
         <if test="childUnitIds != null  and childUnitIds !=''  ">
             AND create_unit_id in
@@ -383,12 +377,8 @@
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel,jdbcType=VARCHAR},
             </if>
-            <if test="knowledgeScope != null and knowledgeScope != ''" >
-                knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
-            </if>
-            <if test="knowledgePerson != null and knowledgePerson != ''" >
-                knowledge_person = #{knowledgePerson,jdbcType=VARCHAR}
-            </if>
+            
+            
         </trim>
         where id = #{id}
     </update>

@@ -27,4 +27,16 @@ public class ExpertPatentServiceImpl implements ExpertPatentService {
         return zjkPatentList;
     }
 
+    @Override
+    public void insertBatch(List<ZjkPatent> list) throws Exception {
+        if(list!=null && list.size()>0)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                ZjkPatent zjkPatent=list.get(i);
+                zjkPatentMapper.insert(zjkPatent);
+            }
+        }
+    }
+
 }

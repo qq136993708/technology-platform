@@ -11,7 +11,12 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.TreeNodeApi;
 import com.pcitc.base.stp.techFamily.TechFamily;
 
-public interface TechFamilyService {
+public interface
+
+
+
+
+TechFamilyService {
 	
 	
 	
@@ -85,4 +90,6 @@ public interface TechFamilyService {
     public int deleteByParentId(String tfmTypeId)throws Exception;
     public int deleteTechFamilyTypeById(String tfmTypeId)throws Exception;
     public List<TreeNodeApi> getTreeNodeApiList(Map map)throws Exception;
+
+    public List<TechFamily> getTechFalmilyByAccurateInfo(TechFamily techType);
 }

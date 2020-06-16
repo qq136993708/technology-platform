@@ -8,6 +8,7 @@ import java.util.Date;
  * @author 
  */
 public class ZjkPatent implements Serializable {
+	private static final long serialVersionUID = 2L;
     /**
      * 主键
      */
@@ -47,41 +48,11 @@ public class ZjkPatent implements Serializable {
     private String knowledgeScope="";
     private String knowledgePerson="";
     private String createUser="";
+    private String expertNum="";
     
     
-    
 
-	public String getKnowledgeScope() {
-		return knowledgeScope;
-	}
-
-	public void setKnowledgeScope(String knowledgeScope) {
-		this.knowledgeScope = knowledgeScope;
-	}
-
-	public String getKnowledgePerson() {
-		return knowledgePerson;
-	}
-
-	public void setKnowledgePerson(String knowledgePerson) {
-		this.knowledgePerson = knowledgePerson;
-	}
-
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
-	public String getPatentTypeStr() {
-		return patentTypeStr;
-	}
-
-	public void setPatentTypeStr(String patentTypeStr) {
-		this.patentTypeStr = patentTypeStr;
-	}
+	
 
 	/**
      * 专利描述
@@ -136,159 +107,161 @@ public class ZjkPatent implements Serializable {
     private String secretLevelStr="";
     
     
-
-    public String getSecretLevel() {
-		return secretLevel;
+    
+    
+    
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-
-	public void setSecretLevel(String secretLevel) {
-		this.secretLevel = secretLevel;
+	public String getId() {
+		return id;
 	}
-
-	public String getSecretLevelStr() {
-		return secretLevelStr;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public void setSecretLevelStr(String secretLevelStr) {
-		this.secretLevelStr = secretLevelStr;
+	public String getExpertId() {
+		return expertId;
 	}
-
-	private static final long serialVersionUID = 1L;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getExpertId() {
-        return expertId;
-    }
-
-    public void setExpertId(String expertId) {
-        this.expertId = expertId;
-    }
-
-    public String getSourceType() {
-        return sourceType;
-    }
-
-    public void setSourceType(String sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    public String getDelStatus() {
-        return delStatus;
-    }
-
-    public void setDelStatus(String delStatus) {
-        this.delStatus = delStatus;
-    }
-
-    public String getPatentName() {
-        return patentName;
-    }
-
-    public void setPatentName(String patentName) {
-        this.patentName = patentName;
-    }
-
-    public String getPatentType() {
-        return patentType;
-    }
-
-    public void setPatentType(String patentType) {
-        this.patentType = patentType;
-    }
-
-    public String getDescribe() {
-        return describe;
-    }
-
-    public void setDescribe(String describe) {
-        this.describe = describe;
-    }
-
-    public Date getGetPatentTime() {
-        return getPatentTime;
-    }
-
-    public void setGetPatentTime(Date getPatentTime) {
-        this.getPatentTime = getPatentTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getPatentNo() {
-        return patentNo;
-    }
-
-    public void setPatentNo(String patentNo) {
-        this.patentNo = patentNo;
-    }
-
-    public String getPatentScope() {
-        return patentScope;
-    }
-
-    public void setPatentScope(String patentScope) {
-        this.patentScope = patentScope;
-    }
-
-    public String getPatentTypes() {
-        return patentTypes;
-    }
-
-    public void setPatentTypes(String patentTypes) {
-        this.patentTypes = patentTypes;
-    }
-
-    public String getPatentRanking() {
-        return patentRanking;
-    }
-
-    public void setPatentRanking(String patentRanking) {
-        this.patentRanking = patentRanking;
-    }
-
-    public String getApplicationEffect() {
-        return applicationEffect;
-    }
-
-    public void setApplicationEffect(String applicationEffect) {
-        this.applicationEffect = applicationEffect;
-    }
-
-    public String getOutSystemId() {
-        return outSystemId;
-    }
-
-    public void setOutSystemId(String outSystemId) {
-        this.outSystemId = outSystemId;
-    }
-
+	public void setExpertId(String expertId) {
+		this.expertId = expertId;
+	}
+	public String getSourceType() {
+		return sourceType;
+	}
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+	public String getDelStatus() {
+		return delStatus;
+	}
+	public void setDelStatus(String delStatus) {
+		this.delStatus = delStatus;
+	}
+	public String getPatentName() {
+		return patentName;
+	}
+	public void setPatentName(String patentName) {
+		this.patentName = patentName;
+	}
+	public String getPatentType() {
+		return patentType;
+	}
+	public void setPatentType(String patentType) {
+		this.patentType = patentType;
+	}
+	public String getPatentTypeStr() {
+		return patentTypeStr;
+	}
+	public void setPatentTypeStr(String patentTypeStr) {
+		this.patentTypeStr = patentTypeStr;
+	}
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	public String getKnowledgeScope() {
+		return knowledgeScope;
+	}
+	public void setKnowledgeScope(String knowledgeScope) {
+		this.knowledgeScope = knowledgeScope;
+	}
+	public String getKnowledgePerson() {
+		return knowledgePerson;
+	}
+	public void setKnowledgePerson(String knowledgePerson) {
+		this.knowledgePerson = knowledgePerson;
+	}
+	public String getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+	public String getExpertNum() {
+		return expertNum;
+	}
+	public void setExpertNum(String expertNum) {
+		this.expertNum = expertNum;
+	}
+	public String getDescribe() {
+		return describe;
+	}
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+	public Date getGetPatentTime() {
+		return getPatentTime;
+	}
+	public void setGetPatentTime(Date getPatentTime) {
+		this.getPatentTime = getPatentTime;
+	}
 	public String getGetPatentTimeStr() {
 		return getPatentTimeStr;
 	}
-
 	public void setGetPatentTimeStr(String getPatentTimeStr) {
 		this.getPatentTimeStr = getPatentTimeStr;
 	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public String getPatentNo() {
+		return patentNo;
+	}
+	public void setPatentNo(String patentNo) {
+		this.patentNo = patentNo;
+	}
+	public String getPatentScope() {
+		return patentScope;
+	}
+	public void setPatentScope(String patentScope) {
+		this.patentScope = patentScope;
+	}
+	public String getPatentTypes() {
+		return patentTypes;
+	}
+	public void setPatentTypes(String patentTypes) {
+		this.patentTypes = patentTypes;
+	}
+	public String getPatentRanking() {
+		return patentRanking;
+	}
+	public void setPatentRanking(String patentRanking) {
+		this.patentRanking = patentRanking;
+	}
+	public String getApplicationEffect() {
+		return applicationEffect;
+	}
+	public void setApplicationEffect(String applicationEffect) {
+		this.applicationEffect = applicationEffect;
+	}
+	public String getOutSystemId() {
+		return outSystemId;
+	}
+	public void setOutSystemId(String outSystemId) {
+		this.outSystemId = outSystemId;
+	}
+	public String getSecretLevel() {
+		return secretLevel;
+	}
+	public void setSecretLevel(String secretLevel) {
+		this.secretLevel = secretLevel;
+	}
+	public String getSecretLevelStr() {
+		return secretLevelStr;
+	}
+	public void setSecretLevelStr(String secretLevelStr) {
+		this.secretLevelStr = secretLevelStr;
+	}
+    
+    
 
+    
 
-    public String getFlag() {
-        return flag;
-    }
+	
 
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
 }

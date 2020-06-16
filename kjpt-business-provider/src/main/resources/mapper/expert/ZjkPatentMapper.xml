@@ -19,16 +19,21 @@
     <result column="flag" jdbcType="VARCHAR" property="flag" />
     
     
-     <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
-     <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
-     <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
-    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
-    <result column="create_user"              jdbcType="VARCHAR" property="createUser" />
+     <result column="secret_level"               jdbcType="VARCHAR" property="secretLevel" />
+     <result column="secret_level_str"           jdbcType="VARCHAR" property="secretLevelStr" />
+     <result column="knowledge_scope"            jdbcType="VARCHAR" property="knowledgeScope" />
+     <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+     <result column="create_user"                jdbcType="VARCHAR" property="createUser" />
+     <result column="expert_num"                 jdbcType="VARCHAR" property="expertNum" />
+    
+    
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, patent_name, patent_type, `describer`, get_patent_time,
-    create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
+    create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user,expert_num
   </sql>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -41,17 +46,27 @@
      
       id,expert_id, source_type, del_status, 
       patent_name, patent_type, `describer`,
-      get_patent_time, create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user
+      get_patent_time, create_time, out_system_id,flag,secret_level,
+      knowledge_scope,knowledge_person,create_user,expert_num
       )
-    values (
-	      #{id,jdbcType=VARCHAR},
-	      #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
-	      #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR},
-	      #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR},
-	      #{flag,jdbcType=VARCHAR}, #{secretLevel,jdbcType=VARCHAR}
-       ,#{knowledgeScope,jdbcType=VARCHAR}
-      ,#{knowledgePerson,jdbcType=VARCHAR}
-      ,#{createUser,jdbcType=VARCHAR}
+    values 
+    (
+	    #{id,jdbcType=VARCHAR},
+	    #{expertId,jdbcType=VARCHAR}, 
+	    #{sourceType,jdbcType=VARCHAR}, 
+	    #{delStatus,jdbcType=VARCHAR}, 
+	    #{patentName,jdbcType=VARCHAR}, 
+	    #{patentType,jdbcType=VARCHAR}, 
+	    #{describe,jdbcType=VARCHAR},
+	    #{getPatentTime,jdbcType=TIMESTAMP}, 
+	    #{createTime,jdbcType=TIMESTAMP}, 
+	    #{outSystemId,jdbcType=VARCHAR},
+	    #{flag,jdbcType=VARCHAR}, 
+	    #{secretLevel,jdbcType=VARCHAR},
+       #{knowledgeScope,jdbcType=VARCHAR},
+       #{knowledgePerson,jdbcType=VARCHAR},
+       #{createUser,jdbcType=VARCHAR},
+       #{expertNum,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
@@ -102,8 +117,13 @@
       <if test="createUser != null">
         create_user,
       </if>
-      
+      <if test="expertNum != null">
+        expert_num,
+      </if>
        
+       
+       
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     
@@ -154,6 +174,10 @@
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
       </if>
+      <if test="expertNum != null">
+        #{expertNum,jdbcType=VARCHAR},
+      </if>
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkPatent">
@@ -195,9 +219,7 @@
       <if test="secretLevel != null">
         secret_level = #{secretLevel,jdbcType=VARCHAR},
       </if>
-      
-      
-       <if test="knowledgeScope != null">
+      <if test="knowledgeScope != null">
         knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
       </if>
       <if test="knowledgePerson != null">
@@ -206,8 +228,9 @@
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=VARCHAR},
       </if>
-      
-       
+      <if test="expertNum != null">
+        expert_num = #{expertNum,jdbcType=VARCHAR},
+      </if>
        
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -220,7 +243,7 @@
       secret_level = #{secretLevel,jdbcType=VARCHAR},
       patent_name = #{patentName,jdbcType=VARCHAR},
       patent_type = #{patentType,jdbcType=VARCHAR},
-       
+      expert_num = #{expertNum,jdbcType=VARCHAR},
       knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
       knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       create_user = #{createUser,jdbcType=VARCHAR},
@@ -259,18 +282,10 @@
 	     <if test="delStatus != null       and delStatus !=''  ">         AND t.del_status = #{delStatus}</if>
 	     <if test="outSystemId != null     and outSystemId !=''  ">       AND t.out_system_id = #{outSystemId}</if>
 	     <if test="expertId != null        and expertId !=''  ">          AND t.expert_id = #{expertId}</if>
-	     <if test="secretLevel != null        and secretLevel !=''  ">          AND t.secret_level = #{secretLevel}</if>
-	 <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
-	     <if test="knowledgeScope != null        and knowledgeScope !=''  "> 
-	            AND FIND_IN_SET(#{knowledgeScope},t.`knowledge_scope`) &gt; 0
-	      </if>
-	      
-	      
-	     <if test="userSecretLevel != null and userSecretLevel !=''  ">        
-	         AND (t.secret_level &lt;= #{userSecretLevel} OR  t.secret_level ='0')
-	     </if>
-	     
-	 
+	     <if test="secretLevel != null        and secretLevel !=''  ">    AND t.secret_level = #{secretLevel}</if>
+	     <if test="createUser != null        and createUser !=''  ">      AND t.create_user = #{createUser}</if>
+	     <if test="expertNum != null        and expertNum !=''  ">        AND t.expert_num = #{expertNum}</if>
+	
 	 </trim>
 	</sql>
 	
@@ -330,14 +345,53 @@
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
       select  * from view_zjk_patent where 1=1 and expert_id = #{expertId}
       and del_status != '1'
-      <if test="secretLevel != null and secretLevel != '' ">
-        and secret_level = #{secretLevel}
-      </if>
-      and (secret_level = '0' or (
-      secret_level <![CDATA[<=]]> #{userSecretLevel}
-      <if test='skipKnowledgeScope=="0"'>
-        and FIND_IN_SET(#{userName}, knowledge_scope) &lt; 0
-      </if>
-      ))
     </select>
+    
+    
+    
+    
+  <!-- 批量插入数据 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+	 insert into zjk_patent 
+     (
+	      id,expert_id, source_type, del_status, 
+	      patent_name, patent_type, `describer`,
+	      get_patent_time, create_time, out_system_id,flag,secret_level,
+	      knowledge_scope,knowledge_person,create_user,expert_num
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+	    #{item.id,jdbcType=VARCHAR},
+	    #{item.expertId,jdbcType=VARCHAR}, 
+	    #{item.sourceType,jdbcType=VARCHAR}, 
+	    #{item.delStatus,jdbcType=VARCHAR}, 
+	    #{item.patentName,jdbcType=VARCHAR}, 
+	    #{item.patentType,jdbcType=VARCHAR}, 
+	    #{item.describe,jdbcType=VARCHAR},
+	    #{item.getPatentTime,jdbcType=TIMESTAMP}, 
+	    #{item.createTime,jdbcType=TIMESTAMP}, 
+	    #{item.outSystemId,jdbcType=VARCHAR},
+	    #{item.flag,jdbcType=VARCHAR}, 
+	    #{item.secretLevel,jdbcType=VARCHAR}
+       ,#{item.knowledgeScope,jdbcType=VARCHAR}
+       ,#{item.knowledgePerson,jdbcType=VARCHAR}
+       ,#{item.createUser,jdbcType=VARCHAR}
+       ,#{item.expertNum,jdbcType=VARCHAR}
+       )
+      </foreach>  
+	</insert>
+	
+	
+	
+    
+    
+	
+	 <delete id="deleteAll" >
+        delete from zjk_patent 
+     </delete>
+  
+    
+    
+    
 </mapper>

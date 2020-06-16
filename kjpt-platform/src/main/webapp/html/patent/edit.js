@@ -45,6 +45,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           if(data.applicationTechnologyProducts){
             formSelects.value('applicationTechnologyProducts',[data.applicationTechnologyProducts])
           }
+          if(data.projectBackground){
+            formSelects.value('projectBackground',[data.projectBackground])
+          }
           if (data.expirationDate) {
             // 失效日期
             data.expirationDate = new Date(data.expirationDate).format('yyyy-MM-dd');
@@ -62,9 +65,11 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
             data.legalStatusUpdateTime = new Date(data.legalStatusUpdateTime).format('yyyy-MM-dd');
           }
           if (variable.type === 'view') {
-        	  setFomeDisabled('formMain', '.disabled');
+            setFomeDisabled('formMain', '.disabled');
+            $('.hide-box').hide();
+             
           }
-          data['unitName']=userInfo.unitName;
+          data['createUnitId']=userInfo.unitId
           form.val('formMain', data);
           formSelects.value('technicalField', data.technicalField);
 
@@ -90,6 +95,9 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
+              if(variable.type == 'view'){
+                $('.file-options-delete').hide();
+              }
             }
           });
 
@@ -231,8 +239,11 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
       form.on('radio(applicationOfPatentTransformation)', function(data){
         if(data.value == '03'){
           $('input[name="licensee"]').attr('lay-verify','required')
+          $('input[name="licenseeProfit"]').attr('lay-verify','number|doubleFore')
+
         }else if(data.value == '04'){
           $('input[name="assignor"]').attr('lay-verify','required')
+          $('input[name="assignProfit"]').attr('lay-verify','number|doubleFore')
         }
       });
 

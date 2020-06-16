@@ -45,7 +45,8 @@
       <div class="item-details-list middle-block">
         <div class="item-box-list middle-block">
           <div class="icon-item ib-block icon001"></div>
-          <div class="item-text ib-block font16">相关项目 <span class="font20" num-label="project">0</span> 个</div>
+<!--          <div class="item-text ib-block font16">相关项目 <span class="font20" num-label="project">0</span> 个</div>-->
+          <div class="item-text ib-block font16">论文数量 <span class="font20" id="tablePaperCount">0</span> 个</div>
         </div>
         <!--<div class="item-box-list middle-block">
           <div class="icon-item  ib-block icon002"></div>
@@ -109,9 +110,13 @@
               <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="kyptljrw_template" button-role="import">模版下载</button>
+              <!--<button class="layui-btn border-blue exportDown" download-templet="领军人物模板" button-role="import">模版下载</button>
               <div class="ib-button" id="export_ljrw" export-type="kyptLeaderImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
+              </div>-->
+              <a id="leaderTemplate" class="layui-btn border-blue" href="" button-role="import" data-type="downloadData">模板下载</a>
+              <div id="importLeader" class="ib-block" export-type="kyptLeaderImp" style="margin: 0 12px; overflow: hidden;" button-role="import">
+                <a class="layui-btn border-blue " data-type="importData"  filter="addFile" >导入</a>
               </div>
               <button class="layui-btn border-blue importData" data-item="2" button-role="export">导出</button>
             </div>
@@ -125,9 +130,13 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="kyptlw_template" button-role="import">模版下载</button>
+              <!--<button class="layui-btn border-blue exportDown" download-templet="论文模板" button-role="import">模版下载</button>
               <div class="ib-button" id="export_lw" export-type="kyptTreatiseImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
+              </div>-->
+              <a id="treasisTemplate" class="layui-btn border-blue" href="" button-role="import" data-type="downloadData">模板下载</a>
+              <div id="importTreasis" class="ib-block" style="margin: 0 12px; overflow: hidden;" export-type="kyptTreatiseImp" button-role="import">
+                <a class="layui-btn border-blue"  data-type="importData"  filter="addFile" >导入</a>
               </div>
               <button class="layui-btn border-blue importData" data-item="3" button-role="export">导出</button>
             </div>
@@ -141,7 +150,7 @@
               <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="kyptcy_template" button-role="import">模版下载</button>
+              <a id="groupTemplate" class="layui-btn border-blue" href="" button-role="import" data-type="downloadData">模板下载</a>
               <div class="ib-button" id="export_tdcy" export-type="kyptMemberImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
               </div>
@@ -157,8 +166,8 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" id="delItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="kyptcg_template" button-role="import">模版下载</button>
-              
+              <!-- <button class="layui-btn border-blue exportDown" download-templet="主要成果模板" button-role="import">模版下载</button> -->
+              <a id="achiveTemplate" class="layui-btn border-blue" href="" button-role="import" data-type="downloadData">模板下载</a>
               <div class="ib-button" id="export_zycg" export-type="kyptAchievementImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
               </div>
@@ -174,7 +183,8 @@
               <button class="layui-btn border-blue openDialog" data-page="addKY_mainPatent" data-type="add" button-role="add">新增</button>
               <button class="layui-btn border-blue openDialog" data-page="addKY_mainPatent" data-type="edit" button-role="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" id="delItem" button-role="delete">删除</button>
-              <button class="layui-btn border-blue exportDown" download-templet="kyptzl_template" button-role="import">模版下载</button>
+              <a id="zlTemplate" class="layui-btn border-blue" href="" button-role="import" data-type="downloadData">模板下载</a>
+              <!-- <button class="layui-btn border-blue exportDown" download-templet="主要专利模板" button-role="import">模版下载</button> -->
               <div class="ib-button" id="export_zl" export-type="kyptPatentImp">
                 <button class="layui-btn border-blue" filter="addFile" button-role="import">导入</button>
               </div>

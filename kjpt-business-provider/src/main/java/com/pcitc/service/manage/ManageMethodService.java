@@ -2,6 +2,7 @@ package com.pcitc.service.manage;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.achieve.AchieveMaintain;
+import com.pcitc.base.groupinformation.BlocScientificPlan;
 import com.pcitc.base.manage.ManageMethod;
 
 import java.util.List;
@@ -16,5 +17,7 @@ public interface ManageMethodService {
     void save(ManageMethod am);
     Integer delete(String ids);
     PageInfo query(Map param);
+    List queryNoPage(Map paramMap);
+    public void insertBatch(List<ManageMethod> list)throws Exception;
 
 }

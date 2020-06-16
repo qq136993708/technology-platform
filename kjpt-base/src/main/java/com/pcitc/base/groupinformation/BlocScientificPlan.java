@@ -24,6 +24,10 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
      * 发布处室
      */
     private String publication = "";
+    /**
+     * 发布人
+     */
+    private String publishUser = "";
 
     /**
      * 年度/月度
@@ -59,6 +63,15 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
      * 创建单位名称
      */
     private String createUnitName = "";
+
+    /**
+     * 阅读范围
+     */
+    private String readRange = "";
+    /**
+     * 阅读范围
+     */
+    private String readRangeText = "";
 
 
     /**
@@ -176,5 +189,29 @@ public class BlocScientificPlan extends RecordModel implements Serializable {
 
     public void setSecretLevelText(String secretLevelText) {
         this.secretLevelText = secretLevelText;
+    }
+
+    public String getReadRange() {
+        return readRange;
+    }
+
+    public void setReadRange(String readRange) {
+        this.readRange = readRange;
+    }
+
+    public String getPublishUser() {
+        return publishUser;
+    }
+
+    public void setPublishUser(String publishUser) {
+        this.publishUser = publishUser;
+    }
+
+    public String getReadRangeText() {
+        return readRangeText;
+    }
+
+    public void setReadRangeText(String readRangeText) {
+        this.readRangeText = readRangeText;
     }
 }

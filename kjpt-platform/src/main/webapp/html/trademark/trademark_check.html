@@ -73,7 +73,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">单位名称:</span></label>
             <div class="layui-input-block">
-              <input type="text" name="unitName"  disabled placeholder="" autocomplete="off"
+              <input type="text" name="createUnitName"  disabled placeholder="" autocomplete="off"
                      class="layui-input">
             </div>
           </div>
@@ -93,7 +93,7 @@
           <div class="layui-form-item">
               <label class="layui-form-label label-required"><span class="text">注册号:</span></label>
               <div class="layui-input-block">
-                  <input type="text" name="applicationNumber" lay-verify="required"  autocomplete="off" class="layui-input">
+                  <input type="text" name="applicationNumber" lay-verify="required" disabled  autocomplete="off" class="layui-input">
               </div>
           </div>
       </div>
@@ -102,7 +102,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">国际分类号：</span></label>
           <div class="layui-input-block">
-            <input type="text" name="countryType" placeholder="" autocomplete="off"
+            <input type="text" name="countryType" placeholder="" disabled autocomplete="off"
                    class="layui-input">
           </div>
         </div>
@@ -172,7 +172,7 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">延展有效期：</span></label>
+            <label class="layui-form-label"><span class="text">延期至：</span></label>
             <div class="layui-input-block">
               <input type="text" name="extensionPeriod" id="extensionPeriod" disabled placeholder="" autocomplete="off"
                      class="laydate-input">
@@ -343,6 +343,7 @@
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
             form.val('formPlatform', data);
+            debugger;
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
               data.isRegistered == '0'? $('#isRegisteredBox').attr("class",'') : $('#isRegisteredBox').attr('class','layui-hide');

@@ -85,11 +85,11 @@ public class PlatformMemberController extends RestBaseController {
         if (!StringUtils.isEmpty(platformId)) {
             this.setParam(condition, "platformId", platformId);
         }
-        String[] headers = { "名称",  "出生年月",    "学历"  , "技术职称", "毕业院校", "所学专业", "岗位名称", "担任职务","工作单位"};
-        String[] cols =    {"name","birth","educationText","technicalTitle","graduateSchool","majorStudied","postName","assumeOffice","workUnitText"};
+        String[] headers = { "姓名",  "出生日期",    "学历"  , "担任职务", "学校名称", "所学专业"};
+        String[] cols =    {"name","birth","educationText","assumeOffice","graduateSchool","majorStudied"};
         this.setBaseParam(condition);
         //默认查询当前人所在机构下所有的科研平台
-        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+        //String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         //this.setParam(condition,"childUnitIds",childUnitIds);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNopage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);

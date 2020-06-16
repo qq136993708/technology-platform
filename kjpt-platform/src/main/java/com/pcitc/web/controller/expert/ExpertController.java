@@ -12,9 +12,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.system.SysUser;
-import com.pcitc.web.controller.system.UnitController;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -36,8 +36,10 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.system.SysPost;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysUnit;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -97,6 +99,30 @@ public class ExpertController extends BaseController {
 	private static final String getZjkBaseCount = "http://kjpt-zuul/stp-proxy/expert/getZjkBaseCount";
 
 	private static final String GET_UNIT_ID = "http://kjpt-zuul/system-proxy/unit-provider/unit/getUnitId_by_name";
+
+    /**
+     * 根据技术领域名称获取技术领域详情
+     */
+    private static final String getTechFamilyByName   ="http://kjpt-zuul/stp-proxy/tech-family-provider/selectTechFamilyTypeListByName";
+
+	private static final String  ROOT_KJPT_XB = "ROOT_KJPT_XB";
+    private static final String  ROOT_KJPT_JSZC = "ROOT_KJPT_JSZC";
+    private static final String  ROOT_KJPT_XL = "ROOT_KJPT_XL";
+    private static final String  ROOT_KJPT_YYJSLYJSLJSL = "ROOT_KJPT_YYJSLYJSLJSL";
+    private static final String  ROOT_KJPT_GCCRCLB = "ROOT_KJPT_GCCRCLB";
+    //用于缓存导入时的字典数据
+    private Map<String,Map<String,String>> dictMap = new HashMap<>();
+    //用于缓存导入时的技术领域id
+    private Map<String,TechFamily> techMap = new HashMap<>();
+    /**
+     * 导入模板头部所占行数
+     */
+    private static final Integer IMPORT_HEAD = 3;
+
+    private static final String  YES =  "1";
+
+    private static final String  NO =  "0";
+
 	
 	/**
 	  * 获取专家（分页）
@@ -109,7 +135,8 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
         @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "expertTypes",                 value = "高层次人才类别(多个用逗号分开)",     dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "useStatus",                 value = "是否显示",     dataType = "string", paramType = "query")
         
          
     })
@@ -121,6 +148,7 @@ public class ExpertController extends BaseController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String expertTypes,
             @RequestParam(required = false) String customQueryConditionStr,
+            @RequestParam(required = false) String useStatus,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
      	SysUser sysUserInfo = this.getUserProfile();
@@ -128,6 +156,8 @@ public class ExpertController extends BaseController {
     	param.getParam().put("name", name);
     	param.getParam().put("customQueryConditionStr", customQueryConditionStr);
     	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
+    	param.getParam().put("orderBySql", " ORDER BY orders asc ");
+    	param.getParam().put("useStatus", useStatus);
     	param.setLimit(limit);
     	param.setPage(page);
     	param.getParam().put("expertTypes", expertTypes);
@@ -140,7 +170,7 @@ public class ExpertController extends BaseController {
     	//param.getParam().put("knowledgeScope", sysUserInfo.getUserName());
     	
     	//默认查询当前人所在机构及子机构的所有专家
-    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getUnitPath(), restTemplate, httpHeaders);
+    	//String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
     	//param.getParam().put("childUnitIds", childUnitIds);
     	
     	
@@ -218,6 +248,7 @@ public class ExpertController extends BaseController {
     	param.getParam().put("secretLevel", secretLevel);
     	param.getParam().put("expertType", expertType);
     	param.getParam().put("expertTypes", expertTypes);
+		 param.getParam().put("order", ",update_time DESC ");
     	param.getParam().put("groupType", groupType);
 		SysUser sysUserInfo = this.getUserProfile();
     	//默认查询小于等于用户密级的专家
@@ -319,7 +350,7 @@ public class ExpertController extends BaseController {
     	@ApiImplicitParam(name = "id", value = "主键", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "sex", value = "性别", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "name", value = "姓名", dataType = "string", paramType = "form",required=true),
-        @ApiImplicitParam(name = "useStatus", value = "启用状态（1启用，0未启用）", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "useStatus", value = "是否显示专家（1显示，0未显示）", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "age", value = "年龄", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "idCardNo", value = "身份证号码", dataType = "string", paramType = "form",required=true),
         @ApiImplicitParam(name = "education", value = "学历", dataType = "string", paramType = "form"),
@@ -333,9 +364,11 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "headPic", value = "头像", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "groupType",         value = "分组", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "secretLevel",         value = "信息密级", dataType = "string", paramType = "form"),
-    	@ApiImplicitParam(name = "birthDateStr",         value = "出生日期", dataType = "string", paramType = "form")
+        @ApiImplicitParam(name = "groupType",            value = "分组", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "secretLevel",          value = "信息密级", dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "birthDateStr",         value = "出生日期", dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "orders",               value = "排序号",    dataType = "string", paramType = "form"),
+    	@ApiImplicitParam(name = "expertType",               value = "专家类型",    dataType = "string", paramType = "form")
         
     })
     @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
@@ -357,12 +390,17 @@ public class ExpertController extends BaseController {
 			Date date=DateUtil.strToDate(zjkBase.getBirthDateStr(), DateUtil.FMT_DD);
 			
 			oldZjkBase.setAge(zjkBase.getAge());
+			oldZjkBase.setExpertType(zjkBase.getExpertType());
 			oldZjkBase.setAchievement(zjkBase.getAchievement());
+			oldZjkBase.setResearchPersonType(zjkBase.getResearchPersonType());
+			oldZjkBase.setResearchWay(zjkBase.getResearchWay());
 			oldZjkBase.setBelongUnit(zjkBase.getBelongUnit());
 			oldZjkBase.setBrief(zjkBase.getBrief());
 			oldZjkBase.setContactWay(zjkBase.getContactWay());
 			oldZjkBase.setEducation(zjkBase.getEducation());
 			oldZjkBase.setEmail(zjkBase.getEmail());
+			Integer orders=zjkBase.getOrders();
+			oldZjkBase.setOrders(orders);
 			oldZjkBase.setHeadPic(zjkBase.getHeadPic());
 			oldZjkBase.setNum(zjkBase.getNum());
 			oldZjkBase.setWorkExperience(zjkBase.getWorkExperience());
@@ -380,7 +418,16 @@ public class ExpertController extends BaseController {
 			oldZjkBase.setGroupType(zjkBase.getGroupType());
 			oldZjkBase.setSecretLevel(zjkBase.getSecretLevel());
 			oldZjkBase.setName(zjkBase.getName());
+			oldZjkBase.setUpdateTime(new Date());
 			
+			SysUnit sysUnit=	EquipmentUtils.getUnitByUnitId(zjkBase.getBelongUnit(), restTemplate, httpHeaders);
+			if(sysUnit!=null)
+			{
+				String belongUnitName=sysUnit.getUnitName();
+				oldZjkBase.setBelongUnitName(belongUnitName);
+			}
+			
+				
 			
 			//处理知悉范围
 			String userName=sysUserInfo.getUserName();
@@ -513,7 +560,7 @@ public class ExpertController extends BaseController {
           @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
           
       })
-  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.GET)
+  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.POST)
   	   	public String jsgztj_data_exput_excel(
 				@RequestParam(required = false) String name,
 				@RequestParam(required = false) String belongUnit,
@@ -529,6 +576,7 @@ public class ExpertController extends BaseController {
 				@RequestParam(required = false) String groupType,
 				@RequestParam(required = false) String expertType,
 				@RequestParam(required = false) String expertTypes,
+				@RequestParam(required = false) String customQueryConditionStr,
 				HttpServletRequest request, HttpServletResponse response
 		) throws Exception
   	   	{
@@ -536,12 +584,6 @@ public class ExpertController extends BaseController {
   	   		
   	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
   	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
-//  	   		paramMap.put("name", name);
-//  	   	    paramMap.put("belongUnit", belongUnit);
-//  	        paramMap.put("useStatus", useStatus);
-//  	        paramMap.put("post", post);
-//  	        paramMap.put("title", title);
-//  	        paramMap.put("technicalField", technicalField);
 
 			paramMap.put("name", name);
 			paramMap.put("delStatus", Constant.DEL_STATUS_NOT);
@@ -556,6 +598,7 @@ public class ExpertController extends BaseController {
 			paramMap.put("secretLevel", secretLevel);
 			paramMap.put("expertType", expertType);
 			paramMap.put("expertTypes", expertTypes);
+			paramMap.put("customQueryConditionStr", customQueryConditionStr);
 			paramMap.put("groupType", groupType);
   	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
 
@@ -579,15 +622,21 @@ public class ExpertController extends BaseController {
   	   				for(int i=0;i<list.size();i++)
   	   				{
   	   				   ZjkBase zjkBase= list.get(i);
-  	   				   Integer age=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY))-zjkBase.getAge();
-  	   				   zjkBase.setAge(age);
+  	   				   Date date=zjkBase.getBirthDate();
+  	   				   if(date!=null)
+  	   				   {
+  	   					 zjkBase.setBirthDateStr(DateUtil.dateToStr(date, DateUtil.FMT_DD));
+  	   				   }else
+  	   				   {
+  	   					zjkBase.setBirthDateStr("");
+  	   				   }
   	   				   zjkBase.setIdCardNo(zjkBase.getIdCardNo()+" ");
   	   				}
   	   			}
   	   		}
   	   		
-  	   		    String[] headers = { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务", "所在单位", "联系方式" };
-  	   		    String[] cols =    {"name",    "idCardNo","sexStr",  "age",      "titleStr",   "post", "belongUnitStr" ,"contactWay"};
+  	   		    String[] headers = { "专家姓名",  "身份证号码",    "性别"  ,   "出生日期"  ,  "职称"  ,  "职务", "所在单位", "联系电话" , "专家编号" , "专家分类", "科技活动人员类别" , "研究方向" };
+  	   		    String[] cols =    {"name",    "idCardNo",    "sexStr",  "birthDateStr",      "titleStr",   "postStr", "belongUnitStr" ,"contactWay" ,"num" ,"expertTypeStr","researchPersonTypeStr","researchWay"};
   	   		   
   	   	        // 文件名默认设置为当前时间：年月日时分秒
   	   	        String fileName = "专家表__"+DateFormatUtils.format(new Date(), "ddhhmmss");
@@ -661,8 +710,6 @@ public class ExpertController extends BaseController {
   	{
 		SysUser sysUserInfo = this.getUserProfile();
   		Result resultsDate = new Result();
-  	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,"所在单位",  "职称"  ,  "职务",  "联系方式"，"专业领域" };
-	    // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
   		if (file.isEmpty())
   		{
   			resultsDate.setSuccess(false);
@@ -676,27 +723,32 @@ public class ExpertController extends BaseController {
   	  	    resultsDate= getResult( listob );
   	  	    if(resultsDate.isSuccess()==true)
   	  	    {
-		  	  	    for (int i = 0; i < listob.size(); i++) 
+		  	  	    for (int i = IMPORT_HEAD; i < listob.size(); i++)
 		  	  		{
 		  	  			List<Object> lo = listob.get(i);
-		  	  		    Object col_0 = lo.get(0);
+
 		  	  		    Object col_1 = lo.get(1);
 		  	  	        Object col_2 = lo.get(2);
 		  	            Object col_3 = lo.get(3);
 		  	            Object col_4 = lo.get(4);
+                        if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
 		  	            Object col_5 = lo.get(5);
 		  	            Object col_6 = lo.get(6);
 		  	            Object col_7 = lo.get(7);
 		  	            Object col_8 = lo.get(8);
-		  	            String aname=String.valueOf(lo.get(0));
-		  	            String agestr=String.valueOf(lo.get(3));
+                        Object col_9 = lo.get(9);
+                        Object col_10 = lo.get(10);
+                        Object col_11 = lo.get(11);
+                        Object col_12 = lo.get(12);
+                        Object col_13 = lo.get(13);
+                        Object col_14 = lo.get(14);
+                        Object col_15 = lo.get(15);
+                        Object col_16 = lo.get(16);
+
+		  	            String aname=String.valueOf(lo.get(1));
+		  	            String datestr=String.valueOf(lo.get(7));
 		  	          
-		  	            //System.out.println(i+"----------"+aname);
-		  	            //System.out.println(i+"----------"+agestr);
 		  	  			ZjkBase obj = new ZjkBase();
-		  	  			Integer count=Integer.valueOf(Math.round(Float.valueOf(agestr)));
-		  	  		    Integer year=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		  	  			
 		  	  			obj.setCreateTime(new Date());
 		  	  			obj.setDelStatus(Constant.DEL_STATUS_NOT);
 		  	  			obj.setSourceType(Constant.SOURCE_TYPE_OUTER);//数据来源（1本系统，2外系统）
@@ -719,20 +771,32 @@ public class ExpertController extends BaseController {
 		  					obj.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号--通过身份证从人事库取
 		  				}
 		  				
-		  				String sexStr="1";
-		  				String str=String.valueOf(lo.get(2));
-		  				if(str.equals("女"))
-		  				{
-		  					sexStr="2";
-		  				}
-		  				
-		  	  			obj.setName(String.valueOf(lo.get(0)));
-		  	  			obj.setIdCardNo(String.valueOf(lo.get(1)));
-		  	  			obj.setSex(sexStr);
-		  	  			obj.setAge(year.intValue()-count.intValue());
-		  	  			obj.setTitle(String.valueOf(lo.get(5)));
-		  	  			obj.setPost(String.valueOf(lo.get(6)));
-		  	  			obj.setContactWay(String.valueOf(lo.get(7)));
+		  	  			obj.setName(aname);
+		  	  			obj.setIdCardNo(String.valueOf(lo.get(2)));
+                        obj.setPost(String.valueOf(lo.get(3)));
+                        obj.setBelongUnit(String.valueOf(col_4));
+                        obj.setSex(getValueFromDictMap(String.valueOf(col_5),ROOT_KJPT_XB));
+
+                        String techName = String.valueOf(lo.get(6));
+                        TechFamily techFamily = techMap.get(techName);
+                        if(techFamily != null){
+                            obj.setTechnicalField(techFamily.getTypeCode());
+                            obj.setTechnicalFieldIndex(techFamily.getTypeIndex());
+                            obj.setTechnicalFieldName(techFamily.getTypeName());
+
+                        }
+                        obj.setBirthDate(DateUtil.strToDate(datestr, DateUtil.FMT_DD));
+                        obj.setWorkExperience(String.valueOf(lo.get(8)));
+                        obj.setTitle(getValueFromDictMap(String.valueOf(lo.get(9)),ROOT_KJPT_JSZC));
+                        //TODO:是否在专家页面展示
+                        String state = String.valueOf(lo.get(10));
+                        obj.setUseStatus("是".equals(state)?YES:NO);
+                        obj.setEducation(getValueFromDictMap(String.valueOf(lo.get(11)),ROOT_KJPT_XL));
+                        obj.setBrief(String.valueOf(lo.get(12)));
+                        obj.setEmail(String.valueOf(lo.get(13)));
+                        obj.setContactWay(String.valueOf(lo.get(14)));
+                        obj.setAchievement(String.valueOf(lo.get(15)));
+                        obj.setExpertType(getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_GCCRCLB));
 						obj.setSecretLevel("0");
 		  	  			obj.setBelongUnit(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(4),this.httpHeaders), String.class).getBody());
 		  	  			list.add(obj);
@@ -751,7 +815,8 @@ public class ExpertController extends BaseController {
   	  	    }
   	  		
   		}
-  		
+  		dictMap.clear();
+  		techMap.clear();
   		return resultsDate;
   	}
   	  
@@ -761,38 +826,95 @@ public class ExpertController extends BaseController {
   		Result resultsDate = new Result();
   		resultsDate.setSuccess(true);
   		StringBuffer sb=new StringBuffer();
-  		for (int i = 0; i < listob.size(); i++) 
+  		for (int i = IMPORT_HEAD; i < listob.size(); i++)
 	  	{
 	  			List<Object> lo = listob.get(i);
-	  		    Object col_0 = lo.get(0);
 	  		    Object col_1 = lo.get(1);
 	  	        Object col_2 = lo.get(2);
 	            Object col_3 = lo.get(3);
 	            Object col_4 = lo.get(4);
-	            Object col_5 = lo.get(5);
+            if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
+
+                Object col_5 = lo.get(5);
 	            Object col_6 = lo.get(6);
-	            if(col_0==null)
+	            Object col_7 = lo.get(7);
+	            Object col_8 = lo.get(8);
+                Object col_9 = lo.get(9);
+                Object col_10 = lo.get(10);
+                Object col_11 = lo.get(11);
+                Object col_12 = lo.get(12);
+                Object col_13 = lo.get(13);
+                Object col_14 = lo.get(14);
+                Object col_15 = lo.get(15);
+                Object col_16 = lo.get(16);
+
+            // 必填项和字典值校验
+	            if(checkIfBlank(col_1))
 	            {
-	            	sb.append("第"+(i+1)+"行专家姓名为空,");
-	            }else if(col_1==null)
-	            {
-	            	sb.append("第"+(i+1)+"行身份证号为空,");
-	            }else if(col_2==null)
-	            {
-	            	sb.append("第"+(i+1)+"行性别为空,");
-	            }else if(col_3==null)
-	            {
-	  				sb.append("第"+(i+1)+"出生年份为空,");
-	            }else if(col_4==null)
-	            {
-	            	sb.append("第"+(i+1)+"职称为空,");
-	            }else if(col_5==null)
-	            {
-	            	sb.append("第"+(i+1)+"职务为空,");
-	            }else if(col_6==null)
-	            {
-	            	sb.append("第"+(i+1)+"联系方式为空,");
+	            	sb.append("第"+(i+2)+"行专家姓名为空,");
+	            	break;
 	            }
+	            if(checkIfBlank(col_4))
+	            {
+	            	sb.append("第"+(i+2)+"行所在单位为空,");
+                    break;
+	            }
+	            if(checkIfBlank(col_5))
+	            {
+	            	sb.append("第"+(i+2)+"行性别为空,");
+                    break;
+	            }else if(!checkIfReasonable(String.valueOf(col_5),ROOT_KJPT_XB)){
+                    sb.append("第"+(i+2)+"行性别取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+	            if(checkIfBlank(col_6))
+	            {
+	  				sb.append("第"+(i+2)+"行技术领域为空,");
+                    break;
+	            }else if(!checkTechIfExists(String.valueOf(col_6))){
+                    sb.append("第"+(i+2)+"行技术领域取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+
+	            if(checkIfBlank(col_7))
+	            {
+	  				sb.append("第"+(i+2)+"行出生日期为空,");
+                    break;
+	            }
+	            if(checkIfBlank(col_9))
+	            {
+	            	sb.append("第"+(i+2)+"行职称为空,");
+                    break;
+	            }else if(!checkIfReasonable(String.valueOf(col_9),ROOT_KJPT_JSZC)){
+                    sb.append("第"+(i+2)+"行职称取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+
+	            if(checkIfBlank(col_10))
+	            {
+	            	sb.append("第"+(i+2)+"行是否在专家风采页面展示为空,");
+                    break;
+	            }
+	            if(checkIfBlank(col_14))
+	            {
+	            	sb.append("第"+(i+2)+"行联系电话为空,");
+                    break;
+	            }
+
+	            if(!checkIfBlank(col_11)){
+                    if(!checkIfReasonable(String.valueOf(col_11),ROOT_KJPT_XL)){
+                        sb.append("第"+(i+2)+"行学历取值非法,请参考对应sheet页取值!");
+                        break;
+                    }
+                }
+
+            if(!checkIfBlank(col_16)){
+                if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_GCCRCLB)){
+                    sb.append("第"+(i+2)+"行高层次人才类别取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+            }
+
 	  		}
   		resultsDate.setMessage(sb.toString());
   		if((sb.toString()).equals(""))
@@ -804,11 +926,58 @@ public class ExpertController extends BaseController {
   		}
   		return resultsDate;
   	}
-  	    
-    
-	
-  	
-  	
+
+  	//查看技术领域是否存在
+  	private Boolean checkTechIfExists(String name){
+
+       // List<TechFamily> techFamily =  restTemplate.exchange(getTechFamilyByName, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), List.class).getBody();
+        ParameterizedTypeReference<List<TechFamily>> typeRef = new ParameterizedTypeReference<List<TechFamily>>() {
+
+        };
+
+        ResponseEntity<List<TechFamily>> responseEntity =  restTemplate.exchange(getTechFamilyByName, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), typeRef);
+
+        List<TechFamily> techFamily = responseEntity.getBody();
+
+        if(techFamily.size()==1){
+            techMap.put(name,techFamily.get(0));
+            return true;
+        }
+        return false;
+    }
+
+  	private Boolean checkIfReasonable(String content,String dictCode){
+        //导入的数据确认用户只输入一个字典值20200605
+        //针对模板中使用到的字典数据进行缓存
+        Map<String,String> detailDicMap;
+        if(dictMap.containsKey(dictCode)){
+              detailDicMap = dictMap.get(dictCode);
+              if(detailDicMap.containsKey(content)) return  true;
+        }else{
+             detailDicMap = new HashMap<>();
+            dictMap.put(dictCode,detailDicMap);
+        }
+
+        List<SysDictionary> sysDictionaryList=    EquipmentUtils.getSysDictionaryListByParentCode(dictCode, restTemplate, httpHeaders);
+        for(SysDictionary dictionary:sysDictionaryList){
+            if(content.equals(dictionary.getName())) {
+                Map<String,String> temp = dictMap.get(dictCode);
+                temp.put(content,dictionary.getNumValue());
+                dictMap.put(dictCode,temp);
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    private String getValueFromDictMap(String name,String dictCode){
+        if(StringUtils.isNotBlank(name)&&StringUtils.isNotBlank(dictCode)){
+            Map<String,String> detail = dictMap.get(dictCode);
+            return detail.get(name);
+        }
+        return "null";
+    }
+
   	 @ApiOperation(value = "获得查询条件接口", notes = "获得查询条件接口")
      @RequestMapping(value = "/expert-api/getCustomQueryConditionList/{tableName}", method = RequestMethod.GET)
  	 public String getFamilyList(@PathVariable("tableName") String tableName,HttpServletRequest request, HttpServletResponse response)throws Exception
@@ -824,10 +993,11 @@ public class ExpertController extends BaseController {
    	   		return result.toString();
  	   		
  	}
-  	
-  	
-  	
-    
-    
+
+    private Boolean checkIfBlank(Object o){
+        if(o==null) return true;
+        if(String.valueOf(o)=="") return true;
+        return false;
+    }
 
 }
