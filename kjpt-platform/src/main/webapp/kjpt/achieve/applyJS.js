@@ -181,9 +181,9 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
         //POST /achieve-api/supplementaryRecord 补录
         var curUrl = '/achieve-api/save';
         var curTitle = '保存成功!'
-        if(variable.type='collection'){
+        if(variable.type =='collection'){
             curTitle = '补录成功!'
-            curUrl ='achieve-api/supplementaryRecord';
+            curUrl ='/achieve-api/supplementaryRecord';
         }
         httpModule({
             url: curUrl,
