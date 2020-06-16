@@ -15,23 +15,31 @@ layui.use(['laydate'], function() {
         {type: 'transMoneySum', cololr: '#0CB92D'}
     ];
     var pieColor = ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'];
-
+    var flag1 = true;
+    var flag2 = true;
     var chartInit = {
         transformInfo: function (param) {
-            debugger
             var params = {};
             if(param){
-                switch(param.type){
-                    case  'fm':
-                       params.patentType = '01';
-                        break;
-                    case 'syxl':
-                        params.patentType = '02';
-                        break;
-                    case 'wgsj':
-                        params.patentType = '03';
-                        break;
+                if(flag1){
+                    switch(param.type){
+                        case  'fm':
+                            params.patentType = '01';
+                            flag1 = !flag1;
+                            break;
+                        case 'syxl':
+                            params.patentType = '02';
+                            flag1 = !flag1;
+                            break;
+                        case 'wgsj':
+                            params.patentType = '03';
+                            flag1 = !flag1;
+                            break;
 
+                    }
+                } else {
+                    params = '2020'
+                    flag1 = !flag1;
                 }
             } else {
                 params = '2020'
@@ -52,7 +60,7 @@ layui.use(['laydate'], function() {
                             tooltip: {
                                 trigger: 'axis',
                                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                    type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
                                 },
                                 formatter: function (serves) {
                                     var showHtms = '<div style="font-size:16px; margin:5px;">'+'申请专利'+'</div>'+
@@ -77,9 +85,10 @@ layui.use(['laydate'], function() {
                             xAxis: [
                                 {
                                     type: 'category',
+                                    triggerEvent: true,
                                     data: [data[0].textTitle, data[6].textTitle, data[12].textTitle, data[18].textTitle, data[24].textTitle],
                                     axisLabel:{
-                                        color:"white"
+                                        color:"#2BB7FF"
                                     }
                                 }
                             ],
@@ -102,11 +111,11 @@ layui.use(['laydate'], function() {
                             ],
                             series: [
                                 {
-                                    name:data[0].text,
+                                    name:data[0].textSub,
                                     type: 'bar',
                                     barWidth:"20",
                                     barGap:'0',
-                                    stack: data[0].textSub,
+                                    stack: data[0].text,
                                     data: [data[0].calValue, data[6].calValue, data[12].calValue,data[18].calValue,data[24].calValue],
                                     itemStyle: {
                                         normal: {
@@ -115,9 +124,9 @@ layui.use(['laydate'], function() {
                                     }
                                 },
                                 {
-                                    name:data[1].text,
+                                    name:data[1].textSub,
                                     type: 'bar',
-                                    stack: data[1].textSub,
+                                    stack: data[1].text,
                                     data: [data[1].calValue, data[7].calValue,data[13].calValue, data[19].calValue, data[25].calValue],
                                     itemStyle: {
                                         normal: {
@@ -126,9 +135,9 @@ layui.use(['laydate'], function() {
                                     }
                                 },
                                 {
-                                    name: data[2].text,
+                                    name: data[2].textSub,
                                     type: 'bar',
-                                    stack:data[2].textSub,
+                                    stack:data[2].text,
                                     data: [data[2].calValue,data[8].calValue, data[14].calValue, data[20].calValue, data[26].calValue],
                                     itemStyle: {
                                         normal: {
@@ -150,22 +159,22 @@ layui.use(['laydate'], function() {
 
                                 },
                                 {
-                                    name: data[3].text,
+                                    name: data[3].textSub,
                                     barWidth:"20",
                                     type: 'bar',
-                                    stack:data[3].textSub,
+                                    stack:data[3].text,
                                     data: [data[3].calValue, data[9].calValue, data[15].calValue, data[21].calValue, data[27].calValue],
                                 },
                                 {
-                                    name: data[4].text,
+                                    name: data[4].textSub,
                                     type: 'bar',
-                                    stack:data[4].textSub,
+                                    stack:data[4].text,
                                     data: [data[4].calValue, data[10].calValue, data[16].calValue, data[22].calValue, data[28].calValue]
                                 },
                                 {
-                                    name: data[5].text,
+                                    name: data[5].textSub,
                                     type: 'bar',
-                                    stack:data[5].textSub,
+                                    stack:data[5].text,
                                     data: [data[5].calValue, data[11].calValue, data[17].calValue, data[23].calValue, data[29].calValue],
                                     label: {
                                         fontFamily: 'Impact',
@@ -204,6 +213,13 @@ layui.use(['laydate'], function() {
                         series[2]["label"]["formatter"] = fun;
                         series[series.length - 1]["label"]["formatter"] = fun2;
                         kypt_charts1.setOption(option1)
+                        kypt_charts1.on('click', function (params) {
+                            if(params.componentType == "xAxis"){
+                                chartInit.achieveTransferOfficeChart({year: params.value})
+                            }else{
+                                alert("单击了"+params.name+"柱状图");
+                            }
+                        });
                     }
                 }
             });
@@ -275,14 +291,14 @@ layui.use(['laydate'], function() {
                                 rich:{
                                     a:{
                                         fontFamily:'PingFang SC',
-                                        fontSize:18,
+                                        fontSize:14,
                                         color:"white",
-                                        padding: 15
                                     },
                                     b:{
                                         fontFamily:'Impact',
-                                        fontSize:26,
-                                        color:"white"
+                                        fontSize:20,
+                                        color:"white",
+                                        padding: 15
                                     }
                                 }
                             }
@@ -312,13 +328,54 @@ layui.use(['laydate'], function() {
                 }
             });
         },
-        achieveTransferOfficeChart: function (params) {
+        achieveTransferOfficeChart: function (param) {
             $('#achieveTransferOffice').empty();
+            var params = {};
+            if(param.type){
+                if(flag2){
+                    switch(param.type){
+                        case  'shouQ':
+                            params.legalStatus = '01';
+                            flag2 = !flag2;
+                            break;
+                        case 'sq':
+                            params.legalStatus = '02';
+                            flag2 = !flag2;
+                            break;
+                        case 'wx':
+                            params.legalStatus = '03';
+                            flag2 = !flag2;
+                            break;
+
+                    }
+                }else {
+                    params = '2020'
+                    flag2 = !flag2;
+                }
+            } else if(param.year){
+                params = param.year
+            }else {
+                params = '2020'
+            }
             kyptCharts.render({
                 id: 'achieveTransferOffice',
                 type: 'bar',
                 grid: { top: 40 },
                 label: false,
+                tooltip: {
+                    show: true,
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter:function(serves){
+                        var showHtms = '<div style="font-size:20px; margin:10px;">'+'中国核电工程'+'</div>'+
+                            '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background:#59B2F6; "></span>'+ serves[0].seriesName+'&nbsp;&nbsp;'+ serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+
+                            '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #D66134; "></span>'+  serves[1].seriesName+ '&nbsp;&nbsp;'+serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+
+                            '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #535584; "></span>'+ serves[2].seriesName+'&nbsp;&nbsp;'+ serves[2].value+'<br>'
+                        return showHtms;
+                    }
+                },
                 legend: { show: false, left: 'right', top: 5},
                 labelColor: '#fff',
                 borderColor: '#001e38',
@@ -342,7 +399,7 @@ layui.use(['laydate'], function() {
             var y2 = [];
             httpModule({
                 url: '/patentBI/getPatentCountByOffice',
-                data: '2020',
+                data: params,
                 type: 'GET',
                 async: false,
                 success: function(res) {
@@ -385,9 +442,10 @@ layui.use(['laydate'], function() {
     $('.count-year-title ul li').on('click', function () {
         var type = $(this).attr('data-type');
         chartInit.transformInfo({type: type});
+        chartInit.achieveTransferOfficeChart({type: type})
     });
 
     chartInit.transformInfo();
     chartInit.awardsYearPie();
-    chartInit.achieveTransferOfficeChart();
+    chartInit.achieveTransferOfficeChart({type:false});
 });
