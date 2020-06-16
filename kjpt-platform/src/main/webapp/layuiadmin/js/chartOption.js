@@ -493,7 +493,7 @@ var kyptCharts = {
         $item.off('click').on({
           'click': function(e) {
             if($(this).attr('data-page')){
-              jscPup($(this).attr('data-page'));
+              jscPup($(this).attr('data-page'),encodeURI($(this).attr('title')));
             }else{
             var optionChart = _this.chart[config.id].chart.getOption(),
             legendSelected = optionChart.legend.selected || {};
