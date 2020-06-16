@@ -81,9 +81,26 @@ $(function() {
 
     var chartInit = {
         transformInfo: function (param) {
+            var params = {};
+            if(param){
+                switch(param.type){
+                    case  'fm':
+                       params.patentType = '01';
+                        break;
+                    case 'syxl':
+                        params.patentType = '02';
+                        break;
+                    case 'wgsj':
+                        params.patentType = '03';
+                        break;
+                }
+            } else {
+                params = '2020'
+            }
+
             httpModule({
                 url: '/patentBI/getPatentCountByYear',
-                data: params || '2020',
+                data: params,
                 type: 'GET',
                 async: false,
                 success: function(res) {
@@ -166,6 +183,10 @@ $(function() {
             });
         }
     };
+    $('.count-year-title ul li').on('click', function () {
+        var type = $(this).attr('data-type');
+        chartInit.transformInfo({type: type});
+    });
 
     chartInit.transformInfo();
     chartInit.awardsYearPie();
