@@ -82,9 +82,9 @@ $(function() {
     var chartInit = {
         transformInfo: function (param) {
             var params = {};
-            if(param){
-                switch(param.type){
-                    case  'fm':
+            if (param) {
+                switch(param.type) {
+                    case 'fm':
                        params.patentType = '01';
                         break;
                     case 'syxl':
@@ -93,9 +93,9 @@ $(function() {
                     case 'wgsj':
                         params.patentType = '03';
                         break;
-                }
+                };
             } else {
-                params = '2020'
+                params = '2020';
             }
 
             httpModule({
