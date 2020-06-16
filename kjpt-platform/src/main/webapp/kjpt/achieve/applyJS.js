@@ -66,7 +66,12 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
                         formSelects.disabled(); // 禁用所有多选下拉框
                         scope_disabled = true;
                     }
-
+                    debugger
+                    if(variable.type == 'collection'){
+                        $('#conversionAmount').removeClass('layui-hide');
+                        $('#conversionAmount label').addClass('label-required')
+                        $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
+                    }
                     // 添加知悉范围
                     setJurisdictionScope({
                         elem: 'scope_list_layout',
@@ -128,17 +133,17 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
             }
         }
     });
-    form.on('select(achieveType)', function(data) {
-        if(data.value == '1'){
-            $('#conversionAmount').removeClass('layui-hide');
-            $('#conversionAmount label').addClass('label-required')
-            $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
-        }else if(data.value == '0'){
-            $('#conversionAmount').addClass('layui-hide');
-            $('#conversionAmount label').removeClass('label-required')
-            $('#conversionAmount input').attr('lay-verify','')
-        }
-    })
+    // form.on('select(achieveType)', function(data) {
+    //     if(data.value == '1'){
+    //         $('#conversionAmount').removeClass('layui-hide');
+    //         $('#conversionAmount label').addClass('label-required')
+    //         $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
+    //     }else if(data.value == '0'){
+    //         $('#conversionAmount').addClass('layui-hide');
+    //         $('#conversionAmount label').removeClass('label-required')
+    //         $('#conversionAmount input').attr('lay-verify','')
+    //     }
+    // })
     /*添加tr*/
     $("#addTr").click(function () {
         addTr('achieveTable')
@@ -173,13 +178,20 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
             layer.msg('科技成果完成团队情况（按贡献度排序）为必填项不能为空！');
             return false
         }
+        //POST /achieve-api/supplementaryRecord 补录
+        var curUrl = '/achieve-api/save';
+        var curTitle = '保存成功!'
+        if(variable.type =='collection'){
+            curTitle = '补录成功!'
+            curUrl ='/achieve-api/supplementaryRecord';
+        }
         httpModule({
-            url: '/achieve-api/save',
+            url: curUrl,
             data: data.field,
             type: "POST",
             success: function (e) {
                 if (e.code == 0) {
-                    layer.msg('保存成功!', {
+                    layer.msg(curTitle, {
                         icon: 1
                     });
                     closeTabsPage(variable.index);

@@ -36,7 +36,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       return '<a href="planDetails.html?id='+d.id+'" class="layui-table-link">'+d.methodName+'</a>';
     }},
     // {field: 'publication', title:'发布处室'},
-    {field: 'publishUser', title:'发布人'},
+    {field: 'creator', title:'发布人'},
     {field: 'readRangeText', title:'阅读范围'},
     {field: 'edition', title:'版次'},
     {field: 'publishDate', title: '发布日期',sort:true,templet: function(d){
@@ -78,7 +78,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   });
 
   $('[lay-filter="formDemo"]').click();
-
 
   function openDataDilog(type, id) {
 	  var dialogTitle = '新增';

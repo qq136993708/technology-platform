@@ -83,7 +83,7 @@ $(function() {
         transformInfo: function (param) {
             httpModule({
                 url: '/patentBI/getPatentCountByYear',
-                data: '2020',
+                data: params || '2020',
                 type: 'GET',
                 async: false,
                 success: function(res) {

@@ -390,6 +390,9 @@ public class TrademarkController extends RestBaseController {
                     //TODO:后台存储的是单位名称，不是单位id
                   // obj.setUnitName(String.valueOf(col_1));
                     obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
+                    obj.setCreateUnitId(obj.getUnitName());
+                    obj.setCreateUnitName(String.valueOf(col_1));
+
                     obj.setTrademarkName(String.valueOf(col_2));
                     obj.setApplicationNumber(String.valueOf(col_3));
                     obj.setCountryType(String.valueOf(col_4));

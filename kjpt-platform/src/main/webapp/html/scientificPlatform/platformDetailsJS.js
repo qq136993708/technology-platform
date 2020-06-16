@@ -397,8 +397,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         url:'/excelImport/kyptLeaderImp?pid=' + variable.id,
         callback: function (result) {
             if(result.code=="0") {
+              addTableData({update: true, id: 'leadingFigure'})
                 layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="leadingFigure"]').click();
+
             }else{
                 layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
             }
@@ -412,7 +413,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         callback: function (result) {
             if(result.code=="0") {
                 layer.msg('数据导入成功!', {icon: 1});
-                $('[lay-filter="tablePaper"]').click();
+                addTableData({update: true, id: 'tablePaper'})
+                // $('[lay-filter="tablePaper"]').click();
             }else{
                 layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
             }
@@ -425,7 +427,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       callback: function (result) {
           if(result.code=="0") {
               layer.msg('数据导入成功!', {icon: 1});
-              $('[lay-filter="teamMembers"]').click();
+              addTableData({update: true, id: 'teamMembers'})
+              // $('[lay-filter="teamMembers"]').click();
           }else{
               layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
           }
@@ -438,7 +441,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     callback: function (result) {
         if(result.code=="0") {
             layer.msg('数据导入成功!', {icon: 1});
-            $('[lay-filter="mainAchievements"]').click();
+            addTableData({update: true, id: 'mainAchievements'})
+            // $('[lay-filter="mainAchievements"]').click();
         }else{
             layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
         }
@@ -451,7 +455,8 @@ importFiles({
   callback: function (result) {
       if(result.code=="0") {
           layer.msg('数据导入成功!', {icon: 1});
-          $('[lay-filter="mainPatent"]').click();
+          addTableData({update: true, id: 'mainPatent'})
+          // $('[lay-filter="mainPatent"]').click();
       }else{
           layer.msg('数据导入失败!失败信息：'+result.message, {icon: 1});
       }
