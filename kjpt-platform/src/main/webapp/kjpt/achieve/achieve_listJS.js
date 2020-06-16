@@ -243,15 +243,16 @@ layui.use(['table', 'form', 'laydate'], function () {
         top.layer.msg('请选择要' + dialogTitle + '的数据！');
         return false;
       }
-    }else if(optionType == 'collection'){ // 补录
-      var listData = table.checkStatus('tableDemo').data;
-      if (listData.length === 1) {
-          url += '&id=' + listData[0].id + "&index=" + index;
-          parent.layui.index.openTabsPage(url, dialogTitle + '申请');
-        }
     } else {
       parent.layui.index.openTabsPage(url, dialogTitle + '申请');
     }
+    // else if(optionType == 'collection'){ // 补录
+    //   var listData = table.checkStatus('tableDemo').data;
+    //   if (listData.length === 1) {
+    //       url += '&id=' + listData[0].id + "&index=" + index;
+    //       parent.layui.index.openTabsPage(url, dialogTitle + '申请');
+    //     }
+    // }
   })
    // 导出 /achieveRecord-api/exportExcel
    $('#exportData').on('click', function(e) {
