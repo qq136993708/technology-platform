@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
+import com.pcitc.mapper.achieve.AchieveMaintainMapper;
 import com.pcitc.mapper.computersoftware.ComputerSoftwareMapper;
 import com.pcitc.mapper.patent.PatentInfoMapper;
 import com.pcitc.mapper.trademarkinfo.TrademarkInfoMapper;
@@ -30,6 +31,11 @@ public class StatisticalServiceImpl implements StatisticalService
 	    private ComputerSoftwareMapper computerSoftwareMapper;//软件著作权管理
 	    
 	    
+	    @Autowired
+	    private AchieveMaintainMapper achieveMaintainMapper;//软件著作权管理
+	    
+	    
+	    
 	    
 	    public Map getRightsMap()//知识产权
 	    {
@@ -46,6 +52,12 @@ public class StatisticalServiceImpl implements StatisticalService
 	    	result.put("treatiseInfoCount", list.size());
 	    	return result;
 	    }
+	    
+	    public List getAchieveMaintainGrupCountList()//成果获奖
+	    {
+	    	return achieveMaintainMapper.getAchieveMaintainGrupCountList();
+	    }
+	    
 	    
 	 
 

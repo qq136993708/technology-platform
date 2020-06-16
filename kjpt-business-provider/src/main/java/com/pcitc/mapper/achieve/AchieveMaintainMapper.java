@@ -16,5 +16,9 @@ public interface AchieveMaintainMapper {
     void update(AchieveMaintain am);
     Integer delete(@Param("ids") String ids);
     List query(Map param);
+    
+    
+    List getAchieveMaintainGrupCountList();
+    
 
 }

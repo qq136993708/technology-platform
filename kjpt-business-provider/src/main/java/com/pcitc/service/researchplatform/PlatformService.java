@@ -45,7 +45,7 @@ public interface PlatformService {
      */
     List excelImport(List dataList,String currentUser);
 
-
+    public List<PlatformInfoModel> getKyptInfoGrupCountList();
 
     /**
      * 查询科技材料统计表

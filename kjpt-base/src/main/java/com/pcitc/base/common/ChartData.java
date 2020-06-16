@@ -5,7 +5,8 @@ public class ChartData {
 	
 	private String name;    //类别名称
     private int    value;   //销量
-    
+    public ChartData() {
+    }
     
     public ChartData(String name, int value) {
         this.name = name;

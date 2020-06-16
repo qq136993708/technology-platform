@@ -20,7 +20,7 @@ public interface PlatformMapper {
      */
     List<PlatformInfoModel> query(Map paramMap);
     List<PlatformInfoModel> queryPlatformListApi(Map paramMap);
-
+    List<PlatformInfoModel> getKyptInfoGrupCountList();
     
     /**
      * 修改科研平台
