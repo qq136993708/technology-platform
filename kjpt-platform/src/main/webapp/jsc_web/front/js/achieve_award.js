@@ -144,7 +144,6 @@ $(function() {
       // 图例被点击时的回调
       var ids = '';
       $.each(items, function(i, val) {
-        console.log(val.legendSelected);
         if (val.legendSelected !== false) {
           ids += ',' + val.id;
         }

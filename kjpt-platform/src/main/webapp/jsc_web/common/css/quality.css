@@ -1,0 +1,19 @@
+.quality-layout {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+.hide-scroll-bar {
+    width: calc(100% + 30px);
+    overflow: auto;
+    height: 100%;
+}
+.hide-scroll-bar .img-layout-block {
+    display: block;
+    font-size: 0;
+}
+.hide-scroll-bar .img-layout-block > img {
+    width: 100%;
+    border: none;
+    vertical-align: top;
+}

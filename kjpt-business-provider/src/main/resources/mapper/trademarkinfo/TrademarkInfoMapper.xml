@@ -380,10 +380,10 @@
       and well_known_date = #{wellKnownDate}
     </if>
     <if test="registerDate != null" >
-      and register_date = #{registerDate}
+      and DATE_FORMAT(register_date,'%Y-%m-%d') = DATE_FORMAT(#{registerDate},'%Y-%m-%d')
     </if>
     <if test="effectiveDate != null " >
-      and effective_date = #{effectiveDate}
+      and DATE_FORMAT(effective_date,'%Y-%m-%d') = DATE_FORMAT(#{effectiveDate},'%Y-%m-%d')
     </if>
     <if test="famousDate != null " >
       and famous_date = #{famousDate}

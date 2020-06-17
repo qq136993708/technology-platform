@@ -7,30 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/achieveInfo.css">
+    <link rel="stylesheet" href="/jsc_web/common/css/quality.css">
 </head>
-<body>
-<div style="position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 600px;">
-    <div style="
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                overflow-x: hidden;">
-        <img style="width: 100%;" src="../img/qtcp.png">
-    </div>
+<body class="quality-layout">
+<div class="hide-scroll-bar">
+    <div class="img-layout-block" id="scrollHideBar"><img src="../img/qtcp.png"></div>
 </div>
+
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
 <script src="/plugins/echarts/echarts.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-<script src="/layuiadmin/js/chartOption.js"></script>
-<script>
-    layui.use(['laydate'], function() {
-        var laydate = layui.laydate
-        // $('#box').css("background-image","url(../img/qu.png)");
-    });
-</script>
+<script src="./js/scrollHideBar.js"></script>
 </body>
 </html>
