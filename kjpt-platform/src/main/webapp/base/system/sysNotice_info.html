@@ -182,8 +182,10 @@
                         $("input[name=noticeId]").val(data.noticeId);
                         $("input[name=noticeTitle]").val(data.noticeTitle);
                         $("input[name=noticeCreater]").val(data.noticeCreater);
-                        var arry = data.noticeReceiver.split(",");
-                        autoCheck("unitTree", arry);
+                        if(data.noticeReceiver){
+                            var arry = data.noticeReceiver.split(",");
+                            autoCheck("unitTree", arry);
+                        }
                         $("textarea[name=noticeSummary]").val(data.noticeSummary);
                         /* $('input[name=isVariable]').each(function(i,item){
                             if($(item).val()==data.isVariable){
@@ -341,7 +343,7 @@
                 error: function (msg) {
                     layer.msg(msg);
                 }
-            });
+            }); 
 
             /*
              * initSelectTree参数：
@@ -352,11 +354,11 @@
              *
              */
             initSelectTree("unit", true, true, false, {
-                "Y": "",
-                "N": ""
+                "Y": "s",
+                "N": "ps"
             });
 
-            initHideMenu(); //不加此方法则默认打开下拉树
+            initHideMenu(); //不加此方法则默认打开下拉树 
         });
     </script>
 </body>

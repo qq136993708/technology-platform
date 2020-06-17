@@ -214,7 +214,7 @@ layui.use(['table', 'form', 'laydate'], function () {
           });
         } else {
           layer.closeAll(); // 关闭弹窗
-          top.layer.msg('驳回失败！');
+          top.layer.msg('此状态下不能驳回！');
         }
       }
     })

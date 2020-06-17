@@ -13,7 +13,7 @@ function initSelectTree(id, isMultiple, isShowLine, isShowIcon, chkboxType) {
         },
         check: {
             enable: false,
-            chkboxType: {"Y": "ps", "N": "s"}
+            chkboxType: {"Y": "s", "N": "ps"}
         },
         callback: {
             onClick: onClick,
@@ -74,7 +74,10 @@ function initSelectTree(id, isMultiple, isShowLine, isShowIcon, chkboxType) {
         }
     });
     selectTree = $.fn.zTree.init($("#" + id + "Tree"), setting, zNodes);
-    selectTree.expandAll(true);
+    var nodes = selectTree.getNodes();
+    for (var i = 0; i < nodes.length; i++) { //设置节点展开
+        selectTree.expandNode(nodes[i], true, false, true);
+    }
     return selectTree;
 }
 
@@ -136,7 +139,7 @@ function assignment(treeId, nodes) {
     var types = "";
     var urls = "";    // 系统菜单树中的菜单节点url
     for (var i = 0, l = nodes.length; i < l; i++) {
-        console.log("-------"+nodes[i].treeUrl+"-------"+nodes[i].name+"-------"+nodes[i].id);
+        // console.log("-------"+nodes[i].treeUrl+"-------"+nodes[i].name+"-------"+nodes[i].id);
         //if(nodes[i].isParent!=true){
             names += nodes[i].name + ",";
             ids += nodes[i].id + ",";
@@ -145,7 +148,7 @@ function assignment(treeId, nodes) {
             urls += nodes[i].treeUrl + ",";
         //}
     }
-    console.log("1-------"+names);
+    // console.log("1-------"+names);
     if (names.length > 0) {
         names = names.substring(0, names.length - 1);
         ids = ids.substring(0, ids.length - 1);
@@ -154,11 +157,15 @@ function assignment(treeId, nodes) {
         urls = urls.substring(0, urls.length - 1);
     }
     treeId = treeId.substring(0, treeId.length - 4);
-    console.log("2-------"+names);
+    // console.log("2-------"+names);
     if(names){
         $("#" + treeId + "Show").attr("value", names);
         $("#" + treeId + "Show").attr("title", names);
         $("#" + treeId + "Name").attr("value", names);
+    }else{
+        $("#" + treeId + "Show").attr("value",'');
+        $("#" + treeId + "Show").attr("title", '');
+        $("#" + treeId + "Name").attr("value", '');
     }
     if(types){
         $("#" + treeId + "Type").attr("value", types);
