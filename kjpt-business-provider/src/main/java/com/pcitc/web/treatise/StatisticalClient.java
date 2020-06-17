@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.achieve.AchieveMaintain;
 import com.pcitc.base.common.ChartData;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.service.researchplatform.PlatformService;
@@ -41,7 +42,7 @@ public class StatisticalClient {
 	    }
 	    
 	    
-	    @ApiOperation(value = "科研平台", notes = "科研平台")
+	    @ApiOperation(value = "首页-科研平台", notes = "首页-科研平台")
 	    @RequestMapping(value = "/getKyptInfoGrupCountList", method = RequestMethod.POST)
 	    public JSONArray getKyptInfoGrupCountList(@RequestBody(required = false) Map param)
 	    {
@@ -53,7 +54,7 @@ public class StatisticalClient {
 	        	{
 	        		PlatformInfoModel pm=list.get(i);
 	        		ChartData chartData=new ChartData();
-	        		chartData.setName(pm.getPlatformName());
+	        		chartData.setName(pm.getNameKey());
 	        		chartData.setValue(pm.getNameCount());
 	        		reuslt.add(chartData);
 	        	}
@@ -65,12 +66,34 @@ public class StatisticalClient {
 	    
 	    
 	    
-	    @ApiOperation(value = "成果获奖（累计）", notes = "成果获奖（累计）")
+	    @ApiOperation(value = "首页-成果获奖（累计）", notes = "首页-成果获奖（累计）")
 	    @RequestMapping(value = "/getAchieveMaintainGrupCountList", method = RequestMethod.POST)
 	    public JSONArray getAchieveMaintainGrupCountList(@RequestBody(required = false) Map param)
 	    {
-	    	List list=statisticalService.getAchieveMaintainGrupCountList();
-	    	JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	    	List<AchieveMaintain> list=statisticalService.getAchieveMaintainGrupCountList();
+	    	List<ChartData>  reuslt=new ArrayList();
+	        if(list!=null) 
+	        {
+	        	for(int i=0;i<list.size();i++)
+	        	{
+	        		AchieveMaintain pm=list.get(i);
+	        		System.out.println("typeText="+pm.getNameKey()+" getNameCount "+pm.getNameCount());
+	        		if(pm!=null)
+	        		{
+	        			String typeText=pm.getTypeText();
+		        		if(typeText!=null)
+		        		{
+		        			typeText="";
+		        		}
+		        		ChartData chartData=new ChartData();
+		        		chartData.setName(pm.getNameKey());
+		        		chartData.setValue(pm.getNameCount());
+		        		reuslt.add(chartData);
+	        		}
+	        		
+	        	}
+	        }
+	        JSONArray json = JSONArray.parseArray(JSON.toJSONString(reuslt));
 	        return json;
 	    }
 	    

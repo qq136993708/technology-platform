@@ -83,7 +83,7 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     
     private Integer nameCount=0;
     
-    
+    private String nameKey="";
     
 
     /**
@@ -94,7 +94,15 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     
     
 
-    public Integer getNameCount() {
+    public String getNameKey() {
+		return nameKey;
+	}
+
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
+	}
+
+	public Integer getNameCount() {
 		return nameCount;
 	}
 

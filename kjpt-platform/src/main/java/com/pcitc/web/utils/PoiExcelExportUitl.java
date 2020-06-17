@@ -137,7 +137,7 @@ public class PoiExcelExportUitl<T> {
                     if(o!=null)
                     {
                         if(o instanceof Date){
-                            value= DateUtil.dateToStr((Date) o,DateUtil.FMT_SS);
+                            value= DateUtil.dateToStr((Date) o,DateUtil.FMT_DD);
                         }else{
                             value=o.toString();
                         }
