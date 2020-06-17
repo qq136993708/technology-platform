@@ -787,6 +787,18 @@ border-width: 5px;
   text-align: center;
   background-color: rgba(255, 255, 255, .1);
 }
+.chart-data-mask > .ib-block {
+  position: relative;
+  z-index: 11;
+}
+.chart-data-mask > img {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
 
 /* 鐭ユ倝鑼冨洿* --- start --- */
 .item-list-data {
