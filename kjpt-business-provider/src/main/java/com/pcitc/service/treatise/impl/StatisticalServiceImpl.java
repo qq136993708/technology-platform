@@ -13,6 +13,7 @@ import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.mapper.achieve.AchieveMaintainMapper;
 import com.pcitc.mapper.computersoftware.ComputerSoftwareMapper;
+import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.patent.PatentInfoMapper;
 import com.pcitc.mapper.researchplatform.PlatformMapper;
@@ -41,6 +42,16 @@ public class StatisticalServiceImpl implements StatisticalService
 	    @Autowired
 	    private PlatformMapper platformMapper;
 	    
+	    @Autowired
+	    private ZjkBaseMapper zjkBaseMapper;
+	    
+	    
+	    
+
+	    public List<ChartData> getZjkTongjiList()
+		{
+			return zjkBaseMapper.getZjkTongjiList();
+		}
 	    
 	    
 	    public List<ChartData> getTongjiList()
