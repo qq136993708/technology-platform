@@ -144,12 +144,7 @@ layui.use(['element'], function () {
         legend: { show: true, left: 'right', top: 5},
         labelColor: '#fff',
         // borderColor: '#001e38',
-        data: [
-            { name: '核能开发', value1: 21, value2: 76 },
-            { name: '集中研发', value1: 10, value2: 38 },   
-            { name: '国防基础', value1: 18, value2: 55 },
-            { name: '国防技术基础', value1: 50, value2: 43 }
-        ],
+        data: [],
         itemName: 'name',
         series: [
             { name: '在研', valueKey: 'value1', stack: 'kyxm_charts'},
@@ -174,16 +169,7 @@ layui.use(['element'], function () {
     // $('.item_number').on('click',function(){
     //     jscPup('achieve_award'); 
     // })
-    //GET /indexHomeBI-api/getAchieveAward  成果获奖（累计）
-    //GET /indexHomeBI-api/getAchieveTransfer  成果转化（累计）
-    //GET /indexHomeBI-api/getIntellectualProperty 知识产权（累计）
-    // GET /indexHomeBI-api/getPatent  专利数量（累计）
-    // GET /indexHomeBI-api/getPatent    专利数量（累计
-    // GET /indexHomeBI-api/getProjectInvest  项目投资（累计）
-    // GET /indexHomeBI-api/getQualityInfo  质量信息（累计）
-    // GET /indexHomeBI-api/getTechnologyExpert   科技专家
-    // GET /indexHomeBI-api/getTechnologyPlatform  科研平台
-    // GET /indexHomeBI-api/getTechnologyProject   科研项目（累计
+    
     //科技专家 
     function loadExperts() { 
         httpModule({
@@ -213,15 +199,17 @@ layui.use(['element'], function () {
             url: option.url,
             success: function (result) {
                 var curList=[];
-                $.each(result,function(index,item){
-                    var curObj={};
-                    curObj['name']=item.text;
-                    curObj['value']=item.calValue;
-                    if(option.page){
-                        curObj['page']=option.page;
+                if(option.page){
+                    $.each(result,function(index,item){
+                    if(option.page == 'kynl_page'){
+                        item.name=item.name.replace(/科研平台/, "")
                     }
-                    curList.push(curObj);
+                    item['page'] = option.page;
                 })
+                curList=result;
+                }else{
+                    curList=result;
+                }
                 console.log(curList);
                 kyptCharts.reload(option.id,{
                     series:curList
@@ -232,39 +220,79 @@ layui.use(['element'], function () {
     //知识产权（累计)
     function loadIntellectual() {
         httpModule({
-            url: "/indexHomeBI-api/getIntellectualProperty",
+            url: "/getRightsMap",
+            success: function (result) {   
+                if(result.success) {
+                    $('#patent').text(result.data.patentCount);
+                    $('#trademark').text(result.data.trademarkInfoCount);
+                    $('#copyright').text(result.data.computerSoftwareCount);
+                    $('#paper').text(result.data.treatiseInfoCount);
+                }
+                // $.each(result[1],function(index,item){
+                //     if(item.text == '专利'){
+                //         $('#patent').text(item.calValue);
+                //     }else if(item.text == '商标'){
+                //         $('#trademark').text(item.calValue);
+                //     }else if(item.text == '软件著作权'){
+                //         $('#copyright').text(item.calValue);
+                //     }else if(item.text == '论文'){
+                //         $('#paper').text(item.calValue);
+                //     } 
+                // })
+            }
+        });
+    };
+    function loadAchievements() {
+        httpModule({
+            url: "/indexHomeBI-api/getAchieveTransfer",
             success: function (result) {
                 $.each(result,function(index,item){
-                    if(item.text == '专利'){
-                        $('#patent').text(item.calValue);
-                    }else if(item.text == '商标'){
-                        $('#trademark').text(item.calValue);
-                    }else if(item.text == '软件著作权'){
-                        $('#copyright').text(item.calValue);
-                    }else if(item.text == '论文'){
-                        $('#paper').text(item.calValue);
-                    } 
+                    if(item.text == '申请数量'){
+                        $('#applications').text(item.calValue);
+                    }else if(item.text == '完成数量'){
+                        $('#completed').text(item.calValue);
+                    }else if(item.text == '完成金额'){
+                        $('#amount').text(item.calValue);
+                    }
                 })
+            }
+        });
+    };
+    // { name: '核能开发', value1: 21, value2: 76 },
+    //         { name: '集中研发', value1: 10, value2: 38 },   
+    //         { name: '国防基础', value1: 18, value2: 55 },
+    //         { name: '国防技术基础', value1: 50, value2: 43 }
+    // 科研项目
+    function loadResearch() {
+        httpModule({
+            url: "/indexHomeBI-api/getTechnologyProject",
+            success: function (result) {
+                console.log(result)
+            },
+            errro: function (data) {
+                
             }
         });
     }
     loadExperts();
     loadIntellectual();
+    loadAchievements();
+    // loadResearch();
     // 科研平台
     loadResearchPlatform({
-        url:'/indexHomeBI-api/getTechnologyPlatform',
+        url:'/getKyptInfoGrupCountList',
         id:'kypt_charts',
         page:'kynl_page'
     });
     //成果获奖（累计)
     loadResearchPlatform({
-        url:'/indexHomeBI-api/getAchieveAward',
+        url:'/getAchieveMaintainGrupCountList',
         id:'achieve_charts',
         page:'achieve_award'
     });
     //专利数量(累计)
     loadResearchPlatform({
-        url:'/indexHomeBI-api/getPatent',
+        url:'/getPatentCountByType',
         id:'patent_charts',
     });
 
