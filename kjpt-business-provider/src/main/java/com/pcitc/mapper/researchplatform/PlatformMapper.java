@@ -48,5 +48,9 @@ public interface PlatformMapper {
      * @return
      */
     List scienceStatistics(Map param);
+    
+    List<PlatformInfoModel> getPlatFormList(Map param);
+    
+    
 
 }

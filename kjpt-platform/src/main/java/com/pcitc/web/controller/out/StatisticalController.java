@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +43,13 @@ public class StatisticalController extends BaseController
 	    private static final String getAchieveMaintainGrupCountList = "http://kjpt-zuul/stp-proxy/statistical-api/getAchieveMaintainGrupCountList";
 		
 	    private static final String countByPatentType = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/countByPatentType";
+	    private static final String getTongjiList = "http://kjpt-zuul/stp-proxy/statistical-api/getTongjiList";
 
+	    private static final String getPlatFormList = "http://kjpt-zuul/stp-proxy/statistical-api/getPlatFormList";
+
+	    
+	    
+	    
 	    
 	
 	    @ApiOperation(value = "首页-知识产权", notes = "首页-知识产权")
@@ -83,14 +90,13 @@ public class StatisticalController extends BaseController
 	   	}
 	    
 	    
-	    
 
 	    @ApiOperation(value = "首页-成果获奖（累计）", notes = "首页-成果获奖（累计）")
 		@RequestMapping(value = "/getAchieveMaintainGrupCountList", method = RequestMethod.GET)
 	    @ResponseBody
 	   	public String getAchieveMaintainGrupCountList( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
-	   		
+	    	
 	    	Map  map = new HashMap();
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getAchieveMaintainGrupCountList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
@@ -107,12 +113,11 @@ public class StatisticalController extends BaseController
 	    @ApiOperation(value="首页-专利数量")
 	    @RequestMapping(value = "/getPatentCountByType", method = RequestMethod.GET)
 	    @ResponseBody
-	    public String countByPatentType(@RequestParam(required = false) String type) {
+	    public String countByPatentType(@RequestParam(required = false) String type)
+	    {
 	        Map<String, Object> condition = new HashMap<>(6);
-	       
 	        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	        ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByPatentType, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
-
 
 	        List<Map> list=responseEntity.getBody();
 	        List<ChartData>  reuslt=new ArrayList();
@@ -128,10 +133,39 @@ public class StatisticalController extends BaseController
 	        	}
 	        }
 	        JSONArray json = JSONArray.parseArray(JSON.toJSONString(reuslt));
-	        
-	        
 	        return json.toString();
-
 	    }
+	    
+	    
+
+	    @ApiOperation(value = "科研能力-科技人才", notes = "科研能力-科技人才")
+		@RequestMapping(value = "/getTongjiList", method = RequestMethod.GET)
+	    @ResponseBody
+	   	public String getTongjiList( HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	    	Map  map = new HashMap();
+			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getTongjiList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
+			JSONArray temparray = responseEntity.getBody();
+			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
+			return trreeJsovvn.toString();
+	   	}
+	    
+	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
+		@RequestMapping(value = "/getPlatFormList", method = RequestMethod.GET)
+	    @ResponseBody
+	   	public String getPlatFormList(@RequestParam(required = false) String type, HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	    	Map  map = new HashMap();
+	    	map.put("type",type);
+			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getPlatFormList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
+			JSONArray temparray = responseEntity.getBody();
+			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
+			return trreeJsovvn.toString();
+	   	}
+	    
 
 }

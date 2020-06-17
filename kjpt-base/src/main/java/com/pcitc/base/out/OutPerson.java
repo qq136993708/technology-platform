@@ -159,6 +159,10 @@ public class OutPerson  {
     
     private String birthDateStr;
     
+    
+    
+    
+    
 
     public String getBirthDateStr() {
 		return birthDateStr;

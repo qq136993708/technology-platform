@@ -45,8 +45,14 @@
     <result column="title_str"  jdbcType="VARCHAR" property="titleStr" />
     <result column="education_str"  jdbcType="VARCHAR" property="educationStr" />
     <result column="head_pic"  jdbcType="VARCHAR" property="headPic" />
-    
     <result column="birthDateStr"  jdbcType="VARCHAR" property="birthDateStr" />
+    
+    <result column="nameKey"  jdbcType="VARCHAR" property="nameKey" />
+    <result column="nameCount"  jdbcType="INTEGER" property="nameCount" />
+    
+    
+    
+    
     
     
   </resultMap>
@@ -575,6 +581,39 @@
 	 <delete id="deleteAll" >
         delete from out_person
      </delete>
+     
+     
+     
+     
+     <resultMap id="ChartDataBaseResultMap" type="com.pcitc.base.common.ChartData">
+	    <result column="name"   jdbcType="VARCHAR" property="name" />
+	    <result column="value"  jdbcType="INTEGER" property="value" />
+     </resultMap>
+     
+     
+     
+      <select id="getTongjiList" resultMap="ChartDataBaseResultMap"  >
+           SELECT 
+			  name ,IFNULL(nameCount,0) value
+		   FROM
+			  (SELECT 
+			    t.`name`,
+			    t.`num_value` 
+			  FROM
+			    sys_dictionary t 
+			  WHERE t.`parent_code` = 'ROOT_KJPT_JSZC') t1 
+			  LEFT JOIN 
+			    (SELECT 
+			      t.`title`,
+			      COUNT(*) nameCount 
+			    FROM
+			      out_person t 
+			    GROUP BY t.`title`) t2 
+		  ON t1.num_value = t2.`title` 
+      </select>
+   
+   
+   
   
   
   

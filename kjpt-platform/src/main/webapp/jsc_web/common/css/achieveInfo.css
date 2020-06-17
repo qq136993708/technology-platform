@@ -95,6 +95,52 @@
   width: 68%;
   padding-left: 2rem;
 }
+.zdy-layout .pie-legend-list.right.vertical > .ib-block{
+  padding-bottom: 1.2rem;
+}
+.zdy-layout > .dy-chart-layout {
+  margin-right: 18rem;
+}
+.zdy-layout  .pie-legend-list.right.vertical .legend-item > .number {
+  width: 3.5rem;
+  text-align: left;
+}
+.zdy-layout  .pie-legend-list.right.vertical .legend-item > .money {
+  width: 5.2rem;
+  text-align: left;
+}
+.zdy-layout .pie-legend-list.vertical .legend-item,
+.zdy-layout .pie-legend-list.vertical .legend-item:hover {
+  cursor: default;
+  opacity: 1;
+}
+dl.transform-pie-tips {
+  padding: .2rem .3rem;
+}
+.transform-pie-tips .toltip-row {
+  height: 1.2rem;
+  line-height: 1.2rem;
+}
+.transform-pie-tips dt.toltip-row {
+  padding-bottom: .5rem;
+}
+.transform-pie-tips dd.toltip-row {
+  padding-left: 1rem;
+}
+.transform-pie-tips .ib-block{
+  font-size: 14px;
+  color: #fff;
+  margin-right: .3rem;
+}
+.transform-pie-tips dt.toltip-row .ib-block{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.transform-pie-tips .pie-icon{
+  width: .7rem;
+  height: .7rem;
+}
 
 /* 成果报奖 */
 .achieve_award .top-chart-layout {

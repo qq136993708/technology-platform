@@ -100,8 +100,33 @@ public class StatisticalClient {
 	    
 	    
 	    
+	    @ApiOperation(value = "科研能力-科技人才", notes = "科研能力-科技人才")
+	    @RequestMapping(value = "/getTongjiList", method = RequestMethod.POST)
+	    public JSONArray getTongjiList(@RequestBody(required = false) Map param)
+	    {
+	    	List<ChartData> list=statisticalService.getTongjiList();
+	        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	        return json;
+	    }
+	    
+	    
+	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
+	    @RequestMapping(value = "/getPlatFormList", method = RequestMethod.POST)
+	    public JSONArray getPlatFormList(@RequestBody(required = false) Map param)
+	    {
+	    	List<PlatformInfoModel> list=statisticalService.getPlatFormList(param);
+	        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	        return json;
+	    }
+	    
+	    
+	    
 	    
 
 	   
+	    
+	    
+	    
+	    
 
 }

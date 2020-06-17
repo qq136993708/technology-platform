@@ -237,9 +237,15 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   //导入
 importFiles({
   id:'#importData',
-  url:'/excelImport/standardImp',
+  url:'/excelImport/international_standardImp',
   callback: function (data, type) {
-    queryTable('');
+      debugger;
+      if(data.code=="0") {
+          layer.msg('数据导入成功!', {icon: 1});
+          $('[lay-filter="formDemo"]').click();
+      }else{
+          layer.msg('数据导入失败!失败信息：'+ data.message, {icon: 1});
+      }
   }
 })
 // 导出

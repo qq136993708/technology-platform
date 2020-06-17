@@ -458,6 +458,9 @@
     </select>
     
     
+    <select id="getPlatFormList" resultMap="BaseResultMap">
+        select * from view_kypt_info <include refid="selectByParam"/>
+    </select>
     
 
 

@@ -39,6 +39,39 @@ $(function() {
     data: []
   });
 
+  // 成果转化方式
+  var pieColor = ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'];
+  kyptCharts.render({
+    id: 'awardTramsformType',
+    type: 'pie',
+    tooltip: {
+      formatter: function(params) {
+        var tipsText = '';
+        tipsText += '<dl class="transform-pie-tips">';
+        tipsText += '<dt class="toltip-row middle-block">'
+        tipsText += '<span class="ib-block pie-icon" style="background:'+ pieColor[params.dataIndex] +'"></span><span class="ib-block name">'+ params.data.name +'</span>';
+        tipsText += '</dt><dd class="toltip-row middle-block">';
+        tipsText += '<span class="ib-block name">数量：</span><span class="ib-block value">'+ params.data.number +'</span>';
+        tipsText += '</dd><dd class="toltip-row middle-block">';
+        tipsText += '<span class="ib-block name">金额：</span><span class="ib-block value">'+ params.data.value +'万</span>';
+        tipsText += '</dd></dl>';
+        return tipsText;
+      }
+    },
+    legend: { show: false },
+    label: false,
+    labelColor: '#fff',
+    radius: '65%',
+    center: ['50%', '50%'],
+    left: '20',
+    // borderColor: '#001e38',
+    totalTitle: false,
+    series: [],
+    title: { textStyle: { fontSize: 48, color: '#fff' } },
+    color: pieColor
+  });
+  
+
   // 二级单位成果转化情况
   kyptCharts.render({
     id: 'achieveTransferOffice',
@@ -85,15 +118,15 @@ $(function() {
     labelRotate: 40
   });
   
-
-  var pieColor = ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF'];
+  // HTTP请求
   var chartInit = {
     transformInfo: function (param) {
+      // 历年成果转化完成情况 数据请求
       var y1 = [];
       var y2 = [];
       httpModule({
         url: '/achieveMaintainBI-api/getAchieveTransferByYear',
-        data: param,
+        data: param || null,
         type: 'GET',
         async: false,
         success: function(res) {
@@ -110,134 +143,69 @@ $(function() {
               result.push(obj);
             });
             kyptCharts.reload('awardTramsformInfoHistory', {
-                  data: result,
-                  yAxis: [
-                    {
-                      type: 'value',
-                      min: 0,
-                      max: Math.ceil(Math.max.apply(null,y1)/4)*4,
-                      interval: Math.ceil(Math.max.apply(null,y1)/4),
-                    },
-                    {
-                      type: 'value',
-                      min: 0,
-                      max: Math.ceil(Math.max.apply(null,y2)/4)*4,
-                      interval: Math.ceil(Math.max.apply(null,y2)/4),
-                    }
-                  ]
-                });
+              data: result,
+              yAxis: [
+                {
+                  type: 'value',
+                  min: 0,
+                  max: Math.ceil(Math.max.apply(null,y1)/4)*4,
+                  interval: Math.ceil(Math.max.apply(null,y1)/4),
+                },
+                {
+                  type: 'value',
+                  min: 0,
+                  max: Math.ceil(Math.max.apply(null,y2)/4)*4,
+                  interval: Math.ceil(Math.max.apply(null,y2)/4),
+                }
+              ]
+            });
           }
         }
       });
     },
     awardsYearPie: function (params) {
-      $('#awardTramsformType').empty();
-      var chartDemo = echarts.init(document.getElementById('awardTramsformType'));
-      //获取数据
-      var countSeries = {
-        name: '数量',
-        type: 'pie',
-        selectedMode: 'single',
-        radius: [0, '30%'],
-        // center: ['30%', '50%'],
-        label: {
-          show: false
-        }
-      };
-      var moneySeries = {
-        name: '金额',
-        type: 'pie',
-        radius: ['40%', '60%'],
-        // center: ['30%', '50%'],
-        label: {
-          show: false
-        }
-      };
-      var series = [];
+      // 成果转化方式数据请求
+      var seriesData = [];
       httpModule({
         url: '/achieveMaintainBI-api/getAchieveTransferByType',
-        data: params,
+        data: params || null,
         type: 'GET',
         async: false,
         success: function (res) {
          if (res.code == 0) {
-           var data = res.data;
-           var countArray = [];
-           var moneyArray = [];
-           var html = '';
+          var data = res.data,
+          legendHtml = '<label class="legend-item">' +
+          '<span class="lenend-item-icon pie" style="opacity: 0;"></span>' +
+          '<span class="lenend-item-name"></span>' +
+          '<span class="lenend-item-value number th">数量</span>' +
+          '<span class="lenend-item-value money th">金额：万元</span></label>';
+
            $.each(data, function (i, item) {
-             html += '<div class="legend-item"><span><i style="background: ' + pieColor[i] + '"></i>' +item.achieveTransTypeText+ '</span><span>' +item.transAmount+ '</span><span>' +item.transMoneySum+ '</span></div>';
-             var objc = {};
-             objc.name = item.achieveTransTypeText;
-             objc.value = item.transAmount;
-             objc.itemStyle = {};
-             objc.itemStyle.color = pieColor[i];
-             countArray.push(objc);
-             var objm = {};
-             objm.name = item.achieveTransTypeText;
-             objm.value = item.transMoneySum;
-             objm.itemStyle = {};
-             objm.itemStyle.color = pieColor[i];
-             moneyArray.push(objm);
+            seriesData.push({
+              name: item.achieveTransTypeText,
+              value: item.transMoneySum,
+              number: item.transAmount
+            });
+            legendHtml += '<label class="legend-item" title="'+ item.achieveTransTypeText +'">';
+            legendHtml += '<span class="lenend-item-icon pie" style="background-color:'+ pieColor[i] +'"></span>';
+            legendHtml += '<span class="lenend-item-name">'+ item.achieveTransTypeText +'</span>';
+            legendHtml += '<span class="lenend-item-value number">'+ item.transAmount +'</span>';
+            legendHtml += '<span class="lenend-item-value money">'+ item.transMoneySum +'</span></label>';
            });
-           countSeries.data = countArray;
-           moneySeries.data = moneyArray;
-           series.push(countSeries);
-           series.push(moneySeries);
-           $('.chart-content .chart-legend').append(html);
+
+           kyptCharts.reload('awardTramsformType', { series: seriesData });
+           $('#lenend-list-box').empty().html(legendHtml);
          }
         }
       });
-      var option = {
-        series: series,
-        title: {
-          textStyle: { fontSize: 48, color: '#fff' }
-        },
-        legend: {
-          show: false,
-          right: 60,
-          top: 'center',
-          orient: 'vertical',
-          formatter: function (name) {
-              for(var j=0;j<countSeries.data.length;j++){
-                if (countSeries.data[j].name == name) {
-                  var result = countSeries.data[j].value;
-                  var result2 = moneySeries.data[j].value;
-                  var arr = ["{a|"+name+"}","{b|"+result+"个}", "{c|" + result2 + "万元}"];
-                  return arr.join(' ');
-                }
-            }
-          },
-          textStyle: {
-            color: '#ffffff',
-            rich: {
-              a: {
-                width: 80
-              },
-              b: {
-                width: 60,
-                verticalAlign: 'middle'
-              }
-            }
-          }
-        },
-        tooltip:  {
-          show: true,
-          trigger: 'item',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        // color: ['#4FA0E4', '#3461D3', '#EFEC56', '#DE7A3A', '#DF5DFF']
-      };
-      chartDemo.setOption(option);
     },
     achieveTransferOfficeChart: function (params) {
+      // 二级单位成果转化情况
       var y1 = [];
       var y2 = [];
       httpModule({
         url: '/achieveMaintainBI-api/getAchieveTransferByOffice',
-        data: params,
+        data: params || null,
         type: 'GET',
         async: false,
         success: function(res) {
