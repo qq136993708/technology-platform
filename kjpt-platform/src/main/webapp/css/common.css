@@ -775,15 +775,18 @@ border-width: 5px;
 }
 
 /* 鍥惧舰鍥捐〃鏃犳暟鎹� */
-.chart-data-empty {
+.chart-data-empty,
+.chart-data-mask,
+.chart-data-loading {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 10;
+  text-align: center;
+  background-color: rgba(255, 255, 255, .1);
 }
-
 
 /* 鐭ユ倝鑼冨洿* --- start --- */
 .item-list-data {

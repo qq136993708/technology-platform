@@ -113,11 +113,12 @@ layui.use(['element'], function () {
                 a: {
                     height: 20, 
                     borderWidth: 1,
-                    lineHeight: 18,
+                    lineHeight: 24,
                     fontSize: 14,
                     align: 'center',
-                    padding: [3, 6, 3, 6],
+                    padding: [0, 6, 3, 6],
                     borderRadius: 3,
+                    borderColor: 'rgba(30, 83, 137, .6)'
                 }
             }
         },
@@ -156,12 +157,12 @@ layui.use(['element'], function () {
             { name: '已完成', valueKey: 'value2', stack: 'kyxm_charts'}
         ],
         color: ['rgba(107, 100, 96, .3)', ['#31E1F6','#386BEE']],
-        lineColor: 'rgba(4, 30, 54, 1)',
         valueColor: '#fff',
         labelColor: '#fff',
         yAxis: [{splitNumber: 3, name: '单位：个', nameGap: 20, nameTextStyle: {color: '#fff'}}],
         barWidth: 20,
-        axisLineColor: 'rgba(255, 255, 255, .2)',
+        lineColor: 'rgba(30, 83, 137, .6)',
+        axisLineColor: 'rgba(30, 83, 137, .6)',
         // callback:function(param){
         //     param.on('click',function(){
         //         jscPup('achieve_award');
