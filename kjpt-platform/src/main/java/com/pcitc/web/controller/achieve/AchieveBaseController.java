@@ -242,6 +242,7 @@ public class AchieveBaseController extends RestBaseController {
     }
 
     private void checkAuditStatus(AchieveBase ab){
+        ab.setIsSupplementaryRecord("02");
         if("1".equals(ab.getAchieveType())){
             ab.setAuditStatus(Constant.NO_SUBMIT);
         }else{
@@ -349,8 +350,8 @@ public class AchieveBaseController extends RestBaseController {
 		System.out.println("============start_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
 		
 		
-		 ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveBase.class);
-		 AchieveBase achieveBase=  responseEntity.getBody();
+		ResponseEntity<AchieveBase> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), AchieveBase.class);
+		AchieveBase achieveBase=  responseEntity.getBody();
         SysUser sysUserInfo = this.getUserProfile();
 		String branchFlag="0";
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();

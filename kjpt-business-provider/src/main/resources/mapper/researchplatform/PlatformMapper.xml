@@ -36,6 +36,12 @@
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+        
+        <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
+        
+        
+        
+        
     </resultMap>
 
 
@@ -436,6 +442,18 @@
 
     <select id="handlerKyptInfoImport" parameterType="java.lang.String" resultMap="BaseResultMap">
         call handler_kypt_import(#{batchId})
+    </select>
+
+
+
+
+    <select id="getKyptInfoGrupCountList"  resultMap="BaseResultMap">
+        SELECT * FROM (
+		 SELECT t.`name`,t.`num_value` FROM sys_dictionary t WHERE t.`parent_code`='ROOT_KJPT_PTJB'
+		)t1 
+		LEFT JOIN (
+		SELECT t.`level`,COUNT(*) nameCount FROM kypt_info t GROUP BY t.`level`
+		) t2 ON t1.num_value=t2.`level` 
     </select>
 
 

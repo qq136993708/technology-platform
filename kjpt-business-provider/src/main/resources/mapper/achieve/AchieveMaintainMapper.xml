@@ -26,6 +26,7 @@
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
+          <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
     </resultMap>
 
 
@@ -149,5 +150,17 @@
             </foreach>
     </update>
 
+
+
+  <select id="getAchieveMaintainGrupCountList"  resultMap="AchieveMaintainMap">
+		SELECT * FROM (
+		 SELECT t.`name` typeText,t.`num_value` ,t.`code` FROM sys_dictionary t WHERE t.`parent_code`='ROOT_KJPT_CGWH_HJLX'
+		)t1 
+		LEFT JOIN (
+		SELECT t.`type`,COUNT(*) nameCount FROM achieve_maintain	 t GROUP BY t.`type`
+		) t2 ON t1.code=t2.`type` 
+    </select>
+    
+    
 
 </mapper>
