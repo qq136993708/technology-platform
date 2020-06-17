@@ -178,7 +178,14 @@
     <select id="getAchieveMaintainGrupCountListByYear" parameterType="java.util.Map" resultType="java.util.Map">
         select sum(awards_number) num,b.name,year,a.type from achieve_maintain a
         left join sys_dictionary b on a.type = b.num_value and b.parent_code = 'ROOT_KJPT_CGWH_HJLX'
-        where deleted !='1' GROUP BY year,b.name,a.type ORDER BY year desc
+        where deleted !='1'
+        <if test="type != null and tpye != ''" >
+            and a.type = #{type}
+        </if>
+        <if test="year != null and year != ''" >
+            and a.year = #{year}
+        </if>
+         GROUP BY year,b.name,a.type ORDER BY year desc
     </select>
     
     
