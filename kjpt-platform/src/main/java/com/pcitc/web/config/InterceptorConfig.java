@@ -15,11 +15,10 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	TokenInterceptor tokenInterceptor;
 	
-	
-	
 	// 文件上传路径
 	@Value("${uploaderPathTemp}")
 	private String uploaderPathTemp;
+	
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

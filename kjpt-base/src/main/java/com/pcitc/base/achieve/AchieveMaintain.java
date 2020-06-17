@@ -51,9 +51,31 @@ public class AchieveMaintain extends RecordModel {
      * 奖项数量
      */
     private String awardsNumber="";
+    
+    private Integer nameCount=0;
+    
+    
+    private String nameKey="";
+    
 
 
-    public String getId() {
+    public String getNameKey() {
+		return nameKey;
+	}
+
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
+	}
+
+	public Integer getNameCount() {
+		return nameCount;
+	}
+
+	public void setNameCount(Integer nameCount) {
+		this.nameCount = nameCount;
+	}
+
+	public String getId() {
         return id;
     }
 

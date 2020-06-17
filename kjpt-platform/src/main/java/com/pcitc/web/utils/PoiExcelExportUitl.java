@@ -179,9 +179,10 @@ public class PoiExcelExportUitl<T> {
             hssfworkbook.write(out);
             
           
-            ByteArrayOutputStream baos =  (ByteArrayOutputStream)out;  
-            String str = baos.toString(); 
-            System.out.println("str="+str);
+			/*
+			 * ByteArrayOutputStream baos = (ByteArrayOutputStream)out; String str =
+			 * baos.toString(); System.out.println("str="+str);
+			 */
             out.flush();
             out.close();
         } catch (IOException e) {

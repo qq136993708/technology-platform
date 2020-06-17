@@ -66,7 +66,10 @@ public class PlatformServiceImpl implements PlatformService {
         return dataList;
     }
     
-    
+    public List<PlatformInfoModel> getKyptInfoGrupCountList()
+    {
+    	return platformServiceMapper.getKyptInfoGrupCountList();
+    }
     
     
 

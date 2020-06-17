@@ -80,14 +80,37 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
      * 平台成果数量
      */
     private Integer achievementCount=0;
+    
+    private Integer nameCount=0;
+    
+    private String nameKey="";
+    
 
     /**
      * 导入数据的批次标识
      */
     @JsonInclude
     private String batchId="";
+    
+    
 
-    public String getBatchId() {
+    public String getNameKey() {
+		return nameKey;
+	}
+
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
+	}
+
+	public Integer getNameCount() {
+		return nameCount;
+	}
+
+	public void setNameCount(Integer nameCount) {
+		this.nameCount = nameCount;
+	}
+
+	public String getBatchId() {
         return batchId;
     }
 
