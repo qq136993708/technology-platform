@@ -96,9 +96,9 @@ function addTableData(data) {
 
         $.each(data, function(index, item) {
             tbodyHtml += '<tr>';
-            tbodyHtml += '<td class="kyptName">'+ item.name +'</td>';
-            tbodyHtml += '<td class="subName">'+ item.pName +'</td>';
-            tbodyHtml += '<td class="nuitName">'+ item.yName +'</td>';
+            tbodyHtml += '<td class="kyptName">'+ item.createUnitName +'</td>';
+            tbodyHtml += '<td class="subName">'+ item.levelText +'</td>';
+            tbodyHtml += '<td class="nuitName">'+ item.supportingInstitutionsText +'</td>';
             tbodyHtml += '</tr>';
         });
         $tbodyContent.html(tbodyHtml);
@@ -113,10 +113,22 @@ function addTableData(data) {
 }
 
 $('#tabHeader').on('click', '.tab-btn', function(e) {
+    var curLevel = $(this).attr('data-level');
     if (!$(this).hasClass('selected')) {
         $(this).addClass('selected').siblings('.tab-btn').removeClass('selected');
         var tabType = $(this).attr('type');
+        loadNotes(curLevel)
         // HTTP请求
+        // httpModule({
+        //     url: "/getPlatFormList?levet="+curLevel,
+        //     success: function (result) {
+        //         debugger
+        //         // kyptCharts.reload('kynl_kjrc_charts', {series: result});
+        //     },
+        //     errro: function (data) {
+                
+        //     }
+        // });
     }
 })
 
@@ -185,14 +197,16 @@ function loadTechnological() {
 }
 loadTechnological();
 //科技人才
-function loadNotes() {
-    httpModule({
-        url: "/getPlatFormList",
-        success: function (result) {
-            // kyptCharts.reload('kynl_kjrc_charts', {series: result});
-        },
-        errro: function (data) {
-            
-        }
-    });
+function loadNotes(curLevel) {
+        httpModule({
+            url: "/getPlatFormList?levet="+curLevel,
+            success: function (result) {
+                addTableData(result)
+                // kyptCharts.reload('kynl_kjrc_charts', {series: result});
+            },
+            errro: function (data) {
+                
+            }
+        });
 }
+loadNotes(01)
