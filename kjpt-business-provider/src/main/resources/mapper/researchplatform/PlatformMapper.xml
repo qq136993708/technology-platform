@@ -38,6 +38,7 @@
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
         
         <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
+        <result column="nameKey" jdbcType="VARCHAR" property="nameKey"/>
         
         
         
@@ -448,13 +449,16 @@
 
 
     <select id="getKyptInfoGrupCountList"  resultMap="BaseResultMap">
-        SELECT * FROM (
+        SELECT NAME nameKey, nameCount FROM (
 		 SELECT t.`name`,t.`num_value` FROM sys_dictionary t WHERE t.`parent_code`='ROOT_KJPT_PTJB'
 		)t1 
 		LEFT JOIN (
 		SELECT t.`level`,COUNT(*) nameCount FROM kypt_info t GROUP BY t.`level`
 		) t2 ON t1.num_value=t2.`level` 
     </select>
+    
+    
+    
 
 
 </mapper>

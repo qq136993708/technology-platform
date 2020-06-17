@@ -27,6 +27,7 @@
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
           <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
+          <result column="nameKey" jdbcType="VARCHAR" property="nameKey"/>
     </resultMap>
 
 
@@ -153,8 +154,8 @@
 
 
   <select id="getAchieveMaintainGrupCountList"  resultMap="AchieveMaintainMap">
-		SELECT * FROM (
-		 SELECT t.`name` typeText,t.`num_value` ,t.`code` FROM sys_dictionary t WHERE t.`parent_code`='ROOT_KJPT_CGWH_HJLX'
+		SELECT nameKey, nameCount FROM (
+		 SELECT t.`name` nameKey,t.`num_value` ,t.`code` FROM sys_dictionary t WHERE t.`parent_code`='ROOT_KJPT_CGWH_HJLX'
 		)t1 
 		LEFT JOIN (
 		SELECT t.`type`,COUNT(*) nameCount FROM achieve_maintain	 t GROUP BY t.`type`
