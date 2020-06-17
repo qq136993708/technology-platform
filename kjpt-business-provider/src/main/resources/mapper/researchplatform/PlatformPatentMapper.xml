@@ -10,7 +10,7 @@
         <result column="patent_name" jdbcType="VARCHAR" property="patentName"/>
         <result column="patent_type" jdbcType="VARCHAR" property="patentType"/>
         <result column="patent_type_text" jdbcType="VARCHAR" property="patentTypeText"/>
-        <result column="application_date" jdbcType="TIMESTAMP" property="applicationDate"/>
+        <result column="application_date" jdbcType="DATE" property="applicationDate"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
@@ -134,6 +134,9 @@
             </if>
             <if test="patentType != null and patentType != '' " >
                 patent_type = #{patentType},
+            </if>
+            <if test="applicationDate != null " >
+                application_date = #{applicationDate},
             </if>
             <if test="secretLevel != null and secretLevel != ''" >
                 secret_level = #{secretLevel},

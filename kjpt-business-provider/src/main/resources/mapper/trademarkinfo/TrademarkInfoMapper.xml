@@ -206,10 +206,10 @@
         #{applicationNumber,jdbcType=VARCHAR},
       </if>
       <if test="effectiveDate != null">
-        #{effectiveDate,jdbcType=TIMESTAMP},
+        #{effectiveDate,jdbcType=DATE},
       </if>
       <if test="registerNoticeDate != null">
-        #{registerNoticeDate,jdbcType=TIMESTAMP},
+        #{registerNoticeDate,jdbcType=DATE},
       </if>
       <if test="entryPerson != null">
         #{entryPerson,jdbcType=VARCHAR},
@@ -221,7 +221,7 @@
         #{applicant,jdbcType=VARCHAR},
       </if>
       <if test="registerDate != null">
-        #{registerDate,jdbcType=TIMESTAMP},
+        #{registerDate,jdbcType=DATE},
       </if>
       <if test="lawStatus != null">
         #{lawStatus,jdbcType=VARCHAR},
@@ -295,7 +295,7 @@
       entry_person = #{entryPerson,jdbcType=VARCHAR},
       trademark_name = #{trademarkName,jdbcType=VARCHAR},
       applicant = #{applicant,jdbcType=VARCHAR},
-      register_date = #{registerDate,jdbcType=TIMESTAMP},
+      register_date = #{registerDate,jdbcType=DATE},
       law_status = #{lawStatus,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=TIMESTAMP},

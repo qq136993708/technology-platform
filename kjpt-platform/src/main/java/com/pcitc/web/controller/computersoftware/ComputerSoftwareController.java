@@ -396,6 +396,8 @@ public class ComputerSoftwareController extends RestBaseController {
                     ComputerSoftware obj = new ComputerSoftware();
 
                     obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_1,this.httpHeaders), String.class).getBody());
+                    obj.setCreateUnitId(obj.getUnitName());
+                    obj.setCreateUnitName(String.valueOf(col_1));
                     obj.setSoftwareName(String.valueOf(col_2));
                     obj.setRegisterNumber(String.valueOf(col_3));
                     Date recordDate = DateUtil.strToDate(String.valueOf(col_4),DateUtil.FMT_DD);

@@ -85,9 +85,13 @@ public class ImportExcelUtil {
 			for (int j = sheet.getFirstRowNum()+4; j <=sheet.getLastRowNum(); j++) {
 				Row row = sheet.getRow(j);
 				if(row==null||row.getFirstCellNum()==j){continue;}
+				//优化导入：减少脏数据导入
+				if(row.getLastCellNum() < lastCellNum) break;
 				//遍历所有的列
 				List<Object> li = new ArrayList<Object>();
-				for (int y = row.getFirstCellNum(); y < lastCellNum; y++) {
+			//	for (int y = row.getFirstCellNum(); y < lastCellNum; y++) {
+				//TODO:所有模板的第一列都是空数据，所以从第一列开始导入
+				for (int y = 1; y < lastCellNum; y++) {
 					Cell cell = row.getCell(y);
 					li.add(this.getCellValue(cell));
 					int beg = row.getFirstCellNum();
