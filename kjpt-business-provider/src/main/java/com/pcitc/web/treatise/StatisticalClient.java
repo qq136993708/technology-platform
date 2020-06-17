@@ -110,6 +110,20 @@ public class StatisticalClient {
 	    }
 	    
 	    
+	    @ApiOperation(value = "首页-科技专家", notes = "首页-科技专家")
+	    @RequestMapping(value = "/getZjkTongjiList", method = RequestMethod.POST)
+	    public JSONArray getZjkTongjiList(@RequestBody(required = false) Map param)
+	    {
+	    	List<ChartData> list=statisticalService.getZjkTongjiList();
+	        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	        return json;
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
 	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
 	    @RequestMapping(value = "/getPlatFormList", method = RequestMethod.POST)
 	    public JSONArray getPlatFormList(@RequestBody(required = false) Map param)

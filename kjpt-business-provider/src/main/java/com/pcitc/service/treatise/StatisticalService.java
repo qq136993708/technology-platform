@@ -16,8 +16,7 @@ public interface StatisticalService {
 	 
 	 
 	 public List<PlatformInfoModel> getPlatFormList(Map param);
-	 
-	 
+	 public List<ChartData> getZjkTongjiList();
 	 
 
 }

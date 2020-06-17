@@ -185,11 +185,19 @@ public class ZjkBase  {
     private String researchPersonType;
     private String researchPersonTypeStr;
     
+    private String otherNotes;
     
     
     
     
-    
+	public String getOtherNotes() {
+		return otherNotes;
+	}
+
+	public void setOtherNotes(String otherNotes) {
+		this.otherNotes = otherNotes;
+	}
+
 	public String getResearchPersonTypeStr() {
 		return researchPersonTypeStr;
 	}
