@@ -40,7 +40,9 @@ var kyptCharts = {
     title: object, // 饼图title配置 与官网保持一致
     totalTitle: false, // 是否环图中间显示总数量; 默认不显示
     callback: Function, // 回调函数；返回一个参数 => 当前图表实例chart
-
+    legendCallback: Function, // legendPosition 图例被点击时的回调
+    showMask: boolean | string, // 是否在图表上方显示遮罩层； string 时为遮罩层中显示的文本
+    loading: boolean; // 加载状态
     // 更多功能请自行添加修改
   }
   */
@@ -110,7 +112,29 @@ var kyptCharts = {
         chartDemo.resize();
       }, 200);
     })
-  
+    
+    if (typeof(config.showMask) === 'boolean' || typeof(config.showMask) === 'string') {
+      if (config.showMask) {
+        var maskText = '';
+        if (typeof(config.showMask) === 'string') {
+          maskText = config.showMask;
+        }
+        var maskHtml = '<div class="chart-data-mask middle-block"><span class="ib-block font16">'+ maskText +'</span></div>';
+        $('#' + config.id).append(maskHtml);
+      } else {
+        $('#' + config.id + ' .chart-data-mask').remove();
+      }
+    }
+
+    if (typeof(config.loading) === 'boolean') {
+      if (config.loading) {
+        var maskHtml = '<div class="chart-data-loading middle-block"><span class="ib-block font16">加载中...</span></div>';
+        $('#' + config.id).append(maskHtml);
+      } else {
+        $('#' + config.id + ' .chart-data-loading').remove();
+      }
+    }
+
     // 回调函数，返回图表对象
     if (config.callback) {
       config.callback(chartDemo);
@@ -139,8 +163,30 @@ var kyptCharts = {
         _this.emptyChart(id, _this.chart[id].config);
 
         // 有无数据都要重新渲染图表
-        var chartDome=_this.chart[id].chart.setOption(chartOption);
+        var chartDome = _this.chart[id].chart.setOption(chartOption);
         _this.chart[id].chart.resize();
+
+        if (typeof(config.showMask) === 'boolean' || typeof(config.showMask) === 'string') {
+          if (!config.showMask) {
+            $('#' + id + ' .chart-data-mask').remove();
+          } else {
+            var maskText = '';
+            if (typeof(config.showMask) === 'string') {
+              maskText = config.showMask;
+            }
+            var maskHtml = '<div class="chart-data-mask middle-block"><span class="ib-block font16">'+ maskText +'</span></div>';
+            $('#' + id).append(maskHtml);
+          }
+        }
+
+        if (typeof(config.loading) === 'boolean') {
+          if (config.loading) {
+            var loadingHtml = '<div class="chart-data-loading middle-block"><span class="ib-block font16">加载中...</span></div>';
+            $('#' + id).append(loadingHtml);
+          } else {
+            $('#' + id + ' .chart-data-loading').remove();
+          }
+        }
       }
     }
   },
@@ -510,16 +556,26 @@ var kyptCharts = {
             if($(this).attr('data-page')){
               jscPup($(this).attr('data-page'),encodeURI($(this).attr('title')));
             }else{
-            var optionChart = _this.chart[config.id].chart.getOption(),
-            legendSelected = optionChart.legend.selected || {};
-            if ($(this).hasClass('selected')) {
-              $(this).removeClass('selected');
-              legendSelected[item.name] = true;
-            } else {
-              $(this).addClass('selected');
-              legendSelected[item.name] = false;
-            }
-            _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+              var optionChart = _this.chart[config.id].chart.getOption(),
+              legendSelected = optionChart.legend.selected || {};
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                legendSelected[item.name] = true;
+              } else {
+                $(this).addClass('selected');
+                legendSelected[item.name] = false;
+              }
+              var calFlg = true;
+              if (config.legendCallback && typeof(config.legendCallback) === 'function') {
+                item.legendSelected = legendSelected[item.name];
+                var tempFlg = config.legendCallback(item, config.series);
+                if (typeof(tempFlg) === 'boolean') {
+                  calFlg = tempFlg;
+                }
+              }
+              if (calFlg) {
+                _this.chart[config.id].chart.setOption({ legend: {selected: legendSelected} });
+              }
             }
           }
         })
@@ -580,14 +636,12 @@ var kyptCharts = {
           show: true, length: 10, length2: 20, lineStyle: { color: temp_color}
         };
         if (dataSeries[i].label.rich && dataSeries[i].label.rich.a) {
-          dataSeries[i].label.rich.a.borderColor = temp_color;
+          // dataSeries[i].label.rich.a.borderColor = temp_color;
           dataSeries[i].label.rich.a.color = '#fff';
         }
       }
     }
-
-
-
+    
     // 饼图环图配置
     var option = {
       title: (function() {

@@ -574,12 +574,16 @@ html {
     text-overflow: ellipsis;
 }
 .pie-legend-list.right.vertical .legend-item > .lenend-item-value {
-    min-width: 36px;
+    min-width: 1.8rem;
     text-align: right;
 }
-
+.pie-legend-list.right.vertical .legend-item > .lenend-item-value.th {
+    font-weight: normal;
+    font-family: 'microsoft yahei';
+    font-size: .8rem;
+}
 .pie-legend-list.top.horizontal {
-text-align: right;
+    text-align: right;
 }
 
 .jsc_wrapper .header_user .link{
@@ -656,6 +660,9 @@ table.line_table tbody tr td:first-child {
     border: 1px solid rgba(0, 159, 226, .2);
     border-width: 1px 1px 0 0;
 }
+.kynl_layout .table-scroll-layout table.fixed-layout {
+    border-top-width: 0;
+}
 .kynl_layout table.fixed-layout th,
 .kynl_layout table.fixed-layout td {
     border: 1px solid rgba(0, 159, 226, .2);
@@ -677,6 +684,7 @@ table.line_table tbody tr td:first-child {
 .kynl_kypt_table .table-scroll-layout {
     height: calc(100% - 3rem);
     overflow: auto;
+    position: relative;
 }
 
 
