@@ -9,7 +9,6 @@
 
     <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico?aa=a" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" />
-    <link rel="stylesheet" href="/css/common.css" />
     <link rel="stylesheet" href="/jsc_web/common/css/base.css">
     <link rel="stylesheet" href="/jsc_web/common/css/common.css">
     <!-- <link rel="stylesheet" href="/jsc_web/control/animate/animate.css"> -->
@@ -56,7 +55,7 @@
         </div>
         <div class="header-bottom-bg"></div>
         <div class="sub-nav-layout" id="twoNavItem">
-            <div class="two_nav_item projectPage disNone">
+            <div class="two_nav_item projectPage disNone" parent="projectPage">
                 <div class="project_btn projectActive" href="project"><span>首页</span></div>
                 <div class="project_btn" href="project_check"><span>检 查</span></div>
                 <div class="project_btn" href="project_fengx"><span>风 险</span></div>
@@ -65,11 +64,11 @@
                 <div class="project_btn" href="project_xmqd"><span>项目清单</span></div>
                 <div class="project_btn" href="project_yyxm"><span>预研项目</span></div>
             </div>
-            <div class="two_nav_item cggl disNone">
+            <div class="two_nav_item cggl disNone" parent="cggl">
                 <div class="project_btn projectActive" href="achieve_award"><span>成果获奖</span></div>
                 <div class="project_btn" href="achieve_transform"><span>成果转化</span></div>
             </div>
-            <div class="two_nav_item zlyjyfkPage disNone">
+            <div class="two_nav_item zlyjyfkPage disNone" parent="zlyjyfkPage">
                 <!--<div class="project_btn projectActive" href="quality"><span>质量信息</span></div>-->
                 <!--<div class="project_btn" href="quality_experience"><span>质量经验反馈</span></div>-->
                 <div class="project_btn projectActive" href="nuclearPower_ part"><span>核电部分</span></div>
@@ -92,6 +91,34 @@
 <script src="/layuiadmin/js/common.js"></script>
 <script src="/layuiadmin/js/chartOption.js"></script> -->
 <script >
+    window.childrenClickItem = function (pageName, params) {
+        // params = '?a=1&b=2';
+        var $item = $('[href="'+ pageName +'"]');
+        if ($item.hasClass('tab_button')) {
+            $('#top-header-nav .tab_button').removeClass('btnactive');
+            $item.addClass('btnactive');
+
+            console.log(pageName);
+
+            if (pageName === 'main') {
+                $('#wrapper').css({ 'padding-top': '3.6rem'});
+            } else {
+                $('#wrapper').css({ 'padding-top': '5.6rem'});
+            }
+        } else if ($item.hasClass('project_btn')) {
+            $('#wrapper').css({ 'padding-top': '6.8rem'});
+            $('#top-header-nav .twoNavItem').addClass('disNone');
+            $item.removeClass('disNone').addClass('projectActive');
+        }
+
+        // 添加链接显示页面
+        var url = '/jsc_web/front/'+ pageName +'.html' + (params || '');
+        setTimeout(function() {
+            // $('#mainframe').load(pageHref);
+            $('#mainframe').attr('src', url);
+        }, 60);
+    }
+
     $(function () {
         if (!top.layer) {
             layui.use(['layer'], function() {

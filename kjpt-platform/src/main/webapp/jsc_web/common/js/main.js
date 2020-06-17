@@ -40,7 +40,10 @@ layui.use(['element'], function () {
                 //     name:'科研能力'
                 // }
                 // debugger
-                jscPup('kynl_page',encodeURI(data.name));
+
+                top.childrenClickItem('kynl_page', '?name=' + encodeURI(data.name));
+
+                // jscPup('kynl_page', encodeURI(data.name));
                 // $('#top-header-nav', parent.document).find('.tab_button').removeClass('btnactive');
                 // $('#top-header-nav .transR' , parent.document).each(function(item){
                 //     console.log($(this).attr('href'))
@@ -89,13 +92,14 @@ layui.use(['element'], function () {
         color: ['#4526D4', '#3461D3', '#5ABEE7', '#74E8D0'],
         callback:function(param){
             param.on('click',function(){
-            //     var openUrl={
-            //         url:'/html/patent/query.html',
-            //         name:'专利管理'
-            //     }
-            //     window.open('/index', 'kjpt_webapp');
-            //     localStorage.setItem("url", JSON.stringify(openUrl));
-            jscPup('achieve_award');
+                //     var openUrl={
+                //         url:'/html/patent/query.html',
+                //         name:'专利管理'
+                //     }
+                //     window.open('/index', 'kjpt_webapp');
+                //     localStorage.setItem("url", JSON.stringify(openUrl));
+                // jscPup('achieve_award');
+                top.childrenClickItem('achieve_award');
             })
         },
     });
@@ -131,7 +135,8 @@ layui.use(['element'], function () {
         color: ['#297cce', '#efb614', '#18cdea'],
         callback:function(param){
             param.on('click',function(){
-                jscPup('kypt');
+                // jscPup('kypt');
+                top.childrenClickItem('kypt');
             })
         },
     });
@@ -158,6 +163,7 @@ layui.use(['element'], function () {
         barWidth: 20,
         lineColor: 'rgba(30, 83, 137, .6)',
         axisLineColor: 'rgba(30, 83, 137, .6)',
+        showMask: { img: '/images/mask_bg.png', text: '当前内容吧可看。' }
         // callback:function(param){
         //     param.on('click',function(){
         //         jscPup('achieve_award');
@@ -165,7 +171,8 @@ layui.use(['element'], function () {
         // },
     });
     $('.orange').on('click',function(){
-        jscPup('kypt');
+        // jscPup('kypt');
+        top.childrenClickItem('kypt');
     })
     // $('.item_number').on('click',function(){
     //     jscPup('achieve_award'); 
