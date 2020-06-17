@@ -180,7 +180,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                     type: 'DELETE',
                     success: function (relData) {
                         if (relData.code === '0') {
-                            ltop.ayer.msg('删除成功!', { icon: 1 });
+                            top.layer.msg('删除成功!', { icon: 1 });
                             $('[lay-filter="formDemo"]').click();
                         } else {
                             top.layer.msg('删除失败', { icon: 2 });
@@ -207,7 +207,6 @@ importFiles({
     url:'/trademarkController/input_excel',
     callback: function (result) {
         if(result.data.code== "0") {
-            debugger;
             layer.msg('数据导入成功!', {icon: 1});
             $('[lay-filter="formDemo"]').click();
         }else{
