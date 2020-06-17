@@ -71,9 +71,9 @@
       <div class="layui-row layui-col-space20">
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">单位名称:</span></label>
+            <label class="layui-form-label label-required"><span class="text">单位名称:</span></label>
             <div class="layui-input-block">
-              <input type="text" name="createUnitName"  disabled placeholder="" autocomplete="off"
+              <input type="text" name="createUnitName" lay-verify="required" disabled placeholder="" autocomplete="off"
                      class="layui-input">
             </div>
           </div>
@@ -81,9 +81,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">商标名称：</span></label>
+            <label class="layui-form-label label-required"><span class="text">商标名称：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="trademarkName"  disabled placeholder="" autocomplete="off"
+              <input type="text" name="trademarkName" lay-verify="required"  disabled placeholder="" autocomplete="off"
                      class="layui-input">
             </div>
           </div>
@@ -112,9 +112,9 @@
           <div class="more-item">
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
               <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text">申请人：</span></label>
+                <label class="layui-form-label label-required"><span class="text">申请人：</span></label>
                 <div class="layui-input-block">
-                  <input type="text" name="applicant"  disabled placeholder="" autocomplete="off"
+                  <input type="text" name="applicant" lay-verify="required"  disabled placeholder="" autocomplete="off"
                          class="layui-input applicantlist">
                 </div>
               </div>
@@ -142,9 +142,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">注册单位：</span></label>
+            <label class="layui-form-label label-required"><span class="text">注册单位：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="registerOrg" disabled  placeholder="" autocomplete="off"
+              <input type="text" name="registerOrg" lay-verify="required" disabled  placeholder="" autocomplete="off"
                      class="layui-input">
             </div>
           </div>
@@ -152,9 +152,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">注册日期：</span></label>
+            <label class="layui-form-label label-required"><span class="text">注册日期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="registerDate" id="registerDate" disabled  placeholder="" autocomplete="off"
+              <input type="text" name="registerDate" lay-verify="required" id="registerDate" disabled  placeholder="" autocomplete="off"
                      class="laydate-input">
             </div>
           </div>
@@ -162,9 +162,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">有效期：</span></label>
+            <label class="layui-form-label label-required"><span class="text">有效期：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="effectiveDate" id="effectiveDate" disabled  placeholder="" autocomplete="off"
+              <input type="text" name="effectiveDate" lay-verify="required" id="effectiveDate" disabled  placeholder="" autocomplete="off"
                      class="laydate-input">
             </div>
           </div>
@@ -193,7 +193,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">法律状态：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="lawStatus" placeholder="" disabled autocomplete="off" class="layui-input">
+              <input type="text" name="lawStatus" lay-verify="required" placeholder="" disabled autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -233,9 +233,9 @@
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">著名商标：</span></label>
+            <label class="layui-form-label label-required"><span class="text">著名商标：</span></label>
             <div class="layui-input-block">
-              <select name="isRegistered" select="isRegistered" lay-filter="isRegistered" disabled  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
+              <select name="isRegistered" select="isRegistered" lay-verify="required" lay-filter="isRegistered" disabled  select-skin="normal"  dic-base-data="ROOT_UNIVERSAL_WEHTHER"></select>
             </div>
           </div>
         </div>
@@ -343,7 +343,6 @@
             }
             transToData(data, ['registerDate','effectiveDate','extensionPeriod','wellKnownDate', 'famousDate']);
             form.val('formPlatform', data);
-            debugger;
             if (item && item.id) {
               data.isWellKnown == '0'? $('#wellKnownDateBox').attr("class",'') : $('#wellKnownDateBox').attr('class','layui-hide');
               data.isRegistered == '0'? $('#isRegisteredBox').attr("class",'') : $('#isRegisteredBox').attr('class','layui-hide');
