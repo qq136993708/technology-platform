@@ -155,13 +155,13 @@ public class StatisticalController extends BaseController
 	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
 		@RequestMapping(value = "/getPlatFormList", method = RequestMethod.GET)
 	    @ResponseBody
-	   	public String getPlatFormList(@RequestParam(required = false) String type, HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	public String getPlatFormList(@RequestParam(required = false) String level, HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	    	Map  map = new HashMap();
-	    	map.put("type",type);
+	    	map.put("level",level);
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getPlatFormList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
-			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+			List<PlatformInfoModel> list = JSONObject.parseArray(temparray.toJSONString(), PlatformInfoModel.class);
 			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
 			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
 			return trreeJsovvn.toString();
