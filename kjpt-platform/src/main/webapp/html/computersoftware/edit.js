@@ -74,6 +74,10 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
 	
   getItemInitData(variable);
 	form.on('submit(newSubmit)', function(data) {
+	  if(!Number(data.field.registerNumber)%1 === 0){
+          layer.msg('请输入正确登记号！');
+          return
+      }
     var technicalVal = formSelects.value('technicalField');
     var technicalStr = '';
     if(technicalVal.length != 0){

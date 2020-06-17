@@ -31,13 +31,7 @@ layui.use(['element'], function () {
                 verticalAlign:'bottom',
             }
         },
-        series: [
-            { name: '国家级', value: '9' ,page:'kynl_page'},
-            { name: '国家部委级', value: '12' ,page:'kynl_page'},
-            { name: '地方省级', value: '10' ,page:'kynl_page'},
-            { name: '集团级', value: '8' ,page:'kynl_page'},
-            { name: '板块级', value: '11',page:'kynl_page' }
-        ],
+        series:[],
         color: ['#2687FF', '#6BD04A', '#EFEC56', '#D89339', '#D66635'],
         callback:function(param){
             param.on('click',function(data){
@@ -91,12 +85,7 @@ layui.use(['element'], function () {
                 verticalAlign:'bottom',
             }
         },
-        series: [
-            { name: '国家级奖', value: '143',page:'achieve_award' },
-            { name: '省部级奖', value: '120' ,page:'achieve_award'},
-            { name: '集团奖', value: '325' ,page:'achieve_award'},
-            { name: '社会奖项', value: '184' ,page:'achieve_award'}
-        ],
+        series: [],
         color: ['#4526D4', '#3461D3', '#5ABEE7', '#74E8D0'],
         callback:function(param){
             param.on('click',function(){
@@ -137,11 +126,7 @@ layui.use(['element'], function () {
         // borderColor: '#001e38',
         title: '成果报奖',
         totalTitle: false,
-        series: [
-            { name: '外观设计', value: '120' },
-            { name: '发明', value: '90' },
-            { name: '实用新型', value: '131' }
-        ],
+        series: [],
         color: ['#297cce', '#efb614', '#18cdea'],
         callback:function(param){
             param.on('click',function(){
@@ -189,6 +174,100 @@ layui.use(['element'], function () {
     // $('.item_number').on('click',function(){
     //     jscPup('achieve_award'); 
     // })
+    //GET /indexHomeBI-api/getAchieveAward  成果获奖（累计）
+    //GET /indexHomeBI-api/getAchieveTransfer  成果转化（累计）
+    //GET /indexHomeBI-api/getIntellectualProperty 知识产权（累计）
+    // GET /indexHomeBI-api/getPatent  专利数量（累计）
+    // GET /indexHomeBI-api/getPatent    专利数量（累计
+    // GET /indexHomeBI-api/getProjectInvest  项目投资（累计）
+    // GET /indexHomeBI-api/getQualityInfo  质量信息（累计）
+    // GET /indexHomeBI-api/getTechnologyExpert   科技专家
+    // GET /indexHomeBI-api/getTechnologyPlatform  科研平台
+    // GET /indexHomeBI-api/getTechnologyProject   科研项目（累计
+    //科技专家 
+    function loadExperts() { 
+        httpModule({
+            url: "/indexHomeBI-api/getTechnologyExpert",
+            success: function (result) {
+                $.each(result,function(index,item){
+                    if(item.text == '中科院院士'){
+                        $('#academy').text(item.calValue)
+                    }else if(item.text == '中国工程院院士'){
+                        $('#engineering').text(item.calValue)
+                    }else if(item.text == '国家高级人才计划'){
+                        $('#senior').text(item.calValue)
+                    }else if(item.text == '各省人才计划'){
+                        $('#provincial').text(item.calValue)
+                    }else if(item.text == '集团首席科技带路人'){
+                        $('#group').text(item.calValue)
+                    }else if(item.text == '项目两总'){
+                        $('#manager').text(item.calValue)
+                    }
+                })
+            }
+        });
+    };
+    //科研平台 -- 饼图
+    function loadResearchPlatform(option) {
+        httpModule({
+            url: option.url,
+            success: function (result) {
+                var curList=[];
+                $.each(result,function(index,item){
+                    var curObj={};
+                    curObj['name']=item.text;
+                    curObj['value']=item.calValue;
+                    if(option.page){
+                        curObj['page']=option.page;
+                    }
+                    curList.push(curObj);
+                })
+                console.log(curList);
+                kyptCharts.reload(option.id,{
+                    series:curList
+                })
+            }
+        });
+    };
+    //知识产权（累计)
+    function loadIntellectual() {
+        httpModule({
+            url: "/indexHomeBI-api/getIntellectualProperty",
+            success: function (result) {
+                $.each(result,function(index,item){
+                    if(item.text == '专利'){
+                        $('#patent').text(item.calValue);
+                    }else if(item.text == '商标'){
+                        $('#trademark').text(item.calValue);
+                    }else if(item.text == '软件著作权'){
+                        $('#copyright').text(item.calValue);
+                    }else if(item.text == '论文'){
+                        $('#paper').text(item.calValue);
+                    } 
+                })
+            }
+        });
+    }
+    loadExperts();
+    loadIntellectual();
+    // 科研平台
+    loadResearchPlatform({
+        url:'/indexHomeBI-api/getTechnologyPlatform',
+        id:'kypt_charts',
+        page:'kynl_page'
+    });
+    //成果获奖（累计)
+    loadResearchPlatform({
+        url:'/indexHomeBI-api/getAchieveAward',
+        id:'achieve_charts',
+        page:'achieve_award'
+    });
+    //专利数量(累计)
+    loadResearchPlatform({
+        url:'/indexHomeBI-api/getPatent',
+        id:'patent_charts',
+    });
+
     // HTTP请求公式
     function loadData() {
         httpModule({
