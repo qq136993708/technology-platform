@@ -23,7 +23,10 @@ layui.use(['form', 'laydate', 'formSelects'], function(){
           var data = relData.data;
           transToData(data, ['recordDate','developFinishDate','entryTime']);
           data['createUnitId']=userInfo.unitId;
-          data['createUnitName']=userInfo.unitName;
+          if(variable.type=="add"){
+              data['createUnitName']=userInfo.unitName;
+          }
+
           form.val('formMain', data);
           if (variable.type === 'view') {
             setFomeDisabled('formMain', '.disabled');

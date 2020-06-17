@@ -29,5 +29,10 @@ public interface ZjkBaseMapper  {
 	    
 	    ZjkBase getZjkBaseByNum(String num);
 	    
+	    List getZjkTongjiList();
+	    
+	    
+	    
+	    
 	    
 }

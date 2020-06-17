@@ -458,8 +458,15 @@
     </select>
     
     
+    
+    
+    
     <select id="getPlatFormList" resultMap="BaseResultMap">
-        select * from view_kypt_info <include refid="selectByParam"/>
+        select * from view_kypt_info 
+        <if test="level != null and level != '' " >
+           where  level = #{level,jdbcType=VARCHAR}
+        </if>
+        
     </select>
     
 

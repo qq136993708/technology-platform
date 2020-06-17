@@ -53,6 +53,14 @@ public class AchieveMaintainController extends RestBaseController {
      */
     private static final String save = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/save";
     /**
+     * 查询成果按年份统计
+     */
+    private static final String getAchieveMaintainGrupCountList = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/getAchieveMaintainGrupCountList";
+    /**
+     * 查询成果按奖项名称统计
+     */
+    private static final String getAchieveMaintainGrupCountListByYear = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/getAchieveMaintainGrupCountListByYear";
+    /**
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/achieveMaintain-api/delete/";
@@ -138,6 +146,57 @@ public class AchieveMaintainController extends RestBaseController {
         String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
         this.setParam(condition,"childUnitIds",childUnitIds);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value = "查询成果按年份统计", notes = "查询成果按年份统计")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "奖项类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "year", value = "年份", dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/achieveMaintain-api/getAchieveMaintainGrupCountList", method = RequestMethod.GET)
+    public List getAchieveMaintainGrupCountList(
+            @RequestParam(required = false,value = "type")  String type,
+            @RequestParam(required = false,value = "year") String year
+    ){
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
+        }
+        if (!StringUtils.isEmpty(year)) {
+            this.setParam(condition, "year", year);
+        }
+        this.setBaseParam(condition);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(getAchieveMaintainGrupCountList, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
+        return responseEntity.getBody();
+    }
+    @ApiOperation(value = "查询成果按奖项名称统计", notes = "查询成果按奖项名称统计")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "奖项类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "year", value = "年份", dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/achieveMaintain-api/getAchieveMaintainGrupCountListByYear", method = RequestMethod.GET)
+    public List getAchieveMaintainGrupCountListByYear(
+            @RequestParam(required = false,value = "type")  String type,
+            @RequestParam(required = false,value = "year") String year
+    ){
+        Map<String, Object> condition = new HashMap<>(6);
+        SysUser sysUserInfo = this.getUserProfile();
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
+        }
+        if (!StringUtils.isEmpty(year)) {
+            this.setParam(condition, "year", year);
+        }
+        this.setBaseParam(condition);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String childUnitIds= EquipmentUtils.getAllChildsByIUnitPath(sysUserInfo.getDataScopeUnitPath(), restTemplate, httpHeaders);
+        this.setParam(condition,"childUnitIds",childUnitIds);
+        ResponseEntity<List> responseEntity = this.restTemplate.exchange(getAchieveMaintainGrupCountListByYear, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), List.class);
         return responseEntity.getBody();
     }
 

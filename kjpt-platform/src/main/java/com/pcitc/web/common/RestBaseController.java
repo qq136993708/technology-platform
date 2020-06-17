@@ -21,6 +21,8 @@ public class RestBaseController extends BaseController{
         rm.setCreateUnitName(sysUser.getUserUnitName());
         rm.setCreateUnitId(sysUser.getUnitId());
         rm.setDeleted("0");
+        rm.setCreator(sysUser.getUserName());
+        rm.setCreateDate(new Date());
         String userName = sysUser.getUserName();
         if(!rm.getKnowledgeScope().contains(userName)){
             rm.setKnowledgeScope(rm.getKnowledgeScope()+","+userName);

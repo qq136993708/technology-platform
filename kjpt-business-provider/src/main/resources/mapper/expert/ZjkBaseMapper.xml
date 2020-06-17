@@ -657,4 +657,36 @@
   
   
   
+  
+  
+  <resultMap id="TongjiBaseResultMap" type="com.pcitc.base.common.ChartData">
+    <result column="name"      jdbcType="VARCHAR" property="name" />
+    <result column="value"     jdbcType="INTEGER" property="value" />
+  </resultMap>
+  
+  <select id="getZjkTongjiList" parameterType="java.lang.String" resultMap="TongjiBaseResultMap">
+     SELECT 
+		  NAME,IFNULL(nameCount,0) VALUE
+		FROM
+		  (SELECT 
+		    t.`name`,
+		    t.`num_value` 
+		  FROM
+		    sys_dictionary t 
+		  WHERE t.`parent_code` = 'ROOT_KJPT_ZJLX') t1 
+		  LEFT JOIN 
+		    (SELECT 
+		      t.`expert_type`,
+		      COUNT(*) nameCount 
+		    FROM
+		      zjk_base t  
+		GROUP BY t.`expert_type`  ORDER BY t.`expert_type`) t2 
+	  ON t1.num_value = t2.`expert_type` 
+   </select>
+  
+  
+  
+  
+  
+  
 </mapper>

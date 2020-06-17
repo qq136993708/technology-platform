@@ -47,7 +47,8 @@ public class StatisticalController extends BaseController
 
 	    private static final String getPlatFormList = "http://kjpt-zuul/stp-proxy/statistical-api/getPlatFormList";
 
-	    
+	    private static final String getZjkTongjiList = "http://kjpt-zuul/stp-proxy/statistical-api/getZjkTongjiList";
+
 	    
 	    
 	    
@@ -152,16 +153,34 @@ public class StatisticalController extends BaseController
 			return trreeJsovvn.toString();
 	   	}
 	    
+
+	    @ApiOperation(value = "首页-科技专家", notes = "首页-科技专家")
+		@RequestMapping(value = "/getZjkTongjiList", method = RequestMethod.GET)
+	    @ResponseBody
+	   	public String getZjkTongjiList( HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	    	Map  map = new HashMap();
+			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getZjkTongjiList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
+			JSONArray temparray = responseEntity.getBody();
+			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
+			return trreeJsovvn.toString();
+	   	}
+	    
+	    
+	    
+	    
 	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
 		@RequestMapping(value = "/getPlatFormList", method = RequestMethod.GET)
 	    @ResponseBody
-	   	public String getPlatFormList(@RequestParam(required = false) String type, HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	public String getPlatFormList(@RequestParam(required = false) String level, HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	    	Map  map = new HashMap();
-	    	map.put("type",type);
+	    	map.put("level",level);
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getPlatFormList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
-			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+			List<PlatformInfoModel> list = JSONObject.parseArray(temparray.toJSONString(), PlatformInfoModel.class);
 			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
 			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
 			return trreeJsovvn.toString();
