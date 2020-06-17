@@ -199,7 +199,7 @@ loadTechnological();
 //科技人才
 function loadNotes(curLevel) {
         httpModule({
-            url: "/getPlatFormList?levet="+curLevel,
+            url: "/getPlatFormList?level="+curLevel,
             success: function (result) {
                 addTableData(result)
                 // kyptCharts.reload('kynl_kjrc_charts', {series: result});
@@ -209,4 +209,4 @@ function loadNotes(curLevel) {
             }
         });
 }
-loadNotes(01)
+loadNotes('01')
