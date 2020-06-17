@@ -395,8 +395,8 @@ public class ComputerSoftwareController extends RestBaseController {
 
                     ComputerSoftware obj = new ComputerSoftware();
 
-                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_1,this.httpHeaders), String.class).getBody());
-                    obj.setCreateUnitId(obj.getUnitName());
+                   // obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_1,this.httpHeaders), String.class).getBody());
+                    obj.setCreateUnitId(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_1,this.httpHeaders), String.class).getBody());
                     obj.setCreateUnitName(String.valueOf(col_1));
                     obj.setSoftwareName(String.valueOf(col_2));
                     obj.setRegisterNumber(String.valueOf(col_3));
@@ -412,7 +412,6 @@ public class ComputerSoftwareController extends RestBaseController {
                     obj.setProjectName(String.valueOf(col_10));
                     obj.setProjectCode(String.valueOf(col_11));
 
-                    obj.setCreateUnitId(sysUserInfo.getUnitId());
                     String dateid = UUID.randomUUID().toString().replaceAll("-", "");
                     obj.setId(dateid);
                     obj.setSecretLevel("0");
