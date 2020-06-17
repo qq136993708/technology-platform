@@ -72,4 +72,14 @@ public class AchieveMaintainServiceImpl implements AchieveMaintainService {
             }
         }
     }
+
+    @Override
+    public List getAchieveMaintainGrupCountList(Map param) {
+        return mapper.getAchieveMaintainGrupCountListByType(param);
+    }
+
+    @Override
+    public List getAchieveMaintainGrupCountListByYear(Map param) {
+        return mapper.getAchieveMaintainGrupCountListByYear(param);
+    }
 }

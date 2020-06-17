@@ -21,4 +21,8 @@ public interface AchieveMaintainService {
      */
     List<AchieveMaintain> queryNoPage(Map paramMap);
     public void insertBatch(List<AchieveMaintain> list)throws Exception;
+
+
+    List getAchieveMaintainGrupCountList(Map param);
+    List getAchieveMaintainGrupCountListByYear(Map param);
 }

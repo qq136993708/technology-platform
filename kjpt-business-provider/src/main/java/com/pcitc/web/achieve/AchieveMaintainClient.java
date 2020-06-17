@@ -64,6 +64,20 @@ public class AchieveMaintainClient {
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
         return json;
     }
+    @ApiOperation(value = "查询成果按年份统计", notes = "查询成果按年份统计")
+    @RequestMapping(value = "/getAchieveMaintainGrupCountList", method = RequestMethod.POST)
+    public JSONArray getAchieveMaintainGrupCountList(@RequestBody(required = false) Map param){
+        List list=ams.getAchieveMaintainGrupCountList(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
+    @ApiOperation(value = "查询成果按奖项名称统计", notes = "查询成果按奖项名称统计")
+    @RequestMapping(value = "/getAchieveMaintainGrupCountListByYear", method = RequestMethod.POST)
+    public JSONArray getAchieveMaintainGrupCountListByYear(@RequestBody(required = false) Map param){
+        List list=ams.getAchieveMaintainGrupCountListByYear(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+        return json;
+    }
 
     @ApiOperation(value = "导入成果维护信息", notes = "导入成果维护信息")
     @RequestMapping(value = "/excel_input", method = RequestMethod.POST)
