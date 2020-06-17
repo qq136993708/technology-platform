@@ -47,4 +47,6 @@ public interface IOutPersonService {
 	
 	public int deleteAllOutPerson()throws Exception;
 	public Integer insertBatchOutPerson(List<OutPerson> list)throws Exception;
+	
+	
 }

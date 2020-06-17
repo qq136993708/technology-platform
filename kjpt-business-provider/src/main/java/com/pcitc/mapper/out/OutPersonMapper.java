@@ -30,4 +30,8 @@ public interface OutPersonMapper {
     public int deleteAll()throws Exception;
     public Integer insertBatch(List<OutPerson> list);
     
+    
+    List getTongjiList();
+    
+    
 }

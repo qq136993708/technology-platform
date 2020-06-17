@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pcitc.base.common.ChartData;
 import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.patent.PatentInfo;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.mapper.achieve.AchieveMaintainMapper;
 import com.pcitc.mapper.computersoftware.ComputerSoftwareMapper;
+import com.pcitc.mapper.out.OutPersonMapper;
 import com.pcitc.mapper.patent.PatentInfoMapper;
+import com.pcitc.mapper.researchplatform.PlatformMapper;
 import com.pcitc.mapper.trademarkinfo.TrademarkInfoMapper;
 import com.pcitc.mapper.treatise.TreatiseInfoMapper;
 import com.pcitc.service.treatise.StatisticalService;
@@ -29,13 +33,20 @@ public class StatisticalServiceImpl implements StatisticalService
 	    private TrademarkInfoMapper    trademarkInfoMapper;//商标
 	    @Autowired
 	    private ComputerSoftwareMapper computerSoftwareMapper;//软件著作权管理
-	    
-	    
+	    @Autowired
+	    private OutPersonMapper outPersonMapper;//软件著作权管理
 	    @Autowired
 	    private AchieveMaintainMapper achieveMaintainMapper;//软件著作权管理
 	    
+	    @Autowired
+	    private PlatformMapper platformMapper;
 	    
 	    
+	    
+	    public List<ChartData> getTongjiList()
+		{
+			return outPersonMapper.getTongjiList();
+		}
 	    
 	    public Map getRightsMap()//知识产权
 	    {
@@ -59,6 +70,10 @@ public class StatisticalServiceImpl implements StatisticalService
 	    }
 	    
 	    
-	 
+	    public List<PlatformInfoModel> getPlatFormList(Map param)
+	    {
+	    	return platformMapper.getPlatFormList(param);
+	    }
+	    
 
 }
