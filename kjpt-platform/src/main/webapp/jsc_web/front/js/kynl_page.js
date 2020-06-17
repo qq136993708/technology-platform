@@ -43,10 +43,10 @@ kyptCharts.render({
         }
     },
     series: [
-        { name: '科技活动人员', value: '25' },
-        { name: '研究开发（R&D）', value: '20' },
-        { name: '技能人才', value: '15' },
-        { name: '技术经济人', value: '23' }
+        // { name: '科技活动人员', value: '25' },
+        // { name: '研究开发（R&D）', value: '20' },
+        // { name: '技能人才', value: '15' },
+        // { name: '技术经济人', value: '23' }
     ],
     color: ['#E6BD4A', '#60C14D', '#4998D1', '#E0DF74', '#D66635'],
     callback:function(param){
@@ -170,3 +170,18 @@ setTimeout(function() {
     // 自行添加加载动画效果
     kyptCharts.reload('kynl_dwfb_charts', {data: unitChartData});
 }, 1200)
+// HTTP请求公式
+//科技人才
+function loadTechnological() {
+    httpModule({
+        url: "/getTongjiList",
+        success: function (result) {
+            kyptCharts.reload('kynl_kjrc_charts', {series: result});
+        },
+        errro: function (data) {
+            
+        }
+    });
+}
+loadTechnological();
+//

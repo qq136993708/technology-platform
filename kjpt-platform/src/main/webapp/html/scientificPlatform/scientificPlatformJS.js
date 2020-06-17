@@ -35,7 +35,9 @@ layui.use(['form', 'table', 'layer', 'formSelects'], function() {
   }
     $('#treasisTemplate').attr('href',loadUrl); 
   }
-  tabTamplateUrl();
+  if(variable){
+    tabTamplateUrl();
+  }
   layui.formSelects.filter('supportingInstitutions', function(id, inputVal, val, isDisabled){
     if(val.name.indexOf(inputVal) != -1){
       return false;

@@ -68,9 +68,9 @@ public class TrademarkController extends RestBaseController {
 
     private static final String ROOT_KJPT_FLZT = "ROOT_KJPT_FLZT(SB)";
 
-    private static final String  YES =  "1";
+    private static final String  YES =  "0";
 
-    private static final String  NO =  "0";
+    private static final String  NO =  "1";
 
     /**
      * 保存-商标信息
@@ -391,6 +391,7 @@ public class TrademarkController extends RestBaseController {
                   // obj.setUnitName(String.valueOf(col_1));
                     obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
                     obj.setCreateUnitId(obj.getUnitName());
+                    // obj.setCreateUnitId(sysUserInfo.getUnitId());
                     obj.setCreateUnitName(String.valueOf(col_1));
 
                     obj.setTrademarkName(String.valueOf(col_2));
@@ -412,13 +413,13 @@ public class TrademarkController extends RestBaseController {
 
                     obj.setLawStatus(getValueFromDictMap(String.valueOf(lo.get(11)),ROOT_KJPT_FLZT));
                     String isWellKonwn = String.valueOf(col_12);
-                    if(StringUtils.isNotBlank(isWellKonwn)){
+                    if(StringUtils.isNotBlank(isWellKonwn)){ //ROOT_UNIVERSAL_WEHTHER 否:1  是:0
                         obj.setIsWellKnown("是".equals(isWellKonwn)?YES:NO);
                     }
                     //TODO:存入字典值前台无法显示,先直接存入
                     //obj.setIsWellKnown(isWellKonwn);
 
-                    if(col_13 != null){
+                    if(col_13 != null && !"".equals(col_13)){
                         Date wellKnownDate = DateUtil.strToDate(String.valueOf(col_13),DateUtil.FMT_DD);
                         obj.setWellKnownDate(wellKnownDate);
                     }
@@ -430,12 +431,11 @@ public class TrademarkController extends RestBaseController {
                     //TODO:存入字典值前台无法显示,先直接存入
                    // obj.setIsRegistered(isRegistered);
 
-                    if(col_16 != null){
+                    if(col_16 != null && !"".equals(col_16)){
                         Date famousDate = DateUtil.strToDate(String.valueOf(col_16),DateUtil.FMT_DD);
                         obj.setFamousDate(famousDate);
                     }
                     obj.setFamousOrg(String.valueOf(col_17));
-                    obj.setCreateUnitId(sysUserInfo.getUnitId());
                     String dateid = UUID.randomUUID().toString().replaceAll("-", "");
                     obj.setId(dateid);
                     obj.setDeleted("0");
