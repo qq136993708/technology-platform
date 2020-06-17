@@ -49,10 +49,9 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">是否核心成果：</span></label>
             <div class="layui-input-block">
-              <!-- lay-filter="achieveType" -->
-              <select name="achieveType" lay-verify="required" >
+              <select name="achieveType" lay-verify="required" lay-filter="achieveType" >
                 <option value="1">是</option>
-                <option value="0" selected>否</option>
+                <option value="0">否</option>
               </select>
               <input type="hidden" name="achieveTypeText">
             </div>

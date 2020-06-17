@@ -35,6 +35,9 @@ layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 					if (!formData.platformId) {
 						formData.platformId = data.platformId;
 					}
+					if(formData.birth){
+						formData.birth = new Date(formData.birth).format('yyyy-MM-dd');
+					}
 					formData.createDate = new Date(formData.createDate).format('yyyy-MM-dd');
 					if (variable && variable.item === 'character') {
 						// 添加领军人物 工作单位
