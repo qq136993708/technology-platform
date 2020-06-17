@@ -31,7 +31,7 @@ layui.config({
     /*分组*/
     createElement("ROOT_KJPT_ZJFZ", "groupType", "option", "groupType")
     /*专家分类*/
-    createElement("ROOT_KJPT_GCCRCLB", "expertType", "option", "expertType")
+    createElement("ROOT_KJPT_ZJLX", "expertType", "option", "expertType")
 
     /*出生年*/
     laydate.render({
@@ -206,10 +206,14 @@ layui.config({
     }
     form.on('select(expertType)',function(data){ 
         if(data.value == '02' || data.value == '03'){
+            $('#otherNotes').hide();
             $('#expertTypeBox').show(); 
             $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
             $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
+        }else if(data.value == '18'){
+            $('#otherNotes').show();
         }else{
+            $('#otherNotes').hide();
             $('#expertTypeBox').hide();
             $('#expertTypeBox').find('.layui-form-label').removeClass('label-required')
             $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','')

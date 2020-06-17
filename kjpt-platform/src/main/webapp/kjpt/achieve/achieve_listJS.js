@@ -28,13 +28,15 @@ layui.use(['table', 'form', 'laydate'], function () {
                   return d.auditStatusText
                 }
               }
-            }, {
-              field: 'isSupplementaryRecordText',
-              title: '是否补录',
-            }, {
-              field: 'achieveTypeText',
-              title: '是否核心',
-            },{
+            },
+            //  {
+            //   field: 'isSupplementaryRecordText',
+            //   title: '是否补录',
+            // }, {
+            //   field: 'achieveTypeText',
+            //   title: '是否核心',
+            // },
+            {
               field: 'achieveName',
               title: '成果名称',
             }, {

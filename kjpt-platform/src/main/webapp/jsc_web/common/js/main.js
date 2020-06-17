@@ -150,7 +150,12 @@ layui.use(['element'], function () {
         legend: { show: true, left: 'right', top: 5},
         labelColor: '#fff',
         // borderColor: '#001e38',
-        data: [],
+        data: [
+            { name: '核能开发', value1: 21, value2: 76 },
+            { name: '集中研发', value1: 10, value2: 38 },   
+            { name: '国防基础', value1: 18, value2: 55 },
+            { name: '国防技术基础', value1: 50, value2: 43 }
+        ],
         itemName: 'name',
         series: [
             { name: '在研', valueKey: 'value1', stack: 'kyxm_charts'},

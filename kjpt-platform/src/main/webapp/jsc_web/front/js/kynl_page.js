@@ -74,7 +74,7 @@ kyptCharts.render({
     itemName: 'name',
     series: [
         { name: '国家级', valueKey: 'value1', stack: 'charts'},
-        { name: '国家部委级', valueKey: 'value2', stack: 'charts'},
+        { name: '国家部委级', valueKey: 'value2', stack: 'charts'}, 
         { name: '地方省级', valueKey: 'value3', stack: 'charts'},
         { name: '集团级', valueKey: 'value4', stack: 'charts'},
         { name: '板块级', valueKey: 'value5', stack: 'charts'}
@@ -184,4 +184,15 @@ function loadTechnological() {
     });
 }
 loadTechnological();
-//
+//科技人才
+function loadNotes() {
+    httpModule({
+        url: "/getPlatFormList",
+        success: function (result) {
+            // kyptCharts.reload('kynl_kjrc_charts', {series: result});
+        },
+        errro: function (data) {
+            
+        }
+    });
+}
