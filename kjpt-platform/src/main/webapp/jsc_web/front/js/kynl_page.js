@@ -1,6 +1,18 @@
 var variable = getQueryVariable()
 if(variable){
     var curName = decodeURI(variable.name);
+    var curLevel='';
+    if(curName == '国家级'){
+        curLevel = '01'
+    }else if(curName == '国家部委级'){
+        curLevel = '02'
+    }else if(curName == '地方省级'){
+        curLevel = '03'
+    }else if(curName == '集团级'){
+        curLevel = '04'
+    }else if(curName == '板块级'){
+        curLevel = '05'
+    }
     if(curName){
         $('.page-layout-title .tab-btn').removeClass('selected');
         $('.page-layout-title .tab-btn').each(function(item){
