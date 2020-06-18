@@ -22,9 +22,11 @@ if (variable) {
             }
         })
         loadNotes(curLevel);
+        loadCurNotes(curLevel);
     }
 } else {
     loadNotes('01');
+    loadCurNotes('01');
 }
 
 // 科技人才
@@ -163,17 +165,6 @@ $('#tabHeader').on('click', '.tab-btn', function (e) {
         $(this).addClass('selected').siblings('.tab-btn').removeClass('selected');
         var tabType = $(this).attr('type');
         loadNotes(curLevel)
-        // HTTP请求
-        // httpModule({
-        //     url: "/getPlatFormList?levet="+curLevel,
-        //     success: function (result) {
-        //         debugger
-        //         // kyptCharts.reload('kynl_kjrc_charts', {series: result});
-        //     },
-        //     errro: function (data) {
-
-        //     }
-        // });
     }
 })
 
@@ -198,7 +189,7 @@ var tableListData = [{
     pName: '国家同位素工程技术研究中心',
     yName: 'xxx单位'
 }];
-addTableData(tableListData);
+// addTableData(tableListData);
 
 
 var unitChartData = [{
@@ -354,13 +345,13 @@ var unitChartData = [{
         value5: 55
     }
 ];
-// 模仿HTTP请求延迟加载
-setTimeout(function () {
-    // 自行添加加载动画效果
-    kyptCharts.reload('kynl_dwfb_charts', {
-        data: unitChartData
-    });
-}, 1200)
+// // 模仿HTTP请求延迟加载
+// setTimeout(function () {
+//     // 自行添加加载动画效果
+//     kyptCharts.reload('kynl_dwfb_charts', {
+//         data: unitChartData
+//     });
+// }, 1200)
 // HTTP请求公式
 //科技人才
 function loadTechnological() {
@@ -369,7 +360,7 @@ function loadTechnological() {
         success: function (result) {
             if(result.success){
             kyptCharts.reload('kynl_kjrc_charts', {
-                series: result
+                series: result.data
             });
         }
         },
@@ -385,10 +376,25 @@ function loadNotes(curLevel) {
         url: "/getPlatFormList?level=" + curLevel,
         success: function (result) {
             if(result.success){
-                addTableData(result)
+                addTableData(result.data)
             }
             
             // kyptCharts.reload('kynl_kjrc_charts', {series: result});
+        },
+        errro: function (data) {
+
+        }
+    });
+}
+//科技人才
+function loadCurNotes(curLevel) {
+    httpModule({
+        url: "/indexHomeBI-api/distribution?level=" + curLevel,
+        success: function (result) {
+            if(result.success){
+                // addTableData(result.data)
+                kyptCharts.reload('kynl_dwfb_charts', {series: result.data});
+            }
         },
         errro: function (data) {
 

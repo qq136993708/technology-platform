@@ -192,7 +192,7 @@ var kyptCharts = {
             if (typeof(config.showMask) === 'string') {
               maskText = '<span class="ib-block">'+ config.showMask +'</span>';
             } else if (typeof(config.showMask) === 'object') {
-              maskText = '<span class="ib-block font16">'+ config.showMask.text +'</span>';
+              maskText = '<span class="ib-block font14">'+ config.showMask.text +'</span>';
               maskText += '<img src="'+ config.showMask.img +'"></img>';
               $('#' + config.id).append(maskHtml);
             } 
