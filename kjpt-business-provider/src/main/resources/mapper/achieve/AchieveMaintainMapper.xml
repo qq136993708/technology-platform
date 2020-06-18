@@ -55,7 +55,7 @@
             and awards_type = #{awardsType}
         </if>
         <if test="type != null and type != '' " >
-            and type = #{type}
+            and FIND_IN_SET(type,#{type})
         </if>
         <if test="awardsChildType != null and awardsChildType != '' " >
             and awards_child_type = #{awardsChildType}
