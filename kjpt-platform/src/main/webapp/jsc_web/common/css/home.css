@@ -54,7 +54,22 @@ body { overflow: auto; padding-top: 0 !important; }
 }
 .patent_charts, .progress-layout{
     height: calc(100% - 3rem);
+    position: relative;
 }
+/* .patent_charts, .progress-layout .proess-mask{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+   
+} */
+/* .patent_charts, .progress-layout .proess-mask .proess-mask-title{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 16px;
+    transform: translate(-50%,-50%);
+} */
 .kyxm_charts{
     margin-top: .4rem;
     height: calc(100% - 3rem);
