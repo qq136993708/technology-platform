@@ -1,6 +1,6 @@
 
 $(function() {
-    // 历年成果转化完成情况
+    // 历年申请/授权专利数量统计
     kyptCharts.render({
         id: 'awardTramsformInfoHistory',
         type: 'bar',
@@ -21,11 +21,7 @@ $(function() {
         series: [],
         data: [],
         yAxis: [{ name: '单位：个', nameTextStyle: {color: '#fff'}}],
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } },
             formatter: function (serves) {
                 var showHtms = '<div style="font-size:16px; margin:5px;">'+'申请专利'+'</div>'+
                     '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
@@ -63,6 +59,7 @@ $(function() {
         legendPosition: 'top',
         labelColor: '#fff',
         data: [],
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
         itemName: 'name',
         series: [
             { name: '授权', valueKey: 'value1', stack: 'charts'},

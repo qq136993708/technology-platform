@@ -670,7 +670,7 @@ table.line_table tbody tr td:first-child {
     height: 2rem;
     font-size: .8rem;
     font-weight: normal;
-    color: #fff;
+    color: rgba(255, 255, 255, 1);
     background: none;
     padding-left: 2rem;
     white-space: nowrap;
@@ -679,7 +679,8 @@ table.line_table tbody tr td:first-child {
     text-align: left;
 }
 .kynl_layout table.fixed-layout th {
-    background: rgba(28, 115, 176, 0.2);
+    background: rgba(28, 115, 176, 0.1);
+    color: rgba(255, 255, 255, .5);
 }
 .kynl_kypt_table .table-scroll-layout {
     height: calc(100% - 3rem);

@@ -152,6 +152,7 @@ layui.use(['element'], function () {
         legend: { show: true, left: 'right', top: 5},
         labelColor: '#fff',
         // borderColor: '#001e38',
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
         data: [
             { name: '核能开发', value1: 21, value2: 76 },
             { name: '集中研发', value1: 10, value2: 38 },   
