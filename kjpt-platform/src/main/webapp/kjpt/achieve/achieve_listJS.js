@@ -221,6 +221,49 @@ layui.use(['table', 'form', 'laydate'], function () {
       }
     })
   })
+  // // 科信部驳回 
+  // 是否核心  achieveType
+  $('#kxbrejected').on('click', function () {
+    top.layer.confirm('您确定要驳回选中的信息吗？', {
+      icon: 3,
+      title: '提示'
+    }, function (index) {
+      // 获取被选中的行数据
+      var activeData = table.checkStatus('tableDemo').data;
+      if (activeData.length) {
+        //审批中 已通过  驳回
+        if (activeData[0].auditStatus == 2 || activeData[0].auditStatus == 3 ||activeData[0].auditStatus == 1  ) {
+          var curData = switchHttpData( activeData[0], '', function(item) {
+            var temp_Json = {};
+            for (var key in item) {
+              temp_Json[key] = item[key];
+              if (temp_Json[key] === '-') {
+                temp_Json[key] = '';
+              }
+            }
+            return temp_Json;
+          });
+          httpModule({
+            url: "/achieve-api/reject" ,
+            type: 'POST',
+            data:curData,
+            success: function (relData) {
+              if (relData.code == 0) {  
+                layer.msg('驳回成功!', {
+                  icon: 1
+                });
+                top.layer.closeAll(); // 关闭弹窗
+                queryTable('')
+              }
+            }
+          });
+        } else {
+          layer.closeAll(); // 关闭弹窗
+          top.layer.msg('此状态下不能驳回！');
+        }
+      }
+    })
+  })
   //流程
   $('#flow').on('click', function () {
     var activeData = table.checkStatus('tableDemo').data;

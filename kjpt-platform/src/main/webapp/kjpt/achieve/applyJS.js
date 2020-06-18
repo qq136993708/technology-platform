@@ -134,17 +134,21 @@ layui.use(['jquery', 'table', 'form', 'formSelects', 'laydate'], function () {
             }
         }
     });
-    // form.on('select(achieveType)', function(data) {
-    //     if(data.value == '1'){
-    //         $('#conversionAmount').removeClass('layui-hide');
-    //         $('#conversionAmount label').addClass('label-required')
-    //         $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
-    //     }else if(data.value == '0'){
-    //         $('#conversionAmount').addClass('layui-hide');
-    //         $('#conversionAmount label').removeClass('label-required')
-    //         $('#conversionAmount input').attr('lay-verify','')
-    //     }
-    // })
+    form.on('select(achieveType)', function(data) {
+        if(data.value == '1'){
+            $('#conversionAmount').removeClass('layui-hide');
+            $('#conversionAmount label').addClass('label-required')
+            $('#conversionAmount input').attr('lay-verify','number|doubleFore|required')
+            $('.select-box label').addClass('label-required')
+            $('.select-box input').attr('lay-verify','required')
+        }else if(data.value == '0'){
+            $('#conversionAmount').addClass('layui-hide');
+            $('#conversionAmount label').removeClass('label-required')
+            $('#conversionAmount input').attr('lay-verify','')
+            $('.select-box label').removeClass('label-required')
+            $('.select-box input').attr('lay-verify','')
+        }
+    })
     /*添加tr*/
     $("#addTr").click(function () {
         addTr('achieveTable')
