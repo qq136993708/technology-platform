@@ -242,12 +242,13 @@ public class AchieveBaseController extends RestBaseController {
     }
 
     private void checkAuditStatus(AchieveBase ab){
+        //直接保存就不是补录
         ab.setIsSupplementaryRecord("02");
-        if("1".equals(ab.getAchieveType())){
-            ab.setAuditStatus(Constant.NO_SUBMIT);
-        }else{
-            ab.setAuditStatus(Constant.SUBMIT);
-        }
+//        if("1".equals(ab.getAchieveType())){
+        ab.setAuditStatus(Constant.NO_SUBMIT);
+//        }else{
+//            ab.setAuditStatus(Constant.SUBMIT);
+//        }
 
         if(ab.getConversionAmount() != null){
            ab.setAuditStatus(Constant.COMPLETED);
