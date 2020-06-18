@@ -26,8 +26,8 @@
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
-          <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
-          <result column="nameKey" jdbcType="VARCHAR" property="nameKey"/>
+        <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
+        <result column="nameKey" jdbcType="VARCHAR" property="nameKey"/>
     </resultMap>
 
 
@@ -55,7 +55,7 @@
             and awards_type = #{awardsType}
         </if>
         <if test="type != null and type != '' " >
-            and type = #{type}
+            and FIND_IN_SET(type,#{type})
         </if>
         <if test="awardsChildType != null and awardsChildType != '' " >
             and awards_child_type = #{awardsChildType}
@@ -77,7 +77,6 @@
             </foreach>
         </if>
     </sql>
-
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveMaintain">
         insert into achieve_maintain(
@@ -159,14 +158,14 @@
 		)t1 
 		LEFT JOIN (
 		SELECT t.`type`,COUNT(*) nameCount FROM achieve_maintain	 t GROUP BY t.`type`
-		) t2 ON t1.code=t2.`type` 
+		) t2 ON t1.code=t2.`type`  ORDER BY num_value
     </select>
 
     <select id="getAchieveMaintainGrupCountListByType" parameterType="java.util.Map" resultType="java.util.Map">
         select sum(awards_number) value,b.name,a.type from achieve_maintain a left join sys_dictionary b on a.type = b.num_value and b.parent_code = 'ROOT_KJPT_CGWH_HJLX'
         where deleted !='1'
         <if test="type != null and tpye != ''" >
-            and a.type = #{type}
+            and FIND_IN_SET(a.type,#{type})
         </if>
         <if test="year != null and year != ''" >
             and a.year = #{year}
@@ -180,7 +179,7 @@
         left join sys_dictionary b on a.type = b.num_value and b.parent_code = 'ROOT_KJPT_CGWH_HJLX'
         where deleted !='1'
         <if test="type != null and tpye != ''" >
-            and a.type = #{type}
+            and FIND_IN_SET(a.type,#{type})
         </if>
         <if test="year != null and year != ''" >
             and a.year = #{year}

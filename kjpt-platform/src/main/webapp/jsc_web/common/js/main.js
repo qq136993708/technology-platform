@@ -125,7 +125,7 @@ layui.use(['element'], function () {
                     padding: [0, 6, 3, 6],
                     borderRadius: 3,
                     borderColor: 'rgba(30, 83, 137, .6)'
-                }
+                },
             }
         },
         labelColor: '#fff',
@@ -171,7 +171,7 @@ layui.use(['element'], function () {
         barWidth: 20,
         lineColor: 'rgba(30, 83, 137, .6)',
         axisLineColor: 'rgba(30, 83, 137, .6)',
-        showMask: { img: '/images/mask_bg.png', text: '当前内容不可看。' }
+        showMask: { img: '/images/mask_bg.png', text: '该内容请在密网中查看！' }
         // callback:function(param){
         //     param.on('click',function(){
         //         jscPup('achieve_award');
@@ -189,23 +189,27 @@ layui.use(['element'], function () {
     //科技专家 
     function loadExperts() { 
         httpModule({
-            url: "/indexHomeBI-api/getTechnologyExpert",
+            url: "/getZjkTongjiList",
             success: function (result) {
-                $.each(result,function(index,item){
-                    if(item.text == '中科院院士'){
-                        $('#academy').text(item.calValue)
-                    }else if(item.text == '中国工程院院士'){
-                        $('#engineering').text(item.calValue)
-                    }else if(item.text == '国家高级人才计划'){
-                        $('#senior').text(item.calValue)
-                    }else if(item.text == '各省人才计划'){
-                        $('#provincial').text(item.calValue)
-                    }else if(item.text == '集团首席科技带路人'){
-                        $('#group').text(item.calValue)
-                    }else if(item.text == '项目两总'){
-                        $('#manager').text(item.calValue)
-                    }
-                })
+                if(result.success){
+                    $.each(result.data,function(index,item){
+                        if(item.name == '中国科学院院士'){
+                            $('#academy').text(item.value)
+                        }else if(item.name == '中国工程院院士'){
+                            $('#engineering').text(item.value)
+                        }else if(item.name == '“高层次人才引进计划”专家'){
+                            $('#senior').text(item.value)
+                        }else if(item.name == '其他省部级人才计划'){
+                            $('#provincial').text(item.value)
+                        }else if(item.name == '集团首席专家'){
+                            $('#group').text(item.value)
+                        }else if(item.name == '项目两总'){
+                            $('#manager').text(item.value)
+                        }
+                    })
+                }else{
+
+                }
             }
         });
     };
@@ -214,22 +218,24 @@ layui.use(['element'], function () {
         httpModule({
             url: option.url,
             success: function (result) {
+                if(result.success){
                 var curList=[];
                 if(option.page){
-                    $.each(result,function(index,item){
+                    $.each(result.data,function(index,item){
                     if(option.page == 'kynl_page'){
                         item.name=item.name.replace(/科研平台/, "")
                     }
                     item['page'] = option.page;
                 })
-                curList=result;
+                curList=result.data;
                 }else{
-                    curList=result;
+                    curList=result.data;
                 }
                 console.log(curList);
                 kyptCharts.reload(option.id,{
                     series:curList
                 })
+            }
             }
         });
     };
@@ -262,6 +268,7 @@ layui.use(['element'], function () {
         httpModule({
             url: "/indexHomeBI-api/getAchieveTransfer",
             success: function (result) {
+                if(result.success){
                 $.each(result,function(index,item){
                     if(item.text == '申请数量'){
                         $('#applications').text(item.calValue);
@@ -271,6 +278,7 @@ layui.use(['element'], function () {
                         $('#amount').text(item.calValue);
                     }
                 })
+            }
             }
         });
     };

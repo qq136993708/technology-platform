@@ -51,6 +51,10 @@ public interface IndexHomeBIService {
      *质量信息（累计）
      **/
     List<calResult> getQualityInfo(Map param);
+    /***
+     *二级单位科研平台分布情况
+     **/
+    List distribution(Map param);
 
 
 }

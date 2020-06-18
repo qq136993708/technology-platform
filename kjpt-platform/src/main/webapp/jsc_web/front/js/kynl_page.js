@@ -24,9 +24,8 @@ if (variable) {
         loadNotes(curLevel);
     }
 } else {
-    loadNotes('01')
+    loadNotes('01');
 }
-
 
 // 科技人才
 kyptCharts.render({

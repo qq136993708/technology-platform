@@ -32,6 +32,8 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Statistical-API",tags = {"领导驾驶仓"})
@@ -49,7 +51,8 @@ public class StatisticalController extends BaseController
 
 	    private static final String getZjkTongjiList = "http://kjpt-zuul/stp-proxy/statistical-api/getZjkTongjiList";
 
-	    
+	    private static final String getAchieveBaseMap = "http://kjpt-zuul/stp-proxy/statistical-api/getAchieveBaseMap";
+
 	    
 	    
 	
@@ -80,14 +83,21 @@ public class StatisticalController extends BaseController
 	    @ResponseBody
 	   	public String getKyptInfoGrupCountList( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
-	   		
+	    	Result resultsDate = new Result();
 	    	Map  map = new HashMap();
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getKyptInfoGrupCountList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
-			JSONArray temparray = responseEntity.getBody();
-			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
-			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
-			System.out.println("-----------------科研平台："+trreeJsovvn.toString());
-			return trreeJsovvn.toString();
+			
+			
+			JSONArray temparray =null;
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				temparray = responseEntity.getBody();
+				List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+				JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+				resultsDate.setData(trreeJsovvn);
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
 	   	}
 	    
 	    
@@ -99,12 +109,18 @@ public class StatisticalController extends BaseController
 	   	{
 	    	
 	    	Map  map = new HashMap();
+	    	Result resultsDate = new Result();
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getAchieveMaintainGrupCountList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
-			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
-			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
-			System.out.println("----------------成果获奖（累计）："+trreeJsovvn.toString());
-			return trreeJsovvn.toString();
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+				JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+				resultsDate.setData(trreeJsovvn);
+			}
+			
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
 	   	}
 	    
 	    
@@ -116,25 +132,32 @@ public class StatisticalController extends BaseController
 	    @ResponseBody
 	    public String countByPatentType(@RequestParam(required = false) String type)
 	    {
+	    	Result resultsDate = new Result();
 	        Map<String, Object> condition = new HashMap<>(6);
 	        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	        ResponseEntity<List> responseEntity = this.restTemplate.exchange(countByPatentType, HttpMethod.POST, new HttpEntity<Map>(condition,this.httpHeaders),List.class);
-
-	        List<Map> list=responseEntity.getBody();
-	        List<ChartData>  reuslt=new ArrayList();
-	        if(list!=null) 
-	        {
-	        	for(int i=0;i<list.size();i++)
-	        	{
-	        		Map pm=list.get(i);
-	        		ChartData chartData=new ChartData();
-	        		chartData.setName((String)pm.get("name"));
-	        		chartData.setValue((Integer)pm.get("num"));
-	        		reuslt.add(chartData);
-	        	}
-	        }
-	        JSONArray json = JSONArray.parseArray(JSON.toJSONString(reuslt));
-	        return json.toString();
+	        int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				
+				 List<Map> list=responseEntity.getBody();
+			        List<ChartData>  reuslt=new ArrayList();
+			        if(list!=null) 
+			        {
+			        	for(int i=0;i<list.size();i++)
+			        	{
+			        		Map pm=list.get(i);
+			        		ChartData chartData=new ChartData();
+			        		chartData.setName((String)pm.get("name"));
+			        		chartData.setValue((Integer)pm.get("num"));
+			        		reuslt.add(chartData);
+			        	}
+			        }
+			        JSONArray json = JSONArray.parseArray(JSON.toJSONString(reuslt));
+			        resultsDate.setData(json);
+			}
+	       
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
 	    }
 	    
 	    
@@ -147,10 +170,17 @@ public class StatisticalController extends BaseController
 	    	Map  map = new HashMap();
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getTongjiList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
-			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
-			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
-			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
-			return trreeJsovvn.toString();
+			Result resultsDate = new Result();
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+				JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+				System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
+				resultsDate.setData(trreeJsovvn);
+				
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
 	   	}
 	    
 
@@ -160,12 +190,19 @@ public class StatisticalController extends BaseController
 	   	public String getZjkTongjiList( HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	    	Map  map = new HashMap();
+	    	Result resultsDate = new Result();
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getZjkTongjiList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
-			List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
-			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
-			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
-			return trreeJsovvn.toString();
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				List<ChartData> list = JSONObject.parseArray(temparray.toJSONString(), ChartData.class);
+				JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+				System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
+				resultsDate.setData(trreeJsovvn);
+				
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
 	   	}
 	    
 	    
@@ -173,18 +210,59 @@ public class StatisticalController extends BaseController
 	    
 	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
 		@RequestMapping(value = "/getPlatFormList", method = RequestMethod.GET)
+	    @ApiImplicitParams({
+	        @ApiImplicitParam(name = "level",                   value = "类型",     dataType = "string", paramType = "query")
+	    })
 	    @ResponseBody
 	   	public String getPlatFormList(@RequestParam(required = false) String level, HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	    	Map  map = new HashMap();
+	    	Result resultsDate = new Result();
 	    	map.put("level",level);
+	    	System.out.println("---------------level："+level);
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getPlatFormList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
-			List<PlatformInfoModel> list = JSONObject.parseArray(temparray.toJSONString(), PlatformInfoModel.class);
-			JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
-			System.out.println("----------------科研能力-科技人才："+trreeJsovvn.toString());
-			return trreeJsovvn.toString();
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				List<PlatformInfoModel> list = JSONObject.parseArray(temparray.toJSONString(), PlatformInfoModel.class);
+				JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(list));
+				resultsDate.setData(trreeJsovvn);
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
 	   	}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    @ApiOperation(value="首页-成果转化")
+	    @RequestMapping(value = "/getAchieveBaseMap", method = RequestMethod.GET)
+	    @ResponseBody
+	    public String getAchieveBaseMap()throws Exception
+	    {
+	   		
+	   		Result resultsDate = new Result();
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
+			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(getAchieveBaseMap, HttpMethod.POST, httpEntity,JSONObject.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				JSONObject jSONObject = responseEntity.getBody();
+				resultsDate.setData(jSONObject);
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			return result.toString();
+	   	}
+	    
+	    
+	    
+	    
+	    
 	    
 
 }

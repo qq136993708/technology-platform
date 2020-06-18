@@ -275,6 +275,8 @@ importFiles({
           layer.msg('数据导入失败!失败信息：'+data.message, {icon: 1});
       }
   }
+
+
 })
 // 导出
 $('#exportData').click(function() {
