@@ -239,6 +239,8 @@ body { overflow: auto; padding-top: 0 !important; }
     padding: 0 .4rem;
     width: 25%;
     height: 8.4rem;
+}
+.card_item_list .card-item.orange {
     cursor: pointer;
 }
 .card_item_list .card-item .card-title {
