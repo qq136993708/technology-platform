@@ -210,8 +210,13 @@ layui.config({
             $('#expertTypeBox').show(); 
             $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
             $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
-        }else if(data.value == '18'){
+        }else if(data.value == '18' ){
             $('#otherNotes').show();
+            $('#otherNotes label span').text('其他:')
+            //其他省部级人才计划名称:
+        }else if(data.value == '17'){
+            $('#otherNotes').show();
+            $('#otherNotes label span').text('其他省部级人才计划名称:')
         }else{
             $('#otherNotes').hide();
             $('#expertTypeBox').hide();

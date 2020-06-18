@@ -62,6 +62,7 @@ var kyptCharts = {
     if (emptyData) {
       if ($('#'+ id).find('.chart-data-empty').length <= 0) {
         $('#'+ id).append('<div class="chart-data-empty middle-block"><span class="ib-block font16">无数据</span></div>');
+        
       }
     } else {
       $('#' + id + ' .chart-data-empty').remove();
@@ -159,10 +160,13 @@ var kyptCharts = {
 
         var chartOption = _this.getChartOption(_this.chart[id].config);
         if (_this.chart[id].config.legendPosition) {
-          _this.setChartLegend(_this.chart[id].config, chartOption.legend);
+          var showLegend = _this.setChartLegend(_this.chart[id].config, chartOption.legend);
           chartOption.legend.show = false;
+          if (!showLegend) {
+            $('#' + id + ' .pie-legend-list').remove();
+          }
         }
-        
+
         if (config.series) {
           var legendSelectedItems = {};
           $.each(config.series, function(i, item) {

@@ -8,7 +8,7 @@ function addTableData(data) {
       tbodyHtml += '<td class="level">'+ item.typeText +'</td>';
       tbodyHtml += '<td class="name">'+ item.awardsTypeText +'</td>';
       tbodyHtml += '<td class="subName">'+ item.awardsChildTypeText +'</td>';
-      tbodyHtml += '<td class="award">'+ item.awardLevel +'</td>';
+      tbodyHtml += '<td class="award">'+ item.awardLevelText +'</td>';
       tbodyHtml += '<td class="number">'+ item.awardsNumber +'</td>';
       tbodyHtml += '</tr>';
     });
@@ -37,7 +37,7 @@ $(function() {
         var data = res.data;
         achieveTypes = data;
         $.each(data, function(i, item){
-          var achieveTypesSeriesObj = { name: item.name, valueKey: item.code, id: item.id };
+          var achieveTypesSeriesObj = { name: item.name, valueKey: item.code, id: item.code };
           achieveTypesSeries.push(achieveTypesSeriesObj);
         });
       } 
@@ -47,66 +47,94 @@ $(function() {
   var chartInit = {
     awardsYear: function (param) {
       httpModule({
-        url: '/achieveMaintainBI-api/getAwardSumByQuery',
+        // url: '/achieveMaintainBI-api/getAwardSumByQuery',
+        url: '/achieveMaintain-api/getAchieveMaintainGrupCountListByYear',
         data: param || null,
         type: 'GET',
         async: false,
         success: function(res) {
-          var result = [];
           if (res.code == 0) {
-            var data = res.data;
+            var data = res.data, yearArr = [], totalData = [], items = {};
+
             $.each(data, function (i, item) {
-              var obj = {};
-              var _hasitem = result.find(function (v, index) { return v.year == item.year});
-              var _hasitemIndex = result.findIndex(function (v, index) { return v.year == item.year});
-              if (_hasitem) {
-                result.splice(_hasitemIndex, 1);
-                obj = _hasitem;
+              if (!items[item.type]) { items[item.type] = item.name; }
+
+              var index = yearArr.indexOf(item.year);
+              if (index === -1) {
+                var newItem = {year: item.year};
+                newItem[item.type] = item.num;
+                totalData.push(newItem);
+                yearArr.push(item.year);
+              } else {
+                totalData[index][item.type] = item.num;
               }
-              obj.year = item.year;
-              var typeItem = achieveTypes.find(function(v, index) {
-                if (item.typeText.indexOf(v.name) !== -1) {
-                  return true;
-                } else {
-                  return;
-                }
-              });
-              var key = typeItem ? typeItem.code:'key';
-              obj[key] = item.awardsNumberSum;
-              result.push(obj);
             });
 
-            kyptCharts.reload('awards-year', {data: result, series: achieveTypesSeries, loading: false});
+            $.each(totalData, function(i, item) {
+              for (var key in items) { if (!item[key]) { item[key] = '-'; } }
+            });
+            
+            achieveTypes = [];
+            for (var key in items) {
+              achieveTypes.push({ name: items[key], valueKey: key });
+            }
+            totalData.sort(function(a, b) { return parseInt(a.year) - parseInt(b.year); });
+            var showData = [];
+            for (var i = 0; i < totalData.length; i++) {
+              if (i < 5) {
+                showData.push(totalData[i]);
+              } else {
+                break;
+              }
+            }
+
+            kyptCharts.reload('awards-year', {data: showData, series: achieveTypes, loading: false});
           }
         }
       });
     },
     awardsYearPie: function (param) {
+      var paramsData = { year: '', type: '' };
+      if (param) {
+        paramsData.type = param.type;
+        paramsData.year = param.year;
+      }
+
       //获取数据
       httpModule({
-        url: '/achieveMaintainBI-api/getAwardSumByTypePie',
-        data: param || null,
+        url: '/achieveMaintain-api/getAchieveMaintainGrupCountList',
+        data: paramsData,
         type: 'GET',
         async: false,
         success: function (res) {
           if (res.code == 0) {
-            var data = res.data, seriesData = [];
-            $.each(data, function(i, item) {
-              seriesData.push({name: item.awardsChildTypeText, value: Number(item.awardsNumberSum)});
-            });
-            kyptCharts.reload('awards-year-pie', {series: seriesData, loading: false});
+            kyptCharts.reload('awards-year-pie', {series: res.data, loading: false});
           }
         }
       });
     },
     getAchieveTableData: function (param) {
+      var paramsData = {
+        pageNum: 1,
+        pageSize: 1000,
+        startYear: '',
+        endYear: '',
+        type: ''
+      };
+      if (param) {
+        paramsData.type = param.type;
+        paramsData.startYear = param.year;
+        paramsData.endYear = param.year;
+      }
+
       httpModule({
-        url: '/achieveMaintainBI-api/getDetailList',
+        // url: '/achieveMaintainBI-api/getDetailList',
+        url: '/achieveMaintain-api/query',
         type: 'GET',
-        data: param || null,
+        data: paramsData,
         success: function (res) {
           if (res.code == 0) {
-            addTableData(res.data)
+            addTableData(res.data.list);
           }
         }
       });
@@ -134,18 +162,20 @@ $(function() {
       //柱子点击事件
       chartObj.on('click', function(params) {
         // 重加载详细表格数据
-        chartInit.getAchieveTableData({type: achieveTypes[params.seriesIndex].id, year: params.name});
+        chartInit.getAchieveTableData({type: achieveTypes[params.seriesIndex].valueKey, year: params.name});
         // 重加载奖项名称(累计)数据
         kyptCharts.reload('awards-year-pie', {loading: true});
-        chartInit.awardsYearPie({type: achieveTypes[params.seriesIndex].id, year: params.name});
+        chartInit.awardsYearPie({type: achieveTypes[params.seriesIndex].valueKey, year: params.name});
       });
     },
     legendCallback: function(item, items) {
+      console.log(items);
+
       // 图例被点击时的回调
       var ids = '';
       $.each(items, function(i, val) {
         if (val.legendSelected !== false) {
-          ids += ',' + val.id;
+          ids += ',' + val.valueKey;
         }
       });
       ids = ids.substring(1);
