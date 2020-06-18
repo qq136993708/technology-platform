@@ -72,6 +72,34 @@
   width: 100%;
   padding-right: 1.5rem;
 }
+.zscq_charts_tips{
+  padding: 0 .4rem;
+}
+.zscq_charts_tips dt {
+  height: 2.2rem;
+  padding-top: .6rem;
+  padding-bottom: .3rem;
+  line-height: 1.2rem;
+  font-size: .8rem;
+  color: #fff;
+}
+.zscq_charts_tips dd {
+  padding-left: 1px;
+  white-space: nowrap;
+  font-size: 0;
+}
+.zscq_charts_tips dd > span {
+  font-size: .7rem;
+  margin-right: .2rem;
+  color: rgba(255, 255, 255, .7);
+}
+.zscq_charts_tips dd > span.icon {
+  width: .8rem;
+  height: .8rem;
+}
+.zscq_charts_tips dd > span.value {
+  margin-right: .6rem;
+}
 
 /* 成果鉴定 */
 .achieve_appraisal .appraisal_one {
@@ -595,3 +623,30 @@ dl.transform-pie-tips {
   text-align: right;
 }
 
+.count-itemGroup-chart::after {
+  content: '';
+  display: block;
+  clear: both;
+  font-size: 0;
+}
+.count-itemGroup-chart > .chart-block {
+  height: calc(100% - 2.2rem);
+}
+.count-itemGroup-chart > .pie-legend-list {
+  height: 2.2rem;
+  padding-top: .5rem;
+  position: relative;
+  overflow: hidden;
+}
+.count-itemGroup-chart .parent_item_group{
+  padding-right: 2rem;
+}
+.count-itemGroup-chart .item_group {
+  display: inline-block;
+  vertical-align: top;
+}
+#awardTramsformInfoHistory > .pie-legend-list {
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}

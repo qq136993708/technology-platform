@@ -182,9 +182,10 @@ var kyptCharts = {
         _this.emptyChart(id, _this.chart[id].config);
 
         // 有无数据都要重新渲染图表
-        var chartDome = _this.chart[id].chart.setOption(chartOption);
+        _this.chart[id].chart.setOption(chartOption);
         _this.chart[id].chart.resize();
-        
+
+
         if (typeof(config.showMask) === 'boolean' || typeof(config.showMask) === 'string' || typeof(config.showMask) === 'object') {
           if (config.showMask) {
             var maskText = '', maskHtml = '';

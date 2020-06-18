@@ -45,6 +45,7 @@ $(function() {
     id: 'awardTramsformType',
     type: 'pie',
     tooltip: {
+      trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } },
       formatter: function(params) {
         var tipsText = '';
         tipsText += '<dl class="transform-pie-tips">';
@@ -79,6 +80,7 @@ $(function() {
     itemName: 'affiliatedUnitText',
     legend: { show: true },
     legendPosition: 'top',
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
     grid: { top: 30, right: 30, bottom: 12 },
     lineColor: 'rgba(30, 83, 137, .6)',
     axisLineColor: 'rgba(30, 83, 137, .6)',

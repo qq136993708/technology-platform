@@ -89,6 +89,7 @@ kyptCharts.render({
     legendPosition: 'top',
     labelColor: '#fff',
     data: [],
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
     itemName: 'name',
     series: [{
             name: '国家级',
