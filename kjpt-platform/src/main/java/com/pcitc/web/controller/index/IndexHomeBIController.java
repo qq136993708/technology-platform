@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.indexHome.calResult;
 import com.pcitc.base.standardmaintain.StandardMaintainBI;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,7 +32,7 @@ import java.util.Map;
  **/
 @Api(value = "领导驾驶舱首页查询",tags = {"领导驾驶舱首页查询"})
 @RestController
-public class IndexHomeBIController extends BaseController {
+public class IndexHomeBIController extends RestBaseController {
 
 	// 科技专家
 	private static final String getTechnologyExpert = "http://kjpt-zuul/stp-proxy/indexHomeBI/getTechnologyExpert";
