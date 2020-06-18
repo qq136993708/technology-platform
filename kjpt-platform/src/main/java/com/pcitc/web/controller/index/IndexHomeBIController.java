@@ -249,7 +249,7 @@ public class IndexHomeBIController extends RestBaseController {
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(distribution, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
-		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), calResult.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), Map.class);
 		return list;
 	}
 
