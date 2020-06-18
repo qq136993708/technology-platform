@@ -19,6 +19,7 @@
     .main_layout_block .check_query {
         width: 21rem;
     }
+
     .query1 input {
         height: 30px;
         line-height: 30px;
@@ -26,233 +27,241 @@
 </style>
 
 <body>
-<div class="main_layout_block">
-    <div class="main_cols left">
-        <div class="item-layout">
-            <div class="page-layout-title"><span class="text">科技专家</span></div>
-            <div class="number_item_list">
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="academy">0</span>
-                        <!-- <span class="unit">人</span> -->
+    <div class="main_layout_block">
+        <div class="main_cols left">
+            <div class="item-layout">
+                <div class="page-layout-title"><span class="text">科技专家</span></div>
+                <div class="number_item_list">
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="academy">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">中科院院士</div>
                     </div>
-                    <div class="item_name_text">中科院院士</div>
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="engineering">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">中国工程院院士</div>
+                    </div>
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="senior">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">国家高级人才计划</div>
+                    </div>
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="provincial">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">省级人才计划</div>
+                    </div>
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="group">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">集团首席科技带路人</div>
+                    </div>
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="manager">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">项目两总</div>
+                    </div>
                 </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="engineering">0</span>
-                        <!-- <span class="unit">人</span> -->
+            </div>
+            <div class="item-layout">
+                <div class="page-layout-title"><span class="text">科研平台</span></div>
+                <div class="kypt_charts" id="kypt_charts"></div>
+            </div>
+            <div class="item-layout">
+                <div class="page-layout-title"><span class="text">成果获奖（累计）</span></div>
+                <div class="achieve_charts" id="achieve_charts"></div>
+            </div>
+        </div>
+
+        <div class="main_cols center">
+            <div class="item-layout top">
+                <div class="page-layout-title"><span class="text">知识产权（累计）</span></div>
+                <div class="card_item_list">
+                    <div class="card-row">
+                        <div class="card-item orange">
+                            <div class="card-title">专利</div>
+                            <div class="card-content middle-block">
+                                <div class="ib-block">
+                                    <div class="card-number-text" id="patent">0</div>
+                                    <div class="cart-number-unit">项</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-item green">
+                            <div class="card-title">商标</div>
+                            <div class="card-content middle-block">
+                                <div class="ib-block">
+                                    <div class="card-number-text" id="trademark">0</div>
+                                    <div class="cart-number-unit">个</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-title">软件著作权</div>
+                            <div class="card-content middle-block">
+                                <div class="ib-block">
+                                    <div class="card-number-text" id="copyright">0</div>
+                                    <div class="cart-number-unit">项</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-item lightBlue">
+                            <div class="card-title">论文</div>
+                            <div class="card-content middle-block">
+                                <div class="ib-block">
+                                    <div class="card-number-text" id="paper">0</div>
+                                    <div class="cart-number-unit">篇</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item_name_text">中国工程院院士</div>
                 </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="senior">0</span>
-                        <!-- <span class="unit">人</span> -->
+            </div>
+            <div class="item-layout middle">
+                <div class="page-layout-title"><span class="text">专利数量(累计)</span></div>
+                <div class="patent_charts" id="patent_charts"></div>
+            </div>
+            <div class="item-layout bottom">
+                <div class="page-layout-title"><span class="text">成果转化（<span class="year">2020</span>）</span></div>
+                <div class="number_item_list">
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="applications">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">申请数量</div>
                     </div>
-                    <div class="item_name_text">国家高级人才计划</div>
-                </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="provincial">0</span>
-                        <!-- <span class="unit">人</span> -->
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="completed">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">完成数量</div>
                     </div>
-                    <div class="item_name_text">省级人才计划</div>
-                </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="group">0</span>
-                        <!-- <span class="unit">人</span> -->
+                    <div class="item_number">
+                        <div class="item_number_text">
+                            <span class="number" id="amount">0</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">完成金额（万元）</div>
                     </div>
-                    <div class="item_name_text">集团首席科技带路人</div>
-                </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="manager">0</span>
-                        <!-- <span class="unit">人</span> -->
-                    </div>
-                    <div class="item_name_text">项目两总</div>
                 </div>
             </div>
         </div>
-        <div class="item-layout">
-            <div class="page-layout-title"><span class="text">科研平台</span></div>
-            <div class="kypt_charts" id="kypt_charts"></div>
+
+        <div class="main_cols right">
+            <div class="item-layout top">
+                <div class="page-layout-title"><span class="text">科研项目（<span class="year">2020</span>）</div>
+                <div class="kyxm_charts" id="kyxm_charts"></div>
+            </div>
+            <div class="item-layout middle">
+                <div class="page-layout-title">
+                    <span class="text">项目投资（<span class="year">2020</span>）</span>
+                    span
+                </div>
+                <div class="progress-layout">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="item-name"></td>
+                                <td class="progress-bar"></td>
+                                <td class="number-text title">总投资金额</td>
+                                <td class="number-text title">累计完成投资</td>
+                            </tr>
+                            <tr>
+                                <td class="item-name">核能开发</td>
+                                <td class="progress-bar">
+                                    <div class="layui-progress layui-progress-big layui-bg-one"
+                                        lay-filter="progress_hnkf">
+                                        <div class="layui-progress-bar" lay-percent="10037/20098"></div>
+                                    </div>
+                                </td>
+                                <td class="number-text value">10037</td>
+                                <td class="number-text totale">20098</td>
+                            </tr>
+                            <tr>
+                                <td class="item-name">集中研发</td>
+                                <td class="progress-bar">
+                                    <div class="layui-progress layui-progress-big layui-bg-two"
+                                        lay-filter="progress_jzyf">
+                                        <div class="layui-progress-bar" lay-percent="5000/7080"></div>
+                                    </div>
+                                </td>
+                                <td class="number-text value">5000</td>
+                                <td class="number-text totale">7080</td>
+                            </tr>
+                            <tr>
+                                <td class="item-name">国防基础</td>
+                                <td class="progress-bar">
+                                    <div class="layui-progress layui-progress-big layui-bg-three"
+                                        lay-filter="progress_gfjc">
+                                        <div class="layui-progress-bar" lay-percent="1007/3980"></div>
+                                    </div>
+                                </td>
+                                <td class="number-text value">1007</td>
+                                <td class="number-text totale">3980</td>
+                            </tr>
+                            <tr>
+                                <td class="item-name">国防技术基础</td>
+                                <td class="progress-bar">
+                                    <div class="layui-progress layui-progress-big layui-bg-four"
+                                        lay-filter="progress_gfjsjc">
+                                        <div class="layui-progress-bar" lay-percent="1007/9980"></div>
+                                    </div>
+                                </td>
+                                <td class="number-text value">907</td>
+                                <td class="number-text totale">2980</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="proess-mask chart-data-mask middle-block">
+                        <span class="ib-block font16">该内容请在密网中查看！</span>
+                        <img src="../../images/proessMask.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="item-layout bottom">
+                <div class="page-layout-title"><span class="text">质量信息（<span class="year">2020</span>）</span></div>
+                <div class="number_item_list">
+                    <div class="item_number" style="width: 50%;">
+                        <div class="item_number_text">
+                            <span class="number">226</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">质量事故事件数</div>
+                    </div>
+                    <div class="item_number" style="width: 50%;">
+                        <div class="item_number_text">
+                            <span class="number">119</span>
+                            <!-- <span class="unit">人</span> -->
+                        </div>
+                        <div class="item_name_text">非计划停堆停机数</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="item-layout">
-            <div class="page-layout-title"><span class="text">成果获奖（累计）</span></div>
-            <div class="achieve_charts" id="achieve_charts"></div>
-        </div>
+
     </div>
 
-    <div class="main_cols center">
-        <div class="item-layout top">
-            <div class="page-layout-title"><span class="text">知识产权（累计）</span></div>
-            <div class="card_item_list">
-                <div class="card-row">
-                    <div class="card-item orange">
-                        <div class="card-title">专利</div>
-                        <div class="card-content middle-block">
-                            <div class="ib-block">
-                                <div class="card-number-text" id="patent">0</div>
-                                <div class="cart-number-unit">项</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-item green">
-                        <div class="card-title">商标</div>
-                        <div class="card-content middle-block">
-                            <div class="ib-block">
-                                <div class="card-number-text" id="trademark">0</div>
-                                <div class="cart-number-unit">个</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-title">软件著作权</div>
-                        <div class="card-content middle-block">
-                            <div class="ib-block">
-                                <div class="card-number-text" id="copyright">0</div>
-                                <div class="cart-number-unit">项</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-item lightBlue">
-                        <div class="card-title">论文</div>
-                        <div class="card-content middle-block">
-                            <div class="ib-block">
-                                <div class="card-number-text" id="paper">0</div>
-                                <div class="cart-number-unit">篇</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="item-layout middle">
-            <div class="page-layout-title"><span class="text">专利数量(累计)</span></div>
-            <div class="patent_charts" id="patent_charts"></div>
-        </div>
-        <div class="item-layout bottom">
-            <div class="page-layout-title"><span class="text">成果转化（<span class="year">2020</span>）</span></div>
-            <div class="number_item_list">
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="applications">0</span>
-                        <!-- <span class="unit">人</span> -->
-                    </div>
-                    <div class="item_name_text">申请数量</div>
-                </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="completed">0</span>
-                        <!-- <span class="unit">人</span> -->
-                    </div>
-                    <div class="item_name_text">完成数量</div>
-                </div>
-                <div class="item_number">
-                    <div class="item_number_text">
-                        <span class="number" id="amount">0</span>
-                        <!-- <span class="unit">人</span> -->
-                    </div>
-                    <div class="item_name_text">完成金额（万元）</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="main_cols right">
-        <div class="item-layout top">
-            <div class="page-layout-title"><span class="text">科研项目（<span class="year">2020</span>）</div>
-            <div class="kyxm_charts" id="kyxm_charts"></div>
-        </div>
-        <div class="item-layout middle">
-            <div class="page-layout-title">
-                <span class="text">项目投资（<span class="year">2020</span>）</span>
-                span
-            </div>
-            <div class="progress-layout">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="item-name"></td>
-                            <td class="progress-bar"></td>
-                            <td class="number-text title">总投资金额</td>
-                            <td class="number-text title">累计完成投资</td>
-                        </tr>
-                        <tr>
-                            <td class="item-name">核能开发</td>
-                            <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big layui-bg-one" lay-filter="progress_hnkf">
-                                    <div class="layui-progress-bar" lay-percent="10037/20098"></div>
-                                </div>
-                            </td>
-                            <td class="number-text value">10037</td>
-                            <td class="number-text totale">20098</td>
-                        </tr>
-                        <tr>
-                            <td class="item-name">集中研发</td>
-                            <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big layui-bg-two" lay-filter="progress_jzyf">
-                                    <div class="layui-progress-bar" lay-percent="5000/7080"></div>
-                                </div>
-                            </td>
-                            <td class="number-text value">5000</td>
-                            <td class="number-text totale">7080</td>
-                        </tr>
-                        <tr>
-                            <td class="item-name">国防基础</td>
-                            <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big layui-bg-three" lay-filter="progress_gfjc">
-                                    <div class="layui-progress-bar" lay-percent="1007/3980"></div>
-                                </div>
-                            </td>
-                            <td class="number-text value">1007</td>
-                            <td class="number-text totale">3980</td>
-                        </tr>
-                        <tr>
-                            <td class="item-name">国防技术基础</td>
-                            <td class="progress-bar">
-                                <div class="layui-progress layui-progress-big layui-bg-four" lay-filter="progress_gfjsjc">
-                                    <div class="layui-progress-bar" lay-percent="1007/9980"></div>
-                                </div>
-                            </td>
-                            <td class="number-text value">907</td>
-                            <td class="number-text totale">2980</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="item-layout bottom">
-            <div class="page-layout-title"><span class="text">质量信息（<span class="year">2020</span>）</span></div>
-            <div class="number_item_list">
-                <div class="item_number" style="width: 50%;">
-                    <div class="item_number_text">
-                        <span class="number">226</span>
-                        <!-- <span class="unit">人</span> -->
-                    </div>
-                    <div class="item_name_text">质量事故事件数</div>
-                </div>
-                <div class="item_number" style="width: 50%;">
-                    <div class="item_number_text">
-                        <span class="number">119</span>
-                        <!-- <span class="unit">人</span> -->
-                    </div>
-                    <div class="item_name_text">非计划停堆停机数</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/jsc_web/common/js/echarts.min.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
-<script src="/layuiadmin/js/chartOption.js"></script>
-<script src="/jsc_web/common/js/main.js"></script>
+    <script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/jsc_web/common/js/echarts.min.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script src="/layuiadmin/js/chartOption.js"></script>
+    <script src="/jsc_web/common/js/main.js"></script>
 </body>
 
 </html>

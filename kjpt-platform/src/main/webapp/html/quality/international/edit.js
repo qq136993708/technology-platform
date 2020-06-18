@@ -51,7 +51,10 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
           
           setRadioShow();
           var billDataID = data.id;
-
+          if (variable.type === 'view') {
+            $('.file-options-delete').hide();
+            $('label[type="button"]').hide();
+          }
           setFileUpload({
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
@@ -60,11 +63,16 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
               return $("#secretLevel").val();
             },
             callback: function (tableData, type) {
+              
+              if (variable.type === 'view') {
+                $('label[type="button"]').hide();
+              }
               /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
                 * type 触发变更的类型 目前只有 delete | upload
               */
               var files = $.map(tableData, function(item) { return item.id});
               $("#files").val(files.join(','));
+              
             }
           });
 
