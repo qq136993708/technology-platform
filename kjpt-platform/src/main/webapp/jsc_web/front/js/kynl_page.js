@@ -367,9 +367,11 @@ function loadTechnological() {
     httpModule({
         url: "/getTongjiList",
         success: function (result) {
+            if(result.success){
             kyptCharts.reload('kynl_kjrc_charts', {
                 series: result
             });
+        }
         },
         errro: function (data) {
 
@@ -382,7 +384,10 @@ function loadNotes(curLevel) {
     httpModule({
         url: "/getPlatFormList?level=" + curLevel,
         success: function (result) {
-            addTableData(result)
+            if(result.success){
+                addTableData(result)
+            }
+            
             // kyptCharts.reload('kynl_kjrc_charts', {series: result});
         },
         errro: function (data) {
