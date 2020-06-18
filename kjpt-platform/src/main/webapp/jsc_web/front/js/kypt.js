@@ -1,12 +1,13 @@
 
 $(function() {
     // 历年申请/授权专利数量统计
+    var legendItems = [],
+    barColor = ['rgba(216,153,54, 0.4)', 'rgba(90,179,248, 0.4)', 'rgba(45,102,215, 0.5)', '#D89936', '#5AB3F8', '#2D66D7'];
     kyptCharts.render({
         id: 'awardTramsformInfoHistory',
         type: 'bar',
         itemName: 'textTitle',
-        legend: { show: true },
-        legendPosition: 'top',
+        legendPosition: 'bottom',
         grid: { top: 30, right: 30, bottom: 12 },
         lineColor: 'rgba(30, 83, 137, .6)',
         axisLineColor: 'rgba(30, 83, 137, .6)',
@@ -17,18 +18,45 @@ $(function() {
             position: 'inside',
             show: false
         },
-        color: ['rgba(216,153,54, 0.4)', 'rgba(90,179,248, 0.4)', 'rgba(45,102,215, 0.5)', '#D89936', '#5AB3F8', '#2D66D7'],
+        color: barColor,
         series: [],
         data: [],
         yAxis: [{ name: '单位：个', nameTextStyle: {color: '#fff'}}],
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } },
-            formatter: function (serves) {
-                var showHtms = '<div style="font-size:16px; margin:5px;">'+'申请专利'+'</div>'+
-                    '<span style="display:inline-block;margin-right: 3px;width:16px;height:16px;background: rgba(216,153,54,1);opacity: 0.4; "></span>'+  serves[0].seriesName+ '&nbsp;&nbsp;'+serves[0].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[1].seriesName+'&nbsp;&nbsp;'+ serves[1].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7;opacity: 0.4; "></span>'+ serves[2].seriesName+ '&nbsp;&nbsp;'+serves[2].value+'<br>'+
-                    '<div style="font-size:16px; margin:5px;">'+'授权专利'+'</div>'+
-                    '<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: rgba(216,153,54,1); "></span>'+ serves[3].seriesName+'&nbsp;&nbsp;'+ serves[3].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+  serves[4].seriesName+ '&nbsp;&nbsp;'+serves[4].value+'&nbsp;&nbsp;&nbsp;&nbsp;'+'<span style="display:inline-block;margin-right: 3px; width:16px;height:16px;background: #2D66D7; "></span>'+ serves[5].seriesName+'&nbsp;&nbsp;'+ serves[5].value+'<br>'
-
-                return showHtms;
+            formatter: function (params) {
+                var itemGroup = [], parentNames = [];
+                $.each(params, function(i, item) {
+                    var newItem = {
+                        parentName: item.seriesName.split('_')[0],
+                        itemName: item.seriesName.split('_')[1],
+                        value: item.value,
+                        colorIndex: item.seriesIndex,
+                        year: item.axisValue
+                    };
+                    var index = parentNames.indexOf(newItem.parentName);
+                    if (index === -1) {
+                        parentNames.push(newItem.parentName);
+                        itemGroup.push([newItem]);
+                    } else {
+                        itemGroup[index].push(newItem);
+                    }
+                });
+                
+                if (itemGroup.length) {
+                    var tipsHtml = '<div class="zscq_charts_tips">';
+                    $.each(itemGroup, function(i, item) {
+                        tipsHtml += '<dl><dt>'+ item[0].parentName;
+                        tipsHtml += '<span style="font-size: 12px;">（'+ item[0].year +'年）</span></dt><dd class="middle-block">';
+                        $.each(item, function(a, subItem) {
+                            tipsHtml += '<span class="ib-block icon" style="background:'+ barColor[subItem.colorIndex] +'"></span>';
+                            tipsHtml += '<span class="ib-block name">'+ subItem.itemName +'：</span>';
+                            tipsHtml += '<span class="ib-block value">'+ subItem.value +'</span>';
+                        });
+                        tipsHtml += '</dd></dl>';
+                    });
+                    tipsHtml += '</div>';
+                    return tipsHtml;
+                }
             }
         }
     });
@@ -102,8 +130,8 @@ $(function() {
                 async: false,
                 success: function(res) {
                     if (res.code == 0) {
-                        var data = res.data,
-                            yearIndex = [], _totalArr = [], HJdata = [], sData = [];
+                        var data = res.data, yearIndex = [], _totalArr = [], HJdata = [];
+                        
                         $.each(data, function(i, item) {
                             var index = yearIndex.indexOf(item.textTitle);
                             if (index === -1) {
@@ -113,23 +141,44 @@ $(function() {
                                 _totalArr[index].push(item);
                             }
                         });
+
+                        legendItems = [];
                         $.each(_totalArr, function(i, item) {
                             var tempJson = {textTitle: yearIndex[i]};
                             for (var a = 0; a < item.length; a++) {
                                 var valKey = 'val_' + a;
                                 tempJson[valKey] = item[a].calValue;
                                 if (i === 0) {
-                                    sData.push({
+                                    var legendItem = {
                                         name: item[a].text + '_' + item[a].textSub,
                                         valueKey: valKey,
-                                        stack: item[a].text
-                                    })
+                                        stack: item[a].text,
+                                        label: '',
+                                        parentLabel: '',
+                                        parentSelected: true,
+                                        selected:  true
+                                    }
+                                    if (item[a].text === '申请专利') {
+                                        legendItem.parentLabel = 'apply';
+                                    } else {
+                                        legendItem.parentLabel = 'auth';
+                                    }
+                                    if (item[a].textSub === '发明') {
+                                        legendItem.label = 'fm';
+                                    } else if (item[a].textSub === '实用新型') {
+                                        legendItem.label = 'syxx';
+                                    } else {
+                                        legendItem.label = 'wgsj';
+                                    }
+                                    legendItems.push(legendItem);
                                 }
                             }
                             HJdata.push(tempJson);
                         });
 
-                        kyptCharts.reload('awardTramsformInfoHistory', {data: HJdata, series: sData});
+                        console.log('legendItems => ', legendItems);
+
+                        kyptCharts.reload('awardTramsformInfoHistory', {data: HJdata, series: legendItems});
                     }
                 }
             });
@@ -186,4 +235,33 @@ $(function() {
     chartInit.transformInfo();
     chartInit.awardsYearPie();
     chartInit.achieveTransferOfficeChart();
+
+    // 历年申请/授权专利数量统计 图例被点击后的
+    $('#itemGroupList').on('click', '.legend-item', function(e) {
+        var itemLabel = $(this).attr('label'), selected = false;
+        if ($(this).hasClass('selected')) {
+            selected = true;
+            $(this).removeClass('selected');
+        } else {
+            $(this).addClass('selected');
+        }
+
+        var itemNames = {};
+        $.each(legendItems, function(i, item) {
+            if (item.parentLabel === itemLabel) {
+                item.parentSelected = selected;
+                if (!selected) {
+                    itemNames[item.name] = selected;
+                } else if (item.selected) {
+                    itemNames[item.name] = selected;
+                }
+            } else if (item.label === itemLabel) {
+                item.selected = selected;
+                if (item.parentSelected) {
+                    itemNames[item.name] = selected;
+                }
+            }
+        });
+        kyptCharts.reload('awardTramsformInfoHistory', {legend: {selected: itemNames}});
+    })
 });
