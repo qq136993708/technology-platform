@@ -239,7 +239,7 @@ public class IndexHomeBIController extends RestBaseController {
 			@ApiImplicitParam(name = "level", value = "平台等级", dataType = "String", paramType = "query")
 	})
 	@RequestMapping(value = "/indexHomeBI-api/distribution", method = RequestMethod.GET)
-	public List<calResult> distribution(
+	public List<Map> distribution(
 			@RequestParam(required = false,value = "level") String level
 	) {
 		Map<String, Object> condition = new HashMap<>(2);
