@@ -26,8 +26,8 @@
         <result column="secret_level_text" jdbcType="VARCHAR" property="secretLevelText"/>
         <result column="knowledge_scope" jdbcType="VARCHAR" property="knowledgeScope"/>
         <result column="knowledge_person" jdbcType="VARCHAR" property="knowledgePerson"/>
-          <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
-          <result column="nameKey" jdbcType="VARCHAR" property="nameKey"/>
+        <result column="nameCount" jdbcType="INTEGER" property="nameCount"/>
+        <result column="nameKey" jdbcType="VARCHAR" property="nameKey"/>
     </resultMap>
 
 
@@ -77,7 +77,6 @@
             </foreach>
         </if>
     </sql>
-
 
     <insert id="add" parameterType="com.pcitc.base.achieve.AchieveMaintain">
         insert into achieve_maintain(

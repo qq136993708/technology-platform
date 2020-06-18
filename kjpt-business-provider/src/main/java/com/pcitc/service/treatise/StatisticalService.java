@@ -18,5 +18,9 @@ public interface StatisticalService {
 	 public List<PlatformInfoModel> getPlatFormList(Map param);
 	 public List<ChartData> getZjkTongjiList();
 	 
+	 public Map getAchieveBaseMap();//成果转化（2020）
+	 
+	 
+	 
 
 }

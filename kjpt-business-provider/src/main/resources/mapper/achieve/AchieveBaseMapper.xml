@@ -266,6 +266,22 @@
     <update id="updatePublicStatus" parameterType="java.util.Map">
         update achieve_base set is_public = #{status} where id = #{id}
     </update>
-
+    
+    
+    
+    
+    
+    
+    
+    <select id="queryApplyCount" resultType="int">
+       SELECT COUNT(*) FROM  achieve_base t WHERE t.`audit_status`='1' AND t.`del_status`='0'
+    </select>
+    
+    <select id="queryFinishCount" resultType="int">
+       SELECT COUNT(*) FROM  achieve_base t WHERE t.`audit_status`='2' AND t.`del_status`='0'
+    </select>
+    <select id="queryFinishMoney" resultType="double">
+     SELECT ROUND(IFNULL(SUM(t.`conversion_amount`),0) ,2) conversion_amount FROM  achieve_base t WHERE t.`audit_status`='2' AND t.`del_status`='0'
+    </select>
 
 </mapper>

@@ -140,6 +140,15 @@ public class StatisticalClient {
 	   
 	    
 	    
+	    @ApiOperation(value = "首页-成果转化（2020）", notes = "首页-成果转化（2020）")
+	    @RequestMapping(value = "/getAchieveBaseMap", method = RequestMethod.POST)
+	    public JSONObject getAchieveBaseMap(@RequestBody(required = false) Map param)
+	    {
+	    	Map map=statisticalService.getAchieveBaseMap();
+	    	JSONObject jsonObj = JSONObject.parseObject(JSON.toJSONString(map));
+	    	return jsonObj;
+	    }
+	    
 	    
 	    
 
