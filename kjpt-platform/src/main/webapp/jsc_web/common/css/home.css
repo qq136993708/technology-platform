@@ -267,8 +267,11 @@ body { overflow: auto; padding-top: 0 !important; }
     vertical-align: top;
     margin-top: .5rem;
     padding: .3rem .5rem 0;
-    border-top: 1px #fff solid;
+    /* border-top: 1px #fff solid; */
     font-size: .7rem;
+}
+.card_item_list .card-item.orange .cart-number-unit{
+    border-top: 1px #fff solid;
 }
 .card_item_list .orange .card-title {
     background-color: #D89339;

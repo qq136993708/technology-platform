@@ -210,7 +210,7 @@ layui.config({
             $('#expertTypeBox').show(); 
             $('#expertTypeBox').find('.layui-form-label').addClass('label-required')
             $('#expertTypeBox').find('.layui-input-block input').attr('lay-verify','required')
-        }else if(data.value == '18'){
+        }else if(data.value == '18' || data.value == '17'){
             $('#otherNotes').show();
         }else{
             $('#otherNotes').hide();
