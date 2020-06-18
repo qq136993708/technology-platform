@@ -11,6 +11,7 @@ import com.pcitc.base.computersoftware.ComputerSoftware;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
+import com.pcitc.mapper.achieve.AchieveBaseMapper;
 import com.pcitc.mapper.achieve.AchieveMaintainMapper;
 import com.pcitc.mapper.computersoftware.ComputerSoftwareMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
@@ -44,8 +45,20 @@ public class StatisticalServiceImpl implements StatisticalService
 	    
 	    @Autowired
 	    private ZjkBaseMapper zjkBaseMapper;
+	    @Autowired
+	    private AchieveBaseMapper achieveBaseMapper;
 	    
-	    
+	    public Map getAchieveBaseMap()//成果转化（2020）
+	    {
+	    	Map param =new HashMap();
+	    	Integer applyCount=achieveBaseMapper.queryApplyCount();
+	    	Integer finishCount=achieveBaseMapper.queryFinishCount();
+	    	Double finishMoney=achieveBaseMapper.queryFinishMoney();
+	    	param.put("finishCount", finishCount);
+	    	param.put("applyCount", applyCount);
+	    	param.put("finishMoney", finishMoney);
+	    	return param;
+	    }
 	    
 
 	    public List<ChartData> getZjkTongjiList()
