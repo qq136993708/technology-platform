@@ -60,6 +60,8 @@ public class IndexHomeBIController extends RestBaseController {
 
 	// 质量信息（累计）
 	private static final String getQualityInfo = "http://kjpt-zuul/stp-proxy/indexHomeBI/getQualityInfo";
+	// 二级单位科研平台分布情况
+	private static final String distribution = "http://kjpt-zuul/stp-proxy/indexHomeBI/distribution";
 
 	@ApiOperation(value="科技专家")
 	@ApiImplicitParams({
@@ -229,6 +231,24 @@ public class IndexHomeBIController extends RestBaseController {
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getQualityInfo, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), calResult.class);
+		return list;
+	}
+	@ApiOperation(value="科研平台二级单位分布情况")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "level", value = "平台等级", dataType = "String", paramType = "query")
+	})
+	@RequestMapping(value = "/indexHomeBI-api/distribution", method = RequestMethod.GET)
+	public List<calResult> distribution(
+			@RequestParam(required = false,value = "level") String level
+	) {
+		Map<String, Object> condition = new HashMap<>(2);
+		if (!StringUtils.isEmpty(level)) {
+			this.setParam(condition, "year", level);
+		}
+		this.setBaseParam(condition);
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(distribution, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
 		List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), calResult.class);
 		return list;
 	}

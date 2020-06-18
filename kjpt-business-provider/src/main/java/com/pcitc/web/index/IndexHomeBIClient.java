@@ -96,5 +96,12 @@ public class IndexHomeBIClient {
         JSONArray json = JSONArray.parseArray(JSON.toJSONString(biList));
         return json;
     }
+    @ApiOperation(value = "二级单位科研平台分布情况", notes = "二级单位科研平台分布情况")
+    @RequestMapping(value = "/distribution", method = RequestMethod.POST)
+    public JSONArray distribution(@RequestBody(required = false) Map param){
+        List biList= ihs.distribution(param);
+        JSONArray json = JSONArray.parseArray(JSON.toJSONString(biList));
+        return json;
+    }
 
 }
