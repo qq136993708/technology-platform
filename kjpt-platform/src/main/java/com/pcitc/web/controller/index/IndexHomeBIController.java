@@ -244,7 +244,7 @@ public class IndexHomeBIController extends RestBaseController {
 	) {
 		Map<String, Object> condition = new HashMap<>(2);
 		if (!StringUtils.isEmpty(level)) {
-			this.setParam(condition, "year", level);
+			this.setParam(condition, "level", level);
 		}
 		this.setBaseParam(condition);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
