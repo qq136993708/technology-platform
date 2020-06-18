@@ -22,7 +22,8 @@ layui.use(['element'], function () {
             textStyle: {
                 color: '#fff',
                 fontSize: 24,
-                width: '100%'
+                width: '100%',
+                fontFamily:'Impact'
             },
             subtextStyle:{
                 color: '#fff',
@@ -79,7 +80,8 @@ layui.use(['element'], function () {
             textStyle: {    
                 color: '#fff',
                 fontSize: 24,
-                width: '100%'
+                width: '100%',
+                fontFamily:'Impact'
             },
             subtextStyle:{
                 color: '#fff',
@@ -168,7 +170,7 @@ layui.use(['element'], function () {
         barWidth: 20,
         lineColor: 'rgba(30, 83, 137, .6)',
         axisLineColor: 'rgba(30, 83, 137, .6)',
-        showMask: { img: '/images/mask_bg.png', text: '当前内容吧可看。' }
+        showMask: { img: '/images/mask_bg.png', text: '当前内容不可看。' }
         // callback:function(param){
         //     param.on('click',function(){
         //         jscPup('achieve_award');
