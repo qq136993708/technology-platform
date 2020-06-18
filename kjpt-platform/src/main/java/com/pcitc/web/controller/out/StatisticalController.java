@@ -32,6 +32,8 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Statistical-API",tags = {"领导驾驶仓"})
@@ -173,11 +175,15 @@ public class StatisticalController extends BaseController
 	    
 	    @ApiOperation(value = "科研能力-科研平台", notes = "科研能力-科研平台")
 		@RequestMapping(value = "/getPlatFormList", method = RequestMethod.GET)
+	    @ApiImplicitParams({
+	        @ApiImplicitParam(name = "level",                   value = "类型",     dataType = "string", paramType = "query")
+	    })
 	    @ResponseBody
 	   	public String getPlatFormList(@RequestParam(required = false) String level, HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	    	Map  map = new HashMap();
 	    	map.put("level",level);
+	    	System.out.println("---------------level："+level);
 			ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(getPlatFormList, HttpMethod.POST,new HttpEntity<Map>(map, this.httpHeaders), JSONArray.class);
 			JSONArray temparray = responseEntity.getBody();
 			List<PlatformInfoModel> list = JSONObject.parseArray(temparray.toJSONString(), PlatformInfoModel.class);

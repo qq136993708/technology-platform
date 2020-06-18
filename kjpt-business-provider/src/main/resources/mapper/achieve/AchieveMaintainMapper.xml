@@ -159,7 +159,7 @@
 		)t1 
 		LEFT JOIN (
 		SELECT t.`type`,COUNT(*) nameCount FROM achieve_maintain	 t GROUP BY t.`type`
-		) t2 ON t1.code=t2.`type` 
+		) t2 ON t1.code=t2.`type`  ORDER BY num_value
     </select>
 
     <select id="getAchieveMaintainGrupCountListByType" parameterType="java.util.Map" resultType="java.util.Map">

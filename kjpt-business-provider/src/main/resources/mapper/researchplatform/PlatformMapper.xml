@@ -454,7 +454,7 @@
 		)t1 
 		LEFT JOIN (
 		SELECT t.`level`,COUNT(*) nameCount FROM kypt_info t GROUP BY t.`level`
-		) t2 ON t1.num_value=t2.`level` 
+		) t2 ON t1.num_value=t2.`level`  ORDER BY num_value
     </select>
     
     
