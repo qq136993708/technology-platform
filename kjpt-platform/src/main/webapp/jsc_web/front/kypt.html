@@ -20,7 +20,33 @@
             <div class="page-layout-title">
                 <span class="text">历年申请/授权专利数量统计</span>
             </div>
-            <div class="chart-layout count-year-chart" style="padding-top: .5rem;">
+            <div class="chart-layout count-itemGroup-chart">
+                <div class="pie-legend-list top horizontal" id="itemGroupList">
+                    <div class="item_group parent_item_group">
+                        <label class="legend-item" title="申请专利" label="apply">
+                            <span class="lenend-item-icon bar" style="background-color:#D89936"></span>
+                            <span class="lenend-item-name">申请专利</span>
+                        </label>
+                        <label class="legend-item" title="授权专利" label="auth">
+                            <span class="lenend-item-icon bar" style="background-color:#D89936"></span>
+                            <span class="lenend-item-name">授权专利</span>
+                        </label>
+                    </div>
+                    <div class="item_group">
+                        <label class="legend-item" title="发明" label="fm">
+                            <span class="lenend-item-icon bar" style="background-color:#D89936"></span>
+                            <span class="lenend-item-name">发明</span>
+                        </label>
+                        <label class="legend-item" title="实用新型" label="syxx">
+                            <span class="lenend-item-icon bar" style="background-color:#5AB3F8"></span>
+                            <span class="lenend-item-name">实用新型</span>
+                        </label>
+                        <label class="legend-item" title="外观设计" label="wgsj">
+                            <span class="lenend-item-icon bar" style="background-color:#2D66D7"></span>
+                            <span class="lenend-item-name">外观设计</span>
+                        </label>
+                    </div>
+                </div>
                 <div class="chart-block" id="awardTramsformInfoHistory"></div>
             </div>
             <!-- <div class="chart-layout jscWeb count-year">

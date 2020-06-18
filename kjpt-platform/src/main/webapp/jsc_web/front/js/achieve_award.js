@@ -20,6 +20,8 @@ function addTableData(data) {
         'padding-right': parseInt($table.outerWidth()) - parseInt($table.children('table').outerWidth())
       });
     }, 120);
+  } else {
+    $('#tbodyContent').empty();
   }
 }
 
@@ -148,11 +150,12 @@ $(function() {
     itemName: 'year',
     legend: { show: true },
     legendPosition: 'top',
-    grid: { top: 30 },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
+    grid: { top: 10 },
     lineColor: 'rgba(30, 83, 137, .6)',
     axisLineColor: 'rgba(30, 83, 137, .6)',
-    valueColor: '#fff',
-    labelColor: '#2BB7FF',
+    valueColor: 'rgba(255, 255, 255, .7)',
+    labelColor: '#fff',
     barMaxWidth: '25px',
     label: { color: '#fff', position: 'top' },
     color: ['#306BF0', '#0DA8D4', '#EBDD51', '#D86436'],
@@ -169,8 +172,6 @@ $(function() {
       });
     },
     legendCallback: function(item, items) {
-      console.log(items);
-
       // 图例被点击时的回调
       var ids = '';
       $.each(items, function(i, val) {
@@ -179,6 +180,9 @@ $(function() {
         }
       });
       ids = ids.substring(1);
+
+      if (ids === '') { ids = 'not_data' }
+
       // 重加载详细表格数据
       chartInit.getAchieveTableData({ type: ids });
       // 重加载奖项名称(累计)数据

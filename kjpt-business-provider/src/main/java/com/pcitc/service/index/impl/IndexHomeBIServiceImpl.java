@@ -80,4 +80,9 @@ public class IndexHomeBIServiceImpl implements IndexHomeBIService {
         cList = mapper.getQualityInfo(param);
         return cList;
     }
+
+    @Override
+    public List distribution(Map param) {
+        return mapper.distribution(param);
+    }
 }
