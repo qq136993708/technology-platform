@@ -170,7 +170,7 @@ layui.use(['element'], function () {
         barWidth: 20,
         lineColor: 'rgba(30, 83, 137, .6)',
         axisLineColor: 'rgba(30, 83, 137, .6)',
-        showMask: { img: '/images/mask_bg.png', text: '当前内容不可看。' }
+        showMask: { img: '/images/mask_bg.png', text: '该内容请在密网中查看！' }
         // callback:function(param){
         //     param.on('click',function(){
         //         jscPup('achieve_award');
@@ -188,21 +188,21 @@ layui.use(['element'], function () {
     //科技专家 
     function loadExperts() { 
         httpModule({
-            url: "/indexHomeBI-api/getTechnologyExpert",
+            url: "/getZjkTongjiList",
             success: function (result) {
                 $.each(result,function(index,item){
-                    if(item.text == '中科院院士'){
-                        $('#academy').text(item.calValue)
-                    }else if(item.text == '中国工程院院士'){
-                        $('#engineering').text(item.calValue)
-                    }else if(item.text == '国家高级人才计划'){
-                        $('#senior').text(item.calValue)
-                    }else if(item.text == '各省人才计划'){
-                        $('#provincial').text(item.calValue)
-                    }else if(item.text == '集团首席科技带路人'){
-                        $('#group').text(item.calValue)
-                    }else if(item.text == '项目两总'){
-                        $('#manager').text(item.calValue)
+                    if(item.name == '中国科学院院士'){
+                        $('#academy').text(item.value)
+                    }else if(item.name == '中国工程院院士'){
+                        $('#engineering').text(item.value)
+                    }else if(item.name == '“高层次人才引进计划”专家'){
+                        $('#senior').text(item.value)
+                    }else if(item.name == '其他省部级人才计划'){
+                        $('#provincial').text(item.value)
+                    }else if(item.name == '集团首席专家'){
+                        $('#group').text(item.value)
+                    }else if(item.name == '项目两总'){
+                        $('#manager').text(item.value)
                     }
                 })
             }

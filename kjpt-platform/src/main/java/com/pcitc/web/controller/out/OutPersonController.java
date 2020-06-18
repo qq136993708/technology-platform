@@ -82,14 +82,10 @@ public class OutPersonController extends BaseController {
         @ApiImplicitParam(name = "techType",       value = "技术领域",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "isExpert",       value = "0不是专家，1是专家",     dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "customQueryConditionStr",                   value = "条件",     dataType = "string", paramType = "query")
-        
-        
     
     })
     @RequestMapping(value = "/outPerson-api/page", method = RequestMethod.GET)
 	public String getExpertPage(
-			
-
 			@RequestParam(required = true) Integer page,
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String name,
@@ -180,7 +176,7 @@ public class OutPersonController extends BaseController {
    /**
 	  *根据ID获取人才信息详情
 	 */
-   @ApiOperation(value = "根据ID获取人才信息详情", notes = "根据ID获取人才信息详情")
+    @ApiOperation(value = "根据ID获取人才信息详情", notes = "根据ID获取人才信息详情")
 	@RequestMapping(value = "/outPerson-api/get/{id}", method = RequestMethod.GET)
 	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
    	Result resultsDate = new Result();
