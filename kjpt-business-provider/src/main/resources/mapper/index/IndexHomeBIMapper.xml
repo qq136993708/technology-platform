@@ -9,7 +9,7 @@
     </select>
 
     <select id="distribution"  parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT count(1) num,b.unit_id unitId,b.unit_name unitName,a.level,c.name
+        SELECT count(1) value,b.unit_id unitId,b.unit_name unitName,a.level,c.name
             FROM kypt_info a LEFT JOIN sys_unit b ON a.supporting_institutions = b.unit_id  LEFT JOIN sys_dictionary c ON a.LEVEL = c.num_value
                 AND c.parent_code = 'ROOT_KJPT_PTJB' WHERE b.is_common = '1'
                 AND  PERIOD_DIFF( date_format(now(),'%Y%m'), date_format(create_date, '%Y%m')) >1
