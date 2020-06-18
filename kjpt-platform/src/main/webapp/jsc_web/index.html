@@ -15,7 +15,9 @@
     <!-- 首页样式 -->
     <!-- <link rel="stylesheet" href="/jsc_web/common/css/main.css">
     <link rel="stylesheet" href="/jsc_web/common/css/table.css"> -->
-
+        <style>
+            .kypt_tab{background-image: url('../images/proessMask.png');background-size: 100% 100%;cursor: default;}
+        </style>
 </head>
 <body class="animated  fadeIn">
 <div class="jsc_wrapper" id="wrapper">
@@ -24,19 +26,19 @@
         <div class="top-header" id="top-header-nav">
             <div class="header_main">
                 <div class="left_tab">
-                    <div class="location tab_button transR btnactive" href="main"><span>首页</span></div>
+                    <div class="location tab_button tab_link transR btnactive" href="main"><span>首页</span></div>
                     <!-- <div class="location tab_button transL" children="projectPage" href="project"><span>项 目</span></div> -->
-                    <div class="location tab_button transR" href="kynl_page"><span>科研能力</span></div>
-                    <div class="location tab_button transR" children="cggl" href="achieve_award"><span>成果管理</span></div>
+                    <div class="location tab_button tab_link transR" href="kynl_page"><span>科研能力</span></div>
+                    <div class="location tab_button tab_link transR" children="cggl" href="achieve_award"><span>成果管理</span></div>
                     <!-- <div class="location tab_button transL" children="achievements" href="achieve_appraisal"><span>成果信息</span></div> -->
                 </div>
                 <div class="logo_text">
                     <span class="text_cn">中核集团科技管理平台</span>
                 </div>
                 <div class="right_tab">
-                    <div class="location tab_button transR" href="intelligent_team"><span>项目管理</span></div>
-                    <div class="location tab_button transR" href="kypt" ><span>知识产权</span></div>
-                    <div class="location tab_button transR" children="zlyjyfkPage" href="nuclearPower_ part"><span>质量标准</span></div>
+                    <div class="location tab_button tab_link transR" href="intelligent_team"><span>项目管理</span></div>
+                    <div class="location tab_button transR  kypt_tab" href="kypt" ><span>知识产权</span></div>
+                    <div class="location tab_button tab_link transR" children="zlyjyfkPage" href="nuclearPower_ part"><span>质量标准</span></div>
                 </div>
             </div>
 
@@ -94,8 +96,8 @@
     window.childrenClickItem = function (pageName, params) {
         // params = '?a=1&b=2';
         var $item = $('[href="'+ pageName +'"]');
-        if ($item.hasClass('tab_button')) {
-            $('#top-header-nav .tab_button').removeClass('btnactive');
+        if ($item.hasClass('tab_link')) {
+            $('#top-header-nav .tab_link').removeClass('btnactive');
             $item.addClass('btnactive');
 
             console.log(pageName);
@@ -138,7 +140,7 @@
             $topHeaderNav = $('#top-header-nav');
 
         // 一级导航链接
-        $topHeaderNav.on('click', '.tab_button', function(e) {
+        $topHeaderNav.on('click', '.tab_link', function(e) {
             var pageName = $(this).attr('href'),
                 pageHref = '',
                 children = $(this).attr('children');
@@ -152,7 +154,7 @@
             $(".loading-container").removeClass("loading-inactive");
 
             // 添加一级导航选中效果
-            $topHeaderNav.find('.tab_button').removeClass('btnactive');
+            $topHeaderNav.find('.tab_link').removeClass('btnactive');
             $(this).addClass("btnactive");
 
             // 判断是否有二级菜单
