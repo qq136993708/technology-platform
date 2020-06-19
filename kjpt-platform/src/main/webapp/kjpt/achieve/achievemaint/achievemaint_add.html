@@ -282,7 +282,9 @@
                       layui.formSelects.value('awardLevel', [formData.awardsType]);
                     }
                   // 给form表单赋初始值
-              form.val('formPlatform', formData);
+                  setTimeout(function(){
+                      form.val('formPlatform', formData);
+                  },10)
               }
               form.render();
             }
