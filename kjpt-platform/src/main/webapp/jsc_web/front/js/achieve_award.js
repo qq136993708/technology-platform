@@ -29,8 +29,6 @@ function addTableData(data) {
 
 // $(function() {
   var variable = getQueryVariable()
-
-
   var achieveTypes = [];
   var achieveTypesSeries = [];
   var dictcode = 'ROOT_KJPT_CGWH_HJLX';
@@ -215,11 +213,12 @@ function addTableData(data) {
     },
     color: ['#3461D3', '#D86436', '#DC8D3E', '#EBDD51', '#D1F166', '#65C8E0']
   });
-
+  $('.proess-mask',parent.document).hide();
+  $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
   if (variable) {
     $('.two_nav_item',parent.document).addClass('disNone')
     $('.cggl',parent.document).removeClass('disNone');
-    $('#wrapper',parent.document).css({ 'padding-top': '6rem'});
+    $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
     if (variable.name) {
       var curName = decodeURI(variable.name);
       var ids;

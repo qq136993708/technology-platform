@@ -231,7 +231,6 @@ layui.use(['element'], function () {
                 }else{
                     curList=result.data;
                 }
-                console.log(curList);
                 kyptCharts.reload(option.id,{
                     series:curList
                 })
