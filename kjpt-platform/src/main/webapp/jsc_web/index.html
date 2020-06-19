@@ -141,6 +141,7 @@
 
         // 一级导航链接
         $topHeaderNav.on('click', '.tab_button', function(e) {
+            $('.proess-mask').hide();
             var pageName = $(this).attr('href'),
                 pageHref = '',
                 children = $(this).attr('children');
@@ -156,7 +157,6 @@
             // 添加一级导航选中效果
             $topHeaderNav.find('.tab_button').removeClass('btnactive');
             $(this).addClass("btnactive");
-
             // 判断是否有二级菜单
             if (children) {
                 if(children == 'cggl'){
