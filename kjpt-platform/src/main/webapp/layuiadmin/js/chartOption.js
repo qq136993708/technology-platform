@@ -61,7 +61,7 @@ var kyptCharts = {
     
     if (emptyData) {
       if ($('#'+ id).find('.chart-data-empty').length <= 0) {
-        $('#'+ id).append('<div class="chart-data-empty middle-block"><span class="ib-block font16">无数据</span></div>');
+        $('#'+ id).append('<div class="chart-data-empty middle-block"><span class="ib-block font14">无数据</span></div>');
         
       }
     } else {
@@ -120,7 +120,7 @@ var kyptCharts = {
         if (typeof(config.showMask) === 'string') {
           maskText = '<span class="ib-block">'+ config.showMask +'</span>';
         } else if (typeof(config.showMask) === 'object') {
-          maskText = '<span class="ib-block font16">'+ config.showMask.text +'</span>';
+          maskText = '<span class="ib-block font14">'+ config.showMask.text +'</span>';
           maskText += '<img src="'+ config.showMask.img +'"></img>';
           $('#' + config.id).append(maskHtml);
         } 
@@ -133,7 +133,7 @@ var kyptCharts = {
 
     if (typeof(config.loading) === 'boolean') {
       if (config.loading) {
-        var maskHtml = '<div class="chart-data-loading middle-block"><span class="ib-block font16">加载中...</span></div>';
+        var maskHtml = '<div class="chart-data-loading middle-block"><span class="ib-block font14">加载中...</span></div>';
         $('#' + config.id).append(maskHtml);
       } else {
         $('#' + config.id + ' .chart-data-loading').remove();
@@ -205,7 +205,7 @@ var kyptCharts = {
 
         if (typeof(config.loading) === 'boolean') {
           if (config.loading) {
-            var loadingHtml = '<div class="chart-data-loading middle-block"><span class="ib-block font16">加载中...</span></div>';
+            var loadingHtml = '<div class="chart-data-loading middle-block"><span class="ib-block font14">加载中...</span></div>';
             $('#' + id).append(loadingHtml);
           } else {
             $('#' + id + ' .chart-data-loading').remove();

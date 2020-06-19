@@ -54,6 +54,9 @@
         <if test="awardsType != null and awardsType != '' " >
             and awards_type = #{awardsType}
         </if>
+        <if test="awardLevel != null and awardLevel != '' " >
+            and award_level = #{awardLevel}
+        </if>
         <if test="type != null and type != '' " >
             and FIND_IN_SET(type,#{type})
         </if>

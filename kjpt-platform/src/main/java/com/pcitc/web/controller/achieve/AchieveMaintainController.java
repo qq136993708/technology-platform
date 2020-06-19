@@ -99,7 +99,8 @@ public class AchieveMaintainController extends RestBaseController {
             @ApiImplicitParam(name = "endYear", value = "获奖年份结束", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "type", value = "获奖类型", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "awardsChildType", value = "奖项子名称", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "awardsType", value = "成果奖项", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "awardsType", value = "成果奖项", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "awardLevel", value = "授奖等级", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/achieveMaintain-api/query", method = RequestMethod.GET)
     @ResponseBody
@@ -110,7 +111,8 @@ public class AchieveMaintainController extends RestBaseController {
             @RequestParam(required = false,value = "awardsChildType") String awardsChildType,
             @RequestParam(required = false,value = "startYear") String startYear,
             @RequestParam(required = false,value = "endYear")  String endYear,
-            @RequestParam(required = false,value = "awardsType") String awardsType
+            @RequestParam(required = false,value = "awardsType") String awardsType,
+            @RequestParam(required = false,value = "awardLevel") String awardLevel
     ){
 
         Map<String, Object> condition = new HashMap<>(6);
@@ -139,6 +141,9 @@ public class AchieveMaintainController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(awardsType)) {
             this.setParam(condition, "awardsType", awardsType);
+        }
+        if (!StringUtils.isEmpty(awardLevel)) {
+            this.setParam(condition, "awardLevel", awardLevel);
         }
 
         this.setBaseParam(condition);
