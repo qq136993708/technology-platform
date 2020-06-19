@@ -29,8 +29,6 @@ function addTableData(data) {
 
 // $(function() {
   var variable = getQueryVariable()
-
-
   var achieveTypes = [];
   var achieveTypesSeries = [];
   var dictcode = 'ROOT_KJPT_CGWH_HJLX';
@@ -167,7 +165,7 @@ function addTableData(data) {
     callback: function (chartObj) {
       //柱子点击事件
       chartObj.on('click', function(params) {
-        $('#totalYear').text('奖项名称(累计)'+ params.name)
+        $('#totalYear').text('奖项名称('+ params.name+')')
         // 重加载详细表格数据
         chartInit.getAchieveTableData({type: achieveTypes[params.seriesIndex].valueKey, year: params.name});
         // 重加载奖项名称(累计)数据
@@ -215,11 +213,12 @@ function addTableData(data) {
     },
     color: ['#3461D3', '#D86436', '#DC8D3E', '#EBDD51', '#D1F166', '#65C8E0']
   });
-
+  $('.proess-mask',parent.document).hide();
+  $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
   if (variable) {
     $('.two_nav_item',parent.document).addClass('disNone')
     $('.cggl',parent.document).removeClass('disNone');
-    $('#wrapper',parent.document).css({ 'padding-top': '6rem'});
+    $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
     if (variable.name) {
       var curName = decodeURI(variable.name);
       var ids;

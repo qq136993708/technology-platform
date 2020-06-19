@@ -368,10 +368,14 @@ function loadTechnological() {
     httpModule({
         url: "/getTongjiList",
         success: function (result) {
+            //emptyChart
             if (result.success) {
-                kyptCharts.reload('kynl_kjrc_charts', {
-                    series: result.data
-                });
+                if(result.data.length >= 0){
+                    kyptCharts.reload('kynl_kjrc_charts', {
+                        series: result.data
+                    });
+                }
+                
             }
         },
         errro: function (data) {

@@ -60,9 +60,9 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">是否发布</label>
                             <div class="layui-input-block">
-                                <input type="radio" lay-filter="radioEvent" name="isVariable" value="1" title="是"
+                                <input type="radio" lay-filter="radioEvent" name="isPublish" value="1" title="是"
                                     checked>
-                                <input type="radio" lay-filter="radioEvent" name="isVariable" value="0" title="否">
+                                <input type="radio" lay-filter="radioEvent" name="isPublish" value="0" title="否">
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
     </div>
     <script>
     	var _variable = getQueryVariable();
-    
+
         layui.config({
             base: '../../../../' //静态资源所在路径
         }).extend({
@@ -168,7 +168,7 @@
     	}); */
 
 
-            var id = "${id}";
+            var id = '${id}';
             if (id) {
                 $.ajax({
                     type: 'post',
@@ -177,6 +177,7 @@
                     data: {
                         "id": id
                     },
+
                     url: '/sysNotice/getSysNotice',
                     success: function (data) {
                         $("input[name=noticeId]").val(data.noticeId);
@@ -195,11 +196,11 @@
                         }); */
                         CKEDITOR.instances.noticeContent.setData(data.noticeContent);
                         // myEditor.setData(data.noticeContent);
-                        $("input[name=isVariable][value='" + data.isVariable + "']").prop("checked",
+                        $("input[name=isPublish][value='" + data.isVariable + "']").prop("checked",
                             "checked");
                         $("input[name=isTopRoll][value='" + data.isTopRoll + "']").prop("checked",
                             "checked");
-	
+
                         setFileUpload({
                             id: 'file-filter-options', // 附件上传作用域ID值 必传
                             dataID: data.noticeId, // 用来查找当前单据下绑定的附件，没有则不查找
@@ -290,6 +291,7 @@
                     return;
                 }
                 formData.noticeContent = noticeContent;
+                console.log(JSON.stringify(formData))
                 $.ajax({
                     type: 'post',
                     dataType: 'json',
@@ -300,7 +302,6 @@
                     url: '/sysNotice/saveSysNotice',
                     async: false,
                     success: function (data) {
-                        console.log(data)
                         if (data == '200') {
                             setDialogData(data); // 通知上层页面状态 - 弹窗中使用
                             top.layer.closeAll();

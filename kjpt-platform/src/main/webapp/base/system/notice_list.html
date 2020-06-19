@@ -179,6 +179,7 @@
 						// doSearch();
 					},
 					addEvent: function () { //点击新增按钮
+                        var id;
 						/*layer.open({
 						    title:'新增公告'
 						    ,skin: 'layui-layer-lan'
@@ -193,7 +194,8 @@
 						});*/
 						// var temUrl = "/sysNotice/sysNotice_info";
 						//base/system/sysNotice_info.html
-						var temUrl = "/base/system/sysNotice_info.html";
+                        var temUrl = '/sysNotice/sysNotice_info?id=' + id;
+						// var temUrl = "/base/system/sysNotice_info.html?id="+id;
 						top.layer.open({
 							title: '新增',
 							shadeClose: false,
