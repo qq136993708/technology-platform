@@ -26,7 +26,7 @@ if (variable) {
     }
 } else {
     loadNotes('01');
-    loadCurNotes('01');
+    loadCurNotes();
 }
 
 // 科技人才
@@ -91,7 +91,15 @@ kyptCharts.render({
     legendPosition: 'top',
     labelColor: '#fff',
     data: [],
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow',
+            shadowStyle: {
+                color: 'rgba(0, 0, 0, 0)'
+            }
+        }
+    },
     itemName: 'name',
     series: [{
             name: '国家级',
@@ -164,7 +172,8 @@ $('#tabHeader').on('click', '.tab-btn', function (e) {
     if (!$(this).hasClass('selected')) {
         $(this).addClass('selected').siblings('.tab-btn').removeClass('selected');
         var tabType = $(this).attr('type');
-        loadNotes(curLevel)
+        loadNotes(curLevel);
+        loadCurNotes(curLevel);
     }
 })
 
@@ -358,11 +367,11 @@ function loadTechnological() {
     httpModule({
         url: "/getTongjiList",
         success: function (result) {
-            if(result.success){
-            kyptCharts.reload('kynl_kjrc_charts', {
-                series: result.data
-            });
-        }
+            if (result.success) {
+                kyptCharts.reload('kynl_kjrc_charts', {
+                    series: result.data
+                });
+            }
         },
         errro: function (data) {
 
@@ -375,25 +384,113 @@ function loadNotes(curLevel) {
     httpModule({
         url: "/getPlatFormList?level=" + curLevel,
         success: function (result) {
-            if(result.success){
+            if (result.success) {
                 addTableData(result.data)
             }
-            
-            // kyptCharts.reload('kynl_kjrc_charts', {series: result});
         },
         errro: function (data) {
 
         }
     });
-}
+};
+
+
 //科技人才
-function loadCurNotes(curLevel) {
+function loadCurNotes(value) {
+    var curLevel = '';
+    if (value) {
+        curLevel = value;
+    }
     httpModule({
         url: "/indexHomeBI-api/distribution?level=" + curLevel,
         success: function (result) {
-            if(result.success){
-                // addTableData(result.data)
-                kyptCharts.reload('kynl_dwfb_charts', {series: result.data});
+            if (result.success) {
+                var curIdList = []; //数组id
+                var curItemList = [];
+                var len = result.data.length;
+                var curObj = {};
+                var curSeriesObj = {};
+                var curSeriesList = [];
+                var resultArr;
+                resultArr = result.data.map(function (item, index, self) {
+                    return item.unitId;
+                });
+                for (let i of resultArr) {
+                    if (!curObj[i]) {
+                        curIdList.push(i)
+                        curObj[i] = 1
+                    }
+                };
+                if (curLevel == '01') {
+                    curSeriesObj['name'] = '国家级';
+                    curSeriesObj['valueKey'] = 'value1';
+                    curSeriesObj['stack'] = 'charts';
+                } else if (curLevel == '02') {
+                    curSeriesObj['name'] = '国家部委级';
+                    curSeriesObj['valueKey'] = 'value2';
+                    curSeriesObj['stack'] = 'charts';
+                } else if (curLevel == '03') {
+                    curSeriesObj['name'] = '地方省级';
+                    curSeriesObj['valueKey'] = 'value3';
+                    curSeriesObj['stack'] = 'charts';
+                } else if (curLevel == '04') {
+                    curSeriesObj['name'] = '集团级';
+                    curSeriesObj['valueKey'] = 'value4';
+                    curSeriesObj['stack'] = 'charts';
+                } else if (curLevel == '05') {
+                    curSeriesObj['name'] = '板块级';
+                    curSeriesObj['valueKey'] = 'value5';
+                    curSeriesObj['stack'] = 'charts';
+                }
+                curSeriesList.push(curSeriesObj);
+                $.each(curIdList, function (i, v) {
+                    var curItemObj = {};
+
+                    $.each(result.data, function (index, item) {
+                        if (item.unitId == v) {
+                            switch (item.level) {
+                                case '01':
+
+                                    curItemObj['name'] = item.unitName;
+                                    curItemObj['value1'] = item.value;
+
+                                    break;
+                                case '02':
+
+                                    curItemObj['name'] = item.unitName;
+                                    curItemObj['value2'] = item.value;
+                                    break;
+                                case '03':
+
+                                    curItemObj['name'] = item.unitName;
+                                    curItemObj['value3'] = item.value;
+                                    break;
+                                case '04':
+
+                                    curItemObj['name'] = item.unitName;
+                                    curItemObj['value4'] = item.value;
+                                    break;
+                                default:
+
+                                    curItemObj['name'] = item.unitName;
+                                    curItemObj['value5'] = item.value;
+                            }
+                        }
+                    })
+                    curItemList.push(curItemObj)
+
+                })
+                if(curLevel){
+                    kyptCharts.reload('kynl_dwfb_charts', {
+                        series: curSeriesList,
+                        data: curItemList
+                    });
+                }else{
+                    kyptCharts.reload('kynl_dwfb_charts', {
+                        data: curItemList
+                    });
+                }
+                
             }
         },
         errro: function (data) {

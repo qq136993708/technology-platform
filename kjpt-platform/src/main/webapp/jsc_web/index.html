@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="header-bottom-bg"></div>
-        <div class="sub-nav-layout" id="twoNavItem">
+        <div class="sub-nav-layout" id="twoNavItem">    
             <div class="two_nav_item projectPage disNone" parent="projectPage">
                 <div class="project_btn projectActive" href="project"><span>首页</span></div>
                 <div class="project_btn" href="project_check"><span>检 查</span></div>
@@ -82,6 +82,10 @@
     <div id="content" class="content">
         <!-- <div class="main-frame-layout" id="mainframe"></div> -->
         <iframe class="main-frame-layout" id="mainframe" data-id="" name="iframe0" width="100%" scrolling="no" frameborder="0" seamless=""></iframe>
+        <div class="proess-mask chart-data-mask middle-block" style="display: none;">
+            <span class="ib-block font14">该内容请在密网中查看！</span>
+            <img src="../../images/two_bgmask.png" alt="">
+        </div>
     </div>
 </div>
 <script src="/jsc_web/common/js/jquery-1.10.1.min.js"></script>
@@ -92,6 +96,7 @@
 <script src="/layuiadmin/js/chartOption.js"></script> -->
 <script >
     window.childrenClickItem = function (pageName, params) {
+        debugger
         // params = '?a=1&b=2';
         var $item = $('[href="'+ pageName +'"]');
         if ($item.hasClass('tab_button')) {
@@ -157,6 +162,7 @@
 
             // 判断是否有二级菜单
             if (children) {
+                debugger
                 $twoNavItem.find('.project_btn').removeClass('projectActive');
                 var $activeSubItem = $twoNavItem.find('.two_nav_item').addClass('disNone').filter(function() {
                     if ($(this).hasClass(children)) {

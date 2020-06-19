@@ -127,6 +127,7 @@ $(function() {
         paramsData.type = param.type;
         paramsData.startYear = param.year;
         paramsData.endYear = param.year;
+        $('#totalYear').text('奖项名称(累计)'+ param.year)
       }
 
       httpModule({
@@ -157,13 +158,14 @@ $(function() {
     valueColor: 'rgba(255, 255, 255, .7)',
     labelColor: '#fff',
     barMaxWidth: '25px',
-    label: { color: '#fff', position: 'top' },
+    label: { color: '#fff', position: 'top' ,show:false},
     color: ['#306BF0', '#0DA8D4', '#EBDD51', '#D86436'],
     series: [],
     data: [],
     callback: function (chartObj) {
       //柱子点击事件
       chartObj.on('click', function(params) {
+
         // 重加载详细表格数据
         chartInit.getAchieveTableData({type: achieveTypes[params.seriesIndex].valueKey, year: params.name});
         // 重加载奖项名称(累计)数据
