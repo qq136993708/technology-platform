@@ -240,7 +240,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     var ids = itemRowData.map(function(item){
       return item.id
     })
-    if (itemRowData) {
+    if (itemRowData && itemRowData.length == 1){
       top.layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
@@ -271,7 +271,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   $('#removeItem').on('click', function (e) {
     var itemRowData = table.checkStatus('tableDemo').data;
-    if (itemRowData) {
+    if (itemRowData && itemRowData.length == 1) {
       top.layer.confirm('您确定要移除”' + itemRowData.patentName + '“吗？', {
         icon: 3,
         title: '删除提示'
@@ -358,7 +358,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     var ids = itemRowData.map(function (item) {
       return item.id;
       })
-    if (itemRowData) {
+    if (itemRowData && itemRowData.length == 1) {
       top.layer.confirm('您确定要后处理吗？', {
         icon: 3,
         title: '后处理提示提示'
@@ -415,7 +415,6 @@ importFiles({
   id:'#importData',
   url:'/patentController/input_excel?type='+queryType,
   callback: function (result) {
-    debugger;
       if(result.data!=null && result.data.code=="1"){
           layer.msg('数据导入失败!失败信息：'+result.data.message, {icon: 1});
       }else{
