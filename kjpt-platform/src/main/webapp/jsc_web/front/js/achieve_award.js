@@ -167,7 +167,7 @@ function addTableData(data) {
     callback: function (chartObj) {
       //柱子点击事件
       chartObj.on('click', function(params) {
-        $('#totalYear').text('奖项名称(累计)'+ params.name)
+        $('#totalYear').text('奖项名称('+ params.name+')')
         // 重加载详细表格数据
         chartInit.getAchieveTableData({type: achieveTypes[params.seriesIndex].valueKey, year: params.name});
         // 重加载奖项名称(累计)数据
