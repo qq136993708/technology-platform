@@ -153,7 +153,7 @@ $(function() {
     legendPosition: 'top',
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
     grid: { top: 10 },
-    lineColor: 'rgba(30, 83, 137, .6)',
+    // lineColor: 'rgba(30, 83, 137, .6)',
     axisLineColor: 'rgba(30, 83, 137, .6)',
     valueColor: 'rgba(255, 255, 255, .7)',
     labelColor: '#fff',

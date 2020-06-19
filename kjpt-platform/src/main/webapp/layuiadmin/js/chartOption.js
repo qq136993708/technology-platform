@@ -220,7 +220,8 @@ var kyptCharts = {
     legendData = [],
     categoryData = [],
     _this = this,
-    lineColor = config.lineColor || '#ABB0BB',
+    // lineColor = config.lineColor || '#ABB0BB',
+    lineColor = config.lineColor || '',
     axisLineColor = config.axisLineColor || '',
     valueColor = config.valueColor || '',
     labelColor = config.labelColor || '#46484B',
@@ -337,7 +338,6 @@ var kyptCharts = {
       data: categoryData,
       axisTick: {show: false},
       splitLine: {show: false},
-      // axisLineColor
       axisLine: { show: showAxisLine, lineStyle: {color: (axisLineColor || lineColor)} },
       axisLabel: {
         show: true,
@@ -360,11 +360,10 @@ var kyptCharts = {
           fontSize: 12
         },
         splitLine: {
-          show: true,
+          show: (lineColor ? true : false),
           lineStyle: { color: lineColor }
         }
       };
-
       if (config.yAxis && typeof(config.yAxis) === 'object' && config.yAxis.length) {
         $.each(config.yAxis, function(i, valItem) {
           var newValueAxis = _this.transformData(valueAxis);

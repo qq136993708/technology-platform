@@ -8,11 +8,11 @@ $(function() {
     legend: { show: true },
     legendPosition: 'top',
     grid: { top: 30, right: 60 },
-    lineColor: 'rgba(30, 83, 137, .6)',
+    // lineColor: 'rgba(30, 83, 137, .6)',
     axisLineColor: 'rgba(30, 83, 137, .6)',
     valueColor: '#fff',
     labelColor: '#2BB7FF',
-    label: { color: '#fff', position: 'top' },
+    label: { color: '#fff', position: 'top',show:false },
     yAxis: [
       {
         type: 'value',
@@ -82,14 +82,15 @@ $(function() {
     legendPosition: 'top',
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: 'rgba(0, 0, 0, 0)' } }},
     grid: { top: 30, right: 30, bottom: 12 },
-    lineColor: 'rgba(30, 83, 137, .6)',
+    // lineColor: 'rgba(30, 83, 137, .6)',
     axisLineColor: 'rgba(30, 83, 137, .6)',
     valueColor: '#fff',
     labelColor: '#2BB7FF',
     barMaxWidth: '25px',
     label: {
       color: '#fff',
-      position: 'top'
+      position: 'top',
+      show:false
     },
     yAxis: [
       {
