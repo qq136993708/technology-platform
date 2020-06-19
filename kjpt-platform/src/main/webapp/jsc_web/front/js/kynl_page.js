@@ -368,10 +368,16 @@ function loadTechnological() {
     httpModule({
         url: "/getTongjiList",
         success: function (result) {
+            //emptyChart
             if (result.success) {
-                kyptCharts.reload('kynl_kjrc_charts', {
-                    series: result.data
-                });
+                if(result.data.length > 0){
+                    kyptCharts.reload('kynl_kjrc_charts', {
+                        series: result.data
+                    });
+                }else{
+                    kyptCharts. emptyChart(); 
+                }
+                
             }
         },
         errro: function (data) {
@@ -406,6 +412,7 @@ function loadCurNotes(value) {
         url: "/indexHomeBI-api/distribution?level=" + curLevel,
         success: function (result) {
             if (result.success) {
+                if(result.data.length >0){
                 var curIdList = []; //数组id
                 var curItemList = [];
                 var len = result.data.length;
@@ -492,7 +499,10 @@ function loadCurNotes(value) {
                     });
                 }
                 
+            }else{
+                kyptCharts. emptyChart(); 
             }
+        }
         },
         errro: function (data) {
 
