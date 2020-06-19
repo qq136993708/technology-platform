@@ -301,17 +301,25 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
     }
 
   })
-	form.on('submit(newSubmit)', function(data) { 
+	form.on('submit(newSubmit)', function(data) {
+	    debugger;
     var saveData = data.field,
     RFieldData = layui.formSelects.value('researchField');
+    var SupportingData = layui.formSelects.value('supportingInstitutions');
     saveData.researchField = '';
     saveData.researchFieldText = '';
+    saveData.supportingInstitutionsText = '';
+    $.each(SupportingData, function(i, item) {
+            saveData.supportingInstitutionsText += ',' + item.name;
+        })
+
     $.each(RFieldData, function(i, item) {
       saveData.researchField += ',' + item.value;
       saveData.researchFieldText += ',' + item.name; 
     })
     saveData.researchField = saveData.researchField.substring(1);
     saveData.researchFieldText = saveData.researchFieldText.substring(1);
+        saveData.supportingInstitutionsText = saveData.supportingInstitutionsText.substring(1);
 		httpModule({
 			url: '/platform-api/save',
 			data: saveData,
