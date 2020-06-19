@@ -266,7 +266,7 @@
           )
     </insert>
 
-    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
+   <!-- <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         update kypt_info
         <trim prefix="SET" suffixOverrides=",">
             img_id = #{imgId,jdbcType=VARCHAR},
@@ -326,6 +326,29 @@
             
 
         </trim>
+        where id = #{id}
+    </update>-->
+
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
+        update kypt_info set
+          img_id = #{imgId,jdbcType=VARCHAR},
+          platform_name = #{platformName},
+          research_field = #{researchField},
+          supporting_institutions = #{supportingInstitutions},
+          supporting_institutions_text = #{supportingInstitutionsText},
+          research_funds = #{researchFunds},
+          platform_introduction = #{platformIntroduction},
+          person_liable = #{personLiable},
+          platform_type = #{type},
+          team_Introduction = #{teamIntroduction},
+          overall_situation = #{overallSituation},
+          platform_scoring = #{platformScoring},
+          level = #{level},
+          update_date = #{updateDate,jdbcType=TIMESTAMP},
+          updator = #{updator,jdbcType=VARCHAR},
+          deleted = #{deleted,jdbcType=VARCHAR},
+          research_field_text = #{researchFieldText,jdbcType=VARCHAR},
+          secret_level = #{secretLevel}
         where id = #{id}
     </update>
 
