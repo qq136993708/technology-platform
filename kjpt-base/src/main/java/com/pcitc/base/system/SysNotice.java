@@ -2,6 +2,8 @@ package com.pcitc.base.system;
 
 import com.pcitc.base.util.DataTableInfo;
 
+import java.util.List;
+
 public class SysNotice extends DataTableInfo {
 	/**
 	 * 
@@ -37,10 +39,16 @@ public class SysNotice extends DataTableInfo {
 	private String isTopRoll;
 
 	private String files;
-	
-	
-	
-	
+
+	private List<SysUser> sysUserList;
+
+	public List<SysUser> getSysUserList() {
+		return sysUserList;
+	}
+
+	public void setSysUserList(List<SysUser> sysUserList) {
+		this.sysUserList = sysUserList;
+	}
 
 	public String getIsTopRoll() {
 		return isTopRoll;

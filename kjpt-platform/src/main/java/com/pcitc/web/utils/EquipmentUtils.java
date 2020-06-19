@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
@@ -41,6 +43,7 @@ public class EquipmentUtils {
 	public static final String getUserByUnifyIdentityId = "http://kjpt-zuul/system-proxy/user_provider/user/getUserByUnifyIdentityId/";
 	private static final String getUserByUserNameAndPasswordByMap = "http://kjpt-zuul/system-proxy/user-provider/getUserByUserNameAndPasswordByMap";
 
+	private static final String getUserByUnitIds = "http://kjpt-zuul/system-proxy/user-provider/getAllUserList";
 
 	public static final String UPDATE_USER_URL = "http://kjpt-zuul/system-proxy/user-provider/updateSysUser";
 	//hana-虚拟通用菜单
@@ -53,8 +56,20 @@ public class EquipmentUtils {
 	
 	private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
 
-	
-	
+
+	public static List<SysUser> getUserByUnitIds(String unitIds,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		Map  map = new HashMap();
+		map.put("unitId", unitIds.split(","));
+		HttpEntity<Map> entity = new HttpEntity<Map>(map, httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getUserByUnitIds, HttpMethod.POST, entity, JSONArray.class);
+		JSONArray result = responseEntity.getBody();
+		String jsonStr = JSONObject.toJSONString(result);
+		List<SysUser> list = JSONObject.parseArray(jsonStr,  SysUser.class);
+		return list;
+	}
+
+
 	public static SysUser getUserByUserNameAndPassword(String username,String password,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
 		

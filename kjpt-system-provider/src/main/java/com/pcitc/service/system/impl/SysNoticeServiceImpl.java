@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.pcitc.base.system.*;
 import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.system.FileService;
 import org.apache.commons.lang.StringUtils;
@@ -22,14 +23,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysNotice;
-import com.pcitc.base.system.SysNoticeExample;
 import com.pcitc.base.system.SysNoticeExample.Criteria;
-import com.pcitc.base.system.SysNoticeVo;
-import com.pcitc.base.system.SysUserNotice;
-import com.pcitc.base.system.SysUserNoticeExample;
-import com.pcitc.base.system.SysUserUnit;
-import com.pcitc.base.system.SysUserUnitExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.system.SysNoticeMapper;
 import com.pcitc.mapper.system.SysUserNoticeMapper;
@@ -110,7 +104,10 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 		if (vo.getNoticeTitle() != null && vo.getNoticeTitle().length() > 0) {
 			mapParams.put("noticeTitle",vo.getNoticeTitle());
 		}
-		mapParams.put("isPublished",1);
+        if (vo.getNoticeReceiver() != null && vo.getNoticeReceiver().length() > 0) {
+            mapParams.put("noticeReceiver",vo.getNoticeReceiver());
+        }
+        mapParams.put("isPublished",1);
 		mapParams.put("isVariable",1);
 		List<SysNotice> list = sysNoticeMapper.selectPubNoticeList(mapParams);
 		// 3、获取分页查询后的数据
@@ -134,6 +131,20 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 			fs.updateFileData(obj.getFiles(),obj.getNoticeId());
 			sysNoticeMapper.insertSelective(obj);
 		}
+
+        //插入-新增未读记录(只有当公告状态是已发布时才去添加是否阅读的关联记录)
+        /*if ("1".equals(obj.getIsPublished()) && obj.getSysUserList()!=null && obj.getSysUserList().size()!=0 ){
+            List<SysUserNotice> sysUserNoticeList = new ArrayList<SysUserNotice>();
+            for(SysUser tmp : obj.getSysUserList()){
+                SysUserNotice notice = new SysUserNotice();
+                notice.setUserId(tmp.getUserId());
+                notice.setNoticeId(obj.getNoticeId());
+                notice.setUserNoticeStatus(0);
+                sysUserNoticeList.add(notice);
+            }
+            sysUserNoticeMapper.insertBatch(sysUserNoticeList);
+        }*/
+
 		result = 200;
 		return result;
 	}
@@ -211,18 +222,50 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 					sysUserNotice.setUserNoticeStatus(1);
 					sysUserNoticeMapper.updateByExampleSelective(sysUserNotice, ex);
 				}
-			}
+			}else{
+                sysUserNotice = new SysUserNotice();
+			    sysUserNotice.setNoticeId(vo.getNoticeId());
+                sysUserNotice.setUserId(vo.getUserId());
+			    sysUserNotice.setUserNoticeStatus(1);
+                sysUserNoticeMapper.insert(sysUserNotice);
+            }
 		}
 		return sysNoticeMapper.selectByPrimaryKey(vo.getNoticeId());
 	}
 
 	@Override
 	public Long getSysNoticeCount(SysNoticeVo vo) {
-		SysUserNoticeExample ex = new SysUserNoticeExample();
-		ex.or().andUserNoticeStatusEqualTo(vo.getUserNoticeStatus()).andUserIdEqualTo(vo.getUserId());
-		Long count = sysUserNoticeMapper.countByExample(ex);
+		SysNoticeExample ex = new SysNoticeExample();
+		if(!"admin".equals(vo.getsSearch())){ //超级管理员查看所有数据
+            // ex.or().andUserNoticeStatusEqualTo(vo.getUserNoticeStatus()).andUserIdEqualTo(vo.getUserId()).andNoticeReceiverLike(vo.getNoticeReceiver());
+            ex.or().andNoticeReceiverLike(vo.getNoticeReceiver());
+        }
+        ex.or().andIsVariableEqualTo(1);
+        Long count = sysNoticeMapper.countByExample(ex);
 		return count;
 	}
+
+    //获取登录用户已读消息的数目
+	@Override
+    public int getReadNoticeCount(SysNoticeVo vo){
+        Map<String, Object> mapParams = new HashMap<String, Object>();
+        mapParams.put("userNoticeStatus","1"); //已读状态
+        mapParams.put("isPublished",1); //已发布
+        mapParams.put("isVariable",1); //可用
+        if (StringUtils.isNotBlank(vo.getNoticeReceiver())) {
+            mapParams.put("noticeReceiver",vo.getNoticeReceiver());
+        }
+        if (StringUtils.isNotBlank(vo.getUserId())) {
+            mapParams.put("userId",vo.getUserId());
+        }
+        List<SysNotice> list = sysNoticeMapper.selectPubNoticeList(mapParams);
+        if(list!=null && list.size()>=0){
+            return list.size();
+        }
+        return 0;
+    }
+
+
 	private LayuiTableData findByExample(LayuiTableParam param,SysNoticeExample example) 
 	{
 		//每页显示条数

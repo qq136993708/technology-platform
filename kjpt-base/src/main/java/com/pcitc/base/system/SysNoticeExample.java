@@ -1,5 +1,7 @@
 package com.pcitc.base.system;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -565,7 +567,9 @@ public class SysNoticeExample {
         }
 
         public Criteria andNoticeReceiverLike(String value) {
-            addCriterion("notice_receiver like", value, "noticeReceiver");
+            if(StringUtils.isNotBlank(value)){
+                addCriterion("notice_receiver like", value, "noticeReceiver");
+            }
             return (Criteria) this;
         }
 

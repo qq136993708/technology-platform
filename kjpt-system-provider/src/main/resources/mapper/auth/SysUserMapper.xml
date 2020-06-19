@@ -573,6 +573,9 @@
 		<if test="userUnit != null and userUnit != ''">
 			and FIND_IN_SET(#{userUnit},user_unit) &lt; 0
 		</if>
+		<if test="multiUserUnit != null and multiUserUnit != ''">
+			and FIND_IN_SET(user_unit,#{multiUserUnit})
+		</if>
 		order by user_disp desc
 	</select>
 

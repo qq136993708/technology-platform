@@ -345,7 +345,7 @@ var __base_dic_store = {
 			}
 			// /*消息*/
             httpModule({
-                url: '/sysNotice/getSysNoticeList?page=1&limit=1',
+                url: '/sysNotice/getUnReadSysNoticeCount',
                 type: 'post',
                 success: function(res) {
                     if(res.code == 0 && res.count > 0){

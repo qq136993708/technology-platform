@@ -365,7 +365,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @param roleCodes
+	 * @param paramMap
 	 * @return 根据角色编码（多个），获取所属人员
 	 */
 	public Object findUserByRoleCodes(Map<String, Object> paramMap) {
@@ -751,6 +751,10 @@ public class UserServiceImpl implements UserService {
 		String userDisp = (String) param.getParam().get("userDisp");
 		if (userDisp != null && !"".equals(userDisp)) {
 			vo.setUserDisp(userDisp);
+		}
+		String multiUserUnit = (String) param.getParam().get("multiUserUnit");
+		if (multiUserUnit != null && !"".equals(multiUserUnit)) {
+			vo.setMultiUserUnit(multiUserUnit);
 		}
 		List<SysUser> list = userMapper.getSysUserListByUserUnit(vo);
 		PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);

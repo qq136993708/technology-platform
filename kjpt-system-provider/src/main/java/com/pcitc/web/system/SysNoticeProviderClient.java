@@ -56,6 +56,25 @@ public class SysNoticeProviderClient {
 		}
 		return (tem == null) ? "" : tem.toString();
 	}
+
+    /**
+     * 首页查询未读公告数目
+     * @param vo
+     * @return
+     */
+    @ApiOperation(value = "首页查询未读公告数目", notes = "传入json格式的公告实体属性")
+    @RequestMapping(value = "/sysNotice-provider/sysUnReadNoticeCount",method = RequestMethod.POST)
+    public int sysUnReadNoticeCount(@RequestBody SysNoticeVo vo) {
+        JSONObject tem = null;
+        //获取该用户所有消息数量
+        long allMsgCount = sysNoticeService.getSysNoticeCount(vo);
+        //获取该用户所有已读消息数量
+        SysNoticeVo tmp = new SysNoticeVo();
+        tmp.setNoticeReceiver(vo.getNoticeReceiver());
+        tmp.setUserId(vo.getUserId());
+        int unread = sysNoticeService.getReadNoticeCount(tmp);
+        return (int)allMsgCount - unread;
+    }
 	
 	
 

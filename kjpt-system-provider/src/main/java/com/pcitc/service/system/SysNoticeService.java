@@ -81,6 +81,14 @@ public interface SysNoticeService {
 	 * @return
 	 */
 	Long getSysNoticeCount(SysNoticeVo vo);
+
+	/**
+	 * 首页:获取登录用户已读消息的数目
+	 * @param vo
+	 * @return
+	 */
+	int getReadNoticeCount(SysNoticeVo vo);
+
 	/**
 	 * 
 	 * @param param

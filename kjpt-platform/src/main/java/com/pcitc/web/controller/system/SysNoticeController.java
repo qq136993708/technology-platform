@@ -3,19 +3,19 @@ package com.pcitc.web.controller.system;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.InforVo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysNotice;
-import com.pcitc.base.system.SysNoticeVo;
-import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.*;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.DateTableUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.DataTableParameter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 
@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("sysNotice")
@@ -60,9 +61,9 @@ public class SysNoticeController extends BaseController {
 	private static final String COUNT_NOTICE = "http://kjpt-zuul/system-proxy/sysNotice-provider/getSysNoticeCount";
 
 	private static final String MY_NOTICE = "http://kjpt-zuul/system-proxy/sysNotice-provider/getMyNoticeList";
-	
-	
-	
+
+    private static final String getUnReadSysNoticeCount = "http://kjpt-zuul/system-proxy/sysNotice-provider/sysUnReadNoticeCount";
+
 	/**
 	 * 跳转到公告列表页
 	 */
@@ -104,16 +105,6 @@ public class SysNoticeController extends BaseController {
 		model.addAttribute("currentUser", sysUserInfo);
 		return "/base/system/sysNotice_info";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * 获取列表数据
@@ -169,15 +160,14 @@ public class SysNoticeController extends BaseController {
 		String page = request.getParameter("page"); // 起始索引
 		String limit = request.getParameter("limit"); // 每页显示的行数
 		String noticeTitle = request.getParameter("noticeTitle");
-		String isRead = request.getParameter("isRead");
 		vo.setPage(page);
 		vo.setLimit(limit);
 		SysUser currentUser = sysUserInfo;
 		// 管理员默认看到所有公告
-		if (StringUtils.isNotEmpty(isRead)) {
-			vo.setUserId(currentUser.getUserId());
-			// vo.setUserNoticeStatus(0);
-		}
+		if(sysUserInfo.getPostName().indexOf("超级管理员") < 0){
+            vo.setNoticeReceiver(currentUser.getUnitId());
+		    vo.setUserId(currentUser.getUserId());
+        }
 		if (StringUtils.isNotEmpty(noticeTitle)) {
 			vo.setNoticeTitle(noticeTitle);
 		}
@@ -197,6 +187,35 @@ public class SysNoticeController extends BaseController {
 		}
 		return null;
 	}
+
+    /**
+     * 获取首页未读记录数
+     */
+    @RequestMapping(value = "/getUnReadSysNoticeCount", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getUnReadSysNoticeCount(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        SysUser sysUserInfo = getUserProfile();
+        SysNoticeVo vo = new SysNoticeVo();
+        SysUser currentUser = sysUserInfo;
+        // 管理员默认看到所有公告
+        if(sysUserInfo.getPostName().indexOf("超级管理员") >= 0){
+            vo.setsSearch("admin");
+        }
+        vo.setNoticeReceiver(currentUser.getUnitId());
+        vo.setUserId(currentUser.getUserId());
+        HttpEntity<SysNoticeVo> entity = new HttpEntity<SysNoticeVo>(vo, this.httpHeaders);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(getUnReadSysNoticeCount, HttpMethod.POST, entity, Integer.class);
+        Integer result = responseEntity.getBody();
+        if (result != null) {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("code", "0");
+            jsonObj.put("msg", "提示");
+            jsonObj.put("count", result);
+            return jsonObj.toString();
+        }
+        return null;
+    }
+
 	@RequestMapping(value = "/getMyNoticeList", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getMyNoticeList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -217,13 +236,53 @@ public class SysNoticeController extends BaseController {
 	 */
 	@RequestMapping(value = "/saveSysNotice")
 	@ResponseBody
-	public int saveSysNotice(@RequestBody SysNotice sysNotice) {
+    public int saveSysNotice(@RequestBody SysNotice sysNotice) {
+        sysNotice.setNoticeCreatetime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+        HttpEntity<SysNotice> entity = new HttpEntity<SysNotice>(sysNotice, this.httpHeaders);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_NOTICE, HttpMethod.POST, entity, Integer.class);
+        int result = responseEntity.getBody();
+        return result;
+    }
+
+
+   /* public int saveSysNotice(@RequestBody SysNotice sysNotice) {
+        //找到接收者单位的所有子单位节点
+        String allChildIds = "";
+        try{
+            if (StringUtils.isNotBlank(sysNotice.getNoticeReceiver())) {
+                *//* 当receiver存入的是选中父级单位的ID时，采用以下方法，获取子机构的ID及对应的用户
+                String[] receiver = sysNotice.getNoticeReceiver().split(",");
+                for(int i=0; i<receiver.length; i++){
+                    String unit_id = receiver[i];
+                    this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                    SysUnit unit = EquipmentUtils.getUnitByUnitId(unit_id,restTemplate,httpHeaders);
+                    if(unit!=null){
+                        String childIds = EquipmentUtils.getAllChildsByIUnitPath(unit.getUnitPath(),restTemplate,httpHeaders);
+                        allChildIds += childIds;
+                    }
+                }
+                List<SysUser> users = EquipmentUtils.getUserByUnitIds(allChildIds,restTemplate,httpHeaders);*//*
+                //以下方法是当receiver存入的选中机构的所有子机构节点时，获取每个机构对应的用户
+                String receivers = sysNotice.getNoticeReceiver();
+                if (receivers != null && StringUtils.isNotBlank(receivers)) {
+                    List<SysUser> users = EquipmentUtils.getUserByUnitIds(receivers, restTemplate, httpHeaders);
+                    if (users != null) {
+                        //去除重复对象
+                        List<SysUser> myList = users.stream().distinct().collect(Collectors.toList());
+                        sysNotice.setSysUserList(myList);
+                    }
+                }
+            }
+        }catch(Exception e){
+            logger.info("saveSysNotice()出错了");
+        }
 		sysNotice.setNoticeCreatetime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		HttpEntity<SysNotice> entity = new HttpEntity<SysNotice>(sysNotice, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_NOTICE, HttpMethod.POST, entity, Integer.class);
+
 		int result = responseEntity.getBody();
 		return result;
-	}
+	}*/
 
 	/**
 	 * 删除公告

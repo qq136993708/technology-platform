@@ -397,6 +397,9 @@
 	    <if test="isVariableisPublished != null and isVariable != '' ">
 	        AND sn.is_variable = #{isVariable}
 	    </if>
+        <if test="noticeReceiver != null and noticeReceiver != '' ">
+          AND sn.notice_receiver LIKE CONCAT(CONCAT('%', #{noticeReceiver}),'%')
+        </if>
     </where>
    	ORDER BY 
   	<choose>    

@@ -115,7 +115,17 @@ public class SysUser {
 	
 	private String  dataScopeUnitName;
 	private String  dataScopeUnitPath;
-	
+
+	//用于查询一组单位id中的用户
+	private String multiUserUnit;
+
+	public String getMultiUserUnit() {
+		return multiUserUnit;
+	}
+
+	public void setMultiUserUnit(String multiUserUnit) {
+		this.multiUserUnit = multiUserUnit;
+	}
 
 	public String getDataScopeUnitPath() {
 		return dataScopeUnitPath;
