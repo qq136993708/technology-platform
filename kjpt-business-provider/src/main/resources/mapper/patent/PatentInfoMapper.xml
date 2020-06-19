@@ -702,7 +702,9 @@
         #{item}
       </foreach>
     </if>
-
+    <if test="createUnitId != null and createUnitId != '' " >
+      and create_unit_id = #{createUnitId}
+    </if>
     <if test="secretLevel != null and secretLevel != ''" >
       and secret_level = #{secretLevel}
     </if>

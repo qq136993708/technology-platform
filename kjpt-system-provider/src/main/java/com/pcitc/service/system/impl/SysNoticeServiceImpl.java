@@ -252,8 +252,10 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         mapParams.put("userNoticeStatus","1"); //已读状态
         mapParams.put("isPublished",1); //已发布
         mapParams.put("isVariable",1); //可用
-        if (StringUtils.isNotBlank(vo.getNoticeReceiver())) {
-            mapParams.put("noticeReceiver",vo.getNoticeReceiver());
+        if(!"admin".equals(vo.getsSearch())) { //超级管理员查看所有数据
+            if (StringUtils.isNotBlank(vo.getNoticeReceiver())) {
+                mapParams.put("noticeReceiver",vo.getNoticeReceiver());
+            }
         }
         if (StringUtils.isNotBlank(vo.getUserId())) {
             mapParams.put("userId",vo.getUserId());

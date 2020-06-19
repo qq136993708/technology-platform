@@ -113,6 +113,7 @@ public class PatentController extends RestBaseController {
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "单位名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicationDateStart", value = "申请日期开始", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "applicationDateEnd", value = "申请日期结束", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "applicationType", value = "申请类型", dataType = "String", paramType = "query"),
@@ -134,6 +135,7 @@ public class PatentController extends RestBaseController {
             @RequestParam(required = false) Integer pageNum,
             @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) String createUnitId,
             @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date applicationDateStart,
             @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date applicationDateEnd,
             @RequestParam(required = false) String applicationType,
@@ -161,6 +163,9 @@ public class PatentController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
+        }
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
         }
         if (!StringUtils.isEmpty(DateUtil.format(applicationDateStart,DateUtil.FMT_SS))) {
             this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
