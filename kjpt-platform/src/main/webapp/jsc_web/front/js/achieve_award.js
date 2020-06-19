@@ -1,31 +1,4 @@
-var variable = getQueryVariable()
-if (variable) {
-  $('.two_nav_item',parent.document).addClass('disNone')
-  $('.cggl',parent.document).removeClass('disNone');
-  $('#wrapper',parent.document).css({ 'padding-top': '6rem'});
-  if (variable.name) {
-    var curName = decodeURI(variable.name);
-    var ids;
-    httpModule({
-      url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_CGWH_HJLX",
-      type: 'GET',
-      async: false,
-      success: function(res) {
-        if (res.success) {
-         $.each(res.data,function(index,item){
-           if(item.name == curName){
-            return ids = item.code
-           }
-         })
-        } 
-        chartInit.getAchieveTableData({ type: ids });
-      // 重加载奖项名称(累计)数据
-      kyptCharts.reload('awards-year-pie', {loading: true});
-      chartInit.awardsYearPie({ type: ids });
-      }
-    });
-  }
-}
+
 
 function addTableData(data) {
   if (typeof(data) === 'object' && data.length) {
@@ -54,7 +27,10 @@ function addTableData(data) {
   }
 }
 
-$(function() {
+// $(function() {
+  var variable = getQueryVariable()
+
+
   var achieveTypes = [];
   var achieveTypesSeries = [];
   var dictcode = 'ROOT_KJPT_CGWH_HJLX';
@@ -77,7 +53,6 @@ $(function() {
   var chartInit = {
     awardsYear: function (param) {
       httpModule({
-        // url: '/achieveMaintainBI-api/getAwardSumByQuery',
         url: '/achieveMaintain-api/getAchieveMaintainGrupCountListByYear',
         data: param || null,
         type: 'GET',
@@ -241,10 +216,38 @@ $(function() {
     color: ['#3461D3', '#D86436', '#DC8D3E', '#EBDD51', '#D1F166', '#65C8E0']
   });
 
-
-  // 获取图表数据
+  if (variable) {
+    $('.two_nav_item',parent.document).addClass('disNone')
+    $('.cggl',parent.document).removeClass('disNone');
+    $('#wrapper',parent.document).css({ 'padding-top': '6rem'});
+    if (variable.name) {
+      var curName = decodeURI(variable.name);
+      var ids;
+      httpModule({
+        url: "/sysDictionary-api/getChildsListByCode/ROOT_KJPT_CGWH_HJLX",
+        type: 'GET',
+        async: false,
+        success: function(res) {
+          if (res.success) {
+           $.each(res.data,function(index,item){
+             if(item.name == curName){
+              return ids = item.code
+             }
+           })
+          } 
+          chartInit.getAchieveTableData({ type: ids });
+        // 重加载奖项名称(累计)数据
+        // kyptCharts.reload('awards-year-pie', {loading: true});
+        chartInit.awardsYear({ type: ids });
+        chartInit.awardsYearPie({ type: ids });
+        }
+      });
+    }
+  }else{
+     // 获取图表数据
   chartInit.awardsYear();
   chartInit.awardsYearPie();
   chartInit.getAchieveTableData();
+  }
 
-})
+// })
