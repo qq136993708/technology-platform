@@ -213,7 +213,7 @@ function addTableData(data) {
     },
     color: ['#3461D3', '#D86436', '#DC8D3E', '#EBDD51', '#D1F166', '#65C8E0']
   });
-  $('.proess-mask',parent.document).hide();
+  $('.proess-mask',parent.document).show();
   $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
   if (variable) {
     $('.two_nav_item',parent.document).addClass('disNone')
