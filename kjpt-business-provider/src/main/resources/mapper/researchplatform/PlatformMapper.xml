@@ -221,6 +221,7 @@
         platform_name,
         research_field,
         supporting_institutions,
+        supporting_institutions_text,
         research_funds,
         platform_introduction,
         person_liable,
@@ -244,6 +245,7 @@
          #{id},#{platformName},
          #{researchField},
          #{supportingInstitutions},
+         #{supportingInstitutionsText},
          #{researchFunds},
          #{platformIntroduction},
          #{personLiable},#{type},
@@ -276,6 +278,9 @@
             </if>
             <if test="supportingInstitutions != null and supportingInstitutions != ''" >
                 supporting_institutions = #{supportingInstitutions},
+            </if>
+            <if test="supportingInstitutionsText != null and supportingInstitutionsText != ''" >
+                supporting_institutions_text = #{supportingInstitutionsText},
             </if>
             <if test="researchFunds != null and researchFunds != ''" >
                 research_funds = #{researchFunds},

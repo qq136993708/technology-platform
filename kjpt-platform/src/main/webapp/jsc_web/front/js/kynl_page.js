@@ -48,8 +48,9 @@ kyptCharts.render({
     title: {
         textStyle: {
             color: '#fff',
-            fontSize: 24,
-            width: '100%'
+            fontSize: 30,
+            width: '100%',
+            fontFamily:'Impact'
         },
         subtextStyle: {
             color: '#fff',

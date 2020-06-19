@@ -21,7 +21,7 @@ layui.use(['element'], function () {
         title: {
             textStyle: {
                 color: '#fff',
-                fontSize: 24,
+                fontSize: 30,
                 width: '100%',
                 fontFamily:'Impact'
             },
@@ -79,7 +79,7 @@ layui.use(['element'], function () {
         title: {
             textStyle: {    
                 color: '#fff',
-                fontSize: 24,
+                fontSize: 30,
                 width: '100%',
                 fontFamily:'Impact'
             },
