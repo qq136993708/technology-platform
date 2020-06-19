@@ -62,7 +62,9 @@ layui.use(['form', 'formSelects', 'laydate',], function(){
         if(formData.releaseTime){
           formData.releaseTime = new Date(formData.releaseTime).format('yyyy-MM-dd');
         }
-        formData['authenticateUtil']= userInfo.unitName;
+        if(variable.type === 'add'){
+            formData['authenticateUtil']= userInfo.unitName;
+        }
         form.val('formAddPlan', formData);
         form.render();
         $('#reportType').val(reportTypeVal);
