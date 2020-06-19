@@ -43,6 +43,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     { type: 'checkbox',align: 'center'},
     {title: '序号',templet: '#xuhao', align: 'center'},
     {field: 'standardNum',title: '标准号',align: 'center'},
+      {field: 'standardName',title: '标准名称',align: 'center'},
     {field: 'planEnglishName',title: '英文名称',align: 'center'},
     {field: 'standardTypeText',title: '标准类型',align: 'center'},
     {field: 'publishDate',title: '发布时间',align: 'center',
