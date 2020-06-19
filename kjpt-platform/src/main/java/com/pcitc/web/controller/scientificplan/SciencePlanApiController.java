@@ -260,21 +260,21 @@ public class SciencePlanApiController extends RestBaseController {
         switch (reportType){
             case "1":
                   headers = new String[]{"科技规划名称", "申报单位", "技术领域", "年度/月度","发布日期"};
-                  cols = new String[]{"name", "authenticateUtil", "researchFieldText", "annual", "releaseTime"};
+                  cols = new String[]{"name", "authenticateUtil", "technicalFieldName", "annual", "releaseTime"};
                 break;
             case "2":
                 headers = new String[]{"工作要点名称", "申报单位", "技术领域","发布日期", "年度/月度"};
-                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+                cols = new String[]{"name", "authenticateUtil", "technicalFieldName", "releaseTime", "annual"};
                 break;
             case "3":
                 headers = new String[]{"科技进展名称", "申报单位", "技术领域","发布日期", "年度/月度"};
-                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+                cols = new String[]{"name", "authenticateUtil", "technicalFieldName", "releaseTime", "annual"};
             case "4":
                 headers = new String[]{"年度总结名称", "申报单位", "技术领域","发布日期", "年度/月度"};
-                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+                cols = new String[]{"name", "authenticateUtil", "technicalFieldName", "releaseTime", "annual"};
             case "5":
                 headers = new String[]{"研究报告名称", "申报单位", "技术领域","发布日期", "年度/月度"};
-                cols = new String[]{"name", "authenticateUtil", "researchFieldText", "releaseTime", "annual"};
+                cols = new String[]{"name", "authenticateUtil", "technicalFieldName", "releaseTime", "annual"};
         }
 
 
