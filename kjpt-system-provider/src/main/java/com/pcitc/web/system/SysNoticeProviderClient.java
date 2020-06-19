@@ -72,6 +72,7 @@ public class SysNoticeProviderClient {
         SysNoticeVo tmp = new SysNoticeVo();
         tmp.setNoticeReceiver(vo.getNoticeReceiver());
         tmp.setUserId(vo.getUserId());
+        tmp.setsSearch(vo.getsSearch());
         int unread = sysNoticeService.getReadNoticeCount(tmp);
         return (int)allMsgCount - unread;
     }
