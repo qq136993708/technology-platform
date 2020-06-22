@@ -289,7 +289,8 @@ $('#exportData').click(function() {
   for (var key in searchData) {
     exportUrl += '&' + key + '=' + searchData[key];
   }
-  exportUrl = '/standardMaintain-api/export?' + exportUrl.substring(1);
+  var typeKey = variable.type === '1'? '0':'1';
+  exportUrl = '/standardMaintain-api/export?isPublish='+typeKey+'&' + exportUrl.substring(1);
   window.open(exportUrl, '_blank');
 })
 
