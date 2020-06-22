@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <!-- 多选下拉框样式，根据需求添加 -->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        .layui-form-item{margin-top: 20px;}
+        .layui-add-button .layui-button{width: 60px;display:inline-block;height: 30px;line-height: 30px;
+            background: #fff;border: 0;color: #0AA1FF;cursor: pointer;margin-left: 10px;
+            background: url("/images/add.png") no-repeat 0px 7px;    background-size: 14px;}
+        .layui-add-button .layui-button:hover{border: 0 !important;box-shadow: none !important;}
+        .expert-ul {display: inline-block;border: none;width: 100%;height: auto;overflow: hidden}
+        .expert-ul li{height: 30px;line-height: 30px;background-color: #e6f7ff;color: #1890ff;margin-left: 10px;
+            float: left;margin-bottom: 10px;}
+        .expert-ul li.expert-li-last{background: none;margin: 0;padding: 0;height: 31px;line-height: 31px;}
+        .img-view-block{height: 90px;}
+        .layui-input-text{ padding-left: 14px; color: #B1B1B2;line-height: 30px;font-size: 14px}
+        .warn-title{font-size: 12px;color: #f00;}
+    </style>
+</head>
+<body class="">
+<div class="layout-view-content dialog">
+    <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">密级：</span></label>
+                    <div class="layui-input-block">
+                        <select id="secretLevel" lay-filter="secretLevel" name="secretLevel" dic-base-data="ROOT_KJPT_XXMJ" lay-verify="required" placeholder="请选择...">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <i class="layui-icon layui-icon-vercode secret-level-helper"></i>
+                    <label class="secret-level-helper">通过设置密级给信息加密，不同密级的用户有不同信息权限</label>
+                </div>
+            </div>
+
+        </div>
+        <!-- 知悉范围 -->
+        <div id="scope_list_layout"></div>
+
+        <div class="secret-level-line"></div>
+
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <!--姓名-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">a姓名:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" lay-verify="required"
+                               placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--身份证号码-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">身份证号码:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="idCardNo"
+                               placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--职务-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">职务:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="post" lay-verify="required"
+                               placeholder="请输入职务" autocomplete="off" class="layui-input">
+                        <!-- <select name="post" id="post" lay-verify="required">
+                         <option value=""></option>
+                     </select> -->
+                    </div>
+                </div>
+                <!--性别-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">性别:</span></label>
+                    <div class="layui-input-block" id="sex">
+
+                    </div>
+                </div>
+                <!--出生年份-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">出生日期:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="birthDateStr"
+                               lay-verify="required" id="appDate" autocomplete="off" placeholder="请选择出生日期" class="layui-input laydate-input">
+                    </div>
+                </div>
+                <!--学历-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">学历:</span></label>
+                    <div class="layui-input-block">
+                        <select name="education" id="education">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <!--职称-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">职称:</span></label>
+                    <div class="layui-input-block">
+                        <select name="title" id="title" lay-verify="required">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <!--专家分类-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">高层次人才类别:</span></label>
+                    <div class="layui-input-block">
+                        <select name="expertType" id="expertType" lay-filter="expertType">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item" id="otherNotes" style="display:none;">
+                    <label class="layui-form-label"><span class="text"></span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="otherNotes"
+                               placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div id="expertTypeBox" style="display: none;">
+                    <!--状态-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">是否展示在专家风采页面:</span></label>
+                        <div class="layui-input-block" id="useStatus">
+                        </div>
+                    </div>
+                    <!--邮箱-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">专家风采排序:</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="orders"
+                                   placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <!--邮箱-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">邮箱:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email"
+                               placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--联系信息-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">联系电话:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="contactWay"
+                               placeholder="" autocomplete="off" class="layui-input" lay-verify="number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <!--头像上传-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">头像上传:</span></label>
+                    <div class="img-view-block middle-block" id="imgFileUpload">
+                        <img src="" alt="请选择图片上传" />
+                        <div class="file-img-btn" label="imgUpload" >
+                            <span class="btn-icon"></span>
+                            <span class="btn-text">点击此区域上传照片，请上传.jpg, .jpeg, .bmp, .gif格式</span>
+                        </div>
+                        <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+                    </div>
+                    <!-- <div>
+                        <label class="layui-form-label"></label>
+                        <span class="warn-title">请上传.jpg, .jpeg, .bmp, .gif格式</span>
+                    </div> -->
+                </div>
+                <!--所在单位-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">所在单位:</span></label>
+                    <div class="layui-input-block">
+                        <select name="belongUnit" xm-select-search="" lay-verify="required" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
+                    </div>
+                </div>
+                <!--技术领域-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">技术领域:</span></label>
+                    <div class="layui-input-block">
+                        <select name="technicalField" xm-select="technicalField" xm-select-search=""  xm-select-skin="normal" lay-verify="required"></select>
+                        <!--<input type="text" name="technicalField"
+                            dic-base-data="ROOT_KJPT_JSLY"
+                               placeholder="" autocomplete="off" class="layui-input">-->
+                    </div>
+                </div>
+                <!--科技活动人员类别-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">科技活动人员类别:</span></label>
+                    <div class="layui-input-block" id="researchPersonType">
+                        <!-- <select name="researchPersonType" xm-select="researchPersonType" xm-select-search=""  xm-select-skin="normal" lay-verify="required"></select> -->
+                        <select name="researchPersonType"
+                                select="researchPersonType"
+                                select-skin="normal"
+                                xm-select-radio=""
+                                dic-base-data="ROOT_KJPT_KJHDRYLB"
+                                lay-verify="required"
+                                placeholder="请选择"></select>
+                    </div>
+                </div>
+                <!--研究方向-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label label-required"><span class="text">研究方向:</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="researchWay"
+                               placeholder="" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <!--工作经历-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">工作经历:</span></label>
+                    <div class="layui-input-block">
+                        <!-- <input type="text" name="workExperience"
+                               placeholder="" autocomplete="off" class="layui-input"> -->
+                        <textarea type="text" name="workExperience" rows="4"
+                                  placeholder="请输入1000以内的文字" autocomplete="off" class="layui-input layui-textarea"  lay-verify="maxlength" maxlength="1000"></textarea>
+                    </div>
+                </div>
+                <!--人物简介-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">人物简介:</span></label>
+                    <div class="layui-input-block">
+                        <textarea type="text" name="brief" rows="4"
+                                  placeholder="请输入1000以内的文字" autocomplete="off" class="layui-input layui-textarea"  lay-verify="maxlength" maxlength="1000"></textarea>
+                    </div>
+                </div>
+                <!--人物成就-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="text">人物成就:</span></label>
+                    <div class="layui-input-block">
+                        <textarea type="text" name="achievement" rows="4"
+                                  placeholder="请输入1000以内的文字" autocomplete="off" class="layui-input layui-textarea" lay-verify="maxlength" maxlength="1000"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--<div class="layui-row">
+            &lt;!&ndash;主要项目&ndash;&gt;
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">主要项目:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkProjectJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addProject">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            &lt;!&ndash;主要成果&ndash;&gt;
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">主要成果:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkAchievementJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addAchievements">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            &lt;!&ndash;主要专利&ndash;&gt;
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">主要专利:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkPatentJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addPatent">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            &lt;!&ndash;奖励信息&ndash;&gt;
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">奖励信息:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkRewardJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addReward">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="dialog-footer-btn">
+            <button class="layui-btn layui-btn-normal" lay-submit="" type="button" lay-filter="newSubmit">提交</button>
+            <a class="layui-btn layui-btn-primary" data-type="close">取消</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.11.3.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
+<script src="/kjpt/expert/add_styleMaintenance.js"></script>
+</body>
+</html>
