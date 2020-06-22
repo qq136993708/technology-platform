@@ -28,7 +28,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     {field: 'chiefEditorUnit',title: '主编单位',},
     {field: 'partakeEditorUnit',title: '参编单位',},
     {field: 'standardName',title: '标准名称'},
-    {field: 'levelText',title: '密级',},
+    {field: 'levelText',title: '密级',align: 'center'},
     {field: 'updateStatusText',title: '修改状态',align: 'center',},
     {field: 'fileStatusText',title: '文件状态',align: 'center',},
     {field: 'isPublishText',title: '是否已发布',align: 'center',},
@@ -67,6 +67,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
    
     {field: 'chiefEditorUnit',title: '主编单位',},
     {field: 'partakeEditorUnit',title: '参编单位',},
+    {field: 'levelText',title: '密级',align: 'center'},
     {field: 'updateStatusText',title: '修改状态',align: 'center',},
     // {field: 'fileStatusText',title: '文件状态',align: 'center',},
     {field: 'isPublishText',title: '是否已发布英文版',align: 'center',},

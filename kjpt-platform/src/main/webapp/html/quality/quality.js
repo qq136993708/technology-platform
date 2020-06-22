@@ -194,8 +194,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
 
   // 删除
   $('#delItem').on('click', function (e) {
+    debugger
     var itemRowData = table.checkStatus('tableDemo').data;
-    if (itemRowData.length == 1) {
+    var ids = '';
+   for(var i in itemRowData){
+     ids += itemRowData[i].id+ ','
+     // ids.push(itemRowData[i].id)
+   }
+    if (itemRowData.length >= 1) {
       top.layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
@@ -203,7 +209,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
         top.layer.close(index);
         // 确认删除
         httpModule({
-          url: '/standardMaintain-api/delete/' + itemRowData[0].id,
+          url: '/standardMaintain-api/delete/' + ids,
           type: 'DELETE',
           success: function (relData) {
             if (relData.code === '0') {
