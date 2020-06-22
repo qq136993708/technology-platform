@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Api(value = "patent-api", description = "专利接口")
@@ -528,113 +529,129 @@ public class PatentController extends RestBaseController {
                 for (int i = IMPORT_HEAD; i < listob.size(); i++)
                 {
                     List<Object> lo = listob.get(i);
-                    if(lo.size()<34) break;
-                    Object col_1 = lo.get(1);    //单位名称
-                    Object col_2 = lo.get(2);    //专利名称
-                    Object col_3 = lo.get(3);    //专利号
-                    Object col_4 = lo.get(4);    //申请类型
+                    if(lo.size()<40) break;
+                    Object col_1 = lo.get(1);    //专利名称
+                    Object col_2 = lo.get(2);    //专利号
+                    Object col_3 = lo.get(3);    //申请人
+                    Object col_4 = lo.get(4);    //发明人
                     if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
-                    Object col_5 = lo.get(5);    //专利类别
-                    Object col_7 = lo.get(7);    //申请日期
-                    Object col_10 = lo.get(10);  //申请人
-                    Object col_11 = lo.get(11);  //发明人
-                    Object col_12 = lo.get(12);  //项目背景
-                    Object col_16 = lo.get(16);  //应用技术领域
-                    Object col_22 = lo.get(22);  //法律状态
-                    Object col_23 = lo.get(23);  //变更日期
-                    Object col_33 = lo.get(33);  //专业转化应用
-
-                    //将excel导入数据转换为SciencePlan对象
+                    Object col_5 = lo.get(5);    //申请类型
+                    Object col_6 = lo.get(6); //专利类别
+                    Object col_7 = lo.get(7);    //国别组织
+                    Object col_8 = lo.get(8);    //申请日期
+                    Object col_9 = lo.get(9);    //授权日期
+                    Object col_10 = lo.get(10);  //终止日期
+                    Object col_11 = lo.get(11);  //法律状态
+                    Object col_12 = lo.get(12);  //法律状态变更日期
+                    Object col_13 = lo.get(13);  //应用技术领域（技术类）
+                    Object col_14 = lo.get(14);  //项目背景
+                    Object col_15 = lo.get(15);  //立项部门
+                    Object col_16 = lo.get(16);  //项目编号
+                    Object col_17 = lo.get(17);  //项目名称
+                    Object col_18 = lo.get(18);  //应用技术领域（产品类）
+                    Object col_19 = lo.get(19);  //应用型号产品名称
+                    Object col_20 = lo.get(20);  //应用分系统名称
+                    Object col_21 = lo.get(21);  //元器件及配套材料名称
+                    Object col_22 = lo.get(22);  //主分类号
+                    Object col_23 = lo.get(23);  //副分类号
+                    Object col_24 = lo.get(24);  //联合申请人
+                    Object col_25 = lo.get(25);  //优先权
+                    Object col_26 = lo.get(26);  //代理机构
+                    Object col_27 = lo.get(27);  //公开号
+                    Object col_28 = lo.get(28);  //说明
+                    Object col_29 = lo.get(29);  //密级--不填
+                    Object col_30 = lo.get(30);  //法人代码--不填
+                    Object col_31 = lo.get(31);  //单位名称
+                    Object col_32 = lo.get(32);  //自定义分类
+                    Object col_33 = lo.get(33);  //专利范围
+                    Object col_34 = lo.get(34);  //备注
+                    Object col_35 = lo.get(35);  //专业转化应用
+                    Object col_36 = lo.get(36);  //未实施原因
+                    Object col_37 = lo.get(37);  //被许可人
+                    Object col_38 = lo.get(38);  //许可收益（万元）
+                    Object col_39 = lo.get(39);  //被转让人
+                    Object col_40 = lo.get(40);  //转让收益（万元）
+                    //将excel导入数据转换为PatentInfo对象
                     PatentInfo obj = new PatentInfo();
-
-                    obj.setType(type);
-                   obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
-                   obj.setCreateUnitName(String.valueOf(col_1));
-                   obj.setCreateUnitId(obj.getUnitName());
-                   // obj.setUnitName(String.valueOf(col_1));
-                    obj.setUnitNameText(String.valueOf(col_1));
-                    obj.setPatentName(String.valueOf(col_2));
-                    obj.setApplicationNumber(String.valueOf(col_3));
-                    obj.setApplicationType(getValueFromDictMap(String.valueOf(col_4),ROOT_KJPT_SQLX));
-                    obj.setApplicationTypeText(String.valueOf(col_4));
-
-                    obj.setPatentType(getValueFromDictMap(String.valueOf(col_5),ROOT_KJPT_ZLZL));
-                    obj.setPatentTypeText(String.valueOf(col_5));
-
-                    obj.setCountry(getValueFromDictMap(String.valueOf(lo.get(6)),ROOT_KJPT_GJ));
-                    obj.setCountryText(String.valueOf(lo.get(6)));
-
-                    Date applicationDate = DateUtil.strToDate(String.valueOf(col_7),DateUtil.FMT_DD);
+                    obj.setPatentName(String.valueOf(col_1));
+                    obj.setApplicationNumber(String.valueOf(col_2));
+                    obj.setApplicant(String.valueOf(col_3));
+                    obj.setInventor(String.valueOf(col_4));
+                    obj.setApplicationType(getValueFromDictMap(String.valueOf(col_5),ROOT_KJPT_SQLX));
+                    obj.setPatentType(getValueFromDictMap(String.valueOf(col_6),ROOT_KJPT_ZLZL));
+                    obj.setPatentTypeText(String.valueOf(col_6));
+                    obj.setCountry(getValueFromDictMap(String.valueOf(col_7),ROOT_KJPT_GJ));
+                    obj.setCountryText(String.valueOf(col_7));
+                    Date applicationDate = DateUtil.strToDate(String.valueOf(col_8),DateUtil.FMT_DD);
                     obj.setApplicationDate(applicationDate);
-                    obj.setApplicationDateStr(String.valueOf(col_7));
-                    if(!checkIfBlank(lo.get(8))){
-                        Date authDate = DateUtil.strToDate(String.valueOf(lo.get(8)),DateUtil.FMT_DD);
+                    obj.setApplicationDateStr(String.valueOf(col_8));
+                    if(!checkIfBlank(col_9)){
+                        Date authDate = DateUtil.strToDate(String.valueOf(col_9),DateUtil.FMT_DD);
                         obj.setAuthorizationDate(authDate);
                     }
-                    if(!checkIfBlank(lo.get(9))){
-                        Date temDate = DateUtil.strToDate(String.valueOf(lo.get(9)),DateUtil.FMT_DD);
+                    if(!checkIfBlank(col_10)){
+                        Date temDate = DateUtil.strToDate(String.valueOf(col_10),DateUtil.FMT_DD);
                         obj.setTerminationDate(temDate);
                     }
-                    obj.setApplicant(String.valueOf(col_10));
-                    obj.setInventor(String.valueOf(col_11));
-                    obj.setProjectBackground(projectbckMap.get(String.valueOf(col_12)));
-                    obj.setProjectBackgroundText(String.valueOf(col_12));
-
-                    obj.setEstablishmentDepartment(String.valueOf(lo.get(13)));
-                    obj.setProjectNumber(String.valueOf(lo.get(14)));
-                    obj.setProjectName(String.valueOf(lo.get(15)));
-                    //todo:领用领域技术
+                    obj.setLegalStatus(getValueFromDictMap(String.valueOf(col_11),ROOT_KJPT_FLZT));
+                    obj.setLegalStatusText(String.valueOf(col_11));
+                    Date legalStatusUpdateTime = DateUtil.strToDate(String.valueOf(col_12),DateUtil.FMT_DD);
+                    obj.setLegalStatusUpdateTime(legalStatusUpdateTime);
                     //先从领域技术里获取，如果没有，再从核科学技术中获取
-                    String tech = getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_YYJSLYJSLJSL);
+                    String tech = getValueFromDictMap(String.valueOf(col_13),ROOT_KJPT_YYJSLYJSLJSL);
                     if(!StringUtils.isNotBlank(tech)){
-                        tech = getValueFromDictMap(String.valueOf(lo.get(16)),ROOT_KJPT_YYJSLYJSL_HKXJS);
+                        tech = getValueFromDictMap(String.valueOf(col_13),ROOT_KJPT_YYJSLYJSL_HKXJS);
                     }
                     obj.setApplicationTechnologyTechnology(tech);
-                    obj.setTechnicalFieldText(String.valueOf(lo.get(16)));
-
+                    obj.setTechnicalFieldText(String.valueOf(col_13));
+                    obj.setProjectBackground(projectbckMap.get(String.valueOf(col_14)));
+                    obj.setProjectBackgroundText(String.valueOf(col_14));
+                    obj.setEstablishmentDepartment(String.valueOf(col_15));
+                    obj.setProjectNumber(String.valueOf(col_16));
+                    obj.setProjectName(String.valueOf(col_17));
+                    //应用技术领域产品类
                     if(!checkIfBlank(lo.get(17))){
-                        String techProduct = getValueFromDictMap(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL);
+                        String techProduct = getValueFromDictMap(String.valueOf(col_18),ROOT_KJPT_YYJSLYCPL);
                         if(!StringUtils.isNotBlank(techProduct)){
-                            techProduct = getValueFromDictMap(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL_HNYHJSYY);
-
+                            techProduct = getValueFromDictMap(String.valueOf(col_18),ROOT_KJPT_YYJSLYCPL_HNYHJSYY);
                         }
                         obj.setApplicationTechnologyProducts(techProduct);
                     }
-                    obj.setApplicationModelProductName(String.valueOf(lo.get(18)));
-                    obj.setApplicationSubsystemName(String.valueOf(lo.get(19)));
-                    obj.setNameOfComponentsAndSupportingMaterials(String.valueOf(lo.get(20)));
-                    obj.setCustomClassification(String.valueOf(lo.get(21)));
-                    obj.setLegalStatus(getValueFromDictMap(String.valueOf(lo.get(22)),ROOT_KJPT_FLZT));
-                    obj.setLegalStatusText(String.valueOf(lo.get(22)));
-                    Date legalStatusUpdateTime = DateUtil.strToDate(String.valueOf(lo.get(23)),DateUtil.FMT_DD);
-                    obj.setLegalStatusUpdateTime(legalStatusUpdateTime);
-                    obj.setMainClassificationNumber(String.valueOf(lo.get(24)));
-                    obj.setSubCategoryNumber(String.valueOf(lo.get(25)));
-                    obj.setJointApplicant(String.valueOf(lo.get(26)));
-                    obj.setPriorityRight(String.valueOf(lo.get(27)));
-                    obj.setAgency(String.valueOf(lo.get(28)));
-                    obj.setPublicAnnouncementNo(String.valueOf(lo.get(29)));
+                    obj.setApplicationModelProductName(String.valueOf(col_19));
+                    obj.setApplicationSubsystemName(String.valueOf(col_20));
+                    obj.setNameOfComponentsAndSupportingMaterials(String.valueOf(col_21));
+                    obj.setMainClassificationNumber(String.valueOf(col_22));
+                    obj.setSubCategoryNumber(String.valueOf(col_23));
+                    obj.setJointApplicant(String.valueOf(col_24));
+                    obj.setPriorityRight(String.valueOf(col_25));
+                    obj.setAgency(String.valueOf(col_26));
+                    obj.setPublicAnnouncementNo(String.valueOf(col_27));
                     //todo:数据库中的字段是explainer，可能会导入失败
-                    obj.setExplain(String.valueOf(lo.get(30)));
-                    obj.setPatentRange(String.valueOf(lo.get(31)));
-                    obj.setRemark(String.valueOf(lo.get(32)));
+                    obj.setExplain(String.valueOf(col_28));
+                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_31,this.httpHeaders), String.class).getBody());
+                    obj.setCreateUnitName(String.valueOf(col_31));
+                    obj.setCreateUnitId(obj.getUnitName());
+                    obj.setUnitNameText(String.valueOf(col_31));
+                    obj.setCustomClassification(String.valueOf(col_32));
+                    obj.setPatentRange(String.valueOf(col_33));
+                    obj.setRemark(String.valueOf(col_34));
                     //todo:专业转化应用
-                    obj.setApplicationOfPatentTransformation(String.valueOf(lo.get(33)));
-                    obj.setApplicationOfPatentTransformationText(String.valueOf(lo.get(33)));
-                    obj.setUnenforcedReason(String.valueOf(lo.get(34)));
-                    obj.setLicensee(String.valueOf(lo.get(35)));
+                    obj.setApplicationOfPatentTransformation(String.valueOf(col_35));
+                    obj.setApplicationOfPatentTransformationText(String.valueOf(col_35));
+                    obj.setUnenforcedReason(String.valueOf(col_36));
+                    obj.setLicensee(String.valueOf(col_37));
                     //todo:需要修改字段类型为Double
-                   /* if(!checkIfBlank(lo.get(36))){
-                        String profit  = String.valueOf(lo.get(36));
-                        obj.setLicenseeProfit(Long.parseLong(profit));
-                    }*/
-                    obj.setAssignor(String.valueOf(lo.get(37)));
-                    /*if(!checkIfBlank(lo.get(38))){
-                        String profit  = String.valueOf(lo.get(38));
-                        obj.setAssignProfit(Long.parseLong(profit));
-                    }*/
-
-                    obj.setCreateUnitId(sysUserInfo.getUnitId());
+                   if(!checkIfBlank(col_38)){
+                        String profit  = String.valueOf(col_38);
+                        obj.setLicenseeProfit(new BigDecimal(profit));
+                    }
+                    obj.setAssignor(String.valueOf(col_39));
+                    if(!checkIfBlank(col_39)){
+                        String profit  = String.valueOf(col_39);
+                        obj.setAssignProfit(new BigDecimal(profit));
+                    }
+                    obj.setType(type);
+                    /*obj.setCreateUnitId(sysUserInfo.getUnitId());*/
                     obj.setDeleted("0");
                     String dateid = UUID.randomUUID().toString().replaceAll("-", "");
                     obj.setId(dateid);
@@ -671,134 +688,159 @@ public class PatentController extends RestBaseController {
         for (int i = IMPORT_HEAD; i < listob.size(); i++)
         {
             List<Object> lo = listob.get(i);
-            if(lo.size()<34) break;
-            Object col_1 = lo.get(1);    //单位名称
-            Object col_2 = lo.get(2);    //专利名称
-            Object col_3 = lo.get(3);    //专利号
-            Object col_4 = lo.get(4);    //申请类型
+            if(lo.size()<40) break;
+            Object col_1 = lo.get(1);    //专利名称
+            Object col_2 = lo.get(2);    //专利号
+            Object col_3 = lo.get(3);    //申请人
+            Object col_4 = lo.get(4);    //发明人
             if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
-            Object col_5 = lo.get(5);    //专利类别
-            Object col_7 = lo.get(7);    //申请日期
-            Object col_10 = lo.get(10);  //申请人
-            Object col_11 = lo.get(11);  //发明人
-            Object col_12 = lo.get(12);  //项目背景
-            Object col_16 = lo.get(16);  //应用技术领域
-            Object col_22 = lo.get(22);  //法律状态
-            Object col_23 = lo.get(23);  //变更日期
-            Object col_33 = lo.get(33);  //专业转化应用
+            Object col_5 = lo.get(5);    //申请类型
+            Object col_6 = lo.get(6); //专利类别
+            Object col_7 = lo.get(7);    //国别组织
+            Object col_8 = lo.get(8);    //申请日期
+            Object col_9 = lo.get(9);    //授权日期
+            Object col_10 = lo.get(10);  //终止日期
+            Object col_11 = lo.get(11);  //法律状态
+            Object col_12 = lo.get(12);  //法律状态变更日期
+            Object col_13 = lo.get(13);  //应用技术领域（技术类）
+            Object col_14 = lo.get(14);  //项目背景
+            Object col_15 = lo.get(15);  //立项部门
+            Object col_16 = lo.get(16);  //项目编号
+            Object col_17 = lo.get(17);  //项目名称
+            Object col_18 = lo.get(18);  //应用技术领域（产品类）
+            Object col_19 = lo.get(19);  //应用型号产品名称
+            Object col_20 = lo.get(20);  //应用分系统名称
+            Object col_21 = lo.get(21);  //元器件及配套材料名称
+            Object col_22 = lo.get(22);  //主分类号
+            Object col_23 = lo.get(23);  //副分类号
+            Object col_24 = lo.get(24);  //联合申请人
+            Object col_25 = lo.get(25);  //优先权
+            Object col_26 = lo.get(26);  //代理机构
+            Object col_27 = lo.get(27);  //公开号
+            Object col_28 = lo.get(28);  //说明
+            Object col_29 = lo.get(29);  //密级--不填
+            Object col_30 = lo.get(30);  //法人代码--不填
+            Object col_31 = lo.get(31);  //单位名称
+            Object col_32 = lo.get(32);  //自定义分类
+            Object col_33 = lo.get(33);  //专利范围
+            Object col_34 = lo.get(34);  //备注
+            Object col_35 = lo.get(35);  //专业转化应用
+            Object col_36 = lo.get(36);  //未实施原因
+            Object col_37 = lo.get(37);  //被许可人
+            Object col_38 = lo.get(38);  //许可收益（万元）
+            Object col_39 = lo.get(39);  //被转让人
+            Object col_40 = lo.get(40);  //转让收益（万元）
 
             // 必填项和字典值校验
             if(checkIfBlank(col_1))
             {
-                sb.append("第"+(i+2)+"行单位名称为空,");
+                sb.append("第"+(i+2)+"行专利名称为空,");
                 break;
             }
             if(checkIfBlank(col_2))
             {
-                sb.append("第"+(i+2)+"行专利名称为空,");
-                break;
-            }
-            if(checkIfBlank(col_3))
-            {
                 sb.append("第"+(i+2)+"行专利号为空,");
                 break;
             }
-
-            if(checkIfBlank(col_4))
+            if(checkIfBlank(col_5))
             {
                 sb.append("第"+(i+2)+"行申请类型为空,");
                 break;
-            }else if(!checkIfReasonable(String.valueOf(col_4),ROOT_KJPT_SQLX)){
+            }else if(!checkIfReasonable(String.valueOf(col_5),ROOT_KJPT_SQLX)){
                 sb.append("第"+(i+2)+"行申请类型取值非法,请参考对应sheet页取值!");
                 break;
             }
-
-            if(checkIfBlank(col_5))
+            if(checkIfBlank(col_6))
             {
                 sb.append("第"+(i+2)+"行专利类别为空,");
                 break;
 
-            }else if(!checkIfReasonable(String.valueOf(col_5),ROOT_KJPT_ZLZL)){
+            }else if(!checkIfReasonable(String.valueOf(col_6),ROOT_KJPT_ZLZL)){
                 sb.append("第"+(i+2)+"行专利类别取值非法,请参考对应sheet页取值!");
                 break;
             }
-
-            if(checkIfBlank(col_7))
+            if(checkIfBlank(col_8))
             {
                 sb.append("第"+(i+2)+"行申请日期为空,");
                 break;
             }
+            if(checkIfBlank(col_11))
+            {
+                sb.append("第"+(i+2)+"行法律状态为空,");
+                break;
+            }else if(!checkIfReasonable(String.valueOf(col_11),ROOT_KJPT_FLZT)){
+                sb.append("第"+(i+2)+"行法律状态取值非法,请参考对应sheet页取值!");
+                break;
+            }
+            if(checkIfBlank(col_12))
+            {
+                sb.append("第"+(i+2)+"行法律状态变更日期为空,");
+                break;
+            }
+            if(checkIfBlank(col_13))
+            {
+                sb.append("第"+(i+2)+"行应用技术领域为空,");
+                break;
+            } else if(!checkIfReasonable(String.valueOf(col_13),ROOT_KJPT_YYJSLYJSLJSL)){
+                if(!checkIfReasonable(String.valueOf(col_13),ROOT_KJPT_YYJSLYJSL_HKXJS)){
+                    sb.append("第"+(i+2)+"行应用技术领域取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+            }
+            if(checkIfBlank(col_14))
+            {
+                sb.append("第"+(i+2)+"行项目背景为空,");
+                break;
+            }else if(!checkProjectBackgroundIfExists(String.valueOf(col_14))){
+                sb.append("第"+(i+2)+"行项目背景取值非法,请参考对应sheet页取值!");
+                break;
+            }
+            if(checkIfBlank(col_31))
+            {
+                sb.append("第"+(i+2)+"行单位名称为空,");
+                break;
+            }
+            if(checkIfBlank(col_35))
+            {
+                sb.append("第"+(i+2)+"行专业转化应用为空,");
+                break;
+            }else if("未实施".equals(col_35) && checkIfBlank(col_36)){
+                sb.append("第"+(i+2)+"行未实施原因为空,");
+                break;
+            }else if("许可实施".equals(col_35) && (checkIfBlank(col_37) || checkIfBlank(col_38)) ){
+                sb.append("第"+(i+2)+"行被许可人或者许可收益为空,");
+                break;
+            }else if("转让".equals(col_35) && (checkIfBlank(col_39) || checkIfBlank(col_40)) ){
+                sb.append("第"+(i+2)+"行被转让人或者转让收益为空,");
+                break;
+            }
+            if(!checkIfBlank(col_7)){
+                if(!checkIfReasonable(String.valueOf(col_7),ROOT_KJPT_GJ)){
+                    sb.append("第"+(i+2)+"行国别组织取值非法,请参考对应sheet页取值!");
+                    break;
+                }
+            }
+            if(!checkIfBlank(col_18)){
+                if(!checkIfReasonable(String.valueOf(col_18),ROOT_KJPT_YYJSLYCPL)){
+                    if(!checkIfReasonable(String.valueOf(col_18),ROOT_KJPT_YYJSLYCPL_HNYHJSYY)){
+                        sb.append("第"+(i+2)+"行应用技术领域（产品类）取值非法,请参考对应sheet页取值!");
+                        break;
+                    }
+                }
+            }
 
-            if(checkIfBlank(col_10))
+           /* if(checkIfBlank(col_10))
             {
                 sb.append("第"+(i+2)+"行申请人为空,");
                 break;
             }
-
             if(checkIfBlank(col_11))
             {
                 sb.append("第"+(i+2)+"行发明人为空,");
                 break;
             }
 
-            if(checkIfBlank(col_12))
-            {
-                sb.append("第"+(i+2)+"行项目背景为空,");
-                break;
-            }else if(!checkProjectBackgroundIfExists(String.valueOf(col_12))){
-                sb.append("第"+(i+2)+"行项目背景取值非法,请参考对应sheet页取值!");
-                break;
-            }
-
-            if(checkIfBlank(col_16))
-            {
-                sb.append("第"+(i+2)+"行应用技术领域为空,");
-                break;
-            } else if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_YYJSLYJSLJSL)){
-                if(!checkIfReasonable(String.valueOf(col_16),ROOT_KJPT_YYJSLYJSL_HKXJS)){
-                    sb.append("第"+(i+2)+"行应用技术领域取值非法,请参考对应sheet页取值!");
-                    break;
-                }
-            }
-
-            if(checkIfBlank(col_22))
-            {
-                sb.append("第"+(i+2)+"行法律状态为空,");
-                break;
-            }else if(!checkIfReasonable(String.valueOf(col_22),ROOT_KJPT_FLZT)){
-                sb.append("第"+(i+2)+"行法律状态取值非法,请参考对应sheet页取值!");
-                break;
-            }
-
-            if(checkIfBlank(col_23))
-            {
-                sb.append("第"+(i+2)+"行变更日期为空,");
-                break;
-            }
-
-            if(checkIfBlank(col_33))
-            {
-                sb.append("第"+(i+2)+"行专业转化应用为空,");
-                break;
-            }
-
-            if(!checkIfBlank(lo.get(6))){
-                if(!checkIfReasonable(String.valueOf(lo.get(6)),ROOT_KJPT_GJ)){
-                    sb.append("第"+(i+2)+"行国别组织取值非法,请参考对应sheet页取值!");
-                    break;
-                }
-            }
-
-            if(!checkIfBlank(lo.get(17))){
-                if(!checkIfReasonable(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL)){
-                    if(!checkIfReasonable(String.valueOf(lo.get(17)),ROOT_KJPT_YYJSLYCPL_HNYHJSYY)){
-                        sb.append("第"+(i+2)+"行应用技术领域（产品类）取值非法,请参考对应sheet页取值!");
-                        break;
-                    }
-
-                }
-            }
-
+        */
 
 
         }
@@ -861,7 +903,14 @@ public class PatentController extends RestBaseController {
     private String getValueFromDictMap(String name,String dictCode){
         if(StringUtils.isNotBlank(name)&&StringUtils.isNotBlank(dictCode)){
             Map<String,String> detail = dictMap.get(dictCode);
-            return detail.get(name);
+            if(detail!=null){
+                return detail.get(name);
+            }else if(checkIfReasonable(String.valueOf(name),dictCode)){
+                Map<String,String> stemp = dictMap.get(dictCode);
+                if(detail!=null){
+                    return detail.get(name);
+                }
+            }
         }
         return "null";
     }

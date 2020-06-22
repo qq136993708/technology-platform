@@ -361,7 +361,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     if (itemRowData && itemRowData.length >= 1) {
       top.layer.confirm('您确定要后处理吗？', {
         icon: 3,
-        title: '后处理提示提示'
+        title: '后处理提示'
       }, function (index) {
         top.layer.close(index);
         httpModule({
