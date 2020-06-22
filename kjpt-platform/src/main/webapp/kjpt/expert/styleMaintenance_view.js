@@ -6,6 +6,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         $('#gobackClick').attr('href','./expert_demeanor.html')
     }else if(variable.page == 'list'){
         $('#gobackClick').attr('href','./expert_list.html')
+    }else if(variable.page == 'styleMaintenance'){
+        $('#gobackClick').attr('href','./expert _styleMaintenance.html')
     }
     if(variable!=null){
         httpModule({
@@ -278,7 +280,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         rewardAdd:function () {
             var obj={
                 title:'添加奖励',
-                url:'/kjpt/expert/reward_add.html?expertId='+variable.id,
+                url:'/kjpt/expert/reward_add.html?expertId='+variable.id+'&type=wh',
                 tableName:'reward',
                 arr:rewardArr,
                 tableUrl:'/expert-reward-api/page'
@@ -294,7 +296,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
             }
             var obj={
                 title:'编辑奖励',
-                url:'/kjpt/expert/reward_add.html?expertId='+variable.id+"&id="+activeData[0].id,
+                url:'/kjpt/expert/reward_add.html?expertId='+variable.id+"&id="+activeData[0].id+'&type=wh',
                 tableName:'reward',
                 arr:rewardArr,
                 tableUrl:'/expert-reward-api/page'

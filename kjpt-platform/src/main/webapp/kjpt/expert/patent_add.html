@@ -179,8 +179,9 @@
             if(formSelects.value('achieveType')){
 
             }
+            var url = variable.type ? '' : '/expert-patent-api/save'; //根据跳转过来的参数判断是专家风采维护/信息管理提交
             httpModule({
-                url: '/expert-patent-api/save',
+                url: url,
                 data: data.field,
                 type: "POST",
                 success: function(e) {

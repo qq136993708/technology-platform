@@ -181,8 +181,9 @@
             if(id!=''){
                 data.field.id=id
             }
+            var url = variable.type ? '' : '/expert-reward-api/save'; //根据跳转过来的参数判断是专家风采维护/信息管理提交
             httpModule({
-                url: '/expert-reward-api/save',
+                url: url,
                 data: data.field,
                 type: "POST",
                 success: function(e) {
