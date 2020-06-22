@@ -153,17 +153,16 @@
 
             // 加载动画 ???
             $(".loading-container").removeClass("loading-inactive");
-
+            if(pageName == 'intelligent_team'){
+                $('.proess-mask').show();
+            }else{
+                $('.proess-mask').hide();
+            }
             // 添加一级导航选中效果
             $topHeaderNav.find('.tab_button').removeClass('btnactive');
             $(this).addClass("btnactive");
             // 判断是否有二级菜单
             if (children) {
-                if(children == 'cggl'){
-                    $('.proess-mask').show();
-                }else{
-                    $('.proess-mask').hide();
-                }
                 $twoNavItem.find('.project_btn').removeClass('projectActive');
                 var $activeSubItem = $twoNavItem.find('.two_nav_item').addClass('disNone').filter(function() {
                     if ($(this).hasClass(children)) {
