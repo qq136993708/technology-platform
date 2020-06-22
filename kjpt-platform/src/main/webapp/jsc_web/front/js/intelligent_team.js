@@ -155,6 +155,7 @@ layui.use(['laydate'], function() {
   // 初始化图表
   for(var key in chartInit) {
     chartInit[key]();
+    $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
   }
 
   
