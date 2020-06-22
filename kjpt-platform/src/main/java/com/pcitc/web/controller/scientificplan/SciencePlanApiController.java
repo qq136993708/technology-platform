@@ -280,6 +280,7 @@ public class SciencePlanApiController extends RestBaseController {
 
 
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
+
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), SciencePlan.class);
         String fileName = "科技材料_"+reportType+"明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
         this.exportExcel(headers,cols,fileName,list);

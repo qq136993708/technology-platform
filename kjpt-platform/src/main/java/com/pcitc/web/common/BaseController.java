@@ -5,7 +5,9 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysReqLogs;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.controller.scientificplan.SciencePlanApiController;
 import com.pcitc.web.utils.PoiExcelExportUitl;
+import com.pcitc.web.utils.SciencePlanPoiExcelUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -247,8 +249,16 @@ public class BaseController implements ErrorController
 		response.setHeader("Content-disposition", "attachment;filename=" + fileName);
 		try {
 			OutputStream os = response.getOutputStream();
-			PoiExcelExportUitl<Object> pee = new PoiExcelExportUitl<Object>(fileName, headers, cols, dataList,os);
-			pee.exportExcel();
+
+			if( this instanceof SciencePlanApiController){
+				SciencePlanPoiExcelUtil scienpee = new SciencePlanPoiExcelUtil<Object>(fileName, headers, cols, dataList,3,os);
+				scienpee.exportExcel();
+			}else{
+				PoiExcelExportUitl<Object> pee = new PoiExcelExportUitl<Object>(fileName, headers, cols, dataList,os);
+				pee.exportExcel();
+			}
+
+
 
 		} catch (Exception e)
 		{

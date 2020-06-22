@@ -57,7 +57,7 @@ public class ZjkPatent implements Serializable {
 	/**
      * 专利描述
      */
-    private String describe="";
+    private String describer="";
 
     /**
      * 获得专利时间
@@ -185,11 +185,11 @@ public class ZjkPatent implements Serializable {
 	public void setExpertNum(String expertNum) {
 		this.expertNum = expertNum;
 	}
-	public String getDescribe() {
-		return describe;
+	public String getDescriber() {
+		return describer;
 	}
-	public void setDescribe(String describe) {
-		this.describe = describe;
+	public void setDescriber(String describer) {
+		this.describer = describer;
 	}
 	public Date getGetPatentTime() {
 		return getPatentTime;

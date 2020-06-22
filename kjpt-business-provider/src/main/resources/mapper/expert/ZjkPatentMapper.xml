@@ -8,7 +8,7 @@
     <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
     <result column="patent_name" jdbcType="VARCHAR" property="patentName" />
     <result column="patent_type" jdbcType="VARCHAR" property="patentType" />
-    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="describer" jdbcType="VARCHAR" property="describer" />
     <result column="get_patent_time" jdbcType="TIMESTAMP" property="getPatentTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
    
@@ -32,7 +32,7 @@
     
   </resultMap>
   <sql id="Base_Column_List">
-    id, expert_id, source_type, del_status, patent_name, patent_type, `describe`, get_patent_time,
+    id, expert_id, source_type, del_status, patent_name, patent_type, `describer`, get_patent_time,
     create_time, out_system_id,flag,secret_level,knowledge_scope,knowledge_person,create_user,expert_num
   </sql>
  
@@ -45,7 +45,7 @@
      (
      
       id,expert_id, source_type, del_status, 
-      patent_name, patent_type, `describe`,
+      patent_name, patent_type, `describer`,
       get_patent_time, create_time, out_system_id,flag,secret_level,
       knowledge_scope,knowledge_person,create_user,expert_num
       )
@@ -57,7 +57,7 @@
 	    #{delStatus,jdbcType=VARCHAR}, 
 	    #{patentName,jdbcType=VARCHAR}, 
 	    #{patentType,jdbcType=VARCHAR}, 
-	    #{describe,jdbcType=VARCHAR},
+	    #{describer,jdbcType=VARCHAR},
 	    #{getPatentTime,jdbcType=TIMESTAMP}, 
 	    #{createTime,jdbcType=TIMESTAMP}, 
 	    #{outSystemId,jdbcType=VARCHAR},
@@ -90,8 +90,8 @@
       <if test="patentType != null">
         patent_type,
       </if>
-      <if test="describe != null">
-        `describe`,
+      <if test="describer != null">
+        `describer`,
       </if>
       <if test="getPatentTime != null">
         get_patent_time,
@@ -146,8 +146,8 @@
       <if test="patentType != null">
         #{patentType,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null">
-        #{describe,jdbcType=VARCHAR},
+      <if test="describer != null">
+        #{describer,jdbcType=VARCHAR},
       </if>
       <if test="getPatentTime != null">
         #{getPatentTime,jdbcType=TIMESTAMP},
@@ -201,8 +201,8 @@
       <if test="patentType != null">
         patent_type = #{patentType,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null">
-        `describe` = #{describe,jdbcType=VARCHAR},
+      <if test="describer != null">
+        `describer` = #{describer,jdbcType=VARCHAR},
       </if>
       <if test="getPatentTime != null">
         get_patent_time = #{getPatentTime,jdbcType=TIMESTAMP},
@@ -247,7 +247,7 @@
       knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
       knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
       create_user = #{createUser,jdbcType=VARCHAR},
-      `describe` = #{describe,jdbcType=VARCHAR},
+      `describer` = #{describer,jdbcType=VARCHAR},
       get_patent_time = #{getPatentTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       out_system_id = #{outSystemId,jdbcType=VARCHAR},
@@ -355,7 +355,7 @@
 	 insert into zjk_patent 
      (
 	      id,expert_id, source_type, del_status, 
-	      patent_name, patent_type, `describe`,
+	      patent_name, patent_type, `describer`,
 	      get_patent_time, create_time, out_system_id,flag,secret_level,
 	      knowledge_scope,knowledge_person,create_user,expert_num
       )
@@ -368,7 +368,7 @@
 	    #{item.delStatus,jdbcType=VARCHAR}, 
 	    #{item.patentName,jdbcType=VARCHAR}, 
 	    #{item.patentType,jdbcType=VARCHAR}, 
-	    #{item.describe,jdbcType=VARCHAR},
+	    #{item.describer,jdbcType=VARCHAR},
 	    #{item.getPatentTime,jdbcType=TIMESTAMP}, 
 	    #{item.createTime,jdbcType=TIMESTAMP}, 
 	    #{item.outSystemId,jdbcType=VARCHAR},
