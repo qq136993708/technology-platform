@@ -240,7 +240,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     var ids = itemRowData.map(function(item){
       return item.id
     })
-    if (itemRowData && itemRowData.length == 1){
+    if (itemRowData && itemRowData.length >= 1){
       top.layer.confirm('您确定要删除吗？', {
         icon: 3,
         title: '删除提示'
@@ -358,7 +358,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
     var ids = itemRowData.map(function (item) {
       return item.id;
       })
-    if (itemRowData && itemRowData.length == 1) {
+    if (itemRowData && itemRowData.length >= 1) {
       top.layer.confirm('您确定要后处理吗？', {
         icon: 3,
         title: '后处理提示提示'
