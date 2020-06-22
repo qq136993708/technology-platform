@@ -131,7 +131,6 @@ function addTableData(data) {
       }
 
       httpModule({
-        // url: '/achieveMaintainBI-api/getDetailList',
         url: '/achieveMaintain-api/query',
         type: 'GET',
         data: paramsData,
@@ -213,12 +212,11 @@ function addTableData(data) {
     },
     color: ['#3461D3', '#D86436', '#DC8D3E', '#EBDD51', '#D1F166', '#65C8E0']
   });
-  // $('.proess-mask',parent.document).show();
-  // $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
+  
   if (variable) {
-    // $('.two_nav_item',parent.document).addClass('disNone')
-    // $('.cggl',parent.document).removeClass('disNone');
-    // $('#wrapper',parent.document).css({ 'padding-top': '3.6rem'});
+    $('.two_nav_item',parent.document).addClass('disNone')
+    $('.cggl',parent.document).removeClass('disNone');
+    $('#wrapper',parent.document).css({ 'padding-top': '6rem'});
     if (variable.name) {
       var curName = decodeURI(variable.name);
       var ids;
