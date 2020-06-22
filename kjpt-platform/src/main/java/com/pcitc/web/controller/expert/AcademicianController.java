@@ -655,7 +655,7 @@ public class AcademicianController extends BaseController {
   	    
   	    
   	    @ApiOperation(value = "院士风采", notes = "院士风采")
-		@RequestMapping(value = "/academician-api/listACADEMICIAN", method = RequestMethod.GET)
+		@RequestMapping(value = "/academician-api/listAcademiciam", method = RequestMethod.GET)
 	   	public String jsgdztj_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
 	   	{
 	   		
