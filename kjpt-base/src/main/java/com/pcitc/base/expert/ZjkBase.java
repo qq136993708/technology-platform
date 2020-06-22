@@ -187,9 +187,7 @@ public class ZjkBase  {
     
     private String otherNotes;
     
-    
-    
-    
+
 	public String getOtherNotes() {
 		return otherNotes;
 	}

@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkAcademicianBaseMapper">
+ <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkAcademicianBase">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
+    <result column="num" jdbcType="VARCHAR" property="num" />
+    <result column="personnel_num" jdbcType="VARCHAR" property="personnelNum" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="technical_field" jdbcType="VARCHAR" property="technicalField" />
+    <result column="belong_unit" jdbcType="VARCHAR" property="belongUnit" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="work_experience" jdbcType="VARCHAR" property="workExperience" />
+    <result column="contact_way" jdbcType="VARCHAR" property="contactWay" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="achievement"   jdbcType="VARCHAR" property="achievement" />
+    <result column="head_pic"      jdbcType="VARCHAR" property="headPic" />
+    <result column="create_time"   jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user"   jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time"   jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user"   jdbcType="VARCHAR" property="updateUser" />
+    <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+    <result column="use_status"    jdbcType="VARCHAR" property="useStatus" />
+    <result column="use_status_str"       jdbcType="VARCHAR" property="useStatusStr" />
+    <result column="belong_unit_str"      jdbcType="VARCHAR" property="belongUnitStr" />
+    <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName" />
+    <result column="education_str"        jdbcType="VARCHAR" property="educationStr" />
+    <result column="sex_str"              jdbcType="VARCHAR" property="sexStr" />
+    <result column="title_str"            jdbcType="VARCHAR" property="titleStr" />
+    <result column="technical_field_index"     jdbcType="VARCHAR" property="technicalFieldIndex" />
+    <result column="group_type"                jdbcType="VARCHAR" property="groupType" />
+    <result column="group_type_str"            jdbcType="VARCHAR" property="groupTypeStr" />
+    <result column="audit_status"              jdbcType="VARCHAR" property="auditStatus" />
+    <result column="create_unit_id"            jdbcType="VARCHAR" property="createUnitId" />
+    <result column="create_unit_name"          jdbcType="VARCHAR" property="createUnitName" />
+    <result column="secret_level"              jdbcType="VARCHAR" property="secretLevel" />
+    <result column="secret_level_str"          jdbcType="VARCHAR" property="secretLevelStr" />
+    <result column="expert_type"              jdbcType="VARCHAR" property="expertType" />
+    <result column="knowledge_scope"             jdbcType="VARCHAR" property="knowledgeScope" />
+    <result column="knowledge_person"           jdbcType="VARCHAR" property="knowledgePerson" />
+    <result column="expert_type_str"              jdbcType="VARCHAR" property="expertTypeStr" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="birth_date"   jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="belong_unit_name"              jdbcType="VARCHAR" property="belongUnitName" />
+    <result column="post_str"              jdbcType="VARCHAR" property="postStr" />
+    <result column="research_way"             jdbcType="VARCHAR" property="researchWay" />
+    <result column="research_person_type"     jdbcType="VARCHAR" property="researchPersonType" />
+    <result column="research_person_type_str"     jdbcType="VARCHAR" property="researchPersonTypeStr" />
+    
+  </resultMap>
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_academician_base
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAcademicianBase" useGeneratedKeys="true">
+    insert into zjk_academician_base (id, del_status, num, personnel_num,
+      source_type, `name`, sex, 
+      age, id_card_no, education, 
+      technical_field, belong_unit, title, 
+      post, work_experience, contact_way, 
+      email, brief, achievement, 
+      head_pic, create_time, create_user, 
+      update_time, update_user, out_system_id,use_status,technical_field_name,technical_field_index,group_type,
+      audit_status,create_unit_id,create_unit_name,secret_level ,expert_type
+     ,knowledge_scope,knowledge_person,orders,birth_date,belong_unit_name,research_way,research_person_type
+      )
+    values (
+      #{id,jdbcType=VARCHAR},#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
+      #{sourceType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{idCardNo,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{technicalField,jdbcType=VARCHAR}, #{belongUnit,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{achievement,jdbcType=VARCHAR}, 
+      #{headPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
+      , #{useStatus,jdbcType=VARCHAR} , #{technicalFieldName,jdbcType=VARCHAR}
+      , #{technicalFieldIndex,jdbcType=VARCHAR} , #{groupType,jdbcType=VARCHAR}
+      , #{auditStatus,jdbcType=VARCHAR} , #{createUnitId,jdbcType=VARCHAR} , #{createUnitName,jdbcType=VARCHAR}
+      , #{secretLevel,jdbcType=VARCHAR}
+      , #{expertType,jdbcType=VARCHAR}
+      , #{knowledgeScope,jdbcType=VARCHAR}
+      , #{knowledgePerson,jdbcType=VARCHAR} ,
+       #{orders,jdbcType=INTEGER} , 
+       #{birthDate,jdbcType=TIMESTAMP}
+       ,#{belongUnitName,jdbcType=VARCHAR}
+       ,#{researchWay,jdbcType=VARCHAR}
+       ,#{researchPersonType,jdbcType=VARCHAR}
+      )
+      
+    
+    
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAcademicianBase" useGeneratedKeys="true">
+    insert into zjk_academician_base
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+     <if test="id != null">
+        id,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="personnelNum != null">
+        personnel_num,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="idCardNo != null">
+        id_card_no,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="technicalField != null">
+        technical_field,
+      </if>
+      <if test="belongUnit != null">
+        belong_unit,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="workExperience != null">
+        work_experience,
+      </if>
+      <if test="contactWay != null">
+        contact_way,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="brief != null">
+        brief,
+      </if>
+      <if test="achievement != null">
+        achievement,
+      </if>
+      <if test="headPic != null">
+        head_pic,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="outSystemId != null">
+        out_system_id,
+      </if>
+      <if test="useStatus != null">
+        use_status,
+      </if>
+      <if test="technicalFieldName != null">
+        technical_field_name,
+      </if>
+      <if test="technicalFieldIndex != null">
+        technical_field_index,
+      </if>
+      <if test="groupType != null">
+        group_type,
+      </if>
+      <if test="auditStatus != null">
+        audit_status,
+      </if>
+      <if test="createUnitId != null">
+        create_unit_id,
+      </if>
+      <if test="createUnitName != null">
+        create_unit_name,
+      </if>
+      <if test="secretLevel != null">
+        secret_level,
+      </if>
+      <if test="expertType != null">
+        expert_type,
+      </if>
+      <if test="knowledgeScope != null">
+        knowledge_scope,
+      </if>
+      <if test="knowledgePerson != null">
+        knowledge_person,
+      </if>
+      <if test="orders != null">
+        orders,
+      </if>
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      <if test="belongUnitName != null">
+        belong_unit_name,
+      </if>
+      
+      
+      <if test="researchWay != null">
+        research_way,
+      </if>
+      <if test="researchPersonType != null">
+        research_person_type,
+      </if>
+      
+    
+    
+       
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    
+    <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelNum != null">
+        #{personnelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="idCardNo != null">
+        #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalField != null">
+        #{technicalField,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnit != null">
+        #{belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null">
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="achievement != null">
+        #{achievement,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null">
+        #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        #{outSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="useStatus != null">
+        #{useStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalFieldName != null">
+        #{technicalFieldName,jdbcType=VARCHAR},
+      </if> 
+      <if test="technicalFieldIndex != null">
+        #{technicalFieldIndex,jdbcType=VARCHAR},
+      </if>  
+      <if test="groupType != null">
+        #{groupType,jdbcType=VARCHAR},
+      </if>  
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>  
+      <if test="createUnitId != null">
+        #{createUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitName != null">
+        #{createUnitName,jdbcType=VARCHAR},
+      </if>   
+      <if test="secretLevel != null">
+        #{secretLevel,jdbcType=VARCHAR},
+      </if> 
+      <if test="expertType != null">
+        #{expertType,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgeScope != null">
+        #{knowledgeScope,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgePerson != null">
+        #{knowledgePerson,jdbcType=VARCHAR},
+      </if> 
+       <if test="orders != null">
+        #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belongUnitName != null">
+        #{belongUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="researchWay != null">
+        #{researchWay,jdbcType=VARCHAR},
+      </if>
+      <if test="researchPersonType != null">
+        #{researchPersonType,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBase">
+    update zjk_academician_base
+    <set>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelNum != null">
+        personnel_num = #{personnelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="idCardNo != null">
+        id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalField != null">
+        technical_field = #{technicalField,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnit != null">
+        belong_unit = #{belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        work_experience = #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        contact_way = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null">
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="achievement != null">
+        achievement = #{achievement,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null">
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="useStatus != null">
+        use_status = #{useStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalFieldName != null">
+        technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalFieldIndex != null">
+        technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null">
+        group_type = #{groupType,jdbcType=VARCHAR},
+      </if> 
+      <if test="auditStatus != null">
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if> 
+      <if test="createUnitId != null">
+        create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+      </if> 
+      <if test="createUnitName != null">
+        create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+      </if> 
+      <if test="secretLevel != null">
+        secret_level = #{secretLevel,jdbcType=VARCHAR},
+      </if> 
+      <if test="expertType != null">
+        expert_type = #{expertType,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgeScope != null">
+        knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      </if> 
+      <if test="knowledgePerson != null">
+        knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      </if>  
+      <if test="orders != null">
+        orders = #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belongUnitName != null">
+        belong_unit_name = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      <if test="researchWay != null">
+        research_way = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      <if test="researchPersonType != null">
+        research_person_type = #{birthDate,jdbcType=VARCHAR},
+      </if>
+      
+      
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkAcademicianBase">
+    update zjk_academician_base
+    set del_status = #{delStatus,jdbcType=VARCHAR},
+      num = #{num,jdbcType=VARCHAR},
+      personnel_num = #{personnelNum,jdbcType=VARCHAR},
+       birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      belong_unit_name = #{belongUnitName,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      technical_field = #{technicalField,jdbcType=VARCHAR},
+      belong_unit = #{belongUnit,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      work_experience = #{workExperience,jdbcType=VARCHAR},
+      contact_way = #{contactWay,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      brief = #{brief,jdbcType=VARCHAR},
+      achievement = #{achievement,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR},
+      secret_level = #{secretLevel,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      technical_field_index = #{technicalFieldIndex,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      technical_field_name = #{technicalFieldName,jdbcType=VARCHAR},
+      use_status = #{useStatus,jdbcType=VARCHAR},
+      create_unit_id = #{createUnitId,jdbcType=VARCHAR},
+      create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+      group_type = #{groupType,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      expert_type = #{expertType,jdbcType=VARCHAR},
+      knowledge_scope = #{knowledgeScope,jdbcType=VARCHAR},
+      research_way = #{researchWay,jdbcType=VARCHAR},
+      research_person_type = #{researchPersonType,jdbcType=VARCHAR},
+      orders = #{orders,jdbcType=INTEGER},
+      knowledge_person = #{knowledgePerson,jdbcType=VARCHAR},
+      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="name != null and name  !='' ">                             AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="belongUnitName != null and belongUnitName  !='' ">                             AND t.belong_unit_name like CONCAT('%',#{belongUnitName},'%')</if>
+	     <if test="sourceType != null            and sourceType !=''  ">      AND t.source_type = #{sourceType}</if>
+	     <if test="delStatus != null             and delStatus !=''  ">       AND t.del_status = #{delStatus}</if>
+	     <if test="outSystemId != null           and outSystemId !=''  ">     AND t.out_system_id = #{outSystemId}</if>
+	     <if test="useStatus != null             and useStatus !=''  ">       AND t.use_status = #{useStatus}</if>
+	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.belong_unit = #{belongUnit}</if>
+	     <if test="post != null                  and post !=''  ">            AND t.post = #{post}</if>
+	     <if test="title != null                 and title !=''  ">               AND t.title = #{title}</if>
+	     <if test="belongUnit != null            and belongUnit !=''  ">          AND t.belong_unit = #{belongUnit}</if>
+	     <if test="technicalFieldName != null    and technicalFieldName  !='' ">   AND t.technical_field_name like CONCAT('%',#{technicalFieldName},'%')</if>
+	     <if test="sex != null                   and sex !=''  ">                  AND t.sex = #{sex}</if>
+	     <if test="education != null             and education !=''  ">            AND t.education = #{education}</if>
+	     <if test="groupType != null             and groupType !=''  ">            AND t.group_type = #{groupType}</if>
+	     <if test="auditStatus != null           and auditStatus !=''  ">          AND t.audit_status = #{auditStatus}</if>
+	     <if test="createUnitId != null          and createUnitId !=''  ">         AND t.create_unit_id = #{createUnitId}</if>
+	     <if test="createUnitName != null        and createUnitName !=''  ">       AND t.create_unit_name like CONCAT('%',#{createUnitName},'%')</if>
+	     <if test="technicalFieldIndex != null   and technicalFieldIndex !=''  ">  AND t.technical_field_index like CONCAT(#{technicalFieldIndex},'%')</if>
+	     <if test="childUnitIds != null          and childUnitIds !=''  ">     
+	           AND t.create_unit_id in 
+	           <foreach item="item"  collection="childUnitIds.split(',')"  open="(" separator="," close=")">
+			          #{item}
+			   </foreach>
+	     </if>
+	     <if test="technicalField != null        and technicalField !=''  ">   
+	      AND
+	          <foreach item="item"  collection="technicalField.split(',')"  open="(" separator=" or " close=")">
+			    FIND_IN_SET(#{item},t.`technical_field`) 
+			   </foreach>
+	     </if>
+	     <if test="expertType != null       and expertType !=''  ">       AND t.expert_type = #{expertType}</if>
+	     <if test="expertTypes != null       and expertTypes !=''  ">   
+	         AND t.expert_type in 
+	           <foreach item="item"  collection="expertTypes.split(',')"  open="(" separator="," close=")">
+			          #{item}
+			   </foreach>
+	     </if>
+	     <if test="createUser != null        and createUser !=''  ">  AND t.create_user = #{createUser}</if>
+	     <if test="condition != null and condition !=''  ">        
+	        ${condition}
+	     </if>
+	     <if test="researchWay != null        and researchWay !=''  ">          AND t.research_way = #{researchWay}</if>
+	     <if test="researchPersonType != null  and researchPersonType !=''  ">   AND t.research_person_type = #{researchPersonType}</if>
+	     
+	 </trim>
+	</sql>
+	
+	<sql id="view_zjk_academician_base">
+	   SELECT t1.*,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XL'
+          AND t2.`num_value`=t1.`education`
+      ) education_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_QYZT'
+          AND t2.`code`=t1.`use_status`
+      ) use_status_str,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XB'
+          AND t2.num_value =t1.`sex`
+      ) sex_str,
+      ( 
+         SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`belong_unit`
+      )  belong_unit_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
+          AND t2.num_value =t1.`title`
+      )  title_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XXMJ'
+          AND t2.num_value =t1.`secret_level`
+      )  secret_level_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZJFZ'
+          AND t2.num_value =t1.`group_type`
+      )  group_type_str
+      FROM zjk_academician_base t1
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+   select * from  view_zjk_academician_base  t <include refid="selectCondition" />
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+   </select>
+   
+   
+    <select id="getList_COUNT" parameterType="java.util.Map" resultType="Long">
+        select  count(*) from  zjk_academician_base t <include refid="selectCondition" />
+    </select>
+    
+    
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_academician_base t <include refid="selectCondition"/>
+    </select>
+  
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select   *
+    from view_zjk_academician_base
+    where id = #{id,jdbcType=VARCHAR}
+   </select>
+  
+  
+  
+   <select id="getZjkAcademicianBaseByNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from zjk_academician_base where num = #{num,jdbcType=VARCHAR}
+   </select>
+  
+  
+  
+  
+  
+  <resultMap id="TongjiBaseResultMap" type="com.pcitc.base.common.ChartData">
+    <result column="name"      jdbcType="VARCHAR" property="name" />
+    <result column="value"     jdbcType="INTEGER" property="value" />
+  </resultMap>
+  
+  <select id="getZjkAcademicianTongjiList" parameterType="java.lang.String" resultMap="TongjiBaseResultMap">
+     SELECT 
+		  NAME,IFNULL(nameCount,0) VALUE
+		FROM
+		  (SELECT 
+		    t.`name`,
+		    t.`num_value` 
+		  FROM
+		    sys_dictionary t 
+		  WHERE t.`parent_code` = 'ROOT_KJPT_ZJLX') t1 
+		  LEFT JOIN 
+		    (SELECT 
+		      t.`expert_type`,
+		      COUNT(*) nameCount 
+		    FROM
+		      zjk_academician_base t
+		GROUP BY t.`expert_type`  ORDER BY t.`expert_type`) t2 
+	  ON t1.num_value = t2.`expert_type` 
+   </select>
+  
+  
+  
+  
+  
+  
+</mapper>

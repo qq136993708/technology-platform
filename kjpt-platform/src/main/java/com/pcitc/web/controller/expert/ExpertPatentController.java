@@ -244,7 +244,7 @@ public class ExpertPatentController extends BaseController {
 			
 			
 			oldZjkPatent.setGetPatentTime(date);
-			oldZjkPatent.setDescribe(zjkPatent.getDescribe());
+			oldZjkPatent.setDescriber(zjkPatent.getDescriber());
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkPatent>(oldZjkPatent, this.httpHeaders), Integer.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			Integer dataId = responseEntity.getBody();
@@ -375,7 +375,7 @@ public class ExpertPatentController extends BaseController {
 					//todo:不确认getPatentTime是否是申请日期
 					Date getPatentTime = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
 					obj.setGetPatentTime(getPatentTime);
-					obj.setDescribe(String.valueOf(col_4));
+					obj.setDescriber(String.valueOf(col_4));
 					String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 					obj.setId(dateid);
 					obj.setSecretLevel("0");

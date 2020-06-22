@@ -662,6 +662,9 @@
     <if test="unitName != null and unitName != '' " >
       and unit_name like CONCAT('%',#{unitName},'%')
     </if>
+    <if test="createUnitId != null and createUnitId != '' " >
+      and create_unit_id = #{createUnitId}
+    </if>
     <if test="applicationType != null and applicationType != '' " >
       and application_type = #{applicationType}
     </if>
@@ -702,9 +705,7 @@
         #{item}
       </foreach>
     </if>
-    <if test="createUnitId != null and createUnitId != '' " >
-      and create_unit_id = #{createUnitId}
-    </if>
+
     <if test="secretLevel != null and secretLevel != ''" >
       and secret_level = #{secretLevel}
     </if>

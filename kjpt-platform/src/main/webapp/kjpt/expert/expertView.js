@@ -55,7 +55,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         {field: 'patentName', title: '专利名称'},
         {field: 'patentTypeStr', title: '专利类型'},
         {field: 'getPatentTimeStr', title: '申请日期' },
-        {field: 'describe', title: '专利描述'},
+        {field: 'describer', title: '专利描述'},
         {field: 'secretLevelStr', title: '密级', hide: _hideSecrecylevel()},
     ]
     tableRender('patent',patentArr,'/expert-patent-api/page',variable.id)

@@ -485,7 +485,7 @@ public class ExpertServiceImpl implements IExpertService {
 						zjkPatent.setExpertId(dateid);
 						zjkPatent.setExpertNum(outPerson.getUserNo());
 						zjkPatent.setCreateTime(new Date());
-						zjkPatent.setDescribe(sync.getNotes());
+						zjkPatent.setDescriber(sync.getNotes());
 						zjkPatent.setGetPatentTime(sync.getPatentTime());
 						String dateidv = UUID.randomUUID().toString().replaceAll("-", "");
 						zjkPatent.setId(dateidv);

@@ -567,7 +567,7 @@ public class HanaOutPersonController extends BaseController {
 	   				    patent.setId(dateid);
 	   				    patent.setCreateTime(new Date());
 	   				    patent.setCreateTime(new Date());
-	   				    patent.setDescribe(notes);
+	   				    patent.setDescriber(notes);
 	   				    patent.setPatentName(patentName);
 	   				    patent.setPatentType(patentType);
 	   				    patent.setPatentNo(patentNum);

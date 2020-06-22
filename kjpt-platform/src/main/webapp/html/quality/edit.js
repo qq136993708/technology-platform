@@ -91,6 +91,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
   }
   //lay-filter="test2"
   form.on('select(test2)', function(data) {
+    debugger;
     $('.lay-requier-box').each(function(index,item){
       if(data.value == '0'){
         $('.publicNot').hide(); //未发布
@@ -109,13 +110,13 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
         $(this).find('.layui-input-block select').attr('lay-verify','')
       }
     })
-    if(data.value == '1'){
+    /*if(data.value == '1'){
       $('select[name="updateStatus"]').attr('lay-verify','required');
       $('select[name="updateStatus"]').parents('.layui-form-item').find('.layui-form-label').addClass('label-required')
     }else{
       $('select[name="updateStatus"]').attr('lay-verify','');
       $('select[name="updateStatus"]').parents('.layui-form-item').find('.layui-form-label').removeClass('label-required')
-    }
+    }*/
   })
 
   // 获取地址栏传递过来的参数
