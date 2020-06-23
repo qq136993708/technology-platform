@@ -31,7 +31,7 @@ layui.config({
     /*分组*/
     createElement("ROOT_KJPT_ZJFZ", "groupType", "option", "groupType")
     /*专家分类*/
-    createElement("ROOT_KJPT_ZJLX", "expertType", "option", "expertType")
+    createElement("ROOT_KJPT_YSLX", "expertType", "option", "expertType")
 
     /*出生年*/
     laydate.render({

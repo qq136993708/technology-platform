@@ -67,7 +67,16 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
    
     {field: 'chiefEditorUnit',title: '主编单位',},
     {field: 'partakeEditorUnit',title: '参编单位',},
-    {field: 'levelText',title: '密级',align: 'center'},
+    {field: 'levelText',title: '密级',align: 'center',
+        templet: function (d) {
+            if (d.level == '01') {
+                return "<span>内部<span>";
+            } else if(d.level == '02'){
+                return "公开";
+            } else {
+                return "商密";
+            }
+        }},
     {field: 'updateStatusText',title: '修改状态',align: 'center',},
     // {field: 'fileStatusText',title: '文件状态',align: 'center',},
     {field: 'isPublishText',title: '是否已发布英文版',align: 'center',},
