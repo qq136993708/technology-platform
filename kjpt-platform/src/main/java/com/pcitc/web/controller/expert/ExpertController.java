@@ -2,6 +2,7 @@ package com.pcitc.web.controller.expert;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,12 +20,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
@@ -210,6 +206,7 @@ public class ExpertController extends BaseController {
         
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
+	@ResponseBody
 	public String queryExpertPage(
 			
 			@RequestParam(required = true) Integer page,
@@ -558,9 +555,11 @@ public class ExpertController extends BaseController {
           @ApiImplicitParam(name = "post",           value = "职务", dataType = "string", paramType = "query"),
           @ApiImplicitParam(name = "title",          value = "职称", dataType = "string", paramType = "query"),
           @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
+
           
       })
-  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.POST)
+  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.GET)
+		@ResponseBody
   	   	public String jsgztj_data_exput_excel(
 				@RequestParam(required = false) String name,
 				@RequestParam(required = false) String belongUnit,
@@ -598,7 +597,10 @@ public class ExpertController extends BaseController {
 			paramMap.put("secretLevel", secretLevel);
 			paramMap.put("expertType", expertType);
 			paramMap.put("expertTypes", expertTypes);
-			paramMap.put("customQueryConditionStr", customQueryConditionStr);
+			if(StringUtils.isNotBlank(customQueryConditionStr)){
+				paramMap.put("customQueryConditionStr", URLDecoder.decode(customQueryConditionStr,"utf-8"));
+			}
+
 			paramMap.put("groupType", groupType);
   	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
 
