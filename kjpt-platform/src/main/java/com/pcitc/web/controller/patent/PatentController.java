@@ -316,34 +316,82 @@ public class PatentController extends RestBaseController {
      */
     @ApiOperation(value = "导出", notes = "导出")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "单位名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationDateStart", value = "申请日期开始", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "applicationDateEnd", value = "申请日期结束", dataType = "Date", paramType = "query"),
             @ApiImplicitParam(name = "applicationType", value = "申请类型", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "patentType", value = "专利类型", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicationNumber", value = "申请号（专利号）", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "patentName", value = "专利名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "inventor", value = "发明人", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "type", value = "类型", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "后专项处理", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "projectBackground", value = "项目背景", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "legalStatus", value = "法律状态", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/exportExcel",  method = RequestMethod.GET)
     @ResponseBody
     public void queryPatent(
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) String createUnitId,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date applicationDateStart,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date applicationDateEnd,
             @RequestParam(required = false) String applicationType,
             @RequestParam(required = false) String patentType,
             @RequestParam(required = false) String applicationNumber,
             @RequestParam(required = false) String patentName,
             @RequestParam(required = false) String applicant,
             @RequestParam(required = false) String inventor,
-            @RequestParam(required = false) String type
+            @RequestParam(required = false) String technicalFieldIndex,
+            @RequestParam(required = false) String projectBackground,
+            @RequestParam(required = false) String secretLevel,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String legalStatus
+
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
+
+        if (pageNum == null) {
+            this.setParam(condition, "pageNum", 1);
+        }else {
+            this.setParam(condition, "pageNum", pageNum);
+        }
+        if (pageSize == null) {
+            this.setParam(condition, "pageSize", 10);
+        }else {
+            this.setParam(condition, "pageSize", pageSize);
+        }
+        if (!StringUtils.isEmpty(unitName)) {
+            this.setParam(condition, "unitName", unitName);
+        }
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(applicationDateStart,DateUtil.FMT_SS))) {
+            this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(applicationDateEnd,DateUtil.FMT_SS))) {
+            this.setParam(condition, "applicationDateEnd", DateUtil.format(applicationDateEnd,DateUtil.FMT_SS));
+        }
         if (!StringUtils.isEmpty(applicationType)) {
             this.setParam(condition, "applicationType", applicationType);
         }
         if (!StringUtils.isEmpty(patentType)) {
             this.setParam(condition, "patentType", patentType);
+        }
+        if (!StringUtils.isEmpty(type)) {
+            this.setParam(condition, "type", type);
+        }
+        if (!StringUtils.isEmpty(applicationNumber)) {
+            this.setParam(condition, "applicationNumber", applicationNumber);
         }
         if (!StringUtils.isEmpty(patentName)) {
             this.setParam(condition, "patentName", patentName);
@@ -354,14 +402,18 @@ public class PatentController extends RestBaseController {
         if (!StringUtils.isEmpty(inventor)) {
             this.setParam(condition, "inventor", inventor);
         }
-        if (!StringUtils.isEmpty(unitName)) {
-            this.setParam(condition, "unitName", unitName);
+        if (!StringUtils.isEmpty(technicalFieldIndex)) {
+            this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
         }
-        if (!StringUtils.isEmpty(type)) {
-            this.setParam(condition, "type", type);
+        if (!StringUtils.isEmpty(projectBackground)) {
+            this.setParam(condition, "projectBackground", projectBackground);
         }
-        if (!StringUtils.isEmpty(applicationNumber)) {
-            this.setParam(condition, "applicationNumber", applicationNumber);
+
+        if(secretLevel != null){
+            this.setParam(condition,"secretLevel",secretLevel);
+        }
+        if(legalStatus != null){
+            this.setParam(condition,"legalStatus",legalStatus);
         }
         this.setBaseParam(condition);
         String[] headers = { "专利名称",  "专利号",    "申请（专利权）人"  , "发明人","申请类型","专利类别","国别组织","申请日期","授权日期","终止日期","法律状态",

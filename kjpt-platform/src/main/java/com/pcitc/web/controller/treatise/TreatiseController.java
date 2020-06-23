@@ -185,23 +185,53 @@ public class TreatiseController extends RestBaseController {
 
 
     @ApiOperation(value="导出excel")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "theme", value = "论文主题", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "title", value = "篇名", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "author", value = "作者", dataType = "String", paramType = "author"),
+            @ApiImplicitParam(name = "unit", value = "单位", dataType = "String", paramType = "unit"),
+            @ApiImplicitParam(name = "journalName", value = "期刊名", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "journalLevel", value = "期刊等级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "publishDate", value = "发表日期", dataType = "string", paramType = "query")
+    })
     @RequestMapping(value = "/treatise-api/export", method = RequestMethod.GET)
     @ResponseBody
     public void export(
+            @RequestParam(required = false,value = "pageNum") Integer pageNum,
+            @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "theme") String theme,
             @RequestParam(required = false,value = "title") String title,
+            @RequestParam(required = false,value = "author") String author,
+            @RequestParam(required = false,value = "unit") String unit,
             @RequestParam(required = false,value = "journalName") String journalName,
             @RequestParam(required = false,value = "journalLevel")  String journalLevel,
             @RequestParam(required = false,value = "publishDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date publishDate
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(2);
+        if (pageNum == null) {
+            this.setParam(condition, "pageNum", 1);
+        }else {
+            this.setParam(condition, "pageNum", pageNum);
+        }
+        if (pageSize == null) {
+            this.setParam(condition, "pageSize", 10);
+        }else {
+            this.setParam(condition, "pageSize", pageSize);
+        }
         if (!StringUtils.isEmpty(theme)) {
             this.setParam(condition, "theme", theme);
         }
         if (!StringUtils.isEmpty(title)) {
             this.setParam(condition, "title", title);
         }
-
+        if (!StringUtils.isEmpty(author)) {
+            this.setParam(condition, "author", author);
+        }
+        if (!StringUtils.isEmpty(unit)) {
+            this.setParam(condition, "unit", unit);
+        }
         if (!StringUtils.isEmpty(journalName)) {
             this.setParam(condition, "journalName", journalName);
         }

@@ -221,11 +221,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
   $('#exportData').click(function () {
     var formValue = form.val('patentFormDemo'),
       searchData = {
-        theme: formValue.theme || '', // 论文主题：
-        title: formValue.title || '', // 篇名：
-        journalName: formValue.journalName || '', // 期刊名：
-        journalLevel: formValue.journalLevel || '', // 期刊等级
-        publishDate: formValue.publishDate || '', // 发表日期：
+          theme: formValue.theme || '', // 论文主题：
+          author: formValue.author || '', // 作者：
+          title: formValue.title || '', // 篇名：
+          unitText: formValue.unitText || '', // 单位；
+          journalName: formValue.journalName || '', // 期刊名：
+          journalLevelText: formValue.journalLevelText || '', // 期刊等级：
+          publishDate: formValue.publishDate || '', // 发表日期：
       },
       exportUrl = '';
 
@@ -249,24 +251,7 @@ importFiles({
       }
     }
   });
-  // 导出
-  $('#exportData').click(function () {
-    var formValue = form.val('patentFormDemo'),
-      searchData = {
-        unitName: formValue.unitName || '', // 单位名称：
-        patentName: formValue.patentName || '', // 项目背景：
-        patentType: formValue.patentType || '', // 专利类型：
-        lawStatus: formValue.lawStatus || '', // 法律状态
-        applicationNumber: formValue.applicationNumber || '', // 专利号：
-      },
-      exportUrl = '';
 
-    for (var key in searchData) {
-      exportUrl += '&' + key + '=' + searchData[key];
-    }
-    exportUrl = '/patentController/exportExcel?' + exportUrl.substring(1);
-    window.open(exportUrl, '_blank');
-  })
 
 });
 
