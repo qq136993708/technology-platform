@@ -44,6 +44,8 @@ public class ExcelImportController extends BaseController {
            }else{
                dataList = new ImportExcelUtil().getListByExcel(in, impExcel.getOriginalFilename());
            }
+           //
+
            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
            ResponseEntity<List> responseEntity = this.restTemplate.exchange(String.format(importPath,importType,this.getUserProfile().getUserName(),pid), HttpMethod.POST,  new HttpEntity<List<List<String>>>(dataList, this.httpHeaders), List.class);
            if(!responseEntity.getBody().isEmpty() && !"kgjimp".equals(importType)){
@@ -64,6 +66,14 @@ public class ExcelImportController extends BaseController {
            return JSONObject.toJSONString(r1);
        }
 
+
     }
+
+    //如果导入的数据是decimal类型，直接导入空数据会报:'Incorrect decimal value: '' for column '
+    //需要将空字符串转换成null后导入
+    public void importDecimalTypeHandler(List dataList){
+
+    }
+
 
 }

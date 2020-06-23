@@ -213,11 +213,11 @@ setSelectInput();
     $('#exportData').click(function() {
         var formValue = form.val('patentFormDemo'),
             searchData = {
-                authenticateUtil: formValue.authenticateUtil || '', // 申报单位：
+                name: formValue.name || '', // 科技规划名称：
+                createUnitId: formValue.createUnitId || '', // 申报单位：
                 researchField: formValue.researchField || '', // 技术领域：
-                professionalField: formValue.professionalField || '', // 专业领域：
-                specialtyCategory: formValue.specialtyCategory || '', // 专业类别
                 annual: formValue.annual || '', // 年度/月度：
+                releaseTime: formValue.releaseTime || '', // 发布日期：
             },
             exportUrl = '';
 

@@ -136,7 +136,8 @@ public class ImportExcelUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");  //日期格式化
 		DecimalFormat df2 = new DecimalFormat("0.0000");  //格式化数字
 		if(cell == null) {
-			return "";
+		//	return "";
+			return null;
 		}
 		switch (cell.getCellTypeEnum()) {
 		case STRING:
@@ -155,7 +156,8 @@ public class ImportExcelUtil {
 			value = cell.getBooleanCellValue();
 			break;
 		case BLANK:
-			value = "";
+			//value = "";
+			value = null;
 			break;
 		default:
 			break;
