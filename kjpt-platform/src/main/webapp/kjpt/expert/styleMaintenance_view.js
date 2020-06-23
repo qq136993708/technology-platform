@@ -11,7 +11,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     }
     if(variable!=null){
         httpModule({
-            url: '/expert-api/get/'+variable.id,
+            url: '/academician-api/get/'+variable.id,
             type: 'GET',
             success: function(relData) {
                 if (relData.success === true) {

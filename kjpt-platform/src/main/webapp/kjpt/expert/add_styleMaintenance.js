@@ -118,7 +118,7 @@ layui.config({
     /*判断id，回显*/
     if (variable.id != undefined) {
         httpModule({
-            url: '/expert-api/get/' + variable.id,
+            url: '/academician-api/get/' + variable.id,
             type: 'GET',
             async: false,
             success: function (relData) {
@@ -402,7 +402,7 @@ layui.config({
         }
         // console.log(data.field)
         httpModule({
-            url: '/expert-api/save',
+            url: '/academician-api/save',
             data: data.field,
             type: "POST",
             success: function (e) {

@@ -162,7 +162,7 @@
                 table.render({
                     elem: '#expertTable' // 表格元素ID
                     ,
-                    url: '/expert-api/query' //数据接口
+                    url: '/academician-api/query' //数据接口POST /academician-api/query
                     ,
                     cols: [
                         [ //表头
@@ -296,7 +296,7 @@
         });
         importFiles({
             id: '#importData',
-            url: '/excelImport/zjk_base_impl',
+            url: '/academician-api/input_excel',
             callback: function (result) {
                 if (result.code == "0") {
                     layer.msg('数据导入成功!', {
@@ -352,7 +352,7 @@
                             layer.close(index);
                             // 确认删除
                             httpModule({
-                                url: '/expert-api/delete/' + itemRowData.id,
+                                url: '/academician-api/delete/' + itemRowData.id,
                                 type: 'get',
                                 success: function (relData) {
                                     if (relData.success) {
@@ -401,7 +401,7 @@
             // };
             // xhr.send();
             httpModule({
-                url: "/expert-api/exput_excel",
+                url: "/academician-api/exput_excel",
                 type: 'POST',
                 scriptCharset: 'utf-8',
                 // responseType = "arraybuffer",
