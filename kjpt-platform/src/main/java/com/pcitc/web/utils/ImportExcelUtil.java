@@ -89,9 +89,9 @@ public class ImportExcelUtil {
 				//if(row.getLastCellNum() < lastCellNum) break;   此行代码导致科研能力下的 科研平台和专家的导入失败，如必须，请沟通。
 				//遍历所有的列
 				List<Object> li = new ArrayList<Object>();
-				for (int y = row.getFirstCellNum(); y < lastCellNum; y++) {
+				/*for (int y = row.getFirstCellNum(); y < lastCellNum; y++) {*/
 				//TODO:所有模板的第一列都是空数据，所以从第一列开始导入
-//				for (int y = 1; y < lastCellNum; y++) {
+				for (int y = 1; y < lastCellNum; y++) {
 					Cell cell = row.getCell(y);
 					li.add(this.getCellValue(cell));
 					int beg = row.getFirstCellNum();
