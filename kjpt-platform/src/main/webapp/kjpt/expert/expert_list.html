@@ -375,7 +375,7 @@
                     }
                 }
             // 导出
-            $('#exportData').click(function () {
+           /* $('#exportData').click(function () {
 
                 var formValue = form.val('formPlatform');
                 var json = setVal(formValue);
@@ -406,8 +406,8 @@
                     scriptCharset: 'utf-8',
                     // responseType = "arraybuffer",
                     // datatype = "text",
-                  //  contentType: "application/vnd.ms-excel",
-                    contentType: "application/x-www-form-urlencoded",
+                    contentType: "application/vnd.ms-excel",
+
                     data:json,
                     success: function(relData) {
                         return ;
@@ -421,26 +421,37 @@
                         /* console.log(relData) 
                         window.open(relData, '_blank'); */
 
-                    }
-                });
-                // debugger
-                // var json=setVal(formValue);
-                // // obj.tableList(json)
-                // searchData = {
-                //     name: formValue.name || '', // 单位名称：
-                //     belongUnit: formValue.belongUnit || '', // 项目背景：
-                // },
-                // exportUrl = '';
+                //    }
+               // });
 
-                // for (var key in searchData) {
-                //     exportUrl += '&' + key + '=' + searchData[key];
-                // }
-                // //expert-api/exput_excel
-                // exportUrl = '/expert-api/exput_excel?' + exportUrl.substring(1) + json;
-                // debugger
-                // console.log(exportUrl)
-                // window.open(exportUrl, '_blank');
+          // })
+
+
+            // 导出
+            $('#exportData').click(function() {
+                var formValue = form.val('formPlatform');
+                var json=setVal(formValue);
+                obj.tableList(json);
+                searchData = {
+                     name: formValue.name || '', // 单位名称：
+                     belongUnit: formValue.belongUnit || '', // 项目背景：
+                 },
+                 exportUrl = '';
+
+                 for (var key in searchData) {
+                     exportUrl += '&' + key + '=' + searchData[key];
+                 }
+                 if(json.customQueryConditionStr!= undefined ){
+                     exportUrl = '/expert-api/exput_excel?customQueryConditionStr='+encodeURI(json.customQueryConditionStr) + exportUrl;
+                 }else{
+                     exportUrl = '/expert-api/exput_excel?' + exportUrl.substring(1);
+                 }
+
+                console.log(exportUrl)
+                 window.open(exportUrl, '_blank');
+
             })
+
             $('.layui-btn').on('click', function () {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
