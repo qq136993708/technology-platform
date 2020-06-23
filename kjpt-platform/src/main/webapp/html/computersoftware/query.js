@@ -152,15 +152,18 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
     // 导出
     $('#exportData').click(function() {
-        debugger;
+
         var formValue = form.val('patentFormDemo'),
             searchData = {
-                unitName: formValue.unitName || '', // 单位名称：
-                patentName: formValue.registerNumber || '', // 登记号：
-                patentType: formValue.softwareName || '', // 软件名称：
-                lawStatus: formValue.copyrightOwner || '', // 著作权人
-                applicationNumber: formValue.versionNumber || '', // 版本号：
-            },
+                createUnitName: formValue.createUnitName || '', // 单位名称：
+                softwareName: formValue.softwareName || '', // 软件名称：
+                registerNumber: formValue.registerNumber || '', // 登记号：
+                recordDate: formValue.recordDate || '', // 登记日期：
+                copyrightOwner: formValue.copyrightOwner || '', // 著作权人
+                copyrightGetwayText: formValue.copyrightGetwayText || '', // 权利取得方式
+                registerDepartment: formValue.registerDepartment || '', // 登记部门：
+                projectBackgroundText: formValue.projectBackgroundText || '' // 项目背景：
+            },n
             exportUrl = '';
 
         for (var key in searchData) {

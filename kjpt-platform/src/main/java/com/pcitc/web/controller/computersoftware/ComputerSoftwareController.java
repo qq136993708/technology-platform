@@ -252,25 +252,63 @@ public class ComputerSoftwareController extends RestBaseController {
     }
     @ApiOperation(value = "导出", notes = "导出")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "registerNumber", value = "登记号", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "softwareName", value = "软件名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "softwareIntroduce", value = "软件介绍", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "copyrightOwner", value = "著作权人", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "versionNumber", value = "版本号", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "versionNumber", value = "版本号", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "recordDate", value = "登记日期", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "softwareIntro", value = "软件简介", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "entryPeople", value = "录入人", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "entryTime", value = "录入时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "notes", value = "备注", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "file", value = "附件上传", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalField", value = "技术领域id", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldValue", value = "技术领域值", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "registerDepartment", value = "登记部门", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "copyrightGetway", value = "权利取得方式", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "projectName", value = "项目名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "projectCode", value = "项目编码", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "topicDepartment", value = "立项部门", dataType = "string", paramType = "query")
     })
 
     @GetMapping(value = "/exportExcel")
     @ResponseBody
     public void exportExcel(
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) String unitName,
             @RequestParam(required = false) String registerNumber,
             @RequestParam(required = false) String softwareName,
+            @RequestParam(required = false) String softwareIntroduce,
             @RequestParam(required = false) String copyrightOwner,
-            @RequestParam(required = false) String versionNumber
+            @RequestParam(required = false) String versionNumber,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date recordDate,
+            @RequestParam(required = false) String softwareIntro,
+            @RequestParam(required = false) String entryPeople,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date entryTime,
+            @RequestParam(required = false) String notes,
+            @RequestParam(required = false) String file,
+            @RequestParam(required = false) String technicalField,
+            @RequestParam(required = false) String technicalFieldValue,
+            @RequestParam(required = false, value = "createUnitId") String createUnitId,
+            @RequestParam(required = false, value = "createUnitName") String createUnitName,
+            @RequestParam(required = false, value = "secretLevel") String secretLevel,
+            @RequestParam(required = false, value = "registerDepartment") String registerDepartment,
+            @RequestParam(required = false, value = "copyrightGetway") String copyrightGetway,
+            @RequestParam(required = false, value = "projectName") String projectName,
+            @RequestParam(required = false, value = "projectCode") String projectCode,
+            @RequestParam(required = false, value = "topicDepartment") String topicDepartment,
+            @RequestParam(required = false) String projectBackground
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
-
 
         if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
@@ -281,18 +319,84 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(softwareName)) {
             this.setParam(condition, "softwareName", softwareName);
         }
+        if (!StringUtils.isEmpty(softwareIntroduce)) {
+            this.setParam(condition, "softwareIntroduce", softwareIntroduce);
+        }
         if (!StringUtils.isEmpty(copyrightOwner)) {
             this.setParam(condition, "copyrightOwner", copyrightOwner);
         }
         if (!StringUtils.isEmpty(versionNumber)) {
             this.setParam(condition, "versionNumber", versionNumber);
         }
+        if (!StringUtils.isEmpty(DateUtil.format(recordDate, DateUtil.FMT_SS))) {
+            this.setParam(condition, "recordDate", DateUtil.format(recordDate, DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(softwareIntro)) {
+            this.setParam(condition, "softwareIntro", softwareIntro);
+        }
+        if (!StringUtils.isEmpty(entryPeople)) {
+            this.setParam(condition, "entryPeople", entryPeople);
+        }
+        if (entryTime != null) {
+            this.setParam(condition, "entryTime", entryTime);
+        }
+        if (!StringUtils.isEmpty(notes)) {
+            this.setParam(condition, "notes", notes);
+        }
+        if (!StringUtils.isEmpty(file)) {
+            this.setParam(condition, "file", file);
+        }
+
+        if (!StringUtils.isEmpty(technicalField)) {
+            this.setParam(condition, "technicalField", technicalField);
+        }
+
+        if (!StringUtils.isEmpty(technicalFieldValue)) {
+            this.setParam(condition, "technicalFieldValue", technicalFieldValue);
+        }
+
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
+
+        if (!StringUtils.isEmpty(createUnitName)) {
+            this.setParam(condition, "createUnitName", createUnitName);
+        }
+
+        if (secretLevel != null) {
+            this.setParam(condition, "secretLevel", secretLevel);
+        }
+
+        if (registerDepartment != null) {
+            this.setParam(condition, "registerDepartment", registerDepartment);
+        }
+
+        if (copyrightGetway != null) {
+            this.setParam(condition, "copyrightGetway", copyrightGetway);
+        }
+
+        if (projectName != null) {
+            this.setParam(condition, "projectName", projectName);
+        }
+
+        if (projectCode != null) {
+            this.setParam(condition, "projectCode", projectCode);
+        }
+
+        if (topicDepartment != null) {
+            this.setParam(condition, "topicDepartment", topicDepartment);
+        }
+
+        if (projectBackground != null) {
+            this.setParam(condition, "projectBackground", projectBackground);
+        }
+
         this.setBaseParam(condition);
 
 //        String[] headers = { "单位名称",  "登记号",    "软件名称"  , "著作权人","版本号","登记日期","软件简介"};
 //        String[] cols =    {"unitNameText","registerNumber","softwareName","copyrightOwner","versionNumber","recordDate","softwareIntro"};
         String[] headers = { "单位名称",  "软件名称",    "登记号"  , "登记日期","著作权人","权利取得方式","登记部门","项目背景","立项部门","项目名称","项目编号"};
-        String[] cols =    {"unitNameText","softwareName","registerNumber","recordDate","copyrightOwner","copyrightGetwayText","registerDepartment","projectBackgroundText","topicDepartment","projectName","projectCode"};
+        String[] cols =    {"createUnitName","softwareName","registerNumber","recordDate","copyrightOwner","copyrightGetwayText","registerDepartment","projectBackgroundText","topicDepartment","projectName","projectCode"};
         ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(queryNoPage, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), JSONArray.class);
         List list = JSONObject.parseArray(responseEntity.getBody().toJSONString(), ComputerSoftware.class);
         String fileName = "软件著作权明细表_"+ DateFormatUtils.format(new Date(), "ddhhmmss");
