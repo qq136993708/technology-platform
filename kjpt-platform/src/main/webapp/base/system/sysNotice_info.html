@@ -196,11 +196,10 @@
                         }); */
                         CKEDITOR.instances.noticeContent.setData(data.noticeContent);
                         // myEditor.setData(data.noticeContent);
-                        $("input[name=isPublish][value='" + data.isVariable + "']").prop("checked",
+                            $("input[name=isPublish][value='" + data.isPublished + "']").prop("checked",
                             "checked");
-                        $("input[name=isTopRoll][value='" + data.isTopRoll + "']").prop("checked",
-                            "checked");
-
+                            $("input[name=isTopRoll][value='" + data.isTopRoll + "']").prop("checked",
+                                "checked");
                         setFileUpload({
                             id: 'file-filter-options', // 附件上传作用域ID值 必传
                             dataID: data.noticeId, // 用来查找当前单据下绑定的附件，没有则不查找
@@ -215,8 +214,7 @@
                                 $("#files").val(files.join(','));
                             }
                         });
-
-                        form.render();
+                            form.render();
                     },
                     error: function (e) {
                         alertError("出错了！", e);
