@@ -187,6 +187,7 @@
             active[type] ? active[type].call(this) : '';
         });
         form.on('submit(formSave)', function(data) {
+            debugger
             console.log(data.field)
             if(id!=''){
                 data.field.id=id
@@ -194,9 +195,8 @@
             if(formSelects.value('achieveType')){
 
             }
-            var url = variable.type ? '' : '/expert-achievement-api/save'; //根据跳转过来的参数判断是专家风采维护/信息管理提交
             httpModule({
-                url: url,
+                url: '/expert-achievement-api/save',
                 data: data.field,
                 type: "POST",
                 success: function(e) {
