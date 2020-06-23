@@ -379,38 +379,37 @@ public class ComputerSoftwareController extends RestBaseController {
                 {
                     List<Object> lo = listob.get(i);
                     if(lo.size()<12) break;
-                    Object col_1 = lo.get(1); //单位名称
-                    Object col_2 = lo.get(2); //软件名称
-                    Object col_3 = lo.get(3); //登记号
-                    Object col_4 = lo.get(4); //登记日期
+                    Object col_1 = lo.get(1); //软件名称
+                    Object col_2 = lo.get(2); //登记号
+                    Object col_3 = lo.get(3); //登记日期
+                    Object col_4 = lo.get(4); //著作权人
                     if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
-                    Object col_5 = lo.get(5); //著作权人
-                    Object col_6 = lo.get(6); //权利取得方式
-                    Object col_7 = lo.get(7); //登记部门
-                    Object col_8 = lo.get(8); //项目背景
-                    Object col_9 = lo.get(9); //立项部门
-                    Object col_10 = lo.get(10); //项目名称
-                    Object col_11 = lo.get(11); //项目编号
-
+                    Object col_5 = lo.get(5); //权利取得方式
+                    Object col_6 = lo.get(6); //项目背景
+                    Object col_7 = lo.get(7); //立项部门
+                    Object col_8 = lo.get(8); //项目名称
+                    Object col_9 = lo.get(9); //项目编号
+                    Object col_10 = lo.get(10); // 登记部门
+                    Object col_12 = lo.get(12); //单位名称
 
                     ComputerSoftware obj = new ComputerSoftware();
-
-                   // obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_1,this.httpHeaders), String.class).getBody());
-                    obj.setCreateUnitId(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_1,this.httpHeaders), String.class).getBody());
-                    obj.setCreateUnitName(String.valueOf(col_1));
-                    obj.setSoftwareName(String.valueOf(col_2));
-                    obj.setRegisterNumber(String.valueOf(col_3));
-                    Date recordDate = DateUtil.strToDate(String.valueOf(col_4),DateUtil.FMT_DD);
+                    obj.setSoftwareName(String.valueOf(col_1));
+                    obj.setRegisterNumber(String.valueOf(col_2));
+                    Date recordDate = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
                     obj.setRecordDate(recordDate);
-                    obj.setCopyrightOwner(String.valueOf(col_5));
-                    obj.setCopyrightGetway(getValueFromDictMap(String.valueOf(col_6),ROOT_KJPT_QLHDFS));
-                    obj.setCopyrightGetwayText(String.valueOf(col_6));
-                    obj.setRegisterDepartment(String.valueOf(col_7));
-                    obj.setProjectBackground(projectbckMap.get(String.valueOf(col_8)));
-                    obj.setProjectBackgroundText(String.valueOf(col_8));
-                    obj.setTopicDepartment(String.valueOf(col_9));
-                    obj.setProjectName(String.valueOf(col_10));
-                    obj.setProjectCode(String.valueOf(col_11));
+                    obj.setCopyrightOwner(String.valueOf(col_4));
+                    obj.setCopyrightGetway(getValueFromDictMap(String.valueOf(col_5),ROOT_KJPT_QLHDFS));
+                    obj.setCopyrightGetwayText(String.valueOf(col_5));
+                    obj.setProjectBackground(projectbckMap.get(String.valueOf(col_6)));
+                    obj.setProjectBackgroundText(String.valueOf(col_6));
+                    obj.setTopicDepartment(String.valueOf(col_7));
+                    obj.setProjectName(String.valueOf(col_8));
+                    obj.setProjectCode(String.valueOf(col_9));
+                    obj.setRegisterDepartment(String.valueOf(col_10));
+                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_12,this.httpHeaders), String.class).getBody());
+                    obj.setUnitNameText(String.valueOf(col_12));
+                    obj.setCreateUnitId(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(col_12,this.httpHeaders), String.class).getBody());
+                    obj.setCreateUnitName(String.valueOf(col_12));
 
                     String dateid = UUID.randomUUID().toString().replaceAll("-", "");
                     obj.setId(dateid);
@@ -447,73 +446,66 @@ public class ComputerSoftwareController extends RestBaseController {
             List<Object> lo = listob.get(i);
             if(lo.size()<12) break;
 
-            Object col_1 = lo.get(1); //单位名称
-            Object col_2 = lo.get(2); //软件名称
-            Object col_3 = lo.get(3); //登记号
-            Object col_4 = lo.get(4); //登记日期
+            Object col_1 = lo.get(1); //软件名称
+            Object col_2 = lo.get(2); //登记号
+            Object col_3 = lo.get(3); //登记日期
+            Object col_4 = lo.get(4); //著作权人
             if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)&&checkIfBlank(col_4)) break;
-            Object col_5 = lo.get(5); //著作权人
-            Object col_6 = lo.get(6); //权利取得方式
-            Object col_7 = lo.get(7); //登记部门
-            Object col_8 = lo.get(8); //项目背景
-            Object col_9 = lo.get(9); //立项部门
-            Object col_10 = lo.get(10); //项目名称
-            Object col_11 = lo.get(11); //项目编号
+            Object col_5 = lo.get(5); //权利取得方式
+            Object col_6 = lo.get(6); //项目背景
+            Object col_7 = lo.get(7); //立项部门
+            Object col_8 = lo.get(8); //项目名称
+            Object col_9 = lo.get(9); //项目编号
+            Object col_10 = lo.get(10); // 登记部门
+            Object col_12 = lo.get(12); //单位名称
 
             // 必填项和字典值校验
             if(checkIfBlank(col_1))
             {
-                sb.append("第"+(i+2)+"行单位名称为空,");
+                sb.append("第"+(i+2)+"行软件名称为空,");
                 break;
             }
             if(checkIfBlank(col_2))
             {
-                sb.append("第"+(i+2)+"行软件名称为空,");
+                sb.append("第"+(i+2)+"行登记号为空,");
                 break;
             }
             if(checkIfBlank(col_3))
             {
-                sb.append("第"+(i+2)+"行登记号为空,");
-                break;
-            }
-
-            if(checkIfBlank(col_4))
-            {
                 sb.append("第"+(i+2)+"行登记日期为空,");
                 break;
             }
-
-            if(checkIfBlank(col_5))
+            if(checkIfBlank(col_4))
             {
                 sb.append("第"+(i+2)+"行著作权人为空,");
                 break;
             }
-            if(checkIfBlank(col_6))
+            if(checkIfBlank(col_5))
             {
                 sb.append("第"+(i+2)+"行权利取得方式为空,");
                 break;
-            }else if(!checkIfReasonable(String.valueOf(col_6),ROOT_KJPT_QLHDFS)){
+            }else if(!checkIfReasonable(String.valueOf(col_5),ROOT_KJPT_QLHDFS)){
                 sb.append("第"+(i+2)+"行权利取得方式取值非法,请参考对应sheet页取值!");
                 break;
             }
-
-            if(checkIfBlank(col_7))
+            if(checkIfBlank(col_6))
+            {
+                sb.append("第"+(i+2)+"行项目背景为空,");
+                break;
+            }else if(!checkProjectBackgroundIfExists(String.valueOf(col_6))){
+                sb.append("第"+(i+2)+"行项目背景取值非法,请参考对应sheet页取值!");
+                break;
+            }
+            if(checkIfBlank(col_10))
             {
                 sb.append("第"+(i+2)+"行登记部门为空,");
                 break;
             }
-
-            if(checkIfBlank(col_8))
+            if(checkIfBlank(col_12))
             {
-                sb.append("第"+(i+2)+"行项目背景为空,");
-                break;
-            }else if(!checkProjectBackgroundIfExists(String.valueOf(col_8))){
-                sb.append("第"+(i+2)+"行项目背景取值非法,请参考对应sheet页取值!");
+                sb.append("第"+(i+2)+"行单位名称为空,");
                 break;
             }
-
-
-
         }
         resultsDate.setMessage(sb.toString());
         if((sb.toString()).equals(""))

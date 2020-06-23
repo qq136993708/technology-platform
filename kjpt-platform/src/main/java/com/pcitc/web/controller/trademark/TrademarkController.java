@@ -364,78 +364,72 @@ public class TrademarkController extends RestBaseController {
                 for (int i = IMPORT_HEAD; i < listob.size(); i++)
                 {
                     List<Object> lo = listob.get(i);
-                    if(lo.size()<18) break;
-
-                    Object col_1 = lo.get(1);   //单位名称
-                    Object col_2 = lo.get(2);   // 商标名称
-                    Object col_3 = lo.get(3);   // 注册号
+                    if(lo.size()<19) break;
+                    Object col_1 = lo.get(1);   // 商标名称
+                    Object col_2 = lo.get(2);   // 注册号
+                    Object col_3 = lo.get(3);   // 注册日期
                     if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)) break;
-                    Object col_4 = lo.get(4);   // 国际分类号
-                    Object col_5 = lo.get(5);   // 申请人
-                    Object col_6 = lo.get(6);   // 注册单位
-                    Object col_7 = lo.get(7);   // 注册日期
-                    Object col_8 = lo.get(8);   // 有效期
-                    Object col_9 = lo.get(9);   // 延展有效期
-                    Object col_10 = lo.get(10); // 商标类型
-                    Object col_11 = lo.get(11); // 法律状态
-                    Object col_12 = lo.get(12); // 驰名商标
-                    Object col_13 = lo.get(13); // 驰名商标认定日期
-                    Object col_14 = lo.get(14); // 驰名商标认定机构
-                    Object col_15 = lo.get(15); // 著名商标
-                    Object col_16 = lo.get(16); // 著名商标认定日期
-                    Object col_17 = lo.get(17); // 著名商标认定机构
+                    Object col_4 = lo.get(4); // 商标类型
+                    Object col_5 = lo.get(5); // 驰名商标
+                    Object col_6 = lo.get(6); // 驰名商标认定日期
+                    Object col_7 = lo.get(7); // 驰名商标认定机构
+                    Object col_8 = lo.get(8); // 著名商标
+                    Object col_9 = lo.get(9); // 著名商标认定日期
+                    Object col_10 = lo.get(10); // 著名商标认定机构
+                    Object col_11 = lo.get(11);   // 申请人
+                    Object col_12 = lo.get(12);   // 有效期
+                    Object col_13 = lo.get(13);   // 延展有效期
+                    Object col_14 = lo.get(14);   // 国际分类号
+                    Object col_15 = lo.get(15);   // 注册单位
+                    Object col_17 = lo.get(17);   //单位名称
+                    Object col_18 = lo.get(18); // 法律状态
 
-                    //将excel导入数据转换为SciencePlan对象
+                    //将excel导入数据转换为TrademarkInfo对象
                     TrademarkInfo obj = new TrademarkInfo();
-                    //TODO:后台存储的是单位名称，不是单位id
-                  // obj.setUnitName(String.valueOf(col_1));
-                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<Object>(lo.get(1),this.httpHeaders), String.class).getBody());
-                    obj.setCreateUnitId(obj.getUnitName());
-                    // obj.setCreateUnitId(sysUserInfo.getUnitId());
-                    obj.setCreateUnitName(String.valueOf(col_1));
-
-                    obj.setTrademarkName(String.valueOf(col_2));
-                    obj.setApplicationNumber(String.valueOf(col_3));
-                    obj.setCountryType(String.valueOf(col_4));
-                    obj.setApplicant(String.valueOf(col_5));
-                    obj.setRegisterOrg(String.valueOf(col_6));
-                    Date registerDate = DateUtil.strToDate(String.valueOf(col_7),DateUtil.FMT_DD);
+                    obj.setTrademarkName(String.valueOf(col_1));
+                    obj.setApplicationNumber(String.valueOf(col_2));
+                    Date registerDate = DateUtil.strToDate(String.valueOf(col_3),DateUtil.FMT_DD);
                     obj.setRegisterDate(registerDate);
-                    Date effectiveDate =DateUtil.strToDate(String.valueOf(col_8),DateUtil.FMT_DD);
-                    obj.setEffectiveDate(effectiveDate);
-                    if(!checkIfBlank(col_9)){
-                        Date extensionPeriod = DateUtil.strToDate(String.valueOf(col_8),DateUtil.FMT_DD);
-                        obj.setExtensionPeriod(extensionPeriod);
+                    if(!checkIfBlank(col_4)){
+                        obj.setTradeMarkType(getValueFromDictMap(String.valueOf(col_4),ROOT_KJPT_SBLX));
                     }
-                    if(!checkIfBlank(col_10)){
-                        obj.setTradeMarkType(getValueFromDictMap(String.valueOf(lo.get(10)),ROOT_KJPT_SBLX));
-                    }
-
-                    obj.setLawStatus(getValueFromDictMap(String.valueOf(lo.get(11)),ROOT_KJPT_FLZT));
-                    String isWellKonwn = String.valueOf(col_12);
+                    //TODO:存入字典值前台无法显示,先直接存入-驰名商标
+                    String isWellKonwn = String.valueOf(col_5);
                     if(StringUtils.isNotBlank(isWellKonwn)){ //ROOT_UNIVERSAL_WEHTHER 否:1  是:0
                         obj.setIsWellKnown("是".equals(isWellKonwn)?YES:NO);
                     }
-                    //TODO:存入字典值前台无法显示,先直接存入
-                    //obj.setIsWellKnown(isWellKonwn);
-
-                    if(col_13 != null && !"".equals(col_13)){
-                        Date wellKnownDate = DateUtil.strToDate(String.valueOf(col_13),DateUtil.FMT_DD);
+                    if(col_5 != null && !"".equals(col_5)){
+                        Date wellKnownDate = DateUtil.strToDate(String.valueOf(col_6),DateUtil.FMT_DD);
                         obj.setWellKnownDate(wellKnownDate);
                     }
-                    obj.setWellKnownOrg(String.valueOf(col_14));
-                    String isRegistered = String.valueOf(col_15);
-                   if(StringUtils.isNotBlank(isRegistered)){
+                    obj.setWellKnownOrg(String.valueOf(col_7));
+                    //TODO:存入字典值前台无法显示,先直接存入-著名商标
+                    String isRegistered = String.valueOf(col_8);
+                    if(StringUtils.isNotBlank(isRegistered)){
                         obj.setIsRegistered("是".equals(isRegistered)?YES:NO);
                     }
-                    //TODO:存入字典值前台无法显示,先直接存入
-                   // obj.setIsRegistered(isRegistered);
-
-                    if(col_16 != null && !"".equals(col_16)){
-                        Date famousDate = DateUtil.strToDate(String.valueOf(col_16),DateUtil.FMT_DD);
+                    if(col_8 != null && !"".equals(col_8)){
+                        Date famousDate = DateUtil.strToDate(String.valueOf(col_9),DateUtil.FMT_DD);
                         obj.setFamousDate(famousDate);
                     }
-                    obj.setFamousOrg(String.valueOf(col_17));
+                    obj.setFamousOrg(String.valueOf(col_10));
+                    obj.setApplicant(String.valueOf(col_11));
+                    //有效期
+                    Date effectiveDate =DateUtil.strToDate(String.valueOf(col_12),DateUtil.FMT_DD);
+                    obj.setEffectiveDate(effectiveDate);
+                    if(!checkIfBlank(col_13)){
+                        Date extensionPeriod = DateUtil.strToDate(String.valueOf(col_13),DateUtil.FMT_DD);
+                        obj.setExtensionPeriod(extensionPeriod);
+                    }
+                    obj.setCountryType(String.valueOf(col_14));
+                    obj.setRegisterOrg(String.valueOf(col_15));
+                    //TODO:后台存储的是单位名称，不是单位id
+                    obj.setUnitName(restTemplate.exchange(GET_UNIT_ID, HttpMethod.POST, new HttpEntity<String>(String.valueOf(col_17),this.httpHeaders), String.class).getBody());
+                    obj.setUnitNameText(String.valueOf(col_17));
+                    obj.setCreateUnitId(obj.getUnitName());
+                    // obj.setCreateUnitId(sysUserInfo.getUnitId());
+                    obj.setCreateUnitName(String.valueOf(col_17));
+                    obj.setLawStatus(getValueFromDictMap(String.valueOf(col_18),ROOT_KJPT_FLZT));
                     String dateid = UUID.randomUUID().toString().replaceAll("-", "");
                     obj.setId(dateid);
                     obj.setDeleted("0");
@@ -469,93 +463,87 @@ public class TrademarkController extends RestBaseController {
         for (int i = IMPORT_HEAD; i < listob.size(); i++)
         {
             List<Object> lo = listob.get(i);
-            if(lo.size()<18) break;
-            Object col_1 = lo.get(1);   //单位名称
-            Object col_2 = lo.get(2);   // 商标名称
-            Object col_3 = lo.get(3);   // 注册号
+            if(lo.size()<19) break;
+            Object col_1 = lo.get(1);   // 商标名称
+            Object col_2 = lo.get(2);   // 注册号
+            Object col_3 = lo.get(3);   // 注册日期
             if(checkIfBlank(col_1)&&checkIfBlank(col_2)&&checkIfBlank(col_3)) break;
-            Object col_4 = lo.get(4);   // 国际分类号
-            Object col_5 = lo.get(5);   // 申请人
-            Object col_6 = lo.get(6);   // 注册单位
-            Object col_7 = lo.get(7);   // 注册日期
-            Object col_8 = lo.get(8);   // 有效期
-            Object col_9 = lo.get(9);   // 延展有效期
-            Object col_10 = lo.get(10); // 商标类型
-            Object col_11 = lo.get(11); // 法律状态
-            Object col_12 = lo.get(12); // 驰名商标
-            Object col_13 = lo.get(13); // 驰名商标认定日期
-            Object col_14 = lo.get(14); // 驰名商标认定机构
-            Object col_15 = lo.get(15); // 著名商标
-            Object col_16 = lo.get(16); // 著名商标认定日期
-            Object col_17 = lo.get(17); // 著名商标认定机构
-
-
-            //必填值和字典值校验
+            Object col_4 = lo.get(4); // 商标类型
+            Object col_5 = lo.get(5); // 驰名商标
+            Object col_6 = lo.get(6); // 驰名商标认定日期
+            Object col_7 = lo.get(7); // 驰名商标认定机构
+            Object col_8 = lo.get(8); // 著名商标
+            Object col_9 = lo.get(9); // 著名商标认定日期
+            Object col_10 = lo.get(10); // 著名商标认定机构
+            Object col_11 = lo.get(11);   // 申请人
+            Object col_12 = lo.get(12);   // 有效期
+            Object col_13 = lo.get(13);   // 延展有效期
+            Object col_14 = lo.get(14);   // 国际分类号
+            Object col_15 = lo.get(15);   // 注册单位
+            Object col_17 = lo.get(17);   //单位名称
+            Object col_18 = lo.get(18); // 法律状态
             if(checkIfBlank(col_1))
-            {
-                sb.append("第"+(i+2)+"行单位名称为空,");
-                break;
-            }
-
-            if(checkIfBlank(col_2))
             {
                 sb.append("第"+(i+2)+"行商标名称为空,");
                 break;
             }
-            if(checkIfBlank(col_3))
+            if(checkIfBlank(col_2))
             {
                 sb.append("第"+(i+2)+"行注册号为空,");
                 break;
             }
-            if(checkIfBlank(col_5))
-            {
-                sb.append("第"+(i+2)+"行申请人为空,");
-                break;
-            }
-            if(checkIfBlank(col_6))
-            {
-                sb.append("第"+(i+1)+"行注册单位为空,");
-                break;
-            }
-            if(checkIfBlank(col_7))
+            if(checkIfBlank(col_3))
             {
                 sb.append("第"+(i+1)+"行注册日期为空,");
                 break;
             }
-            if(checkIfBlank(col_8))
-            {
-                sb.append("第"+(i+1)+"行有效期为空,");
-                break;
+            if(!checkIfBlank(col_4)){
+                if(!checkIfReasonable(String.valueOf(col_4),ROOT_KJPT_SBLX)){
+                    sb.append("第"+(i+2)+"行商标类型取值非法,请参考对应sheet页取值!");
+                    break;
+                }
             }
-
-            if(checkIfBlank(col_11))
-            {
-                sb.append("第"+(i+1)+"行法律状态为空,");
-                break;
-            }else if(!checkIfReasonable(String.valueOf(col_11),ROOT_KJPT_FLZT)){
-               sb.append("第"+(i+2)+"行法律状态取值非法,请参考对应sheet页取值!");
-               break;
-            }
-
-            if(checkIfBlank(col_12))
+            if(checkIfBlank(col_5))
             {
                 sb.append("第"+(i+1)+"行驰名商标为空,");
                 break;
             }
 
-            if(checkIfBlank(col_15))
+            if(checkIfBlank(col_8))
             {
                 sb.append("第"+(i+1)+"行著名商标为空,");
                 break;
             }
 
-            if(!checkIfBlank(col_10)){
-                if(!checkIfReasonable(String.valueOf(col_10),ROOT_KJPT_SBLX)){
-                    sb.append("第"+(i+2)+"行商标类型取值非法,请参考对应sheet页取值!");
-                    break;
-                }
+            if(checkIfBlank(col_11))
+            {
+                sb.append("第"+(i+2)+"行申请人为空,");
+                break;
             }
-
+            if(checkIfBlank(col_12))
+            {
+                sb.append("第"+(i+1)+"行有效期为空,");
+                break;
+            }
+            if(checkIfBlank(col_15))
+            {
+                sb.append("第"+(i+1)+"行注册单位为空,");
+                break;
+            }
+            //必填值和字典值校验
+            if(checkIfBlank(col_17))
+            {
+                sb.append("第"+(i+2)+"行单位名称为空,");
+                break;
+            }
+            if(checkIfBlank(col_18))
+            {
+                sb.append("第"+(i+1)+"行法律状态为空,");
+                break;
+            }else if(!checkIfReasonable(String.valueOf(col_18),ROOT_KJPT_FLZT)){
+                sb.append("第"+(i+2)+"行法律状态取值非法,请参考对应sheet页取值!");
+                break;
+            }
         }
         resultsDate.setMessage(sb.toString());
         if((sb.toString()).equals(""))
