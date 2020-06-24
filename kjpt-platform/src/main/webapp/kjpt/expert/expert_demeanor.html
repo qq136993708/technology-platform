@@ -37,7 +37,7 @@
             type: 'post',
             // contentType: false, // 关关关！必须得 false
             // processData: false, // 关关关！重点
-            url: '/academician-api/query',
+            url: '/academician-api/list',
             data: bodyData,
             success: function (relData) {
                 console.log($.parseJSON(relData).data)

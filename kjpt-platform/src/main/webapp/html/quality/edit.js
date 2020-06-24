@@ -91,7 +91,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
   }
   //lay-filter="test2"
   form.on('select(test2)', function(data) {
-    debugger;
+
     $('.lay-requier-box').each(function(index,item){
       if(data.value == '0'){
         $('.publicNot').hide(); //未发布
@@ -125,7 +125,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload', 'formSelects'], functi
 
 	form.on('submit(newSubmit)', function(data) {
     params = data.field
-    debugger
+
     delete(params.file)
 		httpModule({
 			url: '/standardMaintain-api/save',

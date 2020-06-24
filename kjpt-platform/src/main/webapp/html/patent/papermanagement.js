@@ -226,7 +226,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function () {
           title: formValue.title || '', // 篇名：
           unitText: formValue.unitText || '', // 单位；
           journalName: formValue.journalName || '', // 期刊名：
-          journalLevelText: formValue.journalLevelText || '', // 期刊等级：
+          journalLevel: formValue.journalLevel || '', // 期刊等级：
           publishDate: formValue.publishDate || '', // 发表日期：
       },
       exportUrl = '';
