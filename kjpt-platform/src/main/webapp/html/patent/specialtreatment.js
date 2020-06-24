@@ -311,7 +311,7 @@ $('#exportData').click(function() {
     unitName: formValue.unitName || '', // 单位名称：
     projectBackground: formValue.projectBackground || '', // 项目背景：
     patentType: formValue.patentType || '', // 专利类型：
-    lawStatus: formValue.lawStatus || '', // 法律状态
+      legalStatus: formValue.legalStatus || '', // 法律状态
     applicationNumber: formValue.applicationNumber || '', // 专利号：
     type:'2'
   },
