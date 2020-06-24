@@ -214,30 +214,59 @@ public class SciencePlanApiController extends RestBaseController {
 
     @ApiOperation(value = "导出", notes = "导出")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "authenticateUtil", value = "申报单位", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "researchField", value = "技术领域", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "researchField", value = "研究领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "professionalField", value = "专业领域", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "specialtyCategory", value = "专业类别", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "releaseTime", value = "发布时间", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "accessory", value = "附件", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "annual", value = "年度/月度", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "reportType", value = "类型", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "reportType", value = "上报类型", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位id", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitName", value = "创建单位名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldName", value = "技术领域名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "technicalFieldIndex", value = "技术领域索引", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "密级", dataType = "string", paramType = "query")
     })
 
     @GetMapping(value = "/exportExcel")
     @ResponseBody
     public void exportExcel(
-            @RequestParam(required = false) String authenticateUtil,
-            @RequestParam(required = false) String researchField,
-            @RequestParam(required = false) String professionalField,
-            @RequestParam(required = false) String specialtyCategory,
-            @RequestParam(required = false) String annual,
-            @RequestParam(required = false) String reportType
+            @RequestParam(required = false, value = "pageNum") Integer pageNum,
+            @RequestParam(required = false, value = "pageSize") Integer pageSize,
+            @RequestParam(required = false, value = "name") String name,
+            @RequestParam(required = false, value = "authenticateUtil") String authenticateUtil,
+            @RequestParam(required = false, value = "researchField") String researchField,
+            @RequestParam(required = false, value = "professionalField") String professionalField,
+            @RequestParam(required = false, value = "specialtyCategory") String specialtyCategory,
+            @RequestParam(required = false, value = "releaseTime")@DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseTime,
+            @RequestParam(required = false, value = "accessory") String accessory,
+            @RequestParam(required = false, value = "annual")@DateTimeFormat(pattern = "yyyy-MM") Date annual,
+            @RequestParam(required = false, value = "reportType") String reportType,
+            @RequestParam(required = false, value = "createUnitId") String createUnitId,
+            @RequestParam(required = false, value = "createUnitName") String createUnitName,
+            @RequestParam(required = false, value = "technicalFieldName") String technicalFieldName,
+            @RequestParam(required = false, value = "technicalFieldIndex") String technicalFieldIndex,
+            @RequestParam(required = false, value = "secretLevel") String secretLevel
 
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
-        if (!StringUtils.isEmpty(reportType)) {
-            this.setParam(condition, "reportType", reportType);
+        if (pageNum == null) {
+            this.setParam(condition, "pageNum", 1);
+        } else {
+            this.setParam(condition, "pageNum", pageNum);
         }
-
+        if (pageSize == null) {
+            this.setParam(condition, "pageSize", 10);
+        } else {
+            this.setParam(condition, "pageSize", pageSize);
+        }
+        if (!StringUtils.isEmpty(name)) {
+            this.setParam(condition, "name", name);
+        }
         if (!StringUtils.isEmpty(authenticateUtil)) {
             this.setParam(condition, "authenticateUtil", authenticateUtil);
         }
@@ -250,8 +279,39 @@ public class SciencePlanApiController extends RestBaseController {
         if (!StringUtils.isEmpty(specialtyCategory)) {
             this.setParam(condition, "specialtyCategory", specialtyCategory);
         }
-        if (!StringUtils.isEmpty(annual)) {
-            this.setParam(condition, "annual", annual);
+
+        if (!StringUtils.isEmpty(DateUtil.format(releaseTime,DateUtil.FMT_SS))) {
+            this.setParam(condition, "releaseTime", DateUtil.format(releaseTime,DateUtil.FMT_SS));
+        }
+        if (!StringUtils.isEmpty(accessory)) {
+            this.setParam(condition, "accessory", accessory);
+        }
+
+        if (!StringUtils.isEmpty(DateUtil.format(annual,DateUtil.FMT_MMM))) {
+            this.setParam(condition, "annual", DateUtil.format(annual,DateUtil.FMT_MMM));
+        }
+        if (!StringUtils.isEmpty(reportType)) {
+            this.setParam(condition, "reportType", reportType);
+        }
+
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
+
+        if (!StringUtils.isEmpty(createUnitName)) {
+            this.setParam(condition, "createUnitName", createUnitName);
+        }
+
+        if (!StringUtils.isEmpty(technicalFieldName)) {
+            this.setParam(condition, "technicalFieldName", technicalFieldName);
+        }
+
+        if (!StringUtils.isEmpty(technicalFieldIndex)) {
+            this.setParam(condition, "technicalFieldIndex", technicalFieldIndex);
+        }
+
+        if (secretLevel != null) {
+            this.setParam(condition, "secretLevel", secretLevel);
         }
         this.setBaseParam(condition);
 
