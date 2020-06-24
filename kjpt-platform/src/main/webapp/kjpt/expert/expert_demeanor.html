@@ -29,15 +29,15 @@
         var bodyData = {
             page: '1',
             limit: '20005',
-            expertTypes: '02,03',
-            useStatus:'1'
+            // expertTypes: '02,03',
+            // useStatus:'1'
         }
 
         $.ajax({
             type: 'post',
             // contentType: false, // 关关关！必须得 false
             // processData: false, // 关关关！重点
-            url: '/expert-api/list',
+            url: '/academician-api/query',
             data: bodyData,
             success: function (relData) {
                 console.log($.parseJSON(relData).data)
