@@ -247,27 +247,133 @@ public class TrademarkController extends RestBaseController {
      */
     @ApiOperation(value = "导出", notes = "导出")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "unitName", value = "单位名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "trademarkName", value = "注册商标名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "registerDateStart", value = "注册日期开始", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "registerDateEnd", value = "注册日期结束", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "trademarkName", value = "注册商标名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "lawStatus", value = "法律状态", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "extensionPeriod", value = "延展有效期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "isWellKnown", value = "是否驰名商标", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "isRegistered", value = "是否著名商标", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "countryType", value = "国别", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "secretLevel", value = "秘级", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "tradeMarkType", value = "商标类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "wellKnownDate", value = "驰名商标认定日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "famousDate", value = "著名商标认定日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "registerDate", value = "注册日期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "effectiveDate", value = "有效期", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "famousOrg", value = "著名商标认定机构", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "wellKnownOrg", value = "驰名商标认定机构", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "registerOrg", value = "注册机构", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "commodityCategory", value = "商标类型", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "applicationNumber", value = "注册号", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "createUnitId", value = "创建单位ID", dataType = "String", paramType = "query")
     })
 
     @RequestMapping(value = "/export",  method = RequestMethod.GET)
     @ResponseBody
-    public void query(
-                        @RequestParam(required = false) String unitName,
-                        @RequestParam(required = false) String trademarkName,
-                          @RequestParam(required = false,value = "secretLevel") String secretLevel
+    public void export(
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date registerDateStart,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date registerDateEnd,
+            @RequestParam(required = false) String trademarkName,
+            @RequestParam(required = false) String lawStatus,
+            @RequestParam(required = false) String applicant,
+
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date  extensionPeriod,
+            @RequestParam(required = false) String isWellKnown,
+            @RequestParam(required = false) String isRegistered,
+            @RequestParam(required = false) String countryType,
+            @RequestParam(required = false)  @DateTimeFormat(pattern="yyyy-MM-dd") Date  registerDate,
+            @RequestParam(required = false)  @DateTimeFormat(pattern="yyyy-MM-dd") Date  effectiveDate,
+
+            @RequestParam(required = false) String tradeMarkType,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date wellKnownDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date famousDate,
+            @RequestParam(required = false) String wellKnownOrg,
+            @RequestParam(required = false) String famousOrg,
+            @RequestParam(required = false) String registerOrg,
+            @RequestParam(required = false) String commodityCategory,
+            @RequestParam(required = false) String applicationNumber,
+            @RequestParam(required = false,value = "secretLevel") String secretLevel,
+            @RequestParam(required = false,value = "createUnitId") String createUnitId
     ) throws Exception {
         Map<String, Object> condition = new HashMap<>(6);
-            if (!StringUtils.isEmpty(unitName)) {
+
+        if (!StringUtils.isEmpty(unitName)) {
             this.setParam(condition, "unitName", unitName);
         }
+        if (!StringUtils.isEmpty(DateUtil.format(registerDateStart,DateUtil.FMT_DD))) {
+            this.setParam(condition, "registerDateStart", DateUtil.format(registerDateStart,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(registerDateEnd,DateUtil.FMT_DD))) {
+            this.setParam(condition, "registerDateEnd", DateUtil.format(registerDateEnd,DateUtil.FMT_DD));
+        }
         if (!StringUtils.isEmpty(trademarkName)) {
-        this.setParam(condition, "trademarkName", trademarkName);
+            this.setParam(condition, "trademarkName", trademarkName);
+        }
+        if (!StringUtils.isEmpty(createUnitId)) {
+            this.setParam(condition, "createUnitId", createUnitId);
+        }
+        if (!StringUtils.isEmpty(lawStatus) && !"undefined".equals(lawStatus)) {
+            this.setParam(condition, "lawStatus", lawStatus);
+        }
+        if (!StringUtils.isEmpty(applicant)) {
+            this.setParam(condition, "applicant", applicant);
+        }
+        if (!StringUtils.isEmpty(commodityCategory)) {
+            this.setParam(condition, "commodityCategory", commodityCategory);
+        }
+        if (!StringUtils.isEmpty(applicationNumber)) {
+            this.setParam(condition, "applicationNumber", applicationNumber);
+        }
+
+
+        if (!StringUtils.isEmpty(isWellKnown)) {
+            this.setParam(condition, "isWellKnown", isWellKnown);
+        }
+        if (!StringUtils.isEmpty(isRegistered)) {
+            this.setParam(condition, "isRegistered", isRegistered);
+        }
+        if (!StringUtils.isEmpty(countryType)) {
+            this.setParam(condition, "countryType", countryType);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(extensionPeriod,DateUtil.FMT_DD))) {
+            this.setParam(condition, "extensionPeriod", DateUtil.format(extensionPeriod,DateUtil.FMT_DD));
+        }
+
+        if (!StringUtils.isEmpty(tradeMarkType)) {
+            this.setParam(condition, "tradeMarkType", tradeMarkType);
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(wellKnownDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "wellKnownDate", DateUtil.format(wellKnownDate,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(registerDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "registerDate", DateUtil.format(registerDate,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(effectiveDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "effectiveDate", DateUtil.format(effectiveDate,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(DateUtil.format(famousDate,DateUtil.FMT_DD))) {
+            this.setParam(condition, "famousDate", DateUtil.format(famousDate,DateUtil.FMT_DD));
+        }
+        if (!StringUtils.isEmpty(wellKnownOrg)) {
+            this.setParam(condition, "wellKnownOrg", wellKnownOrg);
+        }
+        if (!StringUtils.isEmpty(famousOrg)) {
+            this.setParam(condition, "famousOrg", famousOrg);
+        }
+        if (!StringUtils.isEmpty(registerOrg)) {
+            this.setParam(condition, "registerOrg", registerOrg);
         }
 
         if(secretLevel != null){
-            this.setParam(condition,"secretLevel",secretLevel);
+            //this.setParam(condition,"secretLevel",secretLevel);
         }
         this.setBaseParam(condition);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

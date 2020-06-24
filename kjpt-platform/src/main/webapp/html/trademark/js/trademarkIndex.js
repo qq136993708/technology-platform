@@ -221,11 +221,12 @@ importFiles({
       unitName: formValue.unitName || '', // 单位名称：
       trademarkName: formValue.trademarkName || '', // 商标名称
       applicationNumber: formValue.applicationNumber || '', // 注册号
+        applicant: formValue.applicant || '', // 申请人
       registerOrg: formValue.registerOrg || '', // 注册单位
       registerDate: formValue.registerDate || '', // 注册日期
       effectiveDate: formValue.effectiveDate || '', // 有效期
       tradeMarkType: formValue.tradeMarkType || '', // 商标类型：
-      lawStatus: formValue.lawStatus || '', // 商标类型：
+
     },
     exportUrl = '';
   
