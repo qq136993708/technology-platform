@@ -160,9 +160,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
                 registerNumber: formValue.registerNumber || '', // 登记号：
                 recordDate: formValue.recordDate || '', // 登记日期：
                 copyrightOwner: formValue.copyrightOwner || '', // 著作权人
-                copyrightGetwayText: formValue.copyrightGetwayText || '', // 权利取得方式
+                copyrightGetway: formValue.copyrightGetway || '', // 权利取得方式
                 registerDepartment: formValue.registerDepartment || '', // 登记部门：
-                projectBackgroundText: formValue.projectBackgroundText || '' // 项目背景：
+                projectBackground: formValue.projectBackground|| '' // 项目背景：
             },n
             exportUrl = '';
 
